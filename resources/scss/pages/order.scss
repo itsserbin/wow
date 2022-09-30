@@ -1,0 +1,86 @@
+.order-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+
+    &__title {
+        margin: 0 0 15px 0;
+        font-weight: bold;
+        font-size: 26px;
+        text-align: center;
+        color: #000000;
+    }
+
+    &__text {
+        margin: 0 0 10px 0;
+        font-weight: 600;
+        text-align: center;
+        font-size: 20px;
+    }
+
+    &__button {
+        font-size: 14px;
+        padding: 10px;
+        border-radius: 10px;
+        margin: 40px auto;
+        background: #E02424;
+        color: white;
+        display: block;
+        width: 200px;
+    }
+}
+
+.special {
+    margin: 3rem 0;
+}
+
+.timer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &__text {
+        text-align: center;
+        font-size: 30px;
+
+        @include adaptive($md) {
+            font-size: 36px;
+
+        }
+    }
+
+    &__items {
+        display: flex;
+        font-size: 30px;
+        margin: 15px 0;
+
+        @include adaptive($md) {
+            font-size: 36px;
+        }
+    }
+
+    &__item {
+        position: relative;
+        min-width: 60px;
+        margin: 0 5px;
+        text-align: center;
+        color: red;
+
+        &::before {
+            content: attr(data-title);
+            display: block;
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            font-size: 14px;
+        }
+
+        &:not(:last-child)::after {
+            content: ':';
+            position: absolute;
+            right: -10px;
+        }
+    }
+}

@@ -1,0 +1,36 @@
+.review-item {
+    border: 1px solid #f1f0f1;
+    padding: 30px;
+    margin-bottom: 50px;
+
+    &-name {
+        width: 100%;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+
+        @include adaptive($md){
+            width: 20%;
+            margin-bottom: 0;
+        }
+    }
+
+    &-product{
+        width: 100%;
+        margin-bottom: 0.5rem;
+
+        @include adaptive($md){
+            width: 50%;
+            margin-bottom: 0;
+        }
+    }
+    &-date {
+        width: 100%;
+        text-align: right;
+        color: #756e71;
+
+        @include adaptive($md){
+            width: 30%;
+        }
+    }
+}

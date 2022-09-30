@@ -1,0 +1,214 @@
+.modal {
+    z-index: 1000;
+
+    width: 100%;
+    padding: 1.25rem 0.75rem;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    overflow: auto;
+    transition: transform 0.1s cubic-bezier(0.465, 0.183, 0.153, 0.946),
+    opacity 0.1s cubic-bezier(0.465, 0.183, 0.153, 0.946);
+
+    @include adaptive($sm){
+        max-width: max-content;
+        min-width: 520px;
+    }
+    &.active {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+        display: block;
+    }
+
+    &-inner {
+        position: relative;
+        overflow: hidden;
+        background-color: #fff;
+        border-radius: 20px;
+        padding: 1.25rem 0.875rem;
+        text-align: center;
+
+        @include adaptive($sm) {
+            padding: 1.125rem;
+        }
+
+        @include adaptive($md) {
+            padding: 1.5rem;
+        }
+
+        @include adaptive($lg) {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+
+        @include adaptive($xl) {
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+        }
+
+        &.m-modal-info {
+            padding: 2rem;
+
+            @include adaptive($sm) {
+                padding: 2.5rem;
+            }
+
+            @include adaptive($md) {
+                padding: 2.75rem;
+            }
+        }
+
+        .input {
+            //max-width: 306px;
+            margin: auto auto 0.5rem;
+            text-align: left;
+
+            label {
+                font-size: .75rem;
+                padding-left: 1rem;
+                font-weight: 500;
+                color: #686868;
+                width: 100%;
+
+                @include adaptive($lg) {
+                    font-size: .875rem;
+                }
+
+                input {
+                    margin: 0.75rem 0;
+                    width: 100%;
+                    border: 0.5px solid $red;
+                    box-sizing: border-box;
+                    border-radius: 10px;
+                    outline: none;
+                    font-size: .875rem;
+                    padding: 1rem;
+
+                    @include adaptive($lg) {
+                        font-size: 1rem;
+                    }
+                }
+            }
+        }
+
+        .btn {
+            padding: 0.875rem;
+            border-radius: 0.625rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            border: 1px solid $red;
+            background-color: $red;
+            transition: .25s;
+            text-decoration: none;
+            font-size: .75rem;
+            font-weight: 400;
+            cursor: pointer;
+            max-width: 220px;
+            margin: auto;
+
+            @include adaptive($sm) {
+                font-size: .875rem;
+            }
+
+            @include adaptive($lg) {
+                font-size: 1rem;
+            }
+        }
+
+        .close-modal-btn {
+            text-decoration: none;
+            align-items: center;
+            font-size: .75rem;
+            padding-bottom: 0.625rem;
+            transition: .25s;
+            color: #777;
+            padding-top: 1.25rem;
+            display: block;
+            margin: auto;
+            cursor: pointer;
+
+            @include adaptive($sm) {
+                font-size: .875rem;
+            }
+
+            @include adaptive($lg) {
+                font-size: 1rem;
+            }
+
+            &:hover {
+                color: red;
+            }
+        }
+    }
+
+    .close-modal {
+        position: absolute;
+        right: 1rem;
+        top: 0;
+        cursor: pointer;
+    }
+
+    &-title {
+        transition: .25s;
+        font-size: 1rem;
+        line-height: 1.25;
+        color: #231f20;
+        margin-bottom: 0.75rem;
+
+        @include adaptive($sm) {
+            text-align: center;
+            font-size: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+
+        @include adaptive($md) {
+            font-size: 1.375rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .h3 {
+            font-size: 1rem;
+
+            @include adaptive($md) {
+                font-size: 1.125rem;
+            }
+        }
+    }
+
+    .text {
+        font-size: .875rem;
+        color: #777;
+        font-weight: 350;
+        line-height: 1.5;
+        text-align: center;
+        margin-bottom: 1.25rem;
+
+
+        @include adaptive($lg) {
+            font-size: 1rem;
+        }
+    }
+}
+
+
+.overlay {
+    position: fixed;
+    width: 100%;
+    height: 101vh;
+    background: rgba(58, 58, 58, .5);
+    z-index: 100;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: .3s;
+    pointer-events: none;
+
+    &.active {
+        pointer-events: painted;
+        opacity: 1;
+    }
+}
