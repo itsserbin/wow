@@ -1,0 +1,298 @@
+<template>
+    <auth-layout title="Products">
+        <template #header>
+            Products
+        </template>
+
+        <loader-component v-if="state.isLoading"/>
+        <div v-if="!state.isLoading">
+            <button-component type="btn" @click="create" v-if="can('create-products')">
+                Add
+            </button-component>
+
+            <lang-tabs @clickLang="test"/>
+
+            <table-component :headings="headings"
+                             :isSlotMode="true"
+                             :rows="state.products.data"
+            >
+                <template v-slot:id="{data}">
+                    <a href="javascript:" @click="onEdit(data.row.id,data.i)">
+                        {{ data.row.id }}
+                    </a>
+                </template>
+
+                <template v-slot:published="{data}">
+                    {{ publishedStatus(data.row.published) }}
+                </template>
+
+                <template v-slot:actions="{data}">
+                    <a href="javascript:" @click="onDestroy(data.row.id)">
+                        <xcircle-component/>
+                    </a>
+                </template>
+            </table-component>
+
+            <paginate  :pagination="state.products.data"
+                       :click-handler="fetch"
+                       v-model="state.currentPage"
+            />
+
+            <component :is="activeModal"
+                       :product="state.item"
+                       @closeModal="modalFunction"
+                       @submitForm="submitForm"
+                       @declineForm="onDestroy"
+                       @setProductImages="setProductImages"
+                       @destroyImage="destroyImage"
+            ></component>
+        </div>
+    </auth-layout>
+</template>
+
+<script setup>
+import {reactive, onMounted, inject, ref, computed} from "vue";
+import ProductModal from '@/Pages/Admin/Products/Modal.vue';
+
+const swal = inject('$swal')
+const can = inject('$can');
+
+const product = reactive({
+    status: null,
+    title: {
+        ru: null,
+        ua: null
+    },
+    characteristics: {
+        ru: null,
+        ua: null,
+    },
+    description: {
+        ru: null,
+        ua: null
+    },
+    h1: {
+        ru: null,
+        ua: null
+    },
+    content: {
+        ru: null,
+        ua: null
+    },
+    published: 0,
+    preview: null,
+    size_table: null,
+    price: null,
+    trade_price: null,
+    discount_price: null,
+    categories: [],
+    vendor_code: null,
+    providers: null,
+    sizes: [],
+    images: [],
+    colors: [],
+})
+
+const state = ref({
+    products: [],
+    currentPage: 1,
+    isLoading: true,
+    isActiveModal: false,
+    modalAction: '',
+    item: product,
+});
+
+onMounted(() => {
+    fetch(1);
+})
+
+function test(val) {
+    console.log(val)
+}
+
+const activeModal = computed(() => state.value.isActiveModal ? ProductModal : null)
+
+const publishedStatus = computed(() => (value) => value ? 'Published' : 'Not published');
+
+const headings = reactive([
+    {
+        label: 'ID',
+        key: 'id'
+    },
+    {
+        label: 'Головне зображення',
+        key: 'preview'
+    },
+    {
+        label: 'Назва',
+        key: 'title'
+    },
+    {
+        label: 'Статус публікації',
+        key: 'published'
+    },
+    {
+        label: 'Артикул',
+        key: 'vendor_code'
+    },
+    {
+        label: 'Ціна',
+        key: 'price'
+    },
+    {
+        label: 'Ціна зі знижкою',
+        key: 'discount_price'
+    },
+    {
+        label: 'Сортування',
+        key: 'sort'
+    },
+    {
+        label: "Переглядів<hr class='my-1'>Покупок",
+        key: 'sort'
+    },
+    {
+        label: '#',
+        key: 'actions'
+    }
+]);
+
+
+function fetch(page) {
+    state.value.isLoading = true;
+    if (page) {
+        state.value.currentPage = page;
+    }
+    axios.get(route('api.products.index', {'page': state.value.currentPage}))
+        .then(response => {
+            Object.assign(state.value.products, response.data.result);
+            state.value.isLoading = false;
+        })
+        .catch(errors => {
+            console.log(errors);
+            state.value.isLoading = false;
+        })
+}
+
+function onDestroy(id) {
+    if (can('destroy-products')) {
+        swal({
+            title: 'Видалити?',
+            icon: 'warning',
+            showCancelButton: true,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.delete(route('api.products.destroy', id))
+                    .then(() => {
+                        fetch();
+                        if (state.value.isActiveModal) {
+                            modalFunction();
+                        }
+                        swal({
+                            icon: 'success',
+                            title: 'Destroyed!'
+                        })
+                    })
+                    .catch(errors => {
+                        console.log(errors);
+                        swal({
+                            icon: 'error',
+                            title: 'Error!'
+                        })
+                    })
+            }
+        })
+    }
+}
+
+function modalFunction() {
+    state.value.isActiveModal = !state.value.isActiveModal;
+}
+
+function onEdit(id, i) {
+    if (can('edit-products')) {
+        axios.get(route('api.products.edit', id))
+            .then(({data}) => {
+                state.value.item = data.result;
+                state.value.modalAction = 'edit';
+                state.value.item.index = i;
+
+                console.log(state.value.item);
+                modalFunction();
+            })
+            .catch((response) => console.log(response))
+    }
+}
+
+function onUpdate() {
+    if (can('edit-products')) {
+        axios.put(route('api.products.update', state.value.item.id), state.value.item)
+            .then(({data}) => {
+                modalFunction();
+                Object.assign(state.value.products.data[state.value.item.index], data.result);
+                swal({
+                    title: 'Success!',
+                    icon: 'success'
+                })
+            })
+            .catch((response) => {
+                console.log(response);
+                swal({
+                    title: 'Error!',
+                    icon: 'error'
+                })
+            })
+    }
+}
+
+function onCreate() {
+    if (can('create-products')) {
+
+        axios.post(route('api.products.create'), state.value.item)
+            .then(({data}) => {
+                modalFunction();
+                state.value.products.data.unshift(data.result)
+                state.value.item = {};
+                fetch();
+                swal({
+                    title: 'Success!',
+                    icon: 'success'
+                })
+            })
+            .catch((response) => {
+                console.log(response);
+                swal({
+                    title: 'Error!',
+                    icon: 'error'
+                })
+            })
+    }
+}
+
+function submitForm() {
+    if (state.value.modalAction === 'edit' && can('edit-products')) {
+        onUpdate();
+    } else if (state.value.modalAction === 'create' && can('create-products')) {
+        onCreate();
+    }
+}
+
+function create() {
+    if (can('create-products')) {
+        state.value.item = product;
+        state.value.modalAction = 'create';
+        modalFunction();
+    }
+}
+
+function setProductImages(images) {
+    state.value.item.images = state.value.item.images.concat(images);
+}
+
+function destroyImage(image) {
+    let index = state.value.item.images.findIndex((item) => {
+        return item.id === image;
+    })
+    state.value.item.images.splice(index, 1)
+}
+</script>
