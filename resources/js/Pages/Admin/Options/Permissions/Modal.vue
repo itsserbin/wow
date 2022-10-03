@@ -6,17 +6,17 @@
                      @declineForm="declineForm"
                      @submitForm="$emit('submitForm')"
                      @clickCancel="$emit('closeModal')"
-                     size="large"
+                     size="medium"
     >
         <template #title>{{ formHeading }}</template>
         <template #content>
-            <ProviderForm :item="item"/>
+            <PermissionForm :item="item"/>
         </template>
     </modal-component>
 </template>
 
 <script setup>
-import ProviderForm from '@/Pages/Admin/Providers/Form.vue';
+import PermissionForm from '@/Pages/Admin/Options/Permissions/Form.vue';
 import {computed} from "vue";
 
 const props = defineProps([

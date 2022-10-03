@@ -6,17 +6,17 @@
                      @declineForm="declineForm"
                      @submitForm="$emit('submitForm')"
                      @clickCancel="$emit('closeModal')"
-                     size="medium"
+                     size="large"
     >
         <template #title>{{ formHeading }}</template>
         <template #content>
-            <CostCategoryForm :item="item"/>
+            <ProviderForm :item="item"/>
         </template>
     </modal-component>
 </template>
 
 <script setup>
-import CostCategoryForm from '@/Pages/Admin/Statistics/CostCategories/Form.vue';
+import ProviderForm from '@/Pages/Admin/Options/Providers/Form.vue';
 import {computed} from "vue";
 
 const props = defineProps([

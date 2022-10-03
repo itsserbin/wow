@@ -1,5 +1,5 @@
 <template>
-    <auth-layout title="Постачальники">
+    <OptionsLayout title="Постачальники">
         <template #header>
             Постачальники
         </template>
@@ -51,12 +51,13 @@
                        @declineForm="onDestroy"
             ></component>
         </div>
-    </auth-layout>
+    </OptionsLayout>
 </template>
 
 <script setup>
 import {reactive, onMounted, inject, ref, computed} from "vue";
-import ProviderModal from '@/Pages/Admin/Providers/Modal.vue';
+import ProviderModal from '@/Pages/Admin/Options/Providers/Modal.vue';
+import OptionsLayout from '@/Pages/Admin/Options/OptionsLayout.vue';
 
 const swal = inject('$swal')
 const can = inject('$can');

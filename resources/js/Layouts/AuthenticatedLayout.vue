@@ -66,11 +66,6 @@ onMounted(() => {
                                     Статистика
                                 </NavLink>
 
-                                <NavLink :href="route('admin.providers.index')"
-                                         :active="route().current('admin.providers.index')">
-                                    Постачальники
-                                </NavLink>
-
                                 <NavLink :href="route('admin.options.index')"
                                          :active="route().current('admin.options.index')">
                                     Налаштування
@@ -159,11 +154,6 @@ onMounted(() => {
                         <ResponsiveNavLink :href="route('admin.statistics.index')"
                                            :active="route().current('admin.statistics.index')">
                             Статистика
-                        </ResponsiveNavLink>
-
-                        <ResponsiveNavLink :href="route('admin.providers.index')"
-                                           :active="route().current('admin.providers.index')">
-                            Постачальники
                         </ResponsiveNavLink>
 
                         <ResponsiveNavLink :href="route('admin.options.index')"

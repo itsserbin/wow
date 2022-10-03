@@ -13,12 +13,10 @@ defineProps({
 
 <template>
     <button :type="type"
-            :class="{'outline-none border-gray-900 shadow-outline-gray bg-gray-500' : active}"
             class="
                     items-center
                     px-4
                     py-2
-                    bg-gray-800
                     border
                     border-transparent
                     rounded-md
@@ -27,7 +25,6 @@ defineProps({
                     text-white
                     uppercase
                     tracking-widest
-                    hover:bg-gray-700
                     active:bg-gray-900
                     focus:outline-none
                     focus:border-gray-900
@@ -36,6 +33,10 @@ defineProps({
                     ease-in-out
                     duration-150
             "
+            :class="{
+                'outline-none border-gray-900 shadow-outline-gray bg-gray-500' : active,
+                'bg-gray-800 hover:bg-gray-700' : !active
+            }"
     >
         <slot/>
     </button>

@@ -1,18 +1,18 @@
 <template>
-    <StatisticLayout title="Категорії витрат">
+    <OptionsLayout title="Ролі">
         <template #header>
-            Категорії витрат
+            Ролі
         </template>
 
         <loader-component v-if="state.isLoading"/>
         <div v-if="!state.isLoading">
-            <button-component type="btn" @click="create">
+            <button-component type="btn" @click="create" v-if="can('create-users')">
                 Додати
             </button-component>
 
             <table-component :headings="headings"
-                             :rows="state.categories.data"
                              :isSlotMode="true"
+                             :rows="state.data.data"
             >
                 <template v-slot:id="{data}">
                     <a href="javascript:" @click="onEdit(data.row.id,data.i)">
@@ -26,6 +26,10 @@
                     {{ $filters.dateFormat(data.row.created_at) }}
                 </template>
 
+                <template v-slot:role="{data}">
+                    <span v-for="item in data.row.roles">{{ item.name }}<br></span>
+                </template>
+
                 <template v-slot:actions="{data}">
                     <a href="javascript:" @click="onDestroy(data.row.id)">
                         <xcircle-component/>
@@ -33,11 +37,10 @@
                 </template>
             </table-component>
 
-            <paginate :pagination="state.categories"
+            <paginate :pagination="state.data"
                       :click-handler="fetch"
                       v-model="state.currentPage"
             />
-
             <component :is="activeModal"
                        :item="state.item"
                        @closeModal="modalFunction"
@@ -45,36 +48,39 @@
                        @declineForm="onDestroy"
             ></component>
         </div>
-    </StatisticLayout>
+    </OptionsLayout>
 </template>
 
 <script setup>
 import {reactive, onMounted, inject, ref, computed} from "vue";
-import CostCategoryModal from '@/Pages/Admin/Statistics/CostCategories/Modal.vue';
-import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
-// import Paginate from '@/Components/Paginate.vue'
+import UserModal from '@/Pages/Admin/Options/Users/Modal.vue';
+import OptionsLayout from '@/Pages/Admin/Options/OptionsLayout.vue'
 
 const swal = inject('$swal')
 const can = inject('$can');
 
 const item = ({
-    title: null,
-    slug: null,
+    name: null,
+    email: null,
+    roles: [],
+    password: null,
+    password_confirmation: null,
 })
 
 const state = ref({
-    categories: [],
+    data: [],
+    currentPage: 1,
     isLoading: true,
     isActiveModal: false,
     modalAction: '',
     item: {},
-    currentPage: 1,
-
 });
 
-onMounted(() => fetch());
+onMounted(() => {
+    fetch(1);
+})
 
-const activeModal = computed(() => state.value.isActiveModal ? CostCategoryModal : null)
+const activeModal = computed(() => state.value.isActiveModal ? UserModal : null)
 
 const headings = reactive([
     {
@@ -82,12 +88,16 @@ const headings = reactive([
         key: 'id'
     },
     {
-        label: 'Назва',
-        key: 'title'
+        label: 'Імʼя',
+        key: 'name'
     },
     {
-        label: 'Slug',
-        key: 'slug'
+        label: 'Email',
+        key: 'email'
+    },
+    {
+        label: 'Роль',
+        key: 'role'
     },
     {
         label: "Оновлено<hr class='my-1'>Створено",
@@ -99,16 +109,15 @@ const headings = reactive([
     }
 ]);
 
+
 function fetch(page) {
     state.value.isLoading = true;
     if (page) {
         state.value.currentPage = page;
     }
-    axios.get(route('api.statistics.costs.categories.index', {
-        page: state.value.currentPage
-    }))
+    axios.get(route('api.users.index', {'page': state.value.currentPage}))
         .then(response => {
-            Object.assign(state.value.categories, response.data.result);
+            Object.assign(state.value.data, response.data.result);
             state.value.isLoading = false;
         })
         .catch(errors => {
@@ -118,14 +127,14 @@ function fetch(page) {
 }
 
 function onDestroy(id) {
-    if (can('show-bookkeeping-costs')) {
+    if (can('destroy-users')) {
         swal({
             title: 'Видалити?',
             icon: 'warning',
             showCancelButton: true,
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(route('api.statistics.costs.categories.destroy', id))
+                axios.delete(route('api.users.destroy', id))
                     .then(() => {
                         fetch();
                         if (state.value.isActiveModal) {
@@ -154,66 +163,74 @@ function modalFunction() {
 }
 
 function onEdit(id, i) {
-    axios.get(route('api.statistics.costs.categories.edit', id))
-        .then(({data}) => {
-            state.value.item = data.result;
-            state.value.modalAction = 'edit';
-            state.value.item.index = i;
-            modalFunction();
-        })
-        .catch((response) => console.log(response))
+    if (can('edit-users')) {
+        axios.get(route('api.users.edit', id))
+            .then(({data}) => {
+                state.value.item = data.result;
+                state.value.modalAction = 'edit';
+                state.value.item.index = i;
+                modalFunction();
+            })
+            .catch((response) => console.log(response))
+    }
 }
 
 function onUpdate() {
-    axios.put(route('api.statistics.costs.categories.update', state.value.item.id), state.value.item)
-        .then(() => {
-            modalFunction();
-            fetch();
-            swal({
-                title: 'Success!',
-                icon: 'success'
+    if (can('edit-users')) {
+        axios.put(route('api.users.update', state.value.item.id), state.value.item)
+            .then(() => {
+                modalFunction();
+                fetch();
+                swal({
+                    title: 'Success!',
+                    icon: 'success'
+                })
             })
-        })
-        .catch((response) => {
-            console.log(response);
-            swal({
-                title: 'Error!',
-                icon: 'error'
+            .catch((response) => {
+                console.log(response);
+                swal({
+                    title: 'Error!',
+                    icon: 'error'
+                })
             })
-        })
+    }
 }
 
 function onCreate() {
-    axios.post(route('api.statistics.costs.categories.create'), state.value.item)
-        .then(() => {
-            modalFunction();
-            state.value.item = item;
-            fetch();
-            swal({
-                title: 'Success!',
-                icon: 'success'
+    if (can('create-users')) {
+        axios.post(route('api.users.create'), state.value.item)
+            .then(() => {
+                modalFunction();
+                state.value.item = item;
+                fetch();
+                swal({
+                    title: 'Success!',
+                    icon: 'success'
+                })
             })
-        })
-        .catch((response) => {
-            console.log(response);
-            swal({
-                title: 'Error!',
-                icon: 'error'
+            .catch((response) => {
+                console.log(response);
+                swal({
+                    title: 'Error!',
+                    icon: 'error'
+                })
             })
-        })
+    }
 }
 
 function submitForm() {
-    if (state.value.modalAction === 'edit') {
+    if (state.value.modalAction === 'edit' && can('edit-users')) {
         onUpdate();
-    } else if (state.value.modalAction === 'create') {
+    } else if (state.value.modalAction === 'create' && can('create-users')) {
         onCreate();
     }
 }
 
 function create() {
-    Object.assign(state.value.item, item);
-    state.value.modalAction = 'create';
-    modalFunction();
+    if (can('create-users')) {
+        Object.assign(state.value.item, item);
+        state.value.modalAction = 'create';
+        modalFunction();
+    }
 }
 </script>

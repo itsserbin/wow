@@ -3,8 +3,14 @@
 use App\Http\Controllers\Api\CategoriesController;
 use App\Http\Controllers\Api\ColorsController;
 use App\Http\Controllers\Api\OrdersController;
+use App\Http\Controllers\Api\PermissionsController;
+use App\Http\Controllers\Api\RolesController;
+use App\Http\Controllers\Api\Statistics\ManagerSalariesController;
+use App\Http\Controllers\Api\Statistics\MarketingStatisticController;
+use App\Http\Controllers\Api\Statistics\OrdersStatisticController;
 use App\Http\Controllers\Api\ProductReviewsController;
 use App\Http\Controllers\Api\ProductsController;
+use App\Http\Controllers\Api\Statistics\ProfitsController;
 use App\Http\Controllers\Api\ProvidersController;
 use App\Http\Controllers\Api\SizesController;
 use App\Http\Controllers\Api\SocialReviewsController;
@@ -24,10 +30,6 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('products')->group(function () {
@@ -169,6 +171,46 @@ Route::middleware('auth:sanctum')->group(function () {
             ->name('api.sizes.destroy');
     });
 
+    Route::prefix('permissions')->group(function () {
+        Route::get('list', [PermissionsController::class, 'list'])
+            ->name('api.permissions.list');
+
+        Route::get('/', [PermissionsController::class, 'index'])
+            ->name('api.permissions.index');
+
+        Route::post('create', [PermissionsController::class, 'create'])
+            ->name('api.permissions.create');
+
+        Route::get('edit/{id}', [PermissionsController::class, 'edit'])
+            ->name('api.permissions.edit');
+
+        Route::put('update/{id}', [PermissionsController::class, 'update'])
+            ->name('api.permissions.update');
+
+        Route::delete('destroy/{id}', [PermissionsController::class, 'destroy'])
+            ->name('api.permissions.destroy');
+    });
+
+    Route::prefix('roles')->group(function () {
+        Route::get('list', [RolesController::class, 'list'])
+            ->name('api.roles.list');
+
+        Route::get('/', [RolesController::class, 'index'])
+            ->name('api.roles.index');
+
+        Route::post('create', [RolesController::class, 'create'])
+            ->name('api.roles.create');
+
+        Route::get('edit/{id}', [RolesController::class, 'edit'])
+            ->name('api.roles.edit');
+
+        Route::put('update/{id}', [RolesController::class, 'update'])
+            ->name('api.roles.update');
+
+        Route::delete('destroy/{id}', [RolesController::class, 'destroy'])
+            ->name('api.roles.destroy');
+    });
+
     Route::prefix('reviews')->group(function () {
         Route::prefix('product')->group(function () {
             Route::get('/', [ProductReviewsController::class, 'index'])
@@ -264,6 +306,26 @@ Route::middleware('auth:sanctum')->group(function () {
                 Route::get('list', [CostCategoriesController::class, 'list'])
                     ->name('api.statistics.costs.categories.list');
             });
+        });
+
+        Route::prefix('profits')->group(function () {
+            Route::get('/', [ProfitsController::class, 'index'])
+                ->name('api.statistics.profits.index');
+        });
+
+        Route::prefix('orders')->group(function () {
+            Route::get('/', [OrdersStatisticController::class, 'index'])
+                ->name('api.statistics.orders.index');
+        });
+
+        Route::prefix('marketing')->group(function () {
+            Route::get('/', [MarketingStatisticController::class, 'index'])
+                ->name('api.statistics.marketing.index');
+        });
+
+        Route::prefix('managers')->group(function () {
+            Route::get('/', [ManagerSalariesController::class, 'index'])
+                ->name('api.statistics.managers.index');
         });
     });
 });

@@ -115,7 +115,8 @@
                 :style="{ maxHeight: optimizedHeight + 'px' }"
                 ref="list"
             >
-                <ul class="multiselect__content bg-white dark:bg-gray-800 text-gray-900 dark:text-white dark:border-gray-700" :style="contentStyle" role="listbox" :id="'listbox-'+id">
+                <ul class="multiselect__content bg-white dark:bg-gray-800 text-gray-900 dark:text-white dark:border-gray-700"
+                    :style="contentStyle" role="listbox" :id="'listbox-'+id">
                     <slot name="beforeList"></slot>
                     <li v-if="multiple && max === internalValue.length">
             <span class="multiselect__option">

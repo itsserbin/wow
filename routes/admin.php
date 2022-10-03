@@ -46,6 +46,18 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
         Route::get('/', [AdminController::class, 'statistics'])
             ->name('admin.statistics.index');
 
+        Route::get('profits', [AdminController::class, 'statisticProfits'])
+            ->name('admin.statistics.profits.index');
+
+        Route::get('orders', [AdminController::class, 'statisticOrders'])
+            ->name('admin.statistics.orders.index');
+
+        Route::get('marketing', [AdminController::class, 'statisticMarketing'])
+            ->name('admin.statistics.marketing.index');
+
+        Route::get('managers', [AdminController::class, 'statisticManagers'])
+            ->name('admin.statistics.managers.index');
+
         Route::prefix('costs')->group(function () {
             Route::get('/', [AdminController::class, 'statisticCosts'])
                 ->name('admin.statistics.costs.index');
@@ -67,5 +79,14 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
 
         Route::get('sizes', [AdminController::class, 'sizes'])
             ->name('admin.options.sizes.index');
+
+        Route::get('permissions', [AdminController::class, 'permissions'])
+            ->name('admin.options.permissions.index');
+
+        Route::get('roles', [AdminController::class, 'roles'])
+            ->name('admin.options.roles.index');
+
+        Route::get('users', [AdminController::class, 'users'])
+            ->name('admin.options.users.index');
     });
 });

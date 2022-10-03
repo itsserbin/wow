@@ -29,7 +29,23 @@ const items = reactive([
     {
         title: 'Головна',
         href: route('admin.statistics.index')
-    }
+    },
+    {
+        title: 'Прибуток',
+        href: route('admin.statistics.profits.index')
+    },
+    {
+        title: 'Заявки',
+        href: route('admin.statistics.orders.index')
+    },
+    {
+        title: 'Маркетинг',
+        href: route('admin.statistics.marketing.index')
+    },
+    {
+        title: 'Менеджери',
+        href: route('admin.statistics.managers.index')
+    },
 ])
 
 const costItems = reactive([

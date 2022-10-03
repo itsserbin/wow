@@ -1,44 +1,15 @@
 <template>
-    <form class="flex flex-col">
-        <div class="grid grid-cols-1 md:grid-cols-2 mb-5 gap-4">
-            <div class="block mr-2">
-                <label-component value="Категорія витрат"/>
-                <select-component v-model="item.cost_category_id" :options="categories"/>
-            </div>
+    <form>
+        <div class="grid grid-cols-1 gap-4">
             <div class="block">
-                <label-component value="Фільтр по даті"/>
-                <Datepicker v-model="item.date"
-                            class="w-100"
-                            locale="ru"
-                            placeholder="Оберіть дату"
-                            autoApply
-                            :monthChangeOnScroll="false"
-                            :enableTimePicker="false"
-                            utc
-                ></Datepicker>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
-            <div class="block">
-                <label-component value="Кількість"/>
-                <input-component v-model="item.quantity" type="number"/>
+                <label-component value="Назва"/>
+                <input-component v-model="item.title" type="text"/>
             </div>
 
             <div class="block">
-                <label-component value="Вартість"/>
-                <input-component v-model="item.sum" type="number"/>
+                <label-component value="Slug"/>
+                <input-component v-model="item.slug" type="text"/>
             </div>
-
-            <div class="block">
-                <label-component value="Загалом"/>
-                <input-component :value="totalSum" type="number" disabled/>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1">
-            <label-component value="Коментар"/>
-            <textarea-component v-model="item.comment" rows="4"/>
         </div>
     </form>
 </template>

@@ -20,11 +20,6 @@ class AdminController extends Controller
         return Inertia::render('Options/Users/Index');
     }
 
-    public function roles(): Response
-    {
-        return Inertia::render('Options/Roles/Index');
-    }
-
     public function products(): Response
     {
         return Inertia::render('Products/Index');
@@ -37,7 +32,12 @@ class AdminController extends Controller
 
     public function providers(): Response
     {
-        return Inertia::render('Providers/Index');
+        return Inertia::render('Options/Providers/Index');
+    }
+
+    public function roles(): Response
+    {
+        return Inertia::render('Options/Roles/Index');
     }
 
     public function permissions(): Response
@@ -62,6 +62,7 @@ class AdminController extends Controller
     {
         return Inertia::render('Options/Colors/Index');
     }
+
 
     public function sizes(): Response
     {
@@ -96,5 +97,25 @@ class AdminController extends Controller
     public function statisticCostCategories(): Response
     {
         return Inertia::render('Statistics/CostCategories/Index');
+    }
+
+    public function statisticProfits(): Response
+    {
+        return Inertia::render('Statistics/Profits/Index');
+    }
+
+    public function statisticOrders(): Response
+    {
+        return Inertia::render('Statistics/Orders/Index');
+    }
+
+    public function statisticMarketing(): Response
+    {
+        return Inertia::render('Statistics/Marketing/Index');
+    }
+
+    public function statisticManagers(): Response
+    {
+        return Inertia::render('Statistics/Managers/Index');
     }
 }
