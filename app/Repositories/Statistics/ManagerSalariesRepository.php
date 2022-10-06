@@ -5,6 +5,7 @@ namespace App\Repositories\Statistics;
 use App\Models\Statistics\ManagerSalary as Model;
 use App\Repositories\CoreRepository;
 use App\Repositories\UsersRepository;
+use DateTime;
 
 class ManagerSalariesRepository extends CoreRepository
 {
@@ -73,11 +74,19 @@ class ManagerSalariesRepository extends CoreRepository
 
 
         if ($managers && $date) {
-            $model->whereBetween('date', [$data['date_start'], $data['date_end']])
+            $startDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start'])->format('Y-m-d');
+            $endDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])->format('Y-m-d');
+
+            $model->whereBetween('date', [$startDate, $endDate])
                 ->whereIn('manager_id', $managers)
-                ->groupBy('date');
+                ->groupBy('date');;
+
+
         } elseif ($date) {
-            $model->whereBetween('date', [$data['date_start'], $data['date_end']])->where('manager_id', null);
+            $startDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start'])->format('Y-m-d');
+            $endDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])->format('Y-m-d');
+
+            $model->whereBetween('date', [$startDate, $endDate])->where('manager_id', null);
         } elseif ($managers) {
             $model->whereIn('manager_id', $managers)->groupBy('date');
         } else {
@@ -97,7 +106,7 @@ class ManagerSalariesRepository extends CoreRepository
         }
 
         if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
-            $date = ['date_start' => $data['date_start'], 'date_end' => $data['date_end']];
+            $date = ['date_start' => DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start']), 'date_end' => DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])];
         }
         $result['Всего заявок'] = $this->sumColumnByDateRangeAndManagerId('count_applications', $date, $managers);
         $result['Отмененных заявок'] = $this->sumColumnByDateRangeAndManagerId('canceled_applications', $date, $managers);

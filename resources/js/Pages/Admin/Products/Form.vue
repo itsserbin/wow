@@ -3,7 +3,7 @@
         <div class="grid grid-cols-3 gap-4 mb-5">
             <div class="block">
                 <label-component value="Статус публікації"/>
-                <select-component v-model="product.published" :options="state.publishedOptions"/>
+                <select-component v-model="product.published" :options="publishedStatuses"/>
             </div>
 
             <div class="block">
@@ -47,11 +47,20 @@
             </div>
 
             <div class="block">
+                <!--                <ImageCard v-if="product.preview"-->
+                <!--                           :image="'/storage/images/55/' + product.preview"-->
+                <!--                           :alt="state.activeLang === 'ru' ? product.h1.ru :-->
+                <!--                                 (state.activeLang === 'ua' ? product.h1.ua : null)-->
+                <!--                           "-->
+                <!--                           :destroy-icon="true"-->
+                <!--                           @destroyImage="destroyPreview"-->
+                <!--                />-->
                 <upload-input-component :multiple="false"
                                         id="uploadCategoryPreview"
                                         label="Головне зображення"
                                         @upload="uploadProductPreview"
                                         :images="state.productPreview"
+                                        @onDestroyImage="destroyPreview"
                 />
             </div>
         </div>
@@ -160,12 +169,15 @@
 <script setup>
 import Images from '@/Pages/Admin/Products/Images.vue';
 import ImagesSelectModal from '@/Pages/Admin/Products/ImagesSelectModal.vue';
-import {inject, onMounted, reactive, ref} from "vue";
+import ImageCard from '@/Components/ImageCard.vue';
+
+import {computed, inject, onMounted, reactive, ref} from "vue";
 
 const emits = defineEmits(['submit', 'setProductImages', 'destroyImage'])
 
 const props = defineProps(['product'])
 const defaultLang = inject('$defaultLang');
+const publishedStatuses = inject('$publishedStatuses');
 
 const state = ref({
     isActiveSelectedImagesModal: false,
@@ -182,16 +194,6 @@ const state = ref({
         {
             key: 'out of stock',
             value: 'Закінчується'
-        }
-    ],
-    publishedOptions: [
-        {
-            key: 0,
-            value: 'Not published'
-        },
-        {
-            key: 1,
-            value: 'Published'
         }
     ],
     categories: [],
@@ -217,7 +219,18 @@ onMounted(() => {
     axios.get(route('api.sizes.list'))
         .then(({data}) => state.value.sizes = data.result)
         .catch((response) => console.log(response));
+
+    if (props.product.preview) {
+        previewArray(props.product.preview)
+
+    }
 });
+
+function previewArray(val) {
+    state.value.productPreview.push({
+        src: '/storage/images/55/' + val
+    })
+}
 
 function changeLang(val) {
     state.value.activeLang = val;
@@ -235,8 +248,24 @@ function imagesModalFunction() {
     state.value.isActiveSelectedImagesModal = !state.value.isActiveSelectedImagesModal;
 }
 
-function uploadProductPreview() {
+function uploadProductPreview(image) {
+    let formData = new FormData();
+    formData.append('image', image);
+    axios.post(route('api.images.upload'), formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+        .then(({data}) => {
+            props.product.preview = data.result;
+            previewArray(data.result);
+        })
+        .catch((response) => console.log(response));
+}
 
+function destroyPreview() {
+    props.product.preview = null;
+    state.value.productPreview = [];
 }
 
 function setProductImages(images) {

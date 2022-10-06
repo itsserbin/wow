@@ -24,8 +24,23 @@
                     {{ data.row.product.h1.ua ? data.row.product.h1.ua : data.row.product.h1.ru }}
                 </template>
 
+                <template v-slot:comment="{data}">
+                    <div class="whitespace-normal">
+                        {{ data.row.comment }}
+                    </div>
+                </template>
+
                 <template v-slot:published="{data}">
                     {{ $filters.publishedStatus(data.row.published) }}
+                    <div v-if="!data.row.published">
+                        <hr class="my-1">
+                        <a @click="publishReview(data.row.id)"
+                           href="javascript:"
+                           class="text-blue-600"
+                        >
+                            Опублікувати
+                        </a>
+                    </div>
                 </template>
 
                 <template v-slot:timestamps="{data}">
@@ -40,9 +55,9 @@
                     </a>
                 </template>
             </table-component>
-            <paginate  :pagination="state.reviews"
-                       :click-handler="fetch"
-                       v-model="state.currentPage"
+            <paginate :pagination="state.reviews"
+                      :click-handler="fetch"
+                      v-model="state.currentPage"
             />
             <component :is="activeModal"
                        :item="state.item"
@@ -243,5 +258,23 @@ function create() {
         state.value.modalAction = 'create';
         modalFunction();
     }
+}
+
+function publishReview(id) {
+    axios.post(route('api.reviews.product.accept', id))
+        .then(() => {
+            fetch();
+            swal({
+                title: 'Success!',
+                icon: 'success'
+            })
+        })
+        .catch((response) => {
+            console.log(response);
+            swal({
+                title: 'Error!',
+                icon: 'error'
+            })
+        })
 }
 </script>

@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      *
@@ -12,10 +13,9 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('categoryables', function (Blueprint $table) {
-            $table->integer('category_id');
-            $table->integer('categoryables_id');
-            $table->string('categoryables_type');
+        Schema::create('product_images', function (Blueprint $table) {
+            $table->string('product_id');
+            $table->string('image_id');
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('categoryables');
+        Schema::dropIfExists('product_images');
     }
 };

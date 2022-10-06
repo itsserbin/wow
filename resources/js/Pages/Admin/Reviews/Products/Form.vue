@@ -1,3 +1,23 @@
+<script setup>
+import {inject, onMounted, ref} from "vue";
+
+defineProps(['item'])
+
+const publishedStatuses = inject('$publishedStatuses');
+
+const products = ref([]);
+
+onMounted(() => {
+    axios.get(route('api.products.list'))
+        .then(({data}) => products.value = data.result)
+        .catch((response) => console.log(response));
+})
+
+function titleProduct({h1}) {
+    return h1.ua ? h1.ua : h1.ru;
+}
+</script>
+
 <template>
     <form class="flex flex-col">
         <div class="block mb-5">
@@ -34,23 +54,3 @@
         </div>
     </form>
 </template>
-
-<script setup>
-import {inject, onMounted, ref} from "vue";
-
-defineProps(['item'])
-
-const publishedStatuses = inject('$publishedStatuses');
-
-const products = ref([]);
-
-onMounted(() => {
-    axios.get(route('api.products.list'))
-        .then(({data}) => products.value = data.result)
-        .catch((response) => console.log(response));
-})
-
-function titleProduct({h1}) {
-    return h1.ua ? h1.ua : h1.ru;
-}
-</script>

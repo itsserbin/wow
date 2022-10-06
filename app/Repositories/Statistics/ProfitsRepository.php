@@ -5,6 +5,7 @@ namespace App\Repositories\Statistics;
 use App\Models\Statistics\Profit as Model;
 use App\Repositories\CoreRepository;
 use Carbon\Carbon;
+use DateTime;
 
 class ProfitsRepository extends CoreRepository
 {
@@ -45,7 +46,10 @@ class ProfitsRepository extends CoreRepository
         );;
 
         if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
-            $model->whereBetween('date', [$data['date_start'], $data['date_end']]);
+            $startDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start'])->format('Y-m-d');
+            $endDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])->format('Y-m-d');
+
+            $model->whereBetween('date', [$startDate, $endDate]);
         } elseif (array_key_exists('last', $data)) {
             if ($data['last'] == 'week') {
                 $model->whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
@@ -66,7 +70,7 @@ class ProfitsRepository extends CoreRepository
 
         if (array_key_exists('sort', $data) && array_key_exists('param', $data)) {
             $model->orderBy($data['sort'], $data['param']);
-        }else {
+        } else {
             $model->orderBy('date', 'desc');
         }
 
@@ -93,7 +97,10 @@ class ProfitsRepository extends CoreRepository
         );
 
         if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
-            $model->whereBetween('date', [$data['date_start'], $data['date_end']]);
+            $startDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start'])->format('Y-m-d');
+            $endDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])->format('Y-m-d');
+
+            $model->whereBetween('date', [$startDate, $endDate]);
         } elseif (array_key_exists('last', $data)) {
             if ($data['last'] == 'week') {
                 $model->whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
@@ -137,7 +144,10 @@ class ProfitsRepository extends CoreRepository
         );
 
         if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
-            $model->whereBetween('date', [$data['date_start'], $data['date_end']]);
+            $startDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start'])->format('Y-m-d');
+            $endDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])->format('Y-m-d');
+
+            $model->whereBetween('date', [$startDate, $endDate]);
         } elseif (array_key_exists('last', $data)) {
             if ($data['last'] == 'week') {
                 $model->whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);

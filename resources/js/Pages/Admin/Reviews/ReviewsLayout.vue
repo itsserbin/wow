@@ -4,11 +4,11 @@
             <slot name="header"></slot>
         </template>
 
-        <div class="flex flex-col md:flex-row">
-            <div class="md:mr-5">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+            <div class="md:col-span-2">
                 <Sidebar :items="items"/>
             </div>
-            <div class="w-full">
+            <div class="w-full md:col-span-10">
                 <slot></slot>
             </div>
         </div>

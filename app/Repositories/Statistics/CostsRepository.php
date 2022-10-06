@@ -6,6 +6,7 @@ use App\Models\Statistics\Cost as Model;
 use App\Repositories\Statistics\CostCategoriesRepository;
 use App\Repositories\CoreRepository;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -29,12 +30,20 @@ class CostsRepository extends CoreRepository
     public function getAllWithPaginate($data = null)
     {
         if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data) && array_key_exists('filter', $data)) {
-            $model = $this->model::whereBetween('date', [$data['date_start'], $data['date_end']])
+
+            $startDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start'])->format('Y-m-d');
+            $endDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])->format('Y-m-d');
+
+            $model = $this->model::whereBetween('date', [$startDate, $endDate])
                 ->whereHas('category', function ($q) use ($data) {
                     $q->where('id', $data['filter']);
                 });
         } else if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
-            $model = $this->model::whereBetween('date', [$data['date_start'], $data['date_end']]);
+
+            $startDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start'])->format('Y-m-d');
+            $endDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])->format('Y-m-d');
+
+            $model = $this->model::whereBetween('date', [$startDate, $endDate]);
         } elseif (array_key_exists('last', $data) && array_key_exists('filter', $data)) {
             $data['last'] == 'week' ? $model = $this->model::whereBetween('date',
                 [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
@@ -99,13 +108,19 @@ class CostsRepository extends CoreRepository
         $list = $costCategoriesRepository->list();
 
         if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data) && array_key_exists('filter', $data)) {
-            $model = $this->model::whereBetween('date', [$data['date_start'], $data['date_end']])
+            $startDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start'])->format('Y-m-d');
+            $endDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])->format('Y-m-d');
+
+            $model = $this->model::whereBetween('date', [$startDate, $endDate])
                 ->whereHas('category', function ($q) use ($data) {
                     $q->where('id', $data['filter']);
                 })->orderBy('date', 'desc')
                 ->get();;
         } elseif (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
-            $model = $this->model::whereBetween('date', [$data['date_start'], $data['date_end']])
+            $startDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start'])->format('Y-m-d');
+            $endDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])->format('Y-m-d');
+
+            $model = $this->model::whereBetween('date', [$startDate, $endDate])
                 ->orderBy('date', 'desc')
                 ->get();
         } elseif (array_key_exists('last', $data) && array_key_exists('filter', $data)) {
@@ -149,13 +164,19 @@ class CostsRepository extends CoreRepository
     public function getAllForChart($data = null)
     {
         if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data) && array_key_exists('filter', $data)) {
-            $model = $this->model::whereBetween('date', [$data['date_start'], $data['date_end']])
+            $startDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start'])->format('Y-m-d');
+            $endDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])->format('Y-m-d');
+
+            $model = $this->model::whereBetween('date', [$startDate, $endDate])
                 ->whereHas('category', function ($q) use ($data) {
                     $q->where('id', $data['filter']);
                 })->orderBy('date', 'desc')
                 ->get();
         } else if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
-            $model = $this->model::whereBetween('date', [$data['date_start'], $data['date_end']])->get();
+            $startDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start'])->format('Y-m-d');
+            $endDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])->format('Y-m-d');
+
+            $model = $this->model::whereBetween('date', [$startDate, $endDate])->get();
         } elseif (array_key_exists('last', $data) && array_key_exists('filter', $data)) {
             $data['last'] == 'week' ? $model = $this->model::whereBetween('date',
                 [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])

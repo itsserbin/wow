@@ -13,7 +13,7 @@ class ProductReviewsRepository extends CoreRepository
 
     public function getById($id)
     {
-        return $this->model::where('id', $id)->first();
+        return $this->model::where('id', $id)->with('product')->first();
     }
 
     public function carouselList($limit = 10)
@@ -73,6 +73,9 @@ class ProductReviewsRepository extends CoreRepository
         $model->phone = $data['phone'];
         $model->comment = $data['comment'];
         $model->published = $data['published'];
+
+        $model->product_id = $data['product']['id'];
+
         return $model->update();
     }
 
@@ -83,13 +86,15 @@ class ProductReviewsRepository extends CoreRepository
 
     public function accept($id)
     {
-        return $this->model::where('id', $id)->update(['status' => 1]);
+        $model = $this->getById($id);
+        $model->published = 1;
+        return $model->update();
     }
 
     public function getProductReviews($id)
     {
         return $this->model::whereHas('products', function ($q) use ($id) {
             $q->where('id', $id);
-        })->where('status', 1)->select('id', 'name', 'comment')->get();
+        })->where('published', 1)->select('id', 'name', 'comment')->get();
     }
 }

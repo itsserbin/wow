@@ -1,13 +1,13 @@
 <template>
-    <auth-layout title="Categories">
+    <auth-layout title="Категорії">
         <template #header>
-            Categories
+            Категорії
         </template>
 
         <loader-component v-if="state.isLoading"/>
         <div v-if="!state.isLoading">
             <button-component type="btn" @click="create" v-if="can('create-products')">
-                Add
+                Додати
             </button-component>
 
             <lang-tabs @clickLang="changeLang"/>
@@ -22,10 +22,19 @@
                     </a>
                 </template>
 
+                <template v-slot:preview="{data}">
+                    <img :src="'/storage/images/55/' + data.row.preview"
+                         :alt="state.activeLang === 'ua' ? data.row.title.ua :
+                                (state.activeLang === 'ru' ? data.row.title.ru : '-')"
+                         class="mx-auto"
+                    >
+                </template>
+
                 <template v-slot:title="{data}">
                     <a href="javascript:">
                         {{
-                            state.activeLang === 'ua' ? data.row.title.ua : (state.activeLang === 'ru' ? data.row.title.ru : '-')
+                            state.activeLang === 'ua' ? data.row.title.ua :
+                                (state.activeLang === 'ru' ? data.row.title.ru : '-')
                         }}
                     </a>
                 </template>
@@ -47,9 +56,9 @@
                 </template>
             </table-component>
 
-            <paginate  :pagination="state.categories"
-                       :click-handler="fetch"
-                       v-model="state.currentPage"
+            <paginate :pagination="state.categories"
+                      :click-handler="fetch"
+                      v-model="state.currentPage"
             />
 
             <component :is="activeModal"

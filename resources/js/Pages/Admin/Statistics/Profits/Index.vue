@@ -13,13 +13,12 @@
                     <label-component value="Фільтр по даті"/>
                     <Datepicker v-model="params.date"
                                 class="w-100"
-                                locale="ru"
                                 placeholder="Оберіть дату"
                                 autoApply
                                 :monthChangeOnScroll="false"
                                 :enableTimePicker="false"
                                 range
-                                utc
+                                locale="ru"
                                 @update:modelValue="sortByRange"
                     ></Datepicker>
                 </div>
@@ -124,7 +123,7 @@ const state = ref({
 
 
 const params = ref({
-    date: [],
+    date: new Date(),
     last: 'one-month',
     currentPage: 1,
 })
@@ -248,7 +247,7 @@ function sortByLast(val) {
     fetch();
 }
 
-function sortByRange() {
+function sortByRange(val) {
     params.value.last = 'range';
     fetch();
 }

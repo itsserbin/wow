@@ -3,7 +3,7 @@
         :class="'w-full mx-auto bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700' + props.class ? props.class : null"
     >
         <a :href="cardLink" v-if="image">
-            <img class="rounded-t-lg h-full w-full object-cover" :src="image" :alt="imageAlternativeText"/>
+            <img class="rounded-t-lg  mx-auto" :src="image" :alt="imageAlternativeText"/>
         </a>
         {{$slots.description}}
         <div class="p-5" v-if="title || description || button">

@@ -276,7 +276,11 @@ class ProductsRepository extends CoreRepository
         }
         $model->categories()->sync($categoryItems);
 
-        $this->productsPhotoRepository->create($model->id, $data['images']);
+        $imagesItems = [];
+        foreach ($data['images'] as $image) {
+            $imagesItems[] += $image['id'];
+        }
+        $model->images()->sync($imagesItems);
     }
 
     public function create($data)
@@ -316,6 +320,10 @@ class ProductsRepository extends CoreRepository
 
         foreach ($data['categories'] as $category) {
             $model->categories()->attach($category['id']);
+        }
+
+        foreach ($data['images'] as $image) {
+            $model->images()->attach($image['id']);
         }
 
 //        $this->productsPhotoRepository->create($model->id, $data['images']);

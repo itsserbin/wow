@@ -5,7 +5,11 @@
         navigation
     >
         <swiper-slide v-for="image in images">
-            <ImageCard :image="image.src" :id="image.id" :destroyIcon="true" @destroyImage="destroyImage"/>
+            <ImageCard :image="'/storage/images/350/' + image.src"
+                       :id="image.id"
+                       :destroyIcon="true"
+                       @destroyImage="destroyImage"
+            />
         </swiper-slide>
     </swiper>
 </template>

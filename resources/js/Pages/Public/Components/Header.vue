@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="container mt-2 ">
+        <div class="max-w-7xl mx-auto mt-2">
             <div class="row align-items-center">
                 <div class="col-4 header__logo logo">
                     <a :href="indexRoute">
@@ -28,7 +28,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-2 d-flex justify-content-end">
+                <div class="col-2 d-flex justify-content-end z-50">
                     <div class="header-burger p-0"
                          @click="showBurgerMenu"
                          :class="{'active': state.showBurger}"
@@ -36,11 +36,9 @@
                         <span></span>
                     </div>
                 </div>
-
             </div>
         </div>
         <div class="header__menu">
-
             <div class="container">
                 <div class="row">
                     <HeaderCategories

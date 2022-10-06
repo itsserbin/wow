@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\CategoriesController;
 use App\Http\Controllers\Api\ColorsController;
+use App\Http\Controllers\Api\ImagesController;
 use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\PermissionsController;
 use App\Http\Controllers\Api\RolesController;
@@ -50,6 +51,20 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::get('list', [ProductsController::class, 'list'])
             ->name('api.products.list');
+    });
+
+    Route::prefix('images')->group(function () {
+        Route::get('/', [ImagesController::class, 'index'])
+            ->name('api.images.index');
+
+        Route::post('upload', [ImagesController::class, 'upload'])
+            ->name('api.images.upload');
+
+        Route::put('update/{id}', [ImagesController::class, 'update'])
+            ->name('api.images.update');
+
+        Route::delete('destroy/{id}', [ImagesController::class, 'destroy'])
+            ->name('api.images.destroy');
     });
 
     Route::prefix('users')->group(function () {

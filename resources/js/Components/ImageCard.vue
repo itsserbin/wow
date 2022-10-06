@@ -1,10 +1,10 @@
 <template>
     <div
         :class="props.class"
-        class="w-full mx-auto bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 relative"
+        class="w-full bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 relative"
     >
         <a :href="cardLink" v-if="link">
-            <img class="rounded-lg h-full w-full object-cover"
+            <img class="rounded-lg mx-auto  h-full object-cover"
                  :src="image"
                  :alt="alt ? alt : null"
                  @click="$emit('clickImage')"
@@ -12,7 +12,7 @@
         </a>
 
         <img v-else
-             class="rounded-lg h-full w-full object-cover hover:cursor-pointer"
+             class="rounded-lg h-full  mx-auto object-cover hover:cursor-pointer"
              :src="image"
              :alt="alt ? alt : null"
              @click="$emit('clickImage')"

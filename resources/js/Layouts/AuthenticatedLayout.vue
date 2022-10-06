@@ -61,6 +61,11 @@ onMounted(() => {
                                     Замовлення
                                 </NavLink>
 
+                                <NavLink :href="route('admin.images.index')"
+                                         :active="route().current('admin.images.index')">
+                                    Зображення
+                                </NavLink>
+
                                 <NavLink :href="route('admin.statistics.index')"
                                          :active="route().current('admin.statistics.index')">
                                     Статистика
@@ -150,6 +155,10 @@ onMounted(() => {
                             Замовлення
                         </ResponsiveNavLink>
 
+                        <ResponsiveNavLink :href="route('admin.images.index')"
+                                           :active="route().current('admin.images.index')">
+                            Зображення
+                        </ResponsiveNavLink>
 
                         <ResponsiveNavLink :href="route('admin.statistics.index')"
                                            :active="route().current('admin.statistics.index')">

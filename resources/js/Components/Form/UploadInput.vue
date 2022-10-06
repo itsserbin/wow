@@ -2,9 +2,11 @@
     <div class="w-full" v-if="images.length">
         <div class="row flex justify-center items-center">
             <div class="col" v-for="image in images">
-                <Card
+                <ImageCard
+                    :destroyIcon="true"
                     :image="image.src"
-                    :image-alt="image.alt"
+                    :alt="image.alt"
+                    @destroyImage="$emit('onDestroyImage')"
                 />
             </div>
         </div>
@@ -68,7 +70,7 @@
 </template>
 
 <script setup>
-import Card from '@/Components/Card.vue';
+import ImageCard from '@/Components/ImageCard.vue';
 
 const props = defineProps({
     id: String,
@@ -80,5 +82,5 @@ const props = defineProps({
     images: [Array, String]
 })
 
-defineEmits(['upload']);
+defineEmits(['upload','onDestroyImage']);
 </script>

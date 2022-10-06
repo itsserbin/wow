@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-    <div class="container mx-auto">
+    <div class="max-w-7xl mx-auto mt-5">
         <div class="categories">
             <categories-component/>
         </div>

@@ -22,8 +22,9 @@
                 <upload-input-component :multiple="false"
                                         id="uploadCategoryPreview"
                                         label="Головне зображення"
-                                        @upload="uploadImagesFunction"
+                                        @upload="uploadImageFunction"
                                         :images="state.categoryPreview"
+                                        @onDestroyImage="destroyPreview"
                 />
             </div>
         </div>
@@ -66,6 +67,7 @@
 
 <script setup>
 import {inject, onMounted, reactive, ref} from "vue";
+import ImageCard from '@/Components/ImageCard.vue';
 
 const emits = defineEmits(['submit'])
 
@@ -92,15 +94,23 @@ const state = ref({
 onMounted(() => {
     getCategoriesList();
     if (props.item.preview) {
-        state.value.categoryPreview.push({
-            alt: props.item.title.ua ? props.item.title.ua : (props.item.title.ru ? props.item.title.ru : '-'),
-            src: props.item.preview
-        })
+        previewArray(props.item.preview);
     }
 });
 
+function previewArray(val) {
+    state.value.categoryPreview.push({
+        src: '/storage/images/55/' + val
+    })
+}
+
 function changeLang(val) {
     state.value.activeLang = val;
+}
+
+function destroyPreview() {
+    props.item.preview = null;
+    state.value.categoryPreview = [];
 }
 
 function getCategoriesList() {
@@ -118,7 +128,18 @@ function getCategoriesList() {
         .catch((response) => console.log(response))
 }
 
-function uploadImagesFunction() {
-    console.log('uploadImagesFunction')
+function uploadImageFunction(image) {
+    let formData = new FormData();
+    formData.append('image', image);
+    axios.post(route('api.images.upload'), formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+        .then(({data}) => {
+            props.item.preview = data.result;
+            previewArray(data.result);
+        })
+        .catch((response) => console.log(response));
 }
 </script>

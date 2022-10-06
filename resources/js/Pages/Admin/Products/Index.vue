@@ -1,16 +1,16 @@
 <template>
-    <auth-layout title="Products">
+    <auth-layout title="Товари">
         <template #header>
-            Products
+            Товари
         </template>
 
         <loader-component v-if="state.isLoading"/>
         <div v-if="!state.isLoading">
             <button-component type="btn" @click="create" v-if="can('create-products')">
-                Add
+                Додати
             </button-component>
 
-            <lang-tabs @clickLang="test"/>
+            <lang-tabs @clickLang="changeLang"/>
 
             <table-component :headings="headings"
                              :isSlotMode="true"
@@ -22,8 +22,30 @@
                     </a>
                 </template>
 
+                <template v-slot:title="{data}">
+                    {{
+                        state.activeLang === 'ua' ? data.row.h1.ua :
+                            (state.activeLang === 'ru' ? data.row.h1.ru : null)
+                    }}
+                </template>
+
                 <template v-slot:published="{data}">
-                    {{ publishedStatus(data.row.published) }}
+                    {{ $filters.publishedStatus(data.row.published) }}
+                </template>
+
+                <template v-slot:price="{data}">
+                    {{ $filters.formatMoney(data.row.price) }}
+                </template>
+
+                <template v-slot:discount_price="{data}">
+                    {{ $filters.formatMoney(data.row.discount_price) }}
+                </template>
+
+                <template v-slot:preview="{data}">
+                    <img :src="'/storage/images/55/' + data.row.preview"
+                         :alt="state.activeLang === 'ua' ? data.row.h1.ua :
+                            (state.activeLang === 'ru' ? data.row.h1.ru : null)"
+                    >
                 </template>
 
                 <template v-slot:actions="{data}">
@@ -33,9 +55,9 @@
                 </template>
             </table-component>
 
-            <paginate  :pagination="state.products.data"
-                       :click-handler="fetch"
-                       v-model="state.currentPage"
+            <paginate :pagination="state.products"
+                      :click-handler="fetch"
+                      v-model="state.currentPage"
             />
 
             <component :is="activeModal"
@@ -93,12 +115,15 @@ const product = reactive({
     colors: [],
 })
 
+const defaultLang = inject('$defaultLang');
+
 const state = ref({
     products: [],
     currentPage: 1,
     isLoading: true,
     isActiveModal: false,
     modalAction: '',
+    activeLang: defaultLang,
     item: product,
 });
 
@@ -106,13 +131,7 @@ onMounted(() => {
     fetch(1);
 })
 
-function test(val) {
-    console.log(val)
-}
-
 const activeModal = computed(() => state.value.isActiveModal ? ProductModal : null)
-
-const publishedStatus = computed(() => (value) => value ? 'Published' : 'Not published');
 
 const headings = reactive([
     {
@@ -157,6 +176,9 @@ const headings = reactive([
     }
 ]);
 
+function changeLang(val) {
+    state.value.activeLang = val;
+}
 
 function fetch(page) {
     state.value.isLoading = true;
@@ -230,6 +252,7 @@ function onUpdate() {
             .then(({data}) => {
                 modalFunction();
                 Object.assign(state.value.products.data[state.value.item.index], data.result);
+                fetch();
                 swal({
                     title: 'Success!',
                     icon: 'success'

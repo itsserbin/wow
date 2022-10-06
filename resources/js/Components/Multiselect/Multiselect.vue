@@ -75,8 +75,8 @@
                         w-full
                         h-5
                         ring-0
+                        border-0
                         dark:bg-gray-800
-                        dark:border-0
                         dark:placeholder-gray-400
                         dark:text-white
                         dark:focus:text-white

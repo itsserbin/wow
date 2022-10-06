@@ -10,10 +10,12 @@
 </head>
 <body>
 <div id="app">
-    <header>
+    <header class="header shadow">
         <header-component/>
     </header>
-    @yield('content')
+    <main class="main">
+        @yield('content')
+    </main>
 
 </div>
 @vite('resources/js/Pages/Public/app.js')

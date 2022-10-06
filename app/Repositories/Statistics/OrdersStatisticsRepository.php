@@ -5,6 +5,7 @@ namespace App\Repositories\Statistics;
 use App\Models\Statistics\OrderStatistic as Model;
 use App\Repositories\CoreRepository;
 use Carbon\Carbon;
+use DateTime;
 
 class OrdersStatisticsRepository extends CoreRepository
 {
@@ -43,7 +44,11 @@ class OrdersStatisticsRepository extends CoreRepository
         );
 
         if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
-            $model->whereBetween('date', [$data['date_start'], $data['date_end']]);
+
+            $startDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start'])->format('Y-m-d');
+            $endDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])->format('Y-m-d');
+
+            $model->whereBetween('date', [$startDate, $endDate]);
         } elseif (array_key_exists('last', $data)) {
             if ($data['last'] == 'week') {
                 $model->whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
@@ -92,7 +97,10 @@ class OrdersStatisticsRepository extends CoreRepository
         );
 
         if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
-            $model->whereBetween('date', [$data['date_start'], $data['date_end']]);
+            $startDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start'])->format('Y-m-d');
+            $endDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])->format('Y-m-d');
+
+            $model->whereBetween('date', [$startDate, $endDate]);
         } elseif (array_key_exists('last', $data)) {
             if ($data['last'] == 'week') {
                 $model->whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
@@ -138,7 +146,10 @@ class OrdersStatisticsRepository extends CoreRepository
         );
 
         if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
-            $model->whereBetween('date', [$data['date_start'], $data['date_end']]);
+            $startDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start'])->format('Y-m-d');
+            $endDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])->format('Y-m-d');
+
+            $model->whereBetween('date', [$startDate, $endDate]);
         } elseif (array_key_exists('last', $data)) {
             if ($data['last'] == 'week') {
                 $model->whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
@@ -177,22 +188,26 @@ class OrdersStatisticsRepository extends CoreRepository
         );
 
         if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
-            $model = $this->model::whereBetween('date', [$data['date_start'], $data['date_end']]);
+
+            $startDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start'])->format('Y-m-d');
+            $endDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])->format('Y-m-d');
+
+            $model->whereBetween('date', [$startDate, $endDate]);
         } elseif (array_key_exists('last', $data)) {
             if ($data['last'] == 'week') {
-                $model = $this->model::whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
+                $model->whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
             } elseif ($data['last'] == 'two-week') {
-                $model = $this->model::whereBetween('date', [Carbon::now()->subWeek()->startOfWeek(), Carbon::now()->endOfWeek()]);
+                $model->whereBetween('date', [Carbon::now()->subWeek()->startOfWeek(), Carbon::now()->endOfWeek()]);
             } elseif ($data['last'] == 'one-month') {
-                $model = $this->model::whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfWeek()]);
+                $model->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfWeek()]);
             } elseif ($data['last'] == '7-days') {
-                $model = $this->model::whereBetween('date', [Carbon::now()->subDays(7), Carbon::now()]);
+                $model->whereBetween('date', [Carbon::now()->subDays(7), Carbon::now()]);
             } elseif ($data['last'] == '14-days') {
-                $model = $this->model::whereBetween('date', [Carbon::now()->subDays(14), Carbon::now()]);
+                $model->whereBetween('date', [Carbon::now()->subDays(14), Carbon::now()]);
             } elseif ($data['last'] == '30-days') {
-                $model = $this->model::whereBetween('date', [Carbon::now()->subDays(30), Carbon::now()]);
+                $model->whereBetween('date', [Carbon::now()->subDays(30), Carbon::now()]);
             } elseif ($data['last'] == '90-days') {
-                $model = $this->model::whereBetween('date', [Carbon::now()->subDays(90), Carbon::now()]);
+                $model->whereBetween('date', [Carbon::now()->subDays(90), Carbon::now()]);
             }
         }
 
