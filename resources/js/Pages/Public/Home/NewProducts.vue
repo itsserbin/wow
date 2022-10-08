@@ -1,7 +1,7 @@
 <template>
     <div v-if="products.length">
         <loader v-if="state.isLoading"></loader>
-        <div class="product-list__title">{{ textLatestProducts }}</div>
+        <div class="font-bold text-black text-center text-[24px] mb-[15px]">{{ textLatestProducts }}</div>
         <product-cards v-if="!state.isLoading"
                        :products="products"
                        :lang="lang"

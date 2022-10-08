@@ -1,7 +1,7 @@
 <template>
     <div v-if="products.length">
         <loader v-if="state.isLoading"></loader>
-        <div class="product-list__title">{{ textBestSelling }}</div>
+        <div class="font-bold text-black text-center text-[24px] mb-[15px]">{{ textBestSelling }}</div>
         <product-cards v-if="!state.isLoading"
                        :products="products"
                        :lang="lang"
@@ -9,9 +9,9 @@
                        :product-route="productRoute"
                        class="mb-5"
         ></product-cards>
-        <div class="row d-flex justify-content-center" v-if="state.showLoadMore">
+        <div class="flex-row flex justify-center" v-if="state.showLoadMore">
             <loader v-if="state.isLoadingMore"></loader>
-            <button class="load-more__button" type="button" v-if="!state.isLoadingMore" @click="fetch">
+            <button class="cursor-pointer w-[250px] h-[50px] text-white bg-[#E02424] text-bold uppercase rounded-[10px]" type="button" v-if="!state.isLoadingMore" @click="fetch">
                 <span>{{ textLoadMore }}</span>
             </button>
         </div>

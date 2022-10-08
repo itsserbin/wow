@@ -1,7 +1,7 @@
 <template>
-    <section id="reviews" class="reviews my-5" v-if="reviews.length">
+    <section id="reviews" class="pr-[20px] my-5" v-if="reviews.length">
         <div class="container">
-            <div class="reviews__block-title block-title mb-3">{{ textReviews }}</div>
+            <div class="reviews__block-title font-bold text-[22px] text-center text-black mb-3">{{ textReviews }}</div>
             <swiper
                 v-if="reviews.length"
                 class="reviews-carousel"
@@ -30,9 +30,9 @@
                 </swiper-slide>
             </swiper>
             <h3 v-else>{{ textNoReviews }}</h3>
-            <div class="row text-center" v-if="reviews.length">
+            <div class="flex-row text-center" v-if="reviews.length">
                 <a :href="reviewsRoute" target="_blank">
-                    <button class="load-more__button" type="button">
+                    <button class="cursor-pointer w-[250px] h-[50px] text-white bg-[#E02424] text-bold uppercase rounded-[10px]" type="button">
                         {{ textSeeMore }}
                     </button>
                 </a>

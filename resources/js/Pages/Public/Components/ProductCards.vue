@@ -5,8 +5,7 @@
                 <product-card :product="product"
                               :lang="lang"
                               :text-go-to-product-card="textGoToProductCard"
-                              :product-route="productRoute"
-                ></product-card>
+                              :product-route="productRoute"></product-card>
             </div>
         </div>
     </div>

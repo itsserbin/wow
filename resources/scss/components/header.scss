@@ -26,21 +26,16 @@
     }
 
     .header__language {
-        max-width: 55px;
+        
 
         .language-chooser {
-            position: relative;
-            white-space: nowrap;
+           
 
             &__current {
-                position: relative;
-                z-index: 5;
+               
 
                 &-label {
-                    font-size: 18px;
-                    text-transform: uppercase;
-                    color: red;
-                    cursor: default;
+                   
                 }
 
                 &:after {
@@ -61,13 +56,6 @@
             }
 
             &__drop {
-                display: none;
-                position: absolute;
-                z-index: 4;
-                top: 35px;
-                left: -5px;
-                padding: 10px;
-                background-color: #fff;
                 box-shadow: 0 1px 5px rgb(0 0 0 / 18%);
 
                 &.active {
@@ -75,17 +63,11 @@
                 }
             }
 
-            &__link {
-                display: block;
-                font-size: 18px;
-                text-decoration: none;
-                color: #db002f;
-            }
+           
         }
     }
 
     .header__menu {
-        background-color: #ffb7b7;
         .main-menu{
             &__item {
                 position: relative;

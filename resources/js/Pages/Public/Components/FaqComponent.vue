@@ -1,8 +1,8 @@
 <template>
-    <div class="container" v-if="faqs.length">
-        <div class="row justify-content-center mb-3">
-            <div class="col-12 col-md-6">
-                <div class="block-title mb-3">{{ textFaqHeading }}</div>
+    <div class="w-[100%]" v-if="faqs.length">
+        <div class="flex flex-row justify-center mb-3">
+            <div class="w-[100%] grow-0 shrink-0 basis-[auto]"><!--Don't know :(-->
+                <div class="font-bold text-[22px] text-center text-black mb-3">{{ textFaqHeading }}</div>
                 <Accordion>
                     <AccordionItem v-for="faq in faqs">
                         <template #accordion-trigger>

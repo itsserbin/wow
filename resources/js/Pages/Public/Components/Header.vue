@@ -1,34 +1,34 @@
 <template>
     <div>
         <div class="max-w-7xl mx-auto mt-2">
-            <div class="row align-items-center">
+            <div class="flex flex-row space-x-[11.2vw] items-center">
                 <div class="col-4 header__logo logo">
                     <a :href="indexRoute">
                         <img src="https://dabango.store/storage/img/content/logo.png" :alt="appName">
                         <!--                        <img :src="logoApp" :alt="appName">-->
                     </a>
                 </div>
-                <div class="col-4 d-flex justify-content-center">
+                <div class="grow-0 shrink-0 basis-[auto] w-[33.3%] flex justify-center">
                     <cart-icon-component :cart-route="cartRoute"></cart-icon-component>
                 </div>
-                <div class="col-2 d-flex justify-content-end">
-                    <div class="header__language" @click="setLangActiveClass">
-                        <div class="language-chooser">
-                            <div class="language-chooser__current">
-                                <div class="language-chooser__current-label">{{ lang === 'ru' ? 'RU' : 'UA' }}</div>
+                <div class="col-2 flex justify-end">
+                    <div class="header__language max-w-[55px]" @click="setLangActiveClass">
+                        <div class="relative whitespace-nowrap">
+                            <div class="relative z-5">
+                                <div class="text-[18px] uppercase text-red-600 cursor-default">{{ lang === 'ru' ? 'RU' : 'UA' }}</div>
                             </div>
-                            <div class="language-chooser__drop" :class="{'active': state.langActiveClass}">
+                            <div class="language-chooser__drop hidden absolute z-4 top-[35px] left-[-5px] p-[10px] bg-[#fff]" :class="{'active': state.langActiveClass}">
                                 <div class="language-chooser__drop-item lang-switcher">
-                                    <a class="language-chooser__link" :href="setlocateUa">UA</a>
+                                    <a class="block text-[18px] text-[#db002f] no-underline" :href="setlocateUa">UA</a>
                                 </div>
                                 <div class="language-chooser__drop-item lang-switcher">
-                                    <a class="language-chooser__link" :href="setlocateRu">RU</a>
+                                    <a class="block text-[18px] text-[#db002f] no-underline" :href="setlocateRu">RU</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-2 d-flex justify-content-end z-50">
+                <div class="grow-0 shrink-0 basis-[auto] z-50 flex justift-end">
                     <div class="header-burger p-0"
                          @click="showBurgerMenu"
                          :class="{'active': state.showBurger}"
@@ -38,7 +38,7 @@
                 </div>
             </div>
         </div>
-        <div class="header__menu">
+        <div class=" bg-[#ffb7b7]">
             <div class="container">
                 <div class="row">
                     <HeaderCategories
@@ -50,10 +50,10 @@
             </div>
         </div>
 
-        <div class="burger-menu active" v-if="state.showBurger">
-            <div class="menus justify-content-center align-items-center">
+        <div class="burger-menu active flex flex-row justify-center fixed w-[100%] h-[100%] z-40 top-[-100%] left-0 overflow-scroll bg-[#161616]" v-if="state.showBurger">
+            <div class="menus justify-center items-center flex mt-[30px]">
                 <nav class="menu">
-                    <ul class="menu__list">
+                    <ul class="menu__list flex flex-col justify-center items-center mr-[20px]">
                         <li v-for="category in state.categoriesList" :key="category.id">
                             <a :href="categoryRoute + '/' + category.slug" class="menu__link text-decoration-none">
                                 {{ lang === 'ua' ? category.title.ua : (lang === 'ru' ? category.title.ru : null) }}
@@ -62,26 +62,26 @@
                     </ul>
                 </nav>
                 <nav class="menu">
-                    <ul class="menu__list">
+                    <ul class="menu__list flex flex-col justify-center items-center mr-[20px]">
                         <li>
-                            <a :href="indexRoute" class="menu__link text-decoration-none">
+                            <a :href="indexRoute" class="menu__link relative inline-block font-bold text-[15px] text-center text-[#fff] no-underline">
                                 {{ lang === 'ru' ? 'Главная' : 'Головна' }}
                             </a>
                         </li>
                         <li>
-                            <a :href="reviewsRoute" class="menu__link text-decoration-none">
+                            <a :href="reviewsRoute" class="menu__link relative inline-block font-bold text-[15px] text-center text-[#fff] no-underline">
                                 {{ textReviews }}
                             </a>
                         </li>
                         <li v-for="page in state.pagesList" :key="page.id">
-                            <a :href="'/pages/' + page.slug" class="menu__link text-decoration-none">
+                            <a :href="'/pages/' + page.slug" class="menu__link relative inline-block font-bold text-[15px] text-center text-[#fff] no-underline">
                                 {{ lang === 'ru' ? page.heading.ru : page.heading.ua }}
                             </a>
                         </li>
                     </ul>
                 </nav>
             </div>
-            <div class="burger-menu__contacts">
+            <div class="flex flex-col items-center">
                 <div class="row">
                     <address class="address text-center">
 
@@ -99,7 +99,7 @@
                         </a>
 
                     </address>
-                    <div class="social-buttons">
+                    <div class="flex justify-center">
                         <a v-if="appFacebook" :href="appFacebook" target="_blank">
                             <facebook-icon></facebook-icon>
                         </a>
@@ -112,7 +112,7 @@
                 </div>
                 <div class="row">
 
-                    <div v-if="appSchedule" class="burger-menu__schedule schedule text-center">
+                    <div v-if="appSchedule" class="burger-menu__schedule flex uppercase text-[#fff] text-center">
                         <div v-html="appSchedule"></div>
                     </div>
 

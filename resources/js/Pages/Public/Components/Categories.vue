@@ -12,7 +12,16 @@
                         <!--                             :alt="lang === 'ru' ? item.title.ru : (lang === 'ua' ? item.title.ua : null)">-->
                     </div>
 
-                    <div class="card__body">
+                    <div class="flex 
+            flex-col 
+            items-center 
+            border-r-[1px] 
+            border-r-[#e9e9e9]
+            border-b-[1px]
+            border-b-[#e9e9e9]
+            border-l-[1px]
+            border-l-[#e9e9e9]
+            rounded-b-[5px]">
                         <div class="card__label d-flex align-items-center m-0">
                             {{ item.title.ru }}
                             <!--                            {{ lang === 'ru' ? item.title.ru : (lang === 'ua' ? item.title.ua : null) }}-->
