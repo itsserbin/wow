@@ -29,22 +29,26 @@
                     </div>
                 </div>
                 <div class="grow-0 shrink-0 basis-[auto] z-50 flex justift-end">
-                    <div class="relative w-[25px] h-[18px] z-51  p-0 ease-[all 0.3s ease 0s]
-                    before::content-['']
-                    after::content-['']
-                    before::absolute
-                    after::absolute
-                    before::w-[100%]
-                    after::w-[100%]
-                    before::h-[2px]
-                    after::h-[2px]
-                    before::ease-[all 0.3s ease 0s]
-                    after::ease-[all 0.3s ease 0s]
+                    <div class="relative !w-[25px] h-[18px] z-51  p-0  ease-[all 0.3s ease 0s]
+                    before:bg-[#c4c4c4]
+                      before:content-['']
+                      before:h-[2px]
+                      before:absolute
+                      before:w-[100%]
+                      after:bg-[#c4c4c4]
+                      after:content-['']
+                      after:h-[2px]
+                      after:absolute
+                      after:w-[100%]
+                      before:mt-[15px]
+                      
+                     
+                      
                     " 
                          @click="showBurgerMenu"
                          :class="{'active': state.showBurger}"
                     >
-                        <span></span>
+                        <span class="bg-[#c4c4c4] block h-[2px] left-0 relative top-[8px] w-[100%]"></span>
                     </div>
                 </div>
             </div>
@@ -61,12 +65,12 @@
             </div>
         </div>
 
-        <div class="burger-menu active flex flex-row justify-center fixed w-[100%] h-[100%] z-40 top-[-100%] left-0 overflow-scroll bg-[#161616]" v-if="state.showBurger">
+        <div class="burger-menu active flex flex-row justify-center fixed w-[100%] h-[100%] z-40 top-[0] left-0 overflow-scroll bg-[#161616]" v-if="state.showBurger">
             <div class="menus justify-center items-center flex mt-[30px]">
                 <nav class="menu">
                     <ul class="menu__list flex flex-col justify-center items-center mr-[20px]">
                         <li v-for="category in state.categoriesList" :key="category.id">
-                            <a :href="categoryRoute + '/' + category.slug" class="menu__link text-decoration-none">
+                            <a :href="categoryRoute + '/' + category.slug" class=" text-decoration-none">
                                 {{ lang === 'ua' ? category.title.ua : (lang === 'ru' ? category.title.ru : null) }}
                             </a>
                         </li>
@@ -75,17 +79,17 @@
                 <nav class="menu">
                     <ul class="menu__list flex flex-col justify-center items-center mr-[20px]">
                         <li>
-                            <a :href="indexRoute" class="menu__link relative inline-block font-bold text-[15px] text-center text-[#fff] no-underline">
+                            <a :href="indexRoute" class=" relative inline-block font-bold text-[15px] text-center text-[#fff] no-underline after:content-[''] after:bg-[#c4c4c4] after:bottom-0 after:h-[1px] after:left-0 after:mx-auto after:my-auto after:absolute after:right-0 after:w-0">
                                 {{ lang === 'ru' ? 'Главная' : 'Головна' }}
                             </a>
                         </li>
                         <li>
-                            <a :href="reviewsRoute" class="menu__link relative inline-block font-bold text-[15px] text-center text-[#fff] no-underline">
+                            <a :href="reviewsRoute" class=" relative inline-block font-bold text-[15px] text-center text-[#fff] no-underline after:content-[''] after:bg-[#c4c4c4] after:bottom-0 after:h-[1px] after:left-0 after:mx-auto after:my-auto after:absolute after:right-0 after:w-0">
                                 {{ textReviews }}
                             </a>
                         </li>
                         <li v-for="page in state.pagesList" :key="page.id">
-                            <a :href="'/pages/' + page.slug" class="menu__link relative inline-block font-bold text-[15px] text-center text-[#fff] no-underline">
+                            <a :href="'/pages/' + page.slug" class=" relative inline-block font-bold text-[15px] text-center text-[#fff] no-underline after:content-[''] after:bg-[#c4c4c4] after:bottom-0 after:h-[1px] after:left-0 after:mx-auto after:my-auto after:absolute after:right-0 after:w-0">
                                 {{ lang === 'ru' ? page.heading.ru : page.heading.ua }}
                             </a>
                         </li>

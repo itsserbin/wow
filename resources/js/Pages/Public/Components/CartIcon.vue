@@ -11,7 +11,7 @@
             d="M6.19809 5.95833L8.08512 14.4102C8.2382 15.0958 8.84659 15.5833 9.54908 15.5833H16.8153C17.5178 15.5833 18.1262 15.0958 18.2793 14.4102L19.7585 7.78519C19.9677 6.84803 19.2547 5.95833 18.2945 5.95833H6.19809ZM6.19809 5.95833L5.62607 3.85616C5.44838 3.20315 4.85544 2.75 4.17869 2.75H1.83301"
             stroke="white" stroke-width="1.1" stroke-linecap="round"></path>
       </svg>
-      <span class="absolute left-[100%] bottom-[100%] bg-[#ccc] rounded-[50%] text-red-600 font-semibold text-[.75rem] p-[5px] w-[20px] h-[20px] text-center translate-y-[66%] translate-x-[-66%]">{{ cart.totalCount }}</span></div>
+      <span class="absolute left-[100%] bottom-[100%] bg-[#ccc] rounded-[50%] text-red-600 font-semibold text-[.75rem]  w-[20px] h-[20px] text-center translate-y-[66%] translate-x-[-66%]">{{ cart.totalCount }}</span></div>
   </a>
 </template>
 
