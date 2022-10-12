@@ -5,7 +5,7 @@
             <!--        <div class="row justify-content-center" v-if="categories.length && !state.isLoading">-->
             <div class="card__category my-3" v-for="item in categories">
                 <a :href="categoriesRoute + '/' + item.slug" class="text-decoration-none">
-                    <div class="card__image">
+                    <div class="card__image ml-[0.5rem] mr-[0.5rem]">
                         <img :src="item.preview">
 
                         <!--                        <img :src="item.preview"-->
@@ -22,7 +22,7 @@
             border-l-[1px]
             border-l-[#e9e9e9]
             rounded-b-[5px]">
-                        <div class="card__label d-flex align-items-center m-0">
+                        <div class="font-bold d-flex align-items-center m-0">
                             {{ item.title.ru }}
                             <!--                            {{ lang === 'ru' ? item.title.ru : (lang === 'ua' ? item.title.ua : null) }}-->
                         </div>

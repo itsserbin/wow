@@ -1,8 +1,8 @@
 <template>
     <div class="mb-[10px] items-stretch px-[10px]">
-        <a class="no-underline" :href="productRoute + '/' + product.id">
+        <a class="no-underline grid" :href="productRoute + '/' + product.id">
 
-            <div class="card__image mx-auto h-[180px]">
+            <div class="card__image mx-auto max-h-80">
                 <!--                <img :src="'/storage/products/350/' + product.preview"-->
                 <!--                     :alt="lang === 'ru' ? product.h1.ru : (lang === 'ua' ? product.h1.ua : null)"-->
                 <!--                     loading="lazy">-->
@@ -26,7 +26,7 @@
                 <!--                                </h5>-->
                 <h5 class="
                 text-black 
-                text-[14px]
+                text-lg
                 mb-[15px]
                 ml-[0px]
                 mr-[0px]
@@ -58,13 +58,14 @@
                     flex
                     flex-col
                     ">
-                        <div class="card__old-price
+                        <div class="
+                        text-[1rem]
                         font-medium
                         text-xs
                         line-through
                         text-[#A5A5A5]
                         ">{{ product.price }} грн.</div>
-                        <div class="card__actual-price
+                        <div class="
                                     font-bold
                                     text-[22px]
                                     text-[#ff0000]
@@ -72,13 +73,12 @@
                     </div>
                 </div>
                 <span class="
-                card__button
                 block
                 rounded-[10px]
                 p-[10px]
                 w-[75%]
                 min-w-[120px]
-                text-[14px]
+                text-[1rem]
                 text-center
                 font-medium
                 text-white

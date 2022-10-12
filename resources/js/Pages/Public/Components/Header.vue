@@ -1,23 +1,23 @@
 <template>
-    <div>
-        <div class="max-w-7xl mx-auto mt-2">
-            <div class="flex flex-row space-x-[11.2vw] items-center">
-                <div class="col-4 header__logo logo">
+    <div class="">
+        <div class="max-w-7xl mx-auto mt-2 ">
+            <div class="flex justify-between items-center">
+                <div class=" header__logo logo  ">
                     <a :href="indexRoute">
-                        <img src="https://dabango.store/storage/img/content/logo.png" :alt="appName">
+                        <img src="https://dabango.store/storage/img/content/logo.png" :alt="appName" class="w-[55px]">
                         <!--                        <img :src="logoApp" :alt="appName">-->
                     </a>
                 </div>
-                <div class="grow-0 shrink-0 basis-[auto] w-[33.3%] flex justify-center">
+                <div class="grow-0 shrink-0 basis-[auto] w-[72.2%] flex justify-center">
                     <cart-icon-component :cart-route="cartRoute"></cart-icon-component>
                 </div>
-                <div class="col-2 flex justify-end">
-                    <div class="header__language max-w-[55px]" @click="setLangActiveClass">
+                <div class=" flex justify-end">
+                    <div class=" max-w-[55px]" @click="setLangActiveClass">
                         <div class="relative whitespace-nowrap">
                             <div class="relative z-5">
-                                <div class="text-[18px] uppercase text-red-600 cursor-default">{{ lang === 'ru' ? 'RU' : 'UA' }}</div>
+                                <div class="text-[18px] uppercase text-red-600 cursor-default  ">{{ lang === 'ru' ? 'RU' : 'UA' }}</div>
                             </div>
-                            <div class="language-chooser__drop hidden absolute z-4 top-[35px] left-[-5px] p-[10px] bg-[#fff]" :class="{'active': state.langActiveClass}">
+                            <div class="hidden absolute z-4 top-[35px] left-[-5px] p-[10px] bg-[#fff] " :class="{'active': state.langActiveClass}">
                                 <div class="language-chooser__drop-item lang-switcher">
                                     <a class="block text-[18px] text-[#db002f] no-underline" :href="setlocateUa">UA</a>
                                 </div>
@@ -29,7 +29,18 @@
                     </div>
                 </div>
                 <div class="grow-0 shrink-0 basis-[auto] z-50 flex justift-end">
-                    <div class="header-burger p-0"
+                    <div class="relative w-[25px] h-[18px] z-51  p-0 ease-[all 0.3s ease 0s]
+                    before::content-['']
+                    after::content-['']
+                    before::absolute
+                    after::absolute
+                    before::w-[100%]
+                    after::w-[100%]
+                    before::h-[2px]
+                    after::h-[2px]
+                    before::ease-[all 0.3s ease 0s]
+                    after::ease-[all 0.3s ease 0s]
+                    " 
                          @click="showBurgerMenu"
                          :class="{'active': state.showBurger}"
                     >

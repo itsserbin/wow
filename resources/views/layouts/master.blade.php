@@ -10,7 +10,7 @@
 </head>
 <body>
 <div id="app">
-    <header class="header shadow">
+    <header class="w-[100%] fixed top-0 z-10 bg-[#fff]">
         <header-component/>
     </header>
     <main class="main">

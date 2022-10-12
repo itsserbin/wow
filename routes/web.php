@@ -24,5 +24,9 @@ Route::get('/cardTest', function (){
     return view('cardTest');
 });
 
+Route::get('/test', function (){
+    return view('test');
+});
+
 require __DIR__ . '/auth.php';
 require __DIR__ . '/admin.php';

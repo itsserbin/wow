@@ -1,0 +1,17 @@
+.relative__title {
+  margin: 0 0 15px 0;
+}
+
+.relative-slider {
+  position: relative;
+}
+
+.relative__product.slick-slide {
+  display: flex;
+}
+
+@media (min-width: 360px) {
+  .relative-slider .card__image {
+    height: 250px;
+  }
+}/*# sourceMappingURL=relative.css.map */

@@ -1,0 +1,28 @@
+.characteristics-table {
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.characteristics-table tr:first-child th {
+  border-bottom-width: 3px;
+}
+.characteristics-table th,
+.characteristics-table td {
+  border: 1px solid #C4C4C4;
+  padding: 15px;
+}
+
+@media (min-width: 400px) {
+  .characteristics-table {
+    font-size: 15px;
+  }
+  .characteristics-table th,
+.characteristics-table td {
+    padding: 15px 20px;
+  }
+}
+@media (min-width: 450px) {
+  .characteristics-table th,
+.characteristics-table td {
+    min-width: 105px;
+  }
+}/*# sourceMappingURL=characteristics-table.css.map */

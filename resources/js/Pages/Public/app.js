@@ -47,4 +47,8 @@ app.component('best-selling-products', BestSelling);
 app.component('new-products', NewProducts);
 app.component('all-reviews-carousel', AllReviewsCarousel);
 
+import DeliveryAndPayment from '@/Pages/Public/Product/DeliveryAndPayment.vue';
+
+app.component('delivery-and-payment', DeliveryAndPayment);
+
 app.mount('#app');

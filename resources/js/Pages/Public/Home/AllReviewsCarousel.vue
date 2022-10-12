@@ -25,7 +25,7 @@
                 }"
             >
                 <swiper-slide v-for="review in reviews">
-                    <div class="reviews-slider__name">{{ review.name }}</div>
+                    <div class="text-center font-bold">{{ review.name }}</div>
                     <div class="reviews-slider__text">{{ review.comment }}</div>
                 </swiper-slide>
             </swiper>
