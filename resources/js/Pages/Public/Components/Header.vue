@@ -1,5 +1,5 @@
 <template>
-    <div class="">
+    <div class="shadow-lg">
         <div class="max-w-7xl mx-auto mt-2 ">
             <div class="flex justify-between items-center">
                 <div class=" header__logo logo  ">
@@ -28,8 +28,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="grow-0 shrink-0 basis-[auto] z-50 flex justift-end mr-[10px]">
-                    <div class="relative !w-[25px] h-[18px] z-51  p-0  ease-[all 0.3s ease 0s]
+                <div class="grow-0 shrink-0 basis-[auto] z-50 flex justift-end mr-[10px]  ">
+                    <div class=" relative !w-[25px] h-[18px] z-51  p-0  ease-[all 0.3s ease 0s]
                     before:bg-[#c4c4c4]
                       before:content-['']
                       before:h-[2px]
@@ -65,7 +65,7 @@
             </div>
         </div>
 
-        <div class="burger-menu active flex flex-row justify-center fixed w-[100%] h-[100%] z-40 top-[0] left-0 overflow-scroll bg-[#161616]" v-if="state.showBurger">
+        <div class="burger-menu animate__animated animate__backInDown  active flex flex-row justify-center fixed w-[100%] h-[100%] z-40 top-[0] left-0 overflow-scroll bg-[#161616]" v-if="state.showBurger">
             <div class="menus justify-center items-center flex mt-[30px]">
                 <nav class="menu">
                     <ul class="menu__list flex flex-col justify-center items-center mr-[20px]">
@@ -79,7 +79,7 @@
                 <nav class="menu">
                     <ul class="menu__list flex flex-col justify-center items-center mr-[20px]">
                         <li>
-                            <a :href="indexRoute" class=" relative inline-block font-bold text-[15px] text-center text-[#fff] no-underline after:content-[''] after:bg-[#c4c4c4] after:bottom-0 after:h-[1px] after:left-0 after:mx-auto after:my-auto after:absolute after:right-0 after:w-0">
+                            <a :href="indexRoute" class="line relative inline-block font-bold text-[15px] text-center text-[#fff] no-underline after:content-[''] after:bg-[#c4c4c4] after:bottom-0 after:h-[1px] after:left-0 after:mx-auto after:my-auto after:absolute after:right-0 after:w-0">
                                 {{ lang === 'ru' ? 'Главная' : 'Головна' }}
                             </a>
                         </li>
@@ -148,6 +148,7 @@
 </template>
 
 <script setup>
+import 'animate.css';
 import HeaderCategories from '@/Pages/Public/Components/HeaderCategories.vue';
 import {onMounted, ref} from "vue";
 
@@ -209,3 +210,36 @@ const props = defineProps([
 ])
 
 </script>
+<style>
+.line{
+    position: relative;
+	color: #fff; /*задаём цвет ссылки*/
+	cursor: pointer;
+	line-height: 1; /*задаём высоту строки*/
+	text-decoration: none; /*убираем подчёркивание*/
+    
+}
+
+.line:after {
+	display: block;
+	position: absolute;
+	left: 0; /*изменить на right:0;, чтобы изменить направление подчёркивания */
+	width: 0;/*задаём длинну линии до наведения курсора*/
+	height: 2px; /*задаём ширину линии*/
+	background-color: #fff; /*задаём цвет линии*/
+	content: "";
+	transition: width 0.3s ease-out; /*задаём время анимации*/
+}
+
+.line:hover:after,
+.line:focus:after {
+	width: 100%; /*устанавливаем значение 100% чтобы ссылка подчёркивалась полностью*/
+    margin-top: 15px;
+}
+
+
+.active:active{
+    transition: height 0.3s ease-out;
+}
+
+</style>

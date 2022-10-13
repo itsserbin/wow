@@ -96,15 +96,16 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="ordering-item payment-delivery">
-                            <div class="ordering-item__title">
+                        <div class="bg-[#fff] border-[0.5px] border-gray-300 rounded-[12px] shadow-lg box-border mb-[1.5rem] pt-[1.25rem] pr-[1rem] pb-[1.25rem] pl-[1rem]">
+                            <div class="text-[1.625rem] font-[400]">
                                 <h3>Оплата</h3>
                             </div>
-                            <div class="data-list w100 mb-4">
+                            <div class="!mb-[1.5rem]">
                                 <div
-                                    class="data-list__item d-sm-flex align-items-sm-center justify-content-sm-between radio-btn">
-                                    <label class="me-sm-2"><input type="radio" name="payment"
-                                            value="cash_on_delivery"><span></span>
+                                    class="items-center justify-between mb-[1rem] !flex box-border">
+                                    <label class="text-[1.075rem] text-[#686868] font-[500] w-[100%]">
+                                        <input type="radio" name="payment"
+                                            value="cash_on_delivery" class=""></span>
                                         <p class="a-text">Накладений платіж</p>
                                     </label></div>
                                 <div
@@ -121,60 +122,16 @@
                                     </label></div>
                             </div>
                         </div>
-                        <div class="textarea"><label>Коментар
-                                <textarea placeholder="Введіть ваш коментар"></textarea>
+                        <div class="textarea"><label class="text-[1.075rem] font-[500] text-[#686868]  w-[100%]">Коментар
+                                <textarea placeholder="Введіть ваш коментар" class="border-[0.5px] rounded-[10px] box-border font-[350] h-[100] mt-[0.75rem] p-[1rem] resize-none w-[100%] outline-none border-red-600 "></textarea>
                             </label></div>
                     </div>
                     <div class="">
                         <div class="cart-item__right row mb-3">
-                            <div
-                                class="items-center border-gray-300 flex bg-[#fff] rounded-[15px] shadow-lg box-border justify-between p-[1rem] mb-3">
-                                <label
-                                    class="text-[#231f20] flex-row text-[1rem] font-[500] mb-0 whitespace-nowrap w-[100%] items-center flex">Промокод
-                                    <input
-                                        class="border-[0.5px] border-red-600 box-border text-[.875rem] p-[1rem] text-center w-[100%]  rounded-[20px]  mx-3"
-                                        type="text" placeholder="XXX-XXX-XXX"></label><a href="javascript:"
-                                    class="items-center bg-[#e3342f] border-[1px] border-red-600 rounded-[0.625rem] text-[#fff] cursor-pointer flex font-[400] justify-center p-[0.875rem] no-underline ">Активувати</a>
-                            </div>
-                            <div
-                                class="rounded-[15px] bg-[#fff] border-[0.5px] border-gray-300 shadow-lg box-border mb-[1.5rem] p-[1rem]">
-                                <div class="pb-[0.625rem]">
-                                    <div class="items-center flex justify-between">
-                                        <div class="text-[#000] font-[500] uppercase">Товарів</div>
-                                        <div class="value">
-                                            <div
-                                                class="text-[#231f20] flex flex-col text-[1.5rem] font-[700] whitespace-nowrap">
-                                                <div class="price total">1</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="items-center flex justify-between">
-                                        <div class="text-[#e3342f] text-[.875rem] capitalize">Ціна без знижки</div>
-                                        <div class="value">
-                                            <div class="product-card__price">
-                                                <div class="price"><del><span class="amount price-old">1320
-                                                            грн.</span></del></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center justify-between">
-                                        <div class="text-[#000] font-[500] uppercase">До сплати</div>
-                                        <div class="value">
-                                            <div
-                                                class="text-[#231f20] flex flex-col text-[1.5rem] font-[700] whitespace-nowrap">
-                                                <div class="price total">890.00 грн.</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="items-center flex flex-col"><button type="submit"
-                                        class="items-center bg-[#e3342f] border-[1px] border-red-600 rounded-[0.625rem] text-[#fff] cursor-pointer flex text-[1rem] font-[400] justify-center p-[0.875rem] no-underline w-[100%]">Оформити
-                                        замовлення</button>
-                                </div>
-                            </div>
-                            <div class="additions">
-                                <h3 class="text-[1.625rem] mb-[1rem]">Вам сподобаєтся</h3>
+                           
+                            
+                            <div class="additions ml-[50px]">
+                                <h3 class="text-[1.625rem] mb-[1rem]">Замовлення</h3>
 
 
                                 <div class="grid grid-cols-8 border-[1px] border-gray-300 rounded-[10px]">
@@ -189,23 +146,13 @@
 
                                             <div class="text-red-600">Мереживна спідня білизна JENNY</div>
 
-                                            <div class="font-bold pr-[8px]">969 <span>грн</span></div>
-
+                                            <div class="font-bold mr-[50px]">969 <span>грн</span></div>
+                                            
                                         </div>
-                                        <div class="border-r-[1px] content-[''] h-[100px] "></div>
+                                        <div class="border-r-[1px] content-[''] h-[100px] ml-[50px]"></div>
                                         <div class="block pl-[1.25rem]">
 
-                                            <div class="plus-btn"><svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                    height="16" fill="currentColor" class="bi bi-plus-circle"
-                                                    viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z">
-                                                    </path>
-                                                    <path
-                                                        d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z">
-                                                    </path>
-                                                </svg></div>
-                                        </div>
+                                            
 
                                     </div>
 
@@ -243,6 +190,41 @@
                                                             </svg></div>
                                                     </div>
                                                     -->
+                                </div>
+                            </div>
+
+                            <div
+                                class="rounded-[15px] mt-[50px] bg-[#fff] border-[0.5px] border-gray-300 shadow-lg box-border mb-[1.5rem] p-[1rem]">
+                                <div class="pb-[0.625rem]">
+                                    <div class="items-center flex justify-between">
+                                       
+                                        <div class="value">
+                                            
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="items-center flex justify-between">
+                                        <div class="text-[#e3342f] text-[.875rem] capitalize">Ціна без знижки</div>
+                                        <div class="value">
+                                            <div class="product-card__price">
+                                                <div class="price"><del><span class="amount price-old">1320
+                                                            грн.</span></del></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <div class="text-[#000] font-[500] uppercase">До сплати</div>
+                                        <div class="value">
+                                            <div
+                                                class="text-[#231f20] flex flex-col text-[1.5rem] font-[700] whitespace-nowrap">
+                                                <div class="price total">890.00 грн.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="items-center flex flex-col"><button type="submit"
+                                        class="items-center bg-[#e3342f] border-[1px] border-red-600 rounded-[0.625rem] text-[#fff] cursor-pointer flex text-[1rem] font-[400] justify-center p-[0.875rem] no-underline w-[100%]">Оформити
+                                        замовлення</button>
                                 </div>
                             </div>
 
