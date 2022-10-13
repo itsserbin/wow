@@ -29,6 +29,11 @@ Route::get('/PaymentFirstPage', function (){
     return view('PaymentFirstPage');
 });
 
+//Sergey PaymentSecond Page
+Route::get('/PaymentSecondPage', function (){
+    return view('PaymentSecondPage');
+});
+
 
 
 Route::get('/test', function (){
