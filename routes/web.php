@@ -24,6 +24,13 @@ Route::get('/cardTest', function (){
     return view('cardTest');
 });
 
+//Sergey PaymentFirst Page
+Route::get('/PaymentFirstPage', function (){
+    return view('PaymentFirstPage');
+});
+
+
+
 Route::get('/test', function (){
     return view('test');
 });

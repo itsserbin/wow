@@ -8,10 +8,10 @@
                         <!--                        <img :src="logoApp" :alt="appName">-->
                     </a>
                 </div>
-                <div class="grow-0 shrink-0 basis-[auto] w-[72.2%] flex justify-center">
+                <div class="grow-0 shrink-0 basis-[auto] w-[63.2%] mx-auto flex justify-center">
                     <cart-icon-component :cart-route="cartRoute"></cart-icon-component>
                 </div>
-                <div class=" flex justify-end">
+                <div class=" flex justify-end mr-[10px]">
                     <div class=" max-w-[55px]" @click="setLangActiveClass">
                         <div class="relative whitespace-nowrap">
                             <div class="relative z-5">
@@ -28,7 +28,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="grow-0 shrink-0 basis-[auto] z-50 flex justift-end">
+                <div class="grow-0 shrink-0 basis-[auto] z-50 flex justift-end mr-[10px]">
                     <div class="relative !w-[25px] h-[18px] z-51  p-0  ease-[all 0.3s ease 0s]
                     before:bg-[#c4c4c4]
                       before:content-['']
