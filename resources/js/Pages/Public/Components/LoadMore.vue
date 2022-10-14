@@ -1,5 +1,6 @@
 <template>
-    <button class="
+    <div class="d-flex justify-content-center">
+        <button class="
                     cursor-pointer
                     w-[250px]
                     h-[50px]
@@ -8,10 +9,11 @@
                     text-bold uppercase
                     rounded-[10px]
                 "
-            type="button"
-    >
-        <span>{{ text }}</span>
-    </button>
+                type="button"
+        >
+            <span>{{ text }}</span>
+        </button>
+    </div>
 </template>
 
 <script setup>

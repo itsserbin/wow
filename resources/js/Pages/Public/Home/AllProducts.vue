@@ -8,7 +8,7 @@
                        :text-go-to-product-card="textGoToProductCard"
                        class="mb-5"
         ></product-cards>
-        <div class="flex-row flex justify-center" v-if="state.showLoadMore">
+        <div v-if="state.showLoadMore">
             <loader v-if="state.isLoadingMore"></loader>
             <LoadMore v-if="!state.isLoadingMore"  @click="fetch"/>
         </div>
