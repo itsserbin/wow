@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex justify-content-center">
+    <div class="flex justify-center">
         <button class="
                     cursor-pointer
                     w-[250px]
