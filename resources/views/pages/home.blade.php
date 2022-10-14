@@ -26,6 +26,7 @@
                       product-route="{{route('product')}}"
         ></new-products>
     </div>
+    @include('components.advantages')
     <div class="reviews">
         <all-reviews-carousel/>
     </div>

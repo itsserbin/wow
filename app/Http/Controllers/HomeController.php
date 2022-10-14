@@ -41,6 +41,7 @@ class HomeController extends Controller
         return view('pages.home', [
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
+            'advantages' => $this->advantagesRepository->getAllToPublic(),
         ]);
     }
 
