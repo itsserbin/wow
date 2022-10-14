@@ -1,6 +1,8 @@
 @extends('layouts.master')
 
 @section('content')
+    {{ Breadcrumbs::render('home.categories',$category) }}
+
     <div class="category-banners">
         <category-banners lang="{{app()->getLocale()}}"
                           id="{{$category->id}}"
