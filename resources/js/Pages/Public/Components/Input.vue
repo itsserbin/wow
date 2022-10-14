@@ -22,12 +22,15 @@ onMounted(() => {
            class="
                     text-[1rem]
                     border-[0.5px]
-                    border-red-600
+                    border-red-400
                     rounded-[10px]
                     box-border
                     mt-[0.75rem]
                     p-[1rem]
                     w-[100%]
+                    focus:border-red-600
+                    focus:ring-red-600
+
             "
     >
 </template>
