@@ -1,5 +1,5 @@
 <template>
-    <div class="shadow-lg">
+    <div class="shadow-lg anim_first">
         <div class="max-w-7xl mx-auto mt-2 ">
             <div class="flex justify-between items-center mx-auto">
                 <div class="">
@@ -12,26 +12,19 @@
                     <cart-icon-component :cart-route="cartRoute"></cart-icon-component>
                     
                 </div>
-                <div class=" flex justify-center items-center w-[9rem] ">
-                    <div class=" max-w-[55px]" @click="setLangActiveClass()">
+                <div class=" flex justify-center items-center w-[9rem] mob_position">
+                    <div class=" max-w-[55px]" >
                         <div class="relative whitespace-nowrap">
                             
-                        <button @click="langActiveClass = true" id="dropdownDefault" data-dropdown-toggle="dropdown" class="text-red-500 bg-white hover:bg-white focus:outline-none  font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-white  " type="button">UA<svg class="ml-2 w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
+                        <button @click="setLangActiveClass"
+                        class="text-red-500 bg-white hover:bg-white focus:outline-none  font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-white  " type="button">UA<svg class="ml-2 w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
                     <!-- Dropdown menu -->
-                    <div v-if="langActiveClass == true" id="dropdown" class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700" data-popper-reference-hidden="" data-popper-escaped="" data-popper-placement="bottom" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 10px);">
-                        <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
+                    <div v-if="state.langActiveClass" class=" z-10 w-[50px] bg-white rounded divide-y divide-gray-100 shadow " data-popper-reference-hidden="" data-popper-escaped="" data-popper-placement="bottom" style="position: absolute; inset: 0px auto auto 0px; margin-top: 25px; transform: translate(0px, 10px);">
+                        <ul class="py-1 text-sm text-red-600 dark:text-gray-200" aria-labelledby="dropdownDefault" >
                         <li>
-                            <a href="#" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+                            <a href="#" class="block py-2 text-red-600 px-4   dark:hover:text-red-600">RU</a>
                         </li>
-                        <li>
-                            <a href="#" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
-                        </li>
-                        <li>
-                            <a href="#" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
-                        </li>
-                        <li>
-                            <a href="#" class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign out</a>
-                        </li>
+                        
                         </ul>
                     </div>
 
@@ -87,7 +80,7 @@
             </div>
         </div>
 
-        <div class="burger-menu  animate__animated animate__fadeInDownBig  active flex flex-row justify-center fixed w-[100%] h-[100%] z-40 top-[0] left-0 overflow-scroll bg-[#161616]" v-if="state.showBurger">
+        <div class="burger-menu  animate__animated animate__fadeInDownBig   active flex flex-row justify-center fixed w-[100%] h-[100%] z-40 top-[0] left-0 overflow-scroll bg-[#161616] " v-if="state.showBurger" >
             <div class="menus  justify-center items-center flex mt-[30px]">
                 <nav class="menu">
                     <ul class="menu__list flex flex-col justify-center items-center mr-[20px]">
@@ -191,9 +184,22 @@ onMounted(() => {
     }
 })
 
+
+
+
+
+
+
+
 function showBurgerMenu() {
     state.value.showBurger = !state.value.showBurger;
+    
 }
+
+
+
+
+
 
 // function handleSCroll(event) {
 //     let header = document.querySelector(".header");
@@ -234,71 +240,6 @@ const props = defineProps([
 
 </script>
 <style>
-
-/* LINE INTO HEADER */
-.line{
-    position: relative;
-	color: #fff; /*задаём цвет ссылки*/
-	cursor: pointer;
-	line-height: 1; /*задаём высоту строки*/
-	text-decoration: none; /*убираем подчёркивание*/
-    
-}
-
-.line:after {
-	display: block;
-	position: absolute;
-	left: 0; /*изменить на right:0;, чтобы изменить направление подчёркивания */
-	width: 0;/*задаём длинну линии до наведения курсора*/
-	height: 2px; /*задаём ширину линии*/
-	background-color: #fff; /*задаём цвет линии*/
-	content: "";
-	transition: width 0.3s ease-out; /*задаём время анимации*/
-    
-}
-
-.line:hover:after,
-.line:focus:after {
-	width: 100%; /*устанавливаем значение 100% чтобы ссылка подчёркивалась полностью*/
-    
-}
-
-
-.active:active{
-    transition: height 0.3s ease-out;
-}
-
-
-
-.animate__fadeInDownBig {
-  --animate-duration: 0.7s;
-}
-
-
-.burger__sticks.active:before {
-    top: 4px;
-    transform: rotate(45deg);
-    transition: all .3s ease 0s;
-}
-
-.burger__sticks.active:after {
-    bottom: 12px;
-    transform: rotate(-45deg);
-    top: 1.2rem;
-    transition: all .3s ease 0s;
-
-}
-
-
-
-.burger-menu{
-    transition: all .3s ease 0s;
-}
-
-.burger__sticks.active span {
-    display: none;
-}
-
 
 
 
