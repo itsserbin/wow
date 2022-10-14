@@ -7,7 +7,7 @@
                     <div class="h-52">
                         <img :src="route('images.category',item.preview)"
                              :alt="lang === 'ru' ? item.title.ru : (lang === 'ua' ? item.title.ua : null)"
-                             class="h-full object-cover"
+                             class="h-full w-full object-cover"
                         >
                     </div>
 

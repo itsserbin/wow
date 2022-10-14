@@ -9,10 +9,10 @@ Route::prefix('images')->group(function () {
             ->name('images.banners.mobile');
 
         Route::get('table/{filename}', [ImagesController::class, 'tableBanner'])
-            ->name('images.table.mobile');
+            ->name('images.banners.table');
 
         Route::get('desktop/{filename}', [ImagesController::class, 'desktopBanner'])
-            ->name('images.desktop.mobile');
+            ->name('images.banners.desktop');
     });
 
     Route::prefix('products')->group(function () {

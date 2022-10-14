@@ -20,15 +20,15 @@
                 >
                     <picture>
                         <source media="(max-width: 568px)"
-                                :srcset="lang === 'ru' ? banner.image_mobile.ru : (lang === 'ua' ? banner.image_mobile.ua : null)"
+                                :srcset="route('images.banners.mobile',lang === 'ru' ? banner.image_mobile.ru : (lang === 'ua' ? banner.image_mobile.ua : null))"
                         >
                         <source
-                            :srcset="lang === 'ru' ? banner.image_table.ru : (lang === 'ua' ? banner.image_table.ua : null)"
+                            :srcset="route('images.banners.table',lang === 'ru' ? banner.image_table.ru : (lang === 'ua' ? banner.image_table.ua : null))"
                             media="(max-width: 991px)">
                         <source
-                            :srcset="lang === 'ru' ? banner.image_desktop.ru : (lang === 'ua' ? banner.image_desktop.ua : null)">
+                            :srcset="route('images.banners.table',lang === 'ru' ? banner.image_desktop.ru : (lang === 'ua' ? banner.image_desktop.ua : null))">
                         <img
-                            :srcset="lang === 'ru' ? banner.image_desktop.ru : (lang === 'ua' ? banner.image_desktop.ua : null)"
+                            :srcset="route('images.banners.desktop',lang === 'ru' ? banner.image_desktop.ru : (lang === 'ua' ? banner.image_desktop.ua : null))"
                             :alt="lang === 'ru' ? banner.title.ru : (lang === 'ua' ? banner.title.ua : null)"
                             class="w-full"
                         >
