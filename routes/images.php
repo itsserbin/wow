@@ -28,4 +28,7 @@ Route::prefix('images')->group(function () {
         Route::get('500/{filename}', [ImagesController::class, 'products500'])
             ->name('images.products.500');
     });
+
+    Route::get('category/{filename}', [ImagesController::class, 'category'])
+        ->name('images.category');
 });

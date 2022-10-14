@@ -43,6 +43,11 @@ class ImagesController extends Controller
         return $this->returnImage(ImagesPath::PRODUCT_IMAGE_500, $filename);
     }
 
+    public function category($filename): StreamedResponse
+    {
+        return $this->returnImage(ImagesPath::CATEGORY, $filename);
+    }
+
     public function returnImage($path, $filename): StreamedResponse
     {
         return Storage::disk('s3')->response($path . $filename);

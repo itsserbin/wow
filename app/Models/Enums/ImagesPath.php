@@ -12,4 +12,7 @@ class ImagesPath
     const PRODUCT_IMAGE_350 = '/products/350/';
     const PRODUCT_IMAGE_55 = '/products/55/';
     const PRODUCT_IMAGE_500 = '/products/500/';
+
+    const CATEGORY = '/categories/';
+
 }
