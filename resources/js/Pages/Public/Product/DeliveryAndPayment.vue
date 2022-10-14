@@ -1,8 +1,8 @@
 <template>
 <Accordion>
-    <transition name="fade">
+    
     <AccordionItem>
-       
+   
         <template #accordion-trigger>
             Доставка і оплата
         </template>
@@ -17,12 +17,12 @@
     <p class="mt-[1rem]"><strong>Важливо!</strong> Накладений платіж можливий лише з мінімальною
         передоплатою у зв'язку з військовим становищем.</p>
         </template>
-        
+    
     </AccordionItem>
-</transition>
-    <transition name="fade">
+
+    
     <AccordionItem>
-       
+    
         <template #accordion-trigger>
             Умови повернення та обміну товару
         </template>
@@ -32,9 +32,9 @@
     <p class="mt-[15px] mb-[15px]">Але! Ми завжди лояльні до наших клієнтів, тому у нас, на відміну від інших інтернет-магазинів, є обмін купальників, якщо вам не підійде розмір або колір, ви без проблем зможете обміняти його на іншу модель купальника! (Обмін робимо протягом 3-4х робочих днів після отримання товару)</p>
     <p>Повернення на категорію спідньої білизни немає!</p>
         </template>
-    
+       
     </AccordionItem>
-</transition>
+
 </Accordion>
 </template>
 
@@ -45,11 +45,5 @@ import AccordionItem from "@/Components/Accordion/AccordionItem.vue";
 
 
 <style>
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s ease;
-}
 
-.fade-enter-from, .fade-leave-to {
-  opacity: 0;
-}
 </style>
