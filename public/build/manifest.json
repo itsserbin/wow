@@ -1147,7 +1147,7 @@
     "src": "resources/js/Pages/Admin/app.css"
   },
   "resources/scss/app.scss": {
-    "file": "assets/app.58e63a89.css",
+    "file": "assets/app.9b4a5fa6.css",
     "src": "resources/scss/app.scss",
     "isEntry": true
   },
@@ -1156,7 +1156,7 @@
     "src": "resources/js/Pages/Public/app.css"
   },
   "resources/scss/public.scss": {
-    "file": "assets/public.ca0a98f4.css",
+    "file": "assets/public.0c27c1ea.css",
     "src": "resources/scss/public.scss",
     "isEntry": true
   }

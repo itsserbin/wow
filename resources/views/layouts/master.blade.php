@@ -17,9 +17,11 @@
     <main class="main">
         <div class="max-w-7xl mx-auto mt-20 px-3">
             @yield('content')
+            <div class="faq">
+                <faq-component lang="{{app()->getLocale()}}"/>
+            </div>
         </div>
     </main>
-
 </div>
 @vite('resources/js/Pages/Public/app.js')
 </body>
