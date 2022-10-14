@@ -1,7 +1,8 @@
 <template>
-    <section id="banners" class="banners mb-5" v-if="banners.length">
+    <section id="banners" class="banners mb-5" v-if="state.banners.length">
         <swiper
-            class="social-reviews-carousel"
+            v-if="state.banners.length"
+            class="main-banners"
             :slides-per-view="1"
             :space-between="0"
             :modules="modules"
@@ -14,7 +15,7 @@
             :lazy="true"
         >
 
-            <swiper-slide v-for="(banner,i) in banners" :key="i">
+            <swiper-slide v-for="(banner,i) in state.banners" :key="i">
                 <a :href="lang === 'ru' ? (banner.link.ru ? banner.link.ru : 'javascript:' ) : (lang === 'ua' ? (banner.link.ua ? banner.link.ua : 'javascript:') : 'javascript:')"
                 >
                     <picture>
@@ -29,7 +30,7 @@
                         <img
                             :srcset="lang === 'ru' ? banner.image_desktop.ru : (lang === 'ua' ? banner.image_desktop.ua : null)"
                             :alt="lang === 'ru' ? banner.title.ru : (lang === 'ua' ? banner.title.ua : null)"
-                            class="w-100"
+                            class="w-full"
                         >
                     </picture>
                 </a>
@@ -39,45 +40,24 @@
     </section>
 </template>
 
-<script>
+<script setup>
 import {Lazy, Autoplay, Navigation} from "swiper";
+import {onMounted, ref} from "vue";
 
-export default {
-    props: {
-        lang: String,
-    },
-    setup() {
-        return {
-            modules: [Lazy, Autoplay, Navigation],
-        };
-    },
-    data() {
-        return {
-            banners: [],
-            settings: {
-                fade: true,
-                dots: true,
-                arrows: true,
-                infinite: true,
-                autoplay: true,
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                focusOnSelect: false,
-                responsive: [
-                    {
-                        breakpoint: 768,
-                        settings: {
-                            arrows: false,
-                        }
-                    }
-                ]
-            }
-        }
-    },
-    created() {
-        axios.get('/api/v1/banners/all')
-            .then(({data}) => this.banners = data.result)
-            .catch((response) => console.log(response));
-    },
-}
+defineProps(['lang']);
+
+const modules = [Lazy, Autoplay, Navigation];
+
+const state = ref({
+    banners: [],
+})
+
+onMounted(() => {
+    axios.get('/api/v1/banners/all')
+        .then(({data}) => {
+            state.value.banners = data.result;
+            console.log(state.value.banners)
+        })
+        .catch((response) => console.log(response));
+})
 </script>

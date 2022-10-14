@@ -27,8 +27,8 @@
                     placeholder="Оберіть категорії"
                     class="mb-5"
                     track-by="id"
-                    :close-on-select="true"
                     :searchable="true"
+                    :multiple="true"
                 />
             </div>
 
@@ -47,14 +47,6 @@
             </div>
 
             <div class="block">
-                <!--                <ImageCard v-if="product.preview"-->
-                <!--                           :image="'/storage/images/55/' + product.preview"-->
-                <!--                           :alt="state.activeLang === 'ru' ? product.h1.ru :-->
-                <!--                                 (state.activeLang === 'ua' ? product.h1.ua : null)-->
-                <!--                           "-->
-                <!--                           :destroy-icon="true"-->
-                <!--                           @destroyImage="destroyPreview"-->
-                <!--                />-->
                 <upload-input-component :multiple="false"
                                         id="uploadCategoryPreview"
                                         label="Головне зображення"
@@ -76,6 +68,7 @@
                     track-by="id"
                     :close-on-select="false"
                     :searchable="true"
+                    :multiple="true"
                 />
             </div>
 

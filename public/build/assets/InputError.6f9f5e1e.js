@@ -1,0 +1,1 @@
+import{Z as s,$ as t,Q as a,K as r,L as o,M as c}from"./_plugin-vue_export-helper.4dd23699.js";const n={class:"text-sm text-red-600"},p={__name:"InputError",props:["message"],setup(e){return(i,m)=>s((a(),r("div",null,[o("p",n,c(e.message),1)],512)),[[t,e.message]])}};export{p as _};

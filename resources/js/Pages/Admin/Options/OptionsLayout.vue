@@ -8,6 +8,8 @@
             <div class="md:col-span-1">
                 <Sidebar :items="items" class="mb-5"/>
 
+                <Sidebar :items="items3" class="mb-5"/>
+
                 <Sidebar :items="items2"/>
             </div>
             <div class="w-full md:col-span-4">
@@ -22,31 +24,38 @@
 <script setup>
 import Sidebar from '@/Components/Sidebar.vue';
 
-import {ref} from "vue";
+import {reactive} from "vue";
 
 defineProps(['title']);
 
-const items = ref([
+const items = reactive([
     {
-        title: 'Основні',
+        title: 'Головна',
         href: route('admin.options.index')
     },
     {
-        title: 'Кольори',
-        href: route('admin.options.colors.index')
+        title: 'Основні',
+        href: route('admin.options.main')
     },
     {
-        title: 'Розміри',
-        href: route('admin.options.sizes.index')
+        title: 'Скрипти',
+        href: route('admin.options.scripts')
     },
     {
-        title: 'Постачальники',
-        href: route('admin.providers.index')
+        title: 'Банери',
+        href: route('admin.options.banners.index')
     },
+    {
+        title: 'Переваги',
+        href: route('admin.options.advantages.index')
+    },
+    {
+        title: 'FAQ',
+        href: route('admin.options.faqs.index')
+    },
+]);
 
-])
-
-const items2 = ref([
+const items2 = reactive([
     {
         title: 'Користувачі',
         href: route('admin.users.index')
@@ -58,6 +67,29 @@ const items2 = ref([
     {
         title: 'Права',
         href: route('admin.permissions.index')
+    }
+]);
+
+const items3 = reactive([
+    {
+        title: 'Кольори',
+        href: route('admin.options.colors.index')
     },
-])
+    {
+        title: 'Розміри',
+        href: route('admin.options.sizes.index')
+    },
+    {
+        title: 'Постачальники',
+        href: route('admin.options.providers.index')
+    },
+    {
+        title: 'Промо-коди',
+        href: route('admin.options.promo-codes.index')
+    },
+    {
+        title: 'XML',
+        href: route('admin.options.xmls.index')
+    },
+]);
 </script>

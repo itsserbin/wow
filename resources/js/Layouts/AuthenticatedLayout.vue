@@ -66,6 +66,16 @@ onMounted(() => {
                                     Зображення
                                 </NavLink>
 
+                                <NavLink :href="route('admin.pages.index')"
+                                         :active="route().current('admin.pages.index')">
+                                    Сторінки
+                                </NavLink>
+
+                                <NavLink :href="route('admin.callbacks.index')"
+                                         :active="route().current('admin.callbacks.index')">
+                                    Callbacks
+                                </NavLink>
+
                                 <NavLink :href="route('admin.statistics.index')"
                                          :active="route().current('admin.statistics.index')">
                                     Статистика
@@ -158,6 +168,16 @@ onMounted(() => {
                         <ResponsiveNavLink :href="route('admin.images.index')"
                                            :active="route().current('admin.images.index')">
                             Зображення
+                        </ResponsiveNavLink>
+
+                        <ResponsiveNavLink :href="route('admin.pages.index')"
+                                           :active="route().current('admin.pages.index')">
+                            Сторінки
+                        </ResponsiveNavLink>
+
+                        <ResponsiveNavLink :href="route('admin.callbacks.index')"
+                                           :active="route().current('admin.callbacks.index')">
+                            Callback
                         </ResponsiveNavLink>
 
                         <ResponsiveNavLink :href="route('admin.statistics.index')"

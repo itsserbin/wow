@@ -7,14 +7,17 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title')</title>
     @vite('resources/scss/public.scss')
+    @routes
 </head>
 <body>
 <div id="app">
     <header class="w-[100%] fixed top-0 z-10 bg-[#fff]">
-        <header-component/>
+        <header-component></header-component>
     </header>
     <main class="main">
-        @yield('content')
+        <div class="max-w-7xl mx-auto mt-20 px-3">
+            @yield('content')
+        </div>
     </main>
 
 </div>

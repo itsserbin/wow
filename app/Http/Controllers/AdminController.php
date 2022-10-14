@@ -15,6 +15,11 @@ class AdminController extends Controller
         parent::__construct();
     }
 
+    public function callbacks(): Response
+    {
+        return Inertia::render('Callbacks/Index');
+    }
+
     public function users(): Response
     {
         return Inertia::render('Options/Users/Index');
@@ -23,6 +28,11 @@ class AdminController extends Controller
     public function products(): Response
     {
         return Inertia::render('Products/Index');
+    }
+
+    public function pages(): Response
+    {
+        return Inertia::render('Pages/Index');
     }
 
     public function categories(): Response
@@ -56,6 +66,41 @@ class AdminController extends Controller
     public function options(): Response
     {
         return Inertia::render('Options/Index');
+    }
+
+    public function optionsMain(): Response
+    {
+        return Inertia::render('Options/Main/Index');
+    }
+
+    public function optionsScripts(): Response
+    {
+        return Inertia::render('Options/Scripts/Index');
+    }
+
+    public function optionsBanners(): Response
+    {
+        return Inertia::render('Options/Banners/Index');
+    }
+
+    public function optionsFaqs(): Response
+    {
+        return Inertia::render('Options/Faqs/Index');
+    }
+
+    public function optionsAdvantages(): Response
+    {
+        return Inertia::render('Options/Advantages/Index');
+    }
+
+    public function optionsPromoCodes(): Response
+    {
+        return Inertia::render('Options/PromoCodes/Index');
+    }
+
+    public function optionsXmls(): Response
+    {
+        return Inertia::render('Options/Xmls/Index');
     }
 
     public function colors(): Response

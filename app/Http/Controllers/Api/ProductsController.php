@@ -76,4 +76,36 @@ class ProductsController extends BaseController
             'result' => $result,
         ]);
     }
+
+    public function getBestSelling(): JsonResponse
+    {
+        return $this->returnResponse([
+            'success' => true,
+            'result' => $this->productsRepository->getBestSelling(),
+        ]);
+    }
+
+    public function getNewProducts(): JsonResponse
+    {
+        return $this->returnResponse([
+            'success' => true,
+            'result' => $this->productsRepository->getNewProducts(),
+        ]);
+    }
+
+    public function getWhereCategorySlug($slug): JsonResponse
+    {
+        return $this->returnResponse([
+            'success' => true,
+            'result' => $this->productsRepository->getWhereCategorySlugToPublic($slug, 12),
+        ]);
+    }
+
+    public function getRecommendProducts(): JsonResponse
+    {
+        return $this->returnResponse([
+            'success' => true,
+            'result' => $this->productsRepository->getRecommendProducts(),
+        ]);
+    }
 }

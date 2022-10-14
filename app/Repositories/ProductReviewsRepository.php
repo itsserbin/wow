@@ -18,13 +18,13 @@ class ProductReviewsRepository extends CoreRepository
 
     public function carouselList($limit = 10)
     {
-        return $this->model->where('status', 1)->orderBy('created_at', 'DESC')->limit($limit)->get();
+        return $this->model->where('published', 1)->orderBy('created_at', 'DESC')->limit($limit)->get();
     }
 
     public function paginateList($perPage = 15)
     {
         return $this->model
-            ->where('status', 1)
+            ->where('published', 1)
             ->orderBy('created_at', 'DESC')
             ->with(['products' => function ($q) {
                 $q->select('id', 'h1');

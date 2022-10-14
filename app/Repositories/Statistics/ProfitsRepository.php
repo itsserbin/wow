@@ -119,9 +119,50 @@ class ProfitsRepository extends CoreRepository
             }
         }
 
-        return $model
-            ->orderBy('date', 'desc')
-            ->get();
+        $labels = [];
+        $turnover = [];
+        $marginality = [];
+        $clear_profit = [];
+        $sale_of_air_sum = [];
+        $average_marginality = [];
+        foreach ($model->orderBy('date', 'asc')->get() as $item) {
+            array_push($turnover, $item->turnover);
+            array_push($marginality, $item->marginality);
+            array_push($clear_profit, $item->clear_profit);
+            array_push($sale_of_air_sum, $item->sale_of_air_sum);
+            array_push($average_marginality, $item->average_marginality);
+            array_push($labels, DateTime::createFromFormat("Y-m-d", $item->date)->format('d.m.Y'));
+        }
+        return [
+            'labels' => $labels,
+            'datasets' => [
+                [
+                    'label' => 'Оберт',
+                    'borderColor' => ['#3498DB'],
+                    'data' => $turnover
+                ],
+                [
+                    'label' => 'Маржа',
+                    'borderColor' => ['#F4D03F'],
+                    'data' => $marginality
+                ],
+                [
+                    'label' => 'Чистий прибуток',
+                    'borderColor' => ['#58D68D'],
+                    'data' => $clear_profit
+                ],
+                [
+                    'label' => 'Продажі повітря',
+                    'borderColor' => ['#E74C3C'],
+                    'data' => $sale_of_air_sum
+                ],
+                [
+                    'label' => 'Середня маржа',
+                    'borderColor' => ['#A569BD'],
+                    'data' => $average_marginality
+                ],
+            ]
+        ];
 
     }
 

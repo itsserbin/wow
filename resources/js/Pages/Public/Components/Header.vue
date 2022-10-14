@@ -3,7 +3,7 @@
         <div class="max-w-7xl mx-auto mt-2 ">
             <div class="flex justify-between items-center">
                 <div class=" header__logo logo  ">
-                    <a :href="indexRoute">
+                    <a :href="route('home')">
                         <img src="https://dabango.store/storage/img/content/logo.png" :alt="appName" class="w-[55px]">
                         <!--                        <img :src="logoApp" :alt="appName">-->
                     </a>
@@ -28,23 +28,26 @@
                         </div>
                     </div>
                 </div>
-                <div class="grow-0 shrink-0 basis-[auto] z-50 flex justift-end mr-[10px]  ">
-                    <div class=" relative !w-[25px] h-[18px] z-51  p-0  ease-[all 0.3s ease 0s]
-                    before:bg-[#c4c4c4]
-                      before:content-['']
-                      before:h-[2px]
-                      before:absolute
-                      before:w-[100%]
-                      after:bg-[#c4c4c4]
-                      after:content-['']
-                      after:h-[2px]
-                      after:absolute
-                      after:w-[100%]
-                      before:mt-[15px]
-                      
-                     
-                      
-                    " 
+                <div class="grow-0 shrink-0 basis-[auto] z-50 flex justify-end mr-[10px]  ">
+                    <div class="
+                                relative
+                                !w-[25px]
+                                h-[18px]
+                                z-51
+                                p-0
+                                ease-[all 0.3s ease 0s]
+                                before:bg-[#c4c4c4]
+                                before:content-['']
+                                before:h-[2px]
+                                before:absolute
+                                before:w-[100%]
+                                after:bg-[#c4c4c4]
+                                after:content-['']
+                                after:h-[2px]
+                                after:absolute
+                                after:w-[100%]
+                                before:mt-[15px]
+                         "
                          @click="showBurgerMenu"
                          :class="{'active': state.showBurger}"
                     >
@@ -217,7 +220,7 @@ const props = defineProps([
 	cursor: pointer;
 	line-height: 1; /*задаём высоту строки*/
 	text-decoration: none; /*убираем подчёркивание*/
-    
+
 }
 
 .line:after {

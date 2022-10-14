@@ -23,7 +23,7 @@
 
 <script setup>
 import Modal from '@/Components/Modal.vue';
-import UploadInput from '@/Components/Form/UploadInput.vue';
+import UploadInput from '@/Components/Form/UploadImagesInput.vue';
 
 const props = defineProps([
     'isActive',

@@ -42,7 +42,7 @@ class CategoriesController extends BaseController
      */
     public function list(): JsonResponse
     {
-        $result = $this->categoriesRepository->getAll();
+        $result = $this->categoriesRepository->list();
 
         return $this->returnResponse([
             'success' => true,

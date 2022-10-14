@@ -29,77 +29,62 @@ class CostsRepository extends CoreRepository
 
     public function getAllWithPaginate($data = null)
     {
+        $model = $this->model->select(
+            'id',
+            'date',
+            'cost_category_id',
+            'quantity',
+            'sum',
+            'total',
+            'comment',
+            'user_id',
+        );
+
         if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data) && array_key_exists('filter', $data)) {
-
-            $startDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start'])->format('Y-m-d');
-            $endDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])->format('Y-m-d');
-
-            $model = $this->model::whereBetween('date', [$startDate, $endDate])
-                ->whereHas('category', function ($q) use ($data) {
-                    $q->where('id', $data['filter']);
-                });
-        } else if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
-
-            $startDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start'])->format('Y-m-d');
-            $endDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])->format('Y-m-d');
-
-            $model = $this->model::whereBetween('date', [$startDate, $endDate]);
+            $model->whereBetween('date', [
+                $this->dateFormatFromTimepicker($data['date_start']),
+                $this->dateFormatFromTimepicker($data['date_end'])
+            ])->whereHas('category', function ($q) use ($data) {
+                $q->where('id', $data['filter']);
+            });
+        } elseif (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
+            $model->whereBetween('date', [
+                $this->dateFormatFromTimepicker($data['date_start']),
+                $this->dateFormatFromTimepicker($data['date_end'])
+            ]);
         } elseif (array_key_exists('last', $data) && array_key_exists('filter', $data)) {
-            $data['last'] == 'week' ? $model = $this->model::whereBetween('date',
-                [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
-                ->where('cost_category_id', $data['filter']) :
-                ($data['last'] == 'two-week' ? $model = $this->model::whereBetween('date',
-                    [Carbon::now()->subWeek()->startOfWeek(), Carbon::now()->endOfWeek()])
-                    ->where('cost_category_id', $data['filter']) :
-                    ($data['last'] == 'one-month' ? $model = $this->model::whereBetween('date',
-                        [Carbon::now()->startOfMonth(), Carbon::now()->endOfWeek()])
-                        ->where('cost_category_id', $data['filter']) :
-                        $model = $this->model::where('cost_category_id', $data['filter'])));
+            if ($data['last'] == 'week') {
+                $model->whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                    ->where('cost_category_id', $data['filter']);
+            } elseif ($data['last'] == 'two-week') {
+                $model->whereBetween('date', [Carbon::now()->subWeek()->startOfWeek(), Carbon::now()->endOfWeek()])
+                    ->where('cost_category_id', $data['filter']);
+            } elseif ($data['last'] == 'one-month') {
+                $model->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfWeek()])
+                    ->where('cost_category_id', $data['filter']);
+            } else {
+                $model->where('cost_category_id', $data['filter']);
+            }
         } elseif (array_key_exists('last', $data)) {
-            $data['last'] == 'week' ? $model = $this->model::whereBetween('date',
-                [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]) :
-                ($data['last'] == 'two-week' ? $model = $this->model::whereBetween('date',
-                    [Carbon::now()->subWeek()->startOfWeek(), Carbon::now()->endOfWeek()]) :
-                    ($data['last'] == 'one-month' ? $model = $this->model::whereBetween('date',
-                        [Carbon::now()->startOfMonth(), Carbon::now()->endOfWeek()]) :
-                        $model = $this->model
-                    )
-                );
+            if ($data['last'] == 'week') {
+                $model->whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
+            } elseif ($data['last'] == 'two-week') {
+                $model->whereBetween('date', [Carbon::now()->subWeek()->startOfWeek(), Carbon::now()->endOfWeek()]);
+            } elseif ($data['last'] == 'one-month') {
+                $model->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfWeek()]);
+            }
         } elseif (array_key_exists('filter', $data)) {
-            $model = $this->model::where('cost_category_id', $data['filter']);
-        } else {
-            $model = $this->model;
+            $model->where('cost_category_id', $data['filter']);
         }
 
         if (array_key_exists('sort', $data) && array_key_exists('param', $data)) {
-            return $model->select(
-                'id',
-                'date',
-                'cost_category_id',
-                'quantity',
-                'sum',
-                'total',
-                'comment',
-                'user_id',
-            )
-                ->with('user', 'category')
-                ->orderBy($data['sort'], $data['param'])
-                ->paginate(15);
+            $model->orderBy($data['sort'], $data['param']);
         } else {
-            return $model->select(
-                'id',
-                'date',
-                'cost_category_id',
-                'quantity',
-                'sum',
-                'total',
-                'comment',
-                'user_id',
-            )
-                ->with('user', 'category')
-                ->orderBy('date', 'desc')
-                ->paginate(15);
+            $model->orderBy('date', 'desc');
         }
+
+        return $model->with('user', 'category')->paginate(15);
+
     }
 
     public function generalStatistic($data = null)
@@ -107,47 +92,46 @@ class CostsRepository extends CoreRepository
         $costCategoriesRepository = new CostCategoriesRepository();
         $list = $costCategoriesRepository->list();
 
+        $model = $this->model;
+
         if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data) && array_key_exists('filter', $data)) {
-            $startDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start'])->format('Y-m-d');
-            $endDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])->format('Y-m-d');
-
-            $model = $this->model::whereBetween('date', [$startDate, $endDate])
-                ->whereHas('category', function ($q) use ($data) {
-                    $q->where('id', $data['filter']);
-                })->orderBy('date', 'desc')
-                ->get();;
+            $model->whereBetween('date', [
+                $this->dateFormatFromTimepicker($data['date_start']),
+                $this->dateFormatFromTimepicker($data['date_end'])
+            ])->whereHas('category', function ($q) use ($data) {
+                $q->where('id', $data['filter']);
+            });
         } elseif (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
-            $startDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start'])->format('Y-m-d');
-            $endDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])->format('Y-m-d');
-
-            $model = $this->model::whereBetween('date', [$startDate, $endDate])
-                ->orderBy('date', 'desc')
-                ->get();
+            $model->whereBetween('date', [
+                $this->dateFormatFromTimepicker($data['date_start']),
+                $this->dateFormatFromTimepicker($data['date_end'])
+            ]);
         } elseif (array_key_exists('last', $data) && array_key_exists('filter', $data)) {
-            $data['last'] == 'week' ? $model = $this->model::whereBetween('date',
-                [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
-                ->where('cost_category_id', $data['filter'])->get() :
-                ($data['last'] == 'two-week' ? $model = $this->model::whereBetween('date',
-                    [Carbon::now()->subWeek()->startOfWeek(), Carbon::now()->endOfWeek()])
-                    ->where('cost_category_id', $data['filter'])->get() :
-                    ($data['last'] == 'one-month' ? $model = $this->model::whereBetween('date',
-                        [Carbon::now()->startOfMonth(), Carbon::now()->endOfWeek()])
-                        ->where('cost_category_id', $data['filter'])->get() :
-                        $model = $this->model::where('cost_category_id', $data['filter'])->get()));
+            if ($data['last'] == 'week') {
+                $model->whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                    ->where('cost_category_id', $data['filter']);
+            } elseif ($data['last'] == 'two-week') {
+                $model->whereBetween('date', [Carbon::now()->subWeek()->startOfWeek(), Carbon::now()->endOfWeek()])
+                    ->where('cost_category_id', $data['filter']);
+            } elseif ($data['last'] == 'one-month') {
+                $model->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfWeek()])
+                    ->where('cost_category_id', $data['filter']);
+            } else {
+                $model->where('cost_category_id', $data['filter']);
+            }
         } elseif (array_key_exists('last', $data)) {
-            $data['last'] == 'week' ? $model = $this->model::whereBetween('date',
-                [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->get() :
-                ($data['last'] == 'two-week' ? $model = $this->model::whereBetween('date',
-                    [Carbon::now()->subWeek()->startOfWeek(), Carbon::now()->endOfWeek()])->get() :
-                    ($data['last'] == 'one-month' ? $model = $this->model::whereBetween('date',
-                        [Carbon::now()->startOfMonth(), Carbon::now()->endOfWeek()])->get() :
-                        $model = $this->model::all()));
+            if ($data['last'] == 'week') {
+                $model->whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
+            } elseif ($data['last'] == 'two-week') {
+                $model->whereBetween('date', [Carbon::now()->subWeek()->startOfWeek(), Carbon::now()->endOfWeek()]);
+            } elseif ($data['last'] == 'one-month') {
+                $model->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfWeek()]);
+            }
         } elseif (array_key_exists('filter', $data)) {
-            $model = $this->model::where('cost_category_id', $data['filter'])
-                ->orderBy('date', 'desc')->get();
-        } else {
-            $model = $this->model::orderBy('date', 'desc')->get();
+            $model->where('cost_category_id', $data['filter']);
         }
+
+        $model = $model->get();
         $result = [];
         $result['Всего'] = $model->sum('total');
 
@@ -163,50 +147,63 @@ class CostsRepository extends CoreRepository
 
     public function getAllForChart($data = null)
     {
+        $model = $this->model->select(
+            'date',
+            'total'
+        );
         if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data) && array_key_exists('filter', $data)) {
-            $startDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start'])->format('Y-m-d');
-            $endDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])->format('Y-m-d');
-
-            $model = $this->model::whereBetween('date', [$startDate, $endDate])
-                ->whereHas('category', function ($q) use ($data) {
-                    $q->where('id', $data['filter']);
-                })->orderBy('date', 'desc')
-                ->get();
+            $model->whereBetween('date', [
+                $this->dateFormatFromTimepicker($data['date_start']),
+                $this->dateFormatFromTimepicker($data['date_end'])
+            ])->whereHas('category', function ($q) use ($data) {
+                $q->where('id', $data['filter']);
+            })->orderBy('date', 'desc');
         } else if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
-            $startDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start'])->format('Y-m-d');
-            $endDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])->format('Y-m-d');
-
-            $model = $this->model::whereBetween('date', [$startDate, $endDate])->get();
+            $model->whereBetween('date', [
+                $this->dateFormatFromTimepicker($data['date_start']),
+                $this->dateFormatFromTimepicker($data['date_end'])
+            ]);
         } elseif (array_key_exists('last', $data) && array_key_exists('filter', $data)) {
-            $data['last'] == 'week' ? $model = $this->model::whereBetween('date',
-                [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
-                ->where('cost_category_id', $data['filter'])->get() :
-                ($data['last'] == 'two-week' ? $model = $this->model::whereBetween('date',
-                    [Carbon::now()->subWeek()->startOfWeek(), Carbon::now()->endOfWeek()])
-                    ->where('cost_category_id', $data['filter'])->get() :
-                    ($data['last'] == 'one-month' ? $model = $this->model::whereBetween('date',
-                        [Carbon::now()->startOfMonth(), Carbon::now()->endOfWeek()])
-                        ->where('cost_category_id', $data['filter'])->get() :
-                        $model = $this->model::where('cost_category_id', $data['filter'])->get()));
+            if ($data['last'] == 'week') {
+                $model->whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+                    ->where('cost_category_id', $data['filter']);
+            } elseif ($data['last'] == 'two-week') {
+                $model->whereBetween('date', [Carbon::now()->subWeek()->startOfWeek(), Carbon::now()->endOfWeek()])
+                    ->where('cost_category_id', $data['filter']);
+            } elseif ($data['last'] == 'one-month') {
+                $model->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfWeek()])
+                    ->where('cost_category_id', $data['filter']);
+            } else {
+                $model->where('cost_category_id', $data['filter']);
+            }
         } elseif (array_key_exists('last', $data)) {
-            $data['last'] == 'week' ? $model = $this->model::whereBetween('date',
-                [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->get() :
-                ($data['last'] == 'two-week' ? $model = $this->model::whereBetween('date',
-                    [Carbon::now()->subWeek()->startOfWeek(), Carbon::now()->endOfWeek()])->get() :
-                    ($data['last'] == 'one-month' ? $model = $this->model::whereBetween('date',
-                        [Carbon::now()->startOfMonth(), Carbon::now()->endOfWeek()])->get() :
-                        $model = $this->model::all()));
+            if ($data['last'] == 'week') {
+                $model->whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
+            } elseif ($data['last'] == 'two-week') {
+                $model->whereBetween('date', [Carbon::now()->subWeek()->startOfWeek(), Carbon::now()->endOfWeek()]);
+            } elseif ($data['last'] == 'one-month') {
+                $model->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfWeek()]);
+            }
         } elseif (array_key_exists('filter', $data)) {
-            $model = $this->model::where('cost_category_id', $data['filter'])->orderBy('date', 'desc')->get();
-        } else {
-            $model = $this->model::all();
+            $model->where('cost_category_id', $data['filter']);
         }
 
+        $labels = [];
         $result = [];
-        foreach ($model as $item) {
-            array_push($result, ['date' => $item->date, 'total' => $this->model::whereDate('date', $item->date)->sum('total')]);
+        foreach ($model->orderBy('date', 'asc')->groupBy('date')->get() as $item) {
+            array_push($result, $this->model::whereDate('date', $item->date)->sum('total'));
+            array_push($labels, $item->date->format('d.m.Y'));
         }
-        return $result;
+        return [
+            'labels' => $labels,
+            'datasets' => [
+                [
+                    'label' => 'Витрати',
+                    'borderColor' => ['#3498DB'],
+                    'data' => $result
+                ]
+            ]
+        ];
     }
 
     public function create($data)

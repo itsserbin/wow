@@ -48,7 +48,7 @@ import OptionsLayout from '@/Pages/Admin/Options/OptionsLayout.vue'
 const swal = inject('$swal')
 const can = inject('$can');
 
-const item = ({
+const item = reactive({
     name: null,
     hex: null,
 })

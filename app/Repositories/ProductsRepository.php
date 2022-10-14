@@ -89,7 +89,7 @@ class ProductsRepository extends CoreRepository
             ->paginate($perPage);
     }
 
-    public function getWhereCategorySlugInProduction($slug, $perPage = null)
+    public function getWhereCategorySlugToPublic($slug, $perPage = 15)
     {
         $columns = [
             'id',
@@ -257,7 +257,7 @@ class ProductsRepository extends CoreRepository
         $colorItems = [];
         if (count($data['colors'])) {
             foreach ($data['colors'] as $color) {
-                $colorItems[] += $color['id'];
+                array_push($colorItems,$color['id']);
             }
         }
         $model->colors()->sync($colorItems);
@@ -265,7 +265,7 @@ class ProductsRepository extends CoreRepository
         $sizeItems = [];
         if (count($data['sizes'])) {
             foreach ($data['sizes'] as $size) {
-                $sizeItems[] += $size['id'];
+                array_push($sizeItems, $size['id']);
             }
         }
         $model->sizes()->sync($sizeItems);
@@ -347,8 +347,7 @@ class ProductsRepository extends CoreRepository
         ];
 
         return $this
-            ->startConditions()
-            ->where('published', 1)
+            ->model::where('published', 1)
             ->select($columns)
             ->orderBy('total_sales', 'desc')
             ->paginate($perPage);
@@ -367,8 +366,7 @@ class ProductsRepository extends CoreRepository
         ];
 
         return $this
-            ->startConditions()
-            ->where('published', 1)
+            ->model::where('published', 1)
             ->select($columns)
             ->orderBy('total_sales', 'desc')
             ->limit(10)
@@ -388,8 +386,7 @@ class ProductsRepository extends CoreRepository
         ];
 
         return $this
-            ->startConditions()
-            ->where('published', 1)
+            ->model::where('published', 1)
             ->select($columns)
             ->orderBy('created_at', 'desc')
             ->limit(8)

@@ -44,11 +44,10 @@ class OrdersStatisticsRepository extends CoreRepository
         );
 
         if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
-
-            $startDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start'])->format('Y-m-d');
-            $endDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])->format('Y-m-d');
-
-            $model->whereBetween('date', [$startDate, $endDate]);
+            $model->whereBetween('date', [
+                $this->dateFormatFromTimepicker($data['date_start']),
+                $this->dateFormatFromTimepicker($data['date_end'])
+            ]);
         } elseif (array_key_exists('last', $data)) {
             if ($data['last'] == 'week') {
                 $model->whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
@@ -69,7 +68,7 @@ class OrdersStatisticsRepository extends CoreRepository
 
         if (array_key_exists('sort', $data) && array_key_exists('param', $data)) {
             $model->orderBy($data['sort'], $data['param']);
-        }else {
+        } else {
             $model->orderBy('date', 'desc');
         }
 
@@ -97,10 +96,10 @@ class OrdersStatisticsRepository extends CoreRepository
         );
 
         if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
-            $startDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start'])->format('Y-m-d');
-            $endDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])->format('Y-m-d');
-
-            $model->whereBetween('date', [$startDate, $endDate]);
+            $model->whereBetween('date', [
+                $this->dateFormatFromTimepicker($data['date_start']),
+                $this->dateFormatFromTimepicker($data['date_end'])
+            ]);
         } elseif (array_key_exists('last', $data)) {
             if ($data['last'] == 'week') {
                 $model->whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
@@ -146,10 +145,10 @@ class OrdersStatisticsRepository extends CoreRepository
         );
 
         if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
-            $startDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start'])->format('Y-m-d');
-            $endDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])->format('Y-m-d');
-
-            $model->whereBetween('date', [$startDate, $endDate]);
+            $model->whereBetween('date', [
+                $this->dateFormatFromTimepicker($data['date_start']),
+                $this->dateFormatFromTimepicker($data['date_end'])
+            ]);
         } elseif (array_key_exists('last', $data)) {
             if ($data['last'] == 'week') {
                 $model->whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
@@ -188,11 +187,10 @@ class OrdersStatisticsRepository extends CoreRepository
         );
 
         if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
-
-            $startDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start'])->format('Y-m-d');
-            $endDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])->format('Y-m-d');
-
-            $model->whereBetween('date', [$startDate, $endDate]);
+            $model->whereBetween('date', [
+                $this->dateFormatFromTimepicker($data['date_start']),
+                $this->dateFormatFromTimepicker($data['date_end'])
+            ]);
         } elseif (array_key_exists('last', $data)) {
             if ($data['last'] == 'week') {
                 $model->whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
@@ -211,9 +209,43 @@ class OrdersStatisticsRepository extends CoreRepository
             }
         }
 
-        return $model
-            ->orderBy('date', 'desc')
-            ->get();
+        $labels = [];
+        $applications = [];
+        $completed = [];
+        $refunds = [];
+        $cancel = [];
+        foreach ($model->orderBy('date', 'asc')->get() as $item) {
+            array_push($applications, $item->applications);
+            array_push($completed, $item->completed);
+            array_push($refunds, $item->refunds);
+            array_push($cancel, $item->cancel);
+            array_push($labels, DateTime::createFromFormat("Y-m-d", $item->date)->format('d.m.Y'));
+        }
+        return [
+            'labels' => $labels,
+            'datasets' => [
+                [
+                    'label' => 'Всего заявок',
+                    'borderColor' => ['#3498DB'],
+                    'data' => $applications
+                ],
+                [
+                    'label' => 'Выполненные',
+                    'borderColor' => ['#A569BD'],
+                    'data' => $completed
+                ],
+                [
+                    'label' => 'Возвраты',
+                    'borderColor' => ['#45B39D'],
+                    'data' => $refunds
+                ],
+                [
+                    'label' => 'Отмененные',
+                    'borderColor' => ['#F4D03F'],
+                    'data' => $refunds
+                ],
+            ]
+        ];
 
     }
 

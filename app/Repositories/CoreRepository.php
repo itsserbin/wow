@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use DateTime;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Application;
 
@@ -24,4 +25,9 @@ abstract class CoreRepository
      * @return mixed
      */
     abstract protected function getModelClass();
+
+    public function dateFormatFromTimepicker($value)
+    {
+        return DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $value)->format('Y-m-d');
+    }
 }

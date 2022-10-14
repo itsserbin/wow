@@ -1,10 +1,17 @@
 <?php
 
+use App\Http\Controllers\Api\AdvantagesController;
+use App\Http\Controllers\Api\BannersController;
+use App\Http\Controllers\Api\CallbacksController;
 use App\Http\Controllers\Api\CategoriesController;
 use App\Http\Controllers\Api\ColorsController;
+use App\Http\Controllers\Api\FaqsController;
 use App\Http\Controllers\Api\ImagesController;
+use App\Http\Controllers\Api\OptionsController;
 use App\Http\Controllers\Api\OrdersController;
+use App\Http\Controllers\Api\PagesController;
 use App\Http\Controllers\Api\PermissionsController;
+use App\Http\Controllers\Api\PromoCodesController;
 use App\Http\Controllers\Api\RolesController;
 use App\Http\Controllers\Api\Statistics\ManagerSalariesController;
 use App\Http\Controllers\Api\Statistics\MarketingStatisticController;
@@ -18,6 +25,7 @@ use App\Http\Controllers\Api\SocialReviewsController;
 use App\Http\Controllers\Api\Statistics\CostCategoriesController;
 use App\Http\Controllers\Api\Statistics\CostsController;
 use App\Http\Controllers\Api\UsersController;
+use App\Http\Controllers\Api\XmlsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -285,10 +293,138 @@ Route::middleware('auth:sanctum')->group(function () {
             ->name('api.orders.search');
     });
 
+    Route::prefix('banners')->group(function () {
+
+        Route::post('upload', [BannersController::class, 'upload'])
+            ->name('api.banners.upload');
+
+        Route::get('/', [BannersController::class, 'index'])
+            ->name('api.banners.index');
+
+        Route::post('create', [BannersController::class, 'create'])
+            ->name('api.banners.create');
+
+
+        Route::get('edit/{id}', [BannersController::class, 'edit'])
+            ->name('api.banners.edit');
+
+        Route::put('update/{id}', [BannersController::class, 'update'])
+            ->name('api.banners.update');
+
+        Route::delete('destroy/{id}', [BannersController::class, 'destroy'])
+            ->name('api.banners.destroy');
+    });
+
+    Route::prefix('advantages')->group(function () {
+        Route::get('/', [AdvantagesController::class, 'index'])
+            ->name('api.advantages.index');
+
+        Route::get('edit/{id}', [AdvantagesController::class, 'edit'])
+            ->name('api.advantages.edit');
+
+        Route::post('create', [AdvantagesController::class, 'create'])
+            ->name('api.advantages.create');
+
+        Route::put('update/{id}', [AdvantagesController::class, 'update'])
+            ->name('api.advantages.update');
+
+        Route::delete('destroy/{id}', [AdvantagesController::class, 'destroy'])
+            ->name('api.advantages.destroy');
+    });
+
+    Route::prefix('faq')->group(function () {
+        Route::get('/', [FaqsController::class, 'index'])
+            ->name('api.faqs.index');
+
+        Route::get('edit/{id}', [FaqsController::class, 'edit'])
+            ->name('api.faqs.edit');
+
+        Route::post('create', [FaqsController::class, 'create'])
+            ->name('api.faqs.create');
+
+        Route::put('update/{id}', [FaqsController::class, 'update'])
+            ->name('api.faqs.update');
+
+        Route::delete('destroy/{id}', [FaqsController::class, 'destroy'])
+            ->name('api.faqs.destroy');
+    });
+
+    Route::prefix('promo-codes')->group(function () {
+
+        Route::get('/', [PromoCodesController::class, 'index'])
+            ->name('api.promo-codes.index');
+
+        Route::get('edit/{id}', [PromoCodesController::class, 'edit'])
+            ->name('api.promo-codes.edit');
+
+        Route::post('create', [PromoCodesController::class, 'create'])
+            ->name('api.promo-codes.create');
+
+        Route::put('update/{id}', [PromoCodesController::class, 'update'])
+            ->name('api.promo-codes.update');
+
+        Route::delete('/destroy/{id}', [PromoCodesController::class, 'destroy'])
+            ->name('api.promo-codes.destroy');
+    });
+
+    Route::prefix('xmls')->group(function () {
+        Route::get('/', [XmlsController::class, 'index'])
+            ->name('api.xmls.index');
+
+        Route::post('create', [XmlsController::class, 'create'])
+            ->name('api.xmls.create');
+
+        Route::get('edit/{id}', [XmlsController::class, 'edit'])
+            ->name('api.xmls.edit');
+
+        Route::put('update/{id}', [XmlsController::class, 'update'])
+            ->name('api.xmls.update');
+
+        Route::delete('destroy/{id}', [XmlsController::class, 'destroy'])
+            ->name('api.xmls.destroy');
+    });
+
+    Route::prefix('pages')->group(function () {
+        Route::get('/', [PagesController::class, 'index'])
+            ->name('api.pages.index');
+
+        Route::get('edit/{id}', [PagesController::class, 'edit'])
+            ->name('api.pages.edit');
+
+        Route::post('create', [PagesController::class, 'create'])
+            ->name('api.pages.create');
+
+        Route::put('update/{id}', [PagesController::class, 'update'])
+            ->name('api.pages.update');
+
+        Route::delete('destroy/{id}', [PagesController::class, 'destroy'])
+            ->name('api.pages.destroy');
+    });
+
+    Route::prefix('callbacks')->group(function () {
+        Route::get('/', [CallbacksController::class, 'index'])
+            ->name('api.callbacks.index');
+
+        Route::post('create', [CallbacksController::class, 'create'])
+            ->name('api.callbacks.create');
+
+        Route::get('edit/{id}', [CallbacksController::class, 'edit'])
+            ->name('api.callbacks.edit');
+
+        Route::put('update/{id}', [CallbacksController::class, 'update'])
+            ->name('api.callbacks.update');
+
+        Route::delete('destroy/{id}', [CallbacksController::class, 'destroy'])
+            ->name('api.callbacks.destroy');
+    });
+
     Route::prefix('statistics')->group(function () {
         Route::prefix('costs')->group(function () {
             Route::get('/', [CostsController::class, 'index'])
                 ->name('api.statistics.costs.index');
+
+            Route::get('chart', [CostsController::class, 'chart'])
+                ->name('api.statistics.costs.chart');
 
             Route::post('create', [CostsController::class, 'create'])
                 ->name('api.statistics.costs.create');
@@ -326,16 +462,25 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('profits')->group(function () {
             Route::get('/', [ProfitsController::class, 'index'])
                 ->name('api.statistics.profits.index');
+
+            Route::get('chart', [ProfitsController::class, 'chart'])
+                ->name('api.statistics.profits.chart');
         });
 
         Route::prefix('orders')->group(function () {
             Route::get('/', [OrdersStatisticController::class, 'index'])
                 ->name('api.statistics.orders.index');
+
+            Route::get('chart', [OrdersStatisticController::class, 'chart'])
+                ->name('api.statistics.orders.chart');
         });
 
         Route::prefix('marketing')->group(function () {
             Route::get('/', [MarketingStatisticController::class, 'index'])
                 ->name('api.statistics.marketing.index');
+
+            Route::get('chart', [MarketingStatisticController::class, 'chart'])
+                ->name('api.statistics.marketing.chart');
         });
 
         Route::prefix('managers')->group(function () {
@@ -343,4 +488,25 @@ Route::middleware('auth:sanctum')->group(function () {
                 ->name('api.statistics.managers.index');
         });
     });
+
+    Route::prefix('options')->group(function () {
+
+        Route::prefix('main')->group(function () {
+            Route::get('/', [OptionsController::class, 'getMainOptions'])
+                ->name('api.options.main.index');
+
+            Route::put('update', [OptionsController::class, 'updateMainOptions'])
+                ->name('api.options.main.update');
+        });
+
+        Route::prefix('scripts')->group(function () {
+            Route::get('/', [OptionsController::class, 'getScriptsOptions'])
+                ->name('api.options.scripts.index');
+
+            Route::put('update', [OptionsController::class, 'updateMainOptions'])
+                ->name('api.options.scripts.update');
+        });
+    });
 });
+
+require __DIR__ . '/api-v1.php';

@@ -5,7 +5,7 @@
                 <product-card :product="product"
                               :lang="lang"
                               :text-go-to-product-card="textGoToProductCard"
-                              :product-route="productRoute"></product-card>
+                ></product-card>
             </div>
         </div>
     </div>
@@ -17,6 +17,5 @@ defineProps({
     products: Array,
     lang: String,
     textGoToProductCard: String,
-    productRoute: String,
 })
 </script>

@@ -21,13 +21,19 @@ class ProfitsController extends BaseController
     {
         $result = $this->profitsRepository->getAllWithPaginate($request->all());
         $generalStat = $this->profitsRepository->generalStatistic($request->all());
-        $chart = $this->profitsRepository->getDataForChart($request->all());
 
         return $this->returnResponse([
             'success' => true,
             'result' => $result,
             'generalStat' => $generalStat,
-            'chart' => $chart,
+        ]);
+    }
+
+    public function chart(Request $request): JsonResponse
+    {
+        return $this->returnResponse([
+            'success' => true,
+            'result' => $this->profitsRepository->getDataForChart($request->all())
         ]);
     }
 }

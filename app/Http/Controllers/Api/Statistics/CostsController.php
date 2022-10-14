@@ -21,13 +21,19 @@ class CostsController extends BaseController
     {
         $result = $this->costsRepository->getAllWithPaginate($request->all());
         $generalStat = $this->costsRepository->generalStatistic($request->all());
-        $all = $this->costsRepository->getAllForChart($request->all());
 
         return $this->returnResponse([
             'success' => true,
             'result' => $result,
             'generalStat' => $generalStat,
-            'all' => $all,
+        ]);
+    }
+
+    public function chart(Request $request): JsonResponse
+    {
+        return $this->returnResponse([
+            'success' => true,
+            'result' => $this->costsRepository->getAllForChart($request->all())
         ]);
     }
 

@@ -21,13 +21,19 @@ class MarketingStatisticController extends BaseController
     {
         $result = $this->marketingStatisticRepository->getAllWithPaginate($request->all());
         $generalStat = $this->marketingStatisticRepository->generalStatistic($request->all());
-        $chart = $this->marketingStatisticRepository->getDataForChart($request->all());
 
         return $this->returnResponse([
             'success' => true,
             'result' => $result,
             'generalStat' => $generalStat,
-            'chart' => $chart,
+        ]);
+    }
+
+    public function chart(Request $request): JsonResponse
+    {
+        return $this->returnResponse([
+            'success' => true,
+            'result' => $this->marketingStatisticRepository->getDataForChart($request->all())
         ]);
     }
 }

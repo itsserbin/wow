@@ -87,7 +87,8 @@ class MarketingStatisticRepository extends CoreRepository
             $startDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start'])->format('Y-m-d');
             $endDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])->format('Y-m-d');
 
-            $model->whereBetween('date', [$startDate, $endDate]);        } elseif (array_key_exists('last', $data)) {
+            $model->whereBetween('date', [$startDate, $endDate]);
+        } elseif (array_key_exists('last', $data)) {
             if ($data['last'] == 'week') {
                 $model->whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
             } elseif ($data['last'] == 'two-week') {
@@ -105,9 +106,50 @@ class MarketingStatisticRepository extends CoreRepository
             }
         }
 
-        return $model
-            ->orderBy('date', 'desc')
-            ->get();
+        $labels = [];
+        $average_application_price = [];
+        $average_approve_application_price = [];
+        $average_done_application_price = [];
+        $average_check = [];
+        $average_marginality = [];
+        foreach ($model->orderBy('date', 'asc')->get() as $item) {
+            array_push($average_application_price, $item->average_application_price);
+            array_push($average_approve_application_price, $item->average_approve_application_price);
+            array_push($average_done_application_price, $item->average_done_application_price);
+            array_push($average_check, $item->average_check);
+            array_push($average_marginality, $item->average_marginality);
+            array_push($labels, DateTime::createFromFormat("Y-m-d", $item->date)->format('d.m.Y'));
+        }
+        return [
+            'labels' => $labels,
+            'datasets' => [
+                [
+                    'label' => 'Ср. ціна заявки',
+                    'borderColor' => ['#5DADE2'],
+                    'data' => $average_application_price
+                ],
+                [
+                    'label' => 'Ср. ціна апрува',
+                    'borderColor' => ['#F4D03F'],
+                    'data' => $average_approve_application_price
+                ],
+                [
+                    'label' => 'Ср. ціна виконаної заявки',
+                    'borderColor' => ['#58D68D'],
+                    'data' => $average_done_application_price
+                ],
+                [
+                    'label' => 'Ср. чек',
+                    'borderColor' => ['#E74C3C'],
+                    'data' => $average_check
+                ],
+                [
+                    'label' => 'Ср. маржа',
+                    'borderColor' => ['#A569BD'],
+                    'data' => $average_marginality
+                ],
+            ]
+        ];
 
     }
 

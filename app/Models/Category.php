@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
@@ -38,4 +39,8 @@ class Category extends Model
         return $this->morphedbyMany(Product::class, 'categoryables');
     }
 
+    public function banners(): BelongsToMany
+    {
+        return $this->belongsToMany(Banner::class, 'category_banners', 'category_id', 'banner_id');
+    }
 }

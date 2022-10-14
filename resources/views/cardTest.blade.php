@@ -25,15 +25,17 @@
                                     text-[#A5A5A5]
                                     line-through
                                 ">
-                                    1320 грн.</div>
+                                    1320 грн.
+                                </div>
                                 <div class=" font-bold text-[#ff0000] text-[36px]">845 грн.</div>
                             </div>
                             <!---->
                         </div>
                         <div class="flex flex-col">
                             <button id="add-to-card"
-                                class=" mb-[20px] max-w-[100%] w-[314px] h-[50px] bg-[#dc3545] rounded-[10px] text-white"
-                                type="button"><span>До кошика</span></button><button
+                                    class=" mb-[20px] max-w-[100%] w-[314px] h-[50px] bg-[#dc3545] rounded-[10px] text-white"
+                                    type="button"><span>До кошика</span></button>
+                            <button
                                 class="max-w-[100%] w-[314px] h-[50px] bg-[#dc3545] rounded-[10px]  text-white"
                                 type="button"><span>Купити
                                     в 1 клік</span></button>
@@ -52,22 +54,22 @@
                             <li>
                                 <input type="checkbox" id="react-option" value="S" class="hidden peer">
                                 <label for="react-option"
-                                    class="
-                                        
-                                                inline-flex 
-                                                justify-center 
-                                                items-center 
+                                       class="
+
+                                                inline-flex
+                                                justify-center
+                                                items-center
                                                 mx-auto
-                                                text-gray-500 
-                                                bg-white rounded-lg border-2 
-                                                border-gray-200 
-                                                cursor-pointer 
-                                                peer-checked:border-blue-600 
-                                                hover:text-gray-600 
-                                                peer-checked:text-gray-600 
-                                                hover:bg-gray-50 
-                                                w-[40px] 
-                                                h-[40px] 
+                                                text-gray-500
+                                                bg-white rounded-lg border-2
+                                                border-gray-200
+                                                cursor-pointer
+                                                peer-checked:border-blue-600
+                                                hover:text-gray-600
+                                                peer-checked:text-gray-600
+                                                hover:bg-gray-50
+                                                w-[40px]
+                                                h-[40px]
                                             ">
                                     S
                                 </label>
@@ -75,22 +77,22 @@
                             <li>
                                 <input type="checkbox" id="react-option" value="M" class="hidden peer">
                                 <label for="react-option"
-                                    class="
-                                        
-                                                inline-flex 
-                                                justify-center 
-                                                items-center 
+                                       class="
+
+                                                inline-flex
+                                                justify-center
+                                                items-center
                                                 mx-auto
-                                                text-gray-500 
-                                                bg-white rounded-lg border-2 
-                                                border-gray-200 
-                                                cursor-pointer 
-                                                peer-checked:border-blue-600 
-                                                hover:text-gray-600 
-                                                peer-checked:text-gray-600 
-                                                hover:bg-gray-50 
-                                                w-[40px] 
-                                                h-[40px] 
+                                                text-gray-500
+                                                bg-white rounded-lg border-2
+                                                border-gray-200
+                                                cursor-pointer
+                                                peer-checked:border-blue-600
+                                                hover:text-gray-600
+                                                peer-checked:text-gray-600
+                                                hover:bg-gray-50
+                                                w-[40px]
+                                                h-[40px]
                                             ">
                                     M
                                 </label>
@@ -98,22 +100,22 @@
                             <li>
                                 <input type="checkbox" id="react-option" value="L" class="hidden peer">
                                 <label for="react-option"
-                                    class="
-                                        
-                                                inline-flex 
-                                                justify-center 
-                                                items-center 
+                                       class="
+
+                                                inline-flex
+                                                justify-center
+                                                items-center
                                                 mx-auto
-                                                text-gray-500 
-                                                bg-white rounded-lg border-2 
-                                                border-gray-200 
-                                                cursor-pointer 
-                                                peer-checked:border-blue-600 
-                                                hover:text-gray-600 
-                                                peer-checked:text-gray-600 
-                                                hover:bg-gray-50 
-                                                w-[40px] 
-                                                h-[40px] 
+                                                text-gray-500
+                                                bg-white rounded-lg border-2
+                                                border-gray-200
+                                                cursor-pointer
+                                                peer-checked:border-blue-600
+                                                hover:text-gray-600
+                                                peer-checked:text-gray-600
+                                                hover:bg-gray-50
+                                                w-[40px]
+                                                h-[40px]
                                             ">
                                     L
                                 </label>
@@ -121,22 +123,22 @@
                             <li>
                                 <input type="checkbox" id="react-option" value="" class="hidden peer">
                                 <label for="react-option"
-                                    class="
-                                        
-                                                inline-flex 
-                                                justify-center 
-                                                items-center 
+                                       class="
+
+                                                inline-flex
+                                                justify-center
+                                                items-center
                                                 mx-auto
-                                                text-gray-500 
-                                                bg-white rounded-lg border-2 
-                                                border-gray-200 
-                                                cursor-pointer 
-                                                peer-checked:border-blue-600 
-                                                hover:text-gray-600 
-                                                peer-checked:text-gray-600 
-                                                hover:bg-gray-50 
-                                                w-[40px] 
-                                                h-[40px] 
+                                                text-gray-500
+                                                bg-white rounded-lg border-2
+                                                border-gray-200
+                                                cursor-pointer
+                                                peer-checked:border-blue-600
+                                                hover:text-gray-600
+                                                peer-checked:text-gray-600
+                                                hover:bg-gray-50
+                                                w-[40px]
+                                                h-[40px]
                                             ">
                                     XL
                                 </label>
@@ -148,17 +150,17 @@
                                 <label class="flex items-center select-none mb-0">
                                 <input class="hidden" type="checkbox" value="S">
                                         <span class="
-                                                w-[40px] 
-                                                h-[40px] 
-                                                ring 
-                                                ring-black 
-                                                ring-offset-0 
-                                                rounded-[7px] 
-                                                relative 
-                                                shrink-0 
-                                                flex 
-                                                items-center 
-                                                justify-center 
+                                                w-[40px]
+                                                h-[40px]
+                                                ring
+                                                ring-black
+                                                ring-offset-0
+                                                rounded-[7px]
+                                                relative
+                                                shrink-0
+                                                flex
+                                                items-center
+                                                justify-center
                                                 font-medium
                                                 after:content-[' ']
                                                 after:block
@@ -193,66 +195,66 @@
                             <div class="flex">
                                 <div><input type="checkbox" id="react-option" value="S" class="hidden peer">
                                     <label for="react-option"
-                                        class="
-                                            
-                                                    inline-flex 
-                                                    justify-center 
-                                                    items-center 
+                                           class="
+
+                                                    inline-flex
+                                                    justify-center
+                                                    items-center
                                                     mx-auto
-                                                    text-black-500 
-                                                    bg-black rounded-lg border-2 
-                                                    border-gray-200 
-                                                    cursor-pointer 
-                                                    peer-checked:border-blue-600 
-                                                    hover:text-black 
-                                                    peer-checked:text-gray-600 
-                                                    hover:bg-black 
-                                                    w-[40px] 
-                                                    h-[40px] 
+                                                    text-black-500
+                                                    bg-black rounded-lg border-2
+                                                    border-gray-200
+                                                    cursor-pointer
+                                                    peer-checked:border-blue-600
+                                                    hover:text-black
+                                                    peer-checked:text-gray-600
+                                                    hover:bg-black
+                                                    w-[40px]
+                                                    h-[40px]
                                                 ">
 
                                     </label>
                                 </div>
                                 <div><input type="checkbox" id="react-option" value="S" class="hidden peer">
                                     <label for="react-option"
-                                        class="
-                                            
-                                                    inline-flex 
-                                                    justify-center 
-                                                    items-center 
+                                           class="
+
+                                                    inline-flex
+                                                    justify-center
+                                                    items-center
                                                     mx-auto
-                                                    text-black-500 
-                                                    bg-white rounded-lg border-2 
-                                                    border-gray-200 
-                                                    cursor-pointer 
-                                                    peer-checked:border-blue-600 
-                                                    hover:text-white 
-                                                    peer-checked:text-gray-600 
-                                                    hover:bg-white 
-                                                    w-[40px] 
-                                                    h-[40px] 
+                                                    text-black-500
+                                                    bg-white rounded-lg border-2
+                                                    border-gray-200
+                                                    cursor-pointer
+                                                    peer-checked:border-blue-600
+                                                    hover:text-white
+                                                    peer-checked:text-gray-600
+                                                    hover:bg-white
+                                                    w-[40px]
+                                                    h-[40px]
                                                 ">
 
                                     </label>
                                 </div>
                                 <div><input type="checkbox" id="react-option" value="S" class="hidden peer">
                                     <label for="react-option"
-                                        class="
-                                            
-                                                    inline-flex 
-                                                    justify-center 
-                                                    items-center 
+                                           class="
+
+                                                    inline-flex
+                                                    justify-center
+                                                    items-center
                                                     mx-auto
-                                                    text-black-500 
-                                                    bg-red-600 rounded-lg border-2 
-                                                    border-gray-200 
-                                                    cursor-pointer 
-                                                    peer-checked:border-blue-600 
-                                                    
-                                                    peer-checked:text-gray-600 
-                                                    hover:bg-red-600 
-                                                    w-[40px] 
-                                                    h-[40px] 
+                                                    text-black-500
+                                                    bg-red-600 rounded-lg border-2
+                                                    border-gray-200
+                                                    cursor-pointer
+                                                    peer-checked:border-blue-600
+
+                                                    peer-checked:text-gray-600
+                                                    hover:bg-red-600
+                                                    w-[40px]
+                                                    h-[40px]
                                                 ">
 
                                     </label>
@@ -275,32 +277,35 @@
                     </div>
                 </div>
 
-                <delivery-and-payment />
+                <delivery-and-payment/>
 
             </div>
         </div>
 
 
-        </div>
         <div class="grid grid-cols-1 md:grid-cols-2">
             <div class="mt-5">
                 <div class="col-12 col-md-6">
-                    <div id="specifications" class="text-[24px] text-[#000] font-bold mb-5 text-center">Характеристики</div>
+                    <div id="specifications" class="text-[24px] text-[#000] font-bold mb-5 text-center">Характеристики
+                    </div>
                     <div class="characteristics-table flex justify-center">
                         <table border="1" cellspacing="1" cellpadding="1">
                             <tbody>
-                                <tr>
-                                    <td class="border-[1px] ">
-                                        <p><strong>Тип&nbsp;</strong></p>
-                                    </td>
-                                    <td class="border-[1px] pt-[15px] pb-[15px] pl-[20px] pr-[20px]">Мереживний комплект із поясом</td>
-                                </tr>
-                                <tr>
-                                    <td class="border-[1px]">
-                                        <p><strong>Тканина</strong></p>
-                                    </td>
-                                    <td class="border-[1px] pt-[15px] pb-[15px] pl-[20px] pr-[20px]">Французьке мереживо</td>
-                                </tr>
+                            <tr>
+                                <td class="border-[1px] ">
+                                    <p><strong>Тип&nbsp;</strong></p>
+                                </td>
+                                <td class="border-[1px] pt-[15px] pb-[15px] pl-[20px] pr-[20px]">Мереживний комплект із
+                                    поясом
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="border-[1px]">
+                                    <p><strong>Тканина</strong></p>
+                                </td>
+                                <td class="border-[1px] pt-[15px] pb-[15px] pl-[20px] pr-[20px]">Французьке мереживо
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                         <p>&nbsp;</p>
@@ -316,6 +321,8 @@
                     <p>Комплектація: халат, пояс, ремінь.</p>
                 </div>
             </div>
+        </div>
+
 
     </section>
 @endsection

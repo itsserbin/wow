@@ -1,9 +1,9 @@
 <template>
-    <div v-if="products.length">
+    <div v-if="state.products.length">
         <loader v-if="state.isLoading"></loader>
         <div class="font-bold text-black text-center text-[24px] mb-[15px]">{{ textLatestProducts }}</div>
         <product-cards v-if="!state.isLoading"
-                       :products="products"
+                       :products="state.products"
                        :lang="lang"
                        :text-go-to-product-card="textGoToProductCard"
                        :product-route="productRoute"
@@ -13,77 +13,6 @@
 
 <script setup>
 import {onMounted, ref} from "vue";
-const products = [
-    {
-        h1: {
-            ua: 'Роздільний купальник Colori Alla Moda'
-        },
-        price: 1200,
-        discount_price: 799
-    },
-    {
-        h1: {
-            ua: 'Роздільний купальник Colori Alla Moda'
-        },
-        price: 1200,
-        discount_price: 799
-    },
-    {
-        h1: {
-            ua: 'Роздільний купальник Colori Alla Moda'
-        },
-        price: 1200,
-        discount_price: 799
-    },
-    {
-        h1: {
-            ua: 'Роздільний купальник Colori Alla Moda'
-        },
-        price: 1200,
-        discount_price: 799
-    },
-    {
-        h1: {
-            ua: 'Роздільний купальник Colori Alla Moda'
-        },
-        price: 1200,
-        discount_price: 799
-    },
-    {
-        h1: {
-            ua: 'Роздільний купальник Colori Alla Moda'
-        },
-        price: 1200,
-        discount_price: 799
-    },
-    {
-        h1: {
-            ua: 'Роздільний купальник Colori Alla Moda'
-        },
-        price: 1200,
-        discount_price: 799
-    },
-    {
-        h1: {
-            ua: 'Роздільний купальник Colori Alla Moda'
-        },
-        price: 1200,
-        discount_price: 799
-    },{
-        h1: {
-            ua: 'Роздільний купальник Colori Alla Moda'
-        },
-        price: 1200,
-        discount_price: 799
-    },{
-        h1: {
-            ua: 'Роздільний купальник Colori Alla Moda'
-        },
-        price: 1200,
-        discount_price: 799
-    },
-
-];
 
 defineProps({
     lang: {
@@ -118,11 +47,11 @@ const state = ref({
 });
 
 onMounted(() => {
-    // axios.get('/api/v1/product/new-products')
-    //     .then(({data}) => {
-    //         state.isLoading = false;
-    //         state.products = data.result;
-    //     })
-    //     .catch((response) => console.log(response));
+    axios.get('/api/v1/product/new-products')
+        .then(({data}) => {
+            state.isLoading = false;
+            state.value.products = data.result;
+        })
+        .catch((response) => console.log(response));
 })
 </script>

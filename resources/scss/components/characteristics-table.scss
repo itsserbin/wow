@@ -1,28 +1,41 @@
 .characteristics-table {
     border-collapse: collapse;
     font-size: 12px;
+
+    table {
+        width: 100%;
+    }
+
     tr {
         &:first-child {
             th {
                 border-bottom-width: 3px;
             }
         }
+
+        &:nth-child(2n) {
+            background: rgba(224, 36, 36, .1);
+        }
     }
+
     th,
     td {
         border: 1px solid #C4C4C4;
         padding: 15px;
     }
 }
+
 @media(min-width: 400px) {
     .characteristics-table {
         font-size: 15px;
+
         th,
         td {
             padding: 15px 20px;
         }
     }
 }
+
 @media(min-width: 450px) {
     .characteristics-table {
         th,

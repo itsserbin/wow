@@ -65,12 +65,14 @@ class CategoriesRepository extends CoreRepository
      *
      * @return mixed
      */
-    public function getAll()
+    public function list()
     {
         return $this
             ->model::select(
                 'id',
                 'title',
+                'slug',
+                'preview',
                 'parent_id'
             )->get();
     }

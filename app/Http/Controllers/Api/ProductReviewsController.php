@@ -18,61 +18,57 @@ class ProductReviewsController extends BaseController
 
     public function index(): JsonResponse
     {
-        $result = $this->reviewsRepository->getAllWithPaginate();
-
         return $this->returnResponse([
             'success' => true,
-            'result' => $result,
+            'result' => $this->reviewsRepository->getAllWithPaginate(),
         ]);
     }
 
     public function create(Request $request): JsonResponse
     {
-        $result = $this->reviewsRepository->create($request->all());
-
         return $this->returnResponse([
             'success' => true,
-            'result' => $result,
+            'result' => $this->reviewsRepository->create($request->all()),
         ]);
     }
 
     public function edit($id): JsonResponse
     {
-        $result = $this->reviewsRepository->getById($id);
-
         return $this->returnResponse([
             'success' => true,
-            'result' => $result,
+            'result' => $this->reviewsRepository->getById($id),
         ]);
     }
 
     public function update($id, Request $request): JsonResponse
     {
-        $result = $this->reviewsRepository->update($id, $request->all());
-
         return $this->returnResponse([
             'success' => true,
-            'result' => $result,
+            'result' => $this->reviewsRepository->update($id, $request->all()),
         ]);
     }
 
     public function destroy($id): JsonResponse
     {
-        $result = $this->reviewsRepository->destroy($id);
-
         return $this->returnResponse([
             'success' => true,
-            'result' => $result,
+            'result' => $this->reviewsRepository->destroy($id),
         ]);
     }
 
     public function accept($id): JsonResponse
     {
-        $result = $this->reviewsRepository->accept($id);
-
         return $this->returnResponse([
             'success' => true,
-            'result' => $result,
+            'result' => $this->reviewsRepository->accept($id),
+        ]);
+    }
+
+    public function carouselList(): JsonResponse
+    {
+        return $this->returnResponse([
+            'success' => true,
+            'result' => $this->reviewsRepository->carouselList(10)
         ]);
     }
 }

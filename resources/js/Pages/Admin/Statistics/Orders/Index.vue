@@ -26,23 +26,15 @@
 
             </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 my-5">
-                <button-component type="btn"
-                                  @click="sortByLast(item.key)"
-                                  v-for="item in lastParams"
-                                  :active="item.key === params.last"
-                >
-                    {{ item.label }}
-                </button-component>
-            </div>
+            <LastParams :active-item="params.last" @sortByLast="sortByLast"/>
 
-            <OrderChart :chart-data="state.orders.chart"/>
+            <OrderChart v-if="state.chart" :chart-data="state.chart"/>
 
             <div class="grid grid-cols-2 md:grid-cols-4">
-                <card-component v-for="(item,i) in state.orders.generalStat"
+                <card-component v-for="(item,i) in state.orders.generalStatistics"
                                 class="text-center"
                                 :title="i"
-                                :description="item"
+                                :description="item ? item : 0"
                 >
                 </card-component>
             </div>
@@ -112,12 +104,14 @@ import {reactive, onMounted, inject, ref, computed} from "vue";
 import OrderChart from '@/Pages/Admin/Statistics/Orders/Chart.vue';
 import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
 import Paginate from '@/Components/Paginate.vue'
+import LastParams from '@/Pages/Admin/Statistics/LastParams.vue'
 
 const swal = inject('$swal')
 const can = inject('$can');
 
 const state = ref({
     orders: [],
+    chart: null,
     isLoading: true,
 });
 
@@ -131,7 +125,7 @@ const params = ref({
 
 const costCategoriesOptions = ref([]);
 
-const endPoint = computed(() => {
+const getParams = computed(() => {
     const data = {};
     if (params.value.date.length === 2) {
         data.date_start = params.value.date[0];
@@ -141,7 +135,7 @@ const endPoint = computed(() => {
         data.last = params.value.last
     }
     data.page = params.value.currentPage;
-    return route('api.statistics.orders.index', data);
+    return data;
 
 })
 
@@ -202,42 +196,6 @@ const headings = reactive([
     },
 ]);
 
-const lastParams = reactive([
-    {
-        label: 'Весь час',
-        key: null
-    },
-    {
-        label: 'Поточний тиждень',
-        key: 'week'
-    },
-    {
-        label: 'Поточний та попередні тижні',
-        key: 'two-week'
-    },
-    {
-        label: 'Поточний місяць',
-        key: 'one-month'
-    },
-    {
-        label: '7 днів',
-        key: '7-days'
-    },
-    {
-        label: '14 днів',
-        key: '14-days'
-    },
-    {
-        label: '30 днів',
-        key: '30-days'
-    },
-    {
-        label: '90 днів',
-        key: '90-days'
-    },
-])
-
-
 function sortByLast(val) {
     if (val) {
         params.value.last = val;
@@ -266,14 +224,20 @@ function paginate(page) {
 
 function fetch() {
     state.value.isLoading = true;
-    axios.get(endPoint.value)
-        .then(response => {
-            Object.assign(state.value.orders, response.data);
+    axios.get(route('api.statistics.orders.index', getParams.value))
+        .then(({data}) => {
+            state.value.orders = data;
             state.value.isLoading = false;
         })
         .catch(errors => {
             console.log(errors);
             state.value.isLoading = false;
-        })
+        });
+
+    axios.get(route('api.statistics.orders.chart', getParams.value))
+        .then(({data}) => state.value.chart = data.result)
+        .catch((response) => console.log(response));
+
+
 }
 </script>

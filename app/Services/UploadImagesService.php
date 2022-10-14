@@ -84,6 +84,32 @@ class UploadImagesService
         return $filename;
     }
 
+    public function uploadBanners($data)
+    {
+        $root = $_SERVER["DOCUMENT_ROOT"];
+        $image = $data['banner'];
+        if ($data['type'] == 'mobile') {
+            $dir = $root . '/storage/banners/mobile/';
+            $path = '/storage/banners/mobile/';
+        } elseif ($data['type'] == 'table') {
+            $dir = $root . '/storage/banners/table/';
+            $path = '/storage/banners/table/';
+        } else {
+            $dir = $root . '/storage/banners/desktop/';
+            $path = '/storage/banners/desktop/';
+        }
+
+        if (!file_exists($dir)) {
+            mkdir($dir, 0755, true);
+        }
+
+        $filename = $image->getClientOriginalName();
+        $filename = $this->createFilename($path . $filename, $filename);
+        Image::make($image)->save(public_path($path . $filename));
+
+        return asset($path . $filename);
+    }
+
     public function createFilename($path, $filename)
     {
         if (File::exists(public_path($path))) {

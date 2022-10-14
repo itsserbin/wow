@@ -265,7 +265,6 @@ const selected = computed({
 const pages = computed(() => {
     let items = {};
     state.value.pageCount = props.pagination.last_page;
-    console.log(state.value.pageCount);
 
     if (state.value.pageCount <= props.pageRange) {
         for (let index = 0; index < state.value.pageCount; index++) {

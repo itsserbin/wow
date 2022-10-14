@@ -6,7 +6,7 @@
 
         <loader-component v-if="state.isLoading"/>
         <div v-if="!state.isLoading">
-            <button-component type="btn" @click="create" v-if="can('create-providers')">
+            <button-component type="btn" @click="create" v-if="can('create-costs')">
                 Додати
             </button-component>
 
@@ -29,27 +29,18 @@
                                 :monthChangeOnScroll="false"
                                 :enableTimePicker="false"
                                 range
-                                utc
                                 @update:modelValue="sortByRange"
                     ></Datepicker>
                 </div>
 
             </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 my-5">
-                <button-component type="btn"
-                                  @click="sortByLast(item.key)"
-                                  v-for="item in lastParams"
-                                  :active="item.key === params.last"
-                >
-                    {{ item.label }}
-                </button-component>
-            </div>
+            <LastParams :active-item="params.last" @sortByLast="sortByLast"/>
 
-            <CostChart :chart-data="state.colors.all"/>
+            <CostChart v-if="state.chart" :chart-data="state.chart"/>
 
             <div class="grid grid-cols-2 md:grid-cols-6">
-                <card-component v-for="(item,i) in state.colors.generalStat"
+                <card-component v-for="(item,i) in state.data.generalStat"
                                 class="text-center"
                                 :title="i"
                                 :description="$filters.formatMoney(item)"
@@ -57,7 +48,7 @@
                 </card-component>
             </div>
             <table-component :headings="headings"
-                             :rows="state.colors.result.data"
+                             :rows="state.data.result.data"
                              :isSlotMode="true"
             >
                 <template v-slot:id="{data}">
@@ -93,9 +84,9 @@
                 </template>
             </table-component>
 
-            <Paginate :pagination="state.colors.result"
+            <Paginate :pagination="state.data.result"
                       :click-handler="fetch"
-                      v-model="params.currentPage"
+                      v-model="params.page"
             />
 
             <component :is="activeModal"
@@ -114,6 +105,7 @@ import ColorModal from '@/Pages/Admin/Statistics/Costs/Modal.vue';
 import CostChart from '@/Pages/Admin/Statistics/Costs/Chart.vue';
 import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
 import Paginate from '@/Components/Paginate.vue'
+import LastParams from '@/Pages/Admin/Statistics/LastParams.vue'
 
 const swal = inject('$swal')
 const can = inject('$can');
@@ -129,7 +121,8 @@ const item = ({
 })
 
 const state = ref({
-    colors: [],
+    data: [],
+    chart: [],
     isLoading: true,
     isActiveModal: false,
     modalAction: '',
@@ -141,12 +134,12 @@ const params = ref({
     date: [],
     filter: null,
     last: 'one-month',
-    currentPage: 1,
+    page: 1,
 })
 
 const costCategoriesOptions = ref([]);
 
-const endPoint = computed(() => {
+const getParams = computed(() => {
     const data = {};
     if (params.value.filter) {
         data.filter = params.value.filter
@@ -158,27 +151,21 @@ const endPoint = computed(() => {
     if (params.value.last) {
         data.last = params.value.last
     }
-    data.page = params.value.currentPage;
-    return route('api.statistics.costs.index', data);
-
-})
+    data.page = params.value.page;
+    return data;
+});
 
 function sortByLast(val) {
     if (val) {
         params.value.last = val;
-    } else{
+    } else {
         params.value = {
             date: [],
             filter: null,
             last: null,
-            currentPage: 1,
+            page: 1,
         };
     }
-    fetch();
-}
-
-function sortByRange() {
-    params.value.last = 'range';
     fetch();
 }
 
@@ -241,43 +228,34 @@ const headings = reactive([
     }
 ]);
 
-const lastParams = reactive([
-    {
-        label: 'Весь час',
-        key: null
-    },
-    {
-        label: 'Поточний тиждень',
-        key: 'week'
-    },
-    {
-        label: 'Поточний та попередні тижні',
-        key: 'two-week'
-    },
-    {
-        label: 'Поточний місяць',
-        key: 'one-month'
-    },
-])
+function sortByRange() {
+    params.value.last = 'range';
+    fetch();
+}
 
 function paginate(page) {
     if (page) {
-        params.value.currentPage = page;
+        params.value.page = page;
     }
     fetch();
 }
 
 function fetch() {
     state.value.isLoading = true;
-    axios.get(endPoint.value)
-        .then(response => {
-            Object.assign(state.value.colors, response.data);
+    axios.get(route('api.statistics.costs.index', getParams.value))
+        .then(({data}) => {
+            state.value.data = data
             state.value.isLoading = false;
         })
         .catch(errors => {
             console.log(errors);
             state.value.isLoading = false;
-        })
+        });
+
+    axios.get(route('api.statistics.costs.chart', getParams.value))
+        .then(({data}) => state.value.chart = data.result)
+        .catch((errors) => console.log(errors));
+
 }
 
 function onDestroy(id) {
@@ -317,7 +295,7 @@ function modalFunction() {
 }
 
 function onEdit(id, i) {
-    if (can('edit-colors')) {
+    if (can('edit-costs')) {
         axios.get(route('api.statistics.costs.edit', id))
             .then(({data}) => {
                 state.value.item = data.result;
@@ -330,7 +308,7 @@ function onEdit(id, i) {
 }
 
 function onUpdate() {
-    if (can('edit-colors')) {
+    if (can('edit-costs')) {
         axios.put(route('api.statistics.costs.update', state.value.item.id), state.value.item)
             .then(() => {
                 modalFunction();
@@ -351,7 +329,7 @@ function onUpdate() {
 }
 
 function onCreate() {
-    if (can('create-colors')) {
+    if (can('create-costs')) {
         axios.post(route('api.statistics.costs.create'), state.value.item)
             .then(() => {
                 modalFunction();
@@ -373,15 +351,15 @@ function onCreate() {
 }
 
 function submitForm() {
-    if (state.value.modalAction === 'edit' && can('edit-colors')) {
+    if (state.value.modalAction === 'edit' && can('edit-costs')) {
         onUpdate();
-    } else if (state.value.modalAction === 'create' && can('create-colors')) {
+    } else if (state.value.modalAction === 'create' && can('create-costs')) {
         onCreate();
     }
 }
 
 function create() {
-    if (can('create-colors')) {
+    if (can('create-costs')) {
         Object.assign(state.value.item, item);
         state.value.modalAction = 'create';
         modalFunction();

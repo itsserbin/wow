@@ -22,14 +22,20 @@ class OrdersStatisticController extends BaseController
         $result = $this->ordersStatisticsRepository->getAllWithPaginate($request->all());
         $generalStatistics = $this->ordersStatisticsRepository->generalStatistic($request->all());
         $generalIndicatorsStatistic = $this->ordersStatisticsRepository->generalIndicatorsStatistic($request->all());
-        $chart = $this->ordersStatisticsRepository->getDataForChart($request->all());
 
         return $this->returnResponse([
             'success' => true,
             'result' => $result,
             'generalStatistics' => $generalStatistics,
-            'chart' => $chart,
             'generalIndicatorsStatistic' => $generalIndicatorsStatistic
+        ]);
+    }
+
+    public function chart(Request $request): JsonResponse
+    {
+        return $this->returnResponse([
+            'success' => true,
+            'result' => $this->ordersStatisticsRepository->getDataForChart($request->all())
         ]);
     }
 }

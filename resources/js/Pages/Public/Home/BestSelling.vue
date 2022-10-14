@@ -1,9 +1,9 @@
 <template>
-    <div v-if="products.length">
+    <div v-if="state.products.length">
         <loader v-if="state.isLoading"></loader>
         <div class="font-bold text-black text-center text-[24px] mb-[15px]">{{ textBestSelling }}</div>
         <product-cards v-if="!state.isLoading"
-                       :products="products"
+                       :products="state.products"
                        :lang="lang"
                        :text-go-to-product-card="textGoToProductCard"
                        :product-route="productRoute"
@@ -11,7 +11,8 @@
         ></product-cards>
         <div class="flex-row flex justify-center" v-if="state.showLoadMore">
             <loader v-if="state.isLoadingMore"></loader>
-            <button class="cursor-pointer w-[250px] h-[50px] text-white bg-[#E02424] text-bold uppercase rounded-[10px]" type="button" v-if="!state.isLoadingMore" @click="fetch">
+            <button class="cursor-pointer w-[250px] h-[50px] text-white bg-[#E02424] text-bold uppercase rounded-[10px]"
+                    type="button" v-if="!state.isLoadingMore" @click="fetch">
                 <span>{{ textLoadMore }}</span>
             </button>
         </div>
@@ -20,77 +21,6 @@
 
 <script setup>
 import {onMounted, ref} from "vue";
-const products = [
-    {
-        h1: {
-            ua: 'Роздільний купальник Colori Alla Moda'
-        },
-        price: 1200,
-        discount_price: 799
-    },
-    {
-        h1: {
-            ua: 'Роздільний купальник Colori Alla Moda'
-        },
-        price: 1200,
-        discount_price: 799
-    },
-    {
-        h1: {
-            ua: 'Роздільний купальник Colori Alla Moda'
-        },
-        price: 1200,
-        discount_price: 799
-    },
-    {
-        h1: {
-            ua: 'Роздільний купальник Colori Alla Moda'
-        },
-        price: 1200,
-        discount_price: 799
-    },
-    {
-        h1: {
-            ua: 'Роздільний купальник Colori Alla Moda'
-        },
-        price: 1200,
-        discount_price: 799
-    },
-    {
-        h1: {
-            ua: 'Роздільний купальник Colori Alla Moda'
-        },
-        price: 1200,
-        discount_price: 799
-    },
-    {
-        h1: {
-            ua: 'Роздільний купальник Colori Alla Moda'
-        },
-        price: 1200,
-        discount_price: 799
-    },
-    {
-        h1: {
-            ua: 'Роздільний купальник Colori Alla Moda'
-        },
-        price: 1200,
-        discount_price: 799
-    },{
-        h1: {
-            ua: 'Роздільний купальник Colori Alla Moda'
-        },
-        price: 1200,
-        discount_price: 799
-    },{
-        h1: {
-            ua: 'Роздільний купальник Colori Alla Moda'
-        },
-        price: 1200,
-        discount_price: 799
-    },
-
-];
 
 defineProps({
     lang: {
@@ -125,15 +55,15 @@ const state = ref({
 });
 
 onMounted(() => {
-    // axios.get('/api/v1/product/best-selling')
-    //     .then(({data}) => {
-    //         state.value.isLoading = false;
-    //         state.value.products = data.result.data;
-    //         state.value.total = data.result.total;
-    //         state.value.currentPage = data.result.current_page;
-    //         state.value.showLoadMore = (data.result.to !== data.result.total);
-    //     })
-    //     .catch((response) => console.log(response));
+    axios.get('/api/v1/product/best-selling')
+        .then(({data}) => {
+            state.value.isLoading = false;
+            state.value.products = data.result.data;
+            state.value.total = data.result.total;
+            state.value.currentPage = data.result.current_page;
+            state.value.showLoadMore = (data.result.to !== data.result.total);
+        })
+        .catch((response) => console.log(response));
 });
 
 function fetch() {

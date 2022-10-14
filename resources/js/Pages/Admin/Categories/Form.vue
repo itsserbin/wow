@@ -8,7 +8,7 @@
 
             <div class="block">
                 <label-component value="Статус публікації"/>
-                <select-component v-model="item.published" :options="state.publishedOptions"/>
+                <select-component v-model="item.published" :options="publishedStatuses"/>
             </div>
         </div>
 
@@ -67,25 +67,13 @@
 
 <script setup>
 import {inject, onMounted, reactive, ref} from "vue";
-import ImageCard from '@/Components/ImageCard.vue';
-
-const emits = defineEmits(['submit'])
 
 const props = defineProps(['item'])
 
 const defaultLang = inject('$defaultLang');
+const publishedStatuses = inject('$publishedStatuses');
 
 const state = ref({
-    publishedOptions: [
-        {
-            key: 0,
-            value: 'Not published'
-        },
-        {
-            key: 1,
-            value: 'Published'
-        }
-    ],
     categories: [],
     categoryPreview: [],
     activeLang: defaultLang
