@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="state.products.length">
         <loader v-if="state.isLoading"></loader>
         <section v-if="!state.isLoading" class="product-list card">
             <div class="font-bold text-black text-center text-[24px] mb-[15px]">{{ title }}</div>
@@ -10,9 +10,7 @@
             ></product-cards>
             <div class="row d-flex justify-content-center" v-if="state.showLoadMore">
                 <loader v-if="state.isLoadingMore"></loader>
-                <button class="load-more__button" type="button" v-if="!state.isLoadingMore" @click="fetch">
-                    <span>{{ textLoadMore }}</span>
-                </button>
+                <LoadMore v-if="!state.isLoadingMore"  @click="fetch"/>
             </div>
         </section>
     </div>
@@ -20,6 +18,7 @@
 
 <script setup>
 import {defineProps, ref, onMounted} from "vue";
+import LoadMore from '@/Pages/Public/Components/LoadMore.vue';
 
 const state = ref({
     category: null,

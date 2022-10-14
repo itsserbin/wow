@@ -11,16 +11,14 @@
         ></product-cards>
         <div class="flex-row flex justify-center" v-if="state.showLoadMore">
             <loader v-if="state.isLoadingMore"></loader>
-            <button class="cursor-pointer w-[250px] h-[50px] text-white bg-[#E02424] text-bold uppercase rounded-[10px]"
-                    type="button" v-if="!state.isLoadingMore" @click="fetch">
-                <span>{{ textLoadMore }}</span>
-            </button>
+            <LoadMore v-if="!state.isLoadingMore"  @click="fetch"/>
         </div>
     </div>
 </template>
 
 <script setup>
 import {onMounted, ref} from "vue";
+import LoadMore from '@/Pages/Public/Components/LoadMore.vue';
 
 defineProps({
     lang: {
