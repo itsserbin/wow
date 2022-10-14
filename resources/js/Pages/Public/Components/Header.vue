@@ -1,25 +1,39 @@
 <template>
-    <div class="shadow-lg">
+    <div class="shadow-lg anim_first">
         <div class="max-w-7xl mx-auto mt-2 ">
-            <div class="flex justify-between items-center">
-                <div class=" header__logo logo  ">
+            <div class="flex justify-between items-center mx-auto">
+                <div class="">
                     <a :href="route('home')">
                         <img src="https://dabango.store/storage/img/content/logo.png" :alt="appName" class="w-[55px]">
                         <!--                        <img :src="logoApp" :alt="appName">-->
                     </a>
                 </div>
-                <div class="grow-0 shrink-0 basis-[auto] w-[63.2%] mx-auto flex justify-center">
+                <div class="grow-0 shrink-0 basis-[auto]  m-auto mr-[1rem] flex justify-center" style="margin:auto;">
                     <cart-icon-component :cart-route="cartRoute"></cart-icon-component>
+                    
                 </div>
-                <div class=" flex justify-end mr-[10px]">
-                    <div class=" max-w-[55px]" @click="setLangActiveClass">
+                <div class=" flex justify-center items-center w-[9rem] mob_position">
+                    <div class=" max-w-[55px]" >
                         <div class="relative whitespace-nowrap">
+                            
+                        <button @click="setLangActiveClass"
+                        class="text-red-500 bg-white hover:bg-white focus:outline-none  font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-white  " type="button">UA<svg class="ml-2 w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
+                    <!-- Dropdown menu -->
+                    <div v-if="state.langActiveClass" class=" z-10 w-[50px] bg-white rounded divide-y divide-gray-100 shadow " data-popper-reference-hidden="" data-popper-escaped="" data-popper-placement="bottom" style="position: absolute; inset: 0px auto auto 0px; margin-top: 25px; transform: translate(0px, 10px);">
+                        <ul class="py-1 text-sm text-red-600 dark:text-gray-200" aria-labelledby="dropdownDefault" >
+                        <li>
+                            <a href="#" class="block py-2 text-red-600 px-4   dark:hover:text-red-600">RU</a>
+                        </li>
+                        
+                        </ul>
+                    </div>
+
                             <div class="relative z-5">
-                                <div class="text-[18px] uppercase text-red-600 cursor-default  ">{{ lang === 'ru' ? 'RU' : 'UA' }}</div>
+                                <div class="text-[18px] uppercase text-red-600 cursor-default "></div>
                             </div>
                             <div class="hidden absolute z-4 top-[35px] left-[-5px] p-[10px] bg-[#fff] " :class="{'active': state.langActiveClass}">
                                 <div class="language-chooser__drop-item lang-switcher">
-                                    <a class="block text-[18px] text-[#db002f] no-underline" :href="setlocateUa">UA</a>
+                                    <a class="block text-[18px] text-[#db002f] no-underline" :href="setlocateUa"></a>
                                 </div>
                                 <div class="language-chooser__drop-item lang-switcher">
                                     <a class="block text-[18px] text-[#db002f] no-underline" :href="setlocateRu">RU</a>
@@ -28,30 +42,28 @@
                         </div>
                     </div>
                 </div>
-                <div class="grow-0 shrink-0 basis-[auto] z-50 flex justify-end mr-[10px]  ">
-                    <div class="
-                                relative
-                                !w-[25px]
-                                h-[18px]
-                                z-51
-                                p-0
-                                ease-[all 0.3s ease 0s]
+                <div class="grow-0 shrink-0 basis-[auto] z-50 flex justify-end  w-[5rem]  ">
+                    <div class="burger__sticks  relative !w-[25px] h-[18px] z-51 p-0 ease-out mr-[35px]
                                 before:bg-[#c4c4c4]
                                 before:content-['']
                                 before:h-[2px]
                                 before:absolute
                                 before:w-[100%]
+                                before:mt-[15px]
+                                before:ease-out
                                 after:bg-[#c4c4c4]
                                 after:content-['']
                                 after:h-[2px]
                                 after:absolute
                                 after:w-[100%]
-                                before:mt-[15px]
+                                after:ease-out
+
+                               
                          "
                          @click="showBurgerMenu"
                          :class="{'active': state.showBurger}"
                     >
-                        <span class="bg-[#c4c4c4] block h-[2px] left-0 relative top-[8px] w-[100%]"></span>
+                        <span class="bg-[#c4c4c4] block h-[2px] relative left-0 top-[8px] w-[100%]"></span>
                     </div>
                 </div>
             </div>
@@ -68,8 +80,8 @@
             </div>
         </div>
 
-        <div class="burger-menu animate__animated animate__backInDown  active flex flex-row justify-center fixed w-[100%] h-[100%] z-40 top-[0] left-0 overflow-scroll bg-[#161616]" v-if="state.showBurger">
-            <div class="menus justify-center items-center flex mt-[30px]">
+        <div class="burger-menu  animate__animated animate__fadeInDownBig   active flex flex-row justify-center fixed w-[100%] h-[100%] z-40 top-[0] left-0 overflow-scroll bg-[#161616] " v-if="state.showBurger" >
+            <div class="menus  justify-center items-center flex mt-[30px]">
                 <nav class="menu">
                     <ul class="menu__list flex flex-col justify-center items-center mr-[20px]">
                         <li v-for="category in state.categoriesList" :key="category.id">
@@ -162,6 +174,7 @@ const state = ref({
     langActiveClass: false,
 })
 
+
 onMounted(() => {
     if (props.pages) {
         state.value.pagesList = JSON.parse(props.pages);
@@ -171,9 +184,22 @@ onMounted(() => {
     }
 })
 
+
+
+
+
+
+
+
 function showBurgerMenu() {
     state.value.showBurger = !state.value.showBurger;
+    
 }
+
+
+
+
+
 
 // function handleSCroll(event) {
 //     let header = document.querySelector(".header");
@@ -214,35 +240,7 @@ const props = defineProps([
 
 </script>
 <style>
-.line{
-    position: relative;
-	color: #fff; /*задаём цвет ссылки*/
-	cursor: pointer;
-	line-height: 1; /*задаём высоту строки*/
-	text-decoration: none; /*убираем подчёркивание*/
-
-}
-
-.line:after {
-	display: block;
-	position: absolute;
-	left: 0; /*изменить на right:0;, чтобы изменить направление подчёркивания */
-	width: 0;/*задаём длинну линии до наведения курсора*/
-	height: 2px; /*задаём ширину линии*/
-	background-color: #fff; /*задаём цвет линии*/
-	content: "";
-	transition: width 0.3s ease-out; /*задаём время анимации*/
-}
-
-.line:hover:after,
-.line:focus:after {
-	width: 100%; /*устанавливаем значение 100% чтобы ссылка подчёркивалась полностью*/
-    margin-top: 15px;
-}
 
 
-.active:active{
-    transition: height 0.3s ease-out;
-}
 
 </style>

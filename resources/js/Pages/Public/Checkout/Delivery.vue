@@ -19,14 +19,14 @@
             <div class="block">
                 <label-component>Місто</label-component>
                 <input-component type="email"
-                                 placeeholder="Вкажіть місто"
+                                 placeholder="Вкажіть місто"
                                  v-model="order.city"
                 />
             </div>
             <div class="block">
                 <label-component>Відділення Нова Пошта</label-component>
                 <input-component type="email"
-                                 placeeholder="Вкажіть відділення НП"
+                                 placeholder="Вкажіть відділення НП"
                                  v-model="order.postal_office"
                 />
             </div>

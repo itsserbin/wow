@@ -30,7 +30,8 @@
                        name="payment"
                        value="cash_on_delivery"
                        v-model="order.payment_method"
-                       class="mr-2"
+                       class="mr-2 focus:border-red-600
+                    focus:ring-red-600"
                 >
                 <p class="a-text">Накладений платіж</p>
             </label>
@@ -47,7 +48,8 @@
                        name="payment"
                        value="minimum_prepayment"
                        v-model="order.payment_method"
-                       class="mr-2"
+                       class="mr-2 focus:border-red-600
+                    focus:ring-red-600"
                 >
                 <p class="a-text">Мінімальна передоплата (10%)</p>
             </label>
@@ -64,7 +66,9 @@
                        name="payment"
                        value="full_prepayment"
                        v-model="order.payment_method"
-                       class="mr-2"
+                       class="mr-2 focus:border-red-600
+                    focus:ring-red-600"
+                       
                 >
                 <p class="a-text">Повна передоплата</p>
             </label>
