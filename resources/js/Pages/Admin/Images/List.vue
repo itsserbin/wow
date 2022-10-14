@@ -3,7 +3,7 @@
         <ImageCard
             class="m-1"
             v-for="image in props.images.data"
-            :image="'/storage/images/350/' + image.src"
+            :image="route('images.products.350',image.src)"
             :id="image.id"
             :alt="image.alt"
             @clickImage="$emit('clickImage',image)"
@@ -12,9 +12,9 @@
         />
     </div>
     <div class="row flex justify-center my-5" v-if="props.images">
-        <paginate  :pagination="props.images"
-                   :click-handler="fetch"
-                   v-model="currentPage"
+        <paginate :pagination="props.images"
+                  :click-handler="fetch"
+                  v-model="currentPage"
         />
     </div>
 </template>

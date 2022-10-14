@@ -12,6 +12,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
 {
@@ -80,6 +81,11 @@ class HomeController extends Controller
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
         ]);
+    }
+
+    public function images($path)
+    {
+        return Storage::disk('s3')->response('/storage/banners/mobile/' . $path);
     }
 
     public function getOptions()
