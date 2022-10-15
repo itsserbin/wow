@@ -260,39 +260,6 @@ const props = defineProps([
 
 </script>
 <style>
-.fade-enter-active,
-.fade-leave-active {
-    transition: all 0.3s ease-out;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-    animation: bounce-in 0.5s reverse;
-}
 
 
-@keyframes bounce-in {
-    0% {
-        transform: scale(0);
-    }
-
-    50% {
-        transform: scale(1.25);
-    }
-
-    100% {
-        transform: scale(1);
-    }
-}
-
-
-.fadeLast-enter-active,
-.fadeLast-leave-active {
-    transition: opacity .5s ease;
-}
-
-.fadeLast-enter-from,
-.fadeLast-leave-to {
-    opacity: 0;
-}
 </style>

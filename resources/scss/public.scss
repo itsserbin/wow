@@ -925,7 +925,15 @@ input[type='radio']:checked::after {
 }
 
 
+.fadeLast-enter-active,
+.fadeLast-leave-active {
+    transition: opacity .5s ease;
+}
 
+.fadeLast-enter-from,
+.fadeLast-leave-to {
+    opacity: 0;
+}
 
 .burger__sticks.active:before {
     top: 4px;
