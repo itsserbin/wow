@@ -50,6 +50,16 @@ class CategoriesController extends BaseController
         ]);
     }
 
+    public function listPublic(): JsonResponse
+    {
+        $result = $this->categoriesRepository->listPublic();
+
+        return $this->returnResponse([
+            'success' => true,
+            'result' => $result,
+        ]);
+    }
+
     /**
      * @param Request $request
      * @return JsonResponse

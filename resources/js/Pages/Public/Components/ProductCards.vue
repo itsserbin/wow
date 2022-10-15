@@ -4,7 +4,6 @@
             <div v-for="(product,i) in products" :key="i">
                 <product-card :product="product"
                               :lang="lang"
-                              :text-go-to-product-card="textGoToProductCard"
                 ></product-card>
             </div>
         </div>
@@ -16,6 +15,5 @@
 defineProps({
     products: Array,
     lang: String,
-    textGoToProductCard: String,
 })
 </script>

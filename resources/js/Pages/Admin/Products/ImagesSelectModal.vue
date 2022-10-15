@@ -25,7 +25,7 @@
                         <div class="block">
                             <ImageCard
                                 class="m-1"
-                                :image="'/storage/images/350/' + image.src"
+                                :image="route('images.products.350',image.src)"
                                 :alt="image.alt"
                                 @click="$emit('clickImage',image)"
                             />
@@ -84,7 +84,6 @@ async function fetch(page) {
     await axios.get(route('api.images.index', {'page': state.value.currentPage}))
         .then(response => {
             state.value.images = response.data.result
-            console.log(state.value.images);
             state.value.isLoading = false;
         })
         .catch(errors => {

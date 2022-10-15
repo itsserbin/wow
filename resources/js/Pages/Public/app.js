@@ -82,12 +82,18 @@ import ProductImagesSlider from '@/Pages/Public/Product/ImagesSlider.vue';
 import AddToCart from '@/Pages/Public/Product/AddToCart.vue';
 import ProductReviews from '@/Pages/Public/Product/Reviews.vue';
 import SizesTable from '@/Pages/Public/Product/SizesTable.vue';
+import RelativeProducts from '@/Pages/Public/Product/RelativeProducts.vue';
+import BestSellingProducts from '@/Pages/Public/Product/BestSellingProducts.vue';
+import NewProduct from '@/Pages/Public/Product/NewProducts.vue';
 
 app.component('delivery-and-payment', DeliveryAndPayment);
 app.component('product-images-slider', ProductImagesSlider);
 app.component('add-to-cart', AddToCart);
 app.component('product-reviews', ProductReviews);
 app.component('sizes-table', SizesTable);
+app.component('relative-products', RelativeProducts);
+app.component('best-selling-product', BestSellingProducts);
+app.component('new-product', NewProduct);
 
 import CategoryBanners from '@/Pages/Public/Category/Banners.vue';
 import CategoryProducts from '@/Pages/Public/Category/Products.vue';

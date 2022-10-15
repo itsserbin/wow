@@ -41,6 +41,7 @@ class HomeController extends Controller
         return view('pages.home', [
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
+            'categories' => $this->getCategories(),
             'advantages' => $this->advantagesRepository->getAllToPublic(),
         ]);
     }
@@ -73,6 +74,7 @@ class HomeController extends Controller
         return view('pages.cart', [
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
+            'categories' => $this->getCategories(),
         ]);
     }
 
@@ -81,6 +83,7 @@ class HomeController extends Controller
         return view('pages.checkout', [
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
+            'categories' => $this->getCategories(),
         ]);
     }
 
@@ -106,6 +109,6 @@ class HomeController extends Controller
 
     public function getCategories()
     {
-        return $this->categoriesRepository->getAllOnProd();
+        return $this->categoriesRepository->listPublic();
     }
 }

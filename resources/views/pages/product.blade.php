@@ -53,4 +53,17 @@
             <product-reviews :reviews="{{json_encode($product->reviews)}}"></product-reviews>
         </div>
     </div>
+
+   <div class="mt-5">
+       <div class="relative">
+           <relative-products id="{{$product->id}}" lang="{{app()->getLocale()}}"></relative-products>
+       </div>
+
+       <div class="best">
+           <best-selling-product lang="{{app()->getLocale()}}"></best-selling-product>
+       </div>
+
+       <div class="new">
+           <new-product lang="{{app()->getLocale()}}"></new-product>
+       </div></div>
 @endsection

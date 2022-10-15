@@ -129,6 +129,11 @@ const state = ref({
 });
 
 onMounted(() => {
+    let id = new URLSearchParams(new URL(window.location.href).search).get('product');
+    if (id) {
+        onEdit(id);
+    }
+
     fetch(1);
 })
 
@@ -232,19 +237,14 @@ function modalFunction() {
     state.value.isActiveModal = !state.value.isActiveModal;
 }
 
-function onEdit(id, i) {
-    if (can('edit-products')) {
-        axios.get(route('api.products.edit', id))
-            .then(({data}) => {
-                state.value.item = data.result;
-                state.value.modalAction = 'edit';
-                state.value.item.index = i;
-
-                console.log(state.value.item);
-                modalFunction();
-            })
-            .catch((response) => console.log(response))
-    }
+function onEdit(id) {
+    axios.get(route('api.products.edit', id))
+        .then(({data}) => {
+            state.value.item = data.result;
+            state.value.modalAction = 'edit';
+            modalFunction();
+        })
+        .catch((response) => console.log(response))
 }
 
 function onUpdate() {

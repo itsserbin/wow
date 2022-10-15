@@ -1,11 +1,10 @@
 <template>
     <modal-component @closeModal="$emit('closeModal')"
-                     submit-button-text="Save"
-                     cancel-button-text="Cancel"
+                     submit-button-text="Зберегти"
+                     cancel-button-text="Відмінити"
                      @submitForm="$emit('submitItemForm')"
                      @clickCancel="$emit('closeModal')"
     >
-        <template #title>Add item to order</template>
         <template #content>
             <ItemsForm :item="item"/>
         </template>

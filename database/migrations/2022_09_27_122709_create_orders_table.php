@@ -22,10 +22,10 @@ return new class extends Migration {
 
             $table->text('comment')->nullable();
 
-            $table->foreignId('user_id')
+            $table->foreignId('client_id')
                 ->nullable()
                 ->references('id')
-                ->on('users')
+                ->on('clients')
                 ->onDelete('set null');
 
             $table->foreignId('manager_id')

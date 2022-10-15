@@ -34,7 +34,7 @@ Breadcrumbs::for('home.pages', function (BreadcrumbTrail $trail, $page) {
 
 Breadcrumbs::for('home.categories', function (BreadcrumbTrail $trail, $category) {
     $trail->parent('home');
-    $trail->push(app()->getLocale() == 'ua' ? $category->title['ua'] : $category->title['ru'], route('category', $category->slug));
+    $trail->push(app()->getLocale() == 'ua' ? $category->title['ua'] ?? 'Без назви' : $category->title['ru'] ?? 'Без назви', route('category', $category->slug));
 });
 
 Breadcrumbs::for('home.categories.product', function (BreadcrumbTrail $trail, $product) {

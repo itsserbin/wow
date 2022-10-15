@@ -123,7 +123,7 @@ Route::prefix('v1')->middleware('api')->group(function () {
          *
          * GET /api/category/all-on-prod
          */
-        Route::get('list', [CategoriesController::class, 'list'])
+        Route::get('list', [CategoriesController::class, 'listPublic'])
             ->name('api.v1.category.list');
 
         /**

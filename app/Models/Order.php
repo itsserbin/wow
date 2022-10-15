@@ -27,4 +27,9 @@ class Order extends Model
     {
         return $this->belongsTo(User::class, 'manager_id');
     }
+
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(Client::class, 'client_id');
+    }
 }

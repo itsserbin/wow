@@ -1,6 +1,5 @@
 <template>
-    <div class="mt-4 -mb-3">
-        <div class="
+    <div class="
                     not-prose
                     relative
                     bg-slate-50
@@ -8,8 +7,8 @@
                     overflow-hidden
                     dark:bg-slate-800/25
             "
-        >
-            <div class="
+    >
+        <div class="
                         absolute
                         inset-0
                         bg-grid-slate-100
@@ -17,16 +16,16 @@
                         dark:bg-grid-slate-700/25
                         dark:[mask-image:linear-gradient(0deg,rgba(255,255,255,0.1),rgba(255,255,255,0.5))]
                 "
-            >
-            </div>
-            <div class="relative rounded-xl">
-                <div class="shadow-sm my-8"
-                     :class="{'whitespace-nowrap' : nowrap,'overflow-x-scroll' : responsive}">
-                    <table class="border-collapse table-auto w-full text-sm text-center">
-                        <thead>
-                        <tr>
-                            <th v-for="heading in headings"
-                                class="
+        >
+        </div>
+        <div class="relative rounded-xl">
+            <div class="shadow-sm my-8"
+                 :class="{'whitespace-nowrap' : nowrap,'overflow-x-scroll' : responsive}">
+                <table class="border-collapse table-auto w-full text-sm text-center">
+                    <thead>
+                    <tr>
+                        <th v-for="heading in headings"
+                            class="
                                         border-b
                                         dark:border-slate-600
                                         font-medium
@@ -37,15 +36,15 @@
                                         text-slate-400
                                         dark:text-slate-200
                                 "
-                            >
-                                <span v-html="heading.label"></span>
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody class="bg-white dark:bg-slate-800">
-                        <tr v-for="(row,i) in rows">
-                            <td v-for="heading in headings"
-                                class="
+                        >
+                            <span v-html="heading.label"></span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody class="bg-white dark:bg-slate-800">
+                    <tr v-for="(row,i) in rows">
+                        <td v-for="heading in headings"
+                            class="
                                         border-b
                                         border-slate-100
                                         dark:border-slate-700
@@ -54,23 +53,23 @@
                                         text-slate-500
                                         dark:text-slate-400
                                 "
-                            >
-                                <div v-if="isSlotMode && $slots[heading.key]">
-                                    <slot :name="heading.key" :data="{row,i}"></slot>
-                                </div>
-                                <div v-else v-for="(value,key) in row">
-                                    {{ key === heading.key ? value : null }}
-                                </div>
-                            </td>
-                        </tr>
-                        <!--                        <tr v-else>-->
-                        <!--                            <td :colspan="headings.length" class="text-center py-5">No data</td>-->
-                        <!--                        </tr>-->
-                        </tbody>
-                    </table>
-                </div>
+                        >
+                            <div v-if="isSlotMode && $slots[heading.key]">
+                                <slot :name="heading.key" :data="{row,i}"></slot>
+                            </div>
+                            <div v-else v-for="(value,key) in row">
+                                {{ key === heading.key ? value : null }}
+                            </div>
+                        </td>
+                    </tr>
+                    <!--                        <tr v-else>-->
+                    <!--                            <td :colspan="headings.length" class="text-center py-5">No data</td>-->
+                    <!--                        </tr>-->
+                    </tbody>
+                </table>
             </div>
-            <div class="
+        </div>
+        <div class="
                         absolute
                         inset-0
                         pointer-events-none
@@ -79,8 +78,7 @@
                         rounded-xl
                         dark:border-white/5
                 "
-            ></div>
-        </div>
+        ></div>
     </div>
 </template>
 

@@ -1,1 +1,0 @@
-import t from"./OptionsLayout.41bd7b92.js";import{U as e,R as o,Q as a,L as r}from"./_plugin-vue_export-helper.492f51f3.js";import"./Sidebar.e6124169.js";import"./app.474ab436.js";const s=r("h1",null,"CHLEN NEGRA",-1),u={__name:"Index",setup(_){return(c,n)=>(a(),e(t,null,{default:o(()=>[s]),_:1}))}};export{u as default};

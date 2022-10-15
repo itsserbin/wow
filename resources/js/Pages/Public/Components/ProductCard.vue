@@ -95,9 +95,12 @@
 </template>
 
 <script setup>
-defineProps([
-    'product',
-    'lang',
-    'textGoToProductCard',
-]);
+defineProps({
+    product: Object,
+    lang: String,
+    textGoToProductCard: {
+        type: String,
+        default: 'Докладніше'
+    },
+});
 </script>

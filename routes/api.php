@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\ColorsController;
 use App\Http\Controllers\Api\FaqsController;
 use App\Http\Controllers\Api\ImagesController;
 use App\Http\Controllers\Api\OptionsController;
+use App\Http\Controllers\Api\OrderItemsController;
 use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\PagesController;
 use App\Http\Controllers\Api\PermissionsController;
@@ -291,6 +292,24 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::get('search', [OrdersController::class, 'search'])
             ->name('api.orders.search');
+    });
+
+    Route::prefix('order-items')->group(function () {
+
+        Route::get('{id}', [OrderItemsController::class, 'getByOrderId'])
+            ->name('api.order-items.getByOrderId');
+
+        Route::delete('destroy/{item_id}/{order_id}', [OrderItemsController::class, 'destroy'])
+            ->name('api.order-items.destroy');
+
+        Route::put('/update/{id}', [OrderItemsController::class, 'update'])
+            ->name('api.order-items.update');
+
+        Route::get('/edit/{id}', [OrderItemsController::class, 'edit'])
+            ->name('api.order-items.edit');
+
+        Route::post('add/{id}', [OrderItemsController::class, 'addItem'])
+            ->name('api.order-items.add');
     });
 
     Route::prefix('banners')->group(function () {

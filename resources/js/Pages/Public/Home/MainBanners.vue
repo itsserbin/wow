@@ -54,10 +54,7 @@ const state = ref({
 
 onMounted(() => {
     axios.get('/api/v1/banners/all')
-        .then(({data}) => {
-            state.value.banners = data.result;
-            console.log(state.value.banners)
-        })
+        .then(({data}) => state.value.banners = data.result)
         .catch((response) => console.log(response));
 })
 </script>
