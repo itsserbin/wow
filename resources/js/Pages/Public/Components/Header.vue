@@ -26,7 +26,7 @@
                                         d="M19 9l-7 7-7-7"></path>
                                 </svg></button>
                             <!-- Dropdown menu -->
-                            <transition name="fadeLast">
+                            <transition name="fadeSecond">
                                 <div v-if="state.langActiveClass"
                                     class=" z-10 w-[50px] bg-white rounded divide-y divide-gray-100 shadow "
                                     data-popper-reference-hidden="" data-popper-escaped=""
