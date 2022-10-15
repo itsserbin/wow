@@ -1,5 +1,7 @@
-<template>
+<template> 
+<transition name="fadeLast">
     <div>
+       
         <div
             class="
                     fixed
@@ -111,7 +113,9 @@
             </div>
         </div>
         <div class="bg-gray-900 bg-opacity-50 fixed inset-0 z-30"></div>
+    
     </div>
+</transition>
 </template>
 
 <script setup>

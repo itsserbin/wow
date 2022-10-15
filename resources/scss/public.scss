@@ -946,7 +946,7 @@ input[type='radio']:checked::after {
     content: "";
     height: 2px;
     position: absolute;
-    transition: all .3s ease 0s;
+    transition: all .5s ease 0s;
     width: 100%;
 }
 
