@@ -1,6 +1,8 @@
 <template>
     <div>
-        <slot></slot>
+        <transition name="fadeLast">
+            <slot></slot>
+        </transition>
     </div>
 </template>
 
@@ -16,7 +18,7 @@ export default {
         };
     },
     provide() {
-        return {Accordion: this.Accordion};
+        return { Accordion: this.Accordion };
     }
 };
 </script>

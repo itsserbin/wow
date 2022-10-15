@@ -37,8 +37,8 @@
 // @import "pages/order";
 
 .breadcrumbs::-webkit-scrollbar {
-    width: 0;  /* Remove scrollbar space */
-    background: transparent;  /* Optional: just make scrollbar invisible */
+    width: 0; /* Remove scrollbar space */
+    background: transparent; /* Optional: just make scrollbar invisible */
 }
 
 .content {
@@ -136,4 +136,159 @@
         margin-right: 0;
     }
 
+}
+
+.multiselect-no-options, .multiselect-no-results {
+    color: var(--ms-empty-color, #4b5563);
+    padding: var(--ms-option-py, .5rem) var(--ms-option-px, .75rem)
+}
+
+.multiselect-fake-input {
+    background: transparent;
+    border: 0;
+    bottom: -1px;
+    font-size: 0;
+    height: 1px;
+    left: 0;
+    outline: none;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    width: 100%
+}
+
+
+/* LINE INTO HEADER */
+.line {
+    position: relative;
+    color: #fff; /*задаём цвет ссылки*/
+    cursor: pointer;
+    line-height: 1; /*задаём высоту строки*/
+    text-decoration: none; /*убираем подчёркивание*/
+
+}
+
+.line:after {
+    display: block;
+    position: absolute;
+    left: 0; /*изменить на right:0;, чтобы изменить направление подчёркивания */
+    width: 0; /*задаём длинну линии до наведения курсора*/
+    height: 2px; /*задаём ширину линии*/
+    background-color: #fff; /*задаём цвет линии*/
+    content: "";
+    transition: width 0.3s ease-out; /*задаём время анимации*/
+
+}
+
+.line:hover:after,
+.line:focus:after {
+    width: 100%; /*устанавливаем значение 100% чтобы ссылка подчёркивалась полностью*/
+
+}
+
+
+.active:active {
+    transition: height 0.3s ease-out;
+}
+
+
+.animate__fadeInDownBig {
+    --animate-duration: 0.2s;
+
+}
+
+.fadeSecond-enter-active, .fadeSecond-leave-active {
+    transition: opacity .5s ease;
+}
+
+.fadeSecond-enter-from, .fadeSecond-leave-to {
+    opacity: 0;
+}
+
+
+.fadeLast-enter-active,
+.fadeLast-leave-active {
+    transform: translateY(-100%);
+    transition: transform 0.3s linear;
+
+}
+
+.fadeLast-enter-from,
+.fadeLast-leave-to {
+    transition: 0.3s ease-in;
+}
+
+.burger-menu {
+    transition: all 0.3s ease 0s;
+}
+
+
+.burger__sticks.active:before {
+    top: 4px;
+    transform: rotate(45deg);
+    transition: all 1s ease 0s;
+}
+
+.burger__sticks.active:after {
+    bottom: 12px;
+    transform: rotate(-45deg);
+    top: 1.2rem;
+    transition: all 1s ease 0s;
+
+}
+
+.burger__sticks:after, .burger__sticks:before {
+    background: #c4c4c4;
+    content: "";
+    height: 2px;
+    position: absolute;
+    transition: all 1s ease 0s;
+    width: 100%;
+}
+
+
+.burger__sticks.active span {
+    display: none;
+}
+
+@media screen and (max-width: 320px) {
+    .mob_position {
+        width: 4rem;
+    }
+}
+
+.burger-menu {
+
+}
+
+
+.multiselect-fake-input:active, .multiselect-fake-input:focus {
+    outline: none
+}
+
+.multiselect-spacer {
+    display: none
+}
+
+[dir=rtl] .multiselect-multiple-label, [dir=rtl] .multiselect-placeholder, [dir=rtl] .multiselect-single-label {
+    left: auto;
+    padding-left: calc(1.25rem + var(--ms-px, .875rem) * 3);
+    padding-right: var(--ms-px, .875rem);
+    right: 0
+}
+
+[dir=rtl] .multiselect-search {
+    padding-left: 0;
+    padding-right: var(--ms-px, .875rem)
+}
+
+[dir=rtl] .multiselect-tags {
+    padding-left: 0;
+    padding-right: var(--ms-py, .5rem)
+}
+
+[dir=rtl] .multiselect-tag {
+    margin-left: var(--ms-tag-mx, .25rem);
+    margin-right: 0;
+    padding: var(--ms-tag-py, .125rem) var(--ms-tag-px, .5rem) var(--ms-tag-py, .125rem) 0
 }
