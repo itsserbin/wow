@@ -43,6 +43,11 @@ Route::group(['prefix' => App\Http\Middleware\LocaleMiddleware::getLocale()], fu
         return view('PaymentSecondPage');
     });
 
+//Sergey Route Footer
+    Route::get('/footer', function () {
+        return view('footer');
+    });
+
 
     Route::get('/test', function () {
         return view('test');
