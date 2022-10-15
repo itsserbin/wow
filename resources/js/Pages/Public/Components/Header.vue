@@ -1,19 +1,19 @@
 <template>
    
-    <div class="shadow-lg anim_first">
+    <div class="shadow-lg ">
         <div class="max-w-7xl mx-auto mt-2 ">
             <div class="flex justify-between items-center mx-auto">
-                <div class="">
+                <div class="w-[40.3%]"> <!--40.3%;-->
                     <a :href="route('home')">
                         <img src="https://dabango.store/storage/img/content/logo.png" :alt="appName" class="w-[55px]">
                         <!--                        <img :src="logoApp" :alt="appName">-->
                     </a>
                 </div>
-                <div class="grow-0 shrink-0 basis-[auto]  m-auto mr-[1rem] flex justify-center" style="margin:auto;">
+                <div class="grow-0 shrink-0 basis-[auto]  m-auto mr-[1rem] flex justify-end" style="margin:auto;">
                     <cart-icon-component :cart-route="cartRoute"></cart-icon-component>
                     
                 </div>
-                <div class=" flex justify-center items-center w-[9rem] mob_position">
+                <div class=" flex  items-center w-[23.3%]  mob_position justify-end">
                     <div class=" max-w-[55px]" >
                         <div class="relative whitespace-nowrap">
                             
@@ -43,8 +43,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="grow-0 shrink-0 basis-[auto] z-50 flex justify-end  w-[5rem]  ">
-                    <div class="burger__sticks  relative !w-[25px] h-[18px] z-51 p-0 ease-out mr-[35px]
+                <div class="grow-0 shrink-0 basis-[auto] z-50 flex  w-[19.3%]  justify-end">
+                    <div class="burger__sticks justify-end  relative !w-[25px] h-[18px] z-51 p-0 ease-out mr-[35px]
                                 before:bg-[#c4c4c4]
                                 before:content-['']
                                 before:h-[2px]
@@ -266,5 +266,6 @@ const props = defineProps([
     transform: scale(1);
   }
 }
+
 
 </style>
