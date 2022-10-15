@@ -10,51 +10,10 @@
                 Додати
             </button-component>
 
-            <lang-tabs @clickLang="changeLang"/>
-
-            <table-component :headings="headings"
-                             :isSlotMode="true"
-                             :rows="state.categories.data"
-            >
-                <template v-slot:id="{data}">
-                    <a href="javascript:" @click="onEdit(data.row.id,data.i)">
-                        {{ data.row.id }}
-                    </a>
-                </template>
-
-                <template v-slot:preview="{data}">
-                    <img :src="'/storage/images/55/' + data.row.preview"
-                         :alt="state.activeLang === 'ua' ? data.row.title.ua :
-                                (state.activeLang === 'ru' ? data.row.title.ru : '-')"
-                         class="mx-auto"
-                    >
-                </template>
-
-                <template v-slot:title="{data}">
-                    <a href="javascript:">
-                        {{
-                            state.activeLang === 'ua' ? data.row.title.ua :
-                                (state.activeLang === 'ru' ? data.row.title.ru : '-')
-                        }}
-                    </a>
-                </template>
-
-                <template v-slot:published="{data}">
-                    {{ $filters.publishedStatus(data.row.published) }}
-                </template>
-
-                <template v-slot:timestamps="{data}">
-                    {{ $filters.dateFormat(data.row.updated_at) }}
-                    <hr class="my-1">
-                    {{ $filters.dateFormat(data.row.created_at) }}
-                </template>
-
-                <template v-slot:actions="{data}">
-                    <a href="javascript:" @click="onDestroy(data.row.id)">
-                        <xcircle-component/>
-                    </a>
-                </template>
-            </table-component>
+            <Table :data="state.categories.data"
+                   @onEdit="onEdit"
+                   @onDestroy="onDestroy"
+            />
 
             <paginate :pagination="state.categories"
                       :click-handler="fetch"
@@ -73,11 +32,11 @@
 
 <script setup>
 import {reactive, onMounted, inject, ref, computed} from "vue";
-import CategoryModal from '@/Pages/Admin/Categories/Modal.vue';
+import Modal from '@/Pages/Admin/Categories/Modal.vue';
+import Table from '@/Pages/Admin/Categories/Table.vue';
 
 const swal = inject('$swal')
 const can = inject('$can');
-const defaultLang = inject('$defaultLang');
 
 const item = reactive({
     published: 0,
@@ -113,53 +72,13 @@ const state = ref({
     isActiveModal: false,
     modalAction: '',
     item: {},
-    activeLang: defaultLang
 });
 
 onMounted(() => {
     fetch(1);
 })
 
-function changeLang(val) {
-    state.value.activeLang = val;
-}
-
-const activeModal = computed(() => state.value.isActiveModal ? CategoryModal : null)
-
-const headings = reactive([
-    {
-        label: 'ID',
-        key: 'id'
-    },
-    {
-        label: 'Головне зображення',
-        key: 'preview'
-    },
-    {
-        label: 'Назва',
-        key: 'title'
-    },
-    {
-        label: 'Статус публікації',
-        key: 'published'
-    },
-    {
-        label: 'Батьківська категорія',
-        key: 'parent_id'
-    },
-    {
-        label: 'Сортування',
-        key: 'sort'
-    },
-    {
-        label: "Оновлено<hr class='my-1'>Створено",
-        key: 'timestamps'
-    },
-    {
-        label: '#',
-        key: 'actions'
-    }
-]);
+const activeModal = computed(() => state.value.isActiveModal ? Modal : null)
 
 
 function fetch(page) {

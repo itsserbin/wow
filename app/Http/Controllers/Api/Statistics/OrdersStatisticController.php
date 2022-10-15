@@ -19,15 +19,9 @@ class OrdersStatisticController extends BaseController
 
     public function index(Request $request): JsonResponse
     {
-        $result = $this->ordersStatisticsRepository->getAllWithPaginate($request->all());
-        $generalStatistics = $this->ordersStatisticsRepository->generalStatistic($request->all());
-        $generalIndicatorsStatistic = $this->ordersStatisticsRepository->generalIndicatorsStatistic($request->all());
-
         return $this->returnResponse([
             'success' => true,
-            'result' => $result,
-            'generalStatistics' => $generalStatistics,
-            'generalIndicatorsStatistic' => $generalIndicatorsStatistic
+            'result' => $this->ordersStatisticsRepository->getAllWithPaginate($request->all()),
         ]);
     }
 
@@ -36,6 +30,14 @@ class OrdersStatisticController extends BaseController
         return $this->returnResponse([
             'success' => true,
             'result' => $this->ordersStatisticsRepository->getDataForChart($request->all())
+        ]);
+    }
+
+    public function indicators(Request $request): JsonResponse
+    {
+        return $this->returnResponse([
+            'success' => true,
+            'result' => $this->ordersStatisticsRepository->generalStatistic($request->all())
         ]);
     }
 }

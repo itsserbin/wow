@@ -473,6 +473,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
             Route::get('chart', [OrdersStatisticController::class, 'chart'])
                 ->name('api.statistics.orders.chart');
+
+            Route::get('indicators', [OrdersStatisticController::class, 'indicators'])
+                ->name('api.statistics.orders.indicators');
         });
 
         Route::prefix('marketing')->group(function () {
