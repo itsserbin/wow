@@ -40,7 +40,7 @@
         <!--        </div>-->
 
         <transition
-            name="fadeLast"
+            name="accordion"
             @enter="start"
             @after-enter="end"
             @before-leave="start"
