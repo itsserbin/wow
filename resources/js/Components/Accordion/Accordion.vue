@@ -1,8 +1,11 @@
 <template>
     <div>
-        <transition name="fadeLast">
-            <slot></slot>
-        </transition>
+        
+            <slot>
+                <transition name="fadeLast">
+                </transition>
+            </slot>
+       
     </div>
 </template>
 
