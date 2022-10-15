@@ -10,13 +10,13 @@
                         <!--                        <img :src="logoApp" :alt="appName">-->
                     </a>
                 </div>
-                <div class="grow-0 shrink-0 basis-[auto]  m-auto mr-[1rem] flex justify-end" style="margin:auto;">
+                <div class="grow-0 shrink-0 basis-[auto]  m-auto mr-[1rem] flex justify-end ml-[47px]" style="margin:auto;">
                     <cart-icon-component :cart-route="cartRoute"></cart-icon-component>
 
                 </div>
                 <div class=" flex  items-center w-[23.3%]  mob_position justify-end">
                     <div class=" max-w-[55px]">
-                        <div class="relative whitespace-nowrap">
+                        <div class="relative whitespace-nowrap left-[0.4rem]">
 
                             <button @click="setLangActiveClass"
                                 class="text-red-500 bg-white hover:bg-white focus:outline-none  font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-white  "

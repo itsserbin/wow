@@ -38,7 +38,7 @@
         <!--            <slot name="accordion-trigger"></slot>-->
         <!--            <arrow-down width="20" height="20" class="text-dark"></arrow-down>-->
         <!--        </div>-->
-       
+
         <transition
             name="fadeLast"
             @enter="start"

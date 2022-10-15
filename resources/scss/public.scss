@@ -927,13 +927,24 @@ input[type='radio']:checked::after {
 
 .fadeLast-enter-active,
 .fadeLast-leave-active {
-    transition: opacity .5s ease;
+    transform: translateY(-100%);
+  transition: transform 0.3s linear;
+  
 }
 
 .fadeLast-enter-from,
 .fadeLast-leave-to {
-    opacity: 0;
+    transition: 0.3s ease-in;
 }
+
+.burger-menu{
+    transition: all 0.1s ease 0s;
+}
+
+
+
+
+
 
 .burger__sticks.active:before {
     top: 4px;
