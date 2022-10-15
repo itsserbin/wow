@@ -20,15 +20,18 @@
                         <button @click="setLangActiveClass"
                         class="text-red-500 bg-white hover:bg-white focus:outline-none  font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-white  " type="button">UA<svg class="ml-2 w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button>
                     <!-- Dropdown menu -->
+                    <transition name="fadeLast">
                     <div v-if="state.langActiveClass" class=" z-10 w-[50px] bg-white rounded divide-y divide-gray-100 shadow " data-popper-reference-hidden="" data-popper-escaped="" data-popper-placement="bottom" style="position: absolute; inset: 0px auto auto 0px;margin-left: 1px; margin-top: 25px; transform: translate(0px, 10px);">
+                        
                         <ul class="py-1 text-sm text-red-600 dark:text-gray-200" aria-labelledby="dropdownDefault" >
                         <li>
                             <a href="#" class="block py-2 text-red-600 px-4   dark:hover:text-red-600">RU</a>
                         </li>
                         
                         </ul>
+                    
                     </div>
-
+               </transition>
                             <div class="relative z-5">
                                 <div class="text-[18px] uppercase text-red-600 cursor-default "></div>
                             </div>
@@ -43,7 +46,9 @@
                         </div>
                     </div>
                 </div>
+                <transition name="fadeLast">
                 <div class="grow-0 shrink-0 basis-[auto] z-50 flex  w-[19.3%]  justify-end">
+                   
                     <div class="burger__sticks justify-end  relative !w-[25px] h-[18px] z-51 p-0 ease-out mr-[35px]
                                 before:bg-[#c4c4c4]
                                 before:content-['']
@@ -66,8 +71,11 @@
                     >
                         <span class="bg-[#c4c4c4] block h-[2px] relative left-0 top-[8px] w-[100%]"></span>
                     </div>
+                
                 </div>
+            </transition>
             </div>
+        
         </div>
         <div class=" bg-[#ffb7b7]">
             <div class="container">
@@ -80,8 +88,8 @@
                 </div>
             </div>
         </div>
-        <transition name="fade">
-        <div class="burger-menu  animate__animated animate__fadeInDownBig   active flex flex-row justify-center fixed w-[100%] h-[100%] z-40 top-[0] left-0 overflow-scroll bg-[#161616] " v-if="state.showBurger" >
+        <transition name="fadeLast">
+        <div class="burger-menu     active flex flex-row justify-center fixed w-[100%] h-[100%] z-40 top-[0] left-0 overflow-scroll bg-[#161616] " v-if="state.showBurger" >
             
             <div class="menus  justify-center items-center flex mt-[30px]">
                 <nav class="menu">
@@ -265,6 +273,15 @@ const props = defineProps([
   100% {
     transform: scale(1);
   }
+}
+
+
+.fadeLast-enter-active, .fadeLast-leave-active {
+  transition: opacity .5s ease;
+}
+
+.fadeLast-enter-from, .fadeLast-leave-to {
+  opacity: 0;
 }
 
 

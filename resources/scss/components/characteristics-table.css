@@ -2,8 +2,14 @@
   border-collapse: collapse;
   font-size: 12px;
 }
+.characteristics-table table {
+  width: 100%;
+}
 .characteristics-table tr:first-child th {
   border-bottom-width: 3px;
+}
+.characteristics-table tr:nth-child(2n) {
+  background: rgba(224, 36, 36, 0.1);
 }
 .characteristics-table th,
 .characteristics-table td {

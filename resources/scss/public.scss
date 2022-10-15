@@ -925,25 +925,34 @@ input[type='radio']:checked::after {
 }
 
 
+
+
 .burger__sticks.active:before {
     top: 4px;
     transform: rotate(45deg);
-    transition: all .3s ease 0s;
+    transition: all .7s ease 0s;
 }
 
 .burger__sticks.active:after {
     bottom: 12px;
     transform: rotate(-45deg);
     top: 1.2rem;
+    transition: all .7s ease 0s;
+
+}
+
+.burger__sticks:after, .burger__sticks:before {
+    background: #c4c4c4;
+    content: "";
+    height: 2px;
+    position: absolute;
     transition: all .3s ease 0s;
-
+    width: 100%;
 }
 
 
 
-.burger-menu{
-    
-}
+
 
 .burger__sticks.active span {
     display: none;
