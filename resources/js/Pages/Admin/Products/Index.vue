@@ -42,7 +42,7 @@
                 </template>
 
                 <template v-slot:preview="{data}">
-                    <img :src="route('images.products.55',data.row.preview)"
+                    <img :src="data.row.preview ? route('images.products.55',data.row.preview) : null"
                          :alt="state.activeLang === 'ua' ? data.row.h1.ua :
                             (state.activeLang === 'ru' ? data.row.h1.ru : null)"
                          class="mx-auto"
@@ -252,7 +252,6 @@ function onUpdate() {
         axios.put(route('api.products.update', state.value.item.id), state.value.item)
             .then(({data}) => {
                 modalFunction();
-                Object.assign(state.value.products.data[state.value.item.index], data.result);
                 fetch();
                 swal({
                     title: 'Success!',

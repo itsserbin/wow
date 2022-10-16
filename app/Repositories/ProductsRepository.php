@@ -281,6 +281,8 @@ class ProductsRepository extends CoreRepository
             $imagesItems[] += $image['id'];
         }
         $model->images()->sync($imagesItems);
+
+        return $model;
     }
 
     public function create($data)
@@ -350,6 +352,7 @@ class ProductsRepository extends CoreRepository
             ->model::where('published', 1)
             ->select($columns)
             ->orderBy('total_sales', 'desc')
+            ->with('colors','sizes')
             ->paginate($perPage);
     }
 
@@ -389,6 +392,7 @@ class ProductsRepository extends CoreRepository
             ->model::where('published', 1)
             ->select($columns)
             ->orderBy('created_at', 'desc')
+            ->with('colors','sizes')
             ->limit(8)
             ->get();
     }
@@ -410,6 +414,7 @@ class ProductsRepository extends CoreRepository
             ->model::where('published', 1)
             ->select($columns)
             ->orderBy('created_at', 'desc')
+            ->with('colors','sizes')
             ->paginate(3);
     }
 
@@ -559,6 +564,7 @@ class ProductsRepository extends CoreRepository
                 ->model::where('published', 1)
                 ->select($columns)
                 ->orderBy('total_sales', 'desc')
+                ->with('colors','sizes')
                 ->paginate(12);
         }
     }

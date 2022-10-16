@@ -23,11 +23,18 @@
             </a>
         </template>
 
-        <template v-slot:created_at="{data}">
-            {{ $filters.dateFormat(data.row.created_at) }}
+        <template v-slot:average_check="{data}">
+            {{$filters.formatMoney(data.row.average_check)}}
         </template>
-        <template v-slot:updated_at="{data}">
-            {{ $filters.dateFormat(data.row.updated_at) }}
+
+        <template v-slot:whole_check="{data}">
+            {{$filters.formatMoney(data.row.whole_check)}}
+        </template>
+
+        <template v-slot:timestamps="{data}">
+            {{ $filters.dateTimeFormat(data.row.updated_at) }}
+            <hr class="my-1">
+            {{ $filters.dateTimeFormat(data.row.created_at) }}
         </template>
         <template v-slot:actions="{data}">
             <a href="javascript:" @click="$emit('onDestroy',data.row.id)">
@@ -65,16 +72,16 @@ const headings = reactive([
         key: 'phone'
     },
     {
-        label: 'Накладка',
-        key: 'waybill'
+        label: 'Замовлень',
+        key: 'number_of_purchases'
     },
     {
-        label: 'Товарів',
-        key: 'total_count'
+        label: 'Середній чек',
+        key: 'average_check'
     },
     {
-        label: 'Сума',
-        key: 'total_price'
+        label: 'Загальний чек',
+        key: 'whole_check'
     },
     {
         label: "Оновлено<hr class='my-1'>Створено",

@@ -9,6 +9,7 @@
                     relative
                     hover:scale-105
                     transition-all
+                    h-full
 ">
 
         <div class="w-full mx-auto h-56 md:h-72">
@@ -25,34 +26,35 @@
                         flex
                         flex-col
                         items-center
-                        p-4
+                        p-2
+                        md:p-4
                         pt-0
+                        justify-between
                     "
         >
             <a :href="route('product',product.id)">
 
                 <h5 class="
                             text-black
-                            text-lg
                             mb-[15px]
                             overflow-hidden
                             font-bold
                             text-center
-                            h-28
-                            md:h-16
-                            px-2
-                            mt-2
+                            text-base
+                            h-18
+                            md:h-12
                         "
                 >
                     {{ lang === 'ru' ? product.h1.ru : (lang === 'ua' ? product.h1.ua : null) }}
                 </h5>
+
             </a>
-            <div class="
-                            card__price
-                            flex-col
-                            mr-auto
-                         "
-            >
+            <div class="text-sm text-gray-500 w-full mb-3">
+                <span v-for="size in product.sizes">
+                    {{ size.title }}&nbsp;
+                </span>
+            </div>
+            <div class="card__price flex-col mr-auto">
                 <div v-if="!product.discount_price"
                      class="
                                 font-bold
@@ -136,7 +138,7 @@ const item = ref({
     item_id: null,
 });
 
-function addToCard(id){
+function addToCard(id) {
     item.value.item_id = id;
     axios.post(route('api.v1.cart.add', item.value))
         .then(() => {

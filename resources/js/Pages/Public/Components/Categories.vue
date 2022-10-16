@@ -1,8 +1,10 @@
 <template>
     <div>
         <loader v-if="state.isLoading"></loader>
-        <div class="grid grid-cols-2 md:grid-cols-7 gap-4" v-if="state.categories.length && !state.isLoading">
-            <div class="border-[1px] border-[#e9e9e9]" v-for="item in state.categories">
+        <div class="grid grid-cols-2 md:grid-cols-7 gap-4"
+             v-if="state.categories.length && !state.isLoading">
+            <div class="border-[1px] border-[#e9e9e9]  hover:scale-105 transition-all"
+                 v-for="item in state.categories">
                 <a :href="route('category',item.slug)" class="text-decoration-none">
                     <div class="h-52">
                         <img :src="route('images.category',item.preview)"

@@ -63,8 +63,8 @@ defineProps({
 });
 
 onMounted(() => {
-    axios.get('/api/v1/product/best-selling-products')
-        .then(({data}) => products.value = data.result)
+    axios.get(route('api.v1.products.best-selling'))
+        .then(({data}) => products.value = data.result.data)
         .catch((response) => console.log(response));
 });
 </script>
