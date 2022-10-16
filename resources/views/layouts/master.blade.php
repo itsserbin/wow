@@ -29,9 +29,11 @@
     </header>
     <main class="main">
         <div class="max-w-7xl mx-auto mt-28 px-3">
-            @yield('content')
-            <div class="faq">
-                <faq-component lang="{{app()->getLocale()}}"/>
+            <div class="grid grid-cols-1 gap-4">
+                @yield('content')
+                <div class="faq">
+                    <faq-component lang="{{app()->getLocale()}}"/>
+                </div>
             </div>
         </div>
     </main>
