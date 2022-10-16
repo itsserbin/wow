@@ -36,6 +36,10 @@
 // @import "pages/reviews";
 // @import "pages/order";
 
+:root {
+    --swiper-theme-color: rgb(247, 114, 100);
+}
+
 .breadcrumbs::-webkit-scrollbar {
     width: 0; /* Remove scrollbar space */
     background: transparent; /* Optional: just make scrollbar invisible */

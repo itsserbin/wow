@@ -1,18 +1,8 @@
 <template>
-    <section id="banners" class="banners mb-5" v-if="state.banners.length">
+    <section class="banners mb-5" v-if="state.banners.length">
         <swiper
-            v-if="state.banners.length"
-            class="main-banners"
-            :slides-per-view="1"
-            :space-between="0"
             :modules="modules"
-            :navigation="true"
-            :loop="true"
-            :autoplay="{
-              delay: 2500,
-              disableOnInteraction: false,
-            }"
-            :lazy="true"
+            v-bind="settings"
         >
 
             <swiper-slide v-for="(banner,i) in state.banners" :key="i">
@@ -41,12 +31,36 @@
 </template>
 
 <script setup>
-import {Lazy, Autoplay, Navigation} from "swiper";
+import {Lazy, Autoplay, Pagination,EffectCreative} from "swiper";
 import {onMounted, ref} from "vue";
 
 defineProps(['lang']);
 
-const modules = [Lazy, Autoplay, Navigation];
+const modules = [Lazy, Autoplay, Pagination,EffectCreative];
+const settings = {
+    slidesPerView: 1,
+    spaceBetween: 0,
+    pagination: {
+        dynamicBullets: true,
+        clickable: true
+    },
+    loop: true,
+    autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
+    },
+    lazy: true,
+    effect: 'creative',
+    creativeEffect: {
+        prev: {
+            shadow: true,
+            translate: ['-20%', 0, -1],
+        },
+        next: {
+            translate: ['100%', 0, 0],
+        },
+    }
+};
 
 const state = ref({
     banners: [],

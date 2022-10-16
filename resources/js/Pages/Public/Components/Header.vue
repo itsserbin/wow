@@ -83,7 +83,7 @@
 
         </div>
         <div class=" bg-[#ffb7b7]">
-            <HeaderCategories :categoriesList="JSON.parse(categories)"
+            <HeaderCategories :categories="JSON.parse(categories)"
                               :lang="lang"/>
         </div>
         <transition name="fadeLast">
