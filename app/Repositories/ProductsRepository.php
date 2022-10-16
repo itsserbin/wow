@@ -154,6 +154,7 @@ class ProductsRepository extends CoreRepository
                     $q->where('id', $product->categories[0]->id);
                 })
                 ->limit($limit)
+                ->with('colors','sizes')
                 ->get();
         } else {
             return $this->model::where('id', '!=', $id)
@@ -165,8 +166,8 @@ class ProductsRepository extends CoreRepository
                     'discount_price',
                     'preview'
                 )
-                ->whereDoesntHave('categories')
                 ->limit($limit)
+                ->with('colors','sizes')
                 ->get();
         }
     }
