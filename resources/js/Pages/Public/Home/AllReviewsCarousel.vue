@@ -15,7 +15,7 @@
             </swiper-slide>
         </swiper>
         <div class="flex-row text-center" v-if="state.reviews.length">
-            <a :href="reviewsRoute" target="_blank">
+            <a :href="route('reviews')" target="_blank">
                 <button-component type="button">
                     {{ textSeeMore }}
                 </button-component>
@@ -74,7 +74,6 @@ defineProps({
         type: String,
         default: 'Відгуки відсутні'
     },
-    reviewsRoute: String,
     textSeeMore: {
         type: String,
         default: 'Дивитись більше'

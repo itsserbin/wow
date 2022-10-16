@@ -26,7 +26,7 @@ class ProductReviewsRepository extends CoreRepository
         return $this->model
             ->where('published', 1)
             ->orderBy('created_at', 'DESC')
-            ->with(['products' => function ($q) {
+            ->with(['product' => function ($q) {
                 $q->select('id', 'h1');
             }])
             ->paginate($perPage);

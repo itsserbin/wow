@@ -87,9 +87,23 @@ class HomeController extends Controller
         ]);
     }
 
-    public function images($path)
+    public function page($slug): Factory|View|Application
     {
-        return Storage::disk('s3')->response('/storage/banners/mobile/' . $path);
+        return view('pages.page', [
+            'page' => $this->pagesRepository->getBySlug($slug),
+            'options' => $this->getOptions(),
+            'pages' => $this->getPagesList(),
+            'categories' => $this->getCategories(),
+        ]);
+    }
+
+    public function reviews(): View|Factory|Application
+    {
+        return view('pages.reviews', [
+            'options' => $this->getOptions(),
+            'pages' => $this->getPagesList(),
+            'categories' => $this->getCategories(),
+        ]);
     }
 
     public function getOptions()

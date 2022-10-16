@@ -37,6 +37,7 @@
             </div>
         </div>
     </main>
+    @include('components.footer')
 </div>
 @vite('resources/js/Pages/Public/app.js')
 </body>

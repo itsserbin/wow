@@ -42,6 +42,7 @@ import Modal from '@/Pages/Public/Components/Modal.vue';
 import Label from '@/Pages/Public/Components/Label.vue';
 import Input from '@/Pages/Public/Components/Input.vue';
 import Button from '@/Pages/Public/Components/Button.vue';
+import AllReviewsList from '@/Pages/Public/Components/AllReviewsList.vue';
 
 app.component('cart-icon-component', CartIconComponent)
 app.component('header-component', Header)
@@ -54,6 +55,7 @@ app.component('modal', Modal)
 app.component('label-component', Label)
 app.component('input-component', Input)
 app.component('button-component', Button)
+app.component('all-reviews-list', AllReviewsList)
 
 import InstagramIcon from "@/Components/Icons/InstagramIcon.vue";
 import FacebookIcon from "@/Components/Icons/FacebookIcon.vue";

@@ -103,13 +103,12 @@
                     "
             >
                 <div class="max-w-7xl mx-auto">
-                    <div class="grid grid-cols-1 md:grid-cols-2 mt-[30px]">
+                    <div class="grid grid-cols-1 md:grid-cols-2 mt-[30px] text-xl md:text-2xl">
                         <ul class="menu__list flex flex-col justify-center items-center">
                             <li v-for="category in JSON.parse(categories)" :key="category.id">
                                 <a :href="route('category',category.slug)"
                                    class="
-                                       py-5
-                                       text-2xl
+                                        py-5
                                         line
                                         relative
                                         inline-block
@@ -125,7 +124,7 @@
                                         after:my-auto
                                         after:absolute
                                         after:right-0
-                                        after:w-0]
+                                        after:w-0
                                     "
                                 >
                                     {{ lang === 'ua' ? category.title.ua : (lang === 'ru' ? category.title.ru : null) }}
@@ -137,7 +136,6 @@
                                 <a :href="indexRoute"
                                    class="
                                             py-5
-                                            text-2xl
                                             line
                                             relative
                                             inline-block
@@ -153,17 +151,16 @@
                                             after:my-auto
                                             after:absolute
                                             after:right-0
-                                            after:w-0]
+                                            after:w-0
                                     "
                                 >
                                     {{ lang === 'ru' ? 'Главная' : 'Головна' }}
                                 </a>
                             </li>
                             <li>
-                                <a :href="reviewsRoute"
+                                <a :href="route('reviews')"
                                    class="
                                         py-5
-                                       text-2xl
                                         line
                                         relative
                                         inline-block
@@ -183,14 +180,13 @@
                                         after:w-0]
                                 "
                                 >
-                                    {{ textReviews }}
+                                    Відгуки
                                 </a>
                             </li>
                             <li v-for="page in JSON.parse(pages)" :key="page.id">
                                 <a :href="'/pages/' + page.slug"
                                    class="
-                                           py-5
-                                       text-2xl
+                                        py-5
                                         line
                                         relative
                                         inline-block

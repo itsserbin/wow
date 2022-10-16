@@ -32,6 +32,12 @@ Route::group(['prefix' => App\Http\Middleware\LocaleMiddleware::getLocale()], fu
 
     Route::get('checkout', [HomeController::class, 'checkout'])
         ->name('checkout');
+
+    Route::get('reviews', [HomeController::class, 'reviews'])
+        ->name('reviews');
+
+    Route::get('pages/{slug}', [HomeController::class, 'page'])
+        ->name('pages');
 });
 
 require __DIR__ . '/auth.php';
