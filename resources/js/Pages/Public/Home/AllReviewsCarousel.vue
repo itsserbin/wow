@@ -37,7 +37,6 @@ const settings = {
     spaceBetween: 0,
     pagination: {
         type: 'progressbar',
-        position: 'bottom'
     },
     breakpoints: {
         '768': {

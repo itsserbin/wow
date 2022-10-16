@@ -21,21 +21,23 @@
 </template>
 
 <script setup>
-import {Lazy, Autoplay, Navigation} from "swiper";
+import {Lazy, Autoplay, Pagination} from "swiper";
 
 defineProps(['categories', 'lang']);
 
-const modules = [Lazy, Autoplay, Navigation];
+const modules = [Lazy, Autoplay, Pagination];
 
 const settings = {
     spaceBetween: 0,
-    navigation: true,
+    pagination: {
+        type: 'progressbar',
+    },
     freeMode: true,
     autoplay: {
         delay: 5000,
         disableOnInteraction: false,
     },
-    slidesPerView: 1,
+    slidesPerView: 2,
     breakpoints: {
         '568': {
             slidesPerView: 2,
