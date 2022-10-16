@@ -257,7 +257,7 @@ class ProductsRepository extends CoreRepository
         $colorItems = [];
         if (count($data['colors'])) {
             foreach ($data['colors'] as $color) {
-                array_push($colorItems,$color['id']);
+                array_push($colorItems, $color['id']);
             }
         }
         $model->colors()->sync($colorItems);
@@ -540,5 +540,26 @@ class ProductsRepository extends CoreRepository
             })
             ->orderBy('created_at', 'desc')
             ->get();
+    }
+
+    public function getAllToPublic()
+    {
+        {
+            $columns = [
+                'id',
+                'price',
+                'published',
+                'discount_price',
+                'preview',
+                'total_sales',
+                'h1',
+            ];
+
+            return $this
+                ->model::where('published', 1)
+                ->select($columns)
+                ->orderBy('total_sales', 'desc')
+                ->paginate(12);
+        }
     }
 }

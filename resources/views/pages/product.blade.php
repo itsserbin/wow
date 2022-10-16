@@ -50,7 +50,9 @@
             @endif
         </div>
         <div>
-            <product-reviews :reviews="{{json_encode($product->reviews)}}"></product-reviews>
+            <product-reviews :reviews="{{json_encode($product->reviews)}}"
+                             :id="{{$product->id}}"
+            ></product-reviews>
         </div>
     </div>
 

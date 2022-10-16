@@ -124,4 +124,12 @@ class ProductsController extends BaseController
             'result' => $this->productsRepository->getBestSellingProducts(),
         ]);
     }
+
+    public function getAllToPublic(): JsonResponse
+    {
+        return $this->returnResponse([
+            'success' => true,
+            'result' => $this->productsRepository->getAllToPublic(),
+        ]);
+    }
 }

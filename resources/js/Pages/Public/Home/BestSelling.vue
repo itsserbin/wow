@@ -9,9 +9,11 @@
                        :product-route="productRoute"
                        class="mb-5"
         ></product-cards>
-        <div v-if="state.showLoadMore">
+        <div v-if="state.showLoadMore" class="text-center">
             <loader v-if="state.isLoadingMore"></loader>
-            <LoadMore v-if="!state.isLoadingMore"  @click="fetch"/>
+            <button-component v-if="!state.isLoadingMore"
+                              @click="fetch"
+            >Завантажити ще</button-component>
         </div>
     </div>
 </template>

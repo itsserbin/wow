@@ -37,7 +37,7 @@ Route::prefix('v1')->middleware('api')->group(function () {
     /** Route group for products */
     Route::prefix('product')->group(function () {
 
-        Route::get('/', [ProductsController::class, 'index'])
+        Route::get('/', [ProductsController::class, 'getAllToPublic'])
             ->name('api.v1.product.all');
 
         Route::get('show/{id}', [ProductsController::class, 'getProduct'])

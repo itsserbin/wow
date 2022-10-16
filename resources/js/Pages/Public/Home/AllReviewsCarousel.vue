@@ -93,7 +93,6 @@ onMounted(() => {
 <style>
 .reviews-carousel .swiper-wrapper {
     min-height: 15rem;
-    align-items: center;
 }
 
 .reviews-carousel .swiper-pagination {

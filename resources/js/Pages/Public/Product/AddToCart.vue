@@ -4,25 +4,31 @@
         <div class="grid grid-cols-1 md:grid-cols-2">
             <div class="mb-4 mb-md-0 flex items-center justify-evenly flex-col">
                 <div class="text-center" v-if="discountPrice">
-                    <div class="text-[20px] font-medium text-[#A5A5A5] line-through">
+                    <div class="text-lg font-medium text-[#A5A5A5] line-through">
                         {{ price }} грн.
                     </div>
-                    <div class=" font-bold text-[#ff0000] text-[36px]">{{ discountPrice }} грн.</div>
+                    <div class="font-bold text-[#ff0000] text-[2.5rem]">{{ discountPrice }} грн.</div>
                 </div>
             </div>
-            <div class="mx-0">
-                <button class="mb-[20px] w-full h-[50px] bg-[#dc3545] rounded-[10px] text-white"
-                        type="button"
-                        @click="addToCart"
-                >
-                    <span>До кошика</span>
-                </button>
-                <button class="w-full h-[50px] bg-[#dc3545] rounded-[10px]  text-white"
-                        type="button"
-                        @click="showBuyIn1ClickModal"
-                >
-                    <span>Купити в 1 клік</span>
-                </button>
+            <div class="grid gap-4">
+                <button-component @click="addToCart">
+                    До кошика
+                </button-component>
+                <button-component  @click="showBuyIn1ClickModal">
+                    Купити в 1 клік
+                </button-component>
+<!--                <button class="mb-[20px] w-full h-[50px] bg-[#dc3545] rounded-[10px] text-white"-->
+<!--                        type="button"-->
+<!--                        @click="addToCart"-->
+<!--                >-->
+<!--                    <span>До кошика</span>-->
+<!--                </button>-->
+<!--                <button class="w-full h-[50px] bg-[#dc3545] rounded-[10px]  text-white"-->
+<!--                        type="button"-->
+<!--                        @click="showBuyIn1ClickModal"-->
+<!--                >-->
+<!--                    <span>Купити в 1 клік</span>-->
+<!--                </button>-->
             </div>
         </div>
         <hr class="mt-4">
@@ -146,7 +152,7 @@ function addToCart() {
 
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = '/cart';
+                    window.location.href = route('checkout');
                 }
             })
             // if (typeof fbq !== "undefined") {
