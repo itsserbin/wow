@@ -138,7 +138,7 @@
                     Загальна ціна:&nbsp;
                 </p>
                 <p class="text-l  text-gray-900 dark:text-white">
-                    {{ $filters.formatMoney(order.total_price) }}
+                    {{ order.total_price }}
                 </p>
             </div>
             <div class="flex justify-center">

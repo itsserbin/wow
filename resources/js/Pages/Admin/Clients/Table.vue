@@ -10,29 +10,25 @@
         </template>
 
         <template v-slot:name="{data}">
-            {{ data.row.client.name }}
+            {{ data.row.name }}
         </template>
 
         <template v-slot:last_name="{data}">
-            {{ data.row.client.last_name }}
-        </template>
-
-        <template v-slot:total_price="{data}">
-            {{ $filters.formatMoney(data.row.total_price) }}
+            {{ data.row.last_name }}
         </template>
 
         <template v-slot:phone="{data}">
-            <a :href="'tel:' + data.row.client.phone" >
-                {{ data.row.client.phone }}
+            <a :href="'tel:' + data.row.phone" >
+                {{ data.row.phone }}
             </a>
         </template>
 
-        <template v-slot:timestamps="{data}">
-            {{ $filters.dateTimeFormat(data.row.updated_at) }}
-            <hr class="my-1">
-            {{ $filters.dateTimeFormat(data.row.created_at) }}
+        <template v-slot:created_at="{data}">
+            {{ $filters.dateFormat(data.row.created_at) }}
         </template>
-
+        <template v-slot:updated_at="{data}">
+            {{ $filters.dateFormat(data.row.updated_at) }}
+        </template>
         <template v-slot:actions="{data}">
             <a href="javascript:" @click="$emit('onDestroy',data.row.id)">
                 <xcircle-component/>
@@ -44,8 +40,8 @@
 <script setup>
 import {reactive} from "vue";
 
-defineEmits(['onDestroy','onEdit'])
-defineProps(['data']);
+defineEmits(['onDestroy'])
+defineProps(['data', 'onEdit']);
 
 const headings = reactive([
     {

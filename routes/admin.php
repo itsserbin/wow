@@ -22,6 +22,9 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
     Route::get('orders', [AdminController::class, 'orders'])
         ->name('admin.orders.index');
 
+    Route::get('clients', [AdminController::class, 'clients'])
+        ->name('admin.clients.index');
+
     Route::get('roles', [AdminController::class, 'roles'])
         ->name('admin.roles.index');
 

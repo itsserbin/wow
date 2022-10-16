@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AdvantagesController;
 use App\Http\Controllers\Api\BannersController;
 use App\Http\Controllers\Api\CallbacksController;
 use App\Http\Controllers\Api\CategoriesController;
+use App\Http\Controllers\Api\ClientsController;
 use App\Http\Controllers\Api\ColorsController;
 use App\Http\Controllers\Api\FaqsController;
 use App\Http\Controllers\Api\ImagesController;
@@ -310,6 +311,33 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::post('add/{id}', [OrderItemsController::class, 'addItem'])
             ->name('api.order-items.add');
+    });
+
+    Route::prefix('clients')->group(function () {
+
+        Route::get('/', [ClientsController::class, 'index'])
+            ->name('api.clients.index');
+
+        Route::get('edit/{id}', [ClientsController::class, 'edit'])
+            ->name('api.clients.edit');
+
+        Route::put('update/{id}', [ClientsController::class, 'update'])
+            ->name('api.clients.update');
+
+        Route::get('search={search}', [ClientsController::class, 'search'])
+            ->name('api.clients.search');
+
+        Route::delete('/destroy/{id}', [ClientsController::class, 'destroy'])
+            ->name('api.clients.destroy');
+
+        Route::post('mass', [ClientsController::class, 'massActions'])
+            ->name('api.clients.mass');
+
+        Route::get('filter', [ClientsController::class, 'filter'])
+            ->name('api.clients.filter');
+
+        Route::get('sub-filter', [ClientsController::class, 'subFilter'])
+            ->name('api.clients.subFilter');
     });
 
     Route::prefix('banners')->group(function () {

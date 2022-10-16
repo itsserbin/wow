@@ -27,6 +27,14 @@
             {{ data.row.resale ? 'Так' : 'Ні'}}
         </template>
 
+        <template #sale_price="{data}">
+            {{ $filters.formatMoney(data.row.sale_price) }}
+        </template>
+
+        <template #total_price="{data}">
+            {{ $filters.formatMoney(data.row.total_price) }}
+        </template>
+
         <template #vendor_code="{data}">
             {{ data.row.product.vendor_code}}
         </template>
