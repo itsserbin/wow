@@ -11,24 +11,12 @@
                 </div>
             </div>
             <div class="grid gap-4">
-                <button-component @click="addToCart">
+                <button-component @click="addToCart" type="button">
                     До кошика
                 </button-component>
-                <button-component  @click="showBuyIn1ClickModal">
+                <button-component @click="showBuyIn1ClickModal" type="button">
                     Купити в 1 клік
                 </button-component>
-<!--                <button class="mb-[20px] w-full h-[50px] bg-[#dc3545] rounded-[10px] text-white"-->
-<!--                        type="button"-->
-<!--                        @click="addToCart"-->
-<!--                >-->
-<!--                    <span>До кошика</span>-->
-<!--                </button>-->
-<!--                <button class="w-full h-[50px] bg-[#dc3545] rounded-[10px]  text-white"-->
-<!--                        type="button"-->
-<!--                        @click="showBuyIn1ClickModal"-->
-<!--                >-->
-<!--                    <span>Купити в 1 клік</span>-->
-<!--                </button>-->
             </div>
         </div>
         <hr class="mt-4">

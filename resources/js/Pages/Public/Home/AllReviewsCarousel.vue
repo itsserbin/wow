@@ -16,11 +16,9 @@
         </swiper>
         <div class="flex-row text-center" v-if="state.reviews.length">
             <a :href="reviewsRoute" target="_blank">
-                <button
-                    class="cursor-pointer w-[250px] h-[50px] text-white bg-[#E02424] text-bold uppercase rounded-[10px]"
-                    type="button">
+                <button-component type="button">
                     {{ textSeeMore }}
-                </button>
+                </button-component>
             </a>
         </div>
     </section>
@@ -93,6 +91,7 @@ onMounted(() => {
 <style>
 .reviews-carousel .swiper-wrapper {
     min-height: 15rem;
+    align-items: center;
 }
 
 .reviews-carousel .swiper-pagination {

@@ -13,6 +13,7 @@
             <loader v-if="state.isLoadingMore"></loader>
             <button-component v-if="!state.isLoadingMore"
                               @click="fetch"
+                              type="button"
             >Завантажити ще</button-component>
         </div>
     </div>
