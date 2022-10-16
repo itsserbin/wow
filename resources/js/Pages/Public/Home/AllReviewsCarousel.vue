@@ -10,7 +10,7 @@
         >
             <swiper-slide v-for="review in state.reviews" class="text-center bg-red-100 rounded-xl p-5">
                 <div class=" font-bold">{{ review.name }}</div>
-                <hr class="bg-black my-2">
+                <hr class="bg-red-600 shadow-lg rounded border-0 h-[1px] my-2">
                 <div>{{ review.comment }}</div>
             </swiper-slide>
         </swiper>
@@ -27,10 +27,10 @@
 </template>
 
 <script setup>
-import {Pagination, Autoplay, EffectCoverflow,} from "swiper";
+import {Pagination, Autoplay, EffectCoverflow} from "swiper";
 import {onMounted, ref} from "vue";
 
-const modules = [Pagination, Autoplay, EffectCoverflow,];
+const modules = [Pagination, Autoplay, EffectCoverflow];
 const settings = {
     autoHeight: true,
     slidesPerView: 1,
@@ -93,11 +93,17 @@ onMounted(() => {
 
 <style>
 .reviews-carousel .swiper-wrapper {
-    min-height: 14rem;
+    min-height: 15rem;
     align-items: center;
 }
 
 .reviews-carousel .swiper-pagination {
     bottom: 1rem;
+    top: unset;
+    left:0;
+    right:0;
+    margin-left:auto;
+    margin-right:auto;
+    max-width: 80%;
 }
 </style>
