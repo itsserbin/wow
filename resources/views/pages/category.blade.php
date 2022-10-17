@@ -1,6 +1,8 @@
 @extends('layouts.master')
 
 @section('content')
+    {{ Breadcrumbs::render('home.categories',$category) }}
+
     <div class="category-banners">
         <category-banners lang="{{app()->getLocale()}}"
                           id="{{$category->id}}"
@@ -15,7 +17,7 @@
         ></category-products>
     </div>
 
-    <div class="category-text">
+    <div class="category-text content">
         {!! app()->getLocale() == 'ua' ? $category->seo_text['ua'] : $category->seo_text['ru'] !!}
     </div>
 @endsection

@@ -2,17 +2,12 @@
 
 namespace App\Services;
 
+use App\Models\Enums\ImagesPath;
 use App\Repositories\ImagesRepository;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
-/**
- * Class UploadImagesService
- * @package App\Services
- */
 class UploadImagesService
 {
 
@@ -26,55 +21,30 @@ class UploadImagesService
     public function uploadImages($data)
     {
         $image = $data['image'];
-
-        $root = $_SERVER["DOCUMENT_ROOT"];
-
-        $path = '/storage/images/';
+        $path = ImagesPath::PRODUCT_IMAGE;
 
         $filename = $image->getClientOriginalName();
         $filename = $this->createFilename($path . $filename, $filename);
 
-        $dir = $root . $path;
+        Storage::disk('s3')->put(ImagesPath::PRODUCT_IMAGE . $filename, Image::make($image)->stream());
 
-        if (!file_exists($dir)) {
-            mkdir($dir, 0755, true);
-        }
+        Storage::disk('s3')->put(ImagesPath::PRODUCT_IMAGE_55 . $filename, Image::make($image)
+            ->resize(55, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->stream()
+        );
 
-        Image::make($image)->save(public_path($path . $filename));
+        Storage::disk('s3')->put(ImagesPath::PRODUCT_IMAGE_350 . $filename, Image::make($image)
+            ->resize(350, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->stream()
+        );
 
-
-        $dir1 = $root . $path . '55/';
-        $path1 = $path . '55/';
-
-        if (!file_exists($dir1)) {
-            mkdir($dir1, 0755, true);
-        }
-
-        Image::make($image)->resize(55, null, function ($constraint) {
-            $constraint->aspectRatio();
-        })->save(public_path($path1 . $filename));
-
-        $dir2 = $root . $path . '350/';
-        $path2 = $path . '350/';
-
-        if (!file_exists($dir2)) {
-            mkdir($dir2, 0755, true);
-        }
-
-        Image::make($image)->resize(350, null, function ($constraint) {
-            $constraint->aspectRatio();
-        })->save(public_path($path2 . $filename));
-
-        $dir3 = $root . $path . '/500/';
-        $path3 = $path . '500/';
-
-        if (!file_exists($dir3)) {
-            mkdir($dir3, 0755, true);
-        }
-
-        Image::make($image)->resize(500, null, function ($constraint) {
-            $constraint->aspectRatio();
-        })->save(public_path($path3 . $filename));
+        Storage::disk('s3')->put(ImagesPath::PRODUCT_IMAGE_500 . $filename, Image::make($image)
+            ->resize(500, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->stream()
+        );
 
         $this->imagesRepository->create([
             'src' => $filename,
@@ -88,36 +58,36 @@ class UploadImagesService
     {
         $root = $_SERVER["DOCUMENT_ROOT"];
         $image = $data['banner'];
+
         if ($data['type'] == 'mobile') {
-            $dir = $root . '/storage/banners/mobile/';
-            $path = '/storage/banners/mobile/';
+            $path = ImagesPath::MOBILE_BANNER;
         } elseif ($data['type'] == 'table') {
-            $dir = $root . '/storage/banners/table/';
-            $path = '/storage/banners/table/';
+            $path = ImagesPath::TABLE_BANNER;
         } else {
-            $dir = $root . '/storage/banners/desktop/';
-            $path = '/storage/banners/desktop/';
+            $path = ImagesPath::DESKTOP_BANNER;
         }
 
+        $dir = $root . $path;
         if (!file_exists($dir)) {
             mkdir($dir, 0755, true);
         }
 
         $filename = $image->getClientOriginalName();
         $filename = $this->createFilename($path . $filename, $filename);
-        Image::make($image)->save(public_path($path . $filename));
 
-        return asset($path . $filename);
+        Storage::disk('s3')->put($path . $filename, Image::make($image)->stream());
+
+        return $filename;
     }
 
     public function createFilename($path, $filename)
     {
-        if (File::exists(public_path($path))) {
+        if (Storage::disk('s3')->exists($path)) {
             $type = array_slice(explode('.', $filename), -1)[0];
             $url = explode('.', $filename);
             array_pop($url);
             $originalName = implode('.', $url);
-            $filename = $originalName . '_' . preg_replace('/\pP/iu', '', Carbon::now()->format('dmYH:i')) . '.' . $type;
+            $filename = $originalName . '_' . preg_replace('/[^0-9]/', '', Carbon::now()->format('dmYH:i')) . '.' . $type;
         }
         return $filename;
     }

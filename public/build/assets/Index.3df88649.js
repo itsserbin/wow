@@ -1,0 +1,1 @@
+import t from"./OptionsLayout.ce2fe43c.js";import{U as e,R as o,Q as a,L as r}from"./moment.ad2399f6.js";import"./Sidebar.71c59552.js";import"./app.834fdcb5.js";const s=r("h1",null,"CHLEN NEGRA",-1),u={__name:"Index",setup(_){return(c,n)=>(a(),e(t,null,{default:o(()=>[s]),_:1}))}};export{u as default};

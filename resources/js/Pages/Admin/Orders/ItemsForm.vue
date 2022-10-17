@@ -1,10 +1,9 @@
 <template>
     <div class="block mb-5 ">
-        <label-component value="Product"/>
-        <multiselect-component :options="products"
+        <label-component value="Товар"/>
+        <multiselect :options="products"
                      v-model="item.product_id"
                      :custom-label="h1AndCodeAndId"
-                     placeholder="Выберите товар"
                      class="mb-5"
                      track-by="id"
                      :close-on-select="true"
@@ -12,17 +11,17 @@
     </div>
 
     <div class="block mb-5 ">
-        <label-component value="Size"/>
+        <label-component value="Розмір"/>
         <input-component v-model="item.size" type="text"/>
     </div>
 
     <div class="block mb-5 ">
-        <label-component value="Color"/>
+        <label-component value="Колір"/>
         <input-component v-model="item.color" type="text"/>
     </div>
 
     <div class="block mb-5 ">
-        <label-component value="Count"/>
+        <label-component value="Кількість"/>
         <input-component v-model="item.count" type="number"/>
     </div>
 </template>
@@ -34,11 +33,11 @@ defineProps(['item'])
 
 const products = ref([])
 
-function h1AndCodeAndId({title, id, vendor_code}) {
-    if (title && id && vendor_code) {
-        return `${title} - ${vendor_code}/${id}`;
-    } else if (title && id) {
-        return `${title} -${id}`;
+function h1AndCodeAndId({h1, id, vendor_code}) {
+    if (h1 && id && vendor_code) {
+        return `${h1.ua ? h1.ua : h1.ru} - ${vendor_code}/${id}`;
+    } else if (h1 && id) {
+        return `${h1.ua ? h1.ua : h1.ru} -${id}`;
     } else {
         return `${id}`;
     }

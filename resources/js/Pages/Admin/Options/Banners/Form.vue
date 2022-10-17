@@ -39,7 +39,7 @@
                     <UploadBannersInput label="Зображення для мобільних"
                                         @upload="uploadImageMobileUa"
                                         v-if="state.activeLang === 'ua'"
-                                        :image="item.image_mobile.ua"
+                                        :image="item.image_mobile.ua ? route('images.banners.mobile',{filename:item.image_mobile.ua}) : null"
                                         @onDestroyImage="destroyImage('mobile','ua')"
                     />
                     <UploadBannersInput label="Зображення для мобільних"

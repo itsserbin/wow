@@ -36,7 +36,7 @@ onMounted(() => {
                             </div>
 
                             <!-- Navigation Links -->
-                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 xl:flex">
                                 <NavLink :href="route('admin.dashboard')" :active="route().current('admin.dashboard')">
                                     Головна
                                 </NavLink>
@@ -54,6 +54,11 @@ onMounted(() => {
                                 <NavLink :href="route('admin.reviews.product.index')"
                                          :active="route().current('admin.reviews.product.index')">
                                     Відгуки
+                                </NavLink>
+
+                                <NavLink :href="route('admin.clients.index')"
+                                         :active="route().current('admin.clients.index')">
+                                    Клієнти
                                 </NavLink>
 
                                 <NavLink :href="route('admin.orders.index')"
@@ -88,7 +93,7 @@ onMounted(() => {
                             </div>
                         </div>
 
-                        <div class="hidden sm:flex sm:items-center sm:ml-6">
+                        <div class="hidden xl:flex sm:items-center sm:ml-6">
                             <!-- Settings Dropdown -->
                             <div class="ml-3 relative">
                                 <Dropdown align="right" width="48">
@@ -118,7 +123,7 @@ onMounted(() => {
                         </div>
 
                         <!-- Hamburger -->
-                        <div class="-mr-2 flex items-center sm:hidden">
+                        <div class="-mr-2 flex items-center xl:hidden">
                             <button @click="showingNavigationDropdown = ! showingNavigationDropdown"
                                     class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
                                 <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
@@ -138,7 +143,7 @@ onMounted(() => {
 
                 <!-- Responsive Navigation Menu -->
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}"
-                     class="sm:hidden">
+                     class="xl:hidden">
                     <div class="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink :href="route('admin.dashboard')"
                                            :active="route().current('admin.dashboard')">
@@ -163,6 +168,11 @@ onMounted(() => {
                         <ResponsiveNavLink :href="route('admin.orders.index')"
                                            :active="route().current('admin.orders.index')">
                             Замовлення
+                        </ResponsiveNavLink>
+
+                        <ResponsiveNavLink :href="route('admin.clients.index')"
+                                           :active="route().current('admin.clients.index')">
+                            Клієнти
                         </ResponsiveNavLink>
 
                         <ResponsiveNavLink :href="route('admin.images.index')"

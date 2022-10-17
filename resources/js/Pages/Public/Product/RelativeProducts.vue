@@ -1,0 +1,67 @@
+<template>
+    <section class="relative product-list" v-if="products.length">
+        <div class="font-bold text-black text-center text-[24px] mb-[15px]">
+            {{ textRelativeProducts }}
+        </div>
+        <div class="relative-slider">
+            <swiper
+                class="relative-product-slider"
+                :space-between="5"
+                :modules="modules"
+                :navigation="true"
+                :loop="true"
+                :autoplay="{
+                          delay: 3000,
+                          disableOnInteraction: false,
+                        }"
+                :slides-per-view="2"
+                :breakpoints="{
+                          '768': {
+                            slidesPerView: 3,
+                            spaceBetween: 10,
+                          },
+                          '1024': {
+                            slidesPerView: 4,
+                            spaceBetween: 20,
+                          },
+                          '1366': {
+                            slidesPerView: 5,
+                            spaceBetween: 20,
+                          },
+                        }"
+                :lazy="true"
+            >
+
+                <swiper-slide v-for="(product,i) in products" :key="i">
+                    <product-card :product="product"
+                                  :lang="lang"
+                    ></product-card>
+                </swiper-slide>
+            </swiper>
+        </div>
+    </section>
+</template>
+
+<script setup>
+import {Autoplay, Lazy, Navigation} from "swiper";
+import {onMounted, ref} from "vue";
+
+const modules = [Navigation, Autoplay, Lazy];
+
+const products = ref([]);
+
+const props = defineProps({
+    id: String,
+    lang: String,
+    textRelativeProducts: {
+        type: String,
+        default: 'Схожі товари',
+    },
+});
+
+onMounted(() => {
+    axios.get('/api/v1/product/relative/' + props.id)
+        .then(({data}) => products.value = data.result)
+        .catch((response) => console.log(response));
+});
+</script>

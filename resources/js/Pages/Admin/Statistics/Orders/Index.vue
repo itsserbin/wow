@@ -28,68 +28,11 @@
 
             <LastParams :active-item="params.last" @sortByLast="sortByLast"/>
 
-            <OrderChart v-if="state.chart" :chart-data="state.chart"/>
+            <Chart v-if="state.chart" :chart-data="state.chart"/>
 
-            <div class="grid grid-cols-2 md:grid-cols-4">
-                <card-component v-for="(item,i) in state.orders.generalStatistics"
-                                class="text-center"
-                                :title="i"
-                                :description="item ? item : 0"
-                >
-                </card-component>
-            </div>
-            <table-component :headings="headings"
-                             :rows="state.orders.result.data"
-                             :isSlotMode="true"
-            >
-                <template v-slot:date="{data}">
-                    {{ $filters.dateFormat(data.row.date) }}
-                </template>
+            <Indicators :data="state.indicators"/>
 
-                <template v-slot:costs="{data}">
-                    {{ $filters.formatMoney(data.row.costs) }}
-                </template>
-
-                <template v-slot:turnover="{data}">
-                    {{ $filters.formatMoney(data.row.turnover) }}
-                </template>
-
-                <template v-slot:marginality="{data}">
-                    {{ $filters.formatMoney(data.row.marginality) }}
-                </template>
-
-                <template v-slot:clear_profit="{data}">
-                    {{ $filters.formatMoney(data.row.clear_profit) }}
-                </template>
-
-                <template v-slot:average_marginality="{data}">
-                    {{ $filters.formatMoney(data.row.average_marginality) }}
-                </template>
-
-                <template v-slot:sale_of_air_sum="{data}">
-                    {{ $filters.formatMoney(data.row.sale_of_air_sum) }}
-                </template>
-
-                <template v-slot:debt_supplier="{data}">
-                    {{ $filters.formatMoney(data.row.debt_supplier) }}
-                </template>
-
-                <template v-slot:prepayment_sum="{data}">
-                    {{ $filters.formatMoney(data.row.prepayment_sum) }}
-                </template>
-
-                <template v-slot:refunds_sum="{data}">
-                    {{ $filters.formatMoney(data.row.refunds_sum) }}
-                </template>
-
-                <template v-slot:additional_sales_marginality_sum="{data}">
-                    {{ $filters.formatMoney(data.row.additional_sales_marginality_sum) }}
-                </template>
-
-                <template v-slot:additional_sales_sum="{data}">
-                    {{ $filters.formatMoney(data.row.additional_sales_sum) }}
-                </template>
-            </table-component>
+            <Table :data="state.orders.result.data"/>
 
             <Paginate :pagination="state.orders.result"
                       :click-handler="fetch"
@@ -101,7 +44,9 @@
 
 <script setup>
 import {reactive, onMounted, inject, ref, computed} from "vue";
-import OrderChart from '@/Pages/Admin/Statistics/Orders/Chart.vue';
+import Chart from '@/Pages/Admin/Statistics/Orders/Chart.vue';
+import Table from '@/Pages/Admin/Statistics/Orders/Table.vue';
+import Indicators from '@/Pages/Admin/Statistics/Orders/Indicators.vue';
 import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
 import Paginate from '@/Components/Paginate.vue'
 import LastParams from '@/Pages/Admin/Statistics/LastParams.vue'
@@ -112,6 +57,7 @@ const can = inject('$can');
 const state = ref({
     orders: [],
     chart: null,
+    indicators: null,
     isLoading: true,
 });
 
@@ -140,61 +86,6 @@ const getParams = computed(() => {
 })
 
 onMounted(() => fetch())
-
-const headings = reactive([
-    {
-        label: 'Дата',
-        key: 'date'
-    },
-    {
-        label: 'Всього',
-        key: 'applications'
-    },
-    {
-        label: 'Передані постачальнику',
-        key: 'transferred_to_supplier'
-    },
-    {
-        label: 'Вимагають уточнення',
-        key: 'requires_clarification'
-    },
-    {
-        label: 'Очікують відправлення',
-        key: 'awaiting_dispatch'
-    },
-    {
-        label: 'Очікують передоплати',
-        key: 'awaiting_prepayment'
-    },
-    {
-        label: 'В дорозі',
-        key: 'on_the_road'
-    },
-    {
-        label: 'В процесі',
-        key: 'in_process'
-    },
-    {
-        label: 'На пошті',
-        key: 'at_the_post_office'
-    },
-    {
-        label: 'Виконані',
-        key: 'completed'
-    },
-    {
-        label: 'Повернення',
-        key: 'refunds'
-    },
-    {
-        label: 'Скасовані',
-        key: 'cancel'
-    },
-    {
-        label: 'Нові',
-        key: 'unprocessed'
-    },
-]);
 
 function sortByLast(val) {
     if (val) {
@@ -236,6 +127,10 @@ function fetch() {
 
     axios.get(route('api.statistics.orders.chart', getParams.value))
         .then(({data}) => state.value.chart = data.result)
+        .catch((response) => console.log(response));
+
+    axios.get(route('api.statistics.orders.indicators', getParams.value))
+        .then(({data}) => state.value.indicators = data.result)
         .catch((response) => console.log(response));
 
 

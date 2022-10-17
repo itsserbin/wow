@@ -1,46 +1,65 @@
 <template>
-    <nav class="main-menu">
-        <ul class="main-menu__list">
-            <swiper
-                class="header-categories"
-                :slides-per-view="2"
-                :space-between="0"
-                :breakpoints="{
-                              '768': {
-                                slidesPerView: 4,
-                                spaceBetween: 10,
-                              },
-                              '1024': {
-                                slidesPerView: 7,
-                                spaceBetween: 20,
-                              },
-                            }"
-            >
+    <div class="max-w-7xl mx-auto">
+        <swiper
+            class="header-categories"
+            v-bind="settings"
+            :modules="modules"
+        >
+            <swiper-slide v-for="category in categories">
+                <li class="text-center py-2">
+                    <a :href="route('category',category.slug)" class="font-bold text-sm whitespace-nowrap">
+                        {{
+                            lang === 'ua' ? category.title.ua :
+                                (lang === 'ru' ? category.title.ru : null)
+                        }}
+                    </a>
+                </li>
+            </swiper-slide>
+        </swiper>
+    </div>
 
-                <swiper-slide v-for="category in categoriesList" :key="category.id">
-                    <li class="main-menu__item main-menu__item_sub">
-                        <a :href="categoryRoute + '/' + category.slug" class="main-menu__item-link ">
-                                    <span class="main-menu__item-label">
-                                        {{
-                                            lang === 'ua' ? category.title.ua : (lang === 'ru' ? category.title.ru : null)
-                                        }}
-                                    </span>
-                        </a>
-                    </li>
-                </swiper-slide>
-            </swiper>
-        </ul>
-    </nav>
 </template>
 
-<script>
-export default {
-    props: ['categoriesList', 'categoryRoute', 'lang']
+<script setup>
+import {Lazy, Autoplay, Pagination} from "swiper";
+
+defineProps(['categories', 'lang']);
+
+const modules = [Lazy, Autoplay, Pagination];
+
+const settings = {
+    spaceBetween: 0,
+    pagination: {
+        type: 'progressbar',
+    },
+    freeMode: true,
+    autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+    },
+    slidesPerView: 2,
+    breakpoints: {
+        '568': {
+            slidesPerView: 2,
+        },
+        '768': {
+            slidesPerView: 4,
+        },
+        '991': {
+            slidesPerView: 6,
+        },
+        '1366': {
+            slidesPerView: 8,
+        },
+    }
 }
 </script>
 
 <style>
-.header-categories .swiper-wrapper{
-    justify-content: center;
+@media screen and (min-width: 1366px) {
+    .header-categories .swiper-wrapper {
+        justify-content: center;
+    }
 }
+
 </style>

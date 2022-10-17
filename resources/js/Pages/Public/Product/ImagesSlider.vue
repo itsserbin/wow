@@ -9,12 +9,10 @@
             :lazy="true"
             :zoom="true"
         >
-
             <swiper-slide v-for="(image, i) in state.images">
                 <div class="swiper-zoom-container">
                     <img class="image w-full" :src="image.src" :key="i" @click="state.index = i" loading="lazy">
                 </div>
-
             </swiper-slide>
         </swiper>
 
@@ -60,17 +58,14 @@ const state = ref({
 
 onMounted(() => {
     state.value.images.push({
-        'src': '/storage/images/500/' + props.preview,
-        'thumbnail': '/storage/images/55/' + props.preview,
+        'src': route('images.products.500', props.preview),
+        'thumbnail': route('images.products.55', props.preview),
     })
-    state.value.imagesLarge.push('/storage/images/' + props.preview);
-
     JSON.parse(props.images).forEach(item => {
         state.value.images.push({
-            'src': '/storage/images/500/' + item.src,
-            'thumbnail': '/storage/images/55/' + item.src,
+            'src': route('images.products.500', item.src),
+            'thumbnail': route('images.products.55', item.src),
         })
-        state.value.imagesLarge.push('/storage/images/' + item.src);
     })
 })
 </script>

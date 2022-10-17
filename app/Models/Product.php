@@ -30,7 +30,7 @@ class Product extends Model
 
     public function categories(): MorphToMany
     {
-        return $this->morphToMany(Category::class, 'categoryables');
+        return $this->morphToMany(Category::class, 'categoryables',);
     }
 
     public function colors(): BelongsToMany

@@ -12,6 +12,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
 {
@@ -40,6 +41,8 @@ class HomeController extends Controller
         return view('pages.home', [
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
+            'categories' => $this->getCategories(),
+            'advantages' => $this->advantagesRepository->getAllToPublic(),
         ]);
     }
 
@@ -71,6 +74,7 @@ class HomeController extends Controller
         return view('pages.cart', [
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
+            'categories' => $this->getCategories(),
         ]);
     }
 
@@ -79,6 +83,26 @@ class HomeController extends Controller
         return view('pages.checkout', [
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
+            'categories' => $this->getCategories(),
+        ]);
+    }
+
+    public function page($slug): Factory|View|Application
+    {
+        return view('pages.page', [
+            'page' => $this->pagesRepository->getBySlug($slug),
+            'options' => $this->getOptions(),
+            'pages' => $this->getPagesList(),
+            'categories' => $this->getCategories(),
+        ]);
+    }
+
+    public function reviews(): View|Factory|Application
+    {
+        return view('pages.reviews', [
+            'options' => $this->getOptions(),
+            'pages' => $this->getPagesList(),
+            'categories' => $this->getCategories(),
         ]);
     }
 
@@ -99,6 +123,6 @@ class HomeController extends Controller
 
     public function getCategories()
     {
-        return $this->categoriesRepository->getAllOnProd();
+        return $this->categoriesRepository->listPublic();
     }
 }

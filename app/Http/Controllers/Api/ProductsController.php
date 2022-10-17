@@ -108,4 +108,28 @@ class ProductsController extends BaseController
             'result' => $this->productsRepository->getRecommendProducts(),
         ]);
     }
+
+    public function getRelativeProducts($id): JsonResponse
+    {
+        return $this->returnResponse([
+            'success' => true,
+            'result' => $this->productsRepository->getRelativeProducts($id),
+        ]);
+    }
+
+    public function getBestSellingProducts(): JsonResponse
+    {
+        return $this->returnResponse([
+            'success' => true,
+            'result' => $this->productsRepository->getBestSellingProducts(),
+        ]);
+    }
+
+    public function getAllToPublic(): JsonResponse
+    {
+        return $this->returnResponse([
+            'success' => true,
+            'result' => $this->productsRepository->getAllToPublic(),
+        ]);
+    }
 }

@@ -71,4 +71,12 @@ class ProductReviewsController extends BaseController
             'result' => $this->reviewsRepository->carouselList(10)
         ]);
     }
+
+    public function paginateList(): JsonResponse
+    {
+        return $this->returnResponse([
+            'success' => true,
+            'result' => $this->reviewsRepository->paginateList(10)
+        ]);
+    }
 }

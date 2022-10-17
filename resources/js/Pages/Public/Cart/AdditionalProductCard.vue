@@ -1,12 +1,12 @@
 <template>
     <div class="grid grid-cols-8 border-[1px] border-gray-300 rounded-[10px]">
         <div class="col-span-2">
-            <img :src="'/storage/images/350/' + item.preview"
+            <img :src="route('images.products.350',item.preview)"
                  :alt="item.h1.ua ? item.h1.ua : item.h1.ru"
-                 class="p-[25px]  pr-[1.25rem]">
+                 class="p-[25px] pr-[1.25rem]">
         </div>
 
-        <div class="col-span-6 p-[20px] flex items-center  ">
+        <div class="col-span-6 p-[20px] flex items-center">
             <div class="flex  space-x-[50px]">
                 <div class="text-red-600">
                     {{ item.h1.ua ? item.h1.ua : item.h1.ru }}

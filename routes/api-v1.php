@@ -37,7 +37,7 @@ Route::prefix('v1')->middleware('api')->group(function () {
     /** Route group for products */
     Route::prefix('product')->group(function () {
 
-        Route::get('/', [ProductsController::class, 'index'])
+        Route::get('/', [ProductsController::class, 'getAllToPublic'])
             ->name('api.v1.product.all');
 
         Route::get('show/{id}', [ProductsController::class, 'getProduct'])
@@ -61,8 +61,8 @@ Route::prefix('v1')->middleware('api')->group(function () {
         Route::get('recommend-products', [ProductsController::class, 'getRecommendProducts'])
             ->name('api.v1.products.recommend');
 
-        Route::get('best-selling-products', [ProductsController::class, 'getBestSellingProducts'])
-            ->name('api.v1.products.best-selling-products');
+//        Route::get('best-selling-products', [ProductsController::class, 'getBestSellingProducts'])
+//            ->name('api.v1.products.best-selling-products');
 
         Route::get('new-products', [ProductsController::class, 'getNewProducts'])
             ->name('api.v1.products.new-products');
@@ -123,7 +123,7 @@ Route::prefix('v1')->middleware('api')->group(function () {
          *
          * GET /api/category/all-on-prod
          */
-        Route::get('list', [CategoriesController::class, 'list'])
+        Route::get('list', [CategoriesController::class, 'listPublic'])
             ->name('api.v1.category.list');
 
         /**

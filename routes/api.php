@@ -4,10 +4,12 @@ use App\Http\Controllers\Api\AdvantagesController;
 use App\Http\Controllers\Api\BannersController;
 use App\Http\Controllers\Api\CallbacksController;
 use App\Http\Controllers\Api\CategoriesController;
+use App\Http\Controllers\Api\ClientsController;
 use App\Http\Controllers\Api\ColorsController;
 use App\Http\Controllers\Api\FaqsController;
 use App\Http\Controllers\Api\ImagesController;
 use App\Http\Controllers\Api\OptionsController;
+use App\Http\Controllers\Api\OrderItemsController;
 use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\PagesController;
 use App\Http\Controllers\Api\PermissionsController;
@@ -293,6 +295,51 @@ Route::middleware('auth:sanctum')->group(function () {
             ->name('api.orders.search');
     });
 
+    Route::prefix('order-items')->group(function () {
+
+        Route::get('{id}', [OrderItemsController::class, 'getByOrderId'])
+            ->name('api.order-items.getByOrderId');
+
+        Route::delete('destroy/{item_id}/{order_id}', [OrderItemsController::class, 'destroy'])
+            ->name('api.order-items.destroy');
+
+        Route::put('/update/{id}', [OrderItemsController::class, 'update'])
+            ->name('api.order-items.update');
+
+        Route::get('/edit/{id}', [OrderItemsController::class, 'edit'])
+            ->name('api.order-items.edit');
+
+        Route::post('add/{id}', [OrderItemsController::class, 'addItem'])
+            ->name('api.order-items.add');
+    });
+
+    Route::prefix('clients')->group(function () {
+
+        Route::get('/', [ClientsController::class, 'index'])
+            ->name('api.clients.index');
+
+        Route::get('edit/{id}', [ClientsController::class, 'edit'])
+            ->name('api.clients.edit');
+
+        Route::put('update/{id}', [ClientsController::class, 'update'])
+            ->name('api.clients.update');
+
+        Route::get('search={search}', [ClientsController::class, 'search'])
+            ->name('api.clients.search');
+
+        Route::delete('/destroy/{id}', [ClientsController::class, 'destroy'])
+            ->name('api.clients.destroy');
+
+        Route::post('mass', [ClientsController::class, 'massActions'])
+            ->name('api.clients.mass');
+
+        Route::get('filter', [ClientsController::class, 'filter'])
+            ->name('api.clients.filter');
+
+        Route::get('sub-filter', [ClientsController::class, 'subFilter'])
+            ->name('api.clients.subFilter');
+    });
+
     Route::prefix('banners')->group(function () {
 
         Route::post('upload', [BannersController::class, 'upload'])
@@ -473,6 +520,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
             Route::get('chart', [OrdersStatisticController::class, 'chart'])
                 ->name('api.statistics.orders.chart');
+
+            Route::get('indicators', [OrdersStatisticController::class, 'indicators'])
+                ->name('api.statistics.orders.indicators');
         });
 
         Route::prefix('marketing')->group(function () {

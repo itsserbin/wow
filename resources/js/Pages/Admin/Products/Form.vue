@@ -221,7 +221,7 @@ onMounted(() => {
 
 function previewArray(val) {
     state.value.productPreview.push({
-        src: '/storage/images/55/' + val
+        src: route('images.products.55', val)
     })
 }
 

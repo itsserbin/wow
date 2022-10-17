@@ -100,7 +100,7 @@ class CategoriesRepository extends CoreRepository
      *
      * @return mixed
      */
-    public function getAllOnProd()
+    public function listPublic()
     {
         $columns = [
             'id',

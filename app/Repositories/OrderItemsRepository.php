@@ -2,17 +2,13 @@
 
 namespace App\Repositories;
 
-use App\Models\CartItems;
-use App\Models\Enum\OrderStatus;
-use App\Models\OrderItems as Model;
-use App\Repositories\Products\ProductRepository;
+use App\Models\CartItem;
+use App\Models\Enums\OrderStatus;
+use App\Models\OrderItem as Model;
+use App\Repositories\ProductRepository;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
-/**
- * Class OrderItemsRepository
- * @package App\Repositories
- */
 class OrderItemsRepository extends CoreRepository
 {
     private $promoCodesRepository;
@@ -25,7 +21,7 @@ class OrderItemsRepository extends CoreRepository
     {
         parent::__construct();
         $this->promoCodesRepository = app(PromoCodesRepository::class);
-        $this->productRepository = app(ProductRepository::class);
+        $this->productRepository = app(ProductsRepository::class);
         $this->ordersRepository = app(OrdersRepository::class);
     }
 
@@ -85,8 +81,7 @@ class OrderItemsRepository extends CoreRepository
      */
     public function getById($id)
     {
-        return $this->startConditions()
-            ->where('id', $id)
+        return $this->model::where('id', $id)
             ->first();
     }
 
@@ -98,8 +93,7 @@ class OrderItemsRepository extends CoreRepository
      */
     public function getByOrderId($id)
     {
-        return $this->startConditions()
-            ->with('product.providers')
+        return $this->model::with('product.providers')
             ->where('order_id', $id)
             ->get();
     }
@@ -116,113 +110,6 @@ class OrderItemsRepository extends CoreRepository
         $this->ordersRepository->updateOnDestroyOrderTotalPriceAndCount($order_id, $model->count, $model->total_price);
 
         return $this->model::destroy($item_id);
-    }
-
-    /**
-     * Вывести в пагинацию заказы, ожидающие выплаты от поставщика.
-     *
-     * @param null $perPage
-     * @return mixed
-     */
-    public function PaymentsAwaiting($perPage = null)
-    {
-        return $this
-            ->startConditions()
-            ->join('orders', function ($join) {
-                $join->on('order_items.order_id', '=', 'orders.id')
-                    ->where([
-                        ['status', '=', 'Выполнен'],
-                        ['order_items.pay', '=', false]
-                    ]);
-            })
-            ->join('products', function ($join) {
-                $join->on('order_items.product_id', '=', 'products.id');
-            })
-            ->join('providers', function ($join) {
-                $join->on('order_items.provider_id', '=', 'providers.id');
-            })
-            ->select(
-                'order_items.id',
-                'order_items.order_id',
-                'order_items.provider_id',
-                'order_items.product_id',
-                'order_items.pay',
-                'order_items.profits',
-                'products.h1 as product_h1',
-                'providers.name as provider_name',
-            )
-            ->paginate($perPage);
-    }
-
-    public function paymentsReceived($perPage = null)
-    {
-        return $this
-            ->startConditions()
-            ->join('orders', function ($join) {
-                $join->on('order_items.order_id', '=', 'orders.id')
-                    ->where([
-                        ['status', '=', 'Выполнен'],
-                        ['order_items.pay', '=', true]
-                    ]);
-            })
-            ->join('products', function ($join) {
-                $join->on('order_items.product_id', '=', 'products.id');
-            })
-            ->join('providers', function ($join) {
-                $join->on('order_items.provider_id', '=', 'providers.id');
-            })
-            ->select(
-                'order_items.id',
-                'order_items.order_id',
-                'order_items.provider_id',
-                'order_items.product_id',
-                'order_items.pay',
-                'order_items.profits',
-                'products.h1 as product_h1',
-                'providers.name as provider_name',
-            )
-            ->paginate($perPage);
-    }
-
-    public function allPayments($perPage)
-    {
-        return $this
-            ->startConditions()
-            ->join('orders', function ($join) {
-                $join->on('order_items.order_id', '=', 'orders.id')
-                    ->where([
-                        ['status', '=', 'Выполнен'],
-                    ]);
-            })
-            ->join('products', function ($join) {
-                $join->on('order_items.product_id', '=', 'products.id');
-            })
-            ->join('providers', function ($join) {
-                $join->on('order_items.provider_id', '=', 'providers.id');
-            })
-            ->select(
-                'order_items.id',
-                'order_items.order_id',
-                'order_items.provider_id',
-                'order_items.product_id',
-                'order_items.pay',
-                'order_items.profits',
-                'products.h1 as product_h1',
-                'providers.name as provider_name',
-            )
-            ->paginate($perPage);
-    }
-
-    /**
-     * Обновить статус выплаты от поставщика.
-     *
-     * @param $id
-     * @param $data
-     * @return mixed
-     */
-    public function updatePayStatus($id, $data)
-    {
-        return $this->model::where('id', $id)->update(['pay' => $data['pay']]);
     }
 
     /**
@@ -258,7 +145,7 @@ class OrderItemsRepository extends CoreRepository
 
     public function addItemToOrder($id, $data)
     {
-        $product = $this->productRepository->getById($data['id']);
+        $product = $this->productRepository->getById($data['product_id']['id']);
 
         $orderItem = new $this->model;
         $orderItem->order_id = $id;

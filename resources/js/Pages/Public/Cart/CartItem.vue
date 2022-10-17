@@ -12,7 +12,7 @@
                             mt-[29px]
                         "
                 ></div>
-                <img :src="'/storage/images/350/' + item.image"
+                <img :src="route('images.products.350',item.image)"
                      :alt="item.name.ua ? item.name.ua : item.name.ru"
                      class="p-[25px] pr-[1.25rem]">
             </div>
@@ -25,7 +25,7 @@
                 </svg>
             </div>
             <div class="col-span-6 p-[20px] ">
-                <a :href="productRoute + item.id" class="mb-[0.25rem] text-red-600 col-span-7 text-[1rem]">
+                <a :href="route('product',item.id)" class="mb-[0.25rem] text-red-600 col-span-7 text-[1rem]">
                     <div>{{ item.name.ua ? item.name.ua : item.name.ru }}</div>
                 </a>
 

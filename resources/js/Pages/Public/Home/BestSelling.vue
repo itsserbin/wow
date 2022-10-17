@@ -9,18 +9,19 @@
                        :product-route="productRoute"
                        class="mb-5"
         ></product-cards>
-        <div class="flex-row flex justify-center" v-if="state.showLoadMore">
+        <div v-if="state.showLoadMore" class="text-center">
             <loader v-if="state.isLoadingMore"></loader>
-            <button class="cursor-pointer w-[250px] h-[50px] text-white bg-[#E02424] text-bold uppercase rounded-[10px]"
-                    type="button" v-if="!state.isLoadingMore" @click="fetch">
-                <span>{{ textLoadMore }}</span>
-            </button>
+            <button-component v-if="!state.isLoadingMore"
+                              @click="fetch"
+                              type="button"
+            >Завантажити ще</button-component>
         </div>
     </div>
 </template>
 
 <script setup>
 import {onMounted, ref} from "vue";
+import LoadMore from '@/Pages/Public/Components/LoadMore.vue';
 
 defineProps({
     lang: {

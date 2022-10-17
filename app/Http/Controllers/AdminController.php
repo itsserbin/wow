@@ -63,6 +63,11 @@ class AdminController extends Controller
         ]);
     }
 
+    public function clients(): Response
+    {
+        return Inertia::render('Clients/Index');
+    }
+
     public function options(): Response
     {
         return Inertia::render('Options/Index');

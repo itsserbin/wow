@@ -1,39 +1,52 @@
 <template>
-    <form class="flex flex-col">
-        <div class="grid grid-cols-1 md:grid-cols-4">
-            <div class="block mb-5 md:mr-5">
-                <label-component value="First name"/>
-                <input-component v-model="order.first_name" type="text"/>
+    <form class="grid gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="block">
+                <label-component value="Імʼя"/>
+                <input-component v-model="order.client.name" type="text" disabled/>
             </div>
-            <div class="block mb-5 md:mr-5">
-                <label-component value="Last name"/>
-                <input-component v-model="order.last_name" type="text"/>
+            <div class="block">
+                <label-component value="Прізвище"/>
+                <input-component v-model="order.client.last_name" type="text" disabled/>
             </div>
-            <div class="block mb-5 md:mr-5">
-                <label-component value="Middle name"/>
-                <input-component v-model="order.middle_name" type="text"/>
+            <div class="block">
+                <label-component value="По-батькові"/>
+                <input-component v-model="order.client.middle_name" type="text" disabled/>
             </div>
-            <div class="block mb-7">
-                <label-component value="Phone"/>
-                <input-component v-model="order.phone" type="text"/>
-            </div>
+          <div class="block">
+              <label-component value="&nbsp;"/>
+              <button-component class="w-full">
+                  <a href="">Картка клієнта</a>
+                  <!--                <a :href="route('admin.clients.index')" >Картка клієнта</a>-->
+              </button-component>
+          </div>
         </div>
 
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="block">
+                <label-component value="Статус клієнта"/>
+                <input-component v-model="order.client.status" type="text" disabled/>
+            </div>
+            <div class="block">
+                <label-component value="Телефон"/>
+                <input-component v-model="order.client.phone" type="text" disabled/>
+            </div>
+        </div>
         <div class="grid grid-cols-1 md:grid-cols-4 mb-5">
             <div class="block mb-5 md:mr-5">
-                <label-component value="Order status"/>
+                <label-component value="Статус замовлення"/>
                 <select-component v-model="order.status" :options="state.statuses"/>
             </div>
             <div class="block mb-5 md:mr-5">
-                <label-component value="Manager"/>
+                <label-component value="Менеджер"/>
                 <select-component v-model="order.manager_id" :options="state.managers"/>
             </div>
             <div class="block mb-5 md:mr-5">
-                <label-component value="Payment methods"/>
+                <label-component value="Спосіб оплати"/>
                 <select-component v-model="order.payment_method" :options="state.paymentMethods"/>
             </div>
             <div class="block mb-5">
-                <label-component value="Parcel reminder"/>
+                <label-component value="Нагадування про посилку"/>
                 <select-component v-model="order.parcel_reminder" :options="parcelReminderValues"/>
             </div>
         </div>
@@ -41,20 +54,20 @@
         <div class="grid grid-cols-1 md:grid-cols-2 mb-10">
             <div class="block md:mr-5">
                 <div class="block mb-5">
-                    <label-component value="City"/>
+                    <label-component value="Місто"/>
                     <input-component v-model="order.city" type="text"/>
                 </div>
                 <div class="block mb-5">
-                    <label-component value="Post office"/>
+                    <label-component value="Почтове відділення"/>
                     <input-component v-model="order.postal_office" type="text"/>
                 </div>
                 <div class="block">
-                    <label-component value="Waybill"/>
+                    <label-component value="Номер накладної"/>
                     <input-component v-model="order.waybill" type="text"/>
                 </div>
             </div>
             <div class="block">
-                <label-component value="Comment"/>
+                <label-component value="Коментар"/>
                 <textarea-component rows="10"
                                     v-model="order.comment"/>
             </div>
@@ -63,33 +76,33 @@
         <div class="mb-7">
             <div class="grid grid-cols-2">
                 <div class="block mb-5 mr-5">
-                    <label-component value="Sale of air"/>
+                    <label-component value="Дод.продаж повітря"/>
                     <select-component v-model="order.sale_of_air" :options="parcelReminderValues"/>
                 </div>
                 <div class="block mb-5">
-                    <label-component value="Sum sale of air"/>
+                    <label-component value="Сума доп.продажу повітря (грн.)"/>
                     <input-component v-model="order.sale_of_air_sum" type="number" v-if="order.sale_of_air"/>
                     <input-component v-model="order.sale_of_air_sum" type="number" v-else disabled/>
                 </div>
             </div>
             <div class="grid grid-cols-2">
                 <div class="block mb-5 mr-5">
-                    <label-component value="Prepayment"/>
+                    <label-component value="Передоплата"/>
                     <select-component v-model="order.prepayment" :options="parcelReminderValues"/>
                 </div>
                 <div class="block mb-5">
-                    <label-component value="Sum prepayment"/>
+                    <label-component value="Сума передоплати (грн.)"/>
                     <input-component v-model="order.prepayment_sum" type="number" v-if="order.prepayment"/>
                     <input-component v-model="order.prepayment_sum" type="number" v-else disabled/>
                 </div>
             </div>
             <div class="grid grid-cols-2">
                 <div class="block mb-5 mr-5">
-                    <label-component value="Discount"/>
+                    <label-component value="Знижка"/>
                     <select-component v-model="order.discount" :options="parcelReminderValues"/>
                 </div>
                 <div class="block mb-5">
-                    <label-component value="Sum discount"/>
+                    <label-component value="Сума знижки (грн.)"/>
                     <input-component v-model="order.discount_sum" type="number" v-if="order.discount"/>
                     <input-component v-model="order.discount_sum" type="number" v-else disabled/>
                 </div>
@@ -97,7 +110,7 @@
         </div>
 
         <div class="block mb-5">
-            <button-component type="button" @click="addProductToOrder">Add product</button-component>
+            <button-component type="button" @click="addProductToOrder">Додати товар</button-component>
             <component :is="itemsModal"
                        :item="state.item"
                        size="medium"
@@ -105,29 +118,16 @@
                        @submitItemForm="submitItemForm"
             ></component>
         </div>
-        <div class="block mb-5" v-if="order.items.length">
-            <table-component
-                :isSlotMode="true"
-                :rows="order.items"
-                :headings="headingsItems"
-            >
-                <template #actions="{data}">
-                    <div class="flex">
-                        <a href="javascript:" class="md:mr-3" @click="editOrderItem(data.row.id,data.i)">
-                            <Pencil/>
-                        </a>
-                        <a href="javascript:" @click="destroyOrderItem(data.row.id,data.i)">
-                            <xcircle-component/>
-                        </a>
-                    </div>
-                </template>
-            </table-component>
-        </div>
+
+        <ItemsTable :data="order.items"
+                    @editOrderItem="editOrderItem"
+                    @destroyOrderItem="destroyOrderItem"
+        />
 
         <div class="grid grid-cols-1 md:grid-cols-3 mt-5">
             <div class="flex justify-center">
                 <p class="font-semibold text-l text-gray-900 dark:text-white">
-                    Total count:&nbsp;
+                    Кількість товарів:&nbsp;
                 </p>
                 <p class="text-l  text-gray-900 dark:text-white">
                     {{ order.total_count }}
@@ -135,18 +135,18 @@
             </div>
             <div class="flex justify-center">
                 <p class="font-semibold text-l text-gray-900 dark:text-white">
-                    Total price:&nbsp;
+                    Загальна ціна:&nbsp;
                 </p>
                 <p class="text-l  text-gray-900 dark:text-white">
-                    {{ order.total_price }}
+                    {{ $filters.formatMoney(order.total_price) }}
                 </p>
             </div>
             <div class="flex justify-center">
                 <p class="font-semibold text-l text-gray-900 dark:text-white">
-                    Promo-code:&nbsp;
+                    Промо-код:&nbsp;
                 </p>
                 <p class="text-l  text-gray-900 dark:text-white">
-                    {{ order.promo_code ? order.promo_code : 'None' }}
+                    {{ order.promo_code ? order.promo_code : 'Відсутній' }}
                 </p>
             </div>
         </div>
@@ -156,8 +156,7 @@
 <script setup>
 import {computed, onMounted, reactive, ref, inject} from "vue";
 import ModalAddItemToOrder from '@/Pages/Admin/Orders/ItemsModal.vue'
-import axios from "axios";
-import Pencil from '@/Components/Icons/Pencil.vue';
+import ItemsTable from '@/Pages/Admin/Orders/ItemsTable.vue'
 
 const emits = defineEmits([
     'submitItemForm'
@@ -174,6 +173,7 @@ const state = ref({
         count: 1,
         size: '',
         color: '',
+        product_id: null
     },
     statuses: [],
     managers: [],
@@ -200,49 +200,14 @@ onMounted(() => {
 
 const itemsModal = computed(() => state.value.showItemsModal ? ModalAddItemToOrder : null);
 
-const headingsItems = reactive([
-    {
-        label: 'Title',
-        key: 'title'
-    },
-    {
-        label: 'Count',
-        key: 'count'
-    },
-    {
-        label: 'Price',
-        key: 'sale_price'
-    },
-    {
-        label: 'Sum',
-        key: 'total_price'
-    },
-    {
-        label: 'Resale',
-        key: 'resale'
-    },
-    {
-        label: 'Discount',
-        key: 'discount'
-    },
-    {
-        label: 'Vendor code',
-        key: 'vendor_code'
-    },
-    {
-        label: '#',
-        key: 'actions'
-    },
-])
-
 const parcelReminderValues = reactive([
     {
         key: 0,
-        value: 'No',
+        value: 'Ні',
     },
     {
         key: 1,
-        value: 'Yes',
+        value: 'Так',
     }
 ])
 

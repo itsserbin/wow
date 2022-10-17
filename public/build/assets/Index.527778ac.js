@@ -1,1 +1,0 @@
-import t from"./StatisticLayout.aa4de5c9.js";import{C as e,A as o,y as r,O as a}from"./_plugin-vue_export-helper.f12554ed.js";import"./Sidebar.620cebe0.js";import"./app.ec5dc424.js";const _=a(" SPIDOZNAYA SOPLYA "),l={__name:"Index",setup(s){return(c,n)=>(r(),e(t,null,{default:o(()=>[_]),_:1}))}};export{l as default};

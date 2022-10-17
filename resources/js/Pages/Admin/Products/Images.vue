@@ -5,7 +5,7 @@
         navigation
     >
         <swiper-slide v-for="image in images">
-            <ImageCard :image="'/storage/images/350/' + image.src"
+            <ImageCard :image="route('images.products.350',image.src)"
                        :id="image.id"
                        :destroyIcon="true"
                        @destroyImage="destroyImage"
