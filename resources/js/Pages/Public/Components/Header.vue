@@ -10,41 +10,62 @@
                         <!--                        <img :src="logoApp" :alt="appName">-->
                     </a>
                 </div>
+                
                 <div class="grow-0 shrink-0 basis-[auto]  m-auto mr-[1rem] flex justify-end ml-[47px]"
-                     style="margin:auto;">
+                    style="margin:auto;">
                     <cart-icon-component :cart-route="route('cart')"></cart-icon-component>
 
                 </div>
-                <div class=" flex  items-center w-[23.3%]  mob_position justify-end">
+                <div class=" flex  items-center w-[23.3%]  mob_position mx-2 justify-end">
+                   
+                    <button @click="showModalPopup"
+                                class="w-[5rem] inline-block h-[50px] bg-red-600 rounded-[10px] text-[1.2vh] text-white ml-[30px] mr-[8px]">Статус
+                                замовлення
+                            </button>
+                           
                     <div class=" max-w-[55px]">
+                        
                         <div class="relative whitespace-nowrap left-[0.4rem]">
-
+                            <!--blur in the Modal.vue "backdrop-filter: blur(5px);"-->
+                            
+                            <modal @closeModal="showModalPopup" v-if="show" size="small" class="oveflow-scroll">
+                                <template #content>
+                                   
+                                    <div class="flex flex-col">
+                                        <label-component class="text-center text-[1rem]">Введите номер заказа и нажмите кнопку.</label-component>
+                                        <input-component />
+                                        <button-component
+                                            class="mt-[20px] mx-auto w-[5rem] h-[50px] bg-red-600 rounded-[10px] text-[0.5rem] text-white">
+                                            Проверить</button-component>
+                                    </div>
+                               
+                                </template>
+                            </modal>
+                      
                             <button @click="setLangActiveClass"
-                                    class="text-red-500 bg-white hover:bg-white focus:outline-none  font-medium rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:bg-white  "
-                                    type="button">
+                                class="text-red-500 mr-[-25px] bg-white hover:bg-white focus:outline-none  font-medium rounded-lg text-sm  py-2.5 text-center inline-flex items-center dark:bg-white  "
+                                type="button">
                                 {{ lang === 'ua' ? 'UA' : (lang === 'ru' ? 'RU' : null) }}
-                                <svg class="ml-2 w-4 h-4" aria-hidden="true" fill="none"
-                                     stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <svg class="ml-2 w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M19 9l-7 7-7-7"></path>
+                                        d="M19 9l-7 7-7-7"></path>
                                 </svg>
                             </button>
                             <!-- Dropdown menu -->
                             <transition name="fadeSecond">
                                 <div v-if="state.langActiveClass"
-                                     class=" z-10 w-[50px] bg-white rounded divide-y divide-gray-100 shadow "
-                                     style="position: absolute; inset: 0px auto auto 0px;margin-left: 1px; margin-top: 25px; transform: translate(0px, 10px);">
+                                    class=" z-10 w-[50px] bg-white rounded divide-y divide-gray-100 shadow "
+                                    style="position: absolute; inset: 0px auto auto 0px;margin-left: 1px; margin-top: 25px; transform: translate(0px, 10px);">
 
                                     <ul class="py-1 text-sm text-red-600 dark:text-gray-200">
                                         <li>
-                                            <a :href="route('setlocale','ru')"
-                                               v-if="lang === 'ua'"
-                                               class="block py-2 text-red-600 px-4   dark:hover:text-red-600">RU</a>
+                                            <a :href="route('setlocale','ru')" v-if="lang === 'ua'"
+                                                class="block py-2 text-red-600 px-4   dark:hover:text-red-600">RU</a>
                                         </li>
                                         <li>
-                                            <a :href="route('setlocale','ua')"
-                                               v-if="lang === 'ru'"
-                                               class="block py-2 text-red-600 px-4   dark:hover:text-red-600">UA</a>
+                                            <a :href="route('setlocale','ua')" v-if="lang === 'ru'"
+                                                class="block py-2 text-red-600 px-4   dark:hover:text-red-600">UA</a>
                                         </li>
 
                                     </ul>
@@ -55,7 +76,7 @@
                     </div>
                 </div>
                 <transition name="fadeLast">
-                    <div class="grow-0 shrink-0 basis-[auto] z-50 flex  w-[19.3%]  justify-end ml-[20px]">
+                    <div class="grow-0 shrink-0 basis-[auto] z-50 flex  w-[12.3%]   ml-[20px] justify-end">
 
                         <div class="burger__sticks justify-end  relative !w-[25px] h-[18px] z-51 p-0 ease-out
                                 before:bg-[#c4c4c4]
@@ -83,12 +104,10 @@
 
         </div>
         <div class=" bg-[#ffb7b7]">
-            <HeaderCategories :categories="JSON.parse(categories)"
-                              :lang="lang"/>
+            <HeaderCategories :categories="JSON.parse(categories)" :lang="lang" />
         </div>
         <transition name="fadeLast">
-            <div v-if="state.showBurger"
-                 class="
+            <div v-if="state.showBurger" class="
                         burger-menu
                         active
 
@@ -100,14 +119,12 @@
                         left-0
                         overflow-scroll
                         bg-[#161616]
-                    "
-            >
+                    ">
                 <div class="max-w-7xl mx-auto">
                     <div class="grid grid-cols-1 md:grid-cols-2 mt-[30px] text-xl md:text-2xl">
                         <ul class="menu__list flex flex-col justify-center items-center">
                             <li v-for="category in JSON.parse(categories)" :key="category.id">
-                                <a :href="route('category',category.slug)"
-                                   class="
+                                <a :href="route('category',category.slug)" class="
                                         py-5
                                         line
                                         relative
@@ -125,16 +142,14 @@
                                         after:absolute
                                         after:right-0
                                         after:w-0
-                                    "
-                                >
+                                    ">
                                     {{ lang === 'ua' ? category.title.ua : (lang === 'ru' ? category.title.ru : null) }}
                                 </a>
                             </li>
                         </ul>
                         <ul class="menu__list flex flex-col justify-center items-center">
                             <li>
-                                <a :href="indexRoute"
-                                   class="
+                                <a :href="indexRoute" class="
                                             py-5
                                             line
                                             relative
@@ -152,14 +167,12 @@
                                             after:absolute
                                             after:right-0
                                             after:w-0
-                                    "
-                                >
+                                    ">
                                     {{ lang === 'ru' ? 'Главная' : 'Головна' }}
                                 </a>
                             </li>
                             <li>
-                                <a :href="route('reviews')"
-                                   class="
+                                <a :href="route('reviews')" class="
                                         py-5
                                         line
                                         relative
@@ -178,14 +191,12 @@
                                         after:absolute
                                         after:right-0
                                         after:w-0]
-                                "
-                                >
+                                ">
                                     Відгуки
                                 </a>
                             </li>
                             <li v-for="page in JSON.parse(pages)" :key="page.id">
-                                <a :href="'/pages/' + page.slug"
-                                   class="
+                                <a :href="'/pages/' + page.slug" class="
                                         py-5
                                         line
                                         relative
@@ -203,8 +214,7 @@
                                         after:absolute
                                         after:right-0
                                         after:w-0]
-                                "
-                                >
+                                ">
                                     {{ lang === 'ru' ? page.heading.ru : page.heading.ua }}
                                 </a>
                             </li>
@@ -220,19 +230,19 @@
                             {{ appEmail }}
                         </a>
 
-                            <a v-if="appFacebook" :href="appFacebook" target="_blank">
-                                <facebook-icon></facebook-icon>
-                            </a>
+                        <a v-if="appFacebook" :href="appFacebook" target="_blank">
+                            <facebook-icon></facebook-icon>
+                        </a>
 
-                            <a v-if="appInstagram" :href="appInstagram" target="_blank">
-                                <instagram-icon></instagram-icon>
-                            </a>
+                        <a v-if="appInstagram" :href="appInstagram" target="_blank">
+                            <instagram-icon></instagram-icon>
+                        </a>
 
 
                         <div class="row">
 
                             <div v-if="appSchedule"
-                                 class="burger-menu__schedule flex uppercase text-[#fff] text-center">
+                                class="burger-menu__schedule flex uppercase text-[#fff] text-center">
                                 <div v-html="appSchedule"></div>
                             </div>
 
@@ -260,7 +270,7 @@
 
 <script setup>
 import HeaderCategories from '@/Pages/Public/Components/HeaderCategories.vue';
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 
 const state = ref({
     showBurger: false,
@@ -292,6 +302,18 @@ function showBurgerMenu() {
     state.value.showBurger = !state.value.showBurger;
 
 }
+
+const show = ref(false);
+
+function showModalPopup() {
+    show.value = !show.value;
+}
+
+
+
+
+
+
 
 
 // function handleSCroll(event) {

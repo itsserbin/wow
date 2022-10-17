@@ -45,6 +45,9 @@
     background: transparent; /* Optional: just make scrollbar invisible */
 }
 
+.modal-scroll::-webkit-scrollbar { 
+    width: 0; }
+
 .content {
     h1 {
         display: block;
@@ -255,15 +258,7 @@
     display: none;
 }
 
-@media screen and (max-width: 320px) {
-    .mob_position {
-        width: 4rem;
-    }
-}
 
-.burger-menu {
-
-}
 
 
 .multiselect-fake-input:active, .multiselect-fake-input:focus {

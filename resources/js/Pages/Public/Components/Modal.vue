@@ -1,5 +1,5 @@
 <template> 
-
+  
     <div>
        
         <div
@@ -15,8 +15,17 @@
                     justify-center
                     items-center
                     flex
+                    backdrop-blur-sm
                 "
+               
         >
+        <transition
+        type="transitionend"
+    name="custom-classes-transition"
+    enter-active-class="animate__animated animate__fadeIn"
+    leave-active-class="animate__animated animate__fadeOut"
+   
+  >
             <div class="
                         p-4
                         mb-20
@@ -27,22 +36,28 @@
                         top-10
                         z-50
                         relative
-                        overflow-y-scroll
+                        overflow-scroll
+                        modal-scroll
+                        animate__animated animate__fadeIn
+                        
                 "
+              
                  :class="{
                              'max-w-md' : size === 'small',
                              'max-w-lg' : size === 'medium',
                              'max-w-4xl' : size === 'large',
                              'max-w-7xl' : size === 'extralarge',
+                             
                             }"
+
             >
-            <transition name="fade">
+            
                 <div class="bg-white rounded-lg shadow ">
                     <div class="flex justify-between items-start p-4 rounded-t border-b">
                         <h3 class="text-xl font-semibold text-gray-900" v-if="$slots.title">
                             <slot name="title"></slot>
                         </h3>
-                        <button @click="$emit('closeModal')"
+                        <button @click="$emit('closeModal') "
                                 type="button"
                                 class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
                                 data-modal-toggle="defaultModal">
@@ -111,8 +126,10 @@
                             </button>
                     </div>
                 </div>
-            </transition>
+            
             </div>
+        </transition>
+      
         </div>
         <div class="bg-gray-900 bg-opacity-50 fixed inset-0 z-30"></div>
     
@@ -121,6 +138,9 @@
 </template>
 
 <script setup>
+import 'animate.css';
+import { add } from 'date-fns';
+import { addClass } from 'dom7';
 defineProps([
     'cancelButtonText',
     'declineButtonText',
@@ -129,17 +149,9 @@ defineProps([
 ])
 
 defineEmits(['closeModal', 'submitForm', 'clickCancel', 'declineForm'])
+
+
 </script>
 
 
-<style>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s ease;
-}
 
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>
