@@ -1,4 +1,5 @@
 <template>
+   <transition name="fade">
     <div>
         <div
             class="
@@ -148,6 +149,7 @@
         </div>
         <div class="bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-30"></div>
     </div>
+</transition>
 </template>
 
 <script setup>
@@ -160,3 +162,17 @@ defineProps([
 
 defineEmits(['closeModal', 'submitForm', 'clickCancel', 'declineForm'])
 </script>
+
+
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
+

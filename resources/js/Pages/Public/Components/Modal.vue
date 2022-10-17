@@ -1,5 +1,5 @@
 <template> 
-<transition name="fadeLast">
+
     <div>
        
         <div
@@ -36,6 +36,7 @@
                              'max-w-7xl' : size === 'extralarge',
                             }"
             >
+            <transition name="fade">
                 <div class="bg-white rounded-lg shadow ">
                     <div class="flex justify-between items-start p-4 rounded-t border-b">
                         <h3 class="text-xl font-semibold text-gray-900" v-if="$slots.title">
@@ -110,12 +111,13 @@
                             </button>
                     </div>
                 </div>
+            </transition>
             </div>
         </div>
         <div class="bg-gray-900 bg-opacity-50 fixed inset-0 z-30"></div>
     
     </div>
-</transition>
+
 </template>
 
 <script setup>
@@ -128,3 +130,16 @@ defineProps([
 
 defineEmits(['closeModal', 'submitForm', 'clickCancel', 'declineForm'])
 </script>
+
+
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
