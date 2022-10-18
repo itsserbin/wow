@@ -8,9 +8,13 @@
                            :text-go-to-product-card="textGoToProductCard"
                            :product-route="productRoute"
             ></product-cards>
-            <div v-if="state.showLoadMore">
+            <div v-if="state.showLoadMore" class="text-center mt-5">
                 <loader v-if="state.isLoadingMore"></loader>
-                <LoadMore v-if="!state.isLoadingMore"  @click="fetch"/>
+                <button-component v-if="!state.isLoadingMore"
+                                  @click="fetch"
+                                  type="button"
+                >Завантажити ще
+                </button-component>
             </div>
         </section>
     </div>

@@ -3,19 +3,15 @@
 @section('content')
     {{ Breadcrumbs::render('home.categories',$category) }}
 
-    <div class="category-banners">
-        <category-banners lang="{{app()->getLocale()}}"
-                          id="{{$category->id}}"
-        ></category-banners>
-    </div>
+    <category-banners lang="{{app()->getLocale()}}"
+                      id="{{$category->id}}"
+    ></category-banners>
 
-    <div class="category-products">
-        <category-products lang="{{app()->getLocale()}}"
-                           title="{{app()->getLocale() == 'ua' ? $category->title['ua'] : $category->title['ru']}}"
-                           slug="{{$category->slug}}"
-                           product-route="{{route('product')}}"
-        ></category-products>
-    </div>
+    <category-products lang="{{app()->getLocale()}}"
+                       title="{{app()->getLocale() == 'ua' ? $category->title['ua'] : $category->title['ru']}}"
+                       slug="{{$category->slug}}"
+                       product-route="{{route('product')}}"
+    ></category-products>
 
     <div class="category-text content">
         {!! app()->getLocale() == 'ua' ? $category->seo_text['ua'] : $category->seo_text['ru'] !!}

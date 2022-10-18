@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Enum\OrderStatus;
-use App\Models\Orders;
+use App\Models\Enums\OrderStatus;
+use App\Models\Order;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 

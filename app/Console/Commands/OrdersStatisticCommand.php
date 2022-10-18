@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Enum\OrderStatus;
-use App\Repositories\Bookkeeping\OrdersStatisticsRepository;
+use App\Models\Enums\OrderStatus;
+use App\Repositories\Statistics\OrdersStatisticsRepository;
 use App\Repositories\OrdersRepository;
 use Carbon\Carbon;
 use Illuminate\Console\Command;

@@ -108,6 +108,7 @@ class ProductsRepository extends CoreRepository
             })
             ->select($columns)
             ->orderBy('total_sales', 'desc')
+            ->with('sizes')
             ->paginate($perPage);
     }
 
@@ -154,7 +155,7 @@ class ProductsRepository extends CoreRepository
                     $q->where('id', $product->categories[0]->id);
                 })
                 ->limit($limit)
-                ->with('colors','sizes')
+                ->with('sizes')
                 ->get();
         } else {
             return $this->model::where('id', '!=', $id)
@@ -167,7 +168,7 @@ class ProductsRepository extends CoreRepository
                     'preview'
                 )
                 ->limit($limit)
-                ->with('colors','sizes')
+                ->with('sizes')
                 ->get();
         }
     }
@@ -353,7 +354,7 @@ class ProductsRepository extends CoreRepository
             ->model::where('published', 1)
             ->select($columns)
             ->orderBy('total_sales', 'desc')
-            ->with('colors','sizes')
+            ->with('sizes')
             ->paginate($perPage);
     }
 
@@ -393,7 +394,7 @@ class ProductsRepository extends CoreRepository
             ->model::where('published', 1)
             ->select($columns)
             ->orderBy('created_at', 'desc')
-            ->with('colors','sizes')
+            ->with('sizes')
             ->limit(8)
             ->get();
     }
@@ -415,7 +416,7 @@ class ProductsRepository extends CoreRepository
             ->model::where('published', 1)
             ->select($columns)
             ->orderBy('created_at', 'desc')
-            ->with('colors','sizes')
+            ->with('sizes')
             ->paginate(3);
     }
 
@@ -565,7 +566,7 @@ class ProductsRepository extends CoreRepository
                 ->model::where('published', 1)
                 ->select($columns)
                 ->orderBy('total_sales', 'desc')
-                ->with('colors','sizes')
+                ->with('sizes')
                 ->paginate(12);
         }
     }

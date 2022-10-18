@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Repositories\Bookkeeping\CostsRepository;
-use App\Repositories\Bookkeeping\MarketingStatisticRepository;
-use App\Repositories\Bookkeeping\OrdersStatisticsRepository;
-use App\Repositories\Bookkeeping\ProfitsRepository;
+use App\Repositories\Statistics\CostsRepository;
+use App\Repositories\Statistics\MarketingStatisticRepository;
+use App\Repositories\Statistics\OrdersStatisticsRepository;
+use App\Repositories\Statistics\ProfitsRepository;
 use App\Repositories\OrdersRepository;
 use Carbon\Carbon;
 use Illuminate\Console\Command;

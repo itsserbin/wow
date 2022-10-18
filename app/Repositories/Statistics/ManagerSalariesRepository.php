@@ -74,19 +74,19 @@ class ManagerSalariesRepository extends CoreRepository
 
 
         if ($managers && $date) {
-            $startDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start'])->format('Y-m-d');
-            $endDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])->format('Y-m-d');
-
-            $model->whereBetween('date', [$startDate, $endDate])
+            $model->whereBetween('date', [
+                $this->dateFormatFromTimepicker($data['date_start']),
+                $this->dateFormatFromTimepicker($data['date_end'])
+            ])
                 ->whereIn('manager_id', $managers)
                 ->groupBy('date');;
 
 
         } elseif ($date) {
-            $startDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start'])->format('Y-m-d');
-            $endDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])->format('Y-m-d');
-
-            $model->whereBetween('date', [$startDate, $endDate])->where('manager_id', null);
+            $model->whereBetween('date', [
+                $this->dateFormatFromTimepicker($data['date_start']),
+                $this->dateFormatFromTimepicker($data['date_end'])
+            ])->where('manager_id', null);
         } elseif ($managers) {
             $model->whereIn('manager_id', $managers)->groupBy('date');
         } else {
@@ -106,7 +106,10 @@ class ManagerSalariesRepository extends CoreRepository
         }
 
         if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
-            $date = ['date_start' => DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start']), 'date_end' => DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])];
+            $date = [
+                'date_start' => $this->dateFormatFromTimepicker($data['date_start']),
+                'date_end' => $this->dateFormatFromTimepicker($data['date_end'])
+            ];
         }
         $result['Всего заявок'] = $this->sumColumnByDateRangeAndManagerId('count_applications', $date, $managers);
         $result['Отмененных заявок'] = $this->sumColumnByDateRangeAndManagerId('canceled_applications', $date, $managers);
@@ -135,8 +138,9 @@ class ManagerSalariesRepository extends CoreRepository
                 ->whereIn('manager_id', $managers)
                 ->sum($column);
         } elseif ($date) {
-            if ($date == []) {
+            if (is_array($date)) {
                 if (array_key_exists('date_start', $date) && array_key_exists('date_end', $date)) {
+//                    dd($date);
                     return $this->model::whereBetween('date', [$date['date_start'], $date['date_end']])
                         ->where('manager_id', null)
                         ->sum($column);

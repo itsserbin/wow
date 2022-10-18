@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Repositories\Bookkeeping\CostsRepository;
-use App\Repositories\Bookkeeping\ProfitsRepository;
+use App\Repositories\Statistics\CostsRepository;
+use App\Repositories\Statistics\ProfitsRepository;
 use App\Repositories\OrderItemsRepository;
 use App\Repositories\OrdersRepository;
 use Carbon\Carbon;

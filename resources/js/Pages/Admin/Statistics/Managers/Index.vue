@@ -37,6 +37,7 @@
                         placeholder="Оберіть менеджерів"
                         track-by="id"
                         :searchable="true"
+                        :close-on-select="false"
                         multiple
                     />
                 </div>
@@ -53,7 +54,7 @@
                 <card-component v-for="(item,i) in state.data.generalStat"
                                 class="text-center"
                                 :title="i"
-                                :description="$filters.formatMoney(item)"
+                                :description="item"
                 >
                 </card-component>
             </div>
@@ -103,6 +104,7 @@ const endPoint = computed(() => {
         data.managers = managersArray.value;
     }
     data.page = params.value.currentPage;
+    console.log(data);
     return route('api.statistics.managers.index', data);
 
 })
@@ -202,8 +204,9 @@ const headings = reactive([
 ]);
 
 function fetchClear() {
-    state.value.managers = [];
-    state.value.date = [];
+    params.value.managers = [];
+    params.value.date = [];
+    params.value.managers = [];
     state.value.managers = [];
     fetch();
 }

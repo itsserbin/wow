@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Enum\OrderStatus;
-use App\Repositories\Bookkeeping\ManagersSalaryRepository;
+use App\Models\Enums\OrderStatus;
+use App\Repositories\Statistics\ManagerSalariesRepository;
 use App\Repositories\OrderItemsRepository;
 use App\Repositories\OrdersRepository;
 use App\Repositories\UsersRepository;
@@ -41,7 +41,7 @@ class SumManagersSalary extends Command
         parent::__construct();
         $this->ordersRepository = app(OrdersRepository::class);
         $this->orderItemsRepository = app(OrderItemsRepository::class);
-        $this->managersSalaryRepository = app(ManagersSalaryRepository::class);
+        $this->managersSalaryRepository = app(ManagerSalariesRepository::class);
         $this->usersRepository = app(UsersRepository::class);
     }
 
