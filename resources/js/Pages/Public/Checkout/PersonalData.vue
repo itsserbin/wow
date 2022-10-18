@@ -48,14 +48,6 @@
                                  v-model="order.phone"
                 />
             </div>
-
-            <div class="block">
-                <label-component>Email</label-component>
-                <input-component placeholder="Введіть вашу пошту"
-                                 type="email"
-                                 v-model="order.email"
-                />
-            </div>
         </div>
     </div>
 </template>

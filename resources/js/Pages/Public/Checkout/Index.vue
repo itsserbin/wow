@@ -14,6 +14,7 @@
                     <div class="grid gap-4">
                         <OrderItem v-for="item in state.cart.list"
                                    :item="item"
+                                   @removeFromCart="removeFromCart"
                         />
                     </div>
                     <CheckoutTotal/>
@@ -111,5 +112,9 @@ function sendOrder() {
                 text: 'Перевірте корректніть данних',
             })
         });
+}
+
+function removeFromCart(){
+
 }
 </script>
