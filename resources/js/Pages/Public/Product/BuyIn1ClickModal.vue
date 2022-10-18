@@ -80,8 +80,44 @@ const order = ref({
 });
 
 function sendForm() {
-    console.log('test')
-}
+    state.value.isLoading = true;
+    state.value.errors = [];
+    axios.post(route('api.v1.orders.create'), state.value.order)
+        .then(({data}) => {
+            // if (typeof fbq !== "undefined") {
+            //     fbq('track', 'Purchase', {
+            //         "value": this.cart.totalPrice,
+            //         "currency": "UAH",
+            //         "content_type": "product",
+            //         "num_items": this.cart.totalCount,
+            //         "content_ids": this.contentIds
+            //     });
+            //
+            //     if (typeof this.$gtm !== "undefined") {
+            //         this.$gtm.trackEvent({
+            //             event: 'send_order',
+            //             ecommerce: {
+            //                 transaction_id: data.order.id,
+            //                 value: data.order.total_price,
+            //                 currency: "UAH",
+            //                 items: this.ga4ProductsArray
+            //             }
+            //         });
+            //     }
+            //
+            // }
+            state.value.isLoading = false;
+            window.location.href = route('thanks', data.order.id);
+        })
+        .catch(({response}) => {
+            state.value.errors = response.data;
+            state.value.isLoading = false;
+            swal({
+                icon: 'error',
+                title: 'Виникла помилка',
+                text: 'Перевірте корректніть данних',
+            })
+        });}
 
 // export default {
 //     props: ['isActive', 'item'],

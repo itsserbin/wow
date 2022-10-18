@@ -57,13 +57,18 @@ function sendOrder() {
     axios.post(route('api.v1.orders.create'), state.value.order)
         .then(({data}) => {
             // if (typeof fbq !== "undefined") {
-            //     fbq('track', 'Purchase', {
-            //         "value": this.cart.totalPrice,
-            //         "currency": "UAH",
-            //         "content_type": "product",
-            //         "num_items": this.cart.totalCount,
-            //         "content_ids": this.contentIds
-            //     });
+            if (import.meta.env.production.VITE_ENV === 'Production'){
+                console.log('testenv')
+                fbq('track', 'Purchase', {
+                    "value": this.cart.totalPrice,
+                    "currency": "UAH",
+                    "content_type": "product",
+                    "num_items": this.cart.totalCount,
+                    "content_ids": this.contentIds
+                });
+            }
+
+
             //
             //     if (typeof this.$gtm !== "undefined") {
             //         this.$gtm.trackEvent({
