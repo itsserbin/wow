@@ -7,29 +7,11 @@
         <loader-component v-if="state.isLoading"/>
         <div v-if="!state.isLoading">
             <div class="grid grid-cols-1 gap-4">
-                <table-component :headings="headings"
-                                 :isSlotMode="true"
-                                 :rows="state.data.data"
-                >
-                    <template v-slot:id="{data}">
-                        <a href="javascript:" @click="onEdit(data.row.id,data.i)">
-                            {{ data.row.id }}
-                        </a>
-                    </template>
-
-
-                    <template v-slot:timestamps="{data}">
-                        {{ $filters.dateFormat(data.row.updated_at) }}
-                        <hr class="my-1">
-                        {{ $filters.dateFormat(data.row.created_at) }}
-                    </template>
-
-                    <template v-slot:actions="{data}">
-                        <a href="javascript:" @click="onDestroy(data.row.id)">
-                            <xcircle-component/>
-                        </a>
-                    </template>
-                </table-component>
+                
+                <Table :data="state.data.data"
+                        @onEdit="onEdit"
+                        @onDestroy="onDestroy"
+                />
 
                 <div class="text-center">
                     <pagination :pagination="state.data"
@@ -51,7 +33,9 @@
 
 <script setup>
 import {reactive, onMounted, inject, ref, computed} from "vue";
-import Modal from '@/Pages/Admin/Pages/Modal.vue';
+import Modal from '@/Pages/Admin/Callbacks/Modal.vue';
+import Table from '@/Pages/Admin/Callbacks/Table.vue';
+
 
 const swal = inject('$swal')
 const can = inject('$can');
@@ -77,37 +61,6 @@ onMounted(() => {
 })
 
 const activeModal = computed(() => state.value.isActiveModal ? Modal : null)
-
-const headings = reactive([
-    {
-        label: 'ID',
-        key: 'id'
-    },
-    {
-        label: 'Статус',
-        key: 'status'
-    },
-    {
-        label: 'Імʼя',
-        key: 'name'
-    },
-    {
-        label: 'Телефон',
-        key: 'phone'
-    },
-    {
-        label: 'Коментар',
-        key: 'comment'
-    },
-    {
-        label: "Оновлено<hr class='my-1'>Створено",
-        key: 'timestamps'
-    },
-    {
-        label: '#',
-        key: 'actions'
-    }
-]);
 
 
 function fetch(page) {

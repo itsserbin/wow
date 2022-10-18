@@ -204,8 +204,12 @@
 
 }
 
-.fadeSecond-enter-active, .fadeSecond-leave-active {
-    transition: opacity .5s ease;
+.fadeSecond-enter-active {
+    transition: opacity 1s ease;
+}
+
+.fadeSecond-leave-active{
+    transition: opacity 1s ease;
 }
 
 .fadeSecond-enter-from, .fadeSecond-leave-to {

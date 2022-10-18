@@ -11,7 +11,7 @@
                     </a>
                 </div>
 
-                <div class="grow-0 shrink-0 basis-[auto]  m-auto mr-[1rem] flex justify-end ml-[47px]"
+                <div class="grow-0 shrink-0 basis-[auto]  m-auto mr-[1rem] flex justify-end ml-[47px] "
                     style="margin:auto;">
                     <cart-icon-component :cart-route="route('cart')"></cart-icon-component>
 
@@ -289,7 +289,7 @@
                         </h3>
                         <span slot="subtitle" class="text-black text-[14px]">Наш оператор зателефонує Вам
                             протягом <span class="color-blue">5 хвилин</span></span>
-                        <div class="text-left text-[14px]">
+                        <div class="text-left text-[14px] px-[5px]">
 
 
                             <label-component>Ім`я <span class="text-red-600">*</span> </label-component>
@@ -321,6 +321,7 @@
 
         </template>
     </modal>
+    
     <button @click="scrollTop" id="myBtn"
         class=" cursor-pointer items-center z-[-1] bg-gray-500 rounded-[50%] h-[50px] justify-center left-[2%] bottom-[5%] fixed w-[50px]" 
         ><span class="icon-arrow-up2 "><svg xmlns="http://www.w3.org/2000/svg" width="16"
@@ -328,12 +329,13 @@
                 <path fill-rule="evenodd"
                     d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z" />
             </svg></span></button>
+       
 </template>
 
 <script setup>
 import HeaderCategories from '@/Pages/Public/Components/HeaderCategories.vue';
 import { onMounted, ref } from "vue";
-import ReviewForm from '../Product/ReviewForm.vue';
+
 
 
 
@@ -348,7 +350,6 @@ const state = ref({
 function scrollTop(){
     myBtn.onclick = function() {
         window.scrollTo({scrollX, top:0, behavior: 'smooth'});
-      // после scrollTo возникнет событие "scroll", так что стрелка автоматически скроется
     };
    
     window.addEventListener('scrollY', function() {
@@ -359,14 +360,7 @@ function scrollTop(){
       myBtn.classList.remove('hide')
       myBtn.hidden = (scrollY < document.documentElement.clientHeight);
     });
-
-
-   
-console.log(myBtn)
-
-
-}
-
+ }
 
 
 
@@ -401,11 +395,16 @@ const showSecond = ref(false)
 
 function showModalPopup() {
     show.value = !show.value;
+
 }
 
 function showModalPopupSecond() {
     showSecond.value = !showSecond.value;
+    
 }
+
+
+
 
 
 

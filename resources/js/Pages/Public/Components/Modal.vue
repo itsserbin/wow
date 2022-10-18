@@ -1,13 +1,12 @@
 <template>
 
-    <div>
-
+    <div >
+        <transition name="fadeSecond">
         <div class="
                     fixed
                     top-0
                     right-0
                     left-0
-                    z-50
                     w-full
                     md:inset-0
                     h-full
@@ -15,10 +14,8 @@
                     items-center
                     flex
                     backdrop-blur-sm
-                ">
-
-             
-           
+                    z-[100]
+                ">              
                 <div class="
                         p-4
                         mb-20
@@ -49,7 +46,7 @@
 
                            
 
-                            <button @click="$emit('closeModal') " type="button"
+                            <button @click="$emit('closeModal') "  type="button"
                                 class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
                                 data-modal-toggle="defaultModal">
                                 <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
@@ -112,9 +109,10 @@
                     </div>
 
                 </div>
-           
+            
 
         </div>
+    </transition>
         <div class="bg-gray-900 bg-opacity-50 fixed inset-0 z-30"></div>
 
     </div>
@@ -136,6 +134,5 @@ defineEmits(['closeModal', 'submitForm', 'clickCancel', 'declineForm'])
 
 
 </script>
-
 
 
