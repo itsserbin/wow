@@ -19,41 +19,41 @@ class CallbacksController extends BaseController
 
     public function index(): JsonResponse
     {
-        $result = $this->callbacksRepository->getAllWithPaginate();
-
         return $this->returnResponse([
             'success' => true,
-            'result' => $result,
+            'result' => $this->callbacksRepository->getAllWithPaginate(),
         ]);
     }
 
     public function edit($id): JsonResponse
     {
-        $result = $this->callbacksRepository->getById($id);
-
         return $this->returnResponse([
             'success' => true,
-            'result' => $result,
+            'result' => $this->callbacksRepository->getById($id),
         ]);
     }
 
     public function update($id, Request $request): JsonResponse
     {
-        $result = $this->callbacksRepository->update($id, $request->all());
-
         return $this->returnResponse([
             'success' => true,
-            'result' => $result,
+            'result' => $this->callbacksRepository->update($id, $request->all()),
         ]);
     }
 
     public function destroy($id): JsonResponse
     {
-        $result = $this->callbacksRepository->destroy($id);
-
         return $this->returnResponse([
             'success' => true,
-            'result' => $result,
+            'result' => $this->callbacksRepository->destroy($id),
+        ]);
+    }
+
+    public function create(Request $request): JsonResponse
+    {
+        return $this->returnResponse([
+            'success' => true,
+            'result' => $this->callbacksRepository->create($request->all()),
         ]);
     }
 }

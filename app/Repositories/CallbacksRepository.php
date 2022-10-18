@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Callback as Model;
-use App\Models\Enum\CallbackStatus;
+use App\Models\Enums\CallbackStatus;
 
 class CallbacksRepository extends CoreRepository
 {

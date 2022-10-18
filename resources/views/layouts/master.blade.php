@@ -40,6 +40,7 @@
         </div>
     </main>
     @include('components.footer')
+    <callback></callback>
 </div>
 @vite('resources/js/Pages/Public/app.js')
 @if(env('APP_ENV') !== 'local')

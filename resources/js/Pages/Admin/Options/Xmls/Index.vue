@@ -26,6 +26,13 @@
                     <div v-html="data.row.icon"></div>
                 </template>
 
+                <template v-slot:slug="{data}">
+                    <a :href="route('xml.fb.get',data.row.slug)" target="_blank">
+                        {{data.row.title}}
+                    </a>
+                    <div v-html="data.row.icon"></div>
+                </template>
+
                 <template v-slot:text="{data}">
                     {{
                         state.activeLang === 'ua' ? data.row.text.ua :

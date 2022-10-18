@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\BannersController;
+use App\Http\Controllers\Api\CallbacksController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\CategoriesController;
 use App\Http\Controllers\Api\FaqsController;

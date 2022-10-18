@@ -1,10 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +38,8 @@ Route::group(['prefix' => App\Http\Middleware\LocaleMiddleware::getLocale()], fu
 
     Route::get('thanks/{id?}', [HomeController::class, 'thanks'])
         ->name('thanks');
+
+    require __DIR__ . '/xml.php';
 });
 
 require __DIR__ . '/auth.php';
