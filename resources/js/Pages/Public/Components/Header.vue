@@ -321,10 +321,13 @@
 
         </template>
     </modal>
-    <button   @click="scrollTop" id="myBtn" class="cursor-pointer items-center bg-gray-500 rounded-[50%] h-[50px] justify-center left-[2%] bottom-[5%] fixed w-[50px] z-[999] " style="display: block;"><span
-            class="icon-arrow-up2 "><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up mx-auto" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
-</svg></span></button>
+    <button @click="scrollTop" id="myBtn"
+        class=" cursor-pointer items-center z-[-1] bg-gray-500 rounded-[50%] h-[50px] justify-center left-[2%] bottom-[5%] fixed w-[50px]" 
+        ><span class="icon-arrow-up2 "><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                height="16" fill="currentColor" class="bi bi-arrow-up mx-auto" viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z" />
+            </svg></span></button>
 </template>
 
 <script setup>
@@ -338,24 +341,30 @@ import ReviewForm from '../Product/ReviewForm.vue';
 const state = ref({
     showBurger: false,
     langActiveClass: false,
-  
+
 })
 
+function scrollTop(){
+    myBtn.onclick = function() {
+        window.scrollTo(scrollX, 0);
+      // после scrollTo возникнет событие "scroll", так что стрелка автоматически скроется
+    };
+   
+    window.addEventListener('scrollY', function() {
+      myBtn.classList.add('hide');
+    });
+
+    window.addEventListener('scroll', function() {
+      myBtn.classList.remove('hide')
+      myBtn.hidden = (scrollY < document.documentElement.clientHeight);
+    });
 
 
-  
-function scrollTop() {
-  
-    window.scrollTo(
-        top,
-       
+   
+console.log(myBtn)
 
-    );
-    
 
-  }
-  
-
+}
 
 
 
@@ -415,3 +424,9 @@ function setLangActiveClass() {
     state.value.langActiveClass = !state.value.langActiveClass;
 }
 </script>
+
+<style scoped>
+.hide{
+    display: none;
+}
+</style>
