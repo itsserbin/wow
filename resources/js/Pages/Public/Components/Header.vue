@@ -341,12 +341,13 @@ import ReviewForm from '../Product/ReviewForm.vue';
 const state = ref({
     showBurger: false,
     langActiveClass: false,
-
+    
 })
+
 
 function scrollTop(){
     myBtn.onclick = function() {
-        window.scrollTo(scrollX, 0);
+        window.scrollTo({scrollX, top:0, behavior: 'smooth'});
       // после scrollTo возникнет событие "scroll", так что стрелка автоматически скроется
     };
    
