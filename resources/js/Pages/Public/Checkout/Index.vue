@@ -30,11 +30,13 @@ import Payment from '@/Pages/Public/Checkout/Payment.vue';
 import OrderItem from '@/Pages/Public/Checkout/OrderItem.vue';
 import Comment from '@/Pages/Public/Checkout/Comment.vue';
 import CheckoutTotal from '@/Pages/Public/Checkout/CheckoutTotal.vue';
-import {inject, ref} from "vue";
+import {inject, ref, onMounted} from "vue";
 import {useStore} from "vuex";
+import {useGtm} from '@gtm-support/vue-gtm';
 
 const store = useStore();
 const swal = inject('$swal');
+const gtm = useGtm();
 
 const state = ref({
     order: {
@@ -48,7 +50,29 @@ const state = ref({
         postal_office: null,
         payment_method: null,
     },
-    cart: ref(store.state)
+    cart: ref(store.state),
+    contentIds: [],
+    ga4ProductsArray: [],
+})
+onMounted(() => {
+    state.value.cart.list.forEach((item) => {
+        state.value.contentIds.push(item.id);
+        state.value.ga4ProductsArray.push({
+            item_name: item.name.ua ? item.name.ua : item.name.ru,
+            item_id: item.id,
+            price: item.discount_price ? item.discount_price : item.price,
+            quantity: item.count
+        })
+    });
+
+    if (import.meta.env.MODE === 'production') {
+        gtm.trackEvent({
+            event: 'start_checkout',
+            ecommerce: {
+                items: state.value.ga4ProductsArray
+            }
+        });
+    }
 })
 
 function sendOrder() {
@@ -56,33 +80,25 @@ function sendOrder() {
     state.value.errors = [];
     axios.post(route('api.v1.orders.create'), state.value.order)
         .then(({data}) => {
-            // if (typeof fbq !== "undefined") {
-            if (import.meta.env.production.VITE_ENV === 'Production'){
-                console.log('testenv')
+            if (import.meta.env.MODE === 'production') {
                 fbq('track', 'Purchase', {
-                    "value": this.cart.totalPrice,
+                    "value": state.value.cart.totalPrice,
                     "currency": "UAH",
                     "content_type": "product",
-                    "num_items": this.cart.totalCount,
-                    "content_ids": this.contentIds
+                    "num_items": state.value.cart.totalCount,
+                    "content_ids": state.value.contentIds
+                });
+
+                gtm.trackEvent({
+                    event: 'send_order',
+                    ecommerce: {
+                        transaction_id: data.order.id,
+                        value: data.order.total_price,
+                        currency: "UAH",
+                        items: state.value.ga4ProductsArray
+                    }
                 });
             }
-
-
-            //
-            //     if (typeof this.$gtm !== "undefined") {
-            //         this.$gtm.trackEvent({
-            //             event: 'send_order',
-            //             ecommerce: {
-            //                 transaction_id: data.order.id,
-            //                 value: data.order.total_price,
-            //                 currency: "UAH",
-            //                 items: this.ga4ProductsArray
-            //             }
-            //         });
-            //     }
-            //
-            // }
             state.value.isLoading = false;
             window.location.href = route('thanks', data.order.id);
         })

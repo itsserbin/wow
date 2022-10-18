@@ -90,11 +90,15 @@
             </div>
         </div>
     </div>
-    <BuyIn1Click v-if="state.isActiveBuyIn1ClickModal" @closeModal="showBuyIn1ClickModal"/>
+    <BuyIn1Click v-if="state.isActiveBuyIn1ClickModal"
+                 @closeModal="showBuyIn1ClickModal"
+                 :item="item"
+                 :cart="store.state.list"
+    />
 </template>
 
 <script setup>
-import {inject, ref} from "vue";
+import {inject, onMounted, ref} from "vue";
 import {useStore} from "vuex";
 import BuyIn1Click from '@/Pages/Public/Product/BuyIn1ClickModal.vue';
 
@@ -109,7 +113,9 @@ const props = defineProps([
     'sizes',
     'colors'
 ]);
-
+onMounted(() => {
+    item.value.item_id = props.id;
+})
 const item = ref({
     count: 1,
     size: [],
@@ -126,7 +132,6 @@ function showBuyIn1ClickModal() {
 }
 
 function addToCart() {
-    item.value.item_id = props.id;
     axios.post(route('api.v1.cart.add', item.value))
         .then(() => {
             store.commit('loadCart');
