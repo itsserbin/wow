@@ -70,7 +70,7 @@
                 </template>
             </table-component>
 
-            <Paginate :pagination="state.data.result"
+            <pagination :pagination="state.data.result"
                       :click-handler="fetch"
                       v-model="params.currentPage"
             />
@@ -80,9 +80,7 @@
 
 <script setup>
 import {reactive, onMounted, inject, ref, computed} from "vue";
-// import MarketingChart from '@/Pages/Admin/Statistics/Marketing/Chart.vue';
 import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
-import Paginate from '@/Components/Paginate.vue'
 
 const swal = inject('$swal')
 const can = inject('$can');
@@ -104,7 +102,6 @@ const endPoint = computed(() => {
     if (managersArray.value) {
         data.managers = managersArray.value;
     }
-    console.log(data)
     data.page = params.value.currentPage;
     return route('api.statistics.managers.index', data);
 

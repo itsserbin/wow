@@ -6,7 +6,12 @@
 
         <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
             <div class="md:col-span-2">
-                <Sidebar :items="items"/>
+                <sidebar-component>
+                    <sidebar-item v-for="item in items"
+                                  :item="item"
+                    >
+                    </sidebar-item>
+                </sidebar-component>
             </div>
             <div class="w-full md:col-span-10">
                 <slot></slot>
@@ -18,7 +23,7 @@
 </template>
 
 <script setup>
-import Sidebar from '@/Components/Sidebar.vue';
+import Sidebar from '@/Components/Sidebar/Sidebar.vue';
 
 import {ref} from "vue";
 

@@ -107,8 +107,10 @@ app.component('category-products', CategoryProducts);
 
 import CartComponent from '@/Pages/Public/Cart/Index.vue';
 import CheckoutComponent from '@/Pages/Public/Checkout/Index.vue';
+import ThanksPageIndex from '@/Pages/Public/Thanks/Index.vue';
 
 app.component('cart-component', CartComponent);
 app.component('checkout-component', CheckoutComponent);
+app.component('thanks-component', ThanksPageIndex);
 
 app.mount('#app');

@@ -18,17 +18,21 @@
         </template>
 
         <template v-slot:phone="{data}">
-            <a :href="'tel:' + data.row.phone" >
+            <a :href="'tel:' + data.row.phone">
                 {{ data.row.phone }}
             </a>
         </template>
 
         <template v-slot:average_check="{data}">
-            {{$filters.formatMoney(data.row.average_check)}}
+            {{ $filters.formatMoney(data.row.average_check) }}
         </template>
 
         <template v-slot:whole_check="{data}">
-            {{$filters.formatMoney(data.row.whole_check)}}
+            {{ $filters.formatMoney(data.row.whole_check) }}
+        </template>
+
+        <template v-slot:status="{data}">
+            {{ statuses[data.row.status] }}
         </template>
 
         <template v-slot:timestamps="{data}">
@@ -48,7 +52,7 @@
 import {reactive} from "vue";
 
 defineEmits(['onDestroy'])
-defineProps(['data', 'onEdit']);
+defineProps(['data', 'onEdit', 'statuses']);
 
 const headings = reactive([
     {

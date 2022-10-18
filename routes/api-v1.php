@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\BannersController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\CategoriesController;
 use App\Http\Controllers\Api\FaqsController;
+use App\Http\Controllers\Api\OrdersController;
 use App\Http\Controllers\Api\ProductReviewsController;
 use App\Http\Controllers\Api\ProductsController;
 use App\Http\Controllers\Api\SocialReviewsController;
@@ -97,14 +98,8 @@ Route::prefix('v1')->middleware('api')->group(function () {
         });
     });
 
-    /** Группа маршрутов для заказов */
     Route::prefix('order')->group(function () {
 
-        /**
-         * Route for create new order.
-         *
-         * POST /api/order/create
-         */
         Route::post('create', [OrdersController::class, 'create'])
             ->name('api.v1.orders.create');
 

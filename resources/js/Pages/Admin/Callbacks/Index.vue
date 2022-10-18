@@ -6,34 +6,38 @@
 
         <loader-component v-if="state.isLoading"/>
         <div v-if="!state.isLoading">
-            <table-component :headings="headings"
-                             :isSlotMode="true"
-                             :rows="state.data.data"
-            >
-                <template v-slot:id="{data}">
-                    <a href="javascript:" @click="onEdit(data.row.id,data.i)">
-                        {{ data.row.id }}
-                    </a>
-                </template>
+            <div class="grid grid-cols-1 gap-4">
+                <table-component :headings="headings"
+                                 :isSlotMode="true"
+                                 :rows="state.data.data"
+                >
+                    <template v-slot:id="{data}">
+                        <a href="javascript:" @click="onEdit(data.row.id,data.i)">
+                            {{ data.row.id }}
+                        </a>
+                    </template>
 
 
-                <template v-slot:timestamps="{data}">
-                    {{ $filters.dateFormat(data.row.updated_at) }}
-                    <hr class="my-1">
-                    {{ $filters.dateFormat(data.row.created_at) }}
-                </template>
+                    <template v-slot:timestamps="{data}">
+                        {{ $filters.dateFormat(data.row.updated_at) }}
+                        <hr class="my-1">
+                        {{ $filters.dateFormat(data.row.created_at) }}
+                    </template>
 
-                <template v-slot:actions="{data}">
-                    <a href="javascript:" @click="onDestroy(data.row.id)">
-                        <xcircle-component/>
-                    </a>
-                </template>
-            </table-component>
+                    <template v-slot:actions="{data}">
+                        <a href="javascript:" @click="onDestroy(data.row.id)">
+                            <xcircle-component/>
+                        </a>
+                    </template>
+                </table-component>
 
-            <paginate :pagination="state.data"
-                      :click-handler="fetch"
-                      v-model="state.currentPage"
-            />
+                <div class="text-center">
+                    <pagination :pagination="state.data"
+                                :click-handler="fetch"
+                                v-model="state.currentPage"
+                    />
+                </div>
+            </div>
 
             <component :is="activeModal"
                        :item="state.item"

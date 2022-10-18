@@ -106,6 +106,15 @@ class HomeController extends Controller
         ]);
     }
 
+    public function thanks($id): View|Factory|Application
+    {
+        return view('pages.thanks', [
+            'options' => $this->getOptions(),
+            'pages' => $this->getPagesList(),
+            'categories' => $this->getCategories(),
+        ]);
+    }
+
     public function getOptions()
     {
         return $this->optionsRepository->getToProd();

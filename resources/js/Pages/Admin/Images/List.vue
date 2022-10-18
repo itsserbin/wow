@@ -12,7 +12,7 @@
         />
     </div>
     <div class="row flex justify-center my-5" v-if="props.images">
-        <paginate :pagination="props.images"
+        <pagination :pagination="props.images"
                   :click-handler="fetch"
                   v-model="currentPage"
         />

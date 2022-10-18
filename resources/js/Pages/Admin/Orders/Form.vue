@@ -16,8 +16,7 @@
           <div class="block">
               <label-component value="&nbsp;"/>
               <button-component class="w-full">
-                  <a href="">Картка клієнта</a>
-                  <!--                <a :href="route('admin.clients.index')" >Картка клієнта</a>-->
+                  Картка клієнта
               </button-component>
           </div>
         </div>
@@ -32,6 +31,7 @@
                 <input-component v-model="order.client.phone" type="text" disabled/>
             </div>
         </div>
+        <hr>
         <div class="grid grid-cols-1 md:grid-cols-4 mb-5">
             <div class="block mb-5 md:mr-5">
                 <label-component value="Статус замовлення"/>
@@ -185,7 +185,7 @@ onMounted(() => {
 
     for (const [key, value] of Object.entries(props.statuses)) {
         state.value.statuses.push({
-            key: value,
+            key: key,
             value: value,
         })
     }
@@ -243,10 +243,10 @@ function getManagersList() {
     axios.get(route('api.users.list.managers'))
         .then(({data}) => {
             if (data.result.length) {
-                data.result.forEach((key, value) => {
+                data.result.forEach((item) => {
                     state.value.managers.push({
-                        key: key,
-                        value: value
+                        key: item.id,
+                        value: item.name
                     })
                 })
             }

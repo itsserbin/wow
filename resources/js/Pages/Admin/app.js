@@ -11,6 +11,8 @@ import moment from "moment";
 import numeral from "numeral";
 
 import Card from '@/Components/Card.vue';
+import Sidebar from '@/Components/Sidebar/Sidebar.vue';
+import SidebarItem from '@/Components/Sidebar/SidebarItem.vue';
 import LangTabs from '@/Components/LangTabs.vue';
 import Table from '@/Components/Table.vue';
 import Loader from '@/Components/Loader.vue';
@@ -27,6 +29,7 @@ import XCircle from '@/Components/Icons/XCircle.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Multiselect from '@/Components/Multiselect/Multiselect.vue';
 import Paginate from '@/Components/Paginate.vue';
+import Search from '@/Components/Search.vue';
 import Datepicker from '@vuepic/vue-datepicker';
 import {Chart, registerables} from 'chart.js';
 
@@ -50,6 +53,9 @@ createInertiaApp({
         app.component('auth-layout', AuthenticatedLayout);
 
         // Components
+        app.component('search-component', Search);
+        app.component('sidebar-component', Sidebar);
+        app.component('sidebar-item', SidebarItem);
         app.component('lang-tabs', LangTabs);
         app.component('card-component', Card);
         app.component('table-component', Table);
@@ -65,7 +71,7 @@ createInertiaApp({
         app.component('select-component', Select);
         app.component('xcircle-component', XCircle);
         app.component('multiselect', Multiselect);
-        app.component('paginate', Paginate);
+        app.component('pagination', Paginate);
         app.component('Datepicker', Datepicker);
 
         app.config.globalProperties.$filters = {

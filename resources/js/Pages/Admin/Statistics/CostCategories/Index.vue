@@ -33,7 +33,7 @@
                 </template>
             </table-component>
 
-            <paginate :pagination="state.categories"
+            <pagination :pagination="state.categories"
                       :click-handler="fetch"
                       v-model="state.currentPage"
             />
@@ -52,7 +52,6 @@
 import {reactive, onMounted, inject, ref, computed} from "vue";
 import CostCategoryModal from '@/Pages/Admin/Statistics/CostCategories/Modal.vue';
 import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
-// import Paginate from '@/Components/Paginate.vue'
 
 const swal = inject('$swal')
 const can = inject('$can');

@@ -51,7 +51,7 @@
                 </template>
             </table-component>
 
-            <Paginate :pagination="state.data.result"
+            <pagination :pagination="state.data.result"
                       :click-handler="fetch"
                       v-model="params.currentPage"
             />
@@ -63,7 +63,6 @@
 import {reactive, onMounted, inject, ref, computed} from "vue";
 import MarketingChart from '@/Pages/Admin/Statistics/Marketing/Chart.vue';
 import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
-import Paginate from '@/Components/Paginate.vue'
 import LastParams from '@/Pages/Admin/Statistics/LastParams.vue'
 
 const swal = inject('$swal')

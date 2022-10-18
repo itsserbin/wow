@@ -6,8 +6,19 @@
 
         <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
             <div class="md:col-span-1">
-                <Sidebar :items="items" class="mb-5"/>
-                <Sidebar :items="costItems"/>
+                <sidebar-component class="mb-5">
+                    <sidebar-item v-for="item in items"
+                                  :item="item"
+                                  :active="route(route().current()) === item.href"
+                    />
+                </sidebar-component>
+
+                <sidebar-component>
+                    <sidebar-item v-for="item in costItems"
+                                  :item="item"
+                                  :active="route(route().current()) === item.href"
+                    />
+                </sidebar-component>
             </div>
             <div class="w-full md:col-span-4">
                 <slot></slot>
@@ -19,7 +30,7 @@
 </template>
 
 <script setup>
-import Sidebar from '@/Components/Sidebar.vue';
+import Sidebar from '@/Components/Sidebar/Sidebar.vue';
 
 import {reactive} from "vue";
 
