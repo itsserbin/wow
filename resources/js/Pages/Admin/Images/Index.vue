@@ -17,6 +17,11 @@
                   @destroyImage="destroyImage"
             />
 
+            <pagination :pagination="state.imagesList"
+                        :click-handler="fetch"
+                        v-model="state.currentPage"
+            />
+
             <component :is="imageModal"
                        @closeModal="modalImagesFunction"
                        @submitForm="updateImage"
