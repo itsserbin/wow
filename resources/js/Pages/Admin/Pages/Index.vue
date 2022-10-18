@@ -5,66 +5,71 @@
         </template>
 
         <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading">
-            <button-component type="btn" @click="create" v-if="can('create-pages')">
-                Додати
-            </button-component>
+        <div v-if="!state.isLoading" class="grid gap-4 grid-cols-1">
+            <div>
+                <button-component type="btn" @click="create" v-if="can('create-pages')">
+                    Додати
+                </button-component>
+            </div>
 
-            <lang-tabs @clickLang="changeLang"/>
+            <div>
+                <lang-tabs @clickLang="changeLang"/>
 
-            <table-component :headings="headings"
-                             :isSlotMode="true"
-                             :rows="state.data.data"
-            >
-                <template v-slot:id="{data}">
-                    <a href="javascript:" @click="onEdit(data.row.id,data.i)">
-                        {{ data.row.id }}
-                    </a>
-                </template>
+                <table-component :headings="headings"
+                                 :isSlotMode="true"
+                                 :rows="state.data.data"
+                >
+                    <template v-slot:id="{data}">
+                        <a href="javascript:" @click="onEdit(data.row.id,data.i)">
+                            {{ data.row.id }}
+                        </a>
+                    </template>
 
-                <template v-slot:heading="{data}">
-                    {{
-                        state.activeLang === 'ua' ? data.row.heading.ua :
-                            (state.activeLang === 'ru' ? data.row.heading.ru : '-')
-                    }}
-                </template>
+                    <template v-slot:heading="{data}">
+                        {{
+                            state.activeLang === 'ua' ? data.row.heading.ua :
+                                (state.activeLang === 'ru' ? data.row.heading.ru : '-')
+                        }}
+                    </template>
 
-                <template v-slot:h1="{data}">
-                    {{
-                        state.activeLang === 'ua' ? data.row.h1.ua :
-                            (state.activeLang === 'ru' ? data.row.h1.ru : '-')
-                    }}
-                </template>
+                    <template v-slot:h1="{data}">
+                        {{
+                            state.activeLang === 'ua' ? data.row.h1.ua :
+                                (state.activeLang === 'ru' ? data.row.h1.ru : '-')
+                        }}
+                    </template>
 
-                <template v-slot:published="{data}">
-                    {{ $filters.publishedStatus(data.row.published) }}
-                </template>
+                    <template v-slot:published="{data}">
+                        {{ $filters.publishedStatus(data.row.published) }}
+                    </template>
 
-                <template v-slot:timestamps="{data}">
-                    {{ $filters.dateFormat(data.row.updated_at) }}
-                    <hr class="my-1">
-                    {{ $filters.dateFormat(data.row.created_at) }}
-                </template>
+                    <template v-slot:timestamps="{data}">
+                        {{ $filters.dateFormat(data.row.updated_at) }}
+                        <hr class="my-1">
+                        {{ $filters.dateFormat(data.row.created_at) }}
+                    </template>
 
-                <template v-slot:actions="{data}">
-                    <a href="javascript:" @click="onDestroy(data.row.id)">
-                        <xcircle-component/>
-                    </a>
-                </template>
-            </table-component>
+                    <template v-slot:actions="{data}">
+                        <a href="javascript:" @click="onDestroy(data.row.id)">
+                            <xcircle-component/>
+                        </a>
+                    </template>
+                </table-component>
+            </div>
 
-            <paginate :pagination="state.data"
-                      :click-handler="fetch"
-                      v-model="state.currentPage"
-            />
-
-            <component :is="activeModal"
-                       :item="state.item"
-                       @closeModal="modalFunction"
-                       @submitForm="submitForm"
-                       @declineForm="onDestroy"
-            ></component>
+            <div class="text-center">
+                <pagination :pagination="state.data"
+                            :click-handler="fetch"
+                            v-model="state.currentPage"
+                />
+            </div>
         </div>
+        <component :is="activeModal"
+                   :item="state.item"
+                   @closeModal="modalFunction"
+                   @submitForm="submitForm"
+                   @declineForm="onDestroy"
+        ></component>
     </auth-layout>
 </template>
 

@@ -1,0 +1,1 @@
+import{a2 as s,a3 as t,R as a,L as r,M as o,O as c}from"./moment.fb372146.js";const n={class:"text-sm text-red-600"},p={__name:"InputError",props:["message"],setup(e){return(i,m)=>s((a(),r("div",null,[o("p",n,c(e.message),1)],512)),[[t,e.message]])}};export{p as _};

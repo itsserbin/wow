@@ -5,71 +5,76 @@
         </template>
 
         <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading">
-            <button-component type="btn" @click="create" v-if="can('create-products')">
-                Додати
-            </button-component>
+        <div v-if="!state.isLoading" class="grid gap-4 grid-cols-1">
+            <div>
+                <button-component type="btn" @click="create" v-if="can('create-products')">
+                    Додати
+                </button-component>
+            </div>
 
-            <lang-tabs @clickLang="changeLang"/>
+            <div>
+                <lang-tabs @clickLang="changeLang"/>
 
-            <table-component :headings="headings"
-                             :isSlotMode="true"
-                             :rows="state.products.data"
-            >
-                <template v-slot:id="{data}">
-                    <a href="javascript:" @click="onEdit(data.row.id,data.i)">
-                        {{ data.row.id }}
-                    </a>
-                </template>
+                <table-component :headings="headings"
+                                 :isSlotMode="true"
+                                 :rows="state.products.data"
+                >
+                    <template v-slot:id="{data}">
+                        <a href="javascript:" @click="onEdit(data.row.id,data.i)">
+                            {{ data.row.id }}
+                        </a>
+                    </template>
 
-                <template v-slot:title="{data}">
-                    {{
-                        state.activeLang === 'ua' ? data.row.h1.ua :
-                            (state.activeLang === 'ru' ? data.row.h1.ru : null)
-                    }}
-                </template>
+                    <template v-slot:title="{data}">
+                        {{
+                            state.activeLang === 'ua' ? data.row.h1.ua :
+                                (state.activeLang === 'ru' ? data.row.h1.ru : null)
+                        }}
+                    </template>
 
-                <template v-slot:published="{data}">
-                    {{ $filters.publishedStatus(data.row.published) }}
-                </template>
+                    <template v-slot:published="{data}">
+                        {{ $filters.publishedStatus(data.row.published) }}
+                    </template>
 
-                <template v-slot:price="{data}">
-                    {{ $filters.formatMoney(data.row.price) }}
-                </template>
+                    <template v-slot:price="{data}">
+                        {{ $filters.formatMoney(data.row.price) }}
+                    </template>
 
-                <template v-slot:discount_price="{data}">
-                    {{ $filters.formatMoney(data.row.discount_price) }}
-                </template>
+                    <template v-slot:discount_price="{data}">
+                        {{ $filters.formatMoney(data.row.discount_price) }}
+                    </template>
 
-                <template v-slot:preview="{data}">
-                    <img :src="data.row.preview ? route('images.products.55',data.row.preview) : null"
-                         :alt="state.activeLang === 'ua' ? data.row.h1.ua :
+                    <template v-slot:preview="{data}">
+                        <img :src="data.row.preview ? route('images.products.55',data.row.preview) : null"
+                             :alt="state.activeLang === 'ua' ? data.row.h1.ua :
                             (state.activeLang === 'ru' ? data.row.h1.ru : null)"
-                         class="mx-auto"
-                    >
-                </template>
+                             class="mx-auto"
+                        >
+                    </template>
 
-                <template v-slot:actions="{data}">
-                    <a href="javascript:" @click="onDestroy(data.row.id)">
-                        <xcircle-component/>
-                    </a>
-                </template>
-            </table-component>
+                    <template v-slot:actions="{data}">
+                        <a href="javascript:" @click="onDestroy(data.row.id)">
+                            <xcircle-component/>
+                        </a>
+                    </template>
+                </table-component>
+            </div>
 
-            <paginate :pagination="state.products"
-                      :click-handler="fetch"
-                      v-model="state.currentPage"
-            />
-
-            <component :is="activeModal"
-                       :product="state.item"
-                       @closeModal="modalFunction"
-                       @submitForm="submitForm"
-                       @declineForm="onDestroy"
-                       @setProductImages="setProductImages"
-                       @destroyImage="destroyImage"
-            ></component>
+            <div class="text-center">
+                <pagination :pagination="state.products"
+                          :click-handler="fetch"
+                          v-model="state.currentPage"
+                />
+            </div>
         </div>
+        <component :is="activeModal"
+                   :product="state.item"
+                   @closeModal="modalFunction"
+                   @submitForm="submitForm"
+                   @declineForm="onDestroy"
+                   @setProductImages="setProductImages"
+                   @destroyImage="destroyImage"
+        ></component>
     </auth-layout>
 </template>
 

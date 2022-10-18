@@ -5,28 +5,31 @@
         </template>
 
         <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading">
-            <button-component type="btn" @click="create" v-if="can('create-products')">
-                Додати
-            </button-component>
+        <div v-if="!state.isLoading" class="grid gap-4 grid-cols-1">
+            <div>
+                <button-component type="btn" @click="create" v-if="can('create-products')">
+                    Додати
+                </button-component>
+            </div>
 
             <Table :data="state.categories.data"
                    @onEdit="onEdit"
                    @onDestroy="onDestroy"
             />
 
-            <paginate :pagination="state.categories"
-                      :click-handler="fetch"
-                      v-model="state.currentPage"
-            />
-
-            <component :is="activeModal"
-                       :item="state.item"
-                       @closeModal="modalFunction"
-                       @submitForm="submitForm"
-                       @declineForm="onDestroy"
-            ></component>
+            <div class="text-center">
+                <pagination :pagination="state.categories"
+                            :click-handler="fetch"
+                            v-model="state.currentPage"
+                />
+            </div>
         </div>
+        <component :is="activeModal"
+                   :item="state.item"
+                   @closeModal="modalFunction"
+                   @submitForm="submitForm"
+                   @declineForm="onDestroy"
+        ></component>
     </auth-layout>
 </template>
 

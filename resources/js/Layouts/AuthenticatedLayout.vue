@@ -82,12 +82,12 @@ onMounted(() => {
                                 </NavLink>
 
                                 <NavLink :href="route('admin.statistics.index')"
-                                         :active="route().current('admin.statistics.index')">
+                                         :active="route().current('admin.statistics.*')">
                                     Статистика
                                 </NavLink>
 
                                 <NavLink :href="route('admin.options.index')"
-                                         :active="route().current('admin.options.index')">
+                                         :active="route().current('admin.options.*')">
                                     Налаштування
                                 </NavLink>
                             </div>
@@ -191,12 +191,12 @@ onMounted(() => {
                         </ResponsiveNavLink>
 
                         <ResponsiveNavLink :href="route('admin.statistics.index')"
-                                           :active="route().current('admin.statistics.index')">
+                                           :active="route().current('admin.statistics.*')">
                             Статистика
                         </ResponsiveNavLink>
 
                         <ResponsiveNavLink :href="route('admin.options.index')"
-                                           :active="route().current('admin.options.index')">
+                                           :active="route().current('admin.options.*')">
                             Налаштування
                         </ResponsiveNavLink>
                     </div>

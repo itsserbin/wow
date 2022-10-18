@@ -93,7 +93,7 @@ class OrderItemsRepository extends CoreRepository
      */
     public function getByOrderId($id)
     {
-        return $this->model::with('product.providers')
+        return $this->model::with('product.provider')
             ->where('order_id', $id)
             ->get();
     }

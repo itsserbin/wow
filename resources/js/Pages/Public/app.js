@@ -1,12 +1,27 @@
 import '@/bootstrap';
 
 import {createApp} from 'vue/dist/vue.esm-bundler.js';
+import {createGtm} from '@gtm-support/vue-gtm';
 import {ZiggyVue} from '../../../../vendor/tightenco/ziggy/dist/vue.m';
 import store from '@/Includes/store.js';
-import { createI18n } from 'vue-i18n'
+import {createI18n} from 'vue-i18n'
 
 const app = createApp();
 const i18n = createI18n({})
+
+if (import.meta.env.MODE === 'production') {
+    app.use(
+        createGtm({
+            id: import.meta.env.VITE_GTM,
+            defer: false,
+            compatibility: false,
+            enabled: true,
+            debug: true,
+            loadScript: true,
+            trackOnNextTick: false,
+        })
+    );
+}
 
 store.commit('loadCart');
 app.use(i18n)
@@ -107,8 +122,10 @@ app.component('category-products', CategoryProducts);
 
 import CartComponent from '@/Pages/Public/Cart/Index.vue';
 import CheckoutComponent from '@/Pages/Public/Checkout/Index.vue';
+import ThanksPageIndex from '@/Pages/Public/Thanks/Index.vue';
 
 app.component('cart-component', CartComponent);
 app.component('checkout-component', CheckoutComponent);
+app.component('thanks-component', ThanksPageIndex);
 
 app.mount('#app');

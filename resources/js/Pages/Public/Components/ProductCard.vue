@@ -10,7 +10,8 @@
                     hover:scale-105
                     transition-all
                     h-full
-">
+            "
+    >
 
         <div class="w-full mx-auto h-56 md:h-72">
             <a :href="route('product',product.id)">

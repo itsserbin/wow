@@ -1,49 +1,51 @@
 <template>
-    <lang-tabs @clickLang="changeLang"/>
+    <div>
+        <lang-tabs @clickLang="changeLang"/>
 
-    <table-component :headings="headings"
-                     :isSlotMode="true"
-                     :rows="data"
-    >
-        <template v-slot:id="{data}">
-            <a href="javascript:" @click="$emit('onEdit',data.row.id,data.i)">
-                {{ data.row.id }}
-            </a>
-        </template>
+        <table-component :headings="headings"
+                         :isSlotMode="true"
+                         :rows="data"
+        >
+            <template v-slot:id="{data}">
+                <a href="javascript:" @click="$emit('onEdit',data.row.id,data.i)">
+                    {{ data.row.id }}
+                </a>
+            </template>
 
-        <template v-slot:preview="{data}">
-            <img :src="route('images.category',data.row.preview)"
-                 :alt="activeLang === 'ua' ? data.row.title.ua :
+            <template v-slot:preview="{data}">
+                <img :src="route('images.category',data.row.preview)"
+                     :alt="activeLang === 'ua' ? data.row.title.ua :
                                 (activeLang === 'ru' ? data.row.title.ru : '-')"
-                 class="mx-auto w-16"
-            >
-        </template>
+                     class="mx-auto w-16"
+                >
+            </template>
 
-        <template v-slot:title="{data}">
-            <a href="javascript:">
-                {{
-                    activeLang === 'ua' ? data.row.title.ua :
-                        (activeLang === 'ru' ? data.row.title.ru : '-')
-                }}
-            </a>
-        </template>
+            <template v-slot:title="{data}">
+                <a href="javascript:">
+                    {{
+                        activeLang === 'ua' ? data.row.title.ua :
+                            (activeLang === 'ru' ? data.row.title.ru : '-')
+                    }}
+                </a>
+            </template>
 
-        <template v-slot:published="{data}">
-            {{ $filters.publishedStatus(data.row.published) }}
-        </template>
+            <template v-slot:published="{data}">
+                {{ $filters.publishedStatus(data.row.published) }}
+            </template>
 
-        <template v-slot:timestamps="{data}">
-            {{ $filters.dateFormat(data.row.updated_at) }}
-            <hr class="my-1">
-            {{ $filters.dateFormat(data.row.created_at) }}
-        </template>
+            <template v-slot:timestamps="{data}">
+                {{ $filters.dateFormat(data.row.updated_at) }}
+                <hr class="my-1">
+                {{ $filters.dateFormat(data.row.created_at) }}
+            </template>
 
-        <template v-slot:actions="{data}">
-            <a href="javascript:" @click="$emit('onDestroy',data.row.id)">
-                <xcircle-component/>
-            </a>
-        </template>
-    </table-component>
+            <template v-slot:actions="{data}">
+                <a href="javascript:" @click="$emit('onDestroy',data.row.id)">
+                    <xcircle-component/>
+                </a>
+            </template>
+        </table-component>
+    </div>
 </template>
 
 <script setup>

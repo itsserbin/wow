@@ -5,17 +5,17 @@ namespace App\Models\Enums;
 class OrderStatus
 {
     const state = [
-        'STATUS_NEW' => 'Новый',
-        'STATUS_PROCESSED' => 'В процессе',
-        'STATUS_TRANSFERRED_TO_SUPPLIER' => 'Передан поставщику',
-        'STATUS_AT_THE_POST_OFFICE' => 'На почте',
-        'STATUS_CANCELED' => 'Отменен',
-        'STATUS_RETURN' => 'Возврат',
-        'STATUS_DONE' => 'Выполнен',
-        'STATUS_AWAITING_DISPATCH' => 'Ожидает отправки',
-        'STATUS_AWAITING_PREPAYMENT' => 'Ожидает предоплаты',
-        'STATUS_ON_THE_ROAD' => 'В дороге',
-        'STATUS_REQUIRES_CLARIFICATION' => 'Требует уточнение',
+        'new' => 'Новый',
+        'processed' => 'В процессе',
+        'transferred_to_supplier' => 'Передан поставщику',
+        'at_the_post_office' => 'На почте',
+        'canceled' => 'Отменен',
+        'return' => 'Возврат',
+        'done' => 'Выполнен',
+        'awaiting_dispatch' => 'Ожидает отправки',
+        'awaiting_prepayment' => 'Ожидает предоплаты',
+        'on_the_road' => 'В дороге',
+        'requires_clarification' => 'Требует уточнение',
     ];
 
     const STATUS_NEW = 'Новый';

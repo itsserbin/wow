@@ -16,12 +16,12 @@ use PhpParser\Node\Expr\AssignOp\Concat;
 class OrdersRepository extends CoreRepository
 {
 
-//    private $promoCodesRepository;
+    private $promoCodesRepository;
 
     public function __construct()
     {
         parent::__construct();
-//        $this->promoCodesRepository = app(PromoCodesRepository::class);
+        $this->promoCodesRepository = app(PromoCodesRepository::class);
     }
 
     protected function getModelClass()
@@ -50,36 +50,13 @@ class OrdersRepository extends CoreRepository
             'created_at',
         ];
 
-        $provider = auth()->user()->provider_id;
+        $model = $this->model::select($columns);
 
-        if ($provider) {
-            $model = $this
-                ->model::select($columns)
-                ->where(function ($q) {
-                    $q->where('status', '=', OrderStatus::STATUS_TRANSFERRED_TO_SUPPLIER);
-                    $q->orWhere('status', '=', OrderStatus::STATUS_REQUIRES_CLARIFICATION);
-                    $q->orWhere('status', '=', OrderStatus::STATUS_AWAITING_DISPATCH);
-                })
-                ->whereHas('items', function ($q) use ($provider) {
-                    $q->select('id', 'provider_id');
-                    $q->whereHas('provider', function ($query) use ($provider) {
-                        $query->select('id');
-                        $query->where('id', $provider);
-                    });
-                })
-                ->with('client');
-        } elseif (array_key_exists('filter', $data)) {
-            $model = $this
-                ->model::where('status', $data['filter'])
-                ->with('client')
-                ->select($columns);
-        } else {
-            $model = $this
-                ->model::with('client')
-                ->select($columns);
+        if (array_key_exists('status', $data)) {
+            $model->where('status', $data['status']);
         }
 
-        return $model->orderBy('id', 'desc')->paginate(15);
+        return $model->orderBy('id', 'desc')->with('client')->paginate(15);
     }
 
     /**
@@ -245,7 +222,7 @@ class OrdersRepository extends CoreRepository
         return $this->model::destroy($id);
     }
 
-    public function search($param, $value, $perPage = null)
+    public function search($query)
     {
         $columns = [
             'id',
@@ -259,71 +236,83 @@ class OrdersRepository extends CoreRepository
             'updated_at',
         ];
 
+        $model = $this->model::select($columns);
 
-        if ($param == 'id') {
-            return $this
-                ->model::select($columns)
-                ->where('id', $value)
-                ->orderBy('created_at', 'desc')
-                ->with('client')
-                ->paginate($perPage);
-        } elseif ($param == 'phone') {
-            return $this
-                ->model::select($columns)
-                ->whereHas('client', function ($q) use ($value) {
-                    $q->where('phone', 'LIKE', "%$value%");
-                })
-                ->orderBy('created_at', 'desc')
-                ->with('client')
-                ->paginate($perPage);
-        } elseif ($param == 'name') {
-            return $this
-                ->model::select($columns)
-                ->whereHas('client', function ($q) use ($value) {
-                    $q->where('name', 'LIKE', "%$value%");
-                })
-                ->orderBy('created_at', 'desc')
-                ->with('client')
-                ->paginate($perPage);
-        } elseif ($param == 'last_name') {
-            return $this
-                ->model::select($columns)
-                ->whereHas('client', function ($q) use ($value) {
-                    $q->where('last_name', 'LIKE', "%$value%");
-                })
-                ->orderBy('created_at', 'desc')
-                ->with('client')
-                ->paginate($perPage);
-        } elseif ($param == 'waybill') {
-            return $this
-                ->model::select($columns)
-                ->whereHas('client', function ($q) use ($value) {
-                    $q->where('waybill', 'LIKE', "%$value%");
-                })
-                ->orderBy('created_at', 'desc')
-                ->with('client')
-                ->paginate($perPage);
-        } elseif ($param == 'comment') {
-            return $this
-                ->model::select($columns)
-                ->whereHas('client', function ($q) use ($value) {
-                    $q->where('comment', 'LIKE', "%$value%");
-                })
-                ->orderBy('created_at', 'desc')
-                ->with('client')
-                ->paginate($perPage);
-        } else {
-            return $this
-                ->model::select($columns)
-                ->where('id', 'LIKE', "%$value%")
-                ->orWhere(function ($query) use ($value) {
-                    $query->where('waybill', 'LIKE', "%$value%")
-                        ->where('comment', 'LIKE', "%$value%");
-                })
-                ->with('client')
-                ->orderBy('created_at', 'desc')
-                ->paginate($perPage);
-        }
+        return$model->whereHas('client', function ($q) use ($query) {
+            $q->where('phone', 'LIKE', "%$query%");
+            $q->orWhere('name', 'LIKE', "%$query%");
+            $q->orWhere('last_name', 'LIKE', "%$query%");
+        })
+            ->orWhere('id', $query)
+            ->orWhere('waybill', $query)
+            ->orWhere('comment', $query)
+            ->with('client')
+            ->paginate(15);
+
+//        if ($param == 'id') {
+//            return $this
+//                ->model::select($columns)
+//                ->where('id', $value)
+//                ->orderBy('created_at', 'desc')
+//                ->with('client')
+//                ->paginate($perPage);
+//        } elseif ($param == 'phone') {
+//            return $this
+//                ->model::select($columns)
+//                ->whereHas('client', function ($q) use ($value) {
+//                    $q->where('phone', 'LIKE', "%$value%");
+//                })
+//                ->orderBy('created_at', 'desc')
+//                ->with('client')
+//                ->paginate($perPage);
+//        } elseif ($param == 'name') {
+//            return $this
+//                ->model::select($columns)
+//                ->whereHas('client', function ($q) use ($value) {
+//                    $q->where('name', 'LIKE', "%$value%");
+//                })
+//                ->orderBy('created_at', 'desc')
+//                ->with('client')
+//                ->paginate($perPage);
+//        } elseif ($param == 'last_name') {
+//            return $this
+//                ->model::select($columns)
+//                ->whereHas('client', function ($q) use ($value) {
+//                    $q->where('last_name', 'LIKE', "%$value%");
+//                })
+//                ->orderBy('created_at', 'desc')
+//                ->with('client')
+//                ->paginate($perPage);
+//        } elseif ($param == 'waybill') {
+//            return $this
+//                ->model::select($columns)
+//                ->whereHas('client', function ($q) use ($value) {
+//                    $q->where('waybill', 'LIKE', "%$value%");
+//                })
+//                ->orderBy('created_at', 'desc')
+//                ->with('client')
+//                ->paginate($perPage);
+//        } elseif ($param == 'comment') {
+//            return $this
+//                ->model::select($columns)
+//                ->whereHas('client', function ($q) use ($value) {
+//                    $q->where('comment', 'LIKE', "%$value%");
+//                })
+//                ->orderBy('created_at', 'desc')
+//                ->with('client')
+//                ->paginate($perPage);
+//        } else {
+//            return $this
+//                ->model::select($columns)
+//                ->where('id', 'LIKE', "%$value%")
+//                ->orWhere(function ($query) use ($value) {
+//                    $query->where('waybill', 'LIKE', "%$value%")
+//                        ->where('comment', 'LIKE', "%$value%");
+//                })
+//                ->with('client')
+//                ->orderBy('created_at', 'desc')
+//                ->paginate($perPage);
+//        }
 
     }
 

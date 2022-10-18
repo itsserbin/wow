@@ -10,11 +10,15 @@
         </template>
 
         <template v-slot:name="{data}">
-            {{ data.row.client.name }}
+            {{ data.row.client.name ? data.row.client.name : '-' }}
+        </template>
+
+        <template v-slot:status="{data}">
+            {{ statuses[data.row.status] }}
         </template>
 
         <template v-slot:last_name="{data}">
-            {{ data.row.client.last_name }}
+            {{ data.row.client.last_name ? data.row.client.last_name : '-' }}
         </template>
 
         <template v-slot:total_price="{data}">
@@ -45,7 +49,7 @@
 import {reactive} from "vue";
 
 defineEmits(['onDestroy','onEdit'])
-defineProps(['data']);
+defineProps(['data','statuses']);
 
 const headings = reactive([
     {

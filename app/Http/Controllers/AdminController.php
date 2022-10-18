@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Enums\ClientStatus;
+use App\Models\Enums\ClientSubStatus;
 use App\Models\Enums\OrderStatus;
 use App\Models\Enums\PaymentMethod;
 use Illuminate\Http\Request;

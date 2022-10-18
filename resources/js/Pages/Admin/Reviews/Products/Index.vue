@@ -6,72 +6,37 @@
 
         <loader-component v-if="state.isLoading"/>
         <div v-if="!state.isLoading">
-            <button-component type="btn" @click="create" v-if="can('create-reviews')">
-                Додати
-            </button-component>
+            <div>
+                <button-component type="btn"
+                                  @click="create"
+                                  v-if="can('create-reviews')"
+                                  class="mb-5"
+                >
+                    Додати
+                </button-component>
+            </div>
 
-            <table-component :headings="headings"
-                             :isSlotMode="true"
-                             :rows="state.reviews.data"
-            >
-                <template v-slot:id="{data}">
-                    <a href="javascript:" @click="onEdit(data.row.id,data.i)">
-                        {{ data.row.id }}
-                    </a>
-                </template>
-
-                <template v-slot:product_id="{data}">
-                    {{ data.row.product.h1.ua ? data.row.product.h1.ua : data.row.product.h1.ru }}
-                </template>
-
-                <template v-slot:comment="{data}">
-                    <div class="whitespace-normal">
-                        {{ data.row.comment }}
-                    </div>
-                </template>
-
-                <template v-slot:published="{data}">
-                    {{ $filters.publishedStatus(data.row.published) }}
-                    <div v-if="!data.row.published">
-                        <hr class="my-1">
-                        <a @click="publishReview(data.row.id)"
-                           href="javascript:"
-                           class="text-blue-600"
-                        >
-                            Опублікувати
-                        </a>
-                    </div>
-                </template>
-
-                <template v-slot:timestamps="{data}">
-                    {{ $filters.dateFormat(data.row.updated_at) }}
-                    <hr class="my-1">
-                    {{ $filters.dateFormat(data.row.created_at) }}
-                </template>
-
-                <template v-slot:actions="{data}">
-                    <a href="javascript:" @click="onDestroy(data.row.id)">
-                        <xcircle-component/>
-                    </a>
-                </template>
-            </table-component>
-            <paginate :pagination="state.reviews"
-                      :click-handler="fetch"
-                      v-model="state.currentPage"
-            />
-            <component :is="activeModal"
-                       :item="state.item"
-                       @closeModal="modalFunction"
-                       @submitForm="submitForm"
-                       @declineForm="onDestroy"
-            ></component>
+            <Table :data="state.reviews.data" class="mb-5"/>
+            <div class="text-center">
+                <pagination :pagination="state.reviews"
+                            :click-handler="fetch"
+                            v-model="state.currentPage"
+                />
+            </div>
         </div>
+        <component :is="activeModal"
+                   :item="state.item"
+                   @closeModal="modalFunction"
+                   @submitForm="submitForm"
+                   @declineForm="onDestroy"
+        ></component>
     </ReviewsLayout>
 </template>
 
 <script setup>
 import {reactive, onMounted, inject, ref, computed} from "vue";
 import ProductReviewModal from '@/Pages/Admin/Reviews/Products/Modal.vue';
+import Table from '@/Pages/Admin/Reviews/Products/Table.vue';
 import ReviewsLayout from '@/Pages/Admin/Reviews/ReviewsLayout.vue';
 
 const swal = inject('$swal')
@@ -99,41 +64,6 @@ onMounted(() => {
 })
 
 const activeModal = computed(() => state.value.isActiveModal ? ProductReviewModal : null)
-
-const headings = reactive([
-    {
-        label: 'ID',
-        key: 'id'
-    },
-    {
-        label: 'Імʼя',
-        key: 'name'
-    },
-    {
-        label: 'Телефон',
-        key: 'phone'
-    },
-    {
-        label: 'Коментар',
-        key: 'comment'
-    },
-    {
-        label: 'Товар',
-        key: 'product_id'
-    },
-    {
-        label: 'Статус публікації',
-        key: 'published'
-    },
-    {
-        label: "Оновлено<hr class='my-1'>Створено",
-        key: 'timestamps'
-    },
-    {
-        label: '#',
-        key: 'actions'
-    }
-]);
 
 
 function fetch(page) {

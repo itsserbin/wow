@@ -16,7 +16,7 @@
                      :alt="item.name.ua ? item.name.ua : item.name.ru"
                      class="p-[25px] pr-[1.25rem]">
             </div>
-            <div class="absolute ml-[580px] mt-[15px]" @click="removeFromCart">
+            <div class="absolute cursor-pointer ml-[580px] mt-[15px]" @click="removeFromCart">
                 <svg width="18" height="18"
                      viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -41,6 +41,11 @@
                                 <span class="text-red-600">
                                     {{ item.discount_price }} <span class="text-xs"> грн.</span>
                                 </span>
+                            </ins>
+                        </div>
+                        <div class="flex flex-col justify-center" v-else>
+                            <ins class="text-[1.5rem] font-[700] no-underline mt-[-14px]">
+                                {{ item.discount_price }} <span class="text-xs"> грн.</span>
                             </ins>
                         </div>
                     </div>

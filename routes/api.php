@@ -288,10 +288,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('destroy/{id}', [OrdersController::class, 'destroy'])
             ->name('api.orders.destroy');
 
-        Route::get('filter', [OrdersController::class, 'filter'])
-            ->name('api.orders.filter');
-
-        Route::get('search', [OrdersController::class, 'search'])
+        Route::get('search={search}', [OrdersController::class, 'search'])
             ->name('api.orders.search');
     });
 
@@ -315,6 +312,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('clients')->group(function () {
 
+        Route::get('statuses', [ClientsController::class, 'statuses'])
+            ->name('api.clients.statuses');
+
         Route::get('/', [ClientsController::class, 'index'])
             ->name('api.clients.index');
 
@@ -329,15 +329,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::delete('/destroy/{id}', [ClientsController::class, 'destroy'])
             ->name('api.clients.destroy');
-
-        Route::post('mass', [ClientsController::class, 'massActions'])
-            ->name('api.clients.mass');
-
-        Route::get('filter', [ClientsController::class, 'filter'])
-            ->name('api.clients.filter');
-
-        Route::get('sub-filter', [ClientsController::class, 'subFilter'])
-            ->name('api.clients.subFilter');
     });
 
     Route::prefix('banners')->group(function () {

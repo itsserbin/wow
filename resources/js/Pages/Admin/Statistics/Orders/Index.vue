@@ -34,7 +34,7 @@
 
             <Table :data="state.orders.result.data"/>
 
-            <Paginate :pagination="state.orders.result"
+            <pagination :pagination="state.orders.result"
                       :click-handler="fetch"
                       v-model="params.currentPage"
             />
@@ -48,7 +48,6 @@ import Chart from '@/Pages/Admin/Statistics/Orders/Chart.vue';
 import Table from '@/Pages/Admin/Statistics/Orders/Table.vue';
 import Indicators from '@/Pages/Admin/Statistics/Orders/Indicators.vue';
 import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
-import Paginate from '@/Components/Paginate.vue'
 import LastParams from '@/Pages/Admin/Statistics/LastParams.vue'
 
 const swal = inject('$swal')

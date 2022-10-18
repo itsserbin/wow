@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="">
+    <form @submit.prevent="sendOrder">
         <div class="grid grid-cols-1 md:grid-cols-2 relative gap-4">
             <div>
                 <PersonalData :order="state.order"/>
@@ -14,6 +14,7 @@
                     <div class="grid gap-4">
                         <OrderItem v-for="item in state.cart.list"
                                    :item="item"
+                                   @removeFromCart="removeFromCart"
                         />
                     </div>
                     <CheckoutTotal/>
@@ -30,10 +31,13 @@ import Payment from '@/Pages/Public/Checkout/Payment.vue';
 import OrderItem from '@/Pages/Public/Checkout/OrderItem.vue';
 import Comment from '@/Pages/Public/Checkout/Comment.vue';
 import CheckoutTotal from '@/Pages/Public/Checkout/CheckoutTotal.vue';
-import {ref} from "vue";
+import {inject, ref, onMounted} from "vue";
 import {useStore} from "vuex";
+import {useGtm} from '@gtm-support/vue-gtm';
 
 const store = useStore();
+const swal = inject('$swal');
+const gtm = useGtm();
 
 const state = ref({
     order: {
@@ -47,6 +51,70 @@ const state = ref({
         postal_office: null,
         payment_method: null,
     },
-    cart: ref(store.state)
+    cart: ref(store.state),
+    contentIds: [],
+    ga4ProductsArray: [],
 })
+onMounted(() => {
+    state.value.cart.list.forEach((item) => {
+        state.value.contentIds.push(item.id);
+        state.value.ga4ProductsArray.push({
+            item_name: item.name.ua ? item.name.ua : item.name.ru,
+            item_id: item.id,
+            price: item.discount_price ? item.discount_price : item.price,
+            quantity: item.count
+        })
+    });
+
+    if (import.meta.env.MODE === 'production') {
+        gtm.trackEvent({
+            event: 'start_checkout',
+            ecommerce: {
+                items: state.value.ga4ProductsArray
+            }
+        });
+    }
+})
+
+function sendOrder() {
+    state.value.isLoading = true;
+    state.value.errors = [];
+    axios.post(route('api.v1.orders.create'), state.value.order)
+        .then(({data}) => {
+            if (import.meta.env.MODE === 'production') {
+                fbq('track', 'Purchase', {
+                    "value": state.value.cart.totalPrice,
+                    "currency": "UAH",
+                    "content_type": "product",
+                    "num_items": state.value.cart.totalCount,
+                    "content_ids": state.value.contentIds
+                });
+
+                gtm.trackEvent({
+                    event: 'send_order',
+                    ecommerce: {
+                        transaction_id: data.order.id,
+                        value: data.order.total_price,
+                        currency: "UAH",
+                        items: state.value.ga4ProductsArray
+                    }
+                });
+            }
+            state.value.isLoading = false;
+            window.location.href = route('thanks', data.order.id);
+        })
+        .catch(({response}) => {
+            state.value.errors = response.data;
+            state.value.isLoading = false;
+            swal({
+                icon: 'error',
+                title: 'Виникла помилка',
+                text: 'Перевірте корректніть данних',
+            })
+        });
+}
+
+function removeFromCart(){
+
+}
 </script>

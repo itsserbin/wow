@@ -9,32 +9,33 @@
                      :size="size"
     >
         <template #title>
-            {{ order.id + (order.first_name ? ' / ' + order.first_name : null) }}
+            {{ item.id + (item.name ? ' / ' + item.name : null) }}
         </template>
         <template #content>
-            <Form :order="order"
-                  :statuses="statuses"
-                  :paymentMethods="paymentMethods"
-                  @submitItemForm="submitItemForm"
+            <Form
+                :item="item"
+                :statuses="statuses"
+                :sub-statuses="subStatuses"
+                @submitItemForm="submitItemForm"
             />
         </template>
     </modal-component>
 </template>
 
 <script setup>
-import Form from '@/Pages/Admin/Orders/Form.vue';
+import Form from '@/Pages/Admin/Clients/Form.vue';
 
 const props = defineProps([
     'size',
-    'order',
+    'item',
     'statuses',
-    'paymentMethods'
+    'subStatuses',
 ]);
 
 const emits = defineEmits(['closeModal', 'submitForm', 'declineForm', 'submitItemForm']);
 
 function declineForm() {
-    emits('declineForm', props.order.id);
+    emits('declineForm', props.item.id);
 }
 
 function submitItemForm(data) {

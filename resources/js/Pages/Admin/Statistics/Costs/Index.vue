@@ -84,7 +84,7 @@
                 </template>
             </table-component>
 
-            <Paginate :pagination="state.data.result"
+            <pagination :pagination="state.data.result"
                       :click-handler="fetch"
                       v-model="params.page"
             />
@@ -104,7 +104,6 @@ import {reactive, onMounted, inject, ref, computed} from "vue";
 import ColorModal from '@/Pages/Admin/Statistics/Costs/Modal.vue';
 import CostChart from '@/Pages/Admin/Statistics/Costs/Chart.vue';
 import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
-import Paginate from '@/Components/Paginate.vue'
 import LastParams from '@/Pages/Admin/Statistics/LastParams.vue'
 
 const swal = inject('$swal')

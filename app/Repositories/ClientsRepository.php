@@ -28,7 +28,7 @@ class ClientsRepository extends CoreRepository
         return $this->model::with('orders')->find($id);
     }
 
-    public function getAllWithPaginate(): LengthAwarePaginator
+    public function getAllWithPaginate($data): LengthAwarePaginator
     {
         $columns = [
             'id',
@@ -46,13 +46,18 @@ class ClientsRepository extends CoreRepository
             'updated_at',
         ];
 
-        return $this
-            ->model::select($columns)
+        $model = $this->model::select($columns);
+
+        if (array_key_exists('status', $data)) {
+            $model->where('status', $data['status']);
+        }
+
+        return $model
             ->orderBy('id', 'desc')
             ->paginate(15);
     }
 
-    public function search($search, $perPage = null)
+    public function search($search)
     {
         $columns = [
             'id',
@@ -74,10 +79,13 @@ class ClientsRepository extends CoreRepository
             ->model::select($columns)
             ->where('name', 'LIKE', "%$search%")
             ->orWhere('last_name', 'LIKE', "%$search%")
+            ->orWhere('middle_name', 'LIKE', "%$search%")
+            ->orWhere('email', 'LIKE', "%$search%")
             ->orWhere('phone', 'LIKE', "%$search%")
+            ->orWhere('comment', 'LIKE', "%$search%")
             ->orWhere('id', 'LIKE', "%$search%")
-            ->orderBy('created_at', 'desc')
-            ->paginate($perPage);
+            ->orderBy('id', 'desc')
+            ->paginate(15);
     }
 
     /**

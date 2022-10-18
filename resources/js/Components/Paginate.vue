@@ -180,7 +180,7 @@ const props = defineProps({
     },
     containerClass: {
         type: String,
-        default: 'inline-flex -space-x-px mt-8 rounded-lg  dark:bg-gray-800'
+        default: 'inline-flex -space-x-px rounded-lg  dark:bg-gray-800'
     },
     pageClass: {
         type: String,
