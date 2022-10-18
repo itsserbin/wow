@@ -2,7 +2,7 @@
     <div class="grid grid-cols-2 md:grid-cols-6 mt-3">
         <ImageCard
             class="m-1"
-            v-for="image in props.images.data"
+            v-for="image in images.data"
             :image="route('images.products.350',image.src)"
             :id="image.id"
             :alt="image.alt"
@@ -11,8 +11,8 @@
             @destroyImage="destroyImage"
         />
     </div>
-    <div class="row flex justify-center my-5" v-if="props.images">
-        <pagination :pagination="props.images"
+    <div class="row flex justify-center my-5" v-if="images">
+        <pagination :pagination="images"
                   :click-handler="fetch"
                   v-model="currentPage"
         />
