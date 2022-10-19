@@ -1,6 +1,6 @@
 {
   "resources/js/Pages/Public/app.js": {
-    "file": "assets/app.74d01b0a.js",
+    "file": "assets/app.321a2794.js",
     "src": "resources/js/Pages/Public/app.js",
     "isEntry": true,
     "imports": [
@@ -8,7 +8,7 @@
       "_swiper-slide.9c9e32fc.js"
     ],
     "css": [
-      "assets/app.092194ff.css"
+      "assets/app.59d529e7.css"
     ]
   },
   "resources/js/Pages/Admin/app.js": {
@@ -1210,6 +1210,10 @@
     "file": "assets/app.ff1b5532.css",
     "src": "resources/js/Pages/Admin/app.css"
   },
+  "resources/js/Pages/Public/app.css": {
+    "file": "assets/app.59d529e7.css",
+    "src": "resources/js/Pages/Public/app.css"
+  },
   "resources/scss/app.scss": {
     "file": "assets/app.0c5381c3.css",
     "src": "resources/scss/app.scss",
@@ -1219,9 +1223,5 @@
     "file": "assets/public.d120b6d2.css",
     "src": "resources/scss/public.scss",
     "isEntry": true
-  },
-  "resources/js/Pages/Public/app.css": {
-    "file": "assets/app.092194ff.css",
-    "src": "resources/js/Pages/Public/app.css"
   }
 }

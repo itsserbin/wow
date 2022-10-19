@@ -6,7 +6,7 @@
                 <div class="w-[40.3%]">
                     <!--40.3%;-->
                     <a :href="route('home')">
-                        <img src="https://dabango.store/storage/img/content/logo.png" :alt="appName" class="w-[55px]">
+                        <img src="/storage/logo.png" :alt="appName" class="w-[55px]">
                         <!--                        <img :src="logoApp" :alt="appName">-->
                     </a>
                 </div>
