@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SmsController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -119,4 +120,6 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
         Route::get('providers', [AdminController::class, 'providers'])
             ->name('admin.options.providers.index');
     });
+
+    Route::post('notify-waybill', [SmsController::class, 'notifyWaybill'])->name('notify.waybill');
 });

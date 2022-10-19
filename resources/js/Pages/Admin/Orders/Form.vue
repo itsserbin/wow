@@ -13,12 +13,12 @@
                 <label-component value="По-батькові"/>
                 <input-component v-model="order.client.middle_name" type="text" disabled/>
             </div>
-          <div class="block">
-              <label-component value="&nbsp;"/>
-              <button-component class="w-full">
-                  Картка клієнта
-              </button-component>
-          </div>
+            <div class="block">
+                <label-component value="&nbsp;"/>
+                <button-component class="w-full">
+                    Картка клієнта
+                </button-component>
+            </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -64,6 +64,17 @@
                 <div class="block">
                     <label-component value="Номер накладної"/>
                     <input-component v-model="order.waybill" type="text"/>
+                    <div v-if="!order.sms_waybill_status && order.waybill">
+                        <a
+                            href="javascript:"
+                            @click.prevent="sendWaybill(order.client.phone,order.waybill)"
+                        >Отправить ТТН клиенту</a>
+                    </div>
+                    <div v-if="order.sms_waybill_status">
+                        ТТН отправлена (<a href="javascript:"
+                                           @click.prevent="sendWaybill(order.client.phone,order.waybill)"
+                    >Отправить повторно</a>)
+                    </div>
                 </div>
             </div>
             <div class="block">
@@ -210,6 +221,41 @@ const parcelReminderValues = reactive([
         value: 'Так',
     }
 ])
+
+function sendWaybill() {
+    console.log(props.order.client.phone);
+    if (props.order.waybill) {
+        axios.post(route('notify.waybill'), {
+            phone: props.order.client.phone,
+            waybill: props.order.waybill,
+            order_id: props.order.id
+        })
+            .then(({data}) => {
+                if (data.success === true) {
+                    swal({
+                        'icon': 'success',
+                        'title': 'Номер накладной успешно отправлен клиенту',
+                        'text': data.info,
+                    })
+                } else {
+                    swal({
+                        'icon': 'error',
+                        'title': 'Ошибка',
+                        'text': data.info,
+                    })
+                }
+                axios.put(route('api.orders.update', props.order.id), props.order)
+            })
+            .catch((response) => {
+                swal({
+                    'icon': 'error',
+                    'title': 'Ошибка',
+                    'text': 'Обратитесь к администратору',
+                })
+                console.log(response)
+            });
+    }
+}
 
 function submitItemForm() {
     if (state.value.itemsModalAction === 'create') {

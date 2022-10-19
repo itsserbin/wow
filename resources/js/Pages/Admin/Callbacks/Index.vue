@@ -11,20 +11,23 @@
                                  :isSlotMode="true"
                                  :rows="state.data.data"
                 >
-                    <template v-slot:id="{data}">
+                    <template #status="{data}">
+                        {{statuses[data.row.status]}}
+                    </template>
+
+                    <template #id="{data}">
                         <a href="javascript:" @click="onEdit(data.row.id,data.i)">
                             {{ data.row.id }}
                         </a>
                     </template>
 
-
-                    <template v-slot:timestamps="{data}">
+                    <template #timestamps="{data}">
                         {{ $filters.dateFormat(data.row.updated_at) }}
                         <hr class="my-1">
                         {{ $filters.dateFormat(data.row.created_at) }}
                     </template>
 
-                    <template v-slot:actions="{data}">
+                    <template #actions="{data}">
                         <a href="javascript:" @click="onDestroy(data.row.id)">
                             <xcircle-component/>
                         </a>
@@ -44,6 +47,7 @@
                        @closeModal="modalFunction"
                        @submitForm="submitForm"
                        @declineForm="onDestroy"
+                       :statuses="statuses"
             ></component>
         </div>
     </auth-layout>
@@ -51,7 +55,9 @@
 
 <script setup>
 import {reactive, onMounted, inject, ref, computed} from "vue";
-import Modal from '@/Pages/Admin/Pages/Modal.vue';
+import Modal from '@/Pages/Admin/Callbacks/Modal.vue';
+
+defineProps(['statuses']);
 
 const swal = inject('$swal')
 const can = inject('$can');

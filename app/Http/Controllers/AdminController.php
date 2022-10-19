@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Enums\CallbackStatus;
 use App\Models\Enums\ClientStatus;
 use App\Models\Enums\ClientSubStatus;
 use App\Models\Enums\OrderStatus;
@@ -19,7 +20,9 @@ class AdminController extends Controller
 
     public function callbacks(): Response
     {
-        return Inertia::render('Callbacks/Index');
+        return Inertia::render('Callbacks/Index',[
+            'statuses' => CallbackStatus::state
+        ]);
     }
 
     public function users(): Response

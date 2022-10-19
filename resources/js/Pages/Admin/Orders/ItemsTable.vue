@@ -15,6 +15,11 @@
             </div>
         </template>
 
+        <template #preview="{data}">
+            <img :src="data.row.product.preview ? route('images.products.55',data.row.product.preview) : null"
+                 :alt="data.row.product.h1.ua ? data.row.product.h1.ua : data.row.product.h1.ru">
+        </template>
+
         <template #color="{data}">
             <span v-for="color in data.row.color">{{ color }}</span>
         </template>
@@ -24,7 +29,7 @@
         </template>
 
         <template #resale="{data}">
-            {{ data.row.resale ? 'Так' : 'Ні'}}
+            {{ data.row.resale ? 'Так' : 'Ні' }}
         </template>
 
         <template #sale_price="{data}">
@@ -36,7 +41,7 @@
         </template>
 
         <template #vendor_code="{data}">
-            {{ data.row.product.vendor_code}}
+            {{ data.row.product.vendor_code }}
         </template>
 
         <template #h1="{data}">
@@ -56,7 +61,11 @@ defineEmits(['editOrderItem', 'destroyOrderItem'])
 
 const headings = reactive([
     {
-        label: 'Title',
+        label: 'Фото',
+        key: 'preview'
+    },
+    {
+        label: 'Назва',
         key: 'h1'
     },
     {

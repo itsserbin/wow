@@ -10,17 +10,18 @@
     >
         <template #title>{{ formHeading }}</template>
         <template #content>
-            <Form :item="item"/>
+            <Form :item="item" :statuses="statuses"/>
         </template>
     </modal-component>
 </template>
 
 <script setup>
-import Form from '@/Pages/Admin/Pages/Form.vue';
+import Form from '@/Pages/Admin/Callbacks/Form.vue';
 import {computed} from "vue";
 
 const props = defineProps([
     'item',
+    'statuses',
 ])
 
 const emits = defineEmits([

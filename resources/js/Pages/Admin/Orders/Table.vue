@@ -31,6 +31,12 @@
             </a>
         </template>
 
+        <template v-slot:comment="{data}">
+            <div class="whitespace-normal w-48">
+                {{data.row.comment ? data.row.comment.substr(0, 30) + '...' : '-'}}
+            </div>
+        </template>
+
         <template v-slot:timestamps="{data}">
             {{ $filters.dateTimeFormat(data.row.updated_at) }}
             <hr class="my-1">
@@ -83,6 +89,10 @@ const headings = reactive([
     {
         label: 'Сума',
         key: 'total_price'
+    },
+    {
+        label: 'Коментар',
+        key: 'comment'
     },
     {
         label: "Оновлено<hr class='my-1'>Створено",

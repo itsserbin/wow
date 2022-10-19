@@ -1,48 +1,23 @@
 <template>
-    <form @submit.prevent="$emit('submit',item)" class="flex flex-col">
-        <div class="grid grid-cols-3 mb-5 gap-4">
-            <div class="block col-span-2">
-                <label-component value="ЧПУ"/>
-                <input-component v-model="item.slug" type="text"/>
+    <form class="flex flex-col">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid gap-4">
+                <div class="block">
+                    <label-component value="Статус"/>
+                    <select-component v-model="item.status" :options="state.statuses"/>
+                </div>
+                <div class="block">
+                    <label-component value="Імʼя"/>
+                    <input-component v-model="item.name" type="text"/>
+                </div>
+                <div class="block">
+                    <label-component value="Телефон"/>
+                    <input-component v-model="item.phone" type="tel"/>
+                </div>
             </div>
-
-            <div class="block">
-                <label-component value="Статус публікації"/>
-                <select-component v-model="item.published" :options="publishedStatuses"/>
-            </div>
-        </div>
-
-        <lang-tabs @clickLang="changeLang" class="mb-5"/>
-
-        <div class="grid grid-cols-1 dark:bg-gray-800 rounded">
-            <div class="block mb-5">
-                <label-component value="Назва в меню"/>
-                <input-component v-model="item.heading.ru" type="text" v-if="state.activeLang === 'ru'"/>
-                <input-component v-model="item.heading.ua" type="text" v-if="state.activeLang === 'ua'"/>
-            </div>
-
-            <div class="block mb-5">
-                <label-component value="Заголовок на сторінці"/>
-                <input-component v-model="item.h1.ru" type="text" v-if="state.activeLang === 'ru'"/>
-                <input-component v-model="item.h1.ua" type="text" v-if="state.activeLang === 'ua'"/>
-            </div>
-
-            <div class="block mb-5">
-                <label-component value="META Title"/>
-                <input-component v-model="item.meta_title.ru" type="text" v-if="state.activeLang === 'ru'"/>
-                <input-component v-model="item.meta_title.ua" type="text" v-if="state.activeLang === 'ua'"/>
-            </div>
-
-            <div class="block mb-5">
-                <label-component value="META Description"/>
-                <textarea-component v-model="item.meta_description.ru" v-if="state.activeLang === 'ru'"/>
-                <textarea-component v-model="item.meta_description.ua" v-if="state.activeLang === 'ua'"/>
-            </div>
-
-            <div class="block mb-5">
-                <label-component value="Текст"/>
-                <textarea-component v-model="item.content.ru" v-if="state.activeLang === 'ru'"/>
-                <textarea-component v-model="item.content.ua" v-if="state.activeLang === 'ua'"/>
+            <div>
+                <label-component value="Коментар"/>
+                <textarea-component v-model="item.comment" rows="8"/>
             </div>
         </div>
     </form>
@@ -50,16 +25,20 @@
 
 <script setup>
 import {inject, onMounted, reactive, ref} from "vue";
-import ImageCard from '@/Components/ImageCard.vue';
-
-const props = defineProps(['item'])
-
-const defaultLang = inject('$defaultLang');
-const publishedStatuses = inject('$publishedStatuses');
+const props = defineProps(['item', 'statuses'])
 
 const state = ref({
-    activeLang: defaultLang
+    statuses: []
 });
+
+onMounted(() => {
+    for (const [key, value] of Object.entries(props.statuses)) {
+        state.value.statuses.push({
+            key: key,
+            value: value,
+        })
+    }
+})
 
 function changeLang(val) {
     state.value.activeLang = val;

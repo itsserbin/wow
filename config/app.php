@@ -195,6 +195,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        Daaner\TurboSMS\TurboSMSServiceProvider::class,
+
     ],
 
     /*
@@ -209,6 +211,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
+        'TurboSMS' => Daaner\TurboSMS\Facades\TurboSMS::class,
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
