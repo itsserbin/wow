@@ -1,5 +1,5 @@
 <script setup>
-import {ref, onMounted, inject} from 'vue';
+import {ref, onMounted} from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
@@ -11,7 +11,7 @@ import {useState, getUser} from "@/Includes/user.js";
 const showingNavigationDropdown = ref(false);
 
 defineProps(['title']);
-const can = inject('$can');
+
 onMounted(() => {
     getUser();
 })
@@ -42,61 +42,51 @@ onMounted(() => {
                                 </NavLink>
 
                                 <NavLink :href="route('admin.products.index')"
-                                         v-if="can('show-products')"
                                          :active="route().current('admin.products.index')">
                                     Товари
                                 </NavLink>
 
                                 <NavLink :href="route('admin.categories.index')"
-                                         v-if="can('show-categories')"
                                          :active="route().current('admin.categories.index')">
                                     Категорії
                                 </NavLink>
 
                                 <NavLink :href="route('admin.reviews.product.index')"
-                                         v-if="can('show-reviews')"
                                          :active="route().current('admin.reviews.product.index')">
                                     Відгуки
                                 </NavLink>
 
                                 <NavLink :href="route('admin.clients.index')"
-                                         v-if="can('show-clients')"
                                          :active="route().current('admin.clients.index')">
                                     Клієнти
                                 </NavLink>
 
                                 <NavLink :href="route('admin.orders.index')"
-                                         v-if="can('show-orders')"
                                          :active="route().current('admin.orders.index')">
                                     Замовлення
                                 </NavLink>
 
                                 <NavLink :href="route('admin.images.index')"
-                                         v-if="can('show-images')"
                                          :active="route().current('admin.images.index')">
                                     Зображення
                                 </NavLink>
 
                                 <NavLink :href="route('admin.pages.index')"
-                                         v-if="can('show-pages')"
                                          :active="route().current('admin.pages.index')">
                                     Сторінки
                                 </NavLink>
 
                                 <NavLink :href="route('admin.callbacks.index')"
-                                         v-if="can('show-callbacks')"
                                          :active="route().current('admin.callbacks.index')">
                                     Callbacks
                                 </NavLink>
 
                                 <NavLink :href="route('admin.statistics.index')"
-                                         v-if="can('show-bookkeeping')"
                                          :active="route().current('admin.statistics.*')">
                                     Статистика
                                 </NavLink>
 
                                 <NavLink :href="route('admin.options.index')"
-                                         v-if="can('show-options')"
                                          :active="route().current('admin.options.*')">
                                     Налаштування
                                 </NavLink>
