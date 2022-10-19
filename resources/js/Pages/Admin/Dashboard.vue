@@ -4,13 +4,11 @@
             Dashboard
         </template>
 
-        <div v-if="can('show-bookkeeping-orders')">
             <LastParams :active-item="params.last" @sortByLast="sortByLast"/>
 
             <OrdersChart v-if="orders.chart" :chartData="orders.chart"/>
             <OrdersIndicators v-if="orders.indicators" :data="orders.indicators"/>
             <OrdersTable v-if="orders.table" :data="orders.table"/>
-        </div>
 
 
     </auth-layout>
@@ -36,7 +34,6 @@ const orders = ref({
     indicators: null,
 });
 
-const can = inject('$can');
 onMounted(() => fetch());
 
 const getParams = computed(() => {
