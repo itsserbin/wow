@@ -89,7 +89,7 @@ class OrdersController extends BaseController
         ]);
     }
 
-    public function create(Request $request): JsonResponse
+    public function create(OrderCreateRequest $request): JsonResponse
     {
         $order = $this->orderCheckoutService->createOrder($request->all());
 
