@@ -129,7 +129,7 @@ class ClientsRepository extends CoreRepository
         $client->email = $data['email'];
         $client->last_name = $data['last_name'];
         $client->middle_name = $data['middle_name'];
-        $client->status = ClientStatus::NEW_STATUS;
+        $client->status = 'new';
         $client->phone = $phone;
         $client->number_of_purchases = 1;
 
