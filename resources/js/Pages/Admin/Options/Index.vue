@@ -2,33 +2,33 @@
     <auth-layout>
         <div class="grid grid-cols-1 gap-14">
             <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                <a v-for="item in items" :href="item.href">
+                <Link v-for="item in items" :href="item.href">
                     <div class="p-5 bg-gray-50 rounded dark:bg-gray-800 text-gray-900 dark:text-white">
                         {{ item.title }}
                     </div>
-                </a>
+                </Link>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                <a v-for="item in items2" :href="item.href">
+                <Link v-for="item in items2" :href="item.href">
                     <div class="p-5 bg-gray-50 rounded dark:bg-gray-800 text-gray-900 dark:text-white">
                         {{ item.title }}
                     </div>
-                </a>
+                </Link>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                <a v-for="item in items3" :href="item.href">
+                <Link v-for="item in items3" :href="item.href">
                     <div class="p-5 bg-gray-50 rounded dark:bg-gray-800 text-gray-900 dark:text-white">
                         {{ item.title }}
                     </div>
-                </a>
+                </Link>
             </div>
         </div>
     </auth-layout>
 </template>
 
 <script setup>
-import OptionsLayout from '@/Pages/Admin/Options/OptionsLayout.vue'
 import {reactive} from "vue";
+import {Link} from "@inertiajs/inertia-vue3";
 
 const items = reactive([
     {
