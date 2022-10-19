@@ -31,9 +31,10 @@
 <script setup>
 import {inject, ref} from "vue";
 import {useGtm} from "@gtm-support/vue-gtm";
+import {useStore} from "vuex";
 
 defineEmits(['closeModal']);
-const props = defineProps(['item', 'cart']);
+const props = defineProps(['item']);
 const gtm = useGtm();
 const swal = inject('$swal');
 const order = ref({
@@ -54,15 +55,17 @@ const state = ref({
     ga4ProductsArray: []
 });
 
+const store = useStore();
+
 function sendForm() {
     state.value.isLoading = true;
     state.value.errors = [];
     axios.post(route('api.v1.cart.add'), props.item)
-    props.cart.commit('loadCart');
+    store.commit('loadCart');
     axios.post(route('api.v1.orders.create'), order.value)
         .then(({data}) => {
             if (import.meta.env.MODE === 'production') {
-                props.cart.list.forEach((item) => {
+                store.state.list.forEach((item) => {
                     state.value.contentIds.push(item.id);
                     state.value.ga4ProductsArray.push({
                         item_name: item.name.ua ? item.name.ua : item.name.ru,
@@ -73,10 +76,10 @@ function sendForm() {
                 });
 
                 fbq('track', 'Purchase', {
-                    "value": props.cart.totalPrice,
+                    "value": store.state.totalPrice,
                     "currency": "UAH",
                     "content_type": "product",
-                    "num_items": props.cart.totalCount,
+                    "num_items": store.state.totalCount,
                     "content_ids": state.value.contentIds
                 });
 
