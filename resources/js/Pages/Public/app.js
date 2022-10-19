@@ -1,4 +1,4 @@
-import '@/bootstrap';
+import '@/Includes/bootstrap';
 
 import {createApp} from 'vue/dist/vue.esm-bundler.js';
 import {createGtm} from '@gtm-support/vue-gtm';

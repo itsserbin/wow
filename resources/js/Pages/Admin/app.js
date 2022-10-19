@@ -1,11 +1,10 @@
-import '@/bootstrap';
+import '@/Includes/bootstrap';
 
 import {createApp, h} from 'vue';
 import {createInertiaApp} from '@inertiajs/inertia-vue3';
 import {InertiaProgress} from '@inertiajs/progress';
 import {resolvePageComponent} from 'laravel-vite-plugin/inertia-helpers';
 import {ZiggyVue} from '../../../../vendor/tightenco/ziggy/dist/vue.m';
-import {stateSymbol, createState, can} from "@/Includes/user.js";
 import VueSweetalert2 from 'vue-sweetalert2';
 import moment from "moment";
 import numeral from "numeral";
@@ -31,6 +30,7 @@ import Multiselect from '@/Components/Multiselect/Multiselect.vue';
 import Paginate from '@/Components/Paginate.vue';
 import Search from '@/Components/Search.vue';
 import Datepicker from '@vuepic/vue-datepicker';
+import user from '@/Includes/user.js';
 import {Chart, registerables} from 'chart.js';
 
 Chart.register(...registerables);
@@ -45,9 +45,14 @@ createInertiaApp({
             .use(ZiggyVue, Ziggy);
 
         app.use(VueSweetalert2);
-
-        app.provide(stateSymbol, createState());
-        app.provide('$can', can);
+        app.use(user);
+        user.commit('load');
+        // console.log(user.commit('can','test'));
+        // app.provide(stateSymbol, createState());
+        app.provide('$can', function (val) {
+            return user.state.permissions.includes(val);
+        });
+        // app.provide('$can', can);
 
         // Layouts
         app.component('auth-layout', AuthenticatedLayout);
