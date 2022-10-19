@@ -5,7 +5,7 @@
         </template>
 
         <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading">
+        <div v-if="!state.isLoading && can('show-bookkeeping-profits')">
 
             <div class="grid grid-cols-1 gap-4 mt-5">
 
@@ -91,8 +91,8 @@
             </table-component>
 
             <pagination :pagination="state.profits.result"
-                      :click-handler="fetch"
-                      v-model="params.currentPage"
+                        :click-handler="fetch"
+                        v-model="params.currentPage"
             />
         </div>
     </StatisticLayout>

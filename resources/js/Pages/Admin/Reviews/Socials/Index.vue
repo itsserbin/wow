@@ -5,7 +5,7 @@
         </template>
 
         <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading">
+        <div v-if="!state.isLoading && can('show-reviews')">
             <button-component type="btn" @click="create" v-if="can('create-reviews')">
                 Додати
             </button-component>
@@ -36,7 +36,7 @@
                     </a>
                 </template>
             </table-component>
-            <paginate  :pagination="state.reviews"
+            <pagination  :pagination="state.reviews"
                        :click-handler="fetch"
                        v-model="state.currentPage"
             />

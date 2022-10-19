@@ -4,18 +4,20 @@
             Dashboard
         </template>
 
-        <LastParams :active-item="params.last" @sortByLast="sortByLast"/>
+        <div v-if="can('show-bookkeeping-orders')">
+            <LastParams :active-item="params.last" @sortByLast="sortByLast"/>
 
-        <OrdersChart v-if="orders.chart" :chartData="orders.chart"/>
-        <OrdersIndicators v-if="orders.indicators" :data="orders.indicators"/>
-        <OrdersTable v-if="orders.table" :data="orders.table"/>
+            <OrdersChart v-if="orders.chart" :chartData="orders.chart"/>
+            <OrdersIndicators v-if="orders.indicators" :data="orders.indicators"/>
+            <OrdersTable v-if="orders.table" :data="orders.table"/>
+        </div>
 
 
     </auth-layout>
 </template>
 
 <script setup>
-import {computed, onMounted, ref} from "vue";
+import {computed, onMounted, ref, inject} from "vue";
 import OrdersChart from '@/Pages/Admin/Statistics/Orders/Chart.vue'
 import LastParams from '@/Pages/Admin/Statistics/LastParams.vue'
 import OrdersIndicators from '@/Pages/Admin/Statistics/Orders/Indicators.vue';
@@ -34,7 +36,7 @@ const orders = ref({
     indicators: null,
 });
 
-
+const can = inject('$can');
 onMounted(() => fetch());
 
 const getParams = computed(() => {

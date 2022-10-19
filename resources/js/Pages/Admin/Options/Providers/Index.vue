@@ -5,7 +5,7 @@
         </template>
 
         <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading">
+        <div v-if="!state.isLoading && can('show-providers')">
             <button-component type="btn" @click="create" v-if="can('create-providers')">
                 Додати
             </button-component>
@@ -40,7 +40,7 @@
                     </a>
                 </template>
             </table-component>
-            <paginate  :pagination="state.providers"
+            <pagination  :pagination="state.providers"
                        :click-handler="fetch"
                        v-model="state.currentPage"
             />

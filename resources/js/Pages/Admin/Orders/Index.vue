@@ -154,26 +154,33 @@ function fetch() {
 
 function destroy(id) {
     if (can('destroy-orders')) {
-        state.value.isLoading = true;
-        axios.delete(route('api.orders.destroy', id))
-            .then(() => {
-                state.value.isLoading = false;
-                fetch();
-                if (state.value.isActiveEditModal) {
-                    editModalFunction();
-                }
-                swal({
-                    title: 'Success!',
-                    icon: 'success'
-                })
-            })
-            .catch(errors => {
-                console.log(errors);
-                swal({
-                    title: 'Error!',
-                    icon: 'error'
-                })
-            })
+        swal({
+            title: 'Видалити?',
+            icon: 'warning',
+            showCancelButton: true,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.delete(route('api.orders.destroy', id))
+                    .then(() => {
+                        state.value.isLoading = false;
+                        fetch();
+                        if (state.value.isActiveEditModal) {
+                            editModalFunction();
+                        }
+                        swal({
+                            title: 'Success!',
+                            icon: 'success'
+                        })
+                    })
+                    .catch(errors => {
+                        console.log(errors);
+                        swal({
+                            title: 'Error!',
+                            icon: 'error'
+                        })
+                    })
+            }
+        });
     }
 }
 

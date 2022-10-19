@@ -5,7 +5,7 @@
         </template>
 
         <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading">
+        <div v-if="!state.isLoading && can('show-bookkeeping-marketing')">
 
             <div class="grid grid-cols-1 gap-4 mt-5">
 

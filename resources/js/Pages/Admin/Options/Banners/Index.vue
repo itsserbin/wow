@@ -5,7 +5,7 @@
         </template>
 
         <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading">
+        <div v-if="!state.isLoading && can('show-banners')">
             <button-component type="btn" @click="create" v-if="can('create-banners')">
                 Додати
             </button-component>
@@ -23,11 +23,11 @@
                 </template>
 
                 <template v-slot:image="{data}">
-                    <img :src="state.activeLang === 'ua' ? data.row.image_mobile.ua :
-                            (state.activeLang === 'ru' ? data.row.image_mobile.ru : null)"
+                    <img :src="state.activeLang === 'ua' ? route('images.banners.mobile',data.row.image_mobile.ua) :
+                            (state.activeLang === 'ru' ? route('images.banners.mobile',data.row.image_mobile.ru) : null)"
                          :alt=" state.activeLang === 'ua' ? data.row.title.ua :
                             (state.activeLang === 'ru' ? data.row.title.ru : null)"
-                         class="w-1/4 mx-auto"
+                         class="mx-auto"
                     >
                 </template>
 
@@ -39,7 +39,7 @@
                 </template>
 
                 <template v-slot:published="{data}">
-                    {{$filters.publishedStatus(data.row.published)}}
+                    {{ $filters.publishedStatus(data.row.published) }}
                 </template>
 
                 <template v-slot:link="{data}">
@@ -61,9 +61,9 @@
                     </a>
                 </template>
             </table-component>
-            <paginate :pagination="state.data"
-                      :click-handler="fetch"
-                      v-model="state.currentPage"
+            <pagination :pagination="state.data"
+                        :click-handler="fetch"
+                        v-model="state.currentPage"
             />
             <component :is="activeModal"
                        :item="state.item"

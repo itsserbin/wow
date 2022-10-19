@@ -5,7 +5,7 @@
         </template>
 
         <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading">
+        <div v-if="!state.isLoading && can('show-bookkeeping-costs')">
             <button-component type="btn" @click="create" v-if="can('create-costs')">
                 Додати
             </button-component>

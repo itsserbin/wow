@@ -1,13 +1,15 @@
 <template>
     <OptionsLayout>
-        <Form :options="state.options" @submitForm="onUpdate"/>
+        <Form :options="state.options" @submitForm="onUpdate" v-if="can('show-main-options')"/>
     </OptionsLayout>
 </template>
 
 <script setup>
 import OptionsLayout from '@/Pages/Admin/Options/OptionsLayout.vue'
 import Form from '@/Pages/Admin/Options/Main/Form.vue'
-import {onMounted, ref} from "vue";
+import {inject, onMounted, ref} from "vue";
+
+const can = inject('$can');
 
 const state = ref({
     options: {}

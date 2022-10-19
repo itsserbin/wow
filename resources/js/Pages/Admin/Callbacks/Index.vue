@@ -5,7 +5,7 @@
         </template>
 
         <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading">
+        <div v-if="!state.isLoading && can('show-callbacks')">
             <div class="grid grid-cols-1 gap-4">
                 <table-component :headings="headings"
                                  :isSlotMode="true"

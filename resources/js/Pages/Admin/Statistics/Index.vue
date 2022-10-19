@@ -7,25 +7,25 @@
         <LastParams :active-item="params.last" @sortByLast="sortByLast"/>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="block">
+            <div class="block" v-if="can('show-bookkeeping-costs')">
                 <div class="text-lg text-gray-800 leading-tight dark:text-gray-300">Витрати</div>
                 <hr class="my-1">
                 <CostChart v-if="state.costs" :chartData="state.costs"/>
             </div>
 
-            <div class="div">
+            <div class="div" v-if="can('show-bookkeeping-profits')">
                 <div class="text-lg text-gray-800 leading-tight dark:text-gray-300">Прибуток</div>
                 <hr class="my-1">
                 <ProfitChart v-if="state.profits" :chartData="state.profits"/>
             </div>
 
-            <div class="div">
+            <div class="div" v-if="can('show-bookkeeping-orders')">
                 <div class="text-lg text-gray-800 leading-tight dark:text-gray-300">Заявки</div>
                 <hr class="my-1">
                 <ProfitChart v-if="state.orders" :chartData="state.orders"/>
             </div>
 
-            <div class="div">
+            <div class="div" v-if="can('show-bookkeeping-marketing')">
                 <div class="text-lg text-gray-800 leading-tight dark:text-gray-300">Маркетинг</div>
                 <hr class="my-1">
                 <ProfitChart v-if="state.marketing" :chartData="state.marketing"/>
@@ -39,7 +39,7 @@ import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
 import LastParams from '@/Pages/Admin/Statistics/LastParams.vue'
 import CostChart from '@/Pages/Admin/Statistics/Costs/Chart.vue'
 import ProfitChart from '@/Pages/Admin/Statistics/Profits/Chart.vue'
-import {computed, onMounted, ref} from "vue";
+import {computed, inject, onMounted, ref} from "vue";
 
 const params = ref({
     date: [],
@@ -48,6 +48,7 @@ const params = ref({
     page: 1,
 });
 
+const can = inject('$can');
 const state = ref({
     costs: null,
     profits: null,

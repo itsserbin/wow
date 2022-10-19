@@ -5,7 +5,7 @@
         </template>
 
         <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading">
+        <div v-if="!state.isLoading && can('show-xml')">
             <button-component type="btn" @click="create" v-if="can('create-xml')">
                 Додати
             </button-component>
@@ -56,7 +56,7 @@
                     </a>
                 </template>
             </table-component>
-            <paginate :pagination="state.data"
+            <pagination :pagination="state.data"
                       :click-handler="fetch"
                       v-model="state.currentPage"
             />

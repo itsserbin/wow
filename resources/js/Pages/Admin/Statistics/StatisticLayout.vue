@@ -4,7 +4,7 @@
             <slot name="header"></slot>
         </template>
 
-        <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-4" v-if="can('show-bookkeeping')">
             <div class="md:col-span-1">
                 <sidebar-component class="mb-5">
                     <sidebar-item v-for="item in items"
@@ -32,11 +32,12 @@
 <script setup>
 import Sidebar from '@/Components/Sidebar/Sidebar.vue';
 
-import {reactive} from "vue";
+import {computed, inject, onMounted, ref} from "vue";
 
 defineProps(['title']);
+const can = inject('$can');
 
-const items = reactive([
+const items = ([
     {
         title: 'Головна',
         href: route('admin.statistics.index')
@@ -57,9 +58,9 @@ const items = reactive([
         title: 'Менеджери',
         href: route('admin.statistics.managers.index')
     },
-])
+]);
 
-const costItems = reactive([
+const costItems = ([
     {
         title: 'Витрати',
         href: route('admin.statistics.costs.index')

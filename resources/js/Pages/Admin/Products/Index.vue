@@ -5,7 +5,7 @@
         </template>
 
         <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading" class="grid gap-4 grid-cols-1">
+        <div v-if="!state.isLoading && can('show-products')" class="grid gap-4 grid-cols-1">
             <div>
                 <button-component type="btn" @click="create" v-if="can('create-products')">
                     Додати
@@ -62,8 +62,8 @@
 
             <div class="text-center">
                 <pagination :pagination="state.products"
-                          :click-handler="fetch"
-                          v-model="state.currentPage"
+                            :click-handler="fetch"
+                            v-model="state.currentPage"
                 />
             </div>
         </div>

@@ -5,7 +5,7 @@
         </template>
 
         <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading">
+        <div v-if="!state.isLoading && can('show-colors')">
             <button-component type="btn" @click="create" v-if="can('create-providers')">
                 Додати
             </button-component>
@@ -26,7 +26,7 @@
                     </a>
                 </template>
             </table-component>
-            <paginate  :pagination="state.colors"
+            <pagination  :pagination="state.colors"
                        :click-handler="fetch"
                        v-model="state.currentPage"
             />
