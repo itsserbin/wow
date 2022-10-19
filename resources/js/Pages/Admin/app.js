@@ -46,13 +46,10 @@ createInertiaApp({
 
         app.use(VueSweetalert2);
         app.use(user);
-        user.commit('load');
-        // console.log(user.commit('can','test'));
-        // app.provide(stateSymbol, createState());
+        // user.commit('load');
         app.provide('$can', function (val) {
             return user.state.permissions.includes(val);
         });
-        // app.provide('$can', can);
 
         // Layouts
         app.component('auth-layout', AuthenticatedLayout);

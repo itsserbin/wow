@@ -62,7 +62,7 @@ class OrdersStatisticCommand extends Command
         foreach ($statisticsAll as $item) {
             if ($item->applications !== ($item->completed + $item->refunds + $item->cancel)){
                 $item->applications = $this->ordersRepository->countOrdersByStatus(null, $item->date);
-                $item->unprocessed = $this->ordersRepository->countOrdersByStatus('unprocessed', $item->date);
+                $item->unprocessed = $this->ordersRepository->countOrdersByStatus('new', $item->date);
                 $item->completed = $this->ordersRepository->countOrdersByStatus('done', $item->date);
                 $item->refunds = $this->ordersRepository->countOrdersByStatus('return', $item->date);
                 $item->cancel = $this->ordersRepository->countOrdersByStatus('canceled', $item->date);

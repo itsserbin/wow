@@ -7,7 +7,6 @@ import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import {Link, Head} from '@inertiajs/inertia-vue3';
 import {useStore} from "vuex";
-// import {useState, getUser} from "@/Includes/user.js";
 
 const showingNavigationDropdown = ref(false);
 
@@ -17,7 +16,6 @@ defineProps(['title']);
 
 onMounted(() => {
     user.commit('load');
-    // getUser();
 })
 </script>
 
