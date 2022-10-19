@@ -42,13 +42,13 @@ class ApiNovaPoshtaCommand extends Command
     {
         $orders = Order::where([
             ['waybill', '!=', null],
-            ['status', '!=', OrderStatus::STATUS_NEW],
-            ['status', '!=', OrderStatus::STATUS_PROCESSED],
-            ['status', '!=', OrderStatus::STATUS_REQUIRES_CLARIFICATION],
-            ['status', '!=', OrderStatus::STATUS_RETURN],
-            ['status', '!=', OrderStatus::STATUS_CANCELED],
-            ['status', '!=', OrderStatus::STATUS_DONE],
-            ['status', '!=', OrderStatus::STATUS_AWAITING_PREPAYMENT],
+            ['status', '!=', 'new'],
+            ['status', '!=', 'processed'],
+            ['status', '!=', 'requires_clarification'],
+            ['status', '!=', 'return'],
+            ['status', '!=', 'canceled'],
+            ['status', '!=', 'done'],
+            ['status', '!=', 'awaiting_prepayment'],
         ])->select('id', 'status', 'waybill')->get();
 
         foreach ($orders as $item) {
@@ -80,15 +80,15 @@ class ApiNovaPoshtaCommand extends Command
                 $result = json_decode($response, true);
                 if (isset($result['data'][0])) {
                     if ($result['data'][0]['StatusCode'] === '1') {
-                        $item->status = OrderStatus::STATUS_AWAITING_DISPATCH;
+                        $item->status = 'awaiting_dispatch';
                     } elseif (in_array($result['data'][0]['StatusCode'], ['102', '103', '108'], true)) {
-                        $item->status = OrderStatus::STATUS_RETURN;
+                        $item->status = 'return';
                     } elseif (in_array($result['data'][0]['StatusCode'], ['7', '8'], true)) {
-                        $item->status = OrderStatus::STATUS_AT_THE_POST_OFFICE;
+                        $item->status = 'at_the_post_office';
                     } elseif (in_array($result['data'][0]['StatusCode'], ['5', '6', '101'], true)) {
-                        $item->status = OrderStatus::STATUS_ON_THE_ROAD;
+                        $item->status = 'on_the_road';
                     } elseif (in_array($result['data'][0]['StatusCode'], ['9', '10', '11'], true)) {
-                        $item->status = OrderStatus::STATUS_DONE;
+                        $item->status = 'done';
                     }
                 } else {
                     Log::error('id: ' . $item->id . "\n" . 'waybill:' . $item->waybill);

@@ -79,9 +79,9 @@ class SumManagersSalary extends Command
             $item->count_additional_sales = $this->orderItemsRepository->countAdditionalSales($item->date, $item->manager_id);
 
             $item->in_process_applications = $this->ordersRepository->sumIndefiniteApplications($item->date, $item->manager_id);
-            $item->returned_applications = $this->ordersRepository->countOrdersByStatus(OrderStatus::STATUS_RETURN, $item->date, $item->manager_id);
-            $item->canceled_applications = $this->ordersRepository->countOrdersByStatus(OrderStatus::STATUS_CANCELED, $item->date, $item->manager_id);
-            $item->done_applications = $this->ordersRepository->countOrdersByStatus(OrderStatus::STATUS_DONE, $item->date, $item->manager_id);
+            $item->returned_applications = $this->ordersRepository->countOrdersByStatus('return', $item->date, $item->manager_id);
+            $item->canceled_applications = $this->ordersRepository->countOrdersByStatus('canceled', $item->date, $item->manager_id);
+            $item->done_applications = $this->ordersRepository->countOrdersByStatus('done', $item->date, $item->manager_id);
             $item->total_applications = $this->ordersRepository->sumApprovalApplications($item->date, $item->manager_id);
 
             $item->count_sale_of_air = $this->ordersRepository->sumCountSalesOfAirMarginality($item->date, $item->manager_id);
