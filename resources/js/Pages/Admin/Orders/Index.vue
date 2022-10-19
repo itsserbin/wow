@@ -89,7 +89,7 @@ const getParams = computed(() => {
 
 onMounted(() => {
     fetch();
-    sidebar.value.push({title: 'Всі замовлення',key:'all'});
+    sidebar.value.push({title: 'Всі замовлення', key: 'all'});
     for (const [key, value] of Object.entries(props.statuses)) {
         sidebar.value.push({
             title: value,
@@ -110,8 +110,12 @@ function submitItemForm(data) {
 }
 
 function sortByStatus(status) {
-    params.value.status = status;
     state.value.sidebarActive = status;
+    if (status === 'all') {
+        params.value.status = null
+    } else {
+        params.value.status = status
+    }
     fetch();
 }
 
