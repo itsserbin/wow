@@ -92,8 +92,8 @@
                 </div>
                 <div class="block mb-5">
                     <label-component value="Сума доп.продажу повітря (грн.)"/>
-                    <input-component v-model="order.sale_of_air_sum" type="number" v-if="order.sale_of_air"/>
-                    <input-component v-model="order.sale_of_air_sum" type="number" v-else disabled/>
+                    <input-component v-model="order.sale_of_air_price" type="number" v-if="order.sale_of_air"/>
+                    <input-component v-model="order.sale_of_air_price" type="number" v-else disabled/>
                 </div>
             </div>
             <div class="grid grid-cols-2">
