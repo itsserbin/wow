@@ -59,9 +59,6 @@ onMounted(() => {
 
 const activeModal = computed(() => state.value.isActiveModal ? RolesModal : null)
 
-
-
-
 function fetch(page) {
     state.value.isLoading = true;
     if (page) {

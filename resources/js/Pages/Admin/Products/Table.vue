@@ -1,54 +1,61 @@
 <template>
-<table-component :headings="headings"
-                                 :isSlotMode="true"
-                                 :rows="state.products.data"
-                >
-                    <template v-slot:id="{data}">
-                        <a href="javascript:" @click="$emit('onEdit', data.row.id,data.i)">
-                            {{ data.row.id }}
-                        </a>
-                    </template>
+    <lang-tabs @clickLang="changeLang"/>
 
-                    <template v-slot:title="{data}">
-                        {{
-                            state.activeLang === 'ua' ? data.row.h1.ua :
-                                (state.activeLang === 'ru' ? data.row.h1.ru : null)
-                        }}
-                    </template>
+    <table-component :headings="headings"
+                     :isSlotMode="true"
+                     :rows="data"
+    >
+        <template v-slot:id="{data}">
+            <a href="javascript:" @click="$emit('onEdit', data.row.id,data.i)">
+                {{ data.row.id }}
+            </a>
+        </template>
 
-                    <template v-slot:published="{data}">
-                        {{ $filters.publishedStatus(data.row.published) }}
-                    </template>
+        <template v-slot:title="{data}">
+            {{
+                activeLang === 'ua' ? data.row.h1.ua :
+                    (activeLang === 'ru' ? data.row.h1.ru : null)
+            }}
+        </template>
 
-                    <template v-slot:price="{data}">
-                        {{ $filters.formatMoney(data.row.price) }}
-                    </template>
+        <template v-slot:published="{data}">
+            {{ $filters.publishedStatus(data.row.published) }}
+        </template>
 
-                    <template v-slot:discount_price="{data}">
-                        {{ $filters.formatMoney(data.row.discount_price) }}
-                    </template>
+        <template v-slot:price="{data}">
+            {{ $filters.formatMoney(data.row.price) }}
+        </template>
 
-                    <template v-slot:preview="{data}">
-                        <img :src="data.row.preview ? route('images.products.55',data.row.preview) : null"
-                             :alt="state.activeLang === 'ua' ? data.row.h1.ua :
-                            (state.activeLang === 'ru' ? data.row.h1.ru : null)"
-                             class="mx-auto"
-                        >
-                    </template>
+        <template v-slot:discount_price="{data}">
+            {{ $filters.formatMoney(data.row.discount_price) }}
+        </template>
 
-                    <template v-slot:actions="{data}">
-                        <a href="javascript:" @click="$emit('onDestroy', data.row.id)">
-                            <xcircle-component/>
-                        </a>
-                    </template>
-                </table-component>
+        <template v-slot:preview="{data}">
+            <img :src="data.row.preview ? route('images.products.55',data.row.preview) : null"
+                 :alt="activeLang === 'ua' ? data.row.h1.ua :
+                            (activeLang === 'ru' ? data.row.h1.ru : null)"
+                 class="mx-auto"
+            >
+        </template>
+
+        <template v-slot:actions="{data}">
+            <a href="javascript:" @click="$emit('onDestroy', data.row.id)">
+                <xcircle-component/>
+            </a>
+        </template>
+    </table-component>
 </template>
 
 
 <script setup>
-defineProps(['data']);
-defineEmits(['onDestroy','onEdit'])
+import {inject, ref} from "vue";
 
+defineProps(['data']);
+defineEmits(['onDestroy', 'onEdit'])
+
+const defaultLang = inject('$defaultLang');
+
+const activeLang = ref(defaultLang);
 
 const headings = [
     {
@@ -92,4 +99,8 @@ const headings = [
         key: 'actions'
     }
 ];
+
+function changeLang(val) {
+    activeLang.value = val;
+}
 </script>

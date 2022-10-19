@@ -10,7 +10,7 @@
                 Додати
             </button-component>
 
-            <Table :data="state.data.data"
+            <Table :data="state.reviews.data"
                    @onEdit="onEdit"
                    @onDestroy="onDestroy"
             />

@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="row flex justify-center my-5" v-if="state.images">
-                <paginate
+                <pagination
                     :click-handler="fetch"
                     :pagination="state.images"
                     v-model="state.currentPage"

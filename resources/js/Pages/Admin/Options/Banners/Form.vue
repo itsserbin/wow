@@ -45,21 +45,21 @@
                     <UploadBannersInput label="Зображення для мобільних"
                                         @upload="uploadImageMobileRu"
                                         v-if="state.activeLang === 'ru'"
-                                        :image="item.image_mobile.ru"
+                                        :image="item.image_mobile.ru ? route('images.banners.mobile',{filename:item.image_mobile.ru}) : null"
                                         @onDestroyImage="destroyImage('mobile','ru')"
                     />
                 </div>
 
                 <div class="block">
                     <UploadBannersInput @upload="uploadImageTableRu"
-                                        :image="item.image_table.ru"
+                                        :image="item.image_table.ru ? route('images.banners.mobile',{filename:item.image_table.ru}) : null"
                                         @onDestroyImage="destroyImage('table','ru')"
                                         v-if="state.activeLang === 'ru'"
                     />
 
                     <UploadBannersInput label="Зображення для планшетів"
                                         @upload="uploadImageTableUa"
-                                        :image="item.image_table.ua"
+                                        :image="item.image_table.ua ? route('images.banners.mobile',{filename:item.image_table.ua}) : null"
                                         @onDestroyImage="destroyImage('table','ua')"
                                         v-if="state.activeLang === 'ua'"
                     />
@@ -68,14 +68,14 @@
             <div class="block">
                 <UploadBannersInput label="Зображення для компʼютерів"
                                     @upload="uploadImageDesktopRu"
-                                    :image="item.image_desktop.ru"
+                                    :image="item.image_desktop.ru ? route('images.banners.mobile',{filename:item.image_desktop.ru}) : null"
                                     @onDestroyImage="destroyImage('desktop','ru')"
                                     v-if="state.activeLang === 'ru'"
                 />
 
                 <UploadBannersInput label="Зображення для компʼютерів"
                                     @upload="uploadImageDesktopUa"
-                                    :image="item.image_desktop.ua"
+                                    :image="item.image_desktop.ua ? route('images.banners.mobile',{filename:item.image_desktop.ua}) : null"
                                     @onDestroyImage="destroyImage('desktop','ua')"
                                     v-if="state.activeLang === 'ua'"
                 />

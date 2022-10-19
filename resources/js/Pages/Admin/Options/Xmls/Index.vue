@@ -10,9 +10,6 @@
                 Додати
             </button-component>
 
-            <lang-tabs @clickLang="changeLang"/>
-
-
             <Table :data="state.data.data"
                         @onEdit="onEdit"
                         @onDestroy="onDestroy"
@@ -47,8 +44,7 @@ const item = reactive({
     title: null,
     description: null,
     category: null,
-})
-const defaultLang = inject('$defaultLang');
+});
 
 const state = ref({
     data: [],
@@ -64,12 +60,6 @@ onMounted(() => {
 })
 
 const activeModal = computed(() => state.value.isActiveModal ? Modal : null)
-
-
-
-function changeLang(val) {
-    state.value.activeLang = val;
-}
 
 function fetch(page) {
     state.value.isLoading = true;

@@ -10,16 +10,14 @@
                 Додати
             </button-component>
 
-            <lang-tabs @clickLang="changeLang"/>
-
             <Table :data="state.data.data"
-                        @onEdit="onEdit"
-                        @onDestroy="onDestroy"
-                />
+                   @onEdit="onEdit"
+                   @onDestroy="onDestroy"
+            />
 
             <pagination :pagination="state.data"
-                      :click-handler="fetch"
-                      v-model="state.currentPage"
+                        :click-handler="fetch"
+                        v-model="state.currentPage"
             />
             <component :is="activeModal"
                        :item="state.item"
@@ -37,7 +35,6 @@ import {reactive, onMounted, inject, ref, computed} from "vue";
 import BannersModal from '@/Pages/Admin/Options/Banners/Modal.vue';
 import OptionsLayout from '@/Pages/Admin/Options/OptionsLayout.vue'
 import Table from '@/Pages/Admin/Options/Banners/Table.vue';
-
 
 
 const swal = inject('$swal')
@@ -66,7 +63,6 @@ const item = reactive({
     },
     published: 0,
 })
-const defaultLang = inject('$defaultLang');
 
 const state = ref({
     data: [],
@@ -75,7 +71,6 @@ const state = ref({
     isActiveModal: false,
     modalAction: '',
     item: item,
-    activeLang: defaultLang
 });
 
 onMounted(() => {
@@ -84,11 +79,6 @@ onMounted(() => {
 
 const activeModal = computed(() => state.value.isActiveModal ? BannersModal : null)
 
-
-
-function changeLang(val) {
-    state.value.activeLang = val;
-}
 
 function fetch(page) {
     state.value.isLoading = true;

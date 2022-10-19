@@ -10,14 +10,14 @@
                 Додати
             </button-component>
 
-            <Table :data="state.data.data"
-                        @onEdit="onEdit"
-                        @onDestroy="onDestroy"
-                />
+            <Table :data="state.colors.data"
+                   @onEdit="onEdit"
+                   @onDestroy="onDestroy"
+            />
 
-            <paginate  :pagination="state.colors"
-                       :click-handler="fetch"
-                       v-model="state.currentPage"
+            <pagination :pagination="state.colors"
+                        :click-handler="fetch"
+                        v-model="state.currentPage"
             />
             <component :is="activeModal"
                        :item="state.item"
@@ -34,6 +34,7 @@ import {reactive, onMounted, inject, ref, computed} from "vue";
 import ColorModal from '@/Pages/Admin/Options/Colors/Modal.vue';
 import OptionsLayout from '@/Pages/Admin/Options/OptionsLayout.vue'
 import Table from '@/Pages/Admin/Options/Colors/Table.vue'
+
 const swal = inject('$swal')
 const can = inject('$can');
 
@@ -56,8 +57,6 @@ onMounted(() => {
 })
 
 const activeModal = computed(() => state.value.isActiveModal ? ColorModal : null)
-
-
 
 
 function fetch(page) {

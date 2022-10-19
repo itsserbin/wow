@@ -13,11 +13,10 @@
             </div>
 
             <div>
-                <lang-tabs @clickLang="changeLang"/>
 
                 <Table :data="state.data.data"
-                        @onEdit="onEdit"
-                        @onDestroy="onDestroy"
+                       @onEdit="onEdit"
+                       @onDestroy="onDestroy"
                 />
 
             </div>
@@ -45,7 +44,6 @@ import Table from '@/Pages/Admin/Pages/Table.vue'
 
 const swal = inject('$swal')
 const can = inject('$can');
-const defaultLang = inject('$defaultLang');
 
 const item = reactive({
     slug: null,
@@ -79,21 +77,13 @@ const state = ref({
     isActiveModal: false,
     modalAction: '',
     item: {},
-    activeLang: defaultLang
 });
 
 onMounted(() => {
     fetch(1);
 })
 
-function changeLang(val) {
-    state.value.activeLang = val;
-}
-
 const activeModal = computed(() => state.value.isActiveModal ? Modal : null)
-
-
-
 
 function fetch(page) {
     state.value.isLoading = true;

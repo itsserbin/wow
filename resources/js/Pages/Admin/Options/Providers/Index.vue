@@ -10,14 +10,14 @@
                 Додати
             </button-component>
 
-            <Table :data="state.data.data"
-                        @onEdit="onEdit"
-                        @onDestroy="onDestroy"
-                />
+            <Table :data="state.providers.data"
+                   @onEdit="onEdit"
+                   @onDestroy="onDestroy"
+            />
 
-            <pagination  :pagination="state.providers"
-                       :click-handler="fetch"
-                       v-model="state.currentPage"
+            <pagination :pagination="state.providers"
+                        :click-handler="fetch"
+                        v-model="state.currentPage"
             />
             <component :is="activeModal"
                        :item="state.item"
@@ -66,8 +66,6 @@ onMounted(() => {
 })
 
 const activeModal = computed(() => state.value.isActiveModal ? ProviderModal : null)
-
-
 
 
 function fetch(page) {

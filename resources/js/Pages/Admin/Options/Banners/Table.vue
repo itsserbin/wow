@@ -1,6 +1,7 @@
-
 <template>
-    <table-component :headings="headings" :isSlotMode="true" :rows="state.data.data">
+    <lang-tabs @clickLang="changeLang"/>
+
+    <table-component :headings="headings" :isSlotMode="true" :rows="data">
         <template v-slot:id="{data}">
             <a href="javascript:" @click="$emit('onEdit',data.row.id,data.i)">
                 {{ data.row.id }}
@@ -8,26 +9,28 @@
         </template>
 
         <template v-slot:image="{data}">
-            <img :src="state.activeLang === 'ua' ? data.row.image_mobile.ua :
-            (state.activeLang === 'ru' ? data.row.image_mobile.ru : null)" :alt=" state.activeLang === 'ua' ? data.row.title.ua :
-(state.activeLang === 'ru' ? data.row.title.ru : null)" class="w-1/4 mx-auto">
+            <img :src="data.row.image_mobile.ua ? route('images.banners.mobile',data.row.image_mobile.ua) :
+                        (data.row.image_mobile.ru ? route('images.banners.mobile',data.row.image_mobile.ru) : null)"
+                 :alt="activeLang === 'ua' ? data.row.title.ua :
+                        (activeLang === 'ru' ? data.row.title.ru : null)"
+                 class="w-1/4 mx-auto">
         </template>
 
         <template v-slot:title="{data}">
             {{
-            state.activeLang === 'ua' ? data.row.title.ua :
-            (state.activeLang === 'ru' ? data.row.title.ru : null)
+                activeLang === 'ua' ? data.row.title.ua :
+                    (activeLang === 'ru' ? data.row.title.ru : null)
             }}
         </template>
 
         <template v-slot:published="{data}">
-            {{$filters.publishedStatus(data.row.published)}}
+            {{ $filters.publishedStatus(data.row.published) }}
         </template>
 
         <template v-slot:link="{data}">
             {{
-            state.activeLang === 'ua' ? data.row.link.ua :
-            (state.activeLang === 'ru' ? data.row.link.ru : null)
+                activeLang === 'ua' ? data.row.link.ua :
+                    (activeLang === 'ru' ? data.row.link.ru : null)
             }}
         </template>
 
@@ -39,7 +42,7 @@
 
         <template v-slot:actions="{data}">
             <a href="javascript:" @click="$emit('onDestroy', data.row.id)">
-                <xcircle-component />
+                <xcircle-component/>
             </a>
         </template>
     </table-component>
@@ -47,8 +50,14 @@
 
 
 <script setup>
+import {inject, ref} from "vue";
+
 defineProps(['data']);
-defineEmits(['onDestroy','onEdit']);
+defineEmits(['onDestroy', 'onEdit']);
+
+const defaultLang = inject('$defaultLang');
+
+const activeLang = ref(defaultLang);
 
 const headings = [
     {
@@ -80,4 +89,8 @@ const headings = [
         key: 'actions'
     }
 ];
+
+function changeLang(val) {
+    activeLang.value = val;
+}
 </script>

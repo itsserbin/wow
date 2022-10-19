@@ -16,7 +16,12 @@
                 </button-component>
             </div>
 
-            <Table :data="state.reviews.data" class="mb-5"/>
+            <Table :data="state.reviews.data"
+                   class="mb-5"
+                   @onEdit="onEdit"
+                   @onDestroy="onDestroy"
+                   @publishReview="publishReview"
+            />
             <div class="text-center">
                 <pagination :pagination="state.reviews"
                             :click-handler="fetch"

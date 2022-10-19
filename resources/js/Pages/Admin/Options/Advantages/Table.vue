@@ -1,5 +1,7 @@
 <template>
-    <table-component :headings="headings" :isSlotMode="true" :rows="state.data.data">
+    <lang-tabs @clickLang="changeLang"/>
+
+    <table-component :headings="headings" :isSlotMode="true" :rows="data">
         <template v-slot:id="{data}">
             <a href="javascript:" @click="$emit('onEdit',data.row.id,data.i)">
                 {{ data.row.id }}
@@ -12,8 +14,8 @@
 
         <template v-slot:text="{data}">
             {{
-            state.activeLang === 'ua' ? data.row.text.ua :
-            (state.activeLang === 'ru' ? data.row.text.ru : null)
+                activeLang === 'ua' ? data.row.text.ua :
+                    (activeLang === 'ru' ? data.row.text.ru : null)
             }}
         </template>
 
@@ -29,7 +31,7 @@
 
         <template v-slot:actions="{data}">
             <a href="javascript:" @click="$emit('onDestroy',data.row.id)">
-                <xcircle-component />
+                <xcircle-component/>
             </a>
         </template>
     </table-component>
@@ -37,8 +39,14 @@
 
 
 <script setup>
+import {inject, ref} from "vue";
+
 defineProps(['data']);
 defineEmits(['onDestroy', 'onEdit'])
+
+const defaultLang = inject('$defaultLang');
+
+const activeLang = ref(defaultLang);
 
 const headings = [
     {
@@ -67,4 +75,7 @@ const headings = [
     }
 ];
 
+function changeLang(val) {
+    activeLang.value = val;
+}
 </script>

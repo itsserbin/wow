@@ -33,7 +33,6 @@ class AdminController extends Controller
 
     public function products(): Response
     {
-        dd(Carbon::now()->subDays(7)->format('Y-m-d'), Carbon::now()->endOfWeek()->format('Y-m-d'));
         return Inertia::render('Products/Index');
     }
 

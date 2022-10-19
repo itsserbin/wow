@@ -31,6 +31,9 @@
                 <input-component v-model="order.client.phone" type="text" disabled/>
             </div>
         </div>
+        <div class="block" v-if="order.client.orders.length > 1">
+            <ClientOrders :data="order.client.orders" :statuses="statuses"/>
+        </div>
         <hr>
         <div class="grid grid-cols-1 md:grid-cols-4 mb-5">
             <div class="block mb-5 md:mr-5">
@@ -168,6 +171,7 @@
 import {computed, onMounted, reactive, ref, inject} from "vue";
 import ModalAddItemToOrder from '@/Pages/Admin/Orders/ItemsModal.vue'
 import ItemsTable from '@/Pages/Admin/Orders/ItemsTable.vue'
+import ClientOrders from '@/Pages/Admin/Orders/ClientOrders.vue'
 
 const emits = defineEmits([
     'submitItemForm'

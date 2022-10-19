@@ -13,11 +13,10 @@
             </div>
 
             <div>
-                <lang-tabs @clickLang="changeLang"/>
 
-                <Table :data="state.data.data"
-                        @onEdit="onEdit"
-                        @onDestroy="onDestroy"
+                <Table :data="state.products.data"
+                       @onEdit="onEdit"
+                       @onDestroy="onDestroy"
                 />
 
             </div>
@@ -85,15 +84,12 @@ const product = reactive({
     colors: [],
 })
 
-const defaultLang = inject('$defaultLang');
-
 const state = ref({
     products: [],
     currentPage: 1,
     isLoading: true,
     isActiveModal: false,
     modalAction: '',
-    activeLang: defaultLang,
     item: product,
 });
 
@@ -108,20 +104,14 @@ onMounted(() => {
 
 const activeModal = computed(() => state.value.isActiveModal ? ProductModal : null)
 
-
-
-function changeLang(val) {
-    state.value.activeLang = val;
-}
-
 function fetch(page) {
     state.value.isLoading = true;
     if (page) {
         state.value.currentPage = page;
     }
     axios.get(route('api.products.index', {'page': state.value.currentPage}))
-        .then(response => {
-            Object.assign(state.value.products, response.data.result);
+        .then(({data}) => {
+            state.value.products = data.result;
             state.value.isLoading = false;
         })
         .catch(errors => {

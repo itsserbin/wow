@@ -1,32 +1,33 @@
 <template>
- <table-component :headings="headings"
-                    :isSlotMode="true"
-                    :rows="data"
->
-    <template v-slot:id="{data}">
-        <a href="javascript:" @click="$emit('onEdit',data.row.id,data.i)">
-            {{ data.row.id }}
-        </a>
-    </template>
+    <table-component :headings="headings"
+                     :isSlotMode="true"
+                     :rows="data"
+    >
+        <template v-slot:id="{data}">
+            <a href="javascript:" @click="$emit('onEdit',data.row.id,data.i)">
+                {{ data.row.id }}
+            </a>
+        </template>
+        <template #status="{data}">
+            {{ statuses[data.row.status] }}
+        </template>
+        <template v-slot:timestamps="{data}">
+            {{ $filters.dateFormat(data.row.updated_at) }}
+            <hr class="my-1">
+            {{ $filters.dateFormat(data.row.created_at) }}
+        </template>
 
-
-    <template v-slot:timestamps="{data}">
-        {{ $filters.dateFormat(data.row.updated_at) }}
-        <hr class="my-1">
-        {{ $filters.dateFormat(data.row.created_at) }}
-    </template>
-
-    <template v-slot:actions="{data}">
-        <a href="javascript:" @click="$emit('onDestroy', data.row.id)">
-            <xcircle-component/>
-        </a>
-    </template>
-</table-component>
+        <template v-slot:actions="{data}">
+            <a href="javascript:" @click="$emit('onDestroy', data.row.id)">
+                <xcircle-component/>
+            </a>
+        </template>
+    </table-component>
 </template>
 
 <script setup>
-defineProps(['data']);
-defineEmits(['onDestroy','onEdit'])
+defineProps(['data', 'statuses']);
+defineEmits(['onDestroy', 'onEdit'])
 
 const headings = [
     {

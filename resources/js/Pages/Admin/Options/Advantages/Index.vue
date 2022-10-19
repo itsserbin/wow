@@ -10,7 +10,6 @@
                 Додати
             </button-component>
 
-            <lang-tabs @clickLang="changeLang"/>
 
             <Table :data="state.data.data"
                    @onEdit="onEdit"
@@ -35,7 +34,7 @@
 import {reactive, onMounted, inject, ref, computed} from "vue";
 import Modal from '@/Pages/Admin/Options/Advantages/Modal.vue';
 import OptionsLayout from '@/Pages/Admin/Options/OptionsLayout.vue'
-import Table from '@/Pages/Admin/Advantages/Table.vue';
+import Table from '@/Pages/Admin/Options/Advantages/Table.vue';
 
 
 const swal = inject('$swal')
@@ -49,7 +48,6 @@ const item = reactive({
     icon: null,
     published: 0
 })
-const defaultLang = inject('$defaultLang');
 
 const state = ref({
     data: [],
@@ -58,7 +56,6 @@ const state = ref({
     isActiveModal: false,
     modalAction: '',
     item: item,
-    activeLang: defaultLang
 });
 
 onMounted(() => {
@@ -66,11 +63,6 @@ onMounted(() => {
 })
 
 const activeModal = computed(() => state.value.isActiveModal ? Modal : null)
-
-
-function changeLang(val) {
-    state.value.activeLang = val;
-}
 
 function fetch(page) {
     state.value.isLoading = true;

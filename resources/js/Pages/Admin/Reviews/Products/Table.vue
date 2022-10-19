@@ -4,7 +4,7 @@
                      :rows="data"
     >
         <template v-slot:id="{data}">
-            <a href="javascript:" @click="onEdit(data.row.id,data.i)">
+            <a href="javascript:" @click="$emit('onEdit',data.row.id,data.i)">
                 {{ data.row.id }}
             </a>
         </template>
@@ -23,7 +23,7 @@
             {{ $filters.publishedStatus(data.row.published) }}
             <div v-if="!data.row.published">
                 <hr class="my-1">
-                <a @click="publishReview(data.row.id)"
+                <a @click="$emit('publishReview',data.row.id)"
                    href="javascript:"
                    class="text-blue-600"
                 >
@@ -39,7 +39,7 @@
         </template>
 
         <template v-slot:actions="{data}">
-            <a href="javascript:" @click="onDestroy(data.row.id)">
+            <a href="javascript:" @click="$emit('onDestroy',data.row.id)">
                 <xcircle-component/>
             </a>
         </template>
@@ -47,7 +47,8 @@
 </template>
 
 <script setup>
-defineProps(['data'])
+defineProps(['data']);
+defineEmits(['onDestroy', 'publishReview','onEdit'])
 
 const headings = ([
     {

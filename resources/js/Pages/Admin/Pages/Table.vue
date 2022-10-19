@@ -1,50 +1,58 @@
 <template>
- <table-component :headings="headings"
-                                 :isSlotMode="true"
-                                 :rows="state.data.data"
-                >
-                    <template v-slot:id="{data}">
-                        <a href="javascript:" @click="$emit('onEdit', data.row.id,data.i)">
-                            {{ data.row.id }}
-                        </a>
-                    </template>
+    <lang-tabs @clickLang="changeLang"/>
 
-                    <template v-slot:heading="{data}">
-                        {{
-                            state.activeLang === 'ua' ? data.row.heading.ua :
-                                (state.activeLang === 'ru' ? data.row.heading.ru : '-')
-                        }}
-                    </template>
+    <table-component :headings="headings"
+                     :isSlotMode="true"
+                     :rows="data"
+    >
+        <template v-slot:id="{data}">
+            <a href="javascript:" @click="$emit('onEdit', data.row.id,data.i)">
+                {{ data.row.id }}
+            </a>
+        </template>
 
-                    <template v-slot:h1="{data}">
-                        {{
-                            state.activeLang === 'ua' ? data.row.h1.ua :
-                                (state.activeLang === 'ru' ? data.row.h1.ru : '-')
-                        }}
-                    </template>
+        <template v-slot:heading="{data}">
+            {{
+                activeLang === 'ua' ? data.row.heading.ua :
+                    (activeLang === 'ru' ? data.row.heading.ru : '-')
+            }}
+        </template>
 
-                    <template v-slot:published="{data}">
-                        {{ $filters.publishedStatus(data.row.published) }}
-                    </template>
+        <template v-slot:h1="{data}">
+            {{
+                activeLang === 'ua' ? data.row.h1.ua :
+                    (activeLang === 'ru' ? data.row.h1.ru : '-')
+            }}
+        </template>
 
-                    <template v-slot:timestamps="{data}">
-                        {{ $filters.dateFormat(data.row.updated_at) }}
-                        <hr class="my-1">
-                        {{ $filters.dateFormat(data.row.created_at) }}
-                    </template>
+        <template v-slot:published="{data}">
+            {{ $filters.publishedStatus(data.row.published) }}
+        </template>
 
-                    <template v-slot:actions="{data}">
-                        <a href="javascript:" @click="$emit('onDestroy', data.row.id)">
-                            <xcircle-component/>
-                        </a>
-                    </template>
-                </table-component>
+        <template v-slot:timestamps="{data}">
+            {{ $filters.dateFormat(data.row.updated_at) }}
+            <hr class="my-1">
+            {{ $filters.dateFormat(data.row.created_at) }}
+        </template>
+
+        <template v-slot:actions="{data}">
+            <a href="javascript:" @click="$emit('onDestroy', data.row.id)">
+                <xcircle-component/>
+            </a>
+        </template>
+    </table-component>
 </template>
 
 
 <script setup>
+import {inject, ref} from "vue";
+
 defineProps(['data']);
-defineEmits(['onDestroy','onEdit'])
+defineEmits(['onDestroy', 'onEdit'])
+
+const defaultLang = inject('$defaultLang');
+
+const activeLang = ref(defaultLang);
 
 const headings = [
     {
@@ -72,4 +80,9 @@ const headings = [
         key: 'actions'
     }
 ];
+
+
+function changeLang(val) {
+    activeLang.value = val;
+}
 </script>

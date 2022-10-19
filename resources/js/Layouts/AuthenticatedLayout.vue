@@ -37,7 +37,8 @@ onMounted(() => {
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 xl:flex">
-                                <NavLink :href="route('admin.dashboard')" :active="route().current('admin.dashboard')">
+                                <NavLink :href="route('admin.dashboard')"
+                                         :active="route().current('admin.dashboard')">
                                     Головна
                                 </NavLink>
 
@@ -52,7 +53,7 @@ onMounted(() => {
                                 </NavLink>
 
                                 <NavLink :href="route('admin.reviews.product.index')"
-                                         :active="route().current('admin.reviews.product.index')">
+                                         :active="route().current('admin.reviews.*')">
                                     Відгуки
                                 </NavLink>
 
@@ -161,7 +162,7 @@ onMounted(() => {
                         </ResponsiveNavLink>
 
                         <ResponsiveNavLink :href="route('admin.reviews.product.index')"
-                                           :active="route().current('admin.reviews.product.index')">
+                                           :active="route().current('admin.reviews.*')">
                             Відгуки
                         </ResponsiveNavLink>
 

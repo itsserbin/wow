@@ -100,6 +100,7 @@ onMounted(() => {
         });
 
     if (route().params.id){
+        state.value.isLoading = true;
         onEdit(route().params.id);
     }
 });
@@ -187,6 +188,7 @@ function onEdit(id, i) {
             state.value.modal.index = i;
             state.value.modal = data.result;
             editModalFunction();
+            state.value.isLoading = false;
         })
         .catch((errors) => console.log(errors))
 }
