@@ -303,7 +303,7 @@ class ProductsRepository extends CoreRepository
 
         $model->price = $data['price'];
         $model->discount_price = $data['discount_price'];
-        $model->provider_id = is_array($data['provider_id']) ? $data['provider_id']['id'] : null;
+        $model->provider_id = $data['provider_id'];
         $model->trade_price = $data['trade_price'];
         $model->vendor_code = $data['vendor_code'];
         $model->preview = $data['preview'];
