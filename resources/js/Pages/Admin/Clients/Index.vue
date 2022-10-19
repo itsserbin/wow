@@ -97,7 +97,11 @@ onMounted(() => {
                     key: key,
                 })
             }
-        })
+        });
+
+    if (route().params.id){
+        onEdit(route().params.id);
+    }
 });
 
 const editModal = computed(() => state.value.isActiveEditModal ? Modal : null);

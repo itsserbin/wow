@@ -15,7 +15,7 @@
             </div>
             <div class="block">
                 <label-component value="&nbsp;"/>
-                <button-component class="w-full">
+                <button-component class="w-full" @click="goClient">
                     Картка клієнта
                 </button-component>
             </div>
@@ -223,7 +223,6 @@ const parcelReminderValues = reactive([
 ])
 
 function sendWaybill() {
-    console.log(props.order.client.phone);
     if (props.order.waybill) {
         axios.post(route('notify.waybill'), {
             phone: props.order.client.phone,
@@ -255,6 +254,13 @@ function sendWaybill() {
                 console.log(response)
             });
     }
+}
+
+function goClient() {
+    window.open(
+        route('admin.clients.index', {id: props.order.client.id}),
+        '_blank'
+    )
 }
 
 function submitItemForm() {

@@ -25,7 +25,7 @@ onMounted(() => {
         <div class="min-h-screen">
             <nav class="bg-white border-b border-gray-100 dark:bg-gray-800 dark:border-gray-700">
                 <!-- Primary Navigation Menu -->
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="container mx-auto">
                     <div class="flex justify-between h-16">
                         <div class="flex">
                             <!-- Logo -->
@@ -219,7 +219,7 @@ onMounted(() => {
 
             <!-- Page Heading -->
             <header class="bg-white shadow dark:bg-gray-700 " v-if="$slots.header">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                <div class="container mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     <h2 class="font-semibold text-xl text-gray-800 leading-tight dark:text-gray-300">
                         <slot name="header"/>
                     </h2>
@@ -229,7 +229,7 @@ onMounted(() => {
             <!-- Page Content -->
             <main>
                 <div class="py-12">
-                    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <div class="container mx-auto">
                         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                             <div class="p-6 bg-white border-gray-200 dark:bg-gray-600">
                                 <slot/>
