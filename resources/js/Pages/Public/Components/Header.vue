@@ -322,7 +322,7 @@
         </template>
     </modal>
     
-    <button @click="scrollTop" id="myBtn"
+    <button @click="scrollTop()" id="myBtn"
         class=" cursor-pointer items-center z-[-1] bg-gray-500 rounded-[50%] h-[50px] justify-center left-[2%] bottom-[5%] fixed w-[50px]" 
         ><span class="icon-arrow-up2 "><svg xmlns="http://www.w3.org/2000/svg" width="16"
                 height="16" fill="currentColor" class="bi bi-arrow-up mx-auto" viewBox="0 0 16 16">
@@ -346,22 +346,25 @@ const state = ref({
     
 })
 
+var idBtn;
+
+
 
 function scrollTop(){
-    myBtn.onclick = function() {
+ 
+  
         window.scrollTo({scrollX, top:0, behavior: 'smooth'});
-    };
+  
    
     window.addEventListener('scrollY', function() {
-      myBtn.classList.add('hide');
+        myBtn.classList.add('hide');
     });
 
     window.addEventListener('scroll', function() {
-      myBtn.classList.remove('hide')
-      myBtn.hidden = (scrollY < document.documentElement.clientHeight);
+        myBtn.classList.remove('hide')
+        myBtn.hidden = (scrollY < document.documentElement.clientHeight);
     });
  }
-
 
 
 const props = defineProps([
@@ -424,6 +427,8 @@ function setLangActiveClass() {
     state.value.langActiveClass = !state.value.langActiveClass;
 }
 </script>
+
+
 
 <style scoped>
 .hide{
