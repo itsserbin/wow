@@ -23,6 +23,7 @@ onMounted(() => {
                 rounded-md
                 shadow-sm
                 w-full
+                text-black
                 dark:bg-gray-700
                 dark:border-gray-600
                 dark:placeholder-gray-400
