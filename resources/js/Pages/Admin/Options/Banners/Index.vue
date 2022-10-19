@@ -12,55 +12,11 @@
 
             <lang-tabs @clickLang="changeLang"/>
 
-            <table-component :headings="headings"
-                             :isSlotMode="true"
-                             :rows="state.data.data"
-            >
-                <template v-slot:id="{data}">
-                    <a href="javascript:" @click="onEdit(data.row.id,data.i)">
-                        {{ data.row.id }}
-                    </a>
-                </template>
-
-                <template v-slot:image="{data}">
-                    <img :src="state.activeLang === 'ua' ? data.row.image_mobile.ua :
-                            (state.activeLang === 'ru' ? data.row.image_mobile.ru : null)"
-                         :alt=" state.activeLang === 'ua' ? data.row.title.ua :
-                            (state.activeLang === 'ru' ? data.row.title.ru : null)"
-                         class="w-1/4 mx-auto"
-                    >
-                </template>
-
-                <template v-slot:title="{data}">
-                    {{
-                        state.activeLang === 'ua' ? data.row.title.ua :
-                            (state.activeLang === 'ru' ? data.row.title.ru : null)
-                    }}
-                </template>
-
-                <template v-slot:published="{data}">
-                    {{$filters.publishedStatus(data.row.published)}}
-                </template>
-
-                <template v-slot:link="{data}">
-                    {{
-                        state.activeLang === 'ua' ? data.row.link.ua :
-                            (state.activeLang === 'ru' ? data.row.link.ru : null)
-                    }}
-                </template>
-
-                <template v-slot:timestamps="{data}">
-                    {{ $filters.dateFormat(data.row.updated_at) }}
-                    <hr class="my-1">
-                    {{ $filters.dateFormat(data.row.created_at) }}
-                </template>
-
-                <template v-slot:actions="{data}">
-                    <a href="javascript:" @click="onDestroy(data.row.id)">
-                        <xcircle-component/>
-                    </a>
-                </template>
-            </table-component>
+            <Table :data="state.data.data"
+                        @onEdit="onEdit"
+                        @onDestroy="onDestroy"
+                />
+           
             <paginate :pagination="state.data"
                       :click-handler="fetch"
                       v-model="state.currentPage"
@@ -80,6 +36,9 @@
 import {reactive, onMounted, inject, ref, computed} from "vue";
 import BannersModal from '@/Pages/Admin/Options/Banners/Modal.vue';
 import OptionsLayout from '@/Pages/Admin/Options/OptionsLayout.vue'
+import Table from '@/Pages/Admin/Options/Banners/Table.vue';
+
+
 
 const swal = inject('$swal')
 const can = inject('$can');
@@ -125,36 +84,7 @@ onMounted(() => {
 
 const activeModal = computed(() => state.value.isActiveModal ? BannersModal : null)
 
-const headings = reactive([
-    {
-        label: 'ID',
-        key: 'id'
-    },
-    {
-        label: 'Фото',
-        key: 'image'
-    },
-    {
-        label: 'Назва',
-        key: 'title'
-    },
-    {
-        label: 'Статус',
-        key: 'published'
-    },
-    {
-        label: 'Посилання',
-        key: 'link'
-    },
-    {
-        label: "Оновлено<hr class='my-1'>Створено",
-        key: 'timestamps'
-    },
-    {
-        label: '#',
-        key: 'actions'
-    }
-]);
+
 
 function changeLang(val) {
     state.value.activeLang = val;

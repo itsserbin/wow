@@ -9,23 +9,12 @@
             <button-component type="btn" @click="create" v-if="can('create-providers')">
                 Додати
             </button-component>
-
-            <table-component :headings="headings"
-                             :isSlotMode="true"
-                             :rows="state.colors.data"
-            >
-                <template v-slot:id="{data}">
-                    <a href="javascript:" @click="onEdit(data.row.id,data.i)">
-                        {{ data.row.id }}
-                    </a>
-                </template>
-
-                <template v-slot:actions="{data}">
-                    <a href="javascript:" @click="onDestroy(data.row.id)">
-                        <xcircle-component/>
-                    </a>
-                </template>
-            </table-component>
+            
+            <Table :data="state.data.data"
+                        @onEdit="onEdit"
+                        @onDestroy="onDestroy"
+                />
+            
             <paginate  :pagination="state.colors"
                        :click-handler="fetch"
                        v-model="state.currentPage"
@@ -44,7 +33,7 @@
 import {reactive, onMounted, inject, ref, computed} from "vue";
 import ColorModal from '@/Pages/Admin/Options/Colors/Modal.vue';
 import OptionsLayout from '@/Pages/Admin/Options/OptionsLayout.vue'
-
+import Table from '@/Pages/Admin/Options/Colors/Table.vue'
 const swal = inject('$swal')
 const can = inject('$can');
 
@@ -68,32 +57,7 @@ onMounted(() => {
 
 const activeModal = computed(() => state.value.isActiveModal ? ColorModal : null)
 
-const headings = reactive([
-    {
-        label: 'ID',
-        key: 'id'
-    },
-    {
-        label: 'Колір',
-        key: 'color'
-    },
-    {
-        label: 'Назва',
-        key: 'name'
-    },
-    {
-        label: 'HEX',
-        key: 'hex'
-    },
-    {
-        label: "Оновлено<hr class='my-1'>Створено",
-        key: 'timestamps'
-    },
-    {
-        label: '#',
-        key: 'actions'
-    }
-]);
+
 
 
 function fetch(page) {

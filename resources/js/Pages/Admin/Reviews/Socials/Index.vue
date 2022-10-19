@@ -10,32 +10,11 @@
                 Додати
             </button-component>
 
-            <table-component :headings="headings"
-                             :isSlotMode="true"
-                             :rows="state.reviews.data"
-            >
-                <template v-slot:id="{data}">
-                    <a href="javascript:" @click="onEdit(data.row.id,data.i)">
-                        {{ data.row.id }}
-                    </a>
-                </template>
+            <Table :data="state.data.data"
+                        @onEdit="onEdit"
+                        @onDestroy="onDestroy"
+                />
 
-                <template v-slot:published="{data}">
-                    {{ $filters.publishedStatus(data.row.published) }}
-                </template>
-
-                <template v-slot:timestamps="{data}">
-                    {{ $filters.dateFormat(data.row.updated_at) }}
-                    <hr class="my-1">
-                    {{ $filters.dateFormat(data.row.created_at) }}
-                </template>
-
-                <template v-slot:actions="{data}">
-                    <a href="javascript:" @click="onDestroy(data.row.id)">
-                        <xcircle-component/>
-                    </a>
-                </template>
-            </table-component>
             <paginate  :pagination="state.reviews"
                        :click-handler="fetch"
                        v-model="state.currentPage"
@@ -54,6 +33,8 @@
 import {reactive, onMounted, inject, ref, computed} from "vue";
 import SocialReviewModal from '@/Pages/Admin/Reviews/Socials/Modal.vue';
 import ReviewsLayout from '@/Pages/Admin/Reviews/ReviewsLayout.vue';
+import Table from '@/Pages/Admin/Reviews/Socials/Table.vue'
+
 
 const swal = inject('$swal')
 const can = inject('$can');
@@ -77,42 +58,6 @@ onMounted(() => {
 })
 
 const activeModal = computed(() => state.value.isActiveModal ? SocialReviewModal : null)
-
-const headings = reactive([
-    {
-        label: 'ID',
-        key: 'id'
-    },
-    {
-        label: 'Імʼя',
-        key: 'name'
-    },
-    {
-        label: 'Телефон',
-        key: 'phone'
-    },
-    {
-        label: 'Коментар',
-        key: 'comment'
-    },
-    {
-        label: 'Товар',
-        key: 'product_id'
-    },
-    {
-        label: 'Статус публікації',
-        key: 'published'
-    },
-    {
-        label: "Оновлено<hr class='my-1'>Створено",
-        key: 'timestamps'
-    },
-    {
-        label: '#',
-        key: 'actions'
-    }
-]);
-
 
 function fetch(page) {
     state.value.isLoading = true;

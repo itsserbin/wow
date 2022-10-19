@@ -10,32 +10,12 @@
                 Додати
             </button-component>
 
-            <table-component :headings="headings"
-                             :isSlotMode="true"
-                             :rows="state.sizes.data"
-            >
-                <template v-slot:id="{data}">
-                    <a href="javascript:" @click="onEdit(data.row.id,data.i)">
-                        {{ data.row.id }}
-                    </a>
-                </template>
+            <Table :data="state.data.data"
+                        @onEdit="onEdit"
+                        @onDestroy="onDestroy"
+                />
 
-                <template v-slot:published="{data}">
-                    {{ $filters.publishedStatus(data.row.published) }}
-                </template>
 
-                <template v-slot:timestamps="{data}">
-                    {{ $filters.dateFormat(data.row.updated_at) }}
-                    <hr class="my-1">
-                    {{ $filters.dateFormat(data.row.created_at) }}
-                </template>
-
-                <template v-slot:actions="{data}">
-                    <a href="javascript:" @click="onDestroy(data.row.id)">
-                        <xcircle-component/>
-                    </a>
-                </template>
-            </table-component>
             <paginate  :pagination="state.sizes"
                        :click-handler="fetch"
                        v-model="state.currentPage"
@@ -53,7 +33,9 @@
 <script setup>
 import {reactive, onMounted, inject, ref, computed} from "vue";
 import ColorModal from '@/Pages/Admin/Options/Sizes/Modal.vue';
-import OptionsLayout from '@/Pages/Admin/Options/OptionsLayout.vue'
+import OptionsLayout from '@/Pages/Admin/Options/OptionsLayout.vue';
+import Table from '@/Pages/Admin/Options/Sizes/Table.vue';
+
 
 const swal = inject('$swal')
 const can = inject('$can');
@@ -78,28 +60,7 @@ onMounted(() => {
 
 const activeModal = computed(() => state.value.isActiveModal ? ColorModal : null)
 
-const headings = reactive([
-    {
-        label: 'ID',
-        key: 'id'
-    },
-    {
-        label: 'Назва',
-        key: 'title'
-    },
-    {
-        label: 'Статус публікації',
-        key: 'published'
-    },
-    {
-        label: "Оновлено<hr class='my-1'>Створено",
-        key: 'timestamps'
-    },
-    {
-        label: '#',
-        key: 'actions'
-    }
-]);
+
 
 
 function fetch(page) {
