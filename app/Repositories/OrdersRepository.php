@@ -7,6 +7,7 @@ use App\Models\Enums\OrderStatus;
 use App\Models\Order as Model;
 
 //use App\Services\NovaPoshtaService;
+use App\Services\NovaPoshtaService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -102,7 +103,7 @@ class OrdersRepository extends CoreRepository
         $order->postal_office = $data['postal_office']['Description'] ?? null;
         $order->np_post_office_id = $data['postal_office']['Ref'] ?? null;
         $order->client_id = $client_id;
-        $order->status = 'Новый';
+        $order->status = OrderStatus::state['new'];
         $order->promo_code = $promoCode;
         $order->comment = $data['comment'];
         $order->payment_method = $data['payment_method'];
@@ -238,7 +239,7 @@ class OrdersRepository extends CoreRepository
 
         $model = $this->model::select($columns);
 
-        return$model->whereHas('client', function ($q) use ($query) {
+        return $model->whereHas('client', function ($q) use ($query) {
             $q->where('phone', 'LIKE', "%$query%");
             $q->orWhere('name', 'LIKE', "%$query%");
             $q->orWhere('last_name', 'LIKE', "%$query%");
