@@ -34,16 +34,7 @@
 
             <div class="block">
                 <label-component value="Постачальники"/>
-                <multiselect
-                    :options="state.providers"
-                    v-model="product.provider"
-                    :custom-label="h1AndCodeAndId"
-                    placeholder="Оберіть постачальника"
-                    class="mb-5"
-                    track-by="id"
-                    :close-on-select="true"
-                    :searchable="true"
-                />
+                <select-component v-model="product.provider_id" :options="state.providers"/>
             </div>
 
             <div class="block">
@@ -202,7 +193,14 @@ onMounted(() => {
         .catch((response) => console.log(response));
 
     axios.get(route('api.providers.list'))
-        .then(({data}) => state.value.providers = data.result)
+        .then(({data}) => {
+            data.result.forEach((item) => {
+                state.value.providers.push({
+                    key: item.id,
+                    value: item.name
+                })
+            })
+        })
         .catch((response) => console.log(response));
 
     axios.get(route('api.colors.list'))

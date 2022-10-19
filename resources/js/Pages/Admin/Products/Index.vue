@@ -115,7 +115,7 @@ const product = reactive({
     discount_price: null,
     categories: [],
     vendor_code: null,
-    providers: null,
+    provider_id: null,
     sizes: [],
     images: [],
     colors: [],
@@ -275,12 +275,11 @@ function onUpdate() {
 
 function onCreate() {
     if (can('create-products')) {
-
         axios.post(route('api.products.create'), state.value.item)
             .then(({data}) => {
                 modalFunction();
                 state.value.products.data.unshift(data.result)
-                state.value.item = {};
+                state.value.item = product;
                 fetch();
                 swal({
                     title: 'Success!',
