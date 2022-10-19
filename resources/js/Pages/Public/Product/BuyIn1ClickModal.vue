@@ -3,6 +3,7 @@
            submit-button-text="Замовити"
            @submitForm="sendForm"
            @closeModal="$emit('closeModal')"
+           :is-loading="state.isLoading"
     >
         <template #content>
             <div class="grid gap-4">
@@ -28,13 +29,13 @@
 </template>
 
 <script setup>
-import {ref} from "vue";
+import {inject, ref} from "vue";
 import {useGtm} from "@gtm-support/vue-gtm";
 
 defineEmits(['closeModal']);
 const props = defineProps(['item', 'cart']);
 const gtm = useGtm();
-
+const swal = inject('$swal');
 const order = ref({
     name: null,
     last_name: null,
@@ -48,6 +49,7 @@ const order = ref({
 });
 
 const state = ref({
+    isLoading: false,
     contentIds: [],
     ga4ProductsArray: []
 });
