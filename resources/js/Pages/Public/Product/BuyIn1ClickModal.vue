@@ -58,6 +58,7 @@ function sendForm() {
     state.value.isLoading = true;
     state.value.errors = [];
     axios.post(route('api.v1.cart.add'), props.item)
+    props.cart.commit('loadCart');
     axios.post(route('api.v1.orders.create'), order.value)
         .then(({data}) => {
             if (import.meta.env.MODE === 'production') {
