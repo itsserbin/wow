@@ -8,6 +8,7 @@ use App\Models\Enums\ClientSubStatus;
 use App\Models\Enums\OrderStatus;
 use App\Models\Enums\PaymentMethod;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -32,6 +33,7 @@ class AdminController extends Controller
 
     public function products(): Response
     {
+        dd(Carbon::now()->subDays(7)->format('Y-m-d'), Carbon::now()->endOfWeek()->format('Y-m-d'));
         return Inertia::render('Products/Index');
     }
 

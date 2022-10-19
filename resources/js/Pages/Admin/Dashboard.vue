@@ -3,12 +3,19 @@
         <template #header>
             Dashboard
         </template>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <card-component v-for="(item,i) in state.statistics"
+                            class="text-center"
+                            :title="i"
+                            :description="item"
+            >
+            </card-component>
+        </div>
+        <LastParams :active-item="params.last" @sortByLast="sortByLast"/>
 
-            <LastParams :active-item="params.last" @sortByLast="sortByLast"/>
-
-            <OrdersChart v-if="orders.chart" :chartData="orders.chart"/>
-            <OrdersIndicators v-if="orders.indicators" :data="orders.indicators"/>
-            <OrdersTable v-if="orders.table" :data="orders.table"/>
+        <OrdersChart v-if="orders.chart" :chartData="orders.chart"/>
+        <OrdersIndicators v-if="orders.indicators" :data="orders.indicators"/>
+        <OrdersTable v-if="orders.table" :data="orders.table"/>
 
 
     </auth-layout>
@@ -34,7 +41,17 @@ const orders = ref({
     indicators: null,
 });
 
-onMounted(() => fetch());
+const state = ref({
+    statistics: []
+});
+
+onMounted(() => {
+    fetch();
+
+    axios.get(route('api.dashboard'))
+        .then(({data}) => state.value.statistics = data.countOrders)
+        .catch((response) => console.log(response))
+});
 
 const getParams = computed(() => {
     const data = {};

@@ -764,4 +764,27 @@ class OrdersRepository extends CoreRepository
             ->select('clear_total_price')
             ->avg('clear_total_price');
     }
+
+    public function countOrdersForDashboard(): array
+    {
+        $result = [];
+
+        $result['Сьогодні'] = $this
+            ->model::whereDate('created_at', Carbon::now()->format('Y-m-d'))
+            ->count();
+
+        $result['Вчора'] = $this
+            ->model::whereDate('created_at', Carbon::yesterday()->format('Y-m-d'))
+            ->count();
+
+        $result['7 днів'] = $this
+            ->model::whereBetween('created_at', [Carbon::now()->subDays(7)->format('Y-m-d'), Carbon::now()->endOfWeek()->format('Y-m-d')])
+            ->count();
+
+        $result['Поточний місяць'] = $this
+            ->model::whereBetween('created_at', [Carbon::now()->startOfMonth()->format('Y-m-d'), Carbon::now()->endOfWeek()->format('Y-m-d')])
+            ->count();
+
+        return $result;
+    }
 }

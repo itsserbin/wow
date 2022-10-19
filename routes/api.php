@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\AdvantagesController;
 use App\Http\Controllers\Api\BannersController;
 use App\Http\Controllers\Api\CallbacksController;
@@ -43,6 +44,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->group(function () {
+
+    Route::get('dashboard', [AdminController::class, 'dashboard'])
+        ->name('api.dashboard');
+
     Route::prefix('products')->group(function () {
         Route::get('/', [ProductsController::class, 'index'])
             ->name('api.products.index');

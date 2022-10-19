@@ -7,17 +7,17 @@ class ClientSubStatus
 
     const state = [
         'experienced' => [
-            'satisfied' => 'Остались довольны',
-            'asked_for_an_exchange' => 'Попросили обмен',
-            'no_response' => 'Не ответили',
-            'not_satisfied' => 'Не довольны',
-            'in_progress' => 'В процессе',
+            'satisfied' => 'Залишилися задоволені',
+            'asked_for_an_exchange' => 'Попросили обмін',
+            'no_response' => 'Не відповіли',
+            'not_satisfied' => 'Не задоволені',
+            'in_progress' => 'В процесі',
         ],
         'return' => [
-            'agreed' => 'Согласились',
-            'refused' => 'Отказались',
-            'didnt_get_in_touch' => 'Не вышли на связь',
-            'new' => 'Новый',
+            'agreed' => 'Погодилися',
+            'refused' => 'Відмовилися',
+            'didnt_get_in_touch' => 'Не вийшли на звʼязок',
+            'new' => 'Новий',
         ]
     ];
 

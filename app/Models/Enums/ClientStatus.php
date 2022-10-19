@@ -5,10 +5,10 @@ namespace App\Models\Enums;
 class ClientStatus
 {
     const state = [
-        'new' => 'Новый',
-        'experienced' => 'Раннее закупался',
+        'new' => 'Новий',
+        'experienced' => 'Раніше закуплявся',
         'top' => 'ТОПчик',
-        'return' => 'Возврат',
+        'return' => 'Повернення',
         'black_list' => 'ЧС',
     ];
 

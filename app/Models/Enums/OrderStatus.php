@@ -5,30 +5,30 @@ namespace App\Models\Enums;
 class OrderStatus
 {
     const state = [
-        'new' => 'Новый',
-        'processed' => 'В процессе',
-        'transferred_to_supplier' => 'Передан поставщику',
-        'at_the_post_office' => 'На почте',
-        'canceled' => 'Отменен',
-        'return' => 'Возврат',
-        'done' => 'Выполнен',
-        'awaiting_dispatch' => 'Ожидает отправки',
-        'awaiting_prepayment' => 'Ожидает предоплаты',
-        'on_the_road' => 'В дороге',
-        'requires_clarification' => 'Требует уточнение',
+        'new' => 'Новий',
+        'processed' => 'В процесі',
+        'transferred_to_supplier' => 'Передано постачальнику',
+        'at_the_post_office' => 'На пошті',
+        'canceled' => 'Скасовано',
+        'return' => 'Повернення',
+        'done' => 'Виконаний',
+        'awaiting_dispatch' => 'Чекає на відправку',
+        'awaiting_prepayment' => 'Чекає на передоплату',
+        'on_the_road' => 'В дорозі',
+        'requires_clarification' => 'Потребує уточнення',
     ];
 
-    const STATUS_NEW = 'Новый';
-    const STATUS_PROCESSED = 'В процессе';
-    const STATUS_TRANSFERRED_TO_SUPPLIER = 'Передан поставщику';
-    const STATUS_AT_THE_POST_OFFICE = 'На почте';
-    const STATUS_CANCELED = 'Отменен';
-    const STATUS_RETURN = 'Возврат';
-    const STATUS_DONE = 'Выполнен';
-    const STATUS_AWAITING_DISPATCH = 'Ожидает отправки';
-    const STATUS_AWAITING_PREPAYMENT = 'Ожидает предоплаты';
-    const STATUS_ON_THE_ROAD = 'В дороге';
-    const STATUS_REQUIRES_CLARIFICATION = 'Требует уточнение';
+    const STATUS_NEW = 'new';
+    const STATUS_PROCESSED = 'processed';
+    const STATUS_TRANSFERRED_TO_SUPPLIER = 'transferred_to_supplier';
+    const STATUS_AT_THE_POST_OFFICE = 'at_the_post_office';
+    const STATUS_CANCELED = 'canceled';
+    const STATUS_RETURN = 'return';
+    const STATUS_DONE = 'done';
+    const STATUS_AWAITING_DISPATCH = 'awaiting_dispatch';
+    const STATUS_AWAITING_PREPAYMENT = 'awaiting_prepayment';
+    const STATUS_ON_THE_ROAD = 'on_the_road';
+    const STATUS_REQUIRES_CLARIFICATION = 'requires_clarification';
 
 
 }
