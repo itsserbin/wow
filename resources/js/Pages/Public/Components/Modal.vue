@@ -1,11 +1,12 @@
 <template>
-    <div>
+
+    <div >
+        <transition name="fadeSecond">
         <div class="
                     fixed
                     top-0
                     right-0
                     left-0
-                    z-50
                     w-full
                     md:inset-0
                     h-full
@@ -13,9 +14,9 @@
                     items-center
                     flex
                     backdrop-blur-sm
-                "
-        >
-            <div class="
+                    z-[100]
+                ">
+                <div class="
                         p-4
                         mb-20
                         w-full
@@ -113,6 +114,7 @@
 
 
         </div>
+    </transition>
         <div class="bg-gray-900 bg-opacity-50 fixed inset-0 z-30"></div>
 
     </div>

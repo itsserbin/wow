@@ -293,21 +293,21 @@ const state = ref({
 })
 
 
-function scrollTop() {
-    myBtn.onclick = function () {
-        window.scrollTo({scrollX, top: 0, behavior: 'smooth'});
-        // после scrollTo возникнет событие "scroll", так что стрелка автоматически скроется
-    };
+function scrollTop(){
 
-    window.addEventListener('scrollY', function () {
+
+        window.scrollTo({scrollX, top:0, behavior: 'smooth'});
+
+
+    window.addEventListener('scrollY', function() {
         myBtn.classList.add('hide');
     });
 
-    window.addEventListener('scroll', function () {
+    window.addEventListener('scroll', function() {
         myBtn.classList.remove('hide')
         myBtn.hidden = (scrollY < document.documentElement.clientHeight);
     });
-}
+ }
 
 
 const props = defineProps([
@@ -348,6 +348,10 @@ function showModalPopupSecond() {
 }
 
 
+
+
+
+
 // function handleSCroll(event) {
 //     let header = document.querySelector(".header");
 //     if (window.scrollY > 50 && !header.className.includes('shadow')) {
@@ -363,7 +367,7 @@ function setLangActiveClass() {
 </script>
 
 <style scoped>
-.hide {
+.hide{
     display: none;
 }
 </style>

@@ -49,12 +49,10 @@
 </template>
 
 <script setup>
-import {reactive} from "vue";
-
-defineEmits(['onDestroy'])
+defineEmits(['onDestroy','onEdit'])
 defineProps(['data', 'onEdit', 'statuses']);
 
-const headings = reactive([
+const headings = [
     {
         label: 'ID',
         key: 'id'
@@ -95,6 +93,6 @@ const headings = reactive([
         label: '#',
         key: 'actions'
     }
-]);
+];
 
 </script>

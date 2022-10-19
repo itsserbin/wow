@@ -15,49 +15,11 @@
             <div>
                 <lang-tabs @clickLang="changeLang"/>
 
-                <table-component :headings="headings"
-                                 :isSlotMode="true"
-                                 :rows="state.products.data"
-                >
-                    <template v-slot:id="{data}">
-                        <a href="javascript:" @click="onEdit(data.row.id,data.i)">
-                            {{ data.row.id }}
-                        </a>
-                    </template>
+                <Table :data="state.data.data"
+                        @onEdit="onEdit"
+                        @onDestroy="onDestroy"
+                />
 
-                    <template v-slot:title="{data}">
-                        {{
-                            state.activeLang === 'ua' ? data.row.h1.ua :
-                                (state.activeLang === 'ru' ? data.row.h1.ru : null)
-                        }}
-                    </template>
-
-                    <template v-slot:published="{data}">
-                        {{ $filters.publishedStatus(data.row.published) }}
-                    </template>
-
-                    <template v-slot:price="{data}">
-                        {{ $filters.formatMoney(data.row.price) }}
-                    </template>
-
-                    <template v-slot:discount_price="{data}">
-                        {{ $filters.formatMoney(data.row.discount_price) }}
-                    </template>
-
-                    <template v-slot:preview="{data}">
-                        <img :src="data.row.preview ? route('images.products.55',data.row.preview) : null"
-                             :alt="state.activeLang === 'ua' ? data.row.h1.ua :
-                            (state.activeLang === 'ru' ? data.row.h1.ru : null)"
-                             class="mx-auto"
-                        >
-                    </template>
-
-                    <template v-slot:actions="{data}">
-                        <a href="javascript:" @click="onDestroy(data.row.id)">
-                            <xcircle-component/>
-                        </a>
-                    </template>
-                </table-component>
             </div>
 
             <div class="text-center">
@@ -81,6 +43,8 @@
 <script setup>
 import {reactive, onMounted, inject, ref, computed} from "vue";
 import ProductModal from '@/Pages/Admin/Products/Modal.vue';
+import Table from '@/Pages/Admin/Products/Table.vue'
+
 
 const swal = inject('$swal')
 const can = inject('$can');
@@ -144,48 +108,7 @@ onMounted(() => {
 
 const activeModal = computed(() => state.value.isActiveModal ? ProductModal : null)
 
-const headings = reactive([
-    {
-        label: 'ID',
-        key: 'id'
-    },
-    {
-        label: 'Головне зображення',
-        key: 'preview'
-    },
-    {
-        label: 'Назва',
-        key: 'title'
-    },
-    {
-        label: 'Статус публікації',
-        key: 'published'
-    },
-    {
-        label: 'Артикул',
-        key: 'vendor_code'
-    },
-    {
-        label: 'Ціна',
-        key: 'price'
-    },
-    {
-        label: 'Ціна зі знижкою',
-        key: 'discount_price'
-    },
-    {
-        label: 'Сортування',
-        key: 'sort'
-    },
-    {
-        label: "Переглядів<hr class='my-1'>Покупок",
-        key: 'sort'
-    },
-    {
-        label: '#',
-        key: 'actions'
-    }
-]);
+
 
 function changeLang(val) {
     state.value.activeLang = val;

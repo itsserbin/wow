@@ -10,32 +10,11 @@
                 Додати
             </button-component>
 
-            <table-component :headings="headings"
-                             :isSlotMode="true"
-                             :rows="state.data.data"
-            >
-                <template v-slot:id="{data}">
-                    <a href="javascript:" @click="onEdit(data.row.id,data.i)">
-                        {{ data.row.id }}
-                    </a>
-                </template>
+            <Table :data="state.data.data"
+                        @onEdit="onEdit"
+                        @onDestroy="onDestroy"
+                />
 
-                <template v-slot:timestamps="{data}">
-                    {{ $filters.dateFormat(data.row.updated_at) }}
-                    <hr class="my-1">
-                    {{ $filters.dateFormat(data.row.created_at) }}
-                </template>
-
-                <template v-slot:role="{data}">
-                    <span v-for="item in data.row.roles">{{ item.name }}<br></span>
-                </template>
-
-                <template v-slot:actions="{data}">
-                    <a href="javascript:" @click="onDestroy(data.row.id)">
-                        <xcircle-component/>
-                    </a>
-                </template>
-            </table-component>
 
             <pagination :pagination="state.data"
                       :click-handler="fetch"
@@ -55,6 +34,7 @@
 import {reactive, onMounted, inject, ref, computed} from "vue";
 import UserModal from '@/Pages/Admin/Options/Users/Modal.vue';
 import OptionsLayout from '@/Pages/Admin/Options/OptionsLayout.vue'
+import Table from '@/Pages/Admin/Options/Users/Table.vue'
 
 const swal = inject('$swal')
 const can = inject('$can');
@@ -81,34 +61,6 @@ onMounted(() => {
 })
 
 const activeModal = computed(() => state.value.isActiveModal ? UserModal : null)
-
-const headings = reactive([
-    {
-        label: 'ID',
-        key: 'id'
-    },
-    {
-        label: 'Імʼя',
-        key: 'name'
-    },
-    {
-        label: 'Email',
-        key: 'email'
-    },
-    {
-        label: 'Роль',
-        key: 'role'
-    },
-    {
-        label: "Оновлено<hr class='my-1'>Створено",
-        key: 'timestamps'
-    },
-    {
-        label: '#',
-        key: 'actions'
-    }
-]);
-
 
 function fetch(page) {
     state.value.isLoading = true;
