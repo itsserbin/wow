@@ -103,7 +103,7 @@ class OrdersRepository extends CoreRepository
         $order->postal_office = $data['postal_office']['Description'] ?? null;
         $order->np_post_office_id = $data['postal_office']['Ref'] ?? null;
         $order->client_id = $client_id;
-        $order->status = OrderStatus::state['new'];
+        $order->status = OrderStatus::state[array_search('new', OrderStatus::state)];
         $order->promo_code = $promoCode;
         $order->comment = $data['comment'];
         $order->payment_method = $data['payment_method'];
