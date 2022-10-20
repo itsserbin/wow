@@ -6,6 +6,8 @@ use App\Models\Statistics\Cost as Model;
 use App\Repositories\Statistics\CostCategoriesRepository;
 use App\Repositories\CoreRepository;
 use Carbon\Carbon;
+use DateInterval;
+use DatePeriod;
 use DateTime;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -83,7 +85,14 @@ class CostsRepository extends CoreRepository
             $model->orderBy('date', 'desc');
         }
 
-        return $model->with('user', 'category')->paginate(15);
+        return $model->with([
+                'user' => function ($q) {
+                    $q->select('id', 'name');
+                },
+                'category' => function ($q) {
+                    $q->select('id', 'title');
+                }]
+        )->paginate(15);
 
     }
 
@@ -92,7 +101,11 @@ class CostsRepository extends CoreRepository
         $costCategoriesRepository = new CostCategoriesRepository();
         $list = $costCategoriesRepository->list();
 
-        $model = $this->model;
+        $model = $this->model::select(
+            'date',
+            'cost_category_id',
+            'total'
+        );
 
         if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data) && array_key_exists('filter', $data)) {
             $model->whereBetween('date', [
@@ -207,6 +220,36 @@ class CostsRepository extends CoreRepository
     }
 
     public function create($data)
+    {
+        if ($data['cost_type'] == 'range') {
+            $period = new DatePeriod(
+                new DateTime($this->dateFormatFromTimepicker($data['date'][0])),
+                new DateInterval('P1D'),
+                new DateTime(
+                    DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date'][1])
+                        ->modify('+1 day')
+                        ->format('Y-m-d'))
+            );
+            $sum = round($data['sum'] / iterator_count($period), 2);
+
+            foreach ($period as $key => $value) {
+                $date = $value->format('Y-m-d');
+                $params = [
+                    'comment' => $data['comment'],
+                    'quantity' => $data['quantity'],
+                    'sum' => $sum,
+                    'date' => $date,
+                    'cost_category_id' => $data['cost_category_id'],
+                ];
+                $this->onCreate($params);
+            }
+        } else {
+            $this->onCreate($data);
+        }
+
+    }
+
+    public function onCreate($data)
     {
         $model = new $this->model;
         $model->comment = $data['comment'];

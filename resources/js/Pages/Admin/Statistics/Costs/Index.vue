@@ -6,7 +6,7 @@
 
         <loader-component v-if="state.isLoading"/>
         <div v-if="!state.isLoading && can('show-bookkeeping-costs')">
-            <button-component type="btn" @click="create" v-if="can('create-costs')">
+            <button-component type="btn" @click="create">
                 Додати
             </button-component>
 
@@ -85,12 +85,13 @@
             </table-component>
 
             <pagination :pagination="state.data.result"
-                      :click-handler="fetch"
-                      v-model="params.page"
+                        :click-handler="fetch"
+                        v-model="params.page"
             />
 
             <component :is="activeModal"
                        :item="state.item"
+                       :modalAction="state.modalAction"
                        @closeModal="modalFunction"
                        @submitForm="submitForm"
                        @declineForm="onDestroy"
@@ -109,7 +110,7 @@ import LastParams from '@/Pages/Admin/Statistics/LastParams.vue'
 const swal = inject('$swal')
 const can = inject('$can');
 
-const item = ({
+const item = reactive({
     name: null,
     date: null,
     sum: null,
@@ -117,6 +118,7 @@ const item = ({
     comment: null,
     total: null,
     cost_category_id: null,
+    cost_type: 'single',
 })
 
 const state = ref({
@@ -258,35 +260,32 @@ function fetch() {
 }
 
 function onDestroy(id) {
-    if (can('destroy-colors')) {
-        swal({
-            title: 'Видалити?',
-            icon: 'warning',
-            showCancelButton: true,
-        }).then((result) => {
-            if (result.isConfirmed) {
-                axios.delete(route('api.statistics.costs.destroy', id))
-                    .then(() => {
-                        fetch();
-                        if (state.value.isActiveModal) {
-                            modalFunction();
-                        }
-                        swal({
-                            icon: 'success',
-                            title: 'Destroyed!'
-                        })
+    swal({
+        title: 'Видалити?',
+        icon: 'warning',
+        showCancelButton: true,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            axios.delete(route('api.statistics.costs.destroy', id))
+                .then(() => {
+                    fetch();
+                    if (state.value.isActiveModal) {
+                        modalFunction();
+                    }
+                    swal({
+                        icon: 'success',
+                        title: 'Destroyed!'
                     })
-                    .catch(errors => {
-                        console.log(errors);
-                        swal({
-                            icon: 'error',
-                            title: 'Error!'
-                        })
+                })
+                .catch(errors => {
+                    console.log(errors);
+                    swal({
+                        icon: 'error',
+                        title: 'Error!'
                     })
-            }
-        })
-
-    }
+                })
+        }
+    })
 }
 
 function modalFunction() {
@@ -294,74 +293,66 @@ function modalFunction() {
 }
 
 function onEdit(id, i) {
-    if (can('edit-costs')) {
-        axios.get(route('api.statistics.costs.edit', id))
-            .then(({data}) => {
-                state.value.item = data.result;
-                state.value.modalAction = 'edit';
-                state.value.item.index = i;
-                modalFunction();
-            })
-            .catch((response) => console.log(response))
-    }
+    axios.get(route('api.statistics.costs.edit', id))
+        .then(({data}) => {
+            state.value.item = data.result;
+            state.value.modalAction = 'edit';
+            state.value.item.index = i;
+            modalFunction();
+        })
+        .catch((response) => console.log(response))
 }
 
 function onUpdate() {
-    if (can('edit-costs')) {
-        axios.put(route('api.statistics.costs.update', state.value.item.id), state.value.item)
-            .then(() => {
-                modalFunction();
-                fetch();
-                swal({
-                    title: 'Success!',
-                    icon: 'success'
-                })
+    axios.put(route('api.statistics.costs.update', state.value.item.id), state.value.item)
+        .then(() => {
+            modalFunction();
+            fetch();
+            swal({
+                title: 'Success!',
+                icon: 'success'
             })
-            .catch((response) => {
-                console.log(response);
-                swal({
-                    title: 'Error!',
-                    icon: 'error'
-                })
+        })
+        .catch((response) => {
+            console.log(response);
+            swal({
+                title: 'Error!',
+                icon: 'error'
             })
-    }
+        })
 }
 
 function onCreate() {
-    if (can('create-costs')) {
-        axios.post(route('api.statistics.costs.create'), state.value.item)
-            .then(() => {
-                modalFunction();
-                state.value.item = item;
-                fetch();
-                swal({
-                    title: 'Success!',
-                    icon: 'success'
-                })
+    axios.post(route('api.statistics.costs.create'), state.value.item)
+        .then(() => {
+            modalFunction();
+            state.value.item = item;
+            fetch();
+            swal({
+                title: 'Success!',
+                icon: 'success'
             })
-            .catch((response) => {
-                console.log(response);
-                swal({
-                    title: 'Error!',
-                    icon: 'error'
-                })
+        })
+        .catch((response) => {
+            console.log(response);
+            swal({
+                title: 'Error!',
+                icon: 'error'
             })
-    }
+        })
 }
 
 function submitForm() {
-    if (state.value.modalAction === 'edit' && can('edit-costs')) {
+    if (state.value.modalAction === 'edit') {
         onUpdate();
-    } else if (state.value.modalAction === 'create' && can('create-costs')) {
+    } else if (state.value.modalAction === 'create') {
         onCreate();
     }
 }
 
 function create() {
-    if (can('create-costs')) {
-        Object.assign(state.value.item, item);
-        state.value.modalAction = 'create';
-        modalFunction();
-    }
+    Object.assign(state.value.item, item);
+    state.value.modalAction = 'create';
+    modalFunction();
 }
 </script>

@@ -10,7 +10,7 @@
     >
         <template #title>{{ formHeading }}</template>
         <template #content>
-            <ColorForm :item="item"/>
+            <ColorForm :item="item" :modalAction="modalAction"/>
         </template>
     </modal-component>
 </template>
@@ -21,6 +21,7 @@ import {computed} from "vue";
 
 const props = defineProps([
     'item',
+    'modalAction'
 ])
 
 const emits = defineEmits([

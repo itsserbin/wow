@@ -1,25 +1,71 @@
 <template>
-    <form class="flex flex-col">
-        <div class="grid grid-cols-1 md:grid-cols-2 mb-5 gap-4">
-            <div class="block mr-2">
-                <label-component value="Категорія витрат"/>
-                <select-component v-model="item.cost_category_id" :options="categories"/>
-            </div>
-            <div class="block">
-                <label-component value="Фільтр по даті"/>
-                <Datepicker v-model="item.date"
-                            class="w-100"
-                            locale="ru"
-                            placeholder="Оберіть дату"
-                            autoApply
-                            :monthChangeOnScroll="false"
-                            :enableTimePicker="false"
-                            utc
-                ></Datepicker>
+    <form class="grid grid-cols-1 gap-4">
+        <div class="block">
+            <label-component value="Категорія витрат"/>
+            <select-component v-model="item.cost_category_id" :options="categories"/>
+        </div>
+        <div class="block" v-if="modalAction === 'create'">
+            <div class="grid grid-cols-2 gap-4">
+                <div class="flex items-center pl-4 rounded border border-gray-200 dark:border-gray-700">
+                    <input name="cost_type"
+                           v-model="item.cost_type"
+                           value="single"
+                           type="radio"
+                           class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label class="py-4 ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300">
+                        Один день
+                    </label>
+                </div>
+
+                <div class="flex items-center pl-4 rounded border border-gray-200 dark:border-gray-700">
+                    <input name="cost_type"
+                           v-model="item.cost_type"
+                           value="range"
+                           type="radio"
+                           class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label class="py-4 ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300">
+                        Діапазон
+                    </label>
+                </div>
             </div>
         </div>
+        <div class="block" v-if="modalAction === 'create'">
+            <Datepicker v-model="item.date"
+                        v-if="item.cost_type === 'single'"
+                        class="w-100"
+                        locale="ru"
+                        placeholder="Оберіть дату"
+                        autoApply
+                        :monthChangeOnScroll="false"
+                        :enableTimePicker="false"
+                        utc
+            ></Datepicker>
+            <Datepicker v-model="item.date"
+                        v-if="item.cost_type === 'range'"
+                        class="w-100"
+                        locale="ru"
+                        placeholder="Оберіть дату"
+                        autoApply
+                        :monthChangeOnScroll="false"
+                        :enableTimePicker="false"
+                        range
+                        utc
+            ></Datepicker>
+        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
+        <div class="block" v-if="modalAction === 'edit'">
+            <Datepicker v-model="item.date"
+                        class="w-100"
+                        locale="ru"
+                        placeholder="Оберіть дату"
+                        autoApply
+                        :monthChangeOnScroll="false"
+                        :enableTimePicker="false"
+                        utc
+            ></Datepicker>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div class="block">
                 <label-component value="Кількість"/>
                 <input-component v-model="item.quantity" type="number"/>
@@ -46,7 +92,7 @@
 <script setup>
 import {computed, onMounted, ref} from "vue";
 
-const props = defineProps(['item'])
+const props = defineProps(['item','modalAction'])
 
 const categories = ref([]);
 
