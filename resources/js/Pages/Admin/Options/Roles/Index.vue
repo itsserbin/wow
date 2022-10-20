@@ -13,6 +13,7 @@
             <Table :data="state.data.data"
                    @onEdit="onEdit"
                    @onDestroy="onDestroy"
+                   :canDestroy="can('destroy-roles')"
             />
 
             <pagination  :pagination="state.data"
@@ -24,6 +25,7 @@
                        @closeModal="modalFunction"
                        @submitForm="submitForm"
                        @declineForm="onDestroy"
+                       :canDestroy="can('destroy-roles')"
             ></component>
         </div>
     </OptionsLayout>

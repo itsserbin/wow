@@ -13,6 +13,7 @@
             <Table :data="state.data.data"
                    @onEdit="onEdit"
                    @onDestroy="onDestroy"
+                   :canDestroy="can('destroy-banners')"
             />
 
             <pagination :pagination="state.data"
@@ -25,6 +26,7 @@
                        @submitForm="submitForm"
                        @declineForm="onDestroy"
                        @onUploadImage="uploadImage"
+                       :canDestroy="can('destroy-banners')"
             ></component>
         </div>
     </OptionsLayout>
@@ -35,7 +37,6 @@ import {reactive, onMounted, inject, ref, computed} from "vue";
 import BannersModal from '@/Pages/Admin/Options/Banners/Modal.vue';
 import OptionsLayout from '@/Pages/Admin/Options/OptionsLayout.vue'
 import Table from '@/Pages/Admin/Options/Banners/Table.vue';
-
 
 const swal = inject('$swal')
 const can = inject('$can');

@@ -135,7 +135,9 @@ class OrdersStatisticsRepository extends CoreRepository
         $result['Очікування передоплати'] = $model->sum('awaiting_prepayment');
         $result['Очікування відправки'] = $model->sum('awaiting_dispatch');
         $result['В дорозі'] = $model->sum('on_the_road');
-
+        $result['COR (Скасовані)'] = round($model->average('canceled_orders_rate')) . '%';
+        $result['ROR (Повернення)'] = round($model->average('returned_orders_ratio')). '%';
+        $result['RPT (Виконані)'] = round($model->average('received_parcel_ratio')). '%';
         return $result;
     }
 

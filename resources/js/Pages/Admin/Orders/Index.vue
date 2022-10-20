@@ -28,6 +28,7 @@
                            @onEdit="onEdit"
                            @onDestroy="destroy"
                            :statuses="statuses"
+                           :canDestroy="can('destroy-orders')"
                     />
                     <div class="text-center">
                         <pagination :pagination="state.orders"
@@ -48,16 +49,16 @@
                        @declineForm="destroy"
                        @submitForm="onUpdate"
                        @submitItemForm="submitItemForm"
+                       :canDestroy="can('destroy-orders')"
             ></component>
         </div>
     </auth-layout>
 </template>
 
 <script setup>
-import {computed, inject, onMounted, reactive, ref} from "vue";
+import {computed, inject, onMounted, ref} from "vue";
 import OrderModal from '@/Pages/Admin/Orders/Modal.vue';
 import Table from '@/Pages/Admin/Orders/Table.vue';
-import {Head} from '@inertiajs/inertia-vue3';
 
 const state = ref({
     orders: [],

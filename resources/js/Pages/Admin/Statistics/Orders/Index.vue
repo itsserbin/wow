@@ -32,10 +32,11 @@
 
             <Indicators :data="state.indicators"/>
 
-            <Table :data="state.orders.result.data"/>
+           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+               <Table :data="state.orders.result.data"/>
 
-            <Indicators :data="state.indicators2"/>
-            <Table2 :data="state.orders.result.data"/>
+               <Table2 :data="state.orders.result.data"/>
+           </div>
 
             <pagination :pagination="state.orders.result"
                         :click-handler="fetch"

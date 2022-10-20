@@ -14,9 +14,13 @@
         <LastParams :active-item="params.last" @sortByLast="sortByLast"/>
 
         <OrdersChart v-if="orders.chart" :chartData="orders.chart"/>
+
         <OrdersIndicators v-if="orders.indicators" :data="orders.indicators"/>
-        <OrdersTable v-if="orders.table" :data="orders.table"/>
-        <OrdersTable2 v-if="orders.table2" :data="orders.table"/>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <OrdersTable v-if="orders.table" :data="orders.table"/>
+
+            <OrdersTable2 v-if="orders.table" :data="orders.table"/>
+        </div>
 
 
     </auth-layout>
@@ -39,7 +43,7 @@ const params = ref({
 
 const orders = ref({
     table: null,
-    table2: null,
+    indicators2: null,
     chart: null,
     indicators: null,
 });
@@ -97,6 +101,10 @@ function fetch() {
 
     axios.get(route('api.statistics.orders.indicators', getParams.value))
         .then(({data}) => orders.value.indicators = data.result)
+        .catch((response) => console.log(response))
+
+    axios.get(route('api.statistics.orders.indicators2', getParams.value))
+        .then(({data}) => orders.value.indicators2 = data.result)
         .catch((response) => console.log(response))
 }
 </script>

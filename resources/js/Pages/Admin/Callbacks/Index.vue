@@ -12,6 +12,7 @@
                        :statuses="statuses"
                        @onEdit="onEdit"
                        @onDestroy="onDestroy"
+                       :can-destroy="can('destroy-callbacks')"
                 />
 
                 <div class="text-center">
@@ -28,6 +29,7 @@
                        @submitForm="submitForm"
                        @declineForm="onDestroy"
                        :statuses="statuses"
+                       :can-destroy="can('destroy-callbacks')"
             ></component>
         </div>
     </auth-layout>

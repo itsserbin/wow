@@ -13,12 +13,11 @@
             </div>
 
             <div>
-
                 <Table :data="state.data.data"
                        @onEdit="onEdit"
                        @onDestroy="onDestroy"
+                       :canDestroy="can('destroy-pages')"
                 />
-
             </div>
 
             <div class="text-center">
@@ -33,6 +32,7 @@
                    @closeModal="modalFunction"
                    @submitForm="submitForm"
                    @declineForm="onDestroy"
+                   :canDestroy="can('destroy-pages')"
         ></component>
     </auth-layout>
 </template>

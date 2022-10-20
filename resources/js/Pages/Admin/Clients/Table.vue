@@ -41,7 +41,7 @@
             {{ $filters.dateTimeFormat(data.row.created_at) }}
         </template>
         <template v-slot:actions="{data}">
-            <a href="javascript:" @click="$emit('onDestroy',data.row.id)">
+            <a href="javascript:" @click="$emit('onDestroy',data.row.id)" v-if="canDestroy">
                 <xcircle-component/>
             </a>
         </template>
@@ -49,8 +49,8 @@
 </template>
 
 <script setup>
-defineEmits(['onDestroy','onEdit'])
-defineProps(['data', 'onEdit', 'statuses']);
+defineEmits(['onDestroy', 'onEdit'])
+defineProps(['data', 'onEdit', 'statuses', 'canDestroy']);
 
 const headings = [
     {

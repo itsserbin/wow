@@ -1,9 +1,7 @@
 <template>
     <modal-component @closeModal="$emit('closeModal')"
-                     submit-button-text="Save"
-                     cancel-button-text="Cancel"
-                     decline-button-text="Destroy"
-                     @declineForm="declineForm"
+                     :decline-button="canDestroy"
+                     @declineForm="$emit('declineForm',item.id)"
                      @submitForm="$emit('submitForm')"
                      @clickCancel="$emit('closeModal')"
                      size="large"
@@ -16,10 +14,10 @@
 
 <script setup>
 import BannersForm from '@/Pages/Admin/Options/Banners/Form.vue';
-import {computed} from "vue";
 
-const props = defineProps([
+defineProps([
     'item',
+    'canDestroy'
 ])
 
 const emits = defineEmits([
@@ -28,10 +26,6 @@ const emits = defineEmits([
     'declineForm',
     'onUploadImage',
 ])
-
-function declineForm() {
-    emits('declineForm', props.item.id);
-}
 
 function onUploadImage(image, device, lang) {
     emits('onUploadImage', image, device, lang);

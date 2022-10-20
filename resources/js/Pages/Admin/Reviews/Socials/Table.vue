@@ -20,7 +20,7 @@
         </template>
 
         <template v-slot:actions="{data}">
-            <a href="javascript:" @click="$emit('onDestroy', data.row.id)">
+            <a href="javascript:" @click="$emit('onDestroy', data.row.id)" v-if="canDestroy">
                 <xcircle-component/>
             </a>
         </template>
@@ -29,7 +29,7 @@
 
 
 <script setup>
-defineProps(['data']);
+defineProps(['data', 'canDestroy']);
 defineEmits(['onDestroy', 'onEdit'])
 
 const headings = [

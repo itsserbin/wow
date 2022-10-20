@@ -13,6 +13,7 @@
             <Table :data="state.colors.data"
                    @onEdit="onEdit"
                    @onDestroy="onDestroy"
+                   :canDestroy="can('destroy-colors')"
             />
 
             <pagination :pagination="state.colors"
@@ -24,6 +25,7 @@
                        @closeModal="modalFunction"
                        @submitForm="submitForm"
                        @declineForm="onDestroy"
+                       :canDestroy="can('destroy-colors')"
             ></component>
         </div>
     </OptionsLayout>

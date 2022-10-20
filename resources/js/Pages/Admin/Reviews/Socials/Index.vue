@@ -13,6 +13,7 @@
             <Table :data="state.reviews.data"
                    @onEdit="onEdit"
                    @onDestroy="onDestroy"
+                   :canDestroy="can('destroy-reviews')"
             />
 
             <pagination :pagination="state.reviews"
@@ -24,6 +25,7 @@
                        @closeModal="modalFunction"
                        @submitForm="submitForm"
                        @declineForm="onDestroy"
+                       :canDestroy="can('destroy-reviews')"
             ></component>
         </div>
     </ReviewsLayout>

@@ -21,6 +21,7 @@
                    @onEdit="onEdit"
                    @onDestroy="onDestroy"
                    @publishReview="publishReview"
+                   :canDestroy="can('destroy-reviews')"
             />
             <div class="text-center">
                 <pagination :pagination="state.reviews"
@@ -34,6 +35,7 @@
                    @closeModal="modalFunction"
                    @submitForm="submitForm"
                    @declineForm="onDestroy"
+                   :canDestroy="can('destroy-reviews')"
         ></component>
     </ReviewsLayout>
 </template>

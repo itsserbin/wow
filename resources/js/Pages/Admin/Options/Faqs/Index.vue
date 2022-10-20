@@ -14,6 +14,7 @@
             <Table :data="state.data.data"
                    @onEdit="onEdit"
                    @onDestroy="onDestroy"
+                   :canDestroy="can('destroy-faq')"
             />
 
             <pagination :pagination="state.data"
@@ -25,6 +26,7 @@
                        @closeModal="modalFunction"
                        @submitForm="submitForm"
                        @declineForm="onDestroy"
+                       :canDestroy="can('destroy-faq')"
             ></component>
         </div>
     </OptionsLayout>

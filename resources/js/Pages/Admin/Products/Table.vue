@@ -39,7 +39,7 @@
         </template>
 
         <template v-slot:actions="{data}">
-            <a href="javascript:" @click="$emit('onDestroy', data.row.id)">
+            <a href="javascript:" @click="$emit('onDestroy', data.row.id)" v-if="canDestroy">
                 <xcircle-component/>
             </a>
         </template>
@@ -50,7 +50,7 @@
 <script setup>
 import {inject, ref} from "vue";
 
-defineProps(['data']);
+defineProps(['data','canDestroy']);
 defineEmits(['onDestroy', 'onEdit'])
 
 const defaultLang = inject('$defaultLang');

@@ -1,12 +1,10 @@
 <template>
     <modal-component @closeModal="$emit('closeModal')"
-                     submit-button-text="Save"
-                     cancel-button-text="Cancel"
-                     decline-button-text="Destroy"
-                     @declineForm="declineForm"
+                     @declineForm="$emit('declineForm',item.id)"
                      @submitForm="$emit('submitForm')"
                      @clickCancel="$emit('closeModal')"
                      size="extralarge"
+                     :decline-button="canDestroy"
     >
         <template #title>{{ formHeading }}</template>
         <template #content>
@@ -17,11 +15,12 @@
 
 <script setup>
 import Form from '@/Pages/Admin/Callbacks/Form.vue';
-import {computed} from "vue";
+import {computed, inject} from "vue";
 
 const props = defineProps([
     'item',
     'statuses',
+    'canDestroy'
 ])
 
 const emits = defineEmits([
@@ -34,7 +33,4 @@ const formHeading = computed(() =>
     props.item.id ? props.item.id + (props.item.title ? ' / ' + props.item.title : null) : null
 );
 
-function declineForm() {
-    emits('declineForm', props.item.id);
-}
 </script>

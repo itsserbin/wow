@@ -28,6 +28,7 @@
                            @onEdit="onEdit"
                            @onDestroy="destroy"
                            :statuses="state.statuses"
+                           :canDestroy="can('destroy-clients')"
                     />
                     <div class="text-center">
                         <pagination :pagination="state.data"
@@ -45,6 +46,7 @@
                        @closeModal="editModalFunction"
                        @declineForm="destroy"
                        @submitForm="onUpdate"
+                       :canDestroy="can('destroy-clients')"
             ></component>
         </div>
     </auth-layout>

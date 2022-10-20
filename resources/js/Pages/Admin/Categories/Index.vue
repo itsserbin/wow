@@ -7,7 +7,7 @@
         <loader-component v-if="state.isLoading"/>
         <div v-if="!state.isLoading && can('show-categories')" class="grid gap-4 grid-cols-1">
             <div>
-                <button-component type="btn" @click="create" v-if="can('create-products')">
+                <button-component type="btn" @click="create" v-if="can('create-categories')">
                     Додати
                 </button-component>
             </div>
@@ -15,6 +15,7 @@
             <Table :data="state.categories.data"
                    @onEdit="onEdit"
                    @onDestroy="onDestroy"
+                   :canDestroy="can('destroy-categories')"
             />
 
             <div class="text-center">
@@ -29,6 +30,7 @@
                    @closeModal="modalFunction"
                    @submitForm="submitForm"
                    @declineForm="onDestroy"
+                   :canDestroy="can('destroy-categories')"
         ></component>
     </auth-layout>
 </template>

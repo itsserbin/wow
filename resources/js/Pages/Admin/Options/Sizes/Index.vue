@@ -13,6 +13,7 @@
             <Table :data="state.sizes.data"
                    @onEdit="onEdit"
                    @onDestroy="onDestroy"
+                   :canDestroy="can('destroy-sizes')"
             />
 
 
@@ -25,6 +26,7 @@
                        @closeModal="modalFunction"
                        @submitForm="submitForm"
                        @declineForm="onDestroy"
+                       :canDestroy="can('destroy-sizes')"
             ></component>
         </div>
     </OptionsLayout>

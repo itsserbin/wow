@@ -1,9 +1,7 @@
 <template>
     <modal-component @closeModal="$emit('closeModal')"
-                     submit-button-text="Save"
-                     cancel-button-text="Cancel"
-                     decline-button-text="Destroy"
-                     @declineForm="declineForm"
+                     :decline-button="canDestroy"
+                     @declineForm="$emit('declineForm',item.id)"
                      @submitForm="$emit('submitForm')"
                      @clickCancel="$emit('closeModal')"
                      size="large"
@@ -21,6 +19,7 @@ import {computed} from "vue";
 
 const props = defineProps([
     'item',
+    'canDestroy'
 ])
 
 const emits = defineEmits([
@@ -32,8 +31,4 @@ const emits = defineEmits([
 const formHeading = computed(() =>
     props.item.id ? props.item.id + (props.item.title ? ' / ' + props.item.title : null) : null
 );
-
-function declineForm() {
-    emits('declineForm', props.item.id);
-}
 </script>

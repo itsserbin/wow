@@ -1,9 +1,7 @@
 <template>
     <modal-component @closeModal="$emit('closeModal')"
-                     submit-button-text="Save"
-                     cancel-button-text="Cancel"
-                     decline-button-text="Destroy"
-                     @declineForm="declineForm"
+                     :decline-button="canDestroy"
+                     @declineForm="$emit('declineForm',order.id)"
                      @submitForm="$emit('submitForm')"
                      @clickCancel="$emit('closeModal')"
                      :size="size"
@@ -15,7 +13,6 @@
             <Form :order="order"
                   :statuses="statuses"
                   :paymentMethods="paymentMethods"
-                  @submitItemForm="submitItemForm"
             />
         </template>
     </modal-component>
@@ -24,21 +21,14 @@
 <script setup>
 import Form from '@/Pages/Admin/Orders/Form.vue';
 
-const props = defineProps([
+defineProps([
     'size',
     'order',
     'statuses',
-    'paymentMethods'
+    'paymentMethods',
+    'canDestroy'
 ]);
 
-const emits = defineEmits(['closeModal', 'submitForm', 'declineForm', 'submitItemForm']);
-
-function declineForm() {
-    emits('declineForm', props.order.id);
-}
-
-function submitItemForm(data) {
-    emits('submitItemForm', data)
-}
+defineEmits(['closeModal', 'submitForm', 'declineForm', 'submitItemForm']);
 
 </script>

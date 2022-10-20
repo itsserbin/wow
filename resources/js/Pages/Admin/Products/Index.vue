@@ -17,6 +17,7 @@
                 <Table :data="state.products.data"
                        @onEdit="onEdit"
                        @onDestroy="onDestroy"
+                       :canDestroy="can('destroy-products')"
                 />
 
             </div>
@@ -35,6 +36,7 @@
                    @declineForm="onDestroy"
                    @setProductImages="setProductImages"
                    @destroyImage="destroyImage"
+                   :canDestroy="can('destroy-products')"
         ></component>
     </auth-layout>
 </template>

@@ -1,16 +1,17 @@
 <template>
     <modal-component @closeModal="$emit('closeModal')"
-                     submit-button-text="Save"
-                     cancel-button-text="Cancel"
-                     decline-button-text="Destroy"
-                     @declineForm="declineForm"
+                     :decline-button="canDestroy"
+                     @declineForm="$emit('declineForm',product.id)"
                      @submitForm="$emit('submitForm')"
                      @clickCancel="$emit('closeModal')"
                      size="extralarge"
     >
         <template #title>{{ formHeading }}</template>
         <template #content>
-            <ProductForm :product="props.product" @setProductImages="setProductImages" @destroyImage="destroyImage"/>
+            <ProductForm :product="product"
+                         @setProductImages="setProductImages"
+                         @destroyImage="destroyImage"
+            />
         </template>
     </modal-component>
 </template>
@@ -21,6 +22,7 @@ import {computed} from "vue";
 
 const props = defineProps([
     'product',
+    'canDestroy'
 ])
 
 const emits = defineEmits([
@@ -34,10 +36,6 @@ const emits = defineEmits([
 const formHeading = computed(() =>
     props.product.id ? props.product.id + (props.product.title ? ' / ' + props.product.title : null) : null
 );
-
-function declineForm() {
-    emits('declineForm', props.product.id);
-}
 
 function setProductImages(images) {
     emits('setProductImages', images);

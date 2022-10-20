@@ -44,7 +44,7 @@
         </template>
 
         <template v-slot:actions="{data}">
-            <a href="javascript:" @click="$emit('onDestroy',data.row.id)">
+            <a href="javascript:" @click="$emit('onDestroy',data.row.id)" v-if="canDestroy">
                 <xcircle-component/>
             </a>
         </template>
@@ -55,7 +55,7 @@
 import {reactive} from "vue";
 
 defineEmits(['onDestroy','onEdit'])
-defineProps(['data','statuses']);
+defineProps(['data','statuses','canDestroy']);
 
 const headings = reactive([
     {

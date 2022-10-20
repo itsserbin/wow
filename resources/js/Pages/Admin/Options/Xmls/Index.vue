@@ -11,19 +11,21 @@
             </button-component>
 
             <Table :data="state.data.data"
-                        @onEdit="onEdit"
-                        @onDestroy="onDestroy"
-                />
+                   @onEdit="onEdit"
+                   @onDestroy="onDestroy"
+                   :canDestroy="can('destroy-xml')"
+            />
 
             <pagination :pagination="state.data"
-                      :click-handler="fetch"
-                      v-model="state.currentPage"
+                        :click-handler="fetch"
+                        v-model="state.currentPage"
             />
             <component :is="activeModal"
                        :item="state.item"
                        @closeModal="modalFunction"
                        @submitForm="submitForm"
                        @declineForm="onDestroy"
+                       :canDestroy="can('destroy-xml')"
             ></component>
         </div>
     </OptionsLayout>

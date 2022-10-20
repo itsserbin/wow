@@ -14,6 +14,7 @@
             <Table :data="state.data.data"
                    @onEdit="onEdit"
                    @onDestroy="onDestroy"
+                   :canDestroy="can('destroy-advantages')"
             />
 
             <pagination :pagination="state.data"
@@ -25,6 +26,7 @@
                        @closeModal="modalFunction"
                        @submitForm="submitForm"
                        @declineForm="onDestroy"
+                       :canDestroy="can('destroy-advantages')"
             ></component>
         </div>
     </OptionsLayout>

@@ -1,9 +1,7 @@
 <template>
     <modal-component @closeModal="$emit('closeModal')"
-                     submit-button-text="Save"
-                     cancel-button-text="Cancel"
-                     decline-button-text="Destroy"
-                     @declineForm="declineForm"
+                     :decline-button="canDestroy"
+                     @declineForm="$emit('declineForm',item.id)"
                      @submitForm="$emit('submitForm')"
                      @clickCancel="$emit('closeModal')"
                      size="large"
@@ -17,17 +15,14 @@
 <script setup>
 import Form from '@/Pages/Admin/Options/Xmls/Form.vue';
 
-const props = defineProps([
+defineProps([
     'item',
+    'canDestroy'
 ])
 
-const emits = defineEmits([
+defineEmits([
     'closeModal',
     'submitForm',
     'declineForm',
 ])
-
-function declineForm() {
-    emits('declineForm', props.item.id);
-}
 </script>
