@@ -42,7 +42,7 @@
                     </tr>
                     </thead>
                     <tbody class="bg-white dark:bg-slate-800">
-                    <tr v-for="(row,i) in rows" class="hover:bg-gray-200 transition-all">
+                    <tr v-for="(row,i) in rows" class="hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">
                         <td v-for="heading in headings"
                             class="
                                         border-b
