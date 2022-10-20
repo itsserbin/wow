@@ -1,5 +1,5 @@
 <script setup>
-import {ref, onMounted} from 'vue';
+import {ref, onMounted, inject} from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
@@ -11,6 +11,7 @@ import {useStore} from "vuex";
 const showingNavigationDropdown = ref(false);
 
 const user = useStore();
+const can = inject('$can');
 
 defineProps(['title']);
 
@@ -45,51 +46,61 @@ onMounted(() => {
                                 </NavLink>
 
                                 <NavLink :href="route('admin.products.index')"
+                                         v-if="can('show-products')"
                                          :active="route().current('admin.products.index')">
                                     Товари
                                 </NavLink>
 
                                 <NavLink :href="route('admin.categories.index')"
+                                         v-if="can('show-categories')"
                                          :active="route().current('admin.categories.index')">
                                     Категорії
                                 </NavLink>
 
                                 <NavLink :href="route('admin.reviews.product.index')"
+                                         v-if="can('show-reviews')"
                                          :active="route().current('admin.reviews.*')">
                                     Відгуки
                                 </NavLink>
 
                                 <NavLink :href="route('admin.clients.index')"
+                                         v-if="can('show-clients')"
                                          :active="route().current('admin.clients.index')">
                                     Клієнти
                                 </NavLink>
 
                                 <NavLink :href="route('admin.orders.index')"
+                                         v-if="can('show-orders')"
                                          :active="route().current('admin.orders.index')">
                                     Замовлення
                                 </NavLink>
 
                                 <NavLink :href="route('admin.images.index')"
+                                         v-if="can('show-images')"
                                          :active="route().current('admin.images.index')">
                                     Зображення
                                 </NavLink>
 
                                 <NavLink :href="route('admin.pages.index')"
+                                         v-if="can('show-pages')"
                                          :active="route().current('admin.pages.index')">
                                     Сторінки
                                 </NavLink>
 
                                 <NavLink :href="route('admin.callbacks.index')"
+                                         v-if="can('show-callbacks')"
                                          :active="route().current('admin.callbacks.index')">
                                     Callbacks
                                 </NavLink>
 
                                 <NavLink :href="route('admin.statistics.index')"
+                                         v-if="can('show-bookkeeping')"
                                          :active="route().current('admin.statistics.*')">
                                     Статистика
                                 </NavLink>
 
                                 <NavLink :href="route('admin.options.index')"
+                                         v-if="can('show-options')"
                                          :active="route().current('admin.options.*')">
                                     Налаштування
                                 </NavLink>
@@ -154,51 +165,61 @@ onMounted(() => {
                         </ResponsiveNavLink>
 
                         <ResponsiveNavLink :href="route('admin.products.index')"
+                                           v-if="can('show-products')"
                                            :active="route().current('admin.products.index')">
                             Товари
                         </ResponsiveNavLink>
 
                         <ResponsiveNavLink :href="route('admin.categories.index')"
+                                           v-if="can('show-categories')"
                                            :active="route().current('admin.categories.index')">
                             Категорії
                         </ResponsiveNavLink>
 
                         <ResponsiveNavLink :href="route('admin.reviews.product.index')"
+                                           v-if="can('show-reviews')"
                                            :active="route().current('admin.reviews.*')">
                             Відгуки
                         </ResponsiveNavLink>
 
                         <ResponsiveNavLink :href="route('admin.orders.index')"
+                                           v-if="can('show-orders')"
                                            :active="route().current('admin.orders.index')">
                             Замовлення
                         </ResponsiveNavLink>
 
                         <ResponsiveNavLink :href="route('admin.clients.index')"
+                                           v-if="can('show-clients')"
                                            :active="route().current('admin.clients.index')">
                             Клієнти
                         </ResponsiveNavLink>
 
                         <ResponsiveNavLink :href="route('admin.images.index')"
+                                           v-if="can('show-images')"
                                            :active="route().current('admin.images.index')">
                             Зображення
                         </ResponsiveNavLink>
 
                         <ResponsiveNavLink :href="route('admin.pages.index')"
+                                           v-if="can('show-pages')"
                                            :active="route().current('admin.pages.index')">
                             Сторінки
                         </ResponsiveNavLink>
 
                         <ResponsiveNavLink :href="route('admin.callbacks.index')"
+                                           v-if="can('show-callbacks')"
                                            :active="route().current('admin.callbacks.index')">
                             Callback
                         </ResponsiveNavLink>
 
                         <ResponsiveNavLink :href="route('admin.statistics.index')"
+                                           v-if="can('show-bookkeeping')"
                                            :active="route().current('admin.statistics.*')">
                             Статистика
                         </ResponsiveNavLink>
 
                         <ResponsiveNavLink :href="route('admin.options.index')"
+                                           v-if="can('show-options')"
                                            :active="route().current('admin.options.*')">
                             Налаштування
                         </ResponsiveNavLink>
