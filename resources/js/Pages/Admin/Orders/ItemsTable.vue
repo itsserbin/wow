@@ -45,7 +45,7 @@
         </template>
 
         <template #h1="{data}">
-            <a :href="route('admin.products.index',{product: data.row.product.id})" target="_blank">
+            <a :href="route('product',data.row.product.id)" target="_blank">
                 {{ data.row.product.h1.ua ? data.row.product.h1.ua : data.row.product.h1.ru }}
             </a>
         </template>
