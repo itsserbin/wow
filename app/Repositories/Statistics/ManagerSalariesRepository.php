@@ -70,6 +70,7 @@ class ManagerSalariesRepository extends CoreRepository
             'count_prepayments',
             'prepayments_amount',
             'total_price',
+            'count_parcel_reminder',
         );
 
 
@@ -111,22 +112,23 @@ class ManagerSalariesRepository extends CoreRepository
                 'date_end' => $this->dateFormatFromTimepicker($data['date_end'])
             ];
         }
-        $result['Всего заявок'] = $this->sumColumnByDateRangeAndManagerId('count_applications', $date, $managers);
-        $result['Отмененных заявок'] = $this->sumColumnByDateRangeAndManagerId('canceled_applications', $date, $managers);
-        $result['Возвратов'] = $this->sumColumnByDateRangeAndManagerId('returned_applications', $date, $managers);
-        $result['В процессе'] = $this->sumColumnByDateRangeAndManagerId('in_process_applications', $date, $managers);
-        $result['Выполненных заявок'] = $this->sumColumnByDateRangeAndManagerId('done_applications', $date, $managers);
-        $result['Общий апрув'] = $this->sumColumnByDateRangeAndManagerId('total_applications', $date, $managers);
-        $result['Всего доп.продаж'] = $this->sumColumnByDateRangeAndManagerId('count_additional_sales', $date, $managers);
-        $result['Общая маржа доп.продаж'] = $this->sumColumnByDateRangeAndManagerId('sum_additional_sales', $date, $managers);
-        $result['Сумма за заявки'] = $this->sumColumnByDateRangeAndManagerId('sum_price_applications', $date, $managers);
-        $result['Сумма за доп.продажи'] = $this->sumColumnByDateRangeAndManagerId('sum_price_additional_sales', $date, $managers);
-        $result['Кол-во продаж воздуха'] = $this->sumColumnByDateRangeAndManagerId('count_sale_of_air', $date, $managers);
-        $result['Общая сумма продаж воздуха'] = $this->sumColumnByDateRangeAndManagerId('price_sale_of_air', $date, $managers);
-        $result['Сумма за продажу воздуха'] = $this->sumColumnByDateRangeAndManagerId('total_sale_of_air', $date, $managers);
-        $result['Кол-во предоплат'] = $this->sumColumnByDateRangeAndManagerId('count_prepayments', $date, $managers);
-        $result['Сумма за предоплаты'] = $this->sumColumnByDateRangeAndManagerId('prepayments_amount', $date, $managers);
-        $result['Итого'] = $this->sumColumnByDateRangeAndManagerId('total_price', $date, $managers);
+        $result['Всього заявок'] = $this->sumColumnByDateRangeAndManagerId('count_applications', $date, $managers);
+        $result['Скасовані'] = $this->sumColumnByDateRangeAndManagerId('canceled_applications', $date, $managers);
+        $result['Повернення'] = $this->sumColumnByDateRangeAndManagerId('returned_applications', $date, $managers);
+        $result['В процесі'] = $this->sumColumnByDateRangeAndManagerId('in_process_applications', $date, $managers);
+        $result['Виконані'] = $this->sumColumnByDateRangeAndManagerId('done_applications', $date, $managers);
+        $result['Загальний апрув'] = $this->sumColumnByDateRangeAndManagerId('total_applications', $date, $managers);
+        $result['Всього дод.продаж'] = $this->sumColumnByDateRangeAndManagerId('count_additional_sales', $date, $managers);
+        $result['Загальна маржа дод.продаж'] = $this->sumColumnByDateRangeAndManagerId('sum_additional_sales', $date, $managers);
+        $result['Сума за заявки'] = $this->sumColumnByDateRangeAndManagerId('sum_price_applications', $date, $managers);
+        $result['Сума за дод.продажи'] = $this->sumColumnByDateRangeAndManagerId('sum_price_additional_sales', $date, $managers);
+        $result['Кількість продажів повітря'] = $this->sumColumnByDateRangeAndManagerId('count_sale_of_air', $date, $managers);
+        $result['Загальна сума продажу повітря'] = $this->sumColumnByDateRangeAndManagerId('price_sale_of_air', $date, $managers);
+        $result['Сума за продаж повітря'] = $this->sumColumnByDateRangeAndManagerId('total_sale_of_air', $date, $managers);
+        $result['Кількість передоплат'] = $this->sumColumnByDateRangeAndManagerId('count_prepayments', $date, $managers);
+        $result['Кількість нагадувань про посилку'] = $this->sumColumnByDateRangeAndManagerId('count_parcel_reminder', $date, $managers);
+        $result['Сума за передоплати'] = $this->sumColumnByDateRangeAndManagerId('prepayments_amount', $date, $managers);
+        $result['Загалом'] = $this->sumColumnByDateRangeAndManagerId('total_price', $date, $managers);
         return $result;
     }
 

@@ -190,6 +190,10 @@ const headings = reactive([
         key: 'sum_price_additional_sales'
     },
     {
+        label: 'Кількість нагадувань про посилку',
+        key: 'count_parcel_reminder'
+    },
+    {
         label: 'Кількість передоплат',
         key: 'count_prepayments'
     },
