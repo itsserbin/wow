@@ -84,6 +84,8 @@ class SumManagersSalary extends Command
             $item->done_applications = $this->ordersRepository->countOrdersByStatus('done', $item->date, $item->manager_id);
             $item->total_applications = $this->ordersRepository->sumApprovalApplications($item->date, $item->manager_id);
 
+            $item->count_parcel_reminder = $this->ordersRepository->countWithParcelReminder($item->date, $item->manager_id);
+
             $item->count_sale_of_air = $this->ordersRepository->sumCountSalesOfAirMarginality($item->date, $item->manager_id);
             $item->price_sale_of_air = $this->ordersRepository->sumPriceSalesOfAirMarginality($item->date, $item->manager_id);
             $item->total_sale_of_air = $item->count_sale_of_air * 15;

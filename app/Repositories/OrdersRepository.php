@@ -427,7 +427,7 @@ class OrdersRepository extends CoreRepository
         if ($manager_id) {
             return $this->model::whereDate('created_at', $date)
                 ->where([
-                    ['status', '!=', OrderStatus::STATUS_CANCELED],
+                    ['status', '=', OrderStatus::STATUS_DONE],
                     ['manager_id', $manager_id],
                     ['parcel_reminder', 1],
                 ])
@@ -435,7 +435,7 @@ class OrdersRepository extends CoreRepository
         } else {
             return $this->model::whereDate('created_at', $date)
                 ->where([
-                    ['status', '!=', OrderStatus::STATUS_CANCELED],
+                    ['status', '!=', OrderStatus::STATUS_DONE],
                     ['parcel_reminder', 1],
                 ])
                 ->count();
@@ -668,9 +668,6 @@ class OrdersRepository extends CoreRepository
             return $this->model::whereDate('created_at', $date)
                 ->where(function ($query) {
                     $query->where('status', OrderStatus::STATUS_DONE);
-                    $query->orWhere('status', OrderStatus::STATUS_RETURN);
-                    $query->orWhere('status', OrderStatus::STATUS_AT_THE_POST_OFFICE);
-                    $query->orWhere('status', OrderStatus::STATUS_ON_THE_ROAD);
                 })->where([
                     ['sale_of_air', 1],
                     ['sale_of_air_price', '>', 80],
@@ -681,9 +678,6 @@ class OrdersRepository extends CoreRepository
             return $this->model::whereDate('created_at', $date)
                 ->where(function ($query) {
                     $query->where('status', OrderStatus::STATUS_DONE);
-                    $query->orWhere('status', OrderStatus::STATUS_RETURN);
-                    $query->orWhere('status', OrderStatus::STATUS_AT_THE_POST_OFFICE);
-                    $query->orWhere('status', OrderStatus::STATUS_ON_THE_ROAD);
                 })->where([
                     ['sale_of_air', 1],
                     ['sale_of_air_price', '>', 80]

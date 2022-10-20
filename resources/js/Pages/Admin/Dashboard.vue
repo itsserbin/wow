@@ -11,6 +11,20 @@
             >
             </card-component>
         </div>
+        <div class="block">
+            <label-component value="Фільтр по даті"/>
+            <Datepicker v-model="params.date"
+                        class="w-100"
+                        locale="ru"
+                        placeholder="Оберіть дату"
+                        autoApply
+                        :monthChangeOnScroll="false"
+                        :enableTimePicker="false"
+                        range
+                        utc
+                        @update:modelValue="sortByRange"
+            ></Datepicker>
+        </div>
         <LastParams :active-item="params.last" @sortByLast="sortByLast"/>
 
         <OrdersChart v-if="orders.chart" :chartData="orders.chart"/>
@@ -70,7 +84,9 @@ const getParams = computed(() => {
         data.date_end = params.value.date[1];
     }
     if (params.value.last) {
-        data.last = params.value.last
+        if (params.value.last !== 'range') {
+            data.last = params.value.last
+        }
     }
     data.page = params.value.page;
     return data;
@@ -87,6 +103,11 @@ function sortByLast(val) {
             page: 1,
         };
     }
+    fetch();
+}
+
+function sortByRange() {
+    params.value.last = 'range';
     fetch();
 }
 
