@@ -12,7 +12,7 @@
     ]
   },
   "resources/js/Pages/Admin/app.js": {
-    "file": "assets/app.09b8b153.js",
+    "file": "assets/app.d8b74f37.js",
     "src": "resources/js/Pages/Admin/app.js",
     "isEntry": true,
     "imports": [
@@ -138,6 +138,7 @@
       "resources/js/Pages/Admin/Statistics/Orders/Index.vue",
       "resources/js/Pages/Admin/Statistics/Orders/Indicators.vue",
       "resources/js/Pages/Admin/Statistics/Orders/Table.vue",
+      "resources/js/Pages/Admin/Statistics/Orders/Table2.vue",
       "resources/js/Pages/Admin/Statistics/Profits/Chart.vue",
       "resources/js/Pages/Admin/Statistics/Profits/Index.vue",
       "resources/js/Pages/Admin/Statistics/StatisticLayout.vue"
@@ -156,18 +157,18 @@
     ]
   },
   "resources/js/Pages/Admin/Auth/ConfirmPassword.vue": {
-    "file": "assets/ConfirmPassword.4cd963c6.js",
+    "file": "assets/ConfirmPassword.edb53cc8.js",
     "src": "resources/js/Pages/Admin/Auth/ConfirmPassword.vue",
     "isDynamicEntry": true,
     "imports": [
       "_moment.325cf309.js",
-      "_GuestLayout.9463dd10.js",
+      "_GuestLayout.c76b373d.js",
       "_InputError.472dfaef.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
-  "_GuestLayout.9463dd10.js": {
-    "file": "assets/GuestLayout.9463dd10.js",
+  "_GuestLayout.c76b373d.js": {
+    "file": "assets/GuestLayout.c76b373d.js",
     "imports": [
       "resources/js/Pages/Admin/app.js",
       "_moment.325cf309.js"
@@ -180,56 +181,56 @@
     ]
   },
   "resources/js/Pages/Admin/Auth/ForgotPassword.vue": {
-    "file": "assets/ForgotPassword.ac22d3f3.js",
+    "file": "assets/ForgotPassword.2a610cf4.js",
     "src": "resources/js/Pages/Admin/Auth/ForgotPassword.vue",
     "isDynamicEntry": true,
     "imports": [
       "_moment.325cf309.js",
-      "_GuestLayout.9463dd10.js",
+      "_GuestLayout.c76b373d.js",
       "_InputError.472dfaef.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Auth/Login.vue": {
-    "file": "assets/Login.4488194a.js",
+    "file": "assets/Login.a21a95b5.js",
     "src": "resources/js/Pages/Admin/Auth/Login.vue",
     "isDynamicEntry": true,
     "imports": [
       "_moment.325cf309.js",
       "resources/js/Pages/Admin/app.js",
-      "_GuestLayout.9463dd10.js",
+      "_GuestLayout.c76b373d.js",
       "_InputError.472dfaef.js"
     ]
   },
   "resources/js/Pages/Admin/Auth/Register.vue": {
-    "file": "assets/Register.ab69818f.js",
+    "file": "assets/Register.82010f8c.js",
     "src": "resources/js/Pages/Admin/Auth/Register.vue",
     "isDynamicEntry": true,
     "imports": [
       "_moment.325cf309.js",
-      "_GuestLayout.9463dd10.js",
+      "_GuestLayout.c76b373d.js",
       "_InputError.472dfaef.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Auth/ResetPassword.vue": {
-    "file": "assets/ResetPassword.9cb8339f.js",
+    "file": "assets/ResetPassword.1cf22cc1.js",
     "src": "resources/js/Pages/Admin/Auth/ResetPassword.vue",
     "isDynamicEntry": true,
     "imports": [
       "_moment.325cf309.js",
-      "_GuestLayout.9463dd10.js",
+      "_GuestLayout.c76b373d.js",
       "_InputError.472dfaef.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Auth/VerifyEmail.vue": {
-    "file": "assets/VerifyEmail.f9c659d6.js",
+    "file": "assets/VerifyEmail.d99b0e1c.js",
     "src": "resources/js/Pages/Admin/Auth/VerifyEmail.vue",
     "isDynamicEntry": true,
     "imports": [
       "_moment.325cf309.js",
-      "_GuestLayout.9463dd10.js",
+      "_GuestLayout.c76b373d.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
@@ -353,7 +354,7 @@
     ]
   },
   "resources/js/Pages/Admin/Dashboard.vue": {
-    "file": "assets/Dashboard.dea5f20f.js",
+    "file": "assets/Dashboard.2d9073a8.js",
     "src": "resources/js/Pages/Admin/Dashboard.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -361,17 +362,18 @@
       "resources/js/Pages/Admin/Statistics/LastParams.vue",
       "resources/js/Pages/Admin/Statistics/Orders/Indicators.vue",
       "resources/js/Pages/Admin/Statistics/Orders/Table.vue",
+      "resources/js/Pages/Admin/Statistics/Orders/Table2.vue",
       "_moment.325cf309.js",
-      "_index.e63ae420.js",
+      "_index.c8632c46.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Statistics/Orders/Chart.vue": {
-    "file": "assets/Chart.fe6386d6.js",
+    "file": "assets/Chart.f7431e4c.js",
     "src": "resources/js/Pages/Admin/Statistics/Orders/Chart.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_index.e63ae420.js",
+      "_index.c8632c46.js",
       "_moment.325cf309.js",
       "resources/js/Pages/Admin/app.js"
     ]
@@ -400,15 +402,23 @@
       "_moment.325cf309.js"
     ]
   },
-  "_index.e63ae420.js": {
-    "file": "assets/index.e63ae420.js",
+  "resources/js/Pages/Admin/Statistics/Orders/Table2.vue": {
+    "file": "assets/Table2.aae28950.js",
+    "src": "resources/js/Pages/Admin/Statistics/Orders/Table2.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_moment.325cf309.js"
+    ]
+  },
+  "_index.c8632c46.js": {
+    "file": "assets/index.c8632c46.js",
     "imports": [
       "resources/js/Pages/Admin/app.js",
       "_moment.325cf309.js"
     ]
   },
   "resources/js/Pages/Admin/Images/Form.vue": {
-    "file": "assets/Form.ed7f2deb.js",
+    "file": "assets/Form.6b0515f4.js",
     "src": "resources/js/Pages/Admin/Images/Form.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -417,27 +427,27 @@
     ]
   },
   "resources/js/Pages/Admin/Images/Index.vue": {
-    "file": "assets/Index.3ef546d2.js",
+    "file": "assets/Index.e8cacb87.js",
     "src": "resources/js/Pages/Admin/Images/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "_moment.325cf309.js",
-      "_UploadImagesModal.53563feb.js",
+      "_UploadImagesModal.e6b2067f.js",
       "resources/js/Pages/Admin/Images/List.vue",
       "resources/js/Pages/Admin/Images/Modal.vue",
       "resources/js/Pages/Admin/app.js",
       "resources/js/Pages/Admin/Images/Form.vue"
     ]
   },
-  "_UploadImagesModal.53563feb.js": {
-    "file": "assets/UploadImagesModal.53563feb.js",
+  "_UploadImagesModal.e6b2067f.js": {
+    "file": "assets/UploadImagesModal.e6b2067f.js",
     "imports": [
       "resources/js/Pages/Admin/app.js",
       "_moment.325cf309.js"
     ]
   },
   "resources/js/Pages/Admin/Images/List.vue": {
-    "file": "assets/List.a5589b67.js",
+    "file": "assets/List.5bab5486.js",
     "src": "resources/js/Pages/Admin/Images/List.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -446,7 +456,7 @@
     ]
   },
   "resources/js/Pages/Admin/Images/Modal.vue": {
-    "file": "assets/Modal.b8e72f13.js",
+    "file": "assets/Modal.26221f72.js",
     "src": "resources/js/Pages/Admin/Images/Modal.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -623,7 +633,7 @@
     ]
   },
   "resources/js/Pages/Admin/Options/Index.vue": {
-    "file": "assets/Index.a525403a.js",
+    "file": "assets/Index.96730589.js",
     "src": "resources/js/Pages/Admin/Options/Index.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -972,7 +982,7 @@
     ]
   },
   "resources/js/Pages/Admin/Orders/Index.vue": {
-    "file": "assets/Index.67fb1ffe.js",
+    "file": "assets/Index.a659a0dd.js",
     "src": "resources/js/Pages/Admin/Orders/Index.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -1045,7 +1055,7 @@
     ]
   },
   "resources/js/Pages/Admin/Products/Form.vue": {
-    "file": "assets/Form.95d72561.js",
+    "file": "assets/Form.cbf7e966.js",
     "src": "resources/js/Pages/Admin/Products/Form.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -1054,11 +1064,11 @@
       "resources/js/Pages/Admin/Products/ImagesSelectModal.vue",
       "resources/js/Pages/Admin/app.js",
       "_swiper-slide.b98c6995.js",
-      "_UploadImagesModal.53563feb.js"
+      "_UploadImagesModal.e6b2067f.js"
     ]
   },
   "resources/js/Pages/Admin/Products/Images.vue": {
-    "file": "assets/Images.22d6fb1b.js",
+    "file": "assets/Images.b0e7c8b7.js",
     "src": "resources/js/Pages/Admin/Products/Images.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -1068,17 +1078,17 @@
     ]
   },
   "resources/js/Pages/Admin/Products/ImagesSelectModal.vue": {
-    "file": "assets/ImagesSelectModal.27ff3185.js",
+    "file": "assets/ImagesSelectModal.44329db7.js",
     "src": "resources/js/Pages/Admin/Products/ImagesSelectModal.vue",
     "isDynamicEntry": true,
     "imports": [
       "_moment.325cf309.js",
       "resources/js/Pages/Admin/app.js",
-      "_UploadImagesModal.53563feb.js"
+      "_UploadImagesModal.e6b2067f.js"
     ]
   },
   "resources/js/Pages/Admin/Products/Index.vue": {
-    "file": "assets/Index.f49e2512.js",
+    "file": "assets/Index.817c74f9.js",
     "src": "resources/js/Pages/Admin/Products/Index.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -1090,11 +1100,11 @@
       "resources/js/Pages/Admin/app.js",
       "_swiper-slide.b98c6995.js",
       "resources/js/Pages/Admin/Products/ImagesSelectModal.vue",
-      "_UploadImagesModal.53563feb.js"
+      "_UploadImagesModal.e6b2067f.js"
     ]
   },
   "resources/js/Pages/Admin/Products/Modal.vue": {
-    "file": "assets/Modal.b7c71777.js",
+    "file": "assets/Modal.6cf0e065.js",
     "src": "resources/js/Pages/Admin/Products/Modal.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -1104,7 +1114,7 @@
       "resources/js/Pages/Admin/app.js",
       "_swiper-slide.b98c6995.js",
       "resources/js/Pages/Admin/Products/ImagesSelectModal.vue",
-      "_UploadImagesModal.53563feb.js"
+      "_UploadImagesModal.e6b2067f.js"
     ]
   },
   "resources/js/Pages/Admin/Products/Table.vue": {
@@ -1234,11 +1244,11 @@
     ]
   },
   "resources/js/Pages/Admin/Statistics/Costs/Chart.vue": {
-    "file": "assets/Chart.6b135b31.js",
+    "file": "assets/Chart.2e1f8295.js",
     "src": "resources/js/Pages/Admin/Statistics/Costs/Chart.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_index.e63ae420.js",
+      "_index.c8632c46.js",
       "_moment.325cf309.js",
       "resources/js/Pages/Admin/app.js"
     ]
@@ -1252,7 +1262,7 @@
     ]
   },
   "resources/js/Pages/Admin/Statistics/Costs/Index.vue": {
-    "file": "assets/Index.bf28f730.js",
+    "file": "assets/Index.0e3cf738.js",
     "src": "resources/js/Pages/Admin/Statistics/Costs/Index.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -1262,7 +1272,7 @@
       "resources/js/Pages/Admin/Statistics/LastParams.vue",
       "_moment.325cf309.js",
       "resources/js/Pages/Admin/Statistics/Costs/Form.vue",
-      "_index.e63ae420.js",
+      "_index.c8632c46.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
@@ -1276,7 +1286,7 @@
     ]
   },
   "resources/js/Pages/Admin/Statistics/Index.vue": {
-    "file": "assets/Index.907459a1.js",
+    "file": "assets/Index.9c4880e5.js",
     "src": "resources/js/Pages/Admin/Statistics/Index.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -1285,26 +1295,26 @@
       "resources/js/Pages/Admin/Statistics/Costs/Chart.vue",
       "resources/js/Pages/Admin/Statistics/Profits/Chart.vue",
       "_moment.325cf309.js",
-      "_index.e63ae420.js",
+      "_index.c8632c46.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Statistics/Profits/Chart.vue": {
-    "file": "assets/Chart.e00ae33f.js",
+    "file": "assets/Chart.9234ab82.js",
     "src": "resources/js/Pages/Admin/Statistics/Profits/Chart.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_index.e63ae420.js",
+      "_index.c8632c46.js",
       "_moment.325cf309.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Statistics/Managers/Chart.vue": {
-    "file": "assets/Chart.7f03635a.js",
+    "file": "assets/Chart.646487d4.js",
     "src": "resources/js/Pages/Admin/Statistics/Managers/Chart.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_index.e63ae420.js",
+      "_index.c8632c46.js",
       "_moment.325cf309.js",
       "resources/js/Pages/Admin/app.js"
     ]
@@ -1319,17 +1329,17 @@
     ]
   },
   "resources/js/Pages/Admin/Statistics/Marketing/Chart.vue": {
-    "file": "assets/Chart.638cf13b.js",
+    "file": "assets/Chart.c89a7331.js",
     "src": "resources/js/Pages/Admin/Statistics/Marketing/Chart.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_index.e63ae420.js",
+      "_index.c8632c46.js",
       "_moment.325cf309.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Statistics/Marketing/Index.vue": {
-    "file": "assets/Index.5b7592f2.js",
+    "file": "assets/Index.7b850f86.js",
     "src": "resources/js/Pages/Admin/Statistics/Marketing/Index.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -1337,27 +1347,28 @@
       "resources/js/Pages/Admin/Statistics/StatisticLayout.vue",
       "resources/js/Pages/Admin/Statistics/LastParams.vue",
       "_moment.325cf309.js",
-      "_index.e63ae420.js",
+      "_index.c8632c46.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Statistics/Orders/Index.vue": {
-    "file": "assets/Index.27facef2.js",
+    "file": "assets/Index.0466c493.js",
     "src": "resources/js/Pages/Admin/Statistics/Orders/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Statistics/Orders/Chart.vue",
       "resources/js/Pages/Admin/Statistics/Orders/Table.vue",
+      "resources/js/Pages/Admin/Statistics/Orders/Table2.vue",
       "resources/js/Pages/Admin/Statistics/Orders/Indicators.vue",
       "resources/js/Pages/Admin/Statistics/StatisticLayout.vue",
       "resources/js/Pages/Admin/Statistics/LastParams.vue",
       "_moment.325cf309.js",
-      "_index.e63ae420.js",
+      "_index.c8632c46.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Statistics/Profits/Index.vue": {
-    "file": "assets/Index.93d8cbbc.js",
+    "file": "assets/Index.c24bb9a3.js",
     "src": "resources/js/Pages/Admin/Statistics/Profits/Index.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -1365,7 +1376,7 @@
       "resources/js/Pages/Admin/Statistics/StatisticLayout.vue",
       "resources/js/Pages/Admin/Statistics/LastParams.vue",
       "_moment.325cf309.js",
-      "_index.e63ae420.js",
+      "_index.c8632c46.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
@@ -1377,14 +1388,14 @@
     "file": "assets/app.d8248bb8.css",
     "src": "resources/js/Pages/Public/app.css"
   },
-  "resources/scss/app.scss": {
-    "file": "assets/app.564f3b78.css",
-    "src": "resources/scss/app.scss",
-    "isEntry": true
-  },
   "resources/scss/public.scss": {
     "file": "assets/public.f60608c1.css",
     "src": "resources/scss/public.scss",
+    "isEntry": true
+  },
+  "resources/scss/app.scss": {
+    "file": "assets/app.564f3b78.css",
+    "src": "resources/scss/app.scss",
     "isEntry": true
   }
 }

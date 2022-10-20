@@ -519,6 +519,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
             Route::get('indicators', [OrdersStatisticController::class, 'indicators'])
                 ->name('api.statistics.orders.indicators');
+
+            Route::get('indicators2', [OrdersStatisticController::class, 'indicators2'])
+                ->name('api.statistics.orders.indicators2');
         });
 
         Route::prefix('marketing')->group(function () {

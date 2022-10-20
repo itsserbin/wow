@@ -60,26 +60,24 @@ class OrdersStatisticCommand extends Command
         $statisticsAll = $this->ordersStatisticsRepository->getAll();
 
         foreach ($statisticsAll as $item) {
-            if ($item->applications !== ($item->completed + $item->refunds + $item->cancel)){
-                $item->applications = $this->ordersRepository->countOrdersByStatus(null, $item->date);
-                $item->unprocessed = $this->ordersRepository->countOrdersByStatus('new', $item->date);
-                $item->completed = $this->ordersRepository->countOrdersByStatus('done', $item->date);
-                $item->refunds = $this->ordersRepository->countOrdersByStatus('return', $item->date);
-                $item->cancel = $this->ordersRepository->countOrdersByStatus('canceled', $item->date);
-                $item->at_the_post_office = $this->ordersRepository->countOrdersByStatus('at_the_post_office', $item->date);
-                $item->in_process = $this->ordersRepository->countOrdersByStatus('processed', $item->date);
-                $item->transferred_to_supplier = $this->ordersRepository->countOrdersByStatus('transferred_to_supplier', $item->date);
-                $item->awaiting_dispatch = $this->ordersRepository->countOrdersByStatus('awaiting_dispatch', $item->date);
-                $item->awaiting_prepayment = $this->ordersRepository->countOrdersByStatus('awaiting_prepayment', $item->date);
-                $item->on_the_road = $this->ordersRepository->countOrdersByStatus('on_the_road', $item->date);
-                $item->requires_clarification = $this->ordersRepository->countOrdersByStatus('requires_clarification', $item->date);
-                if ($item->applications) {
-                    $item->canceled_orders_rate = $item->cancel / $item->applications;
-                    $item->returned_orders_ratio = $item->refunds / $item->applications;
-                    $item->received_parcel_ratio = $item->completed / $item->applications;
-                }
-                $item->update();
+            $item->applications = $this->ordersRepository->countOrdersByStatus(null, $item->date);
+            $item->unprocessed = $this->ordersRepository->countOrdersByStatus('new', $item->date);
+            $item->completed = $this->ordersRepository->countOrdersByStatus('done', $item->date);
+            $item->refunds = $this->ordersRepository->countOrdersByStatus('return', $item->date);
+            $item->cancel = $this->ordersRepository->countOrdersByStatus('canceled', $item->date);
+            $item->at_the_post_office = $this->ordersRepository->countOrdersByStatus('at_the_post_office', $item->date);
+            $item->in_process = $this->ordersRepository->countOrdersByStatus('processed', $item->date);
+            $item->transferred_to_supplier = $this->ordersRepository->countOrdersByStatus('transferred_to_supplier', $item->date);
+            $item->awaiting_dispatch = $this->ordersRepository->countOrdersByStatus('awaiting_dispatch', $item->date);
+            $item->awaiting_prepayment = $this->ordersRepository->countOrdersByStatus('awaiting_prepayment', $item->date);
+            $item->on_the_road = $this->ordersRepository->countOrdersByStatus('on_the_road', $item->date);
+            $item->requires_clarification = $this->ordersRepository->countOrdersByStatus('requires_clarification', $item->date);
+            if ($item->applications) {
+                $item->canceled_orders_rate = ($item->cancel / $item->applications) * 100;
+                $item->returned_orders_ratio = ($item->refunds / $item->applications) * 100;
+                $item->received_parcel_ratio = ($item->completed / $item->applications) * 100;
             }
+            $item->update();
         }
     }
 }

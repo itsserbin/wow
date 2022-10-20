@@ -34,9 +34,12 @@
 
             <Table :data="state.orders.result.data"/>
 
+            <Indicators :data="state.indicators2"/>
+            <Table2 :data="state.orders.result.data"/>
+
             <pagination :pagination="state.orders.result"
-                      :click-handler="fetch"
-                      v-model="params.currentPage"
+                        :click-handler="fetch"
+                        v-model="params.currentPage"
             />
         </div>
     </StatisticLayout>
@@ -46,6 +49,7 @@
 import {reactive, onMounted, inject, ref, computed} from "vue";
 import Chart from '@/Pages/Admin/Statistics/Orders/Chart.vue';
 import Table from '@/Pages/Admin/Statistics/Orders/Table.vue';
+import Table2 from '@/Pages/Admin/Statistics/Orders/Table2.vue';
 import Indicators from '@/Pages/Admin/Statistics/Orders/Indicators.vue';
 import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
 import LastParams from '@/Pages/Admin/Statistics/LastParams.vue'
@@ -57,6 +61,7 @@ const state = ref({
     orders: [],
     chart: null,
     indicators: null,
+    indicators2: null,
     isLoading: true,
 });
 
@@ -130,6 +135,10 @@ function fetch() {
 
     axios.get(route('api.statistics.orders.indicators', getParams.value))
         .then(({data}) => state.value.indicators = data.result)
+        .catch((response) => console.log(response));
+
+    axios.get(route('api.statistics.orders.indicators2', getParams.value))
+        .then(({data}) => state.value.indicators2 = data.result)
         .catch((response) => console.log(response));
 
 

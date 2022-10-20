@@ -40,4 +40,12 @@ class OrdersStatisticController extends BaseController
             'result' => $this->ordersStatisticsRepository->generalStatistic($request->all())
         ]);
     }
+
+    public function indicators2(Request $request): JsonResponse
+    {
+        return $this->returnResponse([
+            'success' => true,
+            'result' => $this->ordersStatisticsRepository->generalIndicatorsStatistic($request->all())
+        ]);
+    }
 }

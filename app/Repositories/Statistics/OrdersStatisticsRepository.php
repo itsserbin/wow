@@ -41,6 +41,9 @@ class OrdersStatisticsRepository extends CoreRepository
             'awaiting_dispatch',
             'awaiting_prepayment',
             'on_the_road',
+            'canceled_orders_rate',
+            'returned_orders_ratio',
+            'received_parcel_ratio',
         );
 
         if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
