@@ -1,6 +1,6 @@
 {
   "resources/js/Pages/Public/app.js": {
-    "file": "assets/app.db044417.js",
+    "file": "assets/app.e80c9a04.js",
     "src": "resources/js/Pages/Public/app.js",
     "isEntry": true,
     "imports": [
@@ -1383,14 +1383,14 @@
     "file": "assets/app.ff1b5532.css",
     "src": "resources/js/Pages/Admin/app.css"
   },
-  "resources/js/Pages/Public/app.css": {
-    "file": "assets/app.d8248bb8.css",
-    "src": "resources/js/Pages/Public/app.css"
-  },
   "resources/scss/app.scss": {
     "file": "assets/app.8bbb9f47.css",
     "src": "resources/scss/app.scss",
     "isEntry": true
+  },
+  "resources/js/Pages/Public/app.css": {
+    "file": "assets/app.d8248bb8.css",
+    "src": "resources/js/Pages/Public/app.css"
   },
   "resources/scss/public.scss": {
     "file": "assets/public.595ea7db.css",

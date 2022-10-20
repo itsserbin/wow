@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::table('manager_salaries',function (Blueprint $table){
             $table->integer('count_parcel_reminder')->nullable();
+            $table->timestamps();
         });
 
     }
@@ -26,6 +27,8 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('manager_salaries',function (Blueprint $table){
+            $table->dropColumn('count_parcel_reminder');
+        });
     }
 };
