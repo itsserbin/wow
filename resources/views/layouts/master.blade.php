@@ -5,6 +5,8 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script id="widget-wfp-script" language="javascript" type="text/javascript"
+            src="https://secure.wayforpay.com/server/pay-widget.js"></script>
     <title>@yield('title')</title>
     @vite('resources/scss/public.scss')
     @routes

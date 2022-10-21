@@ -18,7 +18,7 @@
         </div>
         <label class="text-[1.075rem] font-[500] text-[#686868]  w-[100%]">
             <textarea placeholder="Введіть ваш коментар"
-                      v-model="comment"
+                      v-model="order.comment"
                       class="
                                 border-[0.5px]
                                 rounded-[10px]
@@ -40,5 +40,5 @@
 </template>
 
 <script setup>
-defineProps(['comment'])
+defineProps(['order'])
 </script>

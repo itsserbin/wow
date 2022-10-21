@@ -5,7 +5,7 @@
                 <PersonalData :order="state.order"/>
                 <Delivery :order="state.order"/>
                 <Payment :order="state.order"/>
-                <Comment :comment="state.order.comment"/>
+                <Comment :comment="state.order"/>
             </div>
             <div class="">
                 <div class="cart-item__right row mb-3">
