@@ -102,7 +102,7 @@ class OrdersRepository extends CoreRepository
 //        $order->city = $data['city']['Description'] ?? null;
 //        $order->np_city_id = $data['city']['Ref'] ?? null;
         $order->postal_office = $data['postal_office'] ?? null;
-        $order->postal_office = $data['postal_office']['Description'] ?? null;
+//        $order->postal_office = $data['postal_office']['Description'] ?? null;
 //        $order->np_post_office_id = $data['postal_office']['Ref'] ?? null;
         $order->client_id = $client_id;
         $order->status = 'new';
