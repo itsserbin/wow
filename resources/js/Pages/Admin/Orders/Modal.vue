@@ -13,6 +13,7 @@
             <Form :order="order"
                   :statuses="statuses"
                   :paymentMethods="paymentMethods"
+                  @submitItemForm="$emit('submitItemForm')"
             />
         </template>
     </modal-component>

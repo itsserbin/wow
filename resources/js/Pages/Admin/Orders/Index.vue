@@ -98,7 +98,7 @@ onMounted(() => {
         })
     }
 
-    if (route().params.id){
+    if (route().params.id) {
         state.value.isLoading = true;
         onEdit(route().params.id);
     }
@@ -106,10 +106,10 @@ onMounted(() => {
 
 const editModal = computed(() => state.value.isActiveEditModal ? OrderModal : null);
 
-function submitItemForm(data) {
+function submitItemForm() {
     if (can('edit-orders')) {
         axios.put(route('api.orders.update', state.value.orderModal.id), state.value.orderModal)
-        axios.get(route('api.orders.edit', data.order_id))
+        axios.get(route('api.orders.edit', state.value.orderModal.id))
             .then(({data}) => state.value.orderModal = data.result)
             .catch((errors) => console.log(errors))
     }
