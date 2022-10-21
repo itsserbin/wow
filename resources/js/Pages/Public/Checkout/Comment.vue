@@ -32,7 +32,7 @@
                                 outline-none
                                 border-red-600
                                 focus:border-red-600
-                    focus:ring-red-600
+                                focus:ring-red-600
                                 "
             ></textarea>
         </label>
