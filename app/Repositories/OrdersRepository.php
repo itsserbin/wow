@@ -788,6 +788,7 @@ class OrdersRepository extends CoreRepository
     {
         $model = $this->getById($id);
         $model->prepayment = 1;
+        $model->wfp_payment = 1;
         $model->prepayment_sum = $amount;
         return $model->update();
     }

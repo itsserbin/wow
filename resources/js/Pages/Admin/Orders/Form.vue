@@ -102,12 +102,14 @@
             <div class="grid grid-cols-2">
                 <div class="block mb-5 mr-5">
                     <label-component value="Передоплата"/>
-                    <select-component v-model="order.prepayment" :options="parcelReminderValues"/>
+                    <select-component v-model="order.prepayment" :options="parcelReminderValues" v-if="!order.wfp_payment"/>
+                    <select-component v-model="order.prepayment" :options="parcelReminderValues" v-else disabled/>
                 </div>
                 <div class="block mb-5">
                     <label-component value="Сума передоплати (грн.)"/>
                     <input-component v-model="order.prepayment_sum" type="number" v-if="order.prepayment"/>
-                    <input-component v-model="order.prepayment_sum" type="number" v-else disabled/>
+                    <input-component v-model="order.prepayment_sum" type="number" v-if="order.prepayment || order.wfp_payment" disabled/>
+                    <span v-if="order.wfp_payment">Оплачено на сайті</span>
                 </div>
             </div>
             <div class="grid grid-cols-2">
