@@ -207,7 +207,7 @@ onMounted(() => {
 
     for (const [key, value] of Object.entries(props.paymentMethods)) {
         state.value.paymentMethods.push({
-            key: value,
+            key: key,
             value: value,
         })
     }
