@@ -109,6 +109,9 @@ Route::prefix('v1')->middleware('api')->group(function () {
 
         Route::post('add-item/{id}', [OrdersController::class, 'addItemToOrder'])
             ->name('api.v1.orders.add-item');
+
+        Route::post('set-prepayment/{id}/{amount}', [OrdersController::class, 'setPrepayment'])
+            ->name('api.v1.orders.set-prepayment');
     });
 
     /** Группа маршрутов для категорий */

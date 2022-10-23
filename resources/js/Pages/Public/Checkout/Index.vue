@@ -59,7 +59,6 @@ const state = ref({
     ga4ProductsArray: [],
 })
 onMounted(() => {
-    console.log(import.meta.env);
     state.value.cart.list.forEach((item) => {
         state.value.contentIds.push(item.id);
         state.value.ga4ProductsArray.push({
@@ -179,7 +178,7 @@ function wfp(order) {
 function onSuccessPurchase(response, order) {
     window.addEventListener("message", function () {
         if (event.data === 'WfpWidgetEventApproved') {
-            axios.post(route('api.orders.set-prepayment', {
+            axios.post(route('api.v1.orders.set-prepayment', {
                 amount: response.amount,
                 id: order.id
             }))
