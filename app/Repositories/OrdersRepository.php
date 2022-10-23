@@ -784,12 +784,18 @@ class OrdersRepository extends CoreRepository
         return $result;
     }
 
-    public function setPrepayment($id, $amount): bool|int
+    public function setPrepayment($data)
     {
-        $model = $this->getById($id);
-        $model->prepayment = 1;
-        $model->wfp_payment = 1;
-        $model->prepayment_sum = $amount;
-        return $model->update();
+        if ($data['transactionStatus'] == 'Approved') {
+            $model = $this->getById($data['orderReference']);
+            $model->prepayment = 1;
+            $model->wfp_payment = 1;
+            $model->prepayment_sum = $data['amount'];
+            $model->update();
+            return $model;
+        } else {
+            return 0;
+        }
+
     }
 }

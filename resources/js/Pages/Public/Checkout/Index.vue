@@ -120,7 +120,8 @@ function wfp(order) {
         clientLastName: order.client.last_name,
         clientPhone: order.client.phone,
         language: "UA",
-        deliveryList: 'nova'
+        deliveryList: 'nova',
+        returnUrl: route('api.v1.orders.set-prepayment')
     };
     let string = (Object.values(
         {
@@ -160,7 +161,9 @@ function wfp(order) {
             clientFirstName: params.clientFirstName,
             clientLastName: params.clientLastName,
             clientPhone: params.clientPhone,
-            language: params.language
+            language: params.language,
+            returnUrl: params.returnUrl,
+            // deliveryList: params.deliveryList
         },
         function (response) {
             // on approved
@@ -178,10 +181,7 @@ function wfp(order) {
 function onSuccessPurchase(response, order) {
     window.addEventListener("message", function () {
         if (event.data === 'WfpWidgetEventApproved') {
-            axios.post(route('api.v1.orders.set-prepayment', {
-                amount: response.amount,
-                id: order.id
-            }))
+            axios.post(route('api.v1.orders.set-prepayment', response))
                 .then(({data}) => {
                     window.location.href = route('thanks', order.id);
                 })
