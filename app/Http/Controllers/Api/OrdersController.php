@@ -69,6 +69,16 @@ class OrdersController extends BaseController
         ]);
     }
 
+    public function setPrepayment($id, $amount): JsonResponse
+    {
+        $result = $this->ordersRepository->setPrepayment($id, $amount);
+
+        return $this->returnResponse([
+            'success' => true,
+            'result' => $result,
+        ]);
+    }
+
     public function update($id, Request $request): JsonResponse
     {
         $result = $this->ordersRepository->update($id, $request->all());

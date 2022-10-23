@@ -1,4 +1,4 @@
-import '@/Includes/bootstrap';
+import '@/bootstrap';
 
 import {createApp} from 'vue/dist/vue.esm-bundler.js';
 import {createGtm} from '@gtm-support/vue-gtm';
@@ -56,6 +56,7 @@ import ProductCards from '@/Pages/Public/Components/ProductCards.vue';
 import Modal from '@/Pages/Public/Components/Modal.vue';
 import Label from '@/Pages/Public/Components/Label.vue';
 import Input from '@/Pages/Public/Components/Input.vue';
+import InputError from '@/Components/Form/InputError.vue';
 import Callback from '@/Pages/Public/Components/Callback.vue';
 import Button from '@/Pages/Public/Components/Button.vue';
 import AllReviewsList from '@/Pages/Public/Components/AllReviewsList.vue';
@@ -71,6 +72,7 @@ app.component('product-cards', ProductCards)
 app.component('modal', Modal)
 app.component('label-component', Label)
 app.component('input-component', Input)
+app.component('input-error', InputError)
 app.component('button-component', Button)
 app.component('all-reviews-list', AllReviewsList)
 

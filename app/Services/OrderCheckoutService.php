@@ -74,7 +74,7 @@ class OrderCheckoutService
                 foreach ($items as $item) {
                     $this->productRepository->updateProductTotalSales($item->product_id);
                 }
-                $this->deleteCartItems($cart->id);
+//                $this->deleteCartItems($cart->id);
 //                $this->telegramNotificationService->order($order, $name, $phone);
             }
 
@@ -87,7 +87,7 @@ class OrderCheckoutService
 //                Log::error($exception->getMessage());
 //            }
 
-            return $order;
+            return $this->ordersRepository->getById($order->id);
         }
 
     }

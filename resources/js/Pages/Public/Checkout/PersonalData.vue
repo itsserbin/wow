@@ -17,19 +17,21 @@
         </div>
         <div class="grid gap-4">
             <div class="block">
-                <label-component>Ім`я</label-component>
+                <label-component :required="true">Ім`я</label-component>
                 <input-component placeholder="Введіть ваше ім'я"
                                  type="text"
                                  v-model="order.name"
                 />
+                <input-error v-if="errors.name" v-for="error in errors.name" :message="error"/>
             </div>
 
             <div class="block">
-                <label-component>Прізвище</label-component>
+                <label-component :required="true">Прізвище</label-component>
                 <input-component placeholder="Введіть прізвище"
                                  type="text"
                                  v-model="order.last_name"
                 />
+                <input-error v-if="errors.last_name" v-for="error in errors.last_name" :message="error"/>
             </div>
 
             <div class="block">
@@ -47,11 +49,12 @@
                                  v-maska="'+38 (0##) ###-##-##'"
                                  v-model="order.phone"
                 />
+                <input-error v-if="errors.phone" v-for="error in errors.phone" :message="error"/>
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
-defineProps(['order'])
+defineProps(['order', 'errors'])
 </script>

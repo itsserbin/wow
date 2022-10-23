@@ -1,6 +1,6 @@
 <template>
-    <div class="grid grid-cols-8 border-[1px] border-gray-300 rounded-[10px]">
-        <div class="absolute cursor-pointer ml-[580px] mt-[15px]" @click="removeFromCart">
+    <div class="grid grid-cols-8 border-[1px] relative border-gray-300 rounded-[10px]">
+        <div class="absolute cursor-pointer top-1 right-1" @click="removeFromCart">
             <svg width="18" height="18"
                  viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -33,7 +33,7 @@
                 </div>
                 <div class="flex flex-col justify-center" v-else>
                     <ins class="text-[1.5rem] font-[700] no-underline mt-[-14px]">
-                            {{ item.price }} <span class="text-xs"> грн.</span>
+                        {{ item.price }} <span class="text-xs"> грн.</span>
                     </ins>
                 </div>
             </div>

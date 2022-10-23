@@ -783,4 +783,12 @@ class OrdersRepository extends CoreRepository
 
         return $result;
     }
+
+    public function setPrepayment($id, $amount): bool|int
+    {
+        $model = $this->getById($id);
+        $model->prepayment = 1;
+        $model->prepayment_sum = $amount;
+        return $model->update();
+    }
 }

@@ -26,6 +26,8 @@ class OrderCreateRequest extends FormRequest
     public function rules()
     {
         return [
+            'name' => 'required',
+            'last_name' => 'required',
             'phone' => 'required',
         ];
     }

@@ -295,6 +295,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::get('search={search}', [OrdersController::class, 'search'])
             ->name('api.orders.search');
+
+        Route::post('set-prepayment/{id}/{amount}', [OrdersController::class, 'setPrepayment'])
+            ->name('api.orders.set-prepayment');
     });
 
     Route::prefix('order-items')->group(function () {

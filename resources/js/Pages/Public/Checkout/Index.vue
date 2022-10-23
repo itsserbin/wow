@@ -2,7 +2,7 @@
     <form @submit.prevent="sendOrder">
         <div class="grid grid-cols-1 md:grid-cols-2 relative gap-4">
             <div>
-                <PersonalData :order="state.order"/>
+                <PersonalData :order="state.order" :errors="state.errors"/>
                 <Delivery :order="state.order"/>
                 <Payment :order="state.order"/>
                 <Comment :order="state.order"/>
@@ -34,6 +34,8 @@ import CheckoutTotal from '@/Pages/Public/Checkout/CheckoutTotal.vue';
 import {inject, ref, onMounted} from "vue";
 import {useStore} from "vuex";
 import {useGtm} from '@gtm-support/vue-gtm';
+import hmacMD5 from 'crypto-js/hmac-md5';
+import CryptoJS from 'crypto-js';
 
 const store = useStore();
 const swal = inject('$swal');
@@ -51,6 +53,7 @@ const state = ref({
         postal_office: null,
         payment_method: null,
     },
+    errors: [],
     cart: ref(store.state),
     contentIds: [],
     ga4ProductsArray: [],
@@ -76,7 +79,118 @@ onMounted(() => {
     }
 })
 
+function wfp(order) {
+    const wayforpay = new Wayforpay();
+    const data = {
+        names: [],
+        prices: [],
+        counts: [],
+        amount: null,
+    }
+    order.items.forEach((item) => {
+        data.names.push(item.product.h1.ua ? item.product.h1.ua : item.product.h1.ru)
+        data.counts.push(item.count)
+    })
+    if (order.payment_method === 'minimum_prepayment') {
+        data.amount = order.total_price * 0.1;
+        order.items.forEach((item) => {
+            data.prices.push(item.sale_price * 0.1)
+        })
+    } else if (order.payment_method === 'full_prepayment') {
+        data.amount = order.total_price;
+        order.items.forEach((item) => {
+            data.prices.push(item.sale_price)
+        })
+    }
+    let params = {
+        // merchantAccount: 'test_merch_n1',
+        merchantAccount: import.meta.env.VITE_WFP_MERCHANT_LOGIN,
+        merchantDomainName: import.meta.env.VITE_DOMAIN,
+        orderReference: order.id,
+        orderDate: Math.floor(new Date(order.created_at).getTime() / 1000),
+        // amount: 1,
+        amount: data.amount,
+        currency: "UAH",
+        productName: data.names,
+        // productPrice: [1],
+        productPrice: data.prices,
+        productCount: data.counts,
+        clientFirstName: order.client.name,
+        clientLastName: order.client.last_name,
+        clientPhone: order.client.phone,
+        language: "UA",
+        deliveryList: 'nova'
+    };
+    let string = (Object.values(
+        {
+            merchantAccount: params.merchantAccount,
+            merchantDomainName: params.merchantDomainName,
+            orderReference: params.orderReference,
+            orderDate: params.orderDate,
+            amount: params.amount,
+            currency: params.currency,
+            productName: params.productName.join(';'),
+            productCount: params.productCount.join(';'),
+            productPrice: params.productPrice.join(';'),
+        }
+    ).join(';'))
+
+    let signature = CryptoJS.enc.Utf8.stringify(
+        CryptoJS.enc.Utf8.parse(
+            hmacMD5(
+                string,
+                // 'flk3409refn54t54t*FNJRET'
+                import.meta.env.VITE_WFP_MERCHANT_SECRET_KEY
+            )
+        )
+    );
+    wayforpay.run({
+            merchantAccount: params.merchantAccount,
+            merchantDomainName: params.merchantDomainName,
+            authorizationType: "SimpleSignature",
+            merchantSignature: signature,
+            orderReference: params.orderReference,
+            orderDate: params.orderDate,
+            amount: params.amount,
+            currency: params.currency,
+            productName: params.productName,
+            productPrice: params.productPrice,
+            productCount: params.productCount,
+            clientFirstName: params.clientFirstName,
+            clientLastName: params.clientLastName,
+            clientPhone: params.clientPhone,
+            language: params.language
+        },
+        function (response) {
+            // on approved
+            onSuccessPurchase(response, order);
+        },
+        function (response) {
+            // on declined
+        },
+        function (response) {
+            // on pending or in processing
+        }
+    );
+}
+
+function onSuccessPurchase(response, order) {
+    window.addEventListener("message", function () {
+        if (event.data === 'WfpWidgetEventApproved') {
+            axios.post(route('api.orders.set-prepayment', {
+                amount: response.amount,
+                id: order.id
+            }))
+                .then(({data}) => {
+                    window.location.href = route('thanks', order.id);
+                })
+        }
+    }, false);
+
+}
+
 function sendOrder() {
+
     state.value.isLoading = true;
     state.value.errors = [];
     axios.post(route('api.v1.orders.create'), state.value.order)
@@ -99,11 +213,19 @@ function sendOrder() {
                         items: state.value.ga4ProductsArray
                     }
                 });
+
+            }
+
+            if (data.order.payment_method === 'minimum_prepayment' || data.order.payment_method === 'full_prepayment') {
+                wfp(data.order);
+            } else {
+                // window.location.href = route('thanks', data.order.id);
             }
             state.value.isLoading = false;
-            window.location.href = route('thanks', data.order.id);
+            // window.location.href = route('thanks', data.order.id);
         })
         .catch(({response}) => {
+            console.log(response);
             state.value.errors = response.data;
             state.value.isLoading = false;
             swal({
@@ -114,7 +236,7 @@ function sendOrder() {
         });
 }
 
-function removeFromCart(){
+function removeFromCart() {
 
 }
 </script>
