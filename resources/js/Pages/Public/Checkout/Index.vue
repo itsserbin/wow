@@ -60,8 +60,6 @@ const state = ref({
 })
 onMounted(() => {
     console.log(import.meta.env);
-    console.log(import.meta.env.VITE_WFP_MERCHANT_LOGIN);
-    console.log(import.meta.env.VITE_WFP_MERCHANT_SECRET_KEY);
     state.value.cart.list.forEach((item) => {
         state.value.contentIds.push(item.id);
         state.value.ga4ProductsArray.push({
