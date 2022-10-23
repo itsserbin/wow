@@ -59,6 +59,9 @@ const state = ref({
     ga4ProductsArray: [],
 })
 onMounted(() => {
+    console.log(import.meta.env);
+    console.log(import.meta.env.VITE_WFP_MERCHANT_LOGIN);
+    console.log(import.meta.env.VITE_WFP_MERCHANT_SECRET_KEY);
     state.value.cart.list.forEach((item) => {
         state.value.contentIds.push(item.id);
         state.value.ga4ProductsArray.push({
@@ -102,6 +105,7 @@ function wfp(order) {
             data.prices.push(item.sale_price)
         })
     }
+
     let params = {
         // merchantAccount: 'test_merch_n1',
         merchantAccount: import.meta.env.VITE_WFP_MERCHANT_LOGIN,
@@ -222,7 +226,6 @@ function sendOrder() {
                 window.location.href = route('thanks', data.order.id);
             }
             state.value.isLoading = false;
-            // window.location.href = route('thanks', data.order.id);
         })
         .catch(({response}) => {
             console.log(response);
