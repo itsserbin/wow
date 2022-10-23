@@ -54,6 +54,8 @@ return new class extends Migration {
             $table->string('np_city_id')->nullable();
             $table->string('np_post_office_id')->nullable();
 
+            $table->boolean('wfp_payment')->default(0);
+
             $table->timestamps();
         });
     }
