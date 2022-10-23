@@ -107,7 +107,7 @@
                 </div>
                 <div class="block mb-5">
                     <label-component value="Сума передоплати (грн.)"/>
-                    <input-component v-model="order.prepayment_sum" type="number" v-if="order.prepayment"/>
+                    <input-component v-model="order.prepayment_sum" type="number" v-if="order.prepayment || !order.wfp_payment"/>
                     <input-component v-model="order.prepayment_sum" type="number" v-if="order.prepayment || order.wfp_payment" disabled/>
                     <span v-if="order.wfp_payment">Оплачено на сайті</span>
                 </div>
