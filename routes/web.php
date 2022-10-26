@@ -39,6 +39,9 @@ Route::group(['prefix' => App\Http\Middleware\LocaleMiddleware::getLocale()], fu
     Route::get('thanks/{id?}', [HomeController::class, 'thanks'])
         ->name('thanks');
 
+    Route::get('status', [HomeController::class, 'status'])
+        ->name('status');
+
     require __DIR__ . '/xml.php';
 });
 

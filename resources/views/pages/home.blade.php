@@ -38,5 +38,8 @@
         <div class="content">
             {!! app()->getLocale() == 'ua' ? $options['text_home_page_ua'] : $options['text_home_page_ru'] !!}
         </div>
+        <div class="faq">
+            <faq-component lang="{{app()->getLocale()}}"/>
+        </div>
     </div>
 @endsection

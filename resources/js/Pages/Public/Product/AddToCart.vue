@@ -3,11 +3,16 @@
         <hr class="mb-4">
         <div class="grid grid-cols-1 md:grid-cols-2">
             <div class="mb-4 mb-md-0 flex items-center justify-evenly flex-col">
-                <div class="text-center" v-if="discountPrice">
+                <div class="text-center" v-if="state.product.discount_price">
                     <div class="text-lg font-medium text-[#A5A5A5] line-through">
-                        {{ price }} грн.
+                        {{ state.product.price }} грн.
                     </div>
-                    <div class="font-bold text-[#ff0000] text-[2.5rem]">{{ discountPrice }} грн.</div>
+                    <div class="font-bold text-[#ff0000] text-[2.5rem]">{{ state.product.discount_price }} грн.</div>
+                </div>
+                <div class="text-center" v-if="!state.product.discount_price">
+                    <div class="text-lg font-bold font-medium text-[#A5A5A5] text-[2.5rem]">
+                        {{ state.product.price }} грн.
+                    </div>
                 </div>
             </div>
             <div class="grid gap-4">
@@ -22,10 +27,10 @@
         <hr class="mt-4">
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
-        <div v-if="JSON.parse(sizes).length">
+        <div v-if="state.product.sizes.length">
             <div class="w-full mb-2">Доступні розміри</div>
             <ul class="flex pb-[20px]">
-                <li v-for="size in JSON.parse(sizes)">
+                <li v-for="size in state.product.sizes">
                     <input type="checkbox"
                            :value="size.title"
                            :id="size.title"
@@ -55,10 +60,10 @@
                 </li>
             </ul>
         </div>
-        <div v-if="JSON.parse(colors).length">
+        <div v-if="state.product.colors.length">
             <div class="w-100 mb-2">Доступні кольори</div>
             <div class="flex">
-                <div v-for="color in JSON.parse(colors)">
+                <div v-for="color in state.product.colors">
                     <input type="checkbox"
                            :id="color.name"
                            :value="color.name"
@@ -93,6 +98,7 @@
     <BuyIn1Click v-if="state.isActiveBuyIn1ClickModal"
                  @closeModal="showBuyIn1ClickModal"
                  :item="item"
+                 :product="state.product"
                  :cart="store.state.list"
     />
 </template>
@@ -101,21 +107,44 @@
 import {inject, onMounted, ref} from "vue";
 import {useStore} from "vuex";
 import BuyIn1Click from '@/Pages/Public/Product/BuyIn1ClickModal.vue';
+import {useGtm} from "@gtm-support/vue-gtm";
 
 const swal = inject('$swal');
-
+const gtm = useGtm();
 const store = useStore();
 
 const props = defineProps([
-    'id',
-    'price',
-    'discountPrice',
-    'sizes',
-    'colors'
+    'product',
 ]);
+
 onMounted(() => {
-    item.value.item_id = props.id;
+    state.value.product = JSON.parse(props.product);
+    item.value.item_id = state.value.product.id;
+
+    if (import.meta.env.MODE === 'production') {
+
+        fbq('track', 'ViewContent', {
+            "value": state.value.product.discount_price ? state.value.product.discount_price : state.value.product.price,
+            "currency": "UAH",
+            "content_type": "product",
+            "content_ids": [item.value.item_id],
+            "content_name": state.value.product.h1
+        });
+
+        gtm.trackEvent({
+            event: 'view_product',
+            ecommerce: {
+                items: [{
+                    item_name: state.value.product.h1,
+                    item_id: item.value.item_id,
+                    price: state.value.product.discount_price ? state.value.product.discount_price : state.value.product.price,
+                    quantity: 1
+                }]
+            }
+        });
+    }
 })
+
 const item = ref({
     count: 1,
     size: [],
@@ -124,6 +153,14 @@ const item = ref({
 });
 
 const state = ref({
+    product: {
+        id: null,
+        discount_price: null,
+        price: null,
+        h1: null,
+        sizes: [],
+        colors: [],
+    },
     isActiveBuyIn1ClickModal: false
 })
 
@@ -148,30 +185,27 @@ function addToCart() {
                     window.location.href = route('checkout');
                 }
             })
-            // if (typeof fbq !== "undefined") {
-            //     fbq('track', 'AddToCart', {
-            //         "value": this.discountPrice ? this.discountPrice : this.price,
-            //         "currency": "UAH",
-            //         "content_type": "product",
-            //         "content_ids": [this.item.item_id],
-            //         "content_name": this.h1
-            //     });
-            //
-            //
-            //     if (typeof this.$gtm !== "undefined") {
-            //         this.$gtm.trackEvent({
-            //             event: 'add_product_to_cart',
-            //             ecommerce: {
-            //                 items: [{
-            //                     item_name: this.h1,
-            //                     item_id: this.item.item_id,
-            //                     price: this.discountPrice ? this.discountPrice : this.price,
-            //                     quantity: 1
-            //                 }]
-            //             }
-            //         });
-            //     }
-            // }
+            if (import.meta.env.MODE === 'production') {
+                fbq('track', 'AddToCart', {
+                    "value": state.value.product.discount_price ? state.value.product.discount_price : state.value.product.price,
+                    "currency": "UAH",
+                    "content_type": "product",
+                    "content_ids": [item.value.item_id],
+                    "content_name": state.value.product.h1
+                });
+
+                gtm.trackEvent({
+                    event: 'add_product_to_cart',
+                    ecommerce: {
+                        items: [{
+                            item_name: state.value.product.h1,
+                            item_id: item.value.item_id,
+                            price: state.value.product.discount_price ? state.value.product.discount_price : state.value.product.price,
+                            quantity: 1
+                        }]
+                    }
+                });
+            }
         })
         .catch(() => {
             swal({

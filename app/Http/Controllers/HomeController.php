@@ -106,9 +106,18 @@ class HomeController extends Controller
         ]);
     }
 
-    public function thanks($id): View|Factory|Application
+    public function thanks(): View|Factory|Application
     {
         return view('pages.thanks', [
+            'options' => $this->getOptions(),
+            'pages' => $this->getPagesList(),
+            'categories' => $this->getCategories(),
+        ]);
+    }
+
+    public function status(): View|Factory|Application
+    {
+        return view('pages.status', [
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
             'categories' => $this->getCategories(),

@@ -47,7 +47,7 @@ app.component('swiper', Swiper);
 app.component('swiper-slide', SwiperSlide);
 
 import CartIconComponent from '@/Pages/Public/Components/CartIcon.vue';
-import Header from '@/Pages/Public/Components/Header.vue';
+import Header from '@/Pages/Public/Components/Header/Header.vue';
 import Categories from '@/Pages/Public/Components/Categories.vue';
 import FaqComponent from '@/Pages/Public/Components/FaqComponent.vue';
 import Loader from '@/Pages/Public/Components/Loader.vue';
@@ -127,9 +127,11 @@ app.component('category-products', CategoryProducts);
 import CartComponent from '@/Pages/Public/Cart/Index.vue';
 import CheckoutComponent from '@/Pages/Public/Checkout/Index.vue';
 import ThanksPageIndex from '@/Pages/Public/Thanks/Index.vue';
+import StatusComponent from '@/Pages/Public/Status/Index.vue';
 
 app.component('cart-component', CartComponent);
 app.component('checkout-component', CheckoutComponent);
 app.component('thanks-component', ThanksPageIndex);
+app.component('status-component', StatusComponent);
 
 app.mount('#app');

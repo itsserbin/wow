@@ -12,7 +12,7 @@
                     <h3 class="text-[1.625rem] mb-[1rem]">Замовлення</h3>
 
                     <div class="grid gap-4">
-                        <OrderItem v-for="item in state.cart.list"
+                        <OrderItem v-for="item in store.state.list"
                                    :item="item"
                                    @removeFromCart="removeFromCart"
                         />
@@ -54,12 +54,11 @@ const state = ref({
         payment_method: null,
     },
     errors: [],
-    cart: ref(store.state),
     contentIds: [],
     ga4ProductsArray: [],
 })
 onMounted(() => {
-    state.value.cart.list.forEach((item) => {
+    store.state.list.forEach((item) => {
         state.value.contentIds.push(item.id);
         state.value.ga4ProductsArray.push({
             item_name: item.name.ua ? item.name.ua : item.name.ru,
@@ -75,6 +74,14 @@ onMounted(() => {
             ecommerce: {
                 items: state.value.ga4ProductsArray
             }
+        });
+
+        fbq('track', 'InitiateCheckout', {
+            "value": store.state.totalPrice,
+            "currency": "UAH",
+            "num_items": store.state.totalCount,
+            "content_ids": state.value.contentIds,
+            "content_type": "product"
         });
     }
 })
@@ -198,10 +205,10 @@ function sendOrder() {
         .then(({data}) => {
             if (import.meta.env.MODE === 'production') {
                 fbq('track', 'Purchase', {
-                    "value": state.value.cart.totalPrice,
+                    "value": store.state.totalPrice,
                     "currency": "UAH",
                     "content_type": "product",
-                    "num_items": state.value.cart.totalCount,
+                    "num_items": store.state.totalCount,
                     "content_ids": state.value.contentIds
                 });
 

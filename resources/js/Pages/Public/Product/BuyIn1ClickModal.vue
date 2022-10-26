@@ -34,13 +34,13 @@ import {useGtm} from "@gtm-support/vue-gtm";
 import {useStore} from "vuex";
 
 defineEmits(['closeModal']);
-const props = defineProps(['item']);
+const props = defineProps(['item','product']);
 const gtm = useGtm();
 const swal = inject('$swal');
 const order = ref({
-    name: null,
-    last_name: null,
-    middle_name: null,
+    name: '',
+    last_name: '',
+    middle_name: '',
     email: null,
     comment: null,
     phone: null,
@@ -62,6 +62,12 @@ function sendForm() {
     state.value.errors = [];
     axios.post(route('api.v1.cart.add'), props.item)
     store.commit('loadCart');
+    if (!order.value.name){
+        order.value.name = '-';
+    }
+    if (!order.value.last_name){
+        order.value.last_name = '-';
+    }
     axios.post(route('api.v1.orders.create'), order.value)
         .then(({data}) => {
             if (import.meta.env.MODE === 'production') {
@@ -73,6 +79,22 @@ function sendForm() {
                         price: item.discount_price ? item.discount_price : item.price,
                         quantity: item.count
                     })
+                });
+
+                fbq('track', 'AddToCart', {
+                    "value": props.product.discount_price ? props.product.discount_price : props.product.price,
+                    "currency": "UAH",
+                    "content_type": "product",
+                    "content_ids": [item.item_id],
+                    "content_name": props.product.h1
+                });
+
+                fbq('track', 'InitiateCheckout', {
+                    "value": store.state.totalPrice,
+                    "currency": "UAH",
+                    "num_items": store.state.totalCount,
+                    "content_ids": state.value.contentIds,
+                    "content_type": "product"
                 });
 
                 fbq('track', 'Purchase', {

@@ -74,17 +74,10 @@ class OrdersController extends BaseController
         $result = $this->ordersRepository->setPrepayment($request->all());
         if ($result) {
             return redirect(route('thanks', $result->id));
-        } else{
+        } else {
             return redirect(route('checkout'));
 
         }
-//        else {
-//            return $this->returnResponse([
-//                'success' => true,
-//                'result' => $result,
-//            ]);
-//        }
-
     }
 
     public function update($id, Request $request): JsonResponse
