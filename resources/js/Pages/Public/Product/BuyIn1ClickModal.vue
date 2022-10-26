@@ -85,7 +85,7 @@ function sendForm() {
                     "value": props.product.discount_price ? props.product.discount_price : props.product.price,
                     "currency": "UAH",
                     "content_type": "product",
-                    "content_ids": [item.item_id],
+                    "content_ids": [props.item.item_id],
                     "content_name": props.product.h1
                 });
 
