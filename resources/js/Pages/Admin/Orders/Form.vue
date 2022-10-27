@@ -15,7 +15,7 @@
             </div>
             <div class="block">
                 <label-component value="&nbsp;"/>
-                <button-component class="w-full" @click="goClient">
+                <button-component class="w-full" type="button" @click="$emit('onEditClient')">
                     Картка клієнта
                 </button-component>
             </div>
@@ -176,7 +176,8 @@ import ItemsTable from '@/Pages/Admin/Orders/ItemsTable.vue'
 import ClientOrders from '@/Pages/Admin/Orders/ClientOrders.vue'
 
 const emits = defineEmits([
-    'submitItemForm'
+    'submitItemForm',
+    'onEditClient'
 ])
 
 const swal = inject('$swal');
@@ -262,12 +263,12 @@ function sendWaybill() {
     }
 }
 
-function goClient() {
-    window.open(
-        route('admin.clients.index', {id: props.order.client.id}),
-        '_blank'
-    )
-}
+// function onEditClient() {
+//     window.open(
+//         route('admin.clients.index', {id: props.order.client.id}),
+//         '_blank'
+//     )
+// }
 
 function submitItemForm() {
     if (state.value.itemsModalAction === 'create') {

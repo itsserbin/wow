@@ -50,6 +50,16 @@
                        @submitForm="onUpdate"
                        @submitItemForm="submitItemForm"
                        :canDestroy="can('destroy-orders')"
+                       @onEditClient="onEditClient"
+            ></component>
+
+            <component :is="clientModal"
+                       :item="state.clientModal"
+                       :statuses="state.clientsStatuses"
+                       :sub-statuses="state.clientsSubStatuses"
+                       size="extralarge"
+                       @closeModal="modalClientFunction"
+                       @submitForm="onUpdateClient"
             ></component>
         </div>
     </auth-layout>
@@ -57,6 +67,7 @@
 
 <script setup>
 import {computed, inject, onMounted, ref} from "vue";
+import ClientModal from '@/Pages/Admin/Clients/Modal.vue';
 import OrderModal from '@/Pages/Admin/Orders/Modal.vue';
 import Table from '@/Pages/Admin/Orders/Table.vue';
 
@@ -65,8 +76,12 @@ const state = ref({
     currentPage: 1,
     isLoading: true,
     isActiveEditModal: false,
+    isActiveClientModal: false,
     sidebarActive: 'all',
-    orderModal: {}
+    orderModal: {},
+    clientModal: {},
+    clientsStatuses: null,
+    clientsSubStatuses: null,
 });
 
 const sidebar = ref([]);
@@ -102,9 +117,52 @@ onMounted(() => {
         state.value.isLoading = true;
         onEdit(route().params.id);
     }
+
+    axios.get(route('api.clients.statuses'))
+        .then(({data}) => {
+            state.value.clientsStatuses = data.statuses;
+            state.value.clientsSubStatuses = data.subStatuses;
+        });
 });
 
 const editModal = computed(() => state.value.isActiveEditModal ? OrderModal : null);
+const clientModal = computed(() => state.value.isActiveClientModal ? ClientModal : null);
+
+function onEditClient() {
+    axios.get(route('api.clients.edit', state.value.orderModal.client.id))
+        .then(({data}) => {
+            state.value.clientModal = data.result;
+            modalClientFunction();
+        })
+        .catch((errors) => console.log(errors))
+
+}
+
+function modalClientFunction() {
+    state.value.isActiveClientModal = !state.value.isActiveClientModal;
+}
+
+function onUpdateClient() {
+    axios.put(route('api.clients.update', state.value.clientModal.id), state.value.clientModal)
+        .then(() => {
+            modalClientFunction();
+            axios.put(route('api.orders.update', state.value.orderModal.id), state.value.orderModal)
+            axios.get(route('api.orders.edit', state.value.orderModal.id))
+                .then(({data}) => state.value.orderModal = data.result)
+                .catch((errors) => console.log(errors))
+            swal({
+                title: 'Success!',
+                icon: 'success'
+            })
+        })
+        .catch((errors) => {
+            console.log(errors);
+            swal({
+                title: 'Error!',
+                icon: 'error'
+            })
+        })
+}
 
 function submitItemForm() {
     if (can('edit-orders')) {

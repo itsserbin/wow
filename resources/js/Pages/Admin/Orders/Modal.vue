@@ -14,6 +14,7 @@
                   :statuses="statuses"
                   :paymentMethods="paymentMethods"
                   @submitItemForm="$emit('submitItemForm')"
+                  @onEditClient="$emit('onEditClient')"
             />
         </template>
     </modal-component>
@@ -30,6 +31,6 @@ defineProps([
     'canDestroy'
 ]);
 
-defineEmits(['closeModal', 'submitForm', 'declineForm', 'submitItemForm']);
+defineEmits(['closeModal', 'submitForm', 'declineForm', 'submitItemForm','onEditClient']);
 
 </script>
