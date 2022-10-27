@@ -30,11 +30,7 @@
         <OrdersChart v-if="orders.chart" :chartData="orders.chart"/>
 
         <OrdersIndicators v-if="orders.indicators" :data="orders.indicators"/>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <OrdersTable v-if="orders.table" :data="orders.table"/>
-
-            <OrdersTable2 v-if="orders.table" :data="orders.table"/>
-        </div>
+        <OrdersTable v-if="orders.table" :data="orders.table"/>
 
 
     </auth-layout>
@@ -46,7 +42,6 @@ import OrdersChart from '@/Pages/Admin/Statistics/Orders/Chart.vue'
 import LastParams from '@/Pages/Admin/Statistics/LastParams.vue'
 import OrdersIndicators from '@/Pages/Admin/Statistics/Orders/Indicators.vue';
 import OrdersTable from '@/Pages/Admin/Statistics/Orders/Table.vue';
-import OrdersTable2 from '@/Pages/Admin/Statistics/Orders/Table2.vue';
 
 const params = ref({
     date: [],

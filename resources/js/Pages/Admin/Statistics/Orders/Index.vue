@@ -32,11 +32,7 @@
 
             <Indicators :data="state.indicators"/>
 
-           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-               <Table :data="state.orders.result.data"/>
-
-               <Table2 :data="state.orders.result.data"/>
-           </div>
+            <Table :data="state.orders.result.data"/>
 
             <pagination :pagination="state.orders.result"
                         :click-handler="fetch"
@@ -50,7 +46,6 @@
 import {reactive, onMounted, inject, ref, computed} from "vue";
 import Chart from '@/Pages/Admin/Statistics/Orders/Chart.vue';
 import Table from '@/Pages/Admin/Statistics/Orders/Table.vue';
-import Table2 from '@/Pages/Admin/Statistics/Orders/Table2.vue';
 import Indicators from '@/Pages/Admin/Statistics/Orders/Indicators.vue';
 import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
 import LastParams from '@/Pages/Admin/Statistics/LastParams.vue'

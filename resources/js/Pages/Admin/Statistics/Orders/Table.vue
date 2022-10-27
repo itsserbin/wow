@@ -3,52 +3,20 @@
                      :rows="data"
                      :isSlotMode="true"
     >
-        <template v-slot:date="{data}">
+        <template #date="{data}">
             {{ $filters.dateFormat(data.row.date) }}
         </template>
 
-        <template v-slot:costs="{data}">
-            {{ $filters.formatMoney(data.row.costs) }}
+        <template #completed="{data}">
+            {{ data.row.completed ? `${data.row.completed} (${data.row.received_parcel_ratio}%)` : data.row.completed}}
         </template>
 
-        <template v-slot:turnover="{data}">
-            {{ $filters.formatMoney(data.row.turnover) }}
+        <template #refunds="{data}">
+            {{ data.row.refunds ? `${data.row.refunds} (${data.row.returned_orders_ratio}%)` : data.row.refunds}}
         </template>
 
-        <template v-slot:marginality="{data}">
-            {{ $filters.formatMoney(data.row.marginality) }}
-        </template>
-
-        <template v-slot:clear_profit="{data}">
-            {{ $filters.formatMoney(data.row.clear_profit) }}
-        </template>
-
-        <template v-slot:average_marginality="{data}">
-            {{ $filters.formatMoney(data.row.average_marginality) }}
-        </template>
-
-        <template v-slot:sale_of_air_sum="{data}">
-            {{ $filters.formatMoney(data.row.sale_of_air_sum) }}
-        </template>
-
-        <template v-slot:debt_supplier="{data}">
-            {{ $filters.formatMoney(data.row.debt_supplier) }}
-        </template>
-
-        <template v-slot:prepayment_sum="{data}">
-            {{ $filters.formatMoney(data.row.prepayment_sum) }}
-        </template>
-
-        <template v-slot:refunds_sum="{data}">
-            {{ $filters.formatMoney(data.row.refunds_sum) }}
-        </template>
-
-        <template v-slot:additional_sales_marginality_sum="{data}">
-            {{ $filters.formatMoney(data.row.additional_sales_marginality_sum) }}
-        </template>
-
-        <template v-slot:additional_sales_sum="{data}">
-            {{ $filters.formatMoney(data.row.additional_sales_sum) }}
+        <template #cancel="{data}">
+            {{ data.row.cancel ? `${data.row.cancel} (${data.row.canceled_orders_rate}%)` : data.row.cancel}}
         </template>
     </table-component>
 </template>
@@ -111,6 +79,6 @@ const headings = reactive([
     {
         label: 'Нові',
         key: 'unprocessed'
-    },
+    }
 ]);
 </script>
