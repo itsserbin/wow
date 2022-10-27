@@ -5,32 +5,32 @@
                      :isSlotMode="true"
                      :rows="data"
     >
-        <template v-slot:id="{data}">
+        <template #id="{data}">
             <a href="javascript:" @click="$emit('onEdit', data.row.id,data.i)">
                 {{ data.row.id }}
             </a>
         </template>
 
-        <template v-slot:title="{data}">
+        <template #title="{data}">
             {{
                 activeLang === 'ua' ? data.row.h1.ua :
                     (activeLang === 'ru' ? data.row.h1.ru : null)
             }}
         </template>
 
-        <template v-slot:published="{data}">
+        <template #published="{data}">
             {{ $filters.publishedStatus(data.row.published) }}
         </template>
 
-        <template v-slot:price="{data}">
+        <template #price="{data}">
             {{ $filters.formatMoney(data.row.price) }}
         </template>
 
-        <template v-slot:discount_price="{data}">
+        <template #discount_price="{data}">
             {{ $filters.formatMoney(data.row.discount_price) }}
         </template>
 
-        <template v-slot:preview="{data}">
+        <template #preview="{data}">
             <img :src="data.row.preview ? route('images.products.55',data.row.preview) : null"
                  :alt="activeLang === 'ua' ? data.row.h1.ua :
                             (activeLang === 'ru' ? data.row.h1.ru : null)"
@@ -38,7 +38,13 @@
             >
         </template>
 
-        <template v-slot:actions="{data}">
+        <template #stat="{data}">
+            {{data.row.viewed}}
+            <hr class="my-1">
+            {{data.row.total_sales}}
+        </template>
+
+        <template #actions="{data}">
             <a href="javascript:" @click="$emit('onDestroy', data.row.id)" v-if="canDestroy">
                 <xcircle-component/>
             </a>
@@ -92,7 +98,7 @@ const headings = [
     },
     {
         label: "Переглядів<hr class='my-1'>Покупок",
-        key: 'sort'
+        key: 'stat'
     },
     {
         label: '#',
