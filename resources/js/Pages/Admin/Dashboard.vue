@@ -3,50 +3,38 @@
         <template #header>
             Dashboard
         </template>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <card-component v-for="(item,i) in state.statistics"
-                            class="text-center"
-                            :title="i"
-                            :description="item"
-            >
-            </card-component>
+        <div class="grid grid-cols-1 gap-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <card-component v-for="(item,i) in state.statistics"
+                                class="text-center"
+                                :title="i"
+                                :description="item ? item : '0'"
+                >
+                </card-component>
+            </div>
+
+            <DatepickerComponent v-model="params.date"
+                                 @update:modelValue="fetch"
+            />
+
+            <OrdersChart v-if="orders.chart" :chartData="orders.chart"/>
+
+            <OrdersIndicators v-if="orders.indicators" :data="orders.indicators"/>
+            <OrdersTable v-if="orders.table" :data="orders.table"/>
         </div>
-        <div class="block">
-            <label-component value="Фільтр по даті"/>
-            <Datepicker v-model="params.date"
-                        class="w-100"
-                        locale="ru"
-                        placeholder="Оберіть дату"
-                        autoApply
-                        :monthChangeOnScroll="false"
-                        :enableTimePicker="false"
-                        range
-                        utc
-                        @update:modelValue="sortByRange"
-            ></Datepicker>
-        </div>
-        <LastParams :active-item="params.last" @sortByLast="sortByLast"/>
-
-        <OrdersChart v-if="orders.chart" :chartData="orders.chart"/>
-
-        <OrdersIndicators v-if="orders.indicators" :data="orders.indicators"/>
-        <OrdersTable v-if="orders.table" :data="orders.table"/>
-
-
     </auth-layout>
 </template>
 
 <script setup>
-import {computed, onMounted, ref, inject} from "vue";
+import {computed, onMounted, ref} from "vue";
 import OrdersChart from '@/Pages/Admin/Statistics/Orders/Chart.vue'
-import LastParams from '@/Pages/Admin/Statistics/LastParams.vue'
 import OrdersIndicators from '@/Pages/Admin/Statistics/Orders/Indicators.vue';
 import OrdersTable from '@/Pages/Admin/Statistics/Orders/Table.vue';
+import DatepickerComponent from '@/Pages/Admin/Statistics/Datepicker.vue'
+import {endOfMonth, startOfMonth} from "date-fns";
 
 const params = ref({
     date: [],
-    filter: null,
-    last: 'one-month',
     page: 1,
 });
 
@@ -62,6 +50,9 @@ const state = ref({
 });
 
 onMounted(() => {
+    params.value.date[0] = startOfMonth(new Date());
+    params.value.date[1] = endOfMonth(new Date());
+
     fetch();
 
     axios.get(route('api.dashboard'))
@@ -71,17 +62,9 @@ onMounted(() => {
 
 const getParams = computed(() => {
     const data = {};
-    if (params.value.filter) {
-        data.filter = params.value.filter
-    }
     if (params.value.date.length === 2) {
-        data.date_start = params.value.date[0];
-        data.date_end = params.value.date[1];
-    }
-    if (params.value.last) {
-        if (params.value.last !== 'range') {
-            data.last = params.value.last
-        }
+        data.date_start = params.value.date[0].toLocaleDateString();
+        data.date_end = params.value.date[1].toLocaleDateString();
     }
     data.page = params.value.page;
     return data;

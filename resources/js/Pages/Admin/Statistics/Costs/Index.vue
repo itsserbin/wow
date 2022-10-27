@@ -5,10 +5,12 @@
         </template>
 
         <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading && can('show-bookkeeping-costs')">
-            <button-component type="btn" @click="create">
-                Додати
-            </button-component>
+        <div v-if="!state.isLoading && can('show-bookkeeping-costs')" class="grid grid-cols-1 gap-4">
+            <div>
+                <button-component type="btn" @click="create">
+                    Додати
+                </button-component>
+            </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
                 <div class="block">
@@ -21,21 +23,12 @@
 
                 <div class="block">
                     <label-component value="Фільтр по даті"/>
-                    <Datepicker v-model="params.date"
-                                class="w-100"
-                                locale="ru"
-                                placeholder="Оберіть дату"
-                                autoApply
-                                :monthChangeOnScroll="false"
-                                :enableTimePicker="false"
-                                range
-                                @update:modelValue="sortByRange"
-                    ></Datepicker>
+                    <DatepickerComponent v-model="params.date"
+                                         @update:modelValue="fetch"
+                    />
                 </div>
 
             </div>
-
-            <LastParams :active-item="params.last" @sortByLast="sortByLast"/>
 
             <CostChart v-if="state.chart" :chart-data="state.chart"/>
 
@@ -47,47 +40,15 @@
                 >
                 </card-component>
             </div>
-            <table-component :headings="headings"
-                             :rows="state.data.result.data"
-                             :isSlotMode="true"
-            >
-                <template v-slot:id="{data}">
-                    <a href="javascript:" @click="onEdit(data.row.id,data.i)">
-                        {{ data.row.id }}
-                    </a>
-                </template>
 
-                <template v-slot:date="{data}">
-                    {{ $filters.dateFormat(data.row.date) }}
-                </template>
+            <Table :data="state.data.result.data"/>
 
-                <template v-slot:category="{data}">
-                    {{ data.row.category.title }}
-                </template>
-
-                <template v-slot:sum="{data}">
-                    {{ $filters.formatMoney(data.row.sum) }}
-                </template>
-
-                <template v-slot:total="{data}">
-                    {{ $filters.formatMoney(data.row.total) }}
-                </template>
-
-                <template v-slot:user="{data}">
-                    {{ data.row.user ? data.row.user.name : '-' }}
-                </template>
-
-                <template v-slot:actions="{data}">
-                    <a href="javascript:" @click="onDestroy(data.row.id)">
-                        <xcircle-component/>
-                    </a>
-                </template>
-            </table-component>
-
-            <pagination :pagination="state.data.result"
-                        :click-handler="fetch"
-                        v-model="params.page"
-            />
+            <div class="text-center">
+                <pagination :pagination="state.data.result"
+                            :click-handler="fetch"
+                            v-model="params.page"
+                />
+            </div>
 
             <component :is="activeModal"
                        :item="state.item"
@@ -104,8 +65,10 @@
 import {reactive, onMounted, inject, ref, computed} from "vue";
 import ColorModal from '@/Pages/Admin/Statistics/Costs/Modal.vue';
 import CostChart from '@/Pages/Admin/Statistics/Costs/Chart.vue';
+import Table from '@/Pages/Admin/Statistics/Costs/Table.vue';
 import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
-import LastParams from '@/Pages/Admin/Statistics/LastParams.vue'
+import DatepickerComponent from '@/Pages/Admin/Statistics/Datepicker.vue'
+import {endOfMonth, startOfMonth} from "date-fns";
 
 const swal = inject('$swal')
 const can = inject('$can');
@@ -133,8 +96,6 @@ const state = ref({
 
 const params = ref({
     date: [],
-    filter: null,
-    last: 'one-month',
     page: 1,
 })
 
@@ -146,31 +107,16 @@ const getParams = computed(() => {
         data.filter = params.value.filter
     }
     if (params.value.date.length === 2) {
-        data.date_start = params.value.date[0];
-        data.date_end = params.value.date[1];
-    }
-    if (params.value.last) {
-        data.last = params.value.last
+        data.date_start = params.value.date[0].toLocaleDateString();
+        data.date_end = params.value.date[1].toLocaleDateString();
     }
     data.page = params.value.page;
     return data;
 });
 
-function sortByLast(val) {
-    if (val) {
-        params.value.last = val;
-    } else {
-        params.value = {
-            date: [],
-            filter: null,
-            last: null,
-            page: 1,
-        };
-    }
-    fetch();
-}
-
 onMounted(() => {
+    params.value.date[0] = startOfMonth(new Date());
+    params.value.date[1] = endOfMonth(new Date());
     fetch();
     axios.get(route('api.statistics.costs.categories.list'))
         .then(({data}) => {
@@ -185,54 +131,6 @@ onMounted(() => {
 })
 
 const activeModal = computed(() => state.value.isActiveModal ? ColorModal : null)
-
-const headings = reactive([
-    {
-        label: 'ID',
-        key: 'id'
-    },
-    {
-        label: 'Дата',
-        key: 'date'
-    },
-    {
-        label: 'Категорія',
-        key: 'category'
-    },
-    {
-        label: 'Кількість',
-        key: 'quantity'
-    },
-    {
-        label: 'Сума',
-        key: 'sum'
-    },
-    {
-        label: 'Загалом',
-        key: 'total'
-    },
-    {
-        label: 'Відповідальний',
-        key: 'user'
-    },
-    {
-        label: 'Коментар',
-        key: 'comment'
-    },
-    {
-        label: "Оновлено<hr class='my-1'>Створено",
-        key: 'timestamps'
-    },
-    {
-        label: '#',
-        key: 'actions'
-    }
-]);
-
-function sortByRange() {
-    params.value.last = 'range';
-    fetch();
-}
 
 function paginate(page) {
     if (page) {

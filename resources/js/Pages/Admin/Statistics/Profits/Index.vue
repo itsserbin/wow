@@ -5,27 +5,13 @@
         </template>
 
         <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading && can('show-bookkeeping-profits')">
-
-            <div class="grid grid-cols-1 gap-4 mt-5">
-
-                <div class="block">
-                    <label-component value="Фільтр по даті"/>
-                    <Datepicker v-model="params.date"
-                                class="w-100"
-                                placeholder="Оберіть дату"
-                                autoApply
-                                :monthChangeOnScroll="false"
-                                :enableTimePicker="false"
-                                range
-                                locale="ru"
-                                @update:modelValue="sortByRange"
-                    ></Datepicker>
-                </div>
-
+        <div v-if="!state.isLoading && can('show-bookkeeping-profits')" class="grid grid-cols-1 gap-4">
+            <div class="block">
+                <label-component value="Фільтр по даті"/>
+                <DatepickerComponent v-model="params.date"
+                                     @update:modelValue="fetch"
+                />
             </div>
-
-            <LastParams :active-item="params.last" @sortByLast="sortByLast"/>
 
             <ProfitChart v-if="state.chart" :chart-data="state.chart"/>
 
@@ -37,73 +23,26 @@
                 >
                 </card-component>
             </div>
-            <table-component :headings="headings"
-                             :rows="state.profits.result.data"
-                             :isSlotMode="true"
-            >
-                <template v-slot:date="{data}">
-                    {{ $filters.dateFormat(data.row.date) }}
-                </template>
 
-                <template v-slot:costs="{data}">
-                    {{ $filters.formatMoney(data.row.costs) }}
-                </template>
+            <Table :data="state.profits.result.data"/>
 
-                <template v-slot:turnover="{data}">
-                    {{ $filters.formatMoney(data.row.turnover) }}
-                </template>
-
-                <template v-slot:marginality="{data}">
-                    {{ $filters.formatMoney(data.row.marginality) }}
-                </template>
-
-                <template v-slot:clear_profit="{data}">
-                    {{ $filters.formatMoney(data.row.clear_profit) }}
-                </template>
-
-                <template v-slot:average_marginality="{data}">
-                    {{ $filters.formatMoney(data.row.average_marginality) }}
-                </template>
-
-                <template v-slot:sale_of_air_sum="{data}">
-                    {{ $filters.formatMoney(data.row.sale_of_air_sum) }}
-                </template>
-
-                <template v-slot:debt_supplier="{data}">
-                    {{ $filters.formatMoney(data.row.debt_supplier) }}
-                </template>
-
-                <template v-slot:prepayment_sum="{data}">
-                    {{ $filters.formatMoney(data.row.prepayment_sum) }}
-                </template>
-
-                <template v-slot:refunds_sum="{data}">
-                    {{ $filters.formatMoney(data.row.refunds_sum) }}
-                </template>
-
-                <template v-slot:additional_sales_marginality_sum="{data}">
-                    {{ $filters.formatMoney(data.row.additional_sales_marginality_sum) }}
-                </template>
-
-                <template v-slot:additional_sales_sum="{data}">
-                    {{ $filters.formatMoney(data.row.additional_sales_sum) }}
-                </template>
-            </table-component>
-
-            <pagination :pagination="state.profits.result"
-                        :click-handler="fetch"
-                        v-model="params.currentPage"
-            />
+            <div class="text-center">
+                <pagination :pagination="state.profits.result"
+                            :click-handler="fetch"
+                            v-model="params.currentPage"
+                />
+            </div>
         </div>
     </StatisticLayout>
 </template>
 
 <script setup>
-import {reactive, onMounted, inject, ref, computed} from "vue";
-import ColorModal from '@/Pages/Admin/Statistics/Costs/Modal.vue';
+import {onMounted, inject, ref, computed} from "vue";
+import {endOfMonth, startOfMonth} from "date-fns";
 import ProfitChart from '@/Pages/Admin/Statistics/Profits/Chart.vue';
+import Table from '@/Pages/Admin/Statistics/Profits/Table.vue';
 import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
-import LastParams from '@/Pages/Admin/Statistics/LastParams.vue'
+import DatepickerComponent from '@/Pages/Admin/Statistics/Datepicker.vue'
 
 const swal = inject('$swal')
 const can = inject('$can');
@@ -116,7 +55,6 @@ const state = ref({
 
 const params = ref({
     date: [],
-    last: 'one-month',
     currentPage: 1,
 })
 
@@ -125,8 +63,8 @@ const costCategoriesOptions = ref([]);
 const getParams = computed(() => {
     const data = {};
     if (params.value.date.length === 2) {
-        data.date_start = params.value.date[0];
-        data.date_end = params.value.date[1];
+        data.date_start = params.value.date[0].toLocaleDateString();
+        data.date_end = params.value.date[1].toLocaleDateString();
     }
     if (params.value.last) {
         data.last = params.value.last
@@ -136,77 +74,12 @@ const getParams = computed(() => {
 
 })
 
+onMounted(() => {
+    params.value.date[0] = startOfMonth(new Date());
+    params.value.date[1] = endOfMonth(new Date());
 
-onMounted(() => fetch())
-
-const headings = reactive([
-    {
-        label: 'Дата',
-        key: 'date'
-    },
-    {
-        label: 'Витрати',
-        key: 'cost'
-    },
-    {
-        label: 'Оберт',
-        key: 'turnover'
-    },
-    {
-        label: 'Маржа',
-        key: 'marginality'
-    },
-    {
-        label: 'Чистий прибуток',
-        key: 'clear_profit'
-    },
-    {
-        label: 'Винен постачальник',
-        key: 'debt_supplier'
-    },
-    {
-        label: 'Продажі повітря',
-        key: 'sale_of_air_sum'
-    },
-    {
-        label: 'Середня маржа',
-        key: 'average_marginality'
-    },
-    {
-        label: 'Сума переодоплат',
-        key: 'prepayment_sum'
-    },
-    {
-        label: 'Сума за повернення товару',
-        key: 'refunds_sum'
-    },
-    {
-        label: 'Маржа з дод.продаж',
-        key: 'additional_sales_marginality_sum'
-    },
-    {
-        label: 'Оберт дод.продаж',
-        key: 'additional_sales_sum'
-    },
-]);
-
-function sortByLast(val) {
-    if (val) {
-        params.value.last = val;
-    } else {
-        params.value = {
-            date: [],
-            last: null,
-            currentPage: 1,
-        };
-    }
     fetch();
-}
-
-function sortByRange(val) {
-    params.value.last = 'range';
-    fetch();
-}
+})
 
 function paginate(page) {
     if (page) {

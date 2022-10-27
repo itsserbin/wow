@@ -38,26 +38,10 @@ class MarketingStatisticRepository extends CoreRepository
         );
 
         if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
-            $startDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start'])->format('Y-m-d');
-            $endDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])->format('Y-m-d');
-
-            $model->whereBetween('date', [$startDate, $endDate]);
-        } elseif (array_key_exists('last', $data)) {
-            if ($data['last'] == 'week') {
-                $model->whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
-            } elseif ($data['last'] == 'two-week') {
-                $model->whereBetween('date', [Carbon::now()->subWeek()->startOfWeek(), Carbon::now()->endOfWeek()]);
-            } elseif ($data['last'] == 'one-month') {
-                $model->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfWeek()]);
-            } elseif ($data['last'] == '7-days') {
-                $model->whereBetween('date', [Carbon::now()->subDays(7), Carbon::now()]);
-            } elseif ($data['last'] == '14-days') {
-                $model->whereBetween('date', [Carbon::now()->subDays(14), Carbon::now()]);
-            } elseif ($data['last'] == '30-days') {
-                $model->whereBetween('date', [Carbon::now()->subDays(30), Carbon::now()]);
-            } elseif ($data['last'] == '90-days') {
-                $model->whereBetween('date', [Carbon::now()->subDays(90), Carbon::now()]);
-            }
+            $model->whereBetween('date', [
+                $this->dateFormatFromTimepicker($data['date_start'], 'date'),
+                $this->dateFormatFromTimepicker($data['date_end'], 'date')
+            ]);
         }
 
         if (array_key_exists('sort', $data) && array_key_exists('param', $data)) {
@@ -84,26 +68,10 @@ class MarketingStatisticRepository extends CoreRepository
         );
 
         if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
-            $startDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start'])->format('Y-m-d');
-            $endDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])->format('Y-m-d');
-
-            $model->whereBetween('date', [$startDate, $endDate]);
-        } elseif (array_key_exists('last', $data)) {
-            if ($data['last'] == 'week') {
-                $model->whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
-            } elseif ($data['last'] == 'two-week') {
-                $model->whereBetween('date', [Carbon::now()->subWeek()->startOfWeek(), Carbon::now()->endOfWeek()]);
-            } elseif ($data['last'] == 'one-month') {
-                $model->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfWeek()]);
-            } elseif ($data['last'] == '7-days') {
-                $model->whereBetween('date', [Carbon::now()->subDays(7), Carbon::now()]);
-            } elseif ($data['last'] == '14-days') {
-                $model->whereBetween('date', [Carbon::now()->subDays(14), Carbon::now()]);
-            } elseif ($data['last'] == '30-days') {
-                $model->whereBetween('date', [Carbon::now()->subDays(30), Carbon::now()]);
-            } elseif ($data['last'] == '90-days') {
-                $model->whereBetween('date', [Carbon::now()->subDays(90), Carbon::now()]);
-            }
+            $model->whereBetween('date', [
+                $this->dateFormatFromTimepicker($data['date_start'], 'date'),
+                $this->dateFormatFromTimepicker($data['date_end'], 'date')
+            ]);
         }
 
         $labels = [];
@@ -166,27 +134,12 @@ class MarketingStatisticRepository extends CoreRepository
         );
 
         if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
-            $startDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_start'])->format('Y-m-d');
-            $endDate = DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date_end'])->format('Y-m-d');
-
-            $model->whereBetween('date', [$startDate, $endDate]);
-        } elseif (array_key_exists('last', $data)) {
-            if ($data['last'] == 'week') {
-                $model->whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
-            } elseif ($data['last'] == 'two-week') {
-                $model->whereBetween('date', [Carbon::now()->subWeek()->startOfWeek(), Carbon::now()->endOfWeek()]);
-            } elseif ($data['last'] == 'one-month') {
-                $model->whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfWeek()]);
-            } elseif ($data['last'] == '7-days') {
-                $model->whereBetween('date', [Carbon::now()->subDays(7), Carbon::now()]);
-            } elseif ($data['last'] == '14-days') {
-                $model->whereBetween('date', [Carbon::now()->subDays(14), Carbon::now()]);
-            } elseif ($data['last'] == '30-days') {
-                $model->whereBetween('date', [Carbon::now()->subDays(30), Carbon::now()]);
-            } elseif ($data['last'] == '90-days') {
-                $model->whereBetween('date', [Carbon::now()->subDays(90), Carbon::now()]);
-            }
+            $model->whereBetween('date', [
+                $this->dateFormatFromTimepicker($data['date_start'], 'date'),
+                $this->dateFormatFromTimepicker($data['date_end'], 'date')
+            ]);
         }
+
         $model->get();
 
         $result['Ср.цена заявки'] = $model->average('average_application_price');

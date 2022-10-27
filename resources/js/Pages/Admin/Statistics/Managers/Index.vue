@@ -5,7 +5,7 @@
         </template>
 
         <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading && can('show-bookkeeping-managers')">
+        <div v-if="!state.isLoading && can('show-bookkeeping-managers')" class="grid grid-cols-1 gap-4">
 
             <div class="grid grid-cols-1 md:grid-cols-12 gap-4 mt-5">
                 <div class="block col-span-2 text-center">
@@ -16,16 +16,7 @@
                 </div>
                 <div class="block col-span-4">
                     <label-component value="Фільтр по даті"/>
-                    <Datepicker v-model="params.date"
-                                class="w-100"
-                                locale="ru"
-                                placeholder="Оберіть дату"
-                                autoApply
-                                :monthChangeOnScroll="false"
-                                :enableTimePicker="false"
-                                range
-                                utc
-                    ></Datepicker>
+                    <DatepickerComponent v-model="params.date"/>
                 </div>
 
                 <div class="block col-span-4">
@@ -58,30 +49,25 @@
                 >
                 </card-component>
             </div>
-            <table-component :headings="headings"
-                             :rows="state.data.result.data"
-                             :isSlotMode="true"
-            >
-                <template v-slot:date="{data}">
-                    {{ $filters.dateFormat(data.row.date) }}
-                </template>
 
-                <template v-slot:costs="{data}">
-                    {{ $filters.formatMoney(data.row.costs) }}
-                </template>
-            </table-component>
+            <Table :data="state.data.result.data"/>
 
-            <pagination :pagination="state.data.result"
-                      :click-handler="fetch"
-                      v-model="params.currentPage"
-            />
+            <div class="text-center">
+                <pagination :pagination="state.data.result"
+                            :click-handler="fetch"
+                            v-model="params.currentPage"
+                />
+            </div>
         </div>
     </StatisticLayout>
 </template>
 
 <script setup>
-import {reactive, onMounted, inject, ref, computed} from "vue";
+import {onMounted, inject, ref, computed} from "vue";
 import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
+import DatepickerComponent from '@/Pages/Admin/Statistics/Datepicker.vue'
+import Table from '@/Pages/Admin/Statistics/Managers/Table.vue'
+import {endOfMonth, startOfMonth} from 'date-fns';
 
 const swal = inject('$swal')
 const can = inject('$can');
@@ -97,14 +83,13 @@ const managers = ref([]);
 const endPoint = computed(() => {
     const data = {};
     if (params.value.date.length === 2) {
-        data.date_start = params.value.date[0];
-        data.date_end = params.value.date[1];
+        data.date_start = params.value.date[0].toLocaleDateString();
+        data.date_end = params.value.date[1].toLocaleDateString();
     }
     if (managersArray.value) {
         data.managers = managersArray.value;
     }
     data.page = params.value.currentPage;
-    console.log(data);
     return route('api.statistics.managers.index', data);
 
 })
@@ -125,87 +110,15 @@ const params = ref({
 })
 
 onMounted(() => {
+    params.value.date[0] = startOfMonth(new Date());
+    params.value.date[1] = endOfMonth(new Date());
+
     fetch();
 
     axios.get(route('api.users.list.managers'))
         .then(({data}) => managers.value = data.result)
         .catch((response) => console.log(response))
 })
-
-const headings = reactive([
-    {
-        label: 'Дата',
-        key: 'date'
-    },
-    {
-        label: 'Надійшло заявок',
-        key: 'count_applications'
-    },
-    {
-        label: 'В процесі',
-        key: 'in_process_applications'
-    },
-    {
-        label: 'Зроблено дод.продаж',
-        key: 'count_additional_sales'
-    },
-    {
-        label: 'Скасованих',
-        key: 'canceled_applications'
-    },
-    {
-        label: 'Повернень',
-        key: 'returned_applications'
-    },
-    {
-        label: 'Виконаних',
-        key: 'done_applications'
-    },
-    {
-        label: 'Загальний апрув',
-        key: 'total_applications'
-    },
-    {
-        label: 'Кількість дод.продажів повітря',
-        key: 'count_sale_of_air'
-    },
-    {
-        label: 'Сума дод.продажів повітря',
-        key: 'price_sale_of_air'
-    },
-    {
-        label: 'Прибуток з дод.продажів повітря',
-        key: 'total_sale_of_air'
-    },
-    {
-        label: 'Загальна маржа дод.продажів',
-        key: 'sum_additional_sales'
-    },
-    {
-        label: 'Сума за заявки',
-        key: 'sum_price_applications'
-    },
-    {
-        label: 'Сума за дод.продажі',
-        key: 'sum_price_additional_sales'
-    },
-    {
-        label: 'Кількість нагадувань про посилку',
-        key: 'count_parcel_reminder'
-    },
-    {
-        label: 'Кількість передоплат',
-        key: 'count_prepayments'
-    },
-    {
-        label: 'Сума за передоплати',
-        key: 'prepayments_amount'
-    },
-    {
-        label: 'Загальна сума',
-        key: 'total_price'
-    },
-]);
 
 function fetchClear() {
     params.value.managers = [];
@@ -225,8 +138,8 @@ function paginate(page) {
 function fetch() {
     state.value.isLoading = true;
     axios.get(endPoint.value)
-        .then(response => {
-            Object.assign(state.value.data, response.data);
+        .then(({data}) => {
+            state.value.data = data;
             state.value.isLoading = false;
         })
         .catch(errors => {

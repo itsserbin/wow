@@ -73,11 +73,10 @@ class ManagerSalariesRepository extends CoreRepository
             'count_parcel_reminder',
         );
 
-
         if ($managers && $date) {
             $model->whereBetween('date', [
-                $this->dateFormatFromTimepicker($data['date_start']),
-                $this->dateFormatFromTimepicker($data['date_end'])
+                $this->dateFormatFromTimepicker($data['date_start'], 'date'),
+                $this->dateFormatFromTimepicker($data['date_end'], 'date')
             ])
                 ->whereIn('manager_id', $managers)
                 ->groupBy('date');;
@@ -85,8 +84,8 @@ class ManagerSalariesRepository extends CoreRepository
 
         } elseif ($date) {
             $model->whereBetween('date', [
-                $this->dateFormatFromTimepicker($data['date_start']),
-                $this->dateFormatFromTimepicker($data['date_end'])
+                $this->dateFormatFromTimepicker($data['date_start'], 'date'),
+                $this->dateFormatFromTimepicker($data['date_end'], 'date')
             ])->where('manager_id', null);
         } elseif ($managers) {
             $model->whereIn('manager_id', $managers)->groupBy('date');
@@ -108,8 +107,8 @@ class ManagerSalariesRepository extends CoreRepository
 
         if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
             $date = [
-                'date_start' => $this->dateFormatFromTimepicker($data['date_start']),
-                'date_end' => $this->dateFormatFromTimepicker($data['date_end'])
+                'date_start' => $this->dateFormatFromTimepicker($data['date_start'], 'date'),
+                'date_end' => $this->dateFormatFromTimepicker($data['date_end'], 'date')
             ];
         }
         $result['Всього заявок'] = $this->sumColumnByDateRangeAndManagerId('count_applications', $date, $managers);

@@ -26,8 +26,14 @@ abstract class CoreRepository
      */
     abstract protected function getModelClass();
 
-    public function dateFormatFromTimepicker($value)
+    public function dateFormatFromTimepicker($value, $format = 'iso')
     {
-        return DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $value)->format('Y-m-d');
+        if ($format == 'iso') {
+            return DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $value)->format('Y-m-d');
+        }
+        if ($format == 'date') {
+            return DateTime::createFromFormat("d.m.Y", $value)->format('Y-m-d');
+        }
+
     }
 }
