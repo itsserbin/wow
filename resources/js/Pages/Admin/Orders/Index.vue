@@ -147,13 +147,17 @@ function onUpdateClient() {
         .then(() => {
             modalClientFunction();
             axios.put(route('api.orders.update', state.value.orderModal.id), state.value.orderModal)
-            axios.get(route('api.orders.edit', state.value.orderModal.id))
-                .then(({data}) => state.value.orderModal = data.result)
-                .catch((errors) => console.log(errors))
-            swal({
-                title: 'Success!',
-                icon: 'success'
-            })
+                .then(() => {
+                    axios.get(route('api.orders.edit', state.value.orderModal.id))
+                        .then(({data}) => {
+                            state.value.orderModal = data.result;
+                            swal({
+                                title: 'Success!',
+                                icon: 'success'
+                            })
+                        })
+                        .catch((errors) => console.log(errors))
+                })
         })
         .catch((errors) => {
             console.log(errors);
