@@ -32,8 +32,8 @@
                         @endforeach
                     </additional_image_link>
                     <gender>female</gender>
-                    <fb_product_category>Clothing and Accessories > Clothing > Women's Clothing</fb_product_category>
-                    <google_product_category>Apparel and Accessories > Clothing</google_product_category>
+                    <fb_product_category>Clothing and Accessories &gt; Clothing &gt; Women's Clothing</fb_product_category>
+                    <google_product_category>Apparel and Accessories &gt; Clothing</google_product_category>
                 </item>
             @endforeach
         @endif
