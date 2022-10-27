@@ -8,7 +8,8 @@
                    rel="self"
                    type="application/rss+xml"/>
         @if (!empty($products))
-            @foreach ($products as $item)
+
+        @foreach ($products as $item)
                 <item>
                     <id>{{ $item->id }}</id>
                     <title>{{ app()->getLocale() == 'ua' ? $item->h1['ua'] : (app()->getLocale() == 'ru' ? $item->h1['ru'] : null)  }}</title>
@@ -26,8 +27,8 @@
                         @endif
                     </image_link>
                     <additional_image_link>
-                        @foreach($item->images as $item)
-                            {{route('images.products',$item->image).','}}
+                        @foreach($item->images as $image)
+                            {{route('images.products',$image->src).','}}
                         @endforeach
                     </additional_image_link>
                     <gender>female</gender>

@@ -503,6 +503,7 @@ class ProductsRepository extends CoreRepository
                 $query->where('status', '!=', ProductAvailability::OUT_OF_STOCK);
             })
             ->orderBy('created_at', 'desc')
+            ->with('images')
             ->get();
     }
 
@@ -516,6 +517,7 @@ class ProductsRepository extends CoreRepository
                 $query->where('status', '!=', ProductAvailability::OUT_OF_STOCK);
             })
             ->orderBy('created_at', 'desc')
+            ->with('images')
             ->get();
     }
 
@@ -530,6 +532,7 @@ class ProductsRepository extends CoreRepository
                 $query->where('status', '!=', ProductAvailability::OUT_OF_STOCK);
             })
             ->orderBy('created_at', 'desc')
+            ->with('images')
             ->get();
     }
 
@@ -545,6 +548,7 @@ class ProductsRepository extends CoreRepository
                 $query->where('status', '!=', ProductAvailability::OUT_OF_STOCK);
             })
             ->orderBy('created_at', 'desc')
+            ->with('images')
             ->get();
     }
 
