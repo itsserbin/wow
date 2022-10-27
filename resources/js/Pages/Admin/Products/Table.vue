@@ -39,9 +39,9 @@
         </template>
 
         <template #stat="{data}">
-            {{data.row.viewed}}
+            {{data.row.viewed ? data.row.viewed : '0'}}
             <hr class="my-1">
-            {{data.row.total_sales}}
+            {{data.row.total_sales ? data.row.total_sales : '0'}}
         </template>
 
         <template #actions="{data}">
