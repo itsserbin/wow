@@ -14,10 +14,12 @@
 
 <script setup>
 import {endOfMonth, endOfYear, startOfMonth, startOfYear, subMonths} from 'date-fns';
-import {ref} from "vue";
+import {ref,toRef} from "vue";
 
-defineProps(['modelValue']);
+const props = defineProps(['modelValue']);
 defineEmits(['update:modelValue']);
+
+const modelValue = toRef(props,'modelValue')
 
 const presetRanges = ref([
     {
