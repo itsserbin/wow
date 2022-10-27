@@ -1,5 +1,5 @@
 <template>
-    <Datepicker v-model="modelValue"
+    <Datepicker v-model="value"
                 class="w-100"
                 locale="ru"
                 placeholder="Оберіть дату"
@@ -8,18 +8,24 @@
                 :enableTimePicker="false"
                 range
                 :presetRanges="presetRanges"
-                @update:modelValue="$emit('update:modelValue', modelValue)"
     ></Datepicker>
 </template>
 
 <script setup>
 import {endOfMonth, endOfYear, startOfMonth, startOfYear, subMonths} from 'date-fns';
-import {ref,toRef} from "vue";
+import {ref,computed} from "vue";
 
 const props = defineProps(['modelValue']);
-defineEmits(['update:modelValue']);
+const emits = defineEmits(['update:modelValue']);
 
-const modelValue = toRef(props,'modelValue')
+const value = computed({
+    get() {
+        return props.modelValue;
+    },
+    set(value) {
+        emits("update:modelValue", value);
+    },
+});
 
 const presetRanges = ref([
     {
