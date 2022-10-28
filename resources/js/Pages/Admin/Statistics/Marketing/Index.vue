@@ -14,7 +14,7 @@
             </div>
             <MarketingChart v-if="state.chart" :chart-data="state.chart"/>
             <div class="grid grid-cols-2 md:grid-cols-4">
-                <card-component v-for="(item,i) in state.data.generalStatistics"
+                <card-component v-for="(item,i) in state.data.generalStat"
                                 class="text-center"
                                 :title="i"
                                 :description="$filters.formatMoney(item)"
