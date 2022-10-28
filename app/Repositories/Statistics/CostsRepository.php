@@ -168,9 +168,7 @@ class CostsRepository extends CoreRepository
             $model->whereBetween('date', [
                 $this->dateFormatFromTimepicker($data['date_start'], 'date'),
                 $this->dateFormatFromTimepicker($data['date_end'], 'date')
-            ])->whereHas('category', function ($q) use ($data) {
-                $q->where('id', $data['filter']);
-            })->orderBy('date', 'desc');
+            ])->where('cost_category_id', $data['filter']);
         } else if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
             $model->whereBetween('date', [
                 $this->dateFormatFromTimepicker($data['date_start'], 'date'),
