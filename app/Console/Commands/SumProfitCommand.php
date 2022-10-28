@@ -63,18 +63,19 @@ class SumProfitCommand extends Command
         }
 
         foreach ($profit_old as $item) {
-            $created_at = $item->date->toDateString();
-            $item->turnover = $this->ordersRepository->sumDoneOrdersTotalPriceByDate($created_at);
-            $item->cost = $this->costsRepository->sumCostsByDate($created_at);
-            $item->marginality = $this->ordersRepository->sumDoneOrdersClearTotalPriceByDate($created_at);
-            $item->refunds_sum = $this->orderItemsRepository->sumRefundsByDate($created_at);
+//            dd($item->date->toDateString());
+//            $created_at = $item->date->toDateString();
+            $item->turnover = $this->ordersRepository->sumDoneOrdersTotalPriceByDate($item->date);
+            $item->cost = $this->costsRepository->sumCostsByDate($item->date);
+            $item->marginality = $this->ordersRepository->sumDoneOrdersClearTotalPriceByDate($item->date);
+            $item->refunds_sum = $this->orderItemsRepository->sumRefundsByDate($item->date);
             $item->clear_profit = $item->marginality - $item->cost - $item->refunds_sum;
-            $item->prepayment_sum = $this->ordersRepository->sumPrepaymentByDate($created_at);
+            $item->prepayment_sum = $this->ordersRepository->sumPrepaymentByDate($item->date);
             $item->debt_supplier = $item->marginality - $item->prepayment_sum - $item->refunds_sum;
-            $item->sale_of_air_sum = $this->ordersRepository->sumPriceSalesOfAirMarginality($created_at);
-            $item->average_marginality = $this->ordersRepository->averageMarginalityByDate($created_at);
-            $item->additional_sales_sum = $this->orderItemsRepository->sumAdditionalSalesByDate($created_at);
-            $item->additional_sales_marginality_sum = $this->orderItemsRepository->sumMarginalityAdditionalSalesByDate($created_at);
+            $item->sale_of_air_sum = $this->ordersRepository->sumPriceSalesOfAirMarginality($item->date);
+            $item->average_marginality = $this->ordersRepository->averageMarginalityByDate($item->date);
+            $item->additional_sales_sum = $this->orderItemsRepository->sumAdditionalSalesByDate($item->date);
+            $item->additional_sales_marginality_sum = $this->orderItemsRepository->sumMarginalityAdditionalSalesByDate($item->date);
             $item->update();
         }
     }
