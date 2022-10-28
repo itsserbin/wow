@@ -141,7 +141,6 @@ class ManagerSalariesRepository extends CoreRepository
         } elseif ($date) {
             if (is_array($date)) {
                 if (array_key_exists('date_start', $date) && array_key_exists('date_end', $date)) {
-//                    dd($date);
                     return $this->model::whereBetween('date', [$date['date_start'], $date['date_end']])
                         ->where('manager_id', null)
                         ->sum($column);

@@ -47,8 +47,8 @@ class ProfitsRepository extends CoreRepository
 
         if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
             $model->whereBetween('date', [
-                $this->dateFormatFromTimepicker($data['date_start'],'date'),
-                $this->dateFormatFromTimepicker($data['date_end'],'date')
+                $this->dateFormatFromTimepicker($data['date_start'], 'date'),
+                $this->dateFormatFromTimepicker($data['date_end'], 'date')
             ]);
         }
 
@@ -82,8 +82,8 @@ class ProfitsRepository extends CoreRepository
 
         if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
             $model->whereBetween('date', [
-                $this->dateFormatFromTimepicker($data['date_start'],'date'),
-                $this->dateFormatFromTimepicker($data['date_end'],'date')
+                $this->dateFormatFromTimepicker($data['date_start'], 'date'),
+                $this->dateFormatFromTimepicker($data['date_end'], 'date')
             ]);
         }
 
@@ -152,10 +152,20 @@ class ProfitsRepository extends CoreRepository
             'turnover',
         );
 
+        $managerSalariesRepository = new ManagerSalariesRepository();
+        $callCanterSalary = 0;
+
         if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
+            $callCanterSalary = $managerSalariesRepository->sumColumnByDateRangeAndManagerId(
+                'total_price',
+                [
+                    'date_start' => $this->dateFormatFromTimepicker($data['date_start'], 'date'),
+                    'date_end' => $this->dateFormatFromTimepicker($data['date_end'], 'date')
+                ]
+            );
             $model->whereBetween('date', [
-                $this->dateFormatFromTimepicker($data['date_start'],'date'),
-                $this->dateFormatFromTimepicker($data['date_end'],'date')
+                $this->dateFormatFromTimepicker($data['date_start'], 'date'),
+                $this->dateFormatFromTimepicker($data['date_end'], 'date')
             ]);
         }
 
@@ -172,6 +182,8 @@ class ProfitsRepository extends CoreRepository
         $result['Сума за повернення товару'] = $model->sum('refunds_sum');
         $result['Оберт дод.продаж'] = $model->sum('additional_sales_sum');
         $result['Маржа з дод.продаж'] = $model->sum('additional_sales_marginality_sum');
+
+        $result['ЗП колл-центра'] = $callCanterSalary;
 
         return $result;
     }
