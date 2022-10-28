@@ -67,7 +67,7 @@ class MarketingStatisticConmmand extends Command
 
         foreach ($statisticOld as $item) {
             $ordersStatisticModel = $this->ordersStatisticsRepository->getRowByDate($item->date);
-            $costsSum = $this->costsRepository->sumCostsByDate($item->date);
+            $costsSum = $this->costsRepository->sumAdvertisingCostsByDate($item->date);
             if ($ordersStatisticModel) {
                 if ($ordersStatisticModel->applications) {
                     $item->average_application_price = $costsSum / $ordersStatisticModel->applications;
