@@ -7,7 +7,7 @@
             </div>
             <div class="grid grid-cols-2 gap-4 justify-center items-center">
                 <h3 class="font-semibold text-xl">Статус виконання:</h3>
-                <div class="text-xl">{{ props.statuses[order.status] }}</div>
+                <div class="text-xl">{{ props.statuses === 'transferred_to_supplier' ? 'Передано до упакування' :props.statuses[order.status] }}</div>
             </div>
             <div class="grid grid-cols-2 gap-4 justify-center items-center">
                 <h3 class="font-semibold text-xl">Загальна сума замовлення:</h3>
@@ -27,11 +27,11 @@
                 <div class="text-xl">{{ order.client.phone }}</div>
             </div>
             <hr class="my-3">
-            <div class="grid grid-cols-2 gap-4 justify-center items-center">
+            <div class="grid grid-cols-2 gap-4 justify-center items-center" v-if="order.city">
                 <h3 class="font-semibold text-xl">Місто призначення:</h3>
                 <div class="text-xl">{{ order.city }}</div>
             </div>
-            <div class="grid grid-cols-2 gap-4 justify-center items-center">
+            <div class="grid grid-cols-2 gap-4 justify-center items-center" v-if="order.postal_office">
                 <h3 class="font-semibold text-xl">Почтове відділення:</h3>
                 <div class="text-xl">{{ order.postal_office }}</div>
             </div>
