@@ -1,5 +1,5 @@
 @extends('layouts.master')
 
 @section('content')
-    <status-component></status-component>
+    <status-component statuses="{{json_encode($statuses)}}"></status-component>
 @endsection

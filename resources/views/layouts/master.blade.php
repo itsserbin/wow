@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -11,10 +11,10 @@
     @routes
     {!! $options['head_scripts'] !!}
 </head>
-<body>
+<body class="h-full">
 {!! $options['after_body_scripts'] !!}
-<div id="app">
-    <header class="w-[100%] fixed top-0 z-10 bg-[#fff]">
+<div id="app" class="h-full flex flex-col">
+    <header class="w-[100%] fixed top-0 z-10 bg-[#fff] flex-[0_0_auto]">
         <header-component
             lang="{{app()->getLocale()}}"
             categories="{{$categories}}"
@@ -30,7 +30,7 @@
             app-viber="{{$options['viber']}}"
         ></header-component>
     </header>
-    <main class="main">
+    <main class="main flex-[1_0_auto]">
         <div class="max-w-7xl mx-auto mt-28 px-3">
             <div class="grid grid-cols-1 gap-4">
                 @yield('content')

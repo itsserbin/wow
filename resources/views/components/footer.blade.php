@@ -1,4 +1,4 @@
-<footer class="bg-[#161616] mt-5">
+<footer class="bg-[#161616] mt-5 flex-[0_0_auto]">
     <div class="box-content mx-auto max-w-7xl py-10">
         <div class=" text-center flex items-center flex-col">
             <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -49,6 +49,9 @@
 
         </div>
         <div class="grid grid-cols-1 text-center">
+            <a href="{{route('status')}}" class="no-underline text-white mb-3">
+                Статус замовлення
+            </a>
             <a href="{{route('reviews')}}" class="no-underline text-white mb-3">
                 Відгуки
             </a>

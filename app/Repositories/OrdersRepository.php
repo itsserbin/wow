@@ -796,6 +796,38 @@ class OrdersRepository extends CoreRepository
         } else {
             return 0;
         }
+    }
 
+    public function getStatus($data)
+    {
+        return $this
+            ->model
+            ->select(
+                'id',
+                'status',
+                'city',
+                'postal_office',
+                'total_price',
+                'client_id',
+                'waybill',
+                'prepayment',
+                'prepayment_sum',
+            )
+            ->where('id', $data['order_id'])
+            ->whereHas('client', function ($q) use ($data) {
+                $q->where('phone', preg_replace('/[^0-9]/', '', $data['phone']));
+            })
+            ->with([
+                'client' => function ($q) {
+                    $q->select('id', 'name', 'last_name', 'phone');
+                },
+                'items' => function ($q) {
+                    $q->select('color', 'size', 'count', 'id', 'order_id', 'product_id', 'total_price');
+                    $q->with(['product' => function ($q) {
+                        $q->select('id', 'h1', 'price', 'discount_price', 'preview');
+                    }]);
+                }
+            ])
+            ->first();
     }
 }

@@ -5,7 +5,7 @@ use App\Http\Controllers\Api\CallbacksController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\CategoriesController;
 use App\Http\Controllers\Api\FaqsController;
-use App\Http\Controllers\Api\OrdersController;
+use App\Http\Controllers\Api\V1\OrdersController;
 use App\Http\Controllers\Api\ProductReviewsController;
 use App\Http\Controllers\Api\ProductsController;
 use App\Http\Controllers\Api\SocialReviewsController;
@@ -100,6 +100,9 @@ Route::prefix('v1')->middleware('api')->group(function () {
     });
 
     Route::prefix('order')->group(function () {
+
+        Route::post('status', [OrdersController::class, 'status'])
+            ->name('api.v1.orders.status');
 
         Route::post('create', [OrdersController::class, 'create'])
             ->name('api.v1.orders.create');

@@ -2,23 +2,18 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\OrderCreateRequest;
 use App\Repositories\OrdersRepository;
-use App\Services\OrderCheckoutService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class OrdersController extends BaseController
 {
     private mixed $ordersRepository;
-    private mixed $orderCheckoutService;
 
     public function __construct()
     {
         parent::__construct();
         $this->ordersRepository = app(OrdersRepository::class);
-        $this->orderCheckoutService = app(OrderCheckoutService::class);
     }
 
     public function index(Request $request): JsonResponse
@@ -69,17 +64,6 @@ class OrdersController extends BaseController
         ]);
     }
 
-    public function setPrepayment(Request $request)
-    {
-        $result = $this->ordersRepository->setPrepayment($request->all());
-        if ($result) {
-            return redirect(route('thanks', $result->id));
-        } else {
-            return redirect(route('checkout'));
-
-        }
-    }
-
     public function update($id, Request $request): JsonResponse
     {
         $result = $this->ordersRepository->update($id, $request->all());
@@ -97,36 +81,6 @@ class OrdersController extends BaseController
         return $this->returnResponse([
             'success' => true,
             'result' => $result,
-        ]);
-    }
-
-    public function create(OrderCreateRequest $request): JsonResponse
-    {
-        $order = $this->orderCheckoutService->createOrder($request->all());
-
-        return $this->returnResponse([
-            'success' => true,
-            'order' => $order
-        ]);
-    }
-
-    public function getSpecialOffer($orderId): JsonResponse
-    {
-        $result = $this->orderCheckoutService->getSpecialOffer($orderId);
-
-        return $this->returnResponse([
-            'success' => true,
-            'result' => $result
-        ]);
-    }
-
-    public function addItemToOrder($id, Request $request): JsonResponse
-    {
-        $result = $this->orderCheckoutService->addSpecialItemToOrder($id, $request->all());
-
-        return $this->returnResponse([
-            'success' => true,
-            'result' => $result
         ]);
     }
 }

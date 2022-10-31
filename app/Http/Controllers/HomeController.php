@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Enums\OrderStatus;
 use App\Repositories\AdvantagesRepository;
 use App\Repositories\CategoriesRepository;
 use App\Repositories\OptionsRepository;
@@ -121,6 +122,7 @@ class HomeController extends Controller
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
             'categories' => $this->getCategories(),
+            'statuses' => OrderStatus::state
         ]);
     }
 
