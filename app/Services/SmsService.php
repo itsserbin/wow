@@ -17,7 +17,7 @@ class SmsService
     public function newOrder($phone, $order_id)
     {
         return TurboSMS::sendMessages($phone,
-            'Замовлення' . $order_id . ' прийнято' . "\n" . 'Найближчим часом з Вами зв`яжеться оператор' . "\n\n" . 'З любовʼю, dabango.store ❤️',
+            'Замовлення ' . $order_id . ' прийнято' . "\n" . 'Найближчим часом з Вами зв`яжеться оператор' . "\n\n" . 'З любовʼю, dabango.store ❤️',
             'sms'
         );
     }
