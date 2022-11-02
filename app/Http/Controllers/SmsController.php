@@ -27,4 +27,12 @@ class SmsController extends Controller
         $this->ordersRepository->updateSmsWaybillStatus($order_id);
         return $this->smsService->notifyWaybill($phone, $waybill);
     }
+
+    public function newOrder(Request $request)
+    {
+        $phone = $request->get('phone');
+        $order_id = $request->get('order_id');
+
+        return $this->smsService->newOrder($phone, $order_id);
+    }
 }

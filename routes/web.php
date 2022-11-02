@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SmsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,6 +42,9 @@ Route::group(['prefix' => App\Http\Middleware\LocaleMiddleware::getLocale()], fu
 
     Route::get('status', [HomeController::class, 'status'])
         ->name('status');
+
+    Route::post('sms-new-order', [SmsController::class, 'newOrder'])
+        ->name('sms.new.order');
 
     require __DIR__ . '/xml.php';
 });

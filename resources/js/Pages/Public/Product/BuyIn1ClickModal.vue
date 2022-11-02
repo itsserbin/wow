@@ -116,6 +116,10 @@ function sendForm() {
                         }
                     });
                 }
+                axios.post(route('sms.new.order'), {
+                    order_id: data.order.id,
+                    phone: data.order.client.phone,
+                })
                 state.value.isLoading = false;
                 window.location.href = route('thanks', data.order.id);
             })

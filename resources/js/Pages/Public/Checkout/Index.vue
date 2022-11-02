@@ -221,8 +221,12 @@ function sendOrder() {
                         items: state.value.ga4ProductsArray
                     }
                 });
-
             }
+
+            axios.post(route('sms.new.order'), {
+                order_id: data.order.id,
+                phone: data.order.client.phone,
+            })
 
             if (data.order.payment_method === 'minimum_prepayment' || data.order.payment_method === 'full_prepayment') {
                 wfp(data.order);

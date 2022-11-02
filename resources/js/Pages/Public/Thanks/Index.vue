@@ -81,7 +81,7 @@ defineProps({
     },
     textThanksPageDescription: {
         type: String,
-        default: 'Найближчим часом з вами зв\'яжеться оператор для підтвердження замовлення.',
+        default: 'Найближчим часом з вами зв`яжеться оператор для підтвердження замовлення.',
     },
     textThanksPageOrderId: {
         type: String,
