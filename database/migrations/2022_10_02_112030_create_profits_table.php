@@ -26,6 +26,8 @@ return new class extends Migration
             $table->integer('additional_sales_sum')->nullable();
             $table->integer('additional_sales_marginality_sum')->nullable();
             $table->integer('prepayment_sum')->nullable();
+            $table->integer('prepayment_wfp_sum')->nullable();
+            $table->integer('prepayment_card_sum')->nullable();
             $table->integer('debt_supplier')->nullable();
             $table->timestamps();
         });

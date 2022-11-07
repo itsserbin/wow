@@ -737,12 +737,19 @@ class OrdersRepository extends CoreRepository
             ->average('total_count');
     }
 
-    public function sumPrepaymentByDate($date)
+    public function sumPrepaymentByDate($date, $param = null)
     {
-        return $this->model::whereDate('created_at', $date)
-            ->select('prepayment', 'prepayment_sum')
-            ->where('prepayment', 1)
-            ->sum('prepayment_sum');
+        $model = $this->model::whereDate('created_at', $date)
+            ->select('prepayment', 'prepayment_sum', 'wfp_payment')
+            ->where('prepayment', 1);
+
+        if ($param == 'wfp') {
+            $model->where('wfp_payment', 1);
+        } elseif ($param == 'card') {
+            $model->where('wfp_payment', 0);
+        }
+
+        return $model->sum('prepayment_sum');
     }
 
     public function sumDoneOrdersClearTotalPriceByDate($date)

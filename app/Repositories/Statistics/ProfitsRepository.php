@@ -43,6 +43,8 @@ class ProfitsRepository extends CoreRepository
             'additional_sales_marginality_sum',
             'debt_supplier',
             'turnover',
+            'prepayment_wfp_sum',
+            'prepayment_card_sum'
         );;
 
         if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
@@ -150,6 +152,8 @@ class ProfitsRepository extends CoreRepository
             'additional_sales_marginality_sum',
             'debt_supplier',
             'turnover',
+            'prepayment_wfp_sum',
+            'prepayment_card_sum'
         );
 
         $managerSalariesRepository = new ManagerSalariesRepository();
@@ -179,6 +183,8 @@ class ProfitsRepository extends CoreRepository
         $result['Продажі повітря'] = $model->sum('sale_of_air_sum');
         $result['Середня маржа'] = $model->avg('average_marginality');
         $result['Сума переодоплат'] = $model->sum('prepayment_sum');
+        $result['Сума переодоплат WFP'] = $model->sum('prepayment_wfp_sum');
+        $result['Сума переодоплат на карту'] = $model->sum('prepayment_card_sum');
         $result['Сума за повернення товару'] = $model->sum('refunds_sum');
         $result['Оберт дод.продаж'] = $model->sum('additional_sales_sum');
         $result['Маржа з дод.продаж'] = $model->sum('additional_sales_marginality_sum');

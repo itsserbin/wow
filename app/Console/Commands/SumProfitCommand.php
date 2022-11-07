@@ -71,6 +71,8 @@ class SumProfitCommand extends Command
             $item->refunds_sum = $this->orderItemsRepository->sumRefundsByDate($item->date);
             $item->clear_profit = $item->marginality - $item->cost - $item->refunds_sum;
             $item->prepayment_sum = $this->ordersRepository->sumPrepaymentByDate($item->date);
+            $item->prepayment_wfp_sum = $this->ordersRepository->sumPrepaymentByDate($item->date, 'wfp');
+            $item->prepayment_card_sum = $this->ordersRepository->sumPrepaymentByDate($item->date, 'card');
             $item->debt_supplier = $item->marginality - $item->prepayment_sum - $item->refunds_sum;
             $item->sale_of_air_sum = $this->ordersRepository->sumPriceSalesOfAirMarginality($item->date);
             $item->average_marginality = $this->ordersRepository->averageMarginalityByDate($item->date);

@@ -94,6 +94,14 @@ const headings = [
         key: 'prepayment_sum'
     },
     {
+        label: 'Сума переодоплат WFP',
+        key: 'prepayment_wfp_sum'
+    },
+    {
+        label: 'Сума переодоплат на карту',
+        key: 'prepayment_card_sum'
+    },
+    {
         label: 'Сума за повернення товару',
         key: 'refunds_sum'
     },
