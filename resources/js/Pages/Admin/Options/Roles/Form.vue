@@ -1,24 +1,38 @@
 <template>
-    <form>
-        <div class="grid grid-cols-1 mb-5">
-            <div class="block mr-2">
-                <label-component value="Назва"/>
-                <input-component v-model="item.name" type="text"/>
-            </div>
+    <form class="grid grid-cols-1 gap-4">
+        <div class="block">
+            <label-component value="Назва"/>
+            <input-component v-model="item.name" type="text"/>
         </div>
 
-        <div class="grid grid-cols-1 mb-5">
-            <div class="block mr-2">
-                <label-component value="Slug"/>
-                <input-component v-model="item.slug" type="text"/>
-            </div>
+        <div class="block">
+            <label-component value="Slug"/>
+            <input-component v-model="item.slug" type="text"/>
+        </div>
+
+        <div class="block">
+            <multiselect
+                :options="permissions"
+                v-model="item.permissions"
+                label="name"
+                track-by="id"
+                :searchable="true"
+                :multiple="true"
+            />
         </div>
     </form>
 </template>
 
 <script setup>
-import {inject} from "vue";
+import {onMounted, ref} from "vue";
 
 defineProps(['item'])
-const publishedStatuses = inject('$publishedStatuses');
+
+const permissions = ref([]);
+
+onMounted(() => {
+    axios.get(route('api.permissions.list'))
+        .then(({data}) => permissions.value = data.result)
+        .catch((response) => console.log(response));
+})
 </script>

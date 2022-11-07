@@ -5,10 +5,12 @@
         </template>
 
         <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading && can('show-permissions')">
-            <button-component type="btn" @click="create" v-if="can('create-permissions')">
-                Додати
-            </button-component>
+        <div v-if="!state.isLoading && can('show-permissions')" class="grid grid-cols-1 gap-4">
+            <div>
+                <button-component type="btn" @click="create" v-if="can('create-permissions')">
+                    Додати
+                </button-component>
+            </div>
 
             <Table :data="state.data.data"
                    @onEdit="onEdit"
@@ -16,18 +18,20 @@
                    :canDestroy="can('destroy-permissions')"
             />
 
-            <pagination  :pagination="state.data"
-                       :click-handler="fetch"
-                       v-model="state.currentPage"
-            />
-            <component :is="activeModal"
-                       :item="state.item"
-                       @closeModal="modalFunction"
-                       @submitForm="submitForm"
-                       @declineForm="onDestroy"
-                       :canDestroy="can('destroy-permissions')"
-            ></component>
+            <div class="text-center">
+                <pagination :pagination="state.data"
+                            :click-handler="fetch"
+                            v-model="state.currentPage"
+                />
+            </div>
         </div>
+        <component :is="activeModal"
+                   :item="state.item"
+                   @closeModal="modalFunction"
+                   @submitForm="submitForm"
+                   @declineForm="onDestroy"
+                   :canDestroy="can('destroy-permissions')"
+        ></component>
     </OptionsLayout>
 </template>
 
@@ -59,8 +63,6 @@ onMounted(() => {
 })
 
 const activeModal = computed(() => state.value.isActiveModal ? PermissionsModal : null)
-
-
 
 
 function fetch(page) {

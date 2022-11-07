@@ -184,11 +184,11 @@ const props = defineProps({
     },
     pageClass: {
         type: String,
-        default: 'cursor-pointer py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
+        default: 'cursor-pointer py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
     },
     pageLinkClass: {
         type: String,
-        default: ''
+        default: 'px-3'
     },
     prevClass: {
         type: String,

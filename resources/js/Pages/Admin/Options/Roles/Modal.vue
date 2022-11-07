@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import PermissionForm from '@/Pages/Admin/Options/Permissions/Form.vue';
+import PermissionForm from '@/Pages/Admin/Options/Roles/Form.vue';
 import {computed} from "vue";
 
 const props = defineProps([

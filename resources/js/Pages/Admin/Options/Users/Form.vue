@@ -1,6 +1,6 @@
 <template>
-    <form>
-        <div class="grid grid-cols-1 md:grid-cols-2 mb-5 gap-4">
+    <form class="grid grid-cols-1 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="block">
                 <label-component value="Назва"/>
                 <input-component v-model="item.name" type="text"/>
@@ -12,7 +12,7 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 mb-5">
+        <div class="block">
             <label-component value="Ролі"/>
             <multiselect
                 :options="roles"
@@ -25,7 +25,7 @@
                 multiple
             />
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 mb-5 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="block">
                 <label-component value="Новий пароль"/>
                 <input-component v-model="item.password" type="password"/>
@@ -39,11 +39,9 @@
 </template>
 
 <script setup>
-import {inject, onMounted, ref} from "vue";
+import {onMounted, ref} from "vue";
 
 defineProps(['item'])
-
-const publishedStatuses = inject('$publishedStatuses');
 
 const roles = ref([]);
 
