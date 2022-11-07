@@ -43,11 +43,14 @@ Route::group(['prefix' => App\Http\Middleware\LocaleMiddleware::getLocale()], fu
     Route::get('status', [HomeController::class, 'status'])
         ->name('status');
 
-    Route::post('sms-new-order', [SmsController::class, 'newOrder'])
-        ->name('sms.new.order');
+    Route::get('support', [HomeController::class, 'support'])
+        ->name('support');
 
     require __DIR__ . '/xml.php';
 });
+
+Route::post('sms-new-order', [SmsController::class, 'newOrder'])
+    ->name('sms.new.order');
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/admin.php';

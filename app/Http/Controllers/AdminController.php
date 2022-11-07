@@ -7,6 +7,7 @@ use App\Models\Enums\ClientStatus;
 use App\Models\Enums\ClientSubStatus;
 use App\Models\Enums\OrderStatus;
 use App\Models\Enums\PaymentMethod;
+use App\Models\Enums\SupportStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Inertia\Inertia;
@@ -21,7 +22,7 @@ class AdminController extends Controller
 
     public function callbacks(): Response
     {
-        return Inertia::render('Callbacks/Index',[
+        return Inertia::render('Callbacks/Index', [
             'statuses' => CallbackStatus::state
         ]);
     }
@@ -173,5 +174,12 @@ class AdminController extends Controller
     public function statisticManagers(): Response
     {
         return Inertia::render('Statistics/Managers/Index');
+    }
+
+    public function supports(): Response
+    {
+        return Inertia::render('Supports/Index',[
+            'statuses' => SupportStatus::state
+        ]);
     }
 }

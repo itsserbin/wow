@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\V1\OrdersController;
 use App\Http\Controllers\Api\ProductReviewsController;
 use App\Http\Controllers\Api\ProductsController;
 use App\Http\Controllers\Api\SocialReviewsController;
+use App\Http\Controllers\Api\V1\SupportsController;
 use App\Http\Controllers\External\NovaPoshtaController;
 use Illuminate\Support\Facades\Route;
 
@@ -161,6 +162,9 @@ Route::prefix('v1')->middleware('api')->group(function () {
 
     Route::get('faq/list', [FaqsController::class, 'list'])
         ->name('api.v1.faq.list');
+
+    Route::post('support/create', [SupportsController::class, 'create'])
+        ->name('api.v1.support.create');
 
     Route::prefix('nova-poshta')->group(function () {
         Route::post('search-city', [NovaPoshtaController::class, 'searchCity'])

@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Controllers\Api\BaseController;
-use App\Http\Requests\OrderCreateRequest;
-use App\Http\Requests\OrderStatusRequest;
-use App\Models\Enums\OrderStatus;
+use App\Http\Requests\Public\OrderCreateRequest;
+use App\Http\Requests\Public\OrderStatusRequest;
 use App\Repositories\OrdersRepository;
 use App\Services\OrderCheckoutService;
 use Illuminate\Contracts\Foundation\Application;

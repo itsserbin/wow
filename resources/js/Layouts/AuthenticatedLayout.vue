@@ -90,7 +90,13 @@ onMounted(() => {
                                 <NavLink :href="route('admin.callbacks.index')"
                                          v-if="can('show-callbacks')"
                                          :active="route().current('admin.callbacks.index')">
-                                    Callbacks
+                                    Зворотній звʼязок
+                                </NavLink>
+
+                                <NavLink :href="route('admin.supports.index')"
+                                         v-if="can('show-supports')"
+                                         :active="route().current('admin.supports.index')">
+                                    Support
                                 </NavLink>
 
                                 <NavLink :href="route('admin.statistics.index')"
@@ -137,7 +143,7 @@ onMounted(() => {
                         </div>
 
                         <!-- Hamburger -->
-                        <div class="-mr-2 flex items-center xl:hidden">
+                        <div class="flex items-center xl:hidden">
                             <button @click="showingNavigationDropdown = ! showingNavigationDropdown"
                                     class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
                                 <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
@@ -209,7 +215,13 @@ onMounted(() => {
                         <ResponsiveNavLink :href="route('admin.callbacks.index')"
                                            v-if="can('show-callbacks')"
                                            :active="route().current('admin.callbacks.index')">
-                            Callback
+                            Зворотній звʼязок
+                        </ResponsiveNavLink>
+
+                        <ResponsiveNavLink :href="route('admin.supports.index')"
+                                           v-if="can('show-supports')"
+                                           :active="route().current('admin.supports.index')">
+                            Support
                         </ResponsiveNavLink>
 
                         <ResponsiveNavLink :href="route('admin.statistics.index')"

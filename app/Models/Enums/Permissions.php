@@ -130,5 +130,9 @@ class Permissions
         ['name' => 'Create images', 'slug' => 'create-images'],
         ['name' => 'Show images', 'slug' => 'show-images'],
         ['name' => 'Destroy images', 'slug' => 'destroy-images'],
+
+        ['name' => 'Edit supports', 'slug' => 'edit-supports'],
+        ['name' => 'Show supports', 'slug' => 'show-supports'],
+        ['name' => 'Destroy supports', 'slug' => 'destroy-supports'],
     ];
 }

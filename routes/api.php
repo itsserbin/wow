@@ -27,6 +27,7 @@ use App\Http\Controllers\Api\SizesController;
 use App\Http\Controllers\Api\SocialReviewsController;
 use App\Http\Controllers\Api\Statistics\CostCategoriesController;
 use App\Http\Controllers\Api\Statistics\CostsController;
+use App\Http\Controllers\Api\SupportsController;
 use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Api\XmlsController;
 use Illuminate\Http\Request;
@@ -448,9 +449,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/', [CallbacksController::class, 'index'])
             ->name('api.callbacks.index');
 
-        Route::post('create', [CallbacksController::class, 'create'])
-            ->name('api.callbacks.create');
-
         Route::get('edit/{id}', [CallbacksController::class, 'edit'])
             ->name('api.callbacks.edit');
 
@@ -459,6 +457,21 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::delete('destroy/{id}', [CallbacksController::class, 'destroy'])
             ->name('api.callbacks.destroy');
+    });
+
+
+    Route::prefix('supports')->group(function () {
+        Route::get('/', [SupportsController::class, 'index'])
+            ->name('api.supports.index');
+
+        Route::get('edit/{id}', [SupportsController::class, 'edit'])
+            ->name('api.supports.edit');
+
+        Route::put('update/{id}', [SupportsController::class, 'update'])
+            ->name('api.supports.update');
+
+        Route::delete('destroy/{id}', [SupportsController::class, 'destroy'])
+            ->name('api.supports.destroy');
     });
 
     Route::prefix('statistics')->group(function () {

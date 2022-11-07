@@ -21,8 +21,7 @@
 </template>
 
 <script setup>
-import {defineProps, ref, onMounted} from "vue";
-import LoadMore from '@/Pages/Public/Components/LoadMore.vue';
+import {ref, onMounted} from "vue";
 
 const state = ref({
     category: null,

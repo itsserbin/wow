@@ -55,6 +55,7 @@ import ProductCard from '@/Pages/Public/Components/ProductCard.vue';
 import ProductCards from '@/Pages/Public/Components/ProductCards.vue';
 import Modal from '@/Pages/Public/Components/Modal.vue';
 import Label from '@/Pages/Public/Components/Label.vue';
+import Textarea from '@/Pages/Public/Components/Textarea.vue';
 import Input from '@/Pages/Public/Components/Input.vue';
 import InputError from '@/Components/Form/InputError.vue';
 import Callback from '@/Pages/Public/Components/Callback.vue';
@@ -72,6 +73,7 @@ app.component('product-cards', ProductCards)
 app.component('modal', Modal)
 app.component('label-component', Label)
 app.component('input-component', Input)
+app.component('textarea-component', Textarea)
 app.component('input-error', InputError)
 app.component('button-component', Button)
 app.component('all-reviews-list', AllReviewsList)
@@ -128,10 +130,12 @@ import CartComponent from '@/Pages/Public/Cart/Index.vue';
 import CheckoutComponent from '@/Pages/Public/Checkout/Index.vue';
 import ThanksPageIndex from '@/Pages/Public/Thanks/Index.vue';
 import StatusComponent from '@/Pages/Public/Status/Index.vue';
+import SupportComponent from '@/Pages/Public/Support/Index.vue';
 
 app.component('cart-component', CartComponent);
 app.component('checkout-component', CheckoutComponent);
 app.component('thanks-component', ThanksPageIndex);
 app.component('status-component', StatusComponent);
+app.component('support-component', SupportComponent);
 
 app.mount('#app');

@@ -41,6 +41,9 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
     Route::get('pages', [AdminController::class, 'pages'])
         ->name('admin.pages.index');
 
+    Route::get('supports', [AdminController::class, 'supports'])
+        ->name('admin.supports.index');
+
     Route::prefix('reviews')->group(function () {
         Route::get('product', [AdminController::class, 'productReviews'])
             ->name('admin.reviews.product.index');
