@@ -69,5 +69,6 @@
         <div class="faq">
             <faq-component lang="{{app()->getLocale()}}"/>
         </div>
+        @include('components.support')
     </div>
 @endsection

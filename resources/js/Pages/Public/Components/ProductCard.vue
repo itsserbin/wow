@@ -119,8 +119,9 @@
 <script setup>
 import {inject, ref} from "vue";
 import {useStore} from "vuex";
+import {useGtm} from "@gtm-support/vue-gtm";
 
-defineProps({
+const props = defineProps({
     product: Object,
     lang: String,
     textGoToProductCard: {
@@ -131,6 +132,7 @@ defineProps({
 
 const store = useStore();
 const swal = inject('$swal');
+const gtm = useGtm();
 
 const item = ref({
     count: 1,
@@ -144,6 +146,27 @@ function addToCard(id) {
     axios.post(route('api.v1.cart.add', item.value))
         .then(() => {
             store.commit('loadCart');
+            if (import.meta.env.MODE === 'production') {
+                fbq('track', 'AddToCart', {
+                    "value": props.product.discount_price ? props.product.discount_price : props.product.price,
+                    "currency": "UAH",
+                    "content_type": "product",
+                    "content_ids": [item.value.item_id],
+                    "content_name": props.product.h1
+                });
+
+                gtm.trackEvent({
+                    event: 'add_product_to_cart',
+                    ecommerce: {
+                        items: [{
+                            item_name: props.product.h1,
+                            item_id: item.value.item_id,
+                            price: props.product.discount_price ? props.product.discount_price : props.product.price,
+                            quantity: 1
+                        }]
+                    }
+                });
+            }
             swal({
                 icon: 'success',
                 title: 'Товар додано до вашого кошика!',
@@ -157,30 +180,7 @@ function addToCard(id) {
                     window.location.href = route('checkout');
                 }
             })
-            // if (typeof fbq !== "undefined") {
-            //     fbq('track', 'AddToCart', {
-            //         "value": this.discountPrice ? this.discountPrice : this.price,
-            //         "currency": "UAH",
-            //         "content_type": "product",
-            //         "content_ids": [this.item.item_id],
-            //         "content_name": this.h1
-            //     });
-            //
-            //
-            //     if (typeof this.$gtm !== "undefined") {
-            //         this.$gtm.trackEvent({
-            //             event: 'add_product_to_cart',
-            //             ecommerce: {
-            //                 items: [{
-            //                     item_name: this.h1,
-            //                     item_id: this.item.item_id,
-            //                     price: this.discountPrice ? this.discountPrice : this.price,
-            //                     quantity: 1
-            //                 }]
-            //             }
-            //         });
-            //     }
-            // }
+
         })
         .catch(() => {
             swal({
