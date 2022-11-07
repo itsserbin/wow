@@ -43,6 +43,11 @@
             <hr class="my-1">
             {{data.row.total_sales ? data.row.total_sales : '0'}}
         </template>
+        <template #stat2="{data}">
+            {{data.row.returns ? data.row.returns : '0'}}
+            <hr class="my-1">
+            {{data.row.exchange ? data.row.exchange : '0'}}
+        </template>
 
         <template #actions="{data}">
             <a href="javascript:" @click="$emit('onDestroy', data.row.id)" v-if="canDestroy">
@@ -99,6 +104,10 @@ const headings = [
     {
         label: "Переглядів<hr class='my-1'>Покупок",
         key: 'stat'
+    },
+    {
+        label: "Повернень<hr class='my-1'>Обмінів",
+        key: 'stat2'
     },
     {
         label: '#',

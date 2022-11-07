@@ -31,10 +31,13 @@ return new class extends Migration {
             $table->json('characteristics')->nullable();
             $table->string('vendor_code')->nullable();
             $table->string('preview')->nullable();
-            $table->integer('total_sales')->nullable();
             $table->integer('sort')->nullable()->unsigned();
 
+            $table->integer('total_sales')->nullable();
             $table->integer('viewed')->nullable();
+            $table->integer('refunds')->nullable();
+            $table->integer('returns')->nullable();
+
             $table->foreignId('provider_id')
                 ->nullable()
                 ->constrained('providers')

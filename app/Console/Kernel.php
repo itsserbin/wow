@@ -7,6 +7,7 @@ use App\Console\Commands\OrdersStatisticCommand;
 use App\Console\Commands\SumCostsCommand;
 use App\Console\Commands\SumManagersSalary;
 use App\Console\Commands\SumProfitCommand;
+use App\Console\Commands\UpdateProductStatisticsCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -18,6 +19,7 @@ class Kernel extends ConsoleKernel
         SumProfitCommand::class,
         OrdersStatisticCommand::class,
         SumCostsCommand::class,
+        UpdateProductStatisticsCommand::class,
     ];
 
     /**
@@ -28,6 +30,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('product:update_statistic')->everyThirtyMinutes();
         $schedule->command('costs:sum')->everyThirtyMinutes();
         $schedule->command('orderStatistics:count')->everyThirtyMinutes();
         $schedule->command('managers_salary:sum')->everyThirtyMinutes();

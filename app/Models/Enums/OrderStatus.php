@@ -11,6 +11,7 @@ class OrderStatus
         self::STATUS_AT_THE_POST_OFFICE => 'На пошті',
         self::STATUS_CANCELED => 'Скасовано',
         self::STATUS_RETURN => 'Повернення',
+        self::STATUS_EXCHANGE => 'Обмін',
         self::STATUS_DONE => 'Виконаний',
         self::STATUS_AWAITING_DISPATCH => 'Чекає на відправку',
         self::STATUS_AWAITING_PREPAYMENT => 'Чекає на передоплату',
@@ -18,6 +19,7 @@ class OrderStatus
         self::STATUS_REQUIRES_CLARIFICATION => 'Потребує уточнення',
     ];
 
+    const STATUS_EXCHANGE = 'exchange';
     const STATUS_NEW = 'new';
     const STATUS_PROCESSED = 'processed';
     const STATUS_TRANSFERRED_TO_SUPPLIER = 'transferred_to_supplier';

@@ -51,6 +51,8 @@ class ProductsRepository extends CoreRepository
             'sort',
             'vendor_code',
             'viewed',
+            'returns',
+            'exchange',
             'total_sales',
             'provider_id',
             'created_at',
