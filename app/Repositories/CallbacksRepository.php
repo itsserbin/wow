@@ -17,9 +17,9 @@ class CallbacksRepository extends CoreRepository
         return $this->model::where('id', $id)->first();
     }
 
-    public function getAllWithPaginate()
+    public function getAllWithPaginate($data)
     {
-        return $this
+        $model = $this
             ->model::select(
                 'id',
                 'status',
@@ -28,9 +28,13 @@ class CallbacksRepository extends CoreRepository
                 'comment',
                 'created_at',
                 'updated_at',
-            )
-            ->orderBy('id', 'desc')
-            ->paginate(15);
+            );
+
+        if (array_key_exists('status', $data)) {
+            $model->where('status', $data['status']);
+        }
+
+        return $model->orderBy('id', 'desc')->paginate(15);
     }
 
     public function create(array $data)

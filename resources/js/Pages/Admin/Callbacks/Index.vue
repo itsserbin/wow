@@ -6,21 +6,35 @@
 
         <loader-component v-if="state.isLoading"/>
         <div v-if="!state.isLoading && can('show-callbacks')">
-            <div class="grid grid-cols-1 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
 
-                <Table :data="state.data.data"
-                       :statuses="statuses"
-                       @onEdit="onEdit"
-                       @onDestroy="onDestroy"
-                       :can-destroy="can('destroy-callbacks')"
-                />
-
-                <div class="text-center">
-                    <pagination :pagination="state.data"
-                                :click-handler="fetch"
-                                v-model="state.currentPage"
-                    />
+                <div class="md:col-span-1">
+                    <sidebar-component>
+                        <sidebar-item v-if="sidebar.length"
+                                      v-for="item in sidebar"
+                                      @click="sortByStatus(item.key)"
+                                      :active="state.sidebarActive === item.key"
+                        >
+                            {{ item.title }}
+                        </sidebar-item>
+                    </sidebar-component>
                 </div>
+                <div class="w-full md:col-span-4 grid gap-4 grid-cols-1">
+                    <Table :data="state.data.data"
+                           :statuses="statuses"
+                           @onEdit="onEdit"
+                           @onDestroy="onDestroy"
+                           :can-destroy="can('destroy-callbacks')"
+                    />
+
+                    <div class="text-center">
+                        <pagination :pagination="state.data"
+                                    :click-handler="fetch"
+                                    v-model="params.currentPage"
+                        />
+                    </div>
+                </div>
+
             </div>
 
             <component :is="activeModal"
@@ -40,7 +54,7 @@ import {reactive, onMounted, inject, ref, computed} from "vue";
 import Modal from '@/Pages/Admin/Callbacks/Modal.vue';
 import Table from '@/Pages/Admin/Callbacks/Table.vue';
 
-defineProps(['statuses']);
+const props = defineProps(['statuses']);
 
 
 const swal = inject('$swal')
@@ -55,26 +69,59 @@ const item = reactive({
 
 const state = ref({
     data: [],
-    currentPage: 1,
     isLoading: true,
     isActiveModal: false,
     modalAction: '',
     item: {},
+    sidebarActive: 'all',
 });
+
+const sidebar = ref([]);
+
+const params = ref({
+    status: null,
+    currentPage: 1,
+})
+
+const getParams = computed(() => {
+    const data = {};
+    data.page = params.value.currentPage;
+    if (params.value.status) {
+        data.status = params.value.status;
+    }
+    return data;
+})
 
 onMounted(() => {
     fetch(1);
+    sidebar.value.push({title: 'Всі', key: 'all'});
+    for (const [key, value] of Object.entries(props.statuses)) {
+        sidebar.value.push({
+            title: value,
+            key: key,
+        })
+    }
 })
 
 const activeModal = computed(() => state.value.isActiveModal ? Modal : null)
 
+function sortByStatus(status) {
+    state.value.sidebarActive = status;
+    if (status === 'all') {
+        params.value.status = null
+    } else {
+        params.value.status = status
+    }
+    params.value.currentPage = 1;
+    fetch();
+}
 
 function fetch(page) {
     state.value.isLoading = true;
     if (page) {
         state.value.currentPage = page;
     }
-    axios.get(route('api.callbacks.index', {'page': state.value.currentPage}))
+    axios.get(route('api.callbacks.index', getParams.value))
         .then(response => {
             Object.assign(state.value.data, response.data.result);
             state.value.isLoading = false;

@@ -11,6 +11,9 @@
         <template #status="{data}">
             {{ statuses[data.row.status] }}
         </template>
+        <template #comment="{data}">
+            {{data.row.comment ? data.row.comment.substr(0, 30) + '...' : '-'}}
+        </template>
         <template v-slot:timestamps="{data}">
             {{ $filters.dateFormat(data.row.updated_at) }}
             <hr class="my-1">

@@ -17,11 +17,11 @@ class CallbacksController extends BaseController
         $this->callbacksRepository = app(CallbacksRepository::class);
     }
 
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         return $this->returnResponse([
             'success' => true,
-            'result' => $this->callbacksRepository->getAllWithPaginate(),
+            'result' => $this->callbacksRepository->getAllWithPaginate($request->all()),
         ]);
     }
 
