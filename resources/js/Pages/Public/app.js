@@ -9,7 +9,7 @@ import {createI18n} from 'vue-i18n'
 const app = createApp();
 const i18n = createI18n({})
 
-if (import.meta.env.MODE === 'production') {
+if (import.meta.env.MODE === 'production' && import.meta.env.VITE_GTM) {
     app.use(
         createGtm({
             id: import.meta.env.VITE_GTM,

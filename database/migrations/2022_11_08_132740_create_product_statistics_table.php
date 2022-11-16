@@ -18,6 +18,7 @@ return new class extends Migration {
     {
         Schema::create('product_statistics', function (Blueprint $table) {
             $table->id();
+
             $table->date('date');
             $table->integer('total')->default(0);
             $table->integer('sales')->default(0);
@@ -41,7 +42,7 @@ return new class extends Migration {
         $firstOrder = Order::select('id', 'created_at')->orderBy('id', 'asc')->first();
         $lastOrder = Order::select('id', 'created_at')->orderBy('id', 'desc')->first();
 
-        if ($firstOrder && $lastOrder){
+        if ($firstOrder && $lastOrder) {
             $period = new DatePeriod(
                 new DateTime($firstOrder->created_at),
                 new DateInterval('P1D'),
