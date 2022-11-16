@@ -41,21 +41,23 @@ return new class extends Migration {
         $firstOrder = Order::select('id', 'created_at')->orderBy('id', 'asc')->first();
         $lastOrder = Order::select('id', 'created_at')->orderBy('id', 'desc')->first();
 
-        $period = new DatePeriod(
-            new DateTime($firstOrder->created_at),
-            new DateInterval('P1D'),
-            new DateTime($lastOrder->created_at)
-        );
+        if ($firstOrder && $lastOrder){
+            $period = new DatePeriod(
+                new DateTime($firstOrder->created_at),
+                new DateInterval('P1D'),
+                new DateTime($lastOrder->created_at)
+            );
 
-        foreach ($period as $key => $value) {
-            $date = $value->format('Y-m-d');
+            foreach ($period as $key => $value) {
+                $date = $value->format('Y-m-d');
 
-            foreach (Product::select('id')->get() as $product) {
-                if (!ProductStatistic::where('date', $date)->where('product_id', $product->id)->first()) {
-                    $model = new ProductStatistic;
-                    $model->product_id = $product->id;
-                    $model->date = $date;
-                    $model->save();
+                foreach (Product::select('id')->get() as $product) {
+                    if (!ProductStatistic::where('date', $date)->where('product_id', $product->id)->first()) {
+                        $model = new ProductStatistic;
+                        $model->product_id = $product->id;
+                        $model->date = $date;
+                        $model->save();
+                    }
                 }
             }
         }
