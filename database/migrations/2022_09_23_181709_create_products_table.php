@@ -35,8 +35,8 @@ return new class extends Migration {
 
             $table->integer('total_sales')->nullable();
             $table->integer('viewed')->nullable();
-            $table->integer('refunds')->nullable();
             $table->integer('returns')->nullable();
+            $table->integer('exchange')->nullable();
 
             $table->foreignId('provider_id')
                 ->nullable()

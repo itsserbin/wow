@@ -55,6 +55,6 @@ class Product extends Model
 
     public function orderItems(): HasMany
     {
-        return $this->hasMany(OrderItem::class, 'product_id')->with('order');
+        return $this->hasMany(OrderItem::class, 'product_id');
     }
 }

@@ -21,6 +21,7 @@ use App\Http\Controllers\Api\Statistics\MarketingStatisticController;
 use App\Http\Controllers\Api\Statistics\OrdersStatisticController;
 use App\Http\Controllers\Api\ProductReviewsController;
 use App\Http\Controllers\Api\ProductsController;
+use App\Http\Controllers\Api\Statistics\ProductStatisticsController;
 use App\Http\Controllers\Api\Statistics\ProfitsController;
 use App\Http\Controllers\Api\ProvidersController;
 use App\Http\Controllers\Api\SizesController;
@@ -543,6 +544,14 @@ Route::middleware('auth:sanctum')->group(function () {
 
             Route::get('chart', [MarketingStatisticController::class, 'chart'])
                 ->name('api.statistics.marketing.chart');
+        });
+
+        Route::prefix('products')->group(function () {
+            Route::get('/', [ProductStatisticsController::class, 'index'])
+                ->name('api.statistics.products.index');
+
+            Route::get('chart', [ProductStatisticsController::class, 'chart'])
+                ->name('api.statistics.products.chart');
         });
 
         Route::prefix('managers')->group(function () {

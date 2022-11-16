@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Console\Commands\ApiNovaPoshtaCommand;
 use App\Console\Commands\OrdersStatisticCommand;
+use App\Console\Commands\ProductStatisticsCommand;
 use App\Console\Commands\SumCostsCommand;
 use App\Console\Commands\SumManagersSalary;
 use App\Console\Commands\SumProfitCommand;
@@ -20,6 +21,7 @@ class Kernel extends ConsoleKernel
         OrdersStatisticCommand::class,
         SumCostsCommand::class,
         UpdateProductStatisticsCommand::class,
+        ProductStatisticsCommand::class,
     ];
 
     /**
@@ -30,6 +32,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('products:statistics')->everyThreeHours();
         $schedule->command('product:update_statistic')->everyThirtyMinutes();
         $schedule->command('costs:sum')->everyThirtyMinutes();
         $schedule->command('orderStatistics:count')->everyThirtyMinutes();

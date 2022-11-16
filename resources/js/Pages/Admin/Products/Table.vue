@@ -39,14 +39,14 @@
         </template>
 
         <template #stat="{data}">
-            {{data.row.viewed ? data.row.viewed : '0'}}
+            {{ data.row.viewed ? data.row.viewed : '0' }}
             <hr class="my-1">
-            {{data.row.total_sales ? data.row.total_sales : '0'}}
+            {{ data.row.total_sales ? data.row.total_sales : '0' }}
         </template>
         <template #stat2="{data}">
-            {{data.row.returns ? data.row.returns : '0'}}
+            {{ data.row.returns ? data.row.returns : '0' }}
             <hr class="my-1">
-            {{data.row.exchange ? data.row.exchange : '0'}}
+            {{ data.row.exchange ? data.row.exchange : '0' }}
         </template>
 
         <template #actions="{data}">
@@ -61,7 +61,7 @@
 <script setup>
 import {inject, ref} from "vue";
 
-defineProps(['data','canDestroy']);
+defineProps(['data', 'canDestroy']);
 defineEmits(['onDestroy', 'onEdit'])
 
 const defaultLang = inject('$defaultLang');

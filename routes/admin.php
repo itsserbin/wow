@@ -68,6 +68,9 @@ Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
         Route::get('managers', [AdminController::class, 'statisticManagers'])
             ->name('admin.statistics.managers.index');
 
+        Route::get('products', [AdminController::class, 'statisticProducts'])
+            ->name('admin.statistics.products.index');
+
         Route::prefix('costs')->group(function () {
             Route::get('/', [AdminController::class, 'statisticCosts'])
                 ->name('admin.statistics.costs.index');

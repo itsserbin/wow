@@ -30,14 +30,12 @@
 </template>
 
 <script setup>
-import Sidebar from '@/Components/Sidebar/Sidebar.vue';
-
-import {computed, inject, onMounted, ref} from "vue";
+import {inject} from "vue";
 
 defineProps(['title']);
 const can = inject('$can');
 
-const items = ([
+const items = [
     {
         title: 'Головна',
         href: route('admin.statistics.index')
@@ -58,9 +56,13 @@ const items = ([
         title: 'Менеджери',
         href: route('admin.statistics.managers.index')
     },
-]);
+    {
+        title: 'Товари',
+        href: route('admin.statistics.products.index')
+    },
+];
 
-const costItems = ([
+const costItems = [
     {
         title: 'Витрати',
         href: route('admin.statistics.costs.index')
@@ -69,5 +71,5 @@ const costItems = ([
         title: 'Категорії витрат',
         href: route('admin.statistics.costs.categories.index')
     },
-])
+];
 </script>

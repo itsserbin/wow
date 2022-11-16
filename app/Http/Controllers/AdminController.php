@@ -176,6 +176,11 @@ class AdminController extends Controller
         return Inertia::render('Statistics/Managers/Index');
     }
 
+    public function statisticProducts(): Response
+    {
+        return Inertia::render('Statistics/Products/Index');
+    }
+
     public function supports(): Response
     {
         return Inertia::render('Supports/Index',[
