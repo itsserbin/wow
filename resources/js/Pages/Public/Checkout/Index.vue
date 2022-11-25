@@ -228,11 +228,12 @@ function sendOrder() {
                 phone: data.order.client.phone,
             })
 
-            if (data.order.payment_method === 'minimum_prepayment' || data.order.payment_method === 'full_prepayment') {
-                wfp(data.order);
-            } else {
-                window.location.href = route('thanks', data.order.id);
-            }
+            // if (data.order.payment_method === 'minimum_prepayment' || data.order.payment_method === 'full_prepayment') {
+            //     wfp(data.order);
+            // } else {
+            //     window.location.href = route('thanks', data.order.id);
+            // }
+            window.location.href = route('thanks', data.order.id);
             state.value.isLoading = false;
         })
         .catch(({response}) => {
