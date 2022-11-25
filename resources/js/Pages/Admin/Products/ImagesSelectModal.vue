@@ -25,7 +25,7 @@
                         <div class="block">
                             <ImageCard
                                 class="m-1"
-                                :image="route('images.products.350',image.src)"
+                                :image="route('images.350',image.src)"
                                 :alt="image.alt"
                                 @click="$emit('clickImage',image)"
                             />

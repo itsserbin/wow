@@ -12,37 +12,32 @@
             </div>
         </div>
 
-        <lang-tabs @clickLang="changeLang" class="mb-5"/>
-
-        <div class="grid grid-cols-1 dark:bg-gray-800 rounded">
+        <lang-tabs @clickLang="changeLang"/>
+        <hr class="mb-5">
+        <div class="grid grid-cols-1 rounded">
             <div class="block mb-5">
                 <label-component value="Назва в меню"/>
-                <input-component v-model="item.heading.ru" type="text" v-if="state.activeLang === 'ru'"/>
-                <input-component v-model="item.heading.ua" type="text" v-if="state.activeLang === 'ua'"/>
+                <input-component v-model="item.heading[state.activeLang]" type="text"/>
             </div>
 
             <div class="block mb-5">
                 <label-component value="Заголовок на сторінці"/>
-                <input-component v-model="item.h1.ru" type="text" v-if="state.activeLang === 'ru'"/>
-                <input-component v-model="item.h1.ua" type="text" v-if="state.activeLang === 'ua'"/>
+                <input-component v-model="item.h1[state.activeLang]" type="text"/>
             </div>
 
             <div class="block mb-5">
                 <label-component value="META Title"/>
-                <input-component v-model="item.meta_title.ru" type="text" v-if="state.activeLang === 'ru'"/>
-                <input-component v-model="item.meta_title.ua" type="text" v-if="state.activeLang === 'ua'"/>
+                <input-component v-model="item.meta_title[state.activeLang]" type="text"/>
             </div>
 
             <div class="block mb-5">
                 <label-component value="META Description"/>
-                <textarea-component v-model="item.meta_description.ru" v-if="state.activeLang === 'ru'"/>
-                <textarea-component v-model="item.meta_description.ua" v-if="state.activeLang === 'ua'"/>
+                <textarea-component v-model="item.meta_description[state.activeLang]"/>
             </div>
 
             <div class="block mb-5">
                 <label-component value="Текст"/>
-                <textarea-component v-model="item.content.ru" v-if="state.activeLang === 'ru'"/>
-                <textarea-component v-model="item.content.ua" v-if="state.activeLang === 'ua'"/>
+                <editor :api-key="tiny.api" v-model="item.content[state.activeLang]" :init="tiny.settings"/>
             </div>
         </div>
     </form>
@@ -53,7 +48,7 @@ import {inject, onMounted, reactive, ref} from "vue";
 import ImageCard from '@/Components/ImageCard.vue';
 
 const props = defineProps(['item'])
-
+const tiny = inject('$tiny');
 const defaultLang = inject('$defaultLang');
 const publishedStatuses = inject('$publishedStatuses');
 

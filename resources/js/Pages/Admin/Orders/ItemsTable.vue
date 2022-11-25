@@ -16,7 +16,7 @@
         </template>
 
         <template #preview="{data}">
-            <img :src="data.row.product.preview ? route('images.products.55',data.row.product.preview) : null"
+            <img :src="data.row.product.preview ? route('images.55',data.row.product.preview) : null"
                  :alt="data.row.product.h1.ua ? data.row.product.h1.ua : data.row.product.h1.ru">
         </template>
 

@@ -63,6 +63,7 @@ const item = reactive({
         ru: null,
     },
     published: 0,
+    categories: [],
 })
 
 const state = ref({

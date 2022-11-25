@@ -15,20 +15,15 @@ Route::prefix('images')->group(function () {
             ->name('images.banners.desktop');
     });
 
-    Route::prefix('products')->group(function () {
-        Route::get('{filename}', [ImagesController::class, 'products'])
-            ->name('images.products');
+    Route::get('{filename}', [ImagesController::class, 'products'])
+        ->name('images');
 
-        Route::get('55/{filename}', [ImagesController::class, 'products55'])
-            ->name('images.products.55');
+    Route::get('55/{filename}', [ImagesController::class, 'products55'])
+        ->name('images.55');
 
-        Route::get('350/{filename}', [ImagesController::class, 'products350'])
-            ->name('images.products.350');
+    Route::get('350/{filename}', [ImagesController::class, 'products350'])
+        ->name('images.350');
 
-        Route::get('500/{filename}', [ImagesController::class, 'products500'])
-            ->name('images.products.500');
-    });
-
-    Route::get('category/{filename}', [ImagesController::class, 'category'])
-        ->name('images.category');
+    Route::get('500/{filename}', [ImagesController::class, 'products500'])
+        ->name('images.500');
 });

@@ -8,6 +8,7 @@ import {ZiggyVue} from '../../../../vendor/tightenco/ziggy/dist/vue.m';
 import VueSweetalert2 from 'vue-sweetalert2';
 import moment from "moment";
 import numeral from "numeral";
+import Editor from '@tinymce/tinymce-vue';
 
 import Card from '@/Components/Card.vue';
 import Sidebar from '@/Components/Sidebar/Sidebar.vue';
@@ -55,6 +56,7 @@ createInertiaApp({
         app.component('auth-layout', AuthenticatedLayout);
 
         // Components
+        app.component('editor', Editor);
         app.component('search-component', Search);
         app.component('sidebar-component', Sidebar);
         app.component('sidebar-item', SidebarItem);
@@ -94,10 +96,9 @@ createInertiaApp({
             }
         }
 
-        app.config.globalProperties.$defaultLang = 'ua';
-        app.provide('$defaultLang', app.config.globalProperties.$defaultLang);
+        app.provide('$defaultLang', 'ua');
 
-        app.config.globalProperties.$selectYesOrNo = [
+        app.provide('$selectYesOrNo', [
             {
                 key: 0,
                 value: 'Ні'
@@ -106,10 +107,9 @@ createInertiaApp({
                 key: 1,
                 value: 'Так'
             },
-        ];
-        app.provide('$selectYesOrNo', app.config.globalProperties.$selectYesOrNo);
+        ]);
 
-        app.config.globalProperties.$publishedStatuses = [
+        app.provide('$publishedStatuses', [
             {
                 key: 0,
                 value: 'Не опубліковано'
@@ -118,9 +118,17 @@ createInertiaApp({
                 key: 1,
                 value: 'Опубліковано'
             },
-        ];
-        app.provide('$publishedStatuses', app.config.globalProperties.$publishedStatuses);
+        ]);
 
+        app.provide('$tiny',{
+            api: import.meta.env.VITE_TINY_API,
+            settings: {
+                plugins: ['table', 'code', 'lists'],
+                height: 300,
+                branding: false,
+                toolbar: 'undo redo styleselect bold italic alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat'
+            }
+        });
         app.config.globalProperties.$moment = moment;
         app.provide('$moment', moment);
 

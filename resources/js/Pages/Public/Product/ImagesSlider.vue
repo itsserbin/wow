@@ -58,13 +58,13 @@ const state = ref({
 
 onMounted(() => {
     state.value.images.push({
-        'src': route('images.products.500', props.preview),
-        'thumbnail': route('images.products.55', props.preview),
+        'src': route('images.500', props.preview),
+        'thumbnail': route('images.55', props.preview),
     })
     JSON.parse(props.images).forEach(item => {
         state.value.images.push({
-            'src': route('images.products.500', item.src),
-            'thumbnail': route('images.products.55', item.src),
+            'src': route('images.500', item.src),
+            'thumbnail': route('images.55', item.src),
         })
     })
 })

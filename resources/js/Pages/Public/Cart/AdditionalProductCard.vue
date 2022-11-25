@@ -1,7 +1,7 @@
 <template>
     <div class="grid grid-cols-8 border-[1px] border-gray-300 rounded-[10px]">
         <div class="col-span-2">
-            <img :src="route('images.products.350',item.preview)"
+            <img :src="route('images.350',item.preview)"
                  :alt="item.h1.ua ? item.h1.ua : item.h1.ru"
                  class="p-[25px] pr-[1.25rem]">
         </div>

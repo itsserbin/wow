@@ -6,21 +6,21 @@
                          :isSlotMode="true"
                          :rows="data"
         >
-            <template v-slot:id="{data}">
+            <template #id="{data}">
                 <a href="javascript:" @click="$emit('onEdit',data.row.id,data.i)">
                     {{ data.row.id }}
                 </a>
             </template>
 
-            <template v-slot:preview="{data}">
-                <img :src="route('images.category',data.row.preview)"
+            <template #preview="{data}">
+                <img :src="route('images.55', data.row.preview)"
                      :alt="activeLang === 'ua' ? data.row.title.ua :
                                 (activeLang === 'ru' ? data.row.title.ru : '-')"
                      class="mx-auto w-16"
                 >
             </template>
 
-            <template v-slot:title="{data}">
+            <template #title="{data}">
                 <a href="javascript:">
                     {{
                         activeLang === 'ua' ? data.row.title.ua :
@@ -29,17 +29,17 @@
                 </a>
             </template>
 
-            <template v-slot:published="{data}">
+            <template #published="{data}">
                 {{ $filters.publishedStatus(data.row.published) }}
             </template>
 
-            <template v-slot:timestamps="{data}">
+            <template #timestamps="{data}">
                 {{ $filters.dateFormat(data.row.updated_at) }}
                 <hr class="my-1">
                 {{ $filters.dateFormat(data.row.created_at) }}
             </template>
 
-            <template v-slot:actions="{data}">
+            <template #actions="{data}">
                 <a href="javascript:" @click="$emit('onDestroy',data.row.id)" v-if="canDestroy">
                     <xcircle-component/>
                 </a>
@@ -51,7 +51,7 @@
 <script setup>
 import {inject, ref} from "vue";
 
-defineProps(['data','canDestroy']);
+defineProps(['data', 'canDestroy']);
 defineEmits(['onEdit', 'onDestroy']);
 
 const defaultLang = inject('$defaultLang');

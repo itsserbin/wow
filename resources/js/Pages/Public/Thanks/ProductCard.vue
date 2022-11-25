@@ -15,7 +15,7 @@
 
         <div class="w-full mx-auto h-56 md:h-72">
             <a :href="route('product',product.id)">
-                <img :src="route('images.products.350',product.preview) "
+                <img :src="route('images.350',product.preview) "
                      :alt="lang === 'ru' ? product.h1.ru : (lang === 'ua' ? product.h1.ua : null)"
                      loading="lazy"
                      class="h-full object-cover w-full"

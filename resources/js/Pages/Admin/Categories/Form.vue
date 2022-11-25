@@ -29,47 +29,43 @@
             </div>
         </div>
 
-        <lang-tabs @clickLang="changeLang" class="mb-5"/>
+        <lang-tabs @clickLang="changeLang"/>
+        <hr class="mb-5">
 
-        <div class="grid grid-cols-1 dark:bg-gray-800 rounded">
+        <div class="grid grid-cols-1 rounded">
             <div class="block mb-5">
                 <label-component value="Назва категорії"/>
-                <input-component v-model="item.title.ru" type="text" v-if="state.activeLang === 'ru'"/>
-                <input-component v-model="item.title.ua" type="text" v-if="state.activeLang === 'ua'"/>
+                <input-component v-model="item.title[state.activeLang]" type="text"/>
             </div>
 
             <div class="block mb-5">
                 <label-component value="META Title"/>
-                <input-component v-model="item.meta_title.ru" type="text" v-if="state.activeLang === 'ru'"/>
-                <input-component v-model="item.meta_title.ua" type="text" v-if="state.activeLang === 'ua'"/>
+                <input-component v-model="item.meta_title[state.activeLang]" type="text"/>
             </div>
 
             <div class="block mb-5">
                 <label-component value="META Description"/>
-                <textarea-component v-model="item.meta_description.ru" v-if="state.activeLang === 'ru'"/>
-                <textarea-component v-model="item.meta_description.ua" v-if="state.activeLang === 'ua'"/>
+                <textarea-component v-model="item.meta_description[state.activeLang]"/>
             </div>
 
             <div class="block mb-5">
                 <label-component value="META Keywords"/>
-                <textarea-component v-model="item.meta_keyword.ru" v-if="state.activeLang === 'ru'"/>
-                <textarea-component v-model="item.meta_keyword.ua" v-if="state.activeLang === 'ua'"/>
+                <textarea-component v-model="item.meta_keyword[state.activeLang]"/>
             </div>
 
             <div class="block mb-5">
                 <label-component value="SEO Текст"/>
-                <textarea-component v-model="item.seo_text.ru" v-if="state.activeLang === 'ru'"/>
-                <textarea-component v-model="item.seo_text.ua" v-if="state.activeLang === 'ua'"/>
+                <editor :api-key="tiny.api" v-model="item.seo_text[state.activeLang]" :init="tiny.settings"/>
             </div>
         </div>
     </form>
 </template>
 
 <script setup>
-import {inject, onMounted, reactive, ref} from "vue";
+import {inject, onMounted, ref} from "vue";
 
 const props = defineProps(['item'])
-
+const tiny = inject('$tiny');
 const defaultLang = inject('$defaultLang');
 const publishedStatuses = inject('$publishedStatuses');
 
@@ -88,7 +84,7 @@ onMounted(() => {
 
 function previewArray(val) {
     state.value.categoryPreview.push({
-        src: '/storage/images/55/' + val
+        src: route('images.55',val)
     })
 }
 

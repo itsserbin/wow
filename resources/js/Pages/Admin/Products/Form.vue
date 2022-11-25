@@ -78,68 +78,64 @@
             </div>
         </div>
 
-        <lang-tabs @clickLang="changeLang" class="mb-5"/>
+        <lang-tabs @clickLang="changeLang"/>
+        <hr class="mb-5">
 
         <div class="block mb-5">
             <label-component value="Назва товару"/>
-            <input-component v-model="product.h1.ru" v-if="state.activeLang === 'ru'" type="text"/>
-            <input-component v-model="product.h1.ua" v-if="state.activeLang === 'ua'" type="text"/>
+            <input-component v-model="product.h1[state.activeLang]" type="text"/>
         </div>
 
         <div class="block mb-5">
             <label-component value="META Title"/>
-            <input-component v-model="product.title.ru" v-if="state.activeLang === 'ru'" type="text"/>
-            <input-component v-model="product.title.ua" v-if="state.activeLang === 'ua'" type="text"/>
+            <input-component v-model="product.title[state.activeLang]" type="text"/>
         </div>
 
         <div class="block mb-5">
             <label-component value="META Description"/>
-            <textarea-component v-model="product.description.ru" v-if="state.activeLang === 'ru'"/>
-            <textarea-component v-model="product.description.ua" v-if="state.activeLang === 'ua'"/>
+            <textarea-component v-model="product.description[state.activeLang]"/>
         </div>
 
 
         <div class="block mb-5">
             <label-component value="Опис товару"/>
-            <textarea-component v-model="product.content.ru" v-if="state.activeLang === 'ru'"/>
-            <textarea-component v-model="product.content.ua" v-if="state.activeLang === 'ua'"/>
+            <editor :api-key="tiny.api" v-model="product.content[state.activeLang]" :init="tiny.settings"/>
         </div>
 
         <div class="block mb-5">
             <label-component value="Характеристики"/>
-            <textarea-component v-model="product.characteristics.ru" v-if="state.activeLang === 'ru'"/>
-            <textarea-component v-model="product.characteristics.ua" v-if="state.activeLang === 'ua'"/>
+            <editor :api-key="tiny.api" v-model="product.characteristics[state.activeLang]" :init="tiny.settings"/>
         </div>
 
         <div class="block mb-5">
             <label-component value="Таблиця розмірів"/>
-            <textarea-component v-model="product.size_table"/>
+            <editor :api-key="tiny.api" v-model="product.size_table" :init="tiny.settings"/>
         </div>
 
         <div class="grid grid-cols-3 gap-4 mb-5">
             <div class="block">
-                <label-component value="Price "/>
+                <label-component value="Ціна"/>
                 <input-component v-model="product.price" type="number"/>
             </div>
 
             <div class="block">
-                <label-component value="Discount price "/>
+                <label-component value="Ціна зі знижкою"/>
                 <input-component v-model="product.discount_price" type="number"/>
             </div>
 
             <div class="block">
-                <label-component value="Trade price "/>
+                <label-component value="Ціна закупки"/>
                 <input-component v-model="product.trade_price" type="number"/>
             </div>
         </div>
 
         <div class="row">
             <div class="block mb-7" v-if="product.images">
-                <label-component value="Images"/>
+                <label-component value="Зображення"/>
                 <Images :images="product.images" @destroyImage="destroyImage"/>
             </div>
             <div class="block mb-7">
-                <button-component type="button" @click="imagesModalFunction">Select Images</button-component>
+                <button-component type="button" @click="imagesModalFunction">Обрати зображення</button-component>
                 <ImagesSelectModal v-if="state.isActiveSelectedImagesModal"
                                    @submitForm="setProductImages"
                                    @closeModal="imagesModalFunction"
@@ -153,16 +149,13 @@
 <script setup>
 import Images from '@/Pages/Admin/Products/Images.vue';
 import ImagesSelectModal from '@/Pages/Admin/Products/ImagesSelectModal.vue';
-import ImageCard from '@/Components/ImageCard.vue';
-
-import {computed, inject, onMounted, reactive, ref} from "vue";
+import {inject, onMounted, ref} from "vue";
 
 const emits = defineEmits(['submit', 'setProductImages', 'destroyImage'])
-
 const props = defineProps(['product'])
 const defaultLang = inject('$defaultLang');
+const tiny = inject('$tiny');
 const publishedStatuses = inject('$publishedStatuses');
-
 const state = ref({
     isActiveSelectedImagesModal: false,
     activeLang: defaultLang,
@@ -219,7 +212,7 @@ onMounted(() => {
 
 function previewArray(val) {
     state.value.productPreview.push({
-        src: route('images.products.55', val)
+        src: route('images.55', val)
     })
 }
 

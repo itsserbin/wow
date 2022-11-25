@@ -119,6 +119,7 @@ class BannersRepository extends CoreRepository
         $model->image_desktop = $data['image_desktop'];
         $model->published = $data['published'];
         $model->update();
+
         $categories = [];
         foreach ($data['categories'] as $category) {
             array_push($categories, $category['id']);

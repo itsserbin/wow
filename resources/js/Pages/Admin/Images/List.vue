@@ -3,7 +3,7 @@
         <ImageCard
             class="m-1"
             v-for="image in images.data"
-            :image="route('images.products.350',image.src)"
+            :image="route('images.350',image.src)"
             :id="image.id"
             :alt="image.alt"
             @clickImage="$emit('clickImage',image)"

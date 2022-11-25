@@ -12,7 +12,7 @@
                             mt-[29px]
                         "
                 ></div>
-                <img :src="route('images.products.350',item.image)"
+                <img :src="route('images.350',item.image)"
                      :alt="item.name.ua ? item.name.ua : item.name.ru"
                      class="p-[25px] pr-[1.25rem]">
             </div>

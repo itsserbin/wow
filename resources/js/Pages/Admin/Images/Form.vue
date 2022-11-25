@@ -26,13 +26,13 @@ import Card from '@/Components/Card.vue';
 
 const imageSrc = computed(() => (value) => {
     if (activeSize.value === '55') {
-        return route('images.products.55', value);
+        return route('images.55', value);
     } else if (activeSize.value === '350') {
-        return route('images.products.350', value);
+        return route('images.350', value);
     } else if (activeSize.value === '500') {
-        return route('images.products.500', value);
+        return route('images.500', value);
     } else {
-        return route('images.products', value);
+        return route('images', value);
     }
 })
 

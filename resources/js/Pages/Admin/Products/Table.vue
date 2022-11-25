@@ -13,8 +13,9 @@
 
         <template #title="{data}">
             {{
-                activeLang === 'ua' ? data.row.h1.ua :
-                    (activeLang === 'ru' ? data.row.h1.ru : null)
+                activeLang === 'ua'
+                    ? data.row.h1.ua
+                    : (activeLang === 'ru' ? data.row.h1.ru : null)
             }}
         </template>
 
@@ -31,7 +32,7 @@
         </template>
 
         <template #preview="{data}">
-            <img :src="data.row.preview ? route('images.products.55',data.row.preview) : null"
+            <img :src="data.row.preview ? route('images.55',data.row.preview) : null"
                  :alt="activeLang === 'ua' ? data.row.h1.ua :
                             (activeLang === 'ru' ? data.row.h1.ru : null)"
                  class="mx-auto"
