@@ -256,6 +256,7 @@ class ProductsRepository extends CoreRepository
         $model->trade_price = $data['trade_price'];
         $model->vendor_code = $data['vendor_code'];
         $model->preview = $data['preview'];
+        $model->youtube = $data['youtube'];
         $model->update();
 
         $colorItems = [];
@@ -309,6 +310,7 @@ class ProductsRepository extends CoreRepository
         $model->trade_price = $data['trade_price'];
         $model->vendor_code = $data['vendor_code'];
         $model->preview = $data['preview'];
+        $model->youtube = $data['youtube'];
         $model->save();
 
         if (count($data['colors'])) {

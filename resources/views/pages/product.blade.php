@@ -35,7 +35,7 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 mt-5 gap-4">
+        <div class="grid grid-cols-1 @if($product->youtube) md:grid-cols-3 @else md:grid-cols-2 @endif mt-5 gap-4">
             <div>
                 @if($product->characteristics['ua'] || $product->characteristics['ru'])
                     <div class="text-[24px] text-[#000] font-bold mb-5 text-center">
@@ -46,6 +46,14 @@
                     </div>
                 @endif
             </div>
+            @if($product->youtube)
+                <div>
+                    <div class="text-[24px] text-[#000] font-bold mb-5 text-center">
+                        Відео-огляд
+                    </div>
+                    <iframe width="100%" height="250px" src="{{$product->youtube}}"></iframe>
+                </div>
+            @endif
             <div>
                 <product-reviews :reviews="{{json_encode($product->reviews)}}"
                                  :id="{{$product->id}}"

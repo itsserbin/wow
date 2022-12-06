@@ -81,6 +81,7 @@ const product = reactive({
     categories: [],
     vendor_code: null,
     provider_id: null,
+    youtube: null,
     sizes: [],
     images: [],
     colors: [],

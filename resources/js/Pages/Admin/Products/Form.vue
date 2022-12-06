@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="$emit('submit',product)" class="flex flex-col">
+    <form @submit.prevent="$emit('submit',product)" class="grid grid-cols-1 gap-4">
         <div class="grid grid-cols-3 gap-4 mb-5">
             <div class="block">
                 <label-component value="Статус публікації"/>
@@ -48,7 +48,7 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-2  gap-4 mb-5">
+        <div class="grid grid-cols-2 gap-4">
             <div class="block">
                 <label-component value="Розміри"/>
                 <multiselect
@@ -78,54 +78,61 @@
             </div>
         </div>
 
+        <div class="block">
+            <label-component value="Youtube"/>
+            <input-component v-model="product.youtube" type="text"/>
+        </div>
+
         <lang-tabs @clickLang="changeLang"/>
         <hr class="mb-5">
 
-        <div class="block mb-5">
-            <label-component value="Назва товару"/>
-            <input-component v-model="product.h1[state.activeLang]" type="text"/>
-        </div>
-
-        <div class="block mb-5">
-            <label-component value="META Title"/>
-            <input-component v-model="product.title[state.activeLang]" type="text"/>
-        </div>
-
-        <div class="block mb-5">
-            <label-component value="META Description"/>
-            <textarea-component v-model="product.description[state.activeLang]"/>
-        </div>
-
-
-        <div class="block mb-5">
-            <label-component value="Опис товару"/>
-            <editor :api-key="tiny.api" v-model="product.content[state.activeLang]" :init="tiny.settings"/>
-        </div>
-
-        <div class="block mb-5">
-            <label-component value="Характеристики"/>
-            <editor :api-key="tiny.api" v-model="product.characteristics[state.activeLang]" :init="tiny.settings"/>
-        </div>
-
-        <div class="block mb-5">
-            <label-component value="Таблиця розмірів"/>
-            <editor :api-key="tiny.api" v-model="product.size_table" :init="tiny.settings"/>
-        </div>
-
-        <div class="grid grid-cols-3 gap-4 mb-5">
+        <div class="grid grid-cols-1 gap-4">
             <div class="block">
-                <label-component value="Ціна"/>
-                <input-component v-model="product.price" type="number"/>
+                <label-component value="Назва товару"/>
+                <input-component v-model="product.h1[state.activeLang]" type="text"/>
             </div>
 
             <div class="block">
-                <label-component value="Ціна зі знижкою"/>
-                <input-component v-model="product.discount_price" type="number"/>
+                <label-component value="META Title"/>
+                <input-component v-model="product.title[state.activeLang]" type="text"/>
             </div>
 
             <div class="block">
-                <label-component value="Ціна закупки"/>
-                <input-component v-model="product.trade_price" type="number"/>
+                <label-component value="META Description"/>
+                <textarea-component v-model="product.description[state.activeLang]"/>
+            </div>
+
+
+            <div class="block">
+                <label-component value="Опис товару"/>
+                <editor :api-key="tiny.api" v-model="product.content[state.activeLang]" :init="tiny.settings"/>
+            </div>
+
+            <div class="block">
+                <label-component value="Характеристики"/>
+                <editor :api-key="tiny.api" v-model="product.characteristics[state.activeLang]" :init="tiny.settings"/>
+            </div>
+
+            <div class="block">
+                <label-component value="Таблиця розмірів"/>
+                <editor :api-key="tiny.api" v-model="product.size_table" :init="tiny.settings"/>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4 mb-5">
+                <div class="block">
+                    <label-component value="Ціна"/>
+                    <input-component v-model="product.price" type="number"/>
+                </div>
+
+                <div class="block">
+                    <label-component value="Ціна зі знижкою"/>
+                    <input-component v-model="product.discount_price" type="number"/>
+                </div>
+
+                <div class="block">
+                    <label-component value="Ціна закупки"/>
+                    <input-component v-model="product.trade_price" type="number"/>
+                </div>
             </div>
         </div>
 
