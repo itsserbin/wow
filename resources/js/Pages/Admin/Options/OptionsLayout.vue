@@ -8,14 +8,14 @@
             <div class="md:col-span-1">
                 <sidebar-component class="mb-5">
                     <sidebar-item v-for="item in items"
-                                  v-if="can(item.permission)"
+                                  v-show="can(item.permission)"
                                   :item="item"
                                   :active="route(route().current()) === item.href"
                     />
                 </sidebar-component>
                 <sidebar-component class="mb-5">
                     <sidebar-item v-for="item in items3"
-                                  v-if="can(item.permission)"
+                                  v-show="can(item.permission)"
                                   :item="item"
                                   :active="route(route().current()) === item.href"
                     />
@@ -23,7 +23,7 @@
 
                 <sidebar-component>
                     <sidebar-item v-for="item in items2"
-                                  v-if="can(item.permission)"
+                                  v-show="can(item.permission)"
                                   :item="item"
                                   :active="route(route().current()) === item.href"
                     />
@@ -39,12 +39,12 @@
 </template>
 
 <script setup>
-import {inject} from "vue";
+import {inject,ref} from "vue";
 
 const can = inject('$can');
 defineProps(['title']);
 
-const items = [
+const items = ref([
     {
         title: 'Головна',
         permission: 'show-options',
@@ -72,10 +72,10 @@ const items = [
     },
     {
         title: 'FAQ',
-        permission: 'show-faqs',
+        permission: 'show-faq',
         href: route('admin.options.faqs.index')
     },
-];
+]);
 
 const items2 = [
     {
