@@ -20,11 +20,9 @@ class AdminController extends Controller
         parent::__construct();
     }
 
-    public function callbacks(): Response
+    public function content(): Response
     {
-        return Inertia::render('Callbacks/Index', [
-            'statuses' => CallbackStatus::state
-        ]);
+        return Inertia::render('Content/Index');
     }
 
     public function users(): Response
@@ -32,19 +30,39 @@ class AdminController extends Controller
         return Inertia::render('Options/Users/Index');
     }
 
+    public function crm(): Response
+    {
+        return Inertia::render('Crm/Index');
+    }
+
+    public function images(): Response
+    {
+        return Inertia::render('Content/Images/Index');
+    }
+
+    public function productReviews(): Response
+    {
+        return Inertia::render('Content/Reviews/Products/Index');
+    }
+
+    public function socialReviews(): Response
+    {
+        return Inertia::render('Content/Reviews/Socials/Index');
+    }
+
     public function products(): Response
     {
-        return Inertia::render('Products/Index');
+        return Inertia::render('Content/Products/Index');
     }
 
     public function pages(): Response
     {
-        return Inertia::render('Pages/Index');
+        return Inertia::render('Content/Pages/Index');
     }
 
     public function categories(): Response
     {
-        return Inertia::render('Categories/Index');
+        return Inertia::render('Content/Categories/Index');
     }
 
     public function providers(): Response
@@ -64,7 +82,7 @@ class AdminController extends Controller
 
     public function orders(): Response
     {
-        return Inertia::render('Orders/Index', [
+        return Inertia::render('Crm/Orders/Index', [
             'statuses' => OrderStatus::state,
             'payment_methods' => PaymentMethod::state
         ]);
@@ -72,7 +90,26 @@ class AdminController extends Controller
 
     public function clients(): Response
     {
-        return Inertia::render('Clients/Index');
+        return Inertia::render('Crm/Clients/Index');
+    }
+
+    public function callbacks(): Response
+    {
+        return Inertia::render('Crm/Callbacks/Index', [
+            'statuses' => CallbackStatus::state
+        ]);
+    }
+
+    public function supports(): Response
+    {
+        return Inertia::render('Crm/Supports/Index', [
+            'statuses' => SupportStatus::state
+        ]);
+    }
+
+    public function invoices(): Response
+    {
+        return Inertia::render('Crm/Invoices/Index');
     }
 
     public function options(): Response
@@ -126,21 +163,6 @@ class AdminController extends Controller
         return Inertia::render('Options/Sizes/Index');
     }
 
-    public function images(): Response
-    {
-        return Inertia::render('Images/Index');
-    }
-
-    public function productReviews(): Response
-    {
-        return Inertia::render('Reviews/Products/Index');
-    }
-
-    public function socialReviews(): Response
-    {
-        return Inertia::render('Reviews/Socials/Index');
-    }
-
     public function statistics(): Response
     {
         return Inertia::render('Statistics/Index');
@@ -179,12 +201,5 @@ class AdminController extends Controller
     public function statisticProducts(): Response
     {
         return Inertia::render('Statistics/Products/Index');
-    }
-
-    public function supports(): Response
-    {
-        return Inertia::render('Supports/Index',[
-            'statuses' => SupportStatus::state
-        ]);
     }
 }

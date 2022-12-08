@@ -45,58 +45,14 @@ onMounted(() => {
                                     Головна
                                 </NavLink>
 
-                                <NavLink :href="route('admin.products.index')"
-                                         v-if="can('show-products')"
-                                         :active="route().current('admin.products.index')">
-                                    Товари
+                                <NavLink :href="route('admin.content.index')"
+                                         :active="route().current('admin.content.*')">
+                                    Контент
                                 </NavLink>
 
-                                <NavLink :href="route('admin.categories.index')"
-                                         v-if="can('show-categories')"
-                                         :active="route().current('admin.categories.index')">
-                                    Категорії
-                                </NavLink>
-
-                                <NavLink :href="route('admin.reviews.product.index')"
-                                         v-if="can('show-reviews')"
-                                         :active="route().current('admin.reviews.*')">
-                                    Відгуки
-                                </NavLink>
-
-                                <NavLink :href="route('admin.clients.index')"
-                                         v-if="can('show-clients')"
-                                         :active="route().current('admin.clients.index')">
-                                    Клієнти
-                                </NavLink>
-
-                                <NavLink :href="route('admin.orders.index')"
-                                         v-if="can('show-orders')"
-                                         :active="route().current('admin.orders.index')">
-                                    Замовлення
-                                </NavLink>
-
-                                <NavLink :href="route('admin.images.index')"
-                                         v-if="can('show-images')"
-                                         :active="route().current('admin.images.index')">
-                                    Зображення
-                                </NavLink>
-
-                                <NavLink :href="route('admin.pages.index')"
-                                         v-if="can('show-pages')"
-                                         :active="route().current('admin.pages.index')">
-                                    Сторінки
-                                </NavLink>
-
-                                <NavLink :href="route('admin.callbacks.index')"
-                                         v-if="can('show-callbacks')"
-                                         :active="route().current('admin.callbacks.index')">
-                                    Зворотній звʼязок
-                                </NavLink>
-
-                                <NavLink :href="route('admin.supports.index')"
-                                         v-if="can('show-supports')"
-                                         :active="route().current('admin.supports.index')">
-                                    Support
+                                <NavLink :href="route('admin.crm.index')"
+                                         :active="route().current('admin.crm.*')">
+                                    CRM
                                 </NavLink>
 
                                 <NavLink :href="route('admin.statistics.index')"
@@ -170,58 +126,14 @@ onMounted(() => {
                             Головна
                         </ResponsiveNavLink>
 
-                        <ResponsiveNavLink :href="route('admin.products.index')"
-                                           v-if="can('show-products')"
-                                           :active="route().current('admin.products.index')">
-                            Товари
+                        <ResponsiveNavLink :href="route('admin.content.index')"
+                                           :active="route().current('admin.content.*')">
+                            Контент
                         </ResponsiveNavLink>
 
-                        <ResponsiveNavLink :href="route('admin.categories.index')"
-                                           v-if="can('show-categories')"
-                                           :active="route().current('admin.categories.index')">
-                            Категорії
-                        </ResponsiveNavLink>
-
-                        <ResponsiveNavLink :href="route('admin.reviews.product.index')"
-                                           v-if="can('show-reviews')"
-                                           :active="route().current('admin.reviews.*')">
-                            Відгуки
-                        </ResponsiveNavLink>
-
-                        <ResponsiveNavLink :href="route('admin.orders.index')"
-                                           v-if="can('show-orders')"
-                                           :active="route().current('admin.orders.index')">
-                            Замовлення
-                        </ResponsiveNavLink>
-
-                        <ResponsiveNavLink :href="route('admin.clients.index')"
-                                           v-if="can('show-clients')"
-                                           :active="route().current('admin.clients.index')">
-                            Клієнти
-                        </ResponsiveNavLink>
-
-                        <ResponsiveNavLink :href="route('admin.images.index')"
-                                           v-if="can('show-images')"
-                                           :active="route().current('admin.images.index')">
-                            Зображення
-                        </ResponsiveNavLink>
-
-                        <ResponsiveNavLink :href="route('admin.pages.index')"
-                                           v-if="can('show-pages')"
-                                           :active="route().current('admin.pages.index')">
-                            Сторінки
-                        </ResponsiveNavLink>
-
-                        <ResponsiveNavLink :href="route('admin.callbacks.index')"
-                                           v-if="can('show-callbacks')"
-                                           :active="route().current('admin.callbacks.index')">
-                            Зворотній звʼязок
-                        </ResponsiveNavLink>
-
-                        <ResponsiveNavLink :href="route('admin.supports.index')"
-                                           v-if="can('show-supports')"
-                                           :active="route().current('admin.supports.index')">
-                            Support
+                        <ResponsiveNavLink :href="route('admin.crm.index')"
+                                           :active="route().current('admin.crm.index')">
+                            CRM
                         </ResponsiveNavLink>
 
                         <ResponsiveNavLink :href="route('admin.statistics.index')"

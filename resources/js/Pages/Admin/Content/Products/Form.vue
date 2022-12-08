@@ -1,0 +1,270 @@
+<template>
+    <form @submit.prevent="$emit('submit',product)" class="grid grid-cols-1 gap-4">
+        <div class="grid grid-cols-3 gap-4 mb-5">
+            <div class="block">
+                <label-component value="Статус публікації"/>
+                <select-component v-model="product.published" :options="publishedStatuses"/>
+            </div>
+
+            <div class="block">
+                <label-component value="Наявність товару"/>
+                <select-component v-model="product.status" :options="state.statusOptions"/>
+            </div>
+
+            <div class="block">
+                <label-component value="Артикул"/>
+                <input-component v-model="product.vendor_code" type="text"/>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-4">
+            <div class="block">
+                <label-component value="Категорії"/>
+                <multiselect
+                    :options="state.categories"
+                    v-model="product.categories"
+                    :custom-label="h1AndCodeAndId"
+                    placeholder="Оберіть категорії"
+                    class="mb-5"
+                    track-by="id"
+                    :searchable="true"
+                    :multiple="true"
+                />
+            </div>
+
+            <div class="block">
+                <label-component value="Постачальники"/>
+                <select-component v-model="product.provider_id" :options="state.providers"/>
+            </div>
+
+            <div class="block">
+                <upload-input-component :multiple="false"
+                                        id="uploadCategoryPreview"
+                                        label="Головне зображення"
+                                        @upload="uploadProductPreview"
+                                        :images="state.productPreview"
+                                        @onDestroyImage="destroyPreview"
+                />
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+            <div class="block">
+                <label-component value="Розміри"/>
+                <multiselect
+                    :options="state.sizes"
+                    v-model="product.sizes"
+                    label="title"
+                    placeholder="Оберіть розміри"
+                    track-by="id"
+                    :close-on-select="false"
+                    :searchable="true"
+                    :multiple="true"
+                />
+            </div>
+
+            <div class="block">
+                <label-component value="Кольори"/>
+                <multiselect
+                    :options="state.colors"
+                    v-model="product.colors"
+                    label="name"
+                    placeholder="Оберіть кольори"
+                    track-by="id"
+                    :close-on-select="false"
+                    :searchable="true"
+                    :multiple="true"
+                />
+            </div>
+        </div>
+
+        <div class="block">
+            <label-component value="Youtube"/>
+            <input-component v-model="product.youtube" type="text"/>
+        </div>
+
+        <lang-tabs @clickLang="changeLang"/>
+        <hr class="mb-5">
+
+        <div class="grid grid-cols-1 gap-4">
+            <div class="block">
+                <label-component value="Назва товару"/>
+                <input-component v-model="product.h1[state.activeLang]" type="text"/>
+            </div>
+
+            <div class="block">
+                <label-component value="META Title"/>
+                <input-component v-model="product.title[state.activeLang]" type="text"/>
+            </div>
+
+            <div class="block">
+                <label-component value="META Description"/>
+                <textarea-component v-model="product.description[state.activeLang]"/>
+            </div>
+
+
+            <div class="block">
+                <label-component value="Опис товару"/>
+                <editor :api-key="tiny.api" v-model="product.content[state.activeLang]" :init="tiny.settings"/>
+            </div>
+
+            <div class="block">
+                <label-component value="Характеристики"/>
+                <editor :api-key="tiny.api" v-model="product.characteristics[state.activeLang]" :init="tiny.settings"/>
+            </div>
+
+            <div class="block">
+                <label-component value="Таблиця розмірів"/>
+                <editor :api-key="tiny.api" v-model="product.size_table" :init="tiny.settings"/>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4 mb-5">
+                <div class="block">
+                    <label-component value="Ціна"/>
+                    <input-component v-model="product.price" type="number"/>
+                </div>
+
+                <div class="block">
+                    <label-component value="Ціна зі знижкою"/>
+                    <input-component v-model="product.discount_price" type="number"/>
+                </div>
+
+                <div class="block">
+                    <label-component value="Ціна закупки"/>
+                    <input-component v-model="product.trade_price" type="number"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="block mb-7" v-if="product.images">
+                <label-component value="Зображення"/>
+                <Images :images="product.images" @destroyImage="destroyImage"/>
+            </div>
+            <div class="block mb-7">
+                <button-component type="button" @click="imagesModalFunction">Обрати зображення</button-component>
+                <ImagesSelectModal v-if="state.isActiveSelectedImagesModal"
+                                   @submitForm="setProductImages"
+                                   @closeModal="imagesModalFunction"
+                />
+            </div>
+        </div>
+
+    </form>
+</template>
+
+<script setup>
+import Images from '@/Pages/Admin/Content/Products/Images.vue';
+import ImagesSelectModal from '@/Pages/Admin/Content/Products/ImagesSelectModal.vue';
+import {inject, onMounted, ref} from "vue";
+
+const emits = defineEmits(['submit', 'setProductImages', 'destroyImage'])
+const props = defineProps(['product'])
+const defaultLang = inject('$defaultLang');
+const tiny = inject('$tiny');
+const publishedStatuses = inject('$publishedStatuses');
+const state = ref({
+    isActiveSelectedImagesModal: false,
+    activeLang: defaultLang,
+    statusOptions: [
+        {
+            key: 'in stock',
+            value: 'В наявності'
+        },
+        {
+            key: 'ends',
+            value: 'Нема в наявності'
+        },
+        {
+            key: 'out of stock',
+            value: 'Закінчується'
+        }
+    ],
+    categories: [],
+    providers: [],
+    colors: [],
+    sizes: [],
+    productPreview: []
+})
+
+onMounted(() => {
+    axios.get(route('api.categories.list'))
+        .then(({data}) => state.value.categories = data.result)
+        .catch((response) => console.log(response));
+
+    axios.get(route('api.providers.list'))
+        .then(({data}) => {
+            data.result.forEach((item) => {
+                state.value.providers.push({
+                    key: item.id,
+                    value: item.name
+                })
+            })
+        })
+        .catch((response) => console.log(response));
+
+    axios.get(route('api.colors.list'))
+        .then(({data}) => state.value.colors = data.result)
+        .catch((response) => console.log(response));
+
+    axios.get(route('api.sizes.list'))
+        .then(({data}) => state.value.sizes = data.result)
+        .catch((response) => console.log(response));
+
+    if (props.product.preview) {
+        previewArray(props.product.preview)
+
+    }
+});
+
+function previewArray(val) {
+    state.value.productPreview.push({
+        src: route('images.55', val)
+    })
+}
+
+function changeLang(val) {
+    state.value.activeLang = val;
+}
+
+function h1AndCodeAndId({title, id}) {
+    if (title && id) {
+        return `${state.value.activeLang === 'ua' ? title.ua : (state.value.activeLang === 'ru' ? title.ru : '-')} -${id}`;
+    } else {
+        return `${id}`;
+    }
+}
+
+function imagesModalFunction() {
+    state.value.isActiveSelectedImagesModal = !state.value.isActiveSelectedImagesModal;
+}
+
+function uploadProductPreview(image) {
+    let formData = new FormData();
+    formData.append('image', image);
+    axios.post(route('api.images.upload'), formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+        .then(({data}) => {
+            props.product.preview = data.result;
+            previewArray(data.result);
+        })
+        .catch((response) => console.log(response));
+}
+
+function destroyPreview() {
+    props.product.preview = null;
+    state.value.productPreview = [];
+}
+
+function setProductImages(images) {
+    imagesModalFunction();
+    emits('setProductImages', images);
+}
+
+function destroyImage(image) {
+    emits('destroyImage', image);
+}
+</script>

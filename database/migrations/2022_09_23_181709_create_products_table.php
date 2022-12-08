@@ -32,7 +32,7 @@ return new class extends Migration {
             $table->string('vendor_code')->nullable();
             $table->string('preview')->nullable();
             $table->integer('sort')->nullable()->unsigned();
-
+            $table->text('youtube')->nullable();
             $table->integer('total_sales')->nullable();
             $table->integer('viewed')->nullable();
             $table->integer('returns')->nullable();

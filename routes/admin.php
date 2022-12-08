@@ -5,127 +5,143 @@ use App\Http\Controllers\SmsController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
+Route::prefix('admin')
+    ->middleware(['auth', 'verified'])
+    ->group(function () {
 
-    Route::get('dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('admin.dashboard');
+        Route::get('/', function () {
+            return Inertia::render('Dashboard');
+        })->name('admin.dashboard');
 
-    Route::get('products', [AdminController::class, 'products'])
-        ->name('admin.products.index');
+        Route::prefix('content')->group(function () {
+            Route::get('/', [AdminController::class, 'content'])
+                ->name('admin.content.index');
 
-    Route::get('categories', [AdminController::class, 'categories'])
-        ->name('admin.categories.index');
+            Route::get('products', [AdminController::class, 'products'])
+                ->name('admin.content.products');
 
-    Route::get('images', [AdminController::class, 'images'])
-        ->name('admin.images.index');
+            Route::get('categories', [AdminController::class, 'categories'])
+                ->name('admin.content.categories');
 
-    Route::get('orders', [AdminController::class, 'orders'])
-        ->name('admin.orders.index');
+            Route::get('images', [AdminController::class, 'images'])
+                ->name('admin.content.images');
 
-    Route::get('clients', [AdminController::class, 'clients'])
-        ->name('admin.clients.index');
+            Route::get('pages', [AdminController::class, 'pages'])
+                ->name('admin.content.pages');
 
-    Route::get('roles', [AdminController::class, 'roles'])
-        ->name('admin.roles.index');
+            Route::prefix('reviews')->group(function () {
+                Route::get('product', [AdminController::class, 'productReviews'])
+                    ->name('admin.content.reviews.product');
 
-    Route::get('permissions', [AdminController::class, 'permissions'])
-        ->name('admin.permissions.index');
-
-    Route::get('users', [AdminController::class, 'users'])
-        ->name('admin.users.index');
-
-    Route::get('callbacks', [AdminController::class, 'callbacks'])
-        ->name('admin.callbacks.index');
-
-    Route::get('pages', [AdminController::class, 'pages'])
-        ->name('admin.pages.index');
-
-    Route::get('supports', [AdminController::class, 'supports'])
-        ->name('admin.supports.index');
-
-    Route::prefix('reviews')->group(function () {
-        Route::get('product', [AdminController::class, 'productReviews'])
-            ->name('admin.reviews.product.index');
-
-        Route::get('social', [AdminController::class, 'socialReviews'])
-            ->name('admin.reviews.social.index');
-    });
-
-    Route::prefix('statistics')->group(function () {
-        Route::get('/', [AdminController::class, 'statistics'])
-            ->name('admin.statistics.index');
-
-        Route::get('profits', [AdminController::class, 'statisticProfits'])
-            ->name('admin.statistics.profits.index');
-
-        Route::get('orders', [AdminController::class, 'statisticOrders'])
-            ->name('admin.statistics.orders.index');
-
-        Route::get('marketing', [AdminController::class, 'statisticMarketing'])
-            ->name('admin.statistics.marketing.index');
-
-        Route::get('managers', [AdminController::class, 'statisticManagers'])
-            ->name('admin.statistics.managers.index');
-
-        Route::get('products', [AdminController::class, 'statisticProducts'])
-            ->name('admin.statistics.products.index');
-
-        Route::prefix('costs')->group(function () {
-            Route::get('/', [AdminController::class, 'statisticCosts'])
-                ->name('admin.statistics.costs.index');
-
-            Route::prefix('categories')->group(function () {
-                Route::get('/', [AdminController::class, 'statisticCostCategories'])
-                    ->name('admin.statistics.costs.categories.index');
+                Route::get('social', [AdminController::class, 'socialReviews'])
+                    ->name('admin.content.reviews.social');
             });
+
         });
 
-    });
+        Route::prefix('crm')->group(function () {
+            Route::get('/', [AdminController::class, 'crm'])
+                ->name('admin.crm.index');
 
-    Route::prefix('options')->group(function () {
-        Route::get('/', [AdminController::class, 'options'])
-            ->name('admin.options.index');
+            Route::get('orders', [AdminController::class, 'orders'])
+                ->name('admin.crm.orders');
 
-        Route::get('main', [AdminController::class, 'optionsMain'])
-            ->name('admin.options.main');
+            Route::get('clients', [AdminController::class, 'clients'])
+                ->name('admin.crm.clients');
 
-        Route::get('scripts', [AdminController::class, 'optionsScripts'])
-            ->name('admin.options.scripts');
+            Route::get('callbacks', [AdminController::class, 'callbacks'])
+                ->name('admin.crm.callbacks');
 
-        Route::get('colors', [AdminController::class, 'colors'])
-            ->name('admin.options.colors.index');
+            Route::get('supports', [AdminController::class, 'supports'])
+                ->name('admin.crm.supports');
 
-        Route::get('banners', [AdminController::class, 'optionsBanners'])
-            ->name('admin.options.banners.index');
-
-        Route::get('faqs', [AdminController::class, 'optionsFaqs'])
-            ->name('admin.options.faqs.index');
-
-        Route::get('advantages', [AdminController::class, 'optionsAdvantages'])
-            ->name('admin.options.advantages.index');
-
-        Route::get('promo-codes', [AdminController::class, 'optionsPromoCodes'])
-            ->name('admin.options.promo-codes.index');
-
-        Route::get('xmls', [AdminController::class, 'optionsXmls'])
-            ->name('admin.options.xmls.index');
-
-        Route::get('sizes', [AdminController::class, 'sizes'])
-            ->name('admin.options.sizes.index');
-
-        Route::get('permissions', [AdminController::class, 'permissions'])
-            ->name('admin.options.permissions.index');
+            Route::get('invoices', [AdminController::class, 'invoices'])
+                ->name('admin.crm.invoices');
+        });
 
         Route::get('roles', [AdminController::class, 'roles'])
-            ->name('admin.options.roles.index');
+            ->name('admin.roles.index');
+
+        Route::get('permissions', [AdminController::class, 'permissions'])
+            ->name('admin.permissions.index');
 
         Route::get('users', [AdminController::class, 'users'])
-            ->name('admin.options.users.index');
+            ->name('admin.users.index');
 
-        Route::get('providers', [AdminController::class, 'providers'])
-            ->name('admin.options.providers.index');
+        Route::prefix('statistics')->group(function () {
+            Route::get('/', [AdminController::class, 'statistics'])
+                ->name('admin.statistics.index');
+
+            Route::get('profits', [AdminController::class, 'statisticProfits'])
+                ->name('admin.statistics.profits.index');
+
+            Route::get('orders', [AdminController::class, 'statisticOrders'])
+                ->name('admin.statistics.orders.index');
+
+            Route::get('marketing', [AdminController::class, 'statisticMarketing'])
+                ->name('admin.statistics.marketing.index');
+
+            Route::get('managers', [AdminController::class, 'statisticManagers'])
+                ->name('admin.statistics.managers.index');
+
+            Route::get('products', [AdminController::class, 'statisticProducts'])
+                ->name('admin.statistics.products.index');
+
+            Route::prefix('costs')->group(function () {
+                Route::get('/', [AdminController::class, 'statisticCosts'])
+                    ->name('admin.statistics.costs.index');
+
+                Route::prefix('categories')->group(function () {
+                    Route::get('/', [AdminController::class, 'statisticCostCategories'])
+                        ->name('admin.statistics.costs.categories.index');
+                });
+            });
+
+        });
+
+        Route::prefix('options')->group(function () {
+            Route::get('/', [AdminController::class, 'options'])
+                ->name('admin.options.index');
+
+            Route::get('main', [AdminController::class, 'optionsMain'])
+                ->name('admin.options.main');
+
+            Route::get('scripts', [AdminController::class, 'optionsScripts'])
+                ->name('admin.options.scripts');
+
+            Route::get('colors', [AdminController::class, 'colors'])
+                ->name('admin.options.colors.index');
+
+            Route::get('banners', [AdminController::class, 'optionsBanners'])
+                ->name('admin.options.banners.index');
+
+            Route::get('faqs', [AdminController::class, 'optionsFaqs'])
+                ->name('admin.options.faqs.index');
+
+            Route::get('advantages', [AdminController::class, 'optionsAdvantages'])
+                ->name('admin.options.advantages.index');
+
+            Route::get('promo-codes', [AdminController::class, 'optionsPromoCodes'])
+                ->name('admin.options.promo-codes.index');
+
+            Route::get('xmls', [AdminController::class, 'optionsXmls'])
+                ->name('admin.options.xmls.index');
+
+            Route::get('sizes', [AdminController::class, 'sizes'])
+                ->name('admin.options.sizes.index');
+
+            Route::get('permissions', [AdminController::class, 'permissions'])
+                ->name('admin.options.permissions.index');
+
+            Route::get('roles', [AdminController::class, 'roles'])
+                ->name('admin.options.roles.index');
+
+            Route::get('users', [AdminController::class, 'users'])
+                ->name('admin.options.users.index');
+
+            Route::get('providers', [AdminController::class, 'providers'])
+                ->name('admin.options.providers.index');
+        });
+
+        Route::post('notify-waybill', [SmsController::class, 'notifyWaybill'])->name('notify.waybill');
     });
-
-    Route::post('notify-waybill', [SmsController::class, 'notifyWaybill'])->name('notify.waybill');
-});

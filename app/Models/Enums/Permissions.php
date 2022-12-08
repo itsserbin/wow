@@ -131,6 +131,11 @@ class Permissions
         ['name' => 'Show images', 'slug' => 'show-images'],
         ['name' => 'Destroy images', 'slug' => 'destroy-images'],
 
+        ['name' => 'Edit invoices', 'slug' => 'edit-invoices'],
+        ['name' => 'Create invoices', 'slug' => 'create-invoices'],
+        ['name' => 'Show invoices', 'slug' => 'show-invoices'],
+        ['name' => 'Destroy invoices', 'slug' => 'destroy-invoices'],
+
         ['name' => 'Edit supports', 'slug' => 'edit-supports'],
         ['name' => 'Show supports', 'slug' => 'show-supports'],
         ['name' => 'Destroy supports', 'slug' => 'destroy-supports'],
