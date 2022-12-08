@@ -1561,22 +1561,22 @@
       "____vite-browser-external_commonjs-proxy.af1999bf.js"
     ]
   },
-  "resources/js/Pages/Public/app.css": {
-    "file": "assets/app.c39ccb67.css",
-    "src": "resources/js/Pages/Public/app.css"
-  },
-  "resources/scss/public.scss": {
-    "file": "assets/public.5f4fe28d.css",
-    "src": "resources/scss/public.scss",
-    "isEntry": true
-  },
   "resources/js/Pages/Admin/app.css": {
     "file": "assets/app.ff1b5532.css",
     "src": "resources/js/Pages/Admin/app.css"
   },
   "resources/scss/app.scss": {
-    "file": "assets/app.f1e3a2c8.css",
+    "file": "assets/app.1f7292bb.css",
     "src": "resources/scss/app.scss",
+    "isEntry": true
+  },
+  "resources/js/Pages/Public/app.css": {
+    "file": "assets/app.c39ccb67.css",
+    "src": "resources/js/Pages/Public/app.css"
+  },
+  "resources/scss/public.scss": {
+    "file": "assets/public.ffad8985.css",
+    "src": "resources/scss/public.scss",
     "isEntry": true
   }
 }
