@@ -1,5 +1,8 @@
 @extends('layouts.master')
 
+@section('title'){{app()->getLocale() == 'ua' ? $product->title['ua'] : $product->title['ru']}}@endsection
+@section('description'){{app()->getLocale() == 'ua' ? $product->description['ua'] : $product->description['ru']}}@endsection
+
 @section('content')
     {{ Breadcrumbs::render('home.categories.product',$product) }}
 

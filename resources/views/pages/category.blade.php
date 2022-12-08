@@ -1,5 +1,9 @@
 @extends('layouts.master')
 
+@section('title', app()->getLocale() == 'ua' ? $category->meta_title['ua'] : (app()->getLocale() == 'ru' ? $category->meta_title['ru'] : null))
+
+@section('description', app()->getLocale() == 'ua' ? $category->meta_description['ua'] : (app()->getLocale() == 'ru' ? $category->meta_description['ru'] : null))
+
 @section('content')
     {{ Breadcrumbs::render('home.categories',$category) }}
 
