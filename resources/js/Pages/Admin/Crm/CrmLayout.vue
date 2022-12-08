@@ -8,6 +8,7 @@
             <nav class="bg-white border-b border-gray-100 dark:bg-gray-800 dark:border-gray-700 rounded-lg p-4 md:py-0">
                 <div class="h-full md:h-12 grid grid-cols-2 md:grid-cols-4 gap-4">
                     <NavLink :href="route('admin.crm.orders')"
+                             v-if="can('show-orders')"
                              :active="route().current('admin.crm.orders')"
                              class="justify-center text-center"
                     >
@@ -15,6 +16,7 @@
                     </NavLink>
 
                     <NavLink :href="route('admin.crm.clients')"
+                             v-if="can('show-clients')"
                              :active="route().current('admin.crm.clients')"
                              class="justify-center text-center"
                     >
@@ -22,6 +24,7 @@
                     </NavLink>
 
                     <NavLink :href="route('admin.crm.callbacks')"
+                             v-if="can('show-callbacks')"
                              :active="route().current('admin.crm.callbacks')"
                              class="justify-center text-center"
                     >
@@ -29,6 +32,7 @@
                     </NavLink>
 
                     <NavLink :href="route('admin.crm.supports')"
+                             v-if="can('show-supports')"
                              :active="route().current('admin.crm.supports')"
                              class="justify-center text-center"
                     >
@@ -44,6 +48,8 @@
 
 <script setup>
 import NavLink from '@/Components/NavLink.vue';
+import {inject} from "vue";
 
+const can = inject('$can');
 defineProps(['title']);
 </script>

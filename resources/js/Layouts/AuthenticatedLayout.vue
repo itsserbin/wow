@@ -46,11 +46,13 @@ onMounted(() => {
                                 </NavLink>
 
                                 <NavLink :href="route('admin.content.index')"
+                                         v-if="can('show-content')"
                                          :active="route().current('admin.content.*')">
                                     Контент
                                 </NavLink>
 
                                 <NavLink :href="route('admin.crm.index')"
+                                         v-if="can('show-crm')"
                                          :active="route().current('admin.crm.*')">
                                     CRM
                                 </NavLink>
@@ -127,11 +129,13 @@ onMounted(() => {
                         </ResponsiveNavLink>
 
                         <ResponsiveNavLink :href="route('admin.content.index')"
+                                           v-if="can('show-content')"
                                            :active="route().current('admin.content.*')">
                             Контент
                         </ResponsiveNavLink>
 
                         <ResponsiveNavLink :href="route('admin.crm.index')"
+                                           v-if="can('show-crm')"
                                            :active="route().current('admin.crm.index')">
                             CRM
                         </ResponsiveNavLink>

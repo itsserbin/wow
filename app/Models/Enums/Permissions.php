@@ -15,6 +15,9 @@ class Permissions
         ['name' => 'Create bookkeeping cash-flows', 'slug' => 'create-bookkeeping-cash-flows'],
         ['name' => 'Destroy bookkeeping cash-flows', 'slug' => 'destroy-bookkeeping-cash-flows'],
 
+        ['name' => 'Show CRM', 'slug' => 'show-crm'],
+        ['name' => 'Show content', 'slug' => 'show-content'],
+
         ['name' => 'Show options', 'slug' => 'show-options'],
         ['name' => 'Show main options', 'slug' => 'show-main-options'],
         ['name' => 'Edit main options', 'slug' => 'edit-main-options'],
@@ -51,10 +54,17 @@ class Permissions
         ['name' => 'Show categories', 'slug' => 'show-categories'],
         ['name' => 'Destroy categories', 'slug' => 'destroy-categories'],
 
-        ['name' => 'Edit reviews', 'slug' => 'edit-reviews'],
-        ['name' => 'Create reviews', 'slug' => 'create-reviews'],
         ['name' => 'Show reviews', 'slug' => 'show-reviews'],
-        ['name' => 'Destroy reviews', 'slug' => 'destroy-reviews'],
+
+        ['name' => 'Show product reviews', 'slug' => 'show-product-reviews'],
+        ['name' => 'Edit product reviews', 'slug' => 'edit-product-reviews'],
+        ['name' => 'Create product reviews', 'slug' => 'create-product-reviews'],
+        ['name' => 'Destroy product reviews', 'slug' => 'destroy-product-reviews'],
+
+        ['name' => 'Edit social reviews', 'slug' => 'edit-social-reviews'],
+        ['name' => 'Create social reviews', 'slug' => 'create-social-reviews'],
+        ['name' => 'Show social reviews', 'slug' => 'show-social-reviews'],
+        ['name' => 'Destroy social reviews', 'slug' => 'destroy-social-reviews'],
 
         ['name' => 'Edit providers', 'slug' => 'edit-providers'],
         ['name' => 'Create providers', 'slug' => 'create-providers'],
