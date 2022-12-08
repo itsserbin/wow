@@ -32,7 +32,7 @@
         ></header-component>
     </header>
     <main class="main flex-[1_0_auto]">
-        <div class="max-w-7xl mx-auto mt-28 px-3">
+        <div class="max-w-7xl mx-auto mt-32 px-3">
             <div class="grid grid-cols-1 gap-4">
                 @yield('content')
             </div>
