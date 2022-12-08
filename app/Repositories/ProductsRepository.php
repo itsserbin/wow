@@ -398,8 +398,7 @@ class ProductsRepository extends CoreRepository
             ->select($columns)
             ->orderBy('created_at', 'desc')
             ->with('sizes')
-            ->limit(8)
-            ->get();
+            ->paginate(8);
     }
 
     public function getRecommendProducts()

@@ -14,7 +14,7 @@
             <button-component v-if="!state.isLoadingMore"
                               @click="fetch"
                               type="button"
-            >Завантажити ще</button-component>
+            >{{ textLoadMore }}</button-component>
         </div>
     </div>
 </template>

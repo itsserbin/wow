@@ -23,8 +23,7 @@
                     <span class="text-[#38af44] text-[14px] font-medium text-end">Товар в наявності</span>
                 </div>
 
-                <add-to-cart product="{{$product}}"
-                ></add-to-cart>
+                <add-to-cart product="{{$product}}"></add-to-cart>
 
                 <sizes-table size-table="{{$product->size_table}}"></sizes-table>
 
