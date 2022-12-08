@@ -18,6 +18,7 @@
                 track-by="id"
                 :searchable="true"
                 :multiple="true"
+                :close-on-select="false"
             />
         </div>
     </form>
