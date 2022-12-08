@@ -8,6 +8,7 @@
             <div class="md:col-span-2">
                 <sidebar-component>
                     <sidebar-item v-for="item in items"
+                                  v-show="can(item.permission)"
                                   :item="item"
                                   :active="route(route().current()) === item.href"
                     >
@@ -25,18 +26,21 @@
 
 <script setup>
 import ContentLayout from '@/Pages/Admin/Content/ContentLayout.vue'
-import {ref} from "vue";
+import {inject} from "vue";
 
 defineProps(['title']);
+const can = inject('$can');
 
-const items = ref([
+const items = [
     {
         title: 'Відгуки про товари',
+        permission: 'show-product-reviews',
         href: route('admin.content.reviews.product')
     },
     {
         title: 'Відгуки із соц.мереж',
+        permission: 'show-social-reviews',
         href: route('admin.content.reviews.social')
     },
-])
+];
 </script>
