@@ -15,6 +15,7 @@
 {!! $options['after_body_scripts'] !!}
 <div id="app" class="h-full flex flex-col">
     <header class="w-[100%] fixed top-0 z-10 bg-[#fff] flex-[0_0_auto]">
+        @include('components.fixed-banner')
         <header-component
             lang="{{app()->getLocale()}}"
             categories="{{$categories}}"
