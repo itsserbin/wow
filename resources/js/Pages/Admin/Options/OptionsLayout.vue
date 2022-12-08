@@ -44,7 +44,7 @@ import {inject,ref} from "vue";
 const can = inject('$can');
 defineProps(['title']);
 
-const items = ref([
+const items =[
     {
         title: 'Головна',
         permission: 'show-options',
@@ -75,7 +75,7 @@ const items = ref([
         permission: 'show-faq',
         href: route('admin.options.faqs.index')
     },
-]);
+];
 
 const items2 = [
     {
