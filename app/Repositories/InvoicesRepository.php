@@ -108,7 +108,8 @@ class InvoicesRepository extends CoreRepository
             $result = json_decode($response, true);
             if ($result['reasonCode'] == 1100) {
                 $item->invoice_url = $result['invoiceUrl'];
-                return ['success' => 1, 'data' => $item->update()];
+                $item->update();
+                return ['success' => 1, 'data' => $item];
             } else {
                 return ['success' => 0, 'data' => $result];
             }

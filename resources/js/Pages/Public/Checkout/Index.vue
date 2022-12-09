@@ -152,7 +152,6 @@ function wfp(order) {
             )
         )
     );
-    console.log(signature);
     wayforpay.run({
             merchantAccount: params.merchantAccount,
             merchantDomainName: params.merchantDomainName,

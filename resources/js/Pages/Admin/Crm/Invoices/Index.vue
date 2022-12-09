@@ -216,9 +216,12 @@ function onCreate() {
             .then(({data}) => {
                 state.value.item = data.result;
                 state.value.modalAction = 'edit';
+                modalFunction();
                 fetch();
+                navigator.clipboard.writeText(data.result.data.invoice_url);
                 swal({
-                    title: 'Success!',
+                    title: 'Успішно!',
+                    text: 'Рахунок був успішно створений, посилання на оплату скопійовано в буфер обміну',
                     icon: 'success'
                 })
             })
