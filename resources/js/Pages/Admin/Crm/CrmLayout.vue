@@ -6,7 +6,7 @@
 
         <div class="w-full grid grid-cols-1 gap-4">
             <nav class="bg-white border-b border-gray-100 dark:bg-gray-800 dark:border-gray-700 rounded-lg p-4 md:py-0">
-                <div class="h-full md:h-12 grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="h-full md:h-12 grid grid-cols-2 md:grid-cols-5 gap-4">
                     <NavLink :href="route('admin.crm.orders')"
                              v-if="can('show-orders')"
                              :active="route().current('admin.crm.orders')"
@@ -37,6 +37,14 @@
                              class="justify-center text-center"
                     >
                         Підтримка
+                    </NavLink>
+
+                    <NavLink :href="route('admin.crm.invoices')"
+                             v-if="can('show-invoices')"
+                             :active="route().current('admin.crm.invoices')"
+                             class="justify-center text-center"
+                    >
+                        Рахунки
                     </NavLink>
 
                 </div>

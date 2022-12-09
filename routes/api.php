@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\ClientsController;
 use App\Http\Controllers\Api\ColorsController;
 use App\Http\Controllers\Api\FaqsController;
 use App\Http\Controllers\Api\ImagesController;
+use App\Http\Controllers\Api\InvoicesController;
 use App\Http\Controllers\Api\OptionsController;
 use App\Http\Controllers\Api\OrderItemsController;
 use App\Http\Controllers\Api\OrdersController;
@@ -68,6 +69,23 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::get('list', [ProductsController::class, 'list'])
             ->name('api.products.list');
+    });
+
+    Route::prefix('invoices')->group(function () {
+        Route::get('/', [InvoicesController::class, 'index'])
+            ->name('api.invoices.index');
+
+        Route::post('create', [InvoicesController::class, 'create'])
+            ->name('api.invoices.create');
+
+        Route::get('edit/{id}', [InvoicesController::class, 'edit'])
+            ->name('api.invoices.edit');
+
+        Route::put('update/{id}', [InvoicesController::class, 'update'])
+            ->name('api.invoices.update');
+
+        Route::delete('destroy/{id}', [InvoicesController::class, 'destroy'])
+            ->name('api.invoices.destroy');
     });
 
     Route::prefix('images')->group(function () {

@@ -21,8 +21,9 @@ return new class extends Migration {
                 ->onDelete('set null');
             $table->integer('sum');
             $table->string('status');
-            $table->string('invoice_url');
-            $table->string('invoice_qr');
+            $table->string('invoice_url')->nullable();
+            $table->boolean('sms')->default(0);
+            $table->integer('sms_count')->default(0);
             $table->timestamps();
         });
     }

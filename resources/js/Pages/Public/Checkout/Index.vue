@@ -143,7 +143,6 @@ function wfp(order) {
             productPrice: params.productPrice.join(';'),
         }
     ).join(';'))
-
     let signature = CryptoJS.enc.Utf8.stringify(
         CryptoJS.enc.Utf8.parse(
             hmacMD5(
@@ -153,6 +152,7 @@ function wfp(order) {
             )
         )
     );
+    console.log(signature);
     wayforpay.run({
             merchantAccount: params.merchantAccount,
             merchantDomainName: params.merchantDomainName,

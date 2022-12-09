@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Enums\CallbackStatus;
 use App\Models\Enums\ClientStatus;
 use App\Models\Enums\ClientSubStatus;
+use App\Models\Enums\InvoicesStatus;
 use App\Models\Enums\OrderStatus;
 use App\Models\Enums\PaymentMethod;
 use App\Models\Enums\SupportStatus;
@@ -109,7 +110,9 @@ class AdminController extends Controller
 
     public function invoices(): Response
     {
-        return Inertia::render('Crm/Invoices/Index');
+        return Inertia::render('Crm/Invoices/Index', [
+            'statuses' => InvoicesStatus::state
+        ]);
     }
 
     public function options(): Response

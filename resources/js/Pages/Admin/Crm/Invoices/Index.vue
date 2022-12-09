@@ -19,6 +19,12 @@
                 </div>
 
                 <div class="w-full md:col-span-4 grid gap-4 grid-cols-1">
+                    <div>
+                        <button-component type="btn" @click="create" v-if="can('create-invoices')">
+                            Додати
+                        </button-component>
+                    </div>
+
                     <Table :data="state.data.data"
                            :statuses="statuses"
                            @onEdit="onEdit"
@@ -49,20 +55,21 @@
 
 <script setup>
 import {reactive, onMounted, inject, ref, computed} from "vue";
-import Modal from '@/Pages/Admin/Crm/Supports/Modal.vue';
-import Table from '@/Pages/Admin/Crm/Supports/Table.vue';
+import Modal from '@/Pages/Admin/Crm/Invoices/Modal.vue';
+import Table from '@/Pages/Admin/Crm/Invoices/Table.vue';
 import CrmLayout from '@/Pages/Admin/Crm/CrmLayout.vue';
+import CryptoJS from "crypto-js";
+import hmacMD5 from "crypto-js/hmac-md5";
 
 const props = defineProps(['statuses']);
-
 const swal = inject('$swal')
 const can = inject('$can');
 
 const item = reactive({
-    name: null,
-    phone: null,
-    comment: null,
-    status: null,
+    invoice_url: null,
+    order_id: null,
+    sum: null,
+    status: 'not_paid',
 })
 
 const state = ref({
@@ -73,7 +80,6 @@ const state = ref({
     item: {},
     sidebarActive: 'all',
 });
-
 
 const sidebar = ref([]);
 
@@ -123,7 +129,7 @@ function fetch(page) {
     if (page) {
         state.value.currentPage = page;
     }
-    axios.get(route('api.supports.index', getParams.value))
+    axios.get(route('api.invoices.index', getParams.value))
         .then(({data}) => {
             state.value.data = data.result;
             state.value.isLoading = false;
@@ -135,14 +141,14 @@ function fetch(page) {
 }
 
 function onDestroy(id) {
-    if (can('destroy-callbacks')) {
+    if (can('destroy-invoices')) {
         swal({
             title: 'Видалити?',
             icon: 'warning',
             showCancelButton: true,
         }).then((result) => {
             if (result.isConfirmed) {
-                axios.delete(route('api.supports.destroy', id))
+                axios.delete(route('api.invoices.destroy', id))
                     .then(() => {
                         fetch();
                         if (state.value.isActiveModal) {
@@ -171,8 +177,8 @@ function modalFunction() {
 }
 
 function onEdit(id, i) {
-    if (can('edit-supports')) {
-        axios.get(route('api.supports.edit', id))
+    if (can('edit-invoices')) {
+        axios.get(route('api.invoices.edit', id))
             .then(({data}) => {
                 state.value.item = data.result;
                 state.value.modalAction = 'edit';
@@ -184,8 +190,8 @@ function onEdit(id, i) {
 }
 
 function onUpdate() {
-    if (can('edit-supports')) {
-        axios.put(route('api.supports.update', state.value.item.id), state.value.item)
+    if (can('edit-invoices')) {
+        axios.put(route('api.invoices.update', state.value.item.id), state.value.item)
             .then(() => {
                 modalFunction();
                 fetch();
@@ -205,11 +211,11 @@ function onUpdate() {
 }
 
 function onCreate() {
-    if (can('create-supports')) {
-        axios.post(route('api.supports.create'), state.value.item)
+    if (can('create-invoices')) {
+        axios.post(route('api.invoices.create'), state.value.item)
             .then(({data}) => {
-                modalFunction();
-                state.value.item = {};
+                state.value.item = data.result;
+                state.value.modalAction = 'edit';
                 fetch();
                 swal({
                     title: 'Success!',
@@ -227,15 +233,15 @@ function onCreate() {
 }
 
 function submitForm() {
-    if (state.value.modalAction === 'edit' && can('edit-supports')) {
+    if (state.value.modalAction === 'edit' && can('edit-invoices')) {
         onUpdate();
-    } else if (state.value.modalAction === 'create' && can('create-supports')) {
+    } else if (state.value.modalAction === 'create' && can('create-invoices')) {
         onCreate();
     }
 }
 
 function create() {
-    if (can('create-supports')) {
+    if (can('create-invoices')) {
         state.value.item = item;
         state.value.modalAction = 'create';
         modalFunction();
