@@ -5,16 +5,16 @@ namespace App\Models\Enums;
 class ClientStatus
 {
     const state = [
-        'new' => 'Новий',
-        'experienced' => 'Раніше закуплявся',
-        'top' => 'ТОПчик',
-        'return' => 'Повернення',
-        'black_list' => 'ЧС',
+        self::NEW_STATUS => 'Новий',
+        self::EXPERIENCED_STATUS => 'Раніше закуплявся',
+        self::TOP_STATUS => 'ТОПчик',
+        self::RETURN_STATUS => 'Повернення',
+        self::BLACK_LIST_STATUS => 'ЧС',
     ];
 
-    const NEW_STATUS = 'Новый';
-    const EXPERIENCED_STATUS = 'Раннее закупался';
-    const TOP_STATUS = 'ТОПчик';
-    const RETURN_STATUS = 'Возврат';
-    const BLACK_LIST_STATUS = 'ЧС';
+    const NEW_STATUS = 'new';
+    const EXPERIENCED_STATUS = 'experienced';
+    const TOP_STATUS = 'top';
+    const RETURN_STATUS = 'return';
+    const BLACK_LIST_STATUS = 'black_list';
 }
