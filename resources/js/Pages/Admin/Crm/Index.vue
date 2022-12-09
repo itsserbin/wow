@@ -37,6 +37,11 @@ const items = [
         title: 'Підтримка клієнтів',
         permission: 'show-supports',
         href: route('admin.crm.supports')
+    },
+    {
+        title: 'Рахунки',
+        permission: 'show-invoices',
+        href: route('admin.crm.invoices')
     }
 ];
 </script>
