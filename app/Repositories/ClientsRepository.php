@@ -161,37 +161,12 @@ class ClientsRepository extends CoreRepository
         return $client;
     }
 
-    public function updateClient($client, $items, $promoCode)
+    public function updateClient($client)
     {
         $result = $this->model::where('id', $client)->first();
 
         ++$result->number_of_purchases;
         $result->status = ClientStatus::EXPERIENCED_STATUS;
-
-//        $totalPrice = $result->whole_check;
-//        $totalCount = $result->purchased_goods;
-//
-//        foreach ($items as $item) {
-//            if ($item->product) {
-//                $totalPrice += ($item->product->discount_price ?: $item->product->price) * $item->count;
-//                $totalCount += $item->count;
-//            }
-//        }
-//
-//        if ($promoCode) {
-//            $discount = $this->promoCodesRepository->getDiscount($promoCode);
-//
-//            if ($discount->discount_in_hryvnia) {
-//                $totalPrice -= $discount->discount_in_hryvnia;
-//            } elseif ($discount->percent_discount) {
-//                $totalPrice = $totalPrice * (100 - $discount->percent_discount) / 100;
-//            }
-//        }
-//
-//        $result->whole_check = $totalPrice;
-//        $result->purchased_goods = $totalCount;
-//        $result->average_check = $totalPrice / $totalCount;
-
 
         $result->update();
 

@@ -16,13 +16,14 @@ use PhpParser\Node\Expr\AssignOp\Concat;
 
 class OrdersRepository extends CoreRepository
 {
-
-    private $promoCodesRepository;
+    private mixed $promoCodesRepository;
+    private mixed $clientsRepository;
 
     public function __construct()
     {
         parent::__construct();
         $this->promoCodesRepository = app(PromoCodesRepository::class);
+        $this->clientsRepository = app(ClientsRepository::class);
     }
 
     protected function getModelClass()
@@ -178,8 +179,7 @@ class OrdersRepository extends CoreRepository
         }
 
         if ($model->promo_code) {
-            $promoCodesRepository = new \App\Repositories\PromoCodesRepository();
-            $discount = $promoCodesRepository->getDiscount($model->promo_code);
+            $discount = $this->promoCodesRepository->getDiscount($model->promo_code);
             if ($discount) {
                 if ($discount->discount_in_hryvnia) {
                     $totalPrice -= $discount->discount_in_hryvnia;
@@ -216,6 +216,7 @@ class OrdersRepository extends CoreRepository
 
         $model->update();
 
+        $this->clientsRepository->updateAvgAndWholeCheck($model->client_id);
         return $model;
 
     }

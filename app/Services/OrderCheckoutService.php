@@ -59,7 +59,7 @@ class OrderCheckoutService
                     $cart->promo_code
                 );
             } else {
-                $client = $this->clientsRepository->updateClient($client->id, $cart->items, $cart->promo_code);
+                $client = $this->clientsRepository->updateClient($client->id);
             }
 
             $order = $this->ordersRepository->create(
@@ -74,6 +74,7 @@ class OrderCheckoutService
                 foreach ($items as $item) {
                     $this->productRepository->updateProductTotalSales($item->product_id);
                 }
+                $this->clientsRepository->updateAvgAndWholeCheck($client->id);
                 $this->deleteCartItems($cart->id);
 //                $this->telegramNotificationService->order($order, $name, $phone);
             }
