@@ -55,19 +55,23 @@ class InvoicesRepository extends CoreRepository
             array_push($prices, $orderItem->sale_price);
         }
 
-        $test = [
-            'merchantAccount' => env('WFP_MERCHANT_LOGIN'),
-            'merchantDomainName' => env('APP_DOMAIN'),
-            'orderReference' => (string)$item->id,
-            'orderDate' => strtotime($item->created_at),
-            'amount' => $item->sum,
-            'currency' => "UAH",
-            'productName' => implode(';', $names),
-            'productPrice' => implode(';', $prices),
-            'productCount' => implode(';', $counts),
-        ];
-
-        $hmac = hash_hmac('md5', implode(';', $test), env('WFP_MERCHANT_SECRET_KEY'));
+        $hmac = hash_hmac(
+            'md5',
+            implode(';',
+                [
+                    'merchantAccount' => env('WFP_MERCHANT_LOGIN'),
+                    'merchantDomainName' => env('APP_DOMAIN'),
+                    'orderReference' => (string)$item->id,
+                    'orderDate' => strtotime($item->created_at),
+                    'amount' => $item->sum,
+                    'currency' => "UAH",
+                    'productName' => implode(';', $names),
+                    'productCount' => implode(';', $counts),
+                    'productPrice' => implode(';', $prices),
+                ]
+            ),
+            env('WFP_MERCHANT_SECRET_KEY')
+        );
 
         $curl = curl_init();
         curl_setopt_array($curl, array(
@@ -77,6 +81,7 @@ class InvoicesRepository extends CoreRepository
             CURLOPT_CUSTOMREQUEST => "POST",
             CURLOPT_POSTFIELDS => json_encode([
                 'transactionType' => 'CREATE_INVOICE',
+                'serviceUrl' => route('api.v1.invoices.set-status'),
                 'merchantAuthType' => 'SimpleSignature',
                 'merchantAccount' => env('WFP_MERCHANT_LOGIN'),
                 'merchantDomainName' => env('APP_DOMAIN'),
@@ -100,8 +105,13 @@ class InvoicesRepository extends CoreRepository
         if ($err) {
             echo "cURL Error #:" . $err;
         } else {
-            return json_decode($response, true);
-//            dd($response);
+            $result = json_decode($response, true);
+            if ($result['reasonCode'] == 1100) {
+                $item->invoice_url = $result['invoiceUrl'];
+                return ['success' => 1, 'data' => $item->update()];
+            } else {
+                return ['success' => 0, 'data' => $result];
+            }
         }
     }
 
@@ -120,5 +130,14 @@ class InvoicesRepository extends CoreRepository
     public function destroy($id)
     {
         return $this->model::destroy($id);
+    }
+
+    public function setInvoiceStatus($data)
+    {
+        if ($data['transactionStatus'] == 'Approved') {
+            $model = $this->getById($data['orderReference']);
+            $model->status = InvoicesStatus::PAID_STATUS;
+            $model->update();
+        }
     }
 }

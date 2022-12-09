@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\CallbacksController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\CategoriesController;
 use App\Http\Controllers\Api\FaqsController;
+use App\Http\Controllers\Api\V1\InvoicesController;
 use App\Http\Controllers\Api\V1\OrdersController;
 use App\Http\Controllers\Api\ProductReviewsController;
 use App\Http\Controllers\Api\ProductsController;
@@ -181,4 +182,7 @@ Route::prefix('v1')->middleware('api')->group(function () {
                 ->name('api.nova-poshta.post-offices.search.id');
         });
     });
+
+    Route::post('set-invoice', [InvoicesController::class, 'setInvoiceStatus'])
+        ->name('api.v1.invoices.set-status');
 });
