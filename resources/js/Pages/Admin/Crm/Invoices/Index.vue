@@ -1,6 +1,6 @@
 <template>
-    <CrmLayout title="Підтримка клієнтів">
-        <template #header>Підтримка клієнтів</template>
+    <CrmLayout title="Рахунки">
+        <template #header>Рахунки</template>
 
         <loader-component v-if="state.isLoading"/>
         <div v-if="!state.isLoading && can('show-invoices')">
