@@ -135,7 +135,8 @@ class InvoicesRepository extends CoreRepository
     public function setInvoiceStatus($data)
     {
         foreach ($data as $key => $item) {
-            \Illuminate\Support\Facades\Log::info($key['transactionStatus']);
+            \Illuminate\Support\Facades\Log::info(explode($key, ','));
+            \Illuminate\Support\Facades\Log::info(explode($data, ','));
         }
 //        array(
 //            '{"merchantAccount":"dabango_store","orderReference":"13","merchantSignature":"ad503ef31ea783a105157ab91f732174","amount":1,"currency":"UAH","authCode":"291659","email":"serbin_official@gmail_com","phone":"380639388674","createdDate":1670623839,"processingDate":1670623852,"cardPan":"","cardType":"MasterCard","issuerBankCountry":"United_Kingdom","issuerBankName":"\\u0421\\u043e\\u0435\\u0434\\u0438\\u043d\\u0435\\u043d\\u043d\\u043e\\u0435_\\u041a\\u043e\\u0440\\u043e\\u043b\\u0435\\u0432\\u0441\\u0442\\u0432\\u043e","recToken":"","transactionStatus":"Approved","reason":"Ok","reasonCode":1100,"fee":0,"paymentSystem":"applePay","acquirerBankName":"WayForPay","cardProduct":"debit","clientName":null,"products":' =>
