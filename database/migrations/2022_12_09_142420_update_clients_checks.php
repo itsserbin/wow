@@ -14,11 +14,10 @@ return new class extends Migration {
     {
         $items = \App\Models\Client::all();
 
+        $clientsRepository = new \App\Repositories\ClientsRepository();
+
         foreach ($items as $item) {
-            if ($item->status == 'Раннее закупался') {
-                $item->status = \App\Models\Enums\ClientStatus::EXPERIENCED_STATUS;
-                $item->update();
-            }
+            $clientsRepository->updateAvgAndWholeCheck($item->id);
         }
     }
 

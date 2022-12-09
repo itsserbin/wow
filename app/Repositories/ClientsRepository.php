@@ -198,6 +198,27 @@ class ClientsRepository extends CoreRepository
         return $result;
     }
 
+    public function updateAvgAndWholeCheck($id)
+    {
+        $model = $this->getById($id);
+
+        if (count($model->orders)) {
+            $countOrder = 0;
+            $wholeCheck = 0;
+            $avgCheck = 0;
+            foreach ($model->orders as $order) {
+                $countOrder += 1;
+                $wholeCheck += $order->total_price;
+            }
+            $avgCheck = $wholeCheck / $countOrder;
+            $model->whole_check = $wholeCheck;
+            $model->average_check = $avgCheck;
+            $model->number_of_purchases = $countOrder;
+            return $model->update();
+        }
+
+    }
+
     public function massActions($action, $data): bool
     {
         if ($action == MassActions::DESTROY) {
