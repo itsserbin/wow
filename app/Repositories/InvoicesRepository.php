@@ -134,6 +134,7 @@ class InvoicesRepository extends CoreRepository
 
     public function setInvoiceStatus($data)
     {
+        \Illuminate\Support\Facades\Log::info($data);
         foreach ($data as $key => $item) {
             \Illuminate\Support\Facades\Log::info(json_decode($key));
         }
