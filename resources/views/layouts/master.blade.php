@@ -6,7 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title')</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <meta name="csrf-token" content="{{ csrf_token() }}"/>
     @vite('resources/scss/public.scss')
     @routes
     {!! $options['head_scripts'] !!}
@@ -39,7 +39,9 @@
         </div>
     </main>
     @include('components.footer')
-    <callback></callback>
+    @if($options['callback_status'] == 'on')
+        <callback></callback>
+    @endif
 </div>
 @vite('resources/js/Pages/Public/app.js')
 @if(env('APP_ENV') !== 'local')

@@ -10,6 +10,7 @@ import Form from '@/Pages/Admin/Options/Main/Form.vue'
 import {inject, onMounted, ref} from "vue";
 
 const can = inject('$can');
+const swal = inject('$swal');
 
 const state = ref({
     options: {}
@@ -23,7 +24,18 @@ onMounted(() => {
 
 function onUpdate() {
     axios.put(route('api.options.main.update'), state.value.options)
-        .then(({data}) => console.log(data))
-        .catch((response) => console.log(response));
+        .then(({data}) => {
+            swal({
+                title: 'Updated!',
+                icon: 'success'
+            })
+        })
+        .catch((response) => {
+            console.log(response);
+            swal({
+                title: 'Error',
+                icon: 'error',
+            })
+        });
 }
 </script>

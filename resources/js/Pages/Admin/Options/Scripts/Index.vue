@@ -8,7 +8,9 @@
 import OptionsLayout from '@/Pages/Admin/Options/OptionsLayout.vue'
 import Form from '@/Pages/Admin/Options/Scripts/Form.vue'
 import {inject, onMounted, ref} from "vue";
+
 const can = inject('$can');
+const swal = inject('$swal');
 
 const state = ref({
     options: {
@@ -26,7 +28,18 @@ onMounted(() => {
 
 function onUpdate() {
     axios.put(route('api.options.scripts.update'), state.value.options)
-        .then(({data}) => console.log(data))
-        .catch((response) => console.log(response));
+        .then(({data}) => {
+            swal({
+                title: 'Updated!',
+                icon: 'success'
+            });
+        })
+        .catch((response) => {
+            swal({
+                title: 'Error',
+                icon: 'error',
+            });
+            console.log(response);
+        });
 }
 </script>

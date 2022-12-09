@@ -112,36 +112,36 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
             <div class="block">
                 <label-component value="Текст 'Доставка и оплата' на странице товара UA"/>
-                <textarea-component v-model="options.text_delivery_and_payment_ua" rows="6"/>
+                <editor :api-key="tiny.api" v-model="options.text_delivery_and_payment_ua" :init="tiny.settings"/>
             </div>
 
             <div class="block">
                 <label-component value="Текст 'Доставка и оплата' на странице товара RU"/>
-                <textarea-component v-model="options.text_delivery_and_payment_ru" rows="6"/>
+                <editor :api-key="tiny.api" v-model="options.text_delivery_and_payment_ru" :init="tiny.settings"/>
             </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
             <div class="block">
                 <label-component value="Текст 'Обмен и возврат' на странице товара UA"/>
-                <textarea-component v-model="options.text_return_and_exchange_ua" rows="6"/>
+                <editor :api-key="tiny.api" v-model="options.text_return_and_exchange_ua" :init="tiny.settings"/>
             </div>
 
             <div class="block">
                 <label-component value="Текст 'Обмен и возврат' на странице товара RU"/>
-                <textarea-component v-model="options.text_return_and_exchange_ru" rows="6"/>
+                <editor :api-key="tiny.api" v-model="options.text_return_and_exchange_ru" :init="tiny.settings"/>
             </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
             <div class="block">
                 <label-component value="Текст на главной странице UA"/>
-                <textarea-component v-model="options.text_home_page_ua" rows="6"/>
+                <editor :api-key="tiny.api" v-model="options.text_home_page_ua" :init="tiny.settings"/>
             </div>
 
             <div class="block">
                 <label-component value="Текст на главной странице RU"/>
-                <textarea-component v-model="options.text_home_page_ru" rows="6"/>
+                <editor :api-key="tiny.api" v-model="options.text_home_page_ru" :init="tiny.settings"/>
             </div>
         </div>
         <button-component type="submit">Save</button-component>
@@ -149,6 +149,10 @@
 </template>
 
 <script setup>
+import {inject} from "vue";
+
+const tiny = inject('$tiny');
+
 defineProps(['options']);
 defineEmits(['submitForm']);
 </script>
