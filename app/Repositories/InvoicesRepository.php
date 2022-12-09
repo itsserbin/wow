@@ -135,21 +135,13 @@ class InvoicesRepository extends CoreRepository
     public function setInvoiceStatus($data)
     {
         foreach ($data as $key => $item) {
-            \Illuminate\Support\Facades\Log::info($key);
-            \Illuminate\Support\Facades\Log::info((string)explode($key, ','));
-            \Illuminate\Support\Facades\Log::info((string)explode($data, ','));
-        }
-//        array(
-//            '{"merchantAccount":"dabango_store","orderReference":"13","merchantSignature":"ad503ef31ea783a105157ab91f732174","amount":1,"currency":"UAH","authCode":"291659","email":"serbin_official@gmail_com","phone":"380639388674","createdDate":1670623839,"processingDate":1670623852,"cardPan":"","cardType":"MasterCard","issuerBankCountry":"United_Kingdom","issuerBankName":"\\u0421\\u043e\\u0435\\u0434\\u0438\\u043d\\u0435\\u043d\\u043d\\u043e\\u0435_\\u041a\\u043e\\u0440\\u043e\\u043b\\u0435\\u0432\\u0441\\u0442\\u0432\\u043e","recToken":"","transactionStatus":"Approved","reason":"Ok","reasonCode":1100,"fee":0,"paymentSystem":"applePay","acquirerBankName":"WayForPay","cardProduct":"debit","clientName":null,"products":' =>
-//                array(
-//                    '{"name":"\\u041a\\u0443\\u043f\\u0430\\u043b\\u044c\\u043d\\u0438\\u043a Da Bango","price":890,"count":1}' => NULL,
-//                ),
-//        );
-
-        if ($data['transactionStatus'] == 'Approved') {
-            $model = $this->getById($data['orderReference']);
-            $model->status = InvoicesStatus::PAID_STATUS;
-            $model->update();
+            foreach (explode(',', str_replace('"', '', $key)) as $arrItem) {
+                if (explode(':', $arrItem)[0] == 'orderReference') {
+                    $model = $this->getById(explode(':', $arrItem)[1]);
+                    $model->status = InvoicesStatus::PAID_STATUS;
+                    return $model->update();
+                }
+            }
         }
     }
 }
