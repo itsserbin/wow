@@ -16,9 +16,9 @@
         </template>
 
         <template #timestamps="{data}">
-            {{ $filters.dateFormat(data.row.updated_at) }}
+            {{ $filters.dateTimeFormat(data.row.updated_at) }}
             <hr class="my-1">
-            {{ $filters.dateFormat(data.row.created_at) }}
+            {{ $filters.dateTimeFormat(data.row.created_at) }}
         </template>
 
         <template #actions="{data}">

@@ -43,6 +43,7 @@
             <component :is="editModal"
                        :order="state.orderModal"
                        :statuses="props.statuses"
+                       :invoiceStatuses="props.invoiceStatuses"
                        :paymentMethods="props.payment_methods"
                        size="extralarge"
                        @closeModal="editModalFunction"
@@ -86,7 +87,7 @@ const state = ref({
 });
 
 const sidebar = ref([]);
-const props = defineProps(['statuses', 'payment_methods']);
+const props = defineProps(['statuses', 'payment_methods', 'invoiceStatuses']);
 
 const swal = inject('$swal')
 const can = inject('$can');
@@ -170,12 +171,10 @@ function onUpdateClient() {
 }
 
 function submitItemForm() {
-    if (can('edit-orders')) {
-        axios.put(route('api.orders.update', state.value.orderModal.id), state.value.orderModal)
-        axios.get(route('api.orders.edit', state.value.orderModal.id))
-            .then(({data}) => state.value.orderModal = data.result)
-            .catch((errors) => console.log(errors))
-    }
+    axios.put(route('api.orders.update', state.value.orderModal.id), state.value.orderModal)
+    axios.get(route('api.orders.edit', state.value.orderModal.id))
+        .then(({data}) => state.value.orderModal = data.result)
+        .catch((errors) => console.log(errors))
 }
 
 function sortByStatus(status) {

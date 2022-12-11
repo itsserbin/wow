@@ -32,4 +32,9 @@ class Order extends Model
     {
         return $this->belongsTo(Client::class, 'client_id');
     }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class, 'order_id');
+    }
 }

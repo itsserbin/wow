@@ -34,7 +34,7 @@ class OrdersRepository extends CoreRepository
     public function getById($id)
     {
         return $this
-            ->model::with('items.product.provider', 'client.orders', 'manager')
+            ->model::with('items.product.provider', 'client.orders', 'manager', 'invoices')
             ->find($id);
     }
 

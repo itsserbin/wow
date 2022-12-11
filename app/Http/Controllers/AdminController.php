@@ -85,7 +85,8 @@ class AdminController extends Controller
     {
         return Inertia::render('Crm/Orders/Index', [
             'statuses' => OrderStatus::state,
-            'payment_methods' => PaymentMethod::state
+            'payment_methods' => PaymentMethod::state,
+            'invoiceStatuses' => InvoicesStatus::state
         ]);
     }
 

@@ -66,10 +66,8 @@ const swal = inject('$swal')
 const can = inject('$can');
 
 const item = reactive({
-    invoice_url: null,
     order_id: null,
     sum: null,
-    status: 'not_paid',
 })
 
 const state = ref({

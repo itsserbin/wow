@@ -13,6 +13,7 @@
             <Form :order="order"
                   :statuses="statuses"
                   :paymentMethods="paymentMethods"
+                  :invoiceStatuses="invoiceStatuses"
                   @submitItemForm="$emit('submitItemForm')"
                   @onEditClient="$emit('onEditClient')"
             />
@@ -28,7 +29,8 @@ defineProps([
     'order',
     'statuses',
     'paymentMethods',
-    'canDestroy'
+    'canDestroy',
+    'invoiceStatuses'
 ]);
 
 defineEmits(['closeModal', 'submitForm', 'declineForm', 'submitItemForm','onEditClient']);

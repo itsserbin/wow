@@ -102,12 +102,14 @@
             <div class="grid grid-cols-2">
                 <div class="block mb-5 mr-5">
                     <label-component value="Передоплата"/>
-                    <select-component v-model="order.prepayment" :options="parcelReminderValues" v-if="!order.wfp_payment"/>
+                    <select-component v-model="order.prepayment" :options="parcelReminderValues"
+                                      v-if="!order.wfp_payment"/>
                     <select-component v-model="order.prepayment" :options="parcelReminderValues" v-else disabled/>
                 </div>
                 <div class="block mb-5">
                     <label-component value="Сума передоплати (грн.)"/>
-                    <input-component v-model="order.prepayment_sum" type="number" v-if="order.prepayment && !order.wfp_payment"/>
+                    <input-component v-model="order.prepayment_sum" type="number"
+                                     v-if="order.prepayment && !order.wfp_payment"/>
                     <input-component v-model="order.prepayment_sum" type="number" v-else disabled/>
                     <span v-if="order.wfp_payment">Оплачено на сайті</span>
                 </div>
@@ -166,6 +168,22 @@
                 </p>
             </div>
         </div>
+
+        <div class="block">
+            <button-component type="button" @click="addInvoice" class="my-4">Додати рахунок</button-component>
+            <InvoicesTable :data="order.invoices"
+                           :statuses="invoiceStatuses"
+                           :can-destroy="can('destroy-invoices')"
+                           @onDestroy="onDestroyInvoice"
+                           v-if="order.invoices.length"
+            />
+            <component :is="invoiceModal"
+                       :item="state.invoiceItem"
+                       @closeModal="invoiceModalFunction"
+                       @submitForm="onAddInvoice"
+                       @declineForm="invoiceModalFunction"
+            />
+        </div>
     </form>
 </template>
 
@@ -174,18 +192,28 @@ import {computed, onMounted, reactive, ref, inject} from "vue";
 import ModalAddItemToOrder from '@/Pages/Admin/Crm/Orders/ItemsModal.vue'
 import ItemsTable from '@/Pages/Admin/Crm/Orders/ItemsTable.vue'
 import ClientOrders from '@/Pages/Admin/Crm/Orders/ClientOrders.vue'
+import InvoicesTable from '@/Pages/Admin/Crm/Invoices/Table.vue';
+import InvoiceModal from '@/Pages/Admin/Crm/Invoices/Modal.vue';
 
 const emits = defineEmits([
     'submitItemForm',
     'onEditClient'
 ])
 
-const swal = inject('$swal');
 
-const props = defineProps(['order', 'statuses', 'paymentMethods'])
+const swal = inject('$swal');
+const can = inject('$can');
+
+const props = defineProps(['order', 'statuses', 'paymentMethods', 'invoiceStatuses'])
+
+const invoiceItem = reactive({
+    order_id: props.order.id,
+    sum: null,
+})
 
 const state = ref({
     showItemsModal: false,
+    showInvoicesModal: false,
     itemsModalAction: '',
     item: {
         count: 1,
@@ -193,6 +221,7 @@ const state = ref({
         color: '',
         product_id: null
     },
+    invoiceItem: {},
     statuses: [],
     managers: [],
     paymentMethods: [],
@@ -217,6 +246,7 @@ onMounted(() => {
 })
 
 const itemsModal = computed(() => state.value.showItemsModal ? ModalAddItemToOrder : null);
+const invoiceModal = computed(() => state.value.showInvoicesModal ? InvoiceModal : null);
 
 const parcelReminderValues = reactive([
     {
@@ -228,6 +258,68 @@ const parcelReminderValues = reactive([
         value: 'Так',
     }
 ])
+
+function invoiceModalFunction() {
+    state.value.showInvoicesModal = !state.value.showInvoicesModal
+};
+
+function onDestroyInvoice(id) {
+    if (can('destroy-invoices')) {
+        swal({
+            title: 'Видалити?',
+            icon: 'warning',
+            showCancelButton: true,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.delete(route('api.invoices.destroy', id))
+                    .then(() => {
+                        emits('submitItemForm');
+                        swal({
+                            icon: 'success',
+                            title: 'Destroyed!'
+                        })
+                    })
+                    .catch(errors => {
+                        console.log(errors);
+                        swal({
+                            icon: 'error',
+                            title: 'Error!'
+                        })
+                    })
+            }
+        })
+
+    }
+}
+
+function addInvoice() {
+    if (can('create-invoices')) {
+        state.value.invoiceItem = invoiceItem;
+        invoiceModalFunction();
+    }
+}
+
+function onAddInvoice() {
+    axios.post(route('api.invoices.create'), state.value.invoiceItem)
+        .then(({data}) => {
+            state.value.invoiceItem = invoiceItem;
+            invoiceModalFunction();
+            navigator.clipboard.writeText(data.result.data.invoice_url);
+            swal({
+                title: 'Успішно!',
+                text: 'Рахунок був успішно створений, посилання на оплату скопійовано в буфер обміну',
+                icon: 'success'
+            });
+            emits('submitItemForm', data.result);
+        })
+        .catch((response) => {
+            console.log(response);
+            swal({
+                title: 'Error!',
+                icon: 'error'
+            })
+        })
+}
 
 function sendWaybill() {
     if (props.order.waybill) {
