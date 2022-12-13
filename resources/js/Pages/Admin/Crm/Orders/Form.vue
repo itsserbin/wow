@@ -163,7 +163,7 @@
                 <p class="font-semibold text-l text-gray-900 dark:text-white">
                     Промо-код:&nbsp;
                 </p>
-                <p class="text-l  text-gray-900 dark:text-white">
+                <p class="text-l text-gray-900 dark:text-white">
                     {{ order.promo_code ? order.promo_code : 'Відсутній' }}
                 </p>
             </div>
@@ -176,6 +176,7 @@
                            :can-destroy="can('destroy-invoices')"
                            @onDestroy="onDestroyInvoice"
                            v-if="order.invoices.length"
+                           @onSendInvoiceSms="onSendInvoiceSms"
             />
             <component :is="invoiceModal"
                        :item="state.invoiceItem"
@@ -440,5 +441,14 @@ function editOrderItem(id) {
     axios.get(route('api.order-items.edit', id))
         .then(({data}) => state.value.item = data.result)
         .catch((response) => console.log(response))
+}
+
+function onSendInvoiceSms() {
+    swal({
+        title: 'Успішно',
+        text: 'Посилання на оплату надіслано клієнту',
+        icon: 'success'
+    });
+    emits('submitItemForm');
 }
 </script>

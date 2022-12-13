@@ -30,6 +30,7 @@
                            @onEdit="onEdit"
                            @onDestroy="onDestroy"
                            :can-destroy="can('destroy-invoices')"
+                           @onSendInvoiceSms="onSendInvoiceSms"
                     />
 
                     <div class="text-center">
@@ -247,5 +248,14 @@ function create() {
         state.value.modalAction = 'create';
         modalFunction();
     }
+}
+
+function onSendInvoiceSms() {
+    swal({
+        title: 'Успішно',
+        text: 'Посилання на оплату надіслано клієнту',
+        icon: 'success'
+    });
+    fetch();
 }
 </script>

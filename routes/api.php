@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\PagesController;
 use App\Http\Controllers\Api\PermissionsController;
 use App\Http\Controllers\Api\PromoCodesController;
 use App\Http\Controllers\Api\RolesController;
+use App\Http\Controllers\Api\SmsController;
 use App\Http\Controllers\Api\Statistics\ManagerSalariesController;
 use App\Http\Controllers\Api\Statistics\MarketingStatisticController;
 use App\Http\Controllers\Api\Statistics\OrdersStatisticController;
@@ -595,6 +596,11 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::put('update', [OptionsController::class, 'updateMainOptions'])
                 ->name('api.options.scripts.update');
         });
+    });
+
+    Route::prefix('sms')->group(function () {
+        Route::post('invoice/{id}', [SmsController::class, 'sendInvoice'])
+            ->name('api.sms.invoice');
     });
 });
 

@@ -15,7 +15,17 @@ class InvoicesRepository extends CoreRepository
 
     public function getById($id)
     {
-        return $this->model::where('id', $id)->first();
+        return $this->model::where('id', $id)
+            ->with([
+                'order' => function ($q) {
+                    $q->select('id', 'client_id');
+                    $q->with([
+                        'client' => function ($q) {
+                            $q->select('id', 'phone');
+                        }
+                    ]);
+                }
+            ])->first();
     }
 
     public function getAllWithPaginate()
@@ -26,6 +36,8 @@ class InvoicesRepository extends CoreRepository
                 'order_id',
                 'status',
                 'sum',
+                'sms',
+                'sms_count',
                 'invoice_url',
                 'created_at',
                 'updated_at',
@@ -144,5 +156,13 @@ class InvoicesRepository extends CoreRepository
                 }
             }
         }
+    }
+
+    public function updateSmsCount($id)
+    {
+        $model = $this->getById($id);
+        $model->sms = 1;
+        $model->sms_count++;
+        return $model->update();
     }
 }
