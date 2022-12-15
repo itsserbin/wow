@@ -35,7 +35,7 @@ class SmsService
         $item = $this->invoicesRepository->getById($id);
 
         if (TurboSMS::sendMessages($item->order->client->phone,
-            'Ваш рахунок на оплату:' . "\n" . $item->invoice_url
+            'Ваш рахунок на оплату:' . "\n" . $item->invoice_url . "\n" . "\n" . 'Посилання активне протягом 3-х діб'
         )) {
             return $this->invoicesRepository->updateSmsCount($id);
         } else {
