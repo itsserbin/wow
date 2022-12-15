@@ -198,7 +198,7 @@ class CostsRepository extends CoreRepository
 
     public function create($data)
     {
-        if ($data['cost_type']) {
+        if (array_key_exists('cost_type', $data)) {
             if ($data['cost_type'] == 'range') {
                 $period = new DatePeriod(
                     new DateTime($this->dateFormatFromTimepicker($data['date'][0])),
