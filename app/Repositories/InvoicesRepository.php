@@ -99,6 +99,7 @@ class InvoicesRepository extends CoreRepository
                 'merchantAccount' => env('WFP_MERCHANT_LOGIN'),
                 'merchantDomainName' => env('APP_DOMAIN'),
                 'merchantSignature' => $hmac,
+                'orderTimeout' => 252000000,
                 'apiVersion' => 1,
                 'orderReference' => (string)$item->id,
                 'orderDate' => strtotime($item->created_at),
