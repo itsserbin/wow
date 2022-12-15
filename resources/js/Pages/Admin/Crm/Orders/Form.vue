@@ -142,7 +142,7 @@
                     @destroyOrderItem="destroyOrderItem"
         />
 
-        <div class="grid grid-cols-1 md:grid-cols-3 mt-5">
+        <div class="grid grid-cols-1 md:grid-cols-4 mt-5">
             <div class="flex justify-center">
                 <p class="font-semibold text-l text-gray-900 dark:text-white">
                     Кількість товарів:&nbsp;
@@ -157,6 +157,15 @@
                 </p>
                 <p class="text-l  text-gray-900 dark:text-white">
                     {{ $filters.formatMoney(order.total_price) }}
+                </p>
+            </div>
+
+            <div class="flex justify-center">
+                <p class="font-semibold text-l text-gray-900 dark:text-white">
+                    Ціна на посилку:&nbsp;
+                </p>
+                <p class="text-l  text-gray-900 dark:text-white">
+                    {{ priceForWaybill }}
                 </p>
             </div>
             <div class="flex justify-center">
@@ -207,12 +216,19 @@ const emits = defineEmits([
     'onEditClient'
 ])
 
-
 const swal = inject('$swal');
 const can = inject('$can');
 
-const props = defineProps(['order', 'statuses', 'paymentMethods', 'invoiceStatuses'])
+const props = defineProps(['order', 'statuses', 'paymentMethods', 'invoiceStatuses']);
 
+const priceForWaybill = computed( () => {
+    if (props.order.prepayment) {
+        return props.order.total_price - props.order.prepayment_sum;
+    } else {
+        return props.order.total_price;
+    }
+});
+console.log(priceForWaybill.value)
 const invoiceItem = reactive({
     order_id: props.order.id,
     sum: null,
