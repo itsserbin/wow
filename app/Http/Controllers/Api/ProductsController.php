@@ -77,6 +77,14 @@ class ProductsController extends BaseController
         ]);
     }
 
+    public function search($search): JsonResponse
+    {
+        return $this->returnResponse([
+            'success' => true,
+            'result' => $this->productsRepository->search($search),
+        ]);
+    }
+
     public function getBestSelling(): JsonResponse
     {
         return $this->returnResponse([

@@ -19,6 +19,36 @@ class ProductsRepository extends CoreRepository
         return $this->model->where('id', $id)->with('colors', 'categories', 'images', 'sizes')->first();
     }
 
+    public function search($query)
+    {
+        $columns = [
+            'id',
+            'status',
+            'published',
+            'description',
+            'price',
+            'discount_price',
+            'preview',
+            'h1',
+            'sort',
+            'vendor_code',
+            'viewed',
+            'returns',
+            'exchange',
+            'total_sales',
+            'provider_id',
+            'created_at',
+            'updated_at',
+        ];
+
+        $model = $this->model::select($columns);
+
+        return $model
+            ->where('id', $query)
+            ->orWhere('vendor_code', $query)
+            ->paginate(15);
+    }
+
     public function getAll()
     {
         return $this
@@ -173,18 +203,6 @@ class ProductsRepository extends CoreRepository
                 ->with('sizes')
                 ->get();
         }
-    }
-
-
-    public function search($search, $perPage = 15)
-    {
-        return $this->model::where('id', 'LIKE', "%$search%")
-            ->orWhere('h1', 'LIKE', "%$search%")
-            ->orWhere('content', 'LIKE', "%$search%")
-            ->orWhere('title', 'LIKE', "%$search%")
-            ->orWhere('description', 'LIKE', "%$search%")
-            ->orWhere('vendor_code', 'LIKE', "%$search%")
-            ->paginate($perPage);
     }
 
     public function updateSort(int $id, $value)

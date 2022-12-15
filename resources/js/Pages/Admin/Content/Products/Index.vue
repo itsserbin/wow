@@ -12,7 +12,12 @@
                 </button-component>
             </div>
 
-            <div>
+            <div class="grid grid-cols-1 gap-4">
+                <search-component @search="search"
+                                  :clear="true"
+                                  placeholder="ID або артикул"
+                                  @onClear="fetch"
+                />
                 <Table :data="state.products.data"
                        @onEdit="onEdit"
                        @onDestroy="onDestroy"
@@ -104,6 +109,20 @@ onMounted(() => {
 })
 
 const activeModal = computed(() => state.value.isActiveModal ? ProductModal : null)
+
+function search(query) {
+    state.value.isLoading = true;
+    axios.get(route('api.products.search', query))
+        .then(({data}) => {
+            state.value.currentPage = 1;
+            state.value.products = data.result;
+            state.value.isLoading = false;
+        })
+        .catch(errors => {
+            console.log(errors);
+            state.value.isLoading = false;
+        })
+}
 
 function fetch(page) {
     state.value.isLoading = true;

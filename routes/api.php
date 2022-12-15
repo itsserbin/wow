@@ -70,6 +70,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::get('list', [ProductsController::class, 'list'])
             ->name('api.products.list');
+
+        Route::get('search={search}', [ProductsController::class, 'search'])
+            ->name('api.products.search');
     });
 
     Route::prefix('invoices')->group(function () {

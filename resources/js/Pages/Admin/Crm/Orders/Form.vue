@@ -169,8 +169,14 @@
             </div>
         </div>
 
-        <div class="block">
-            <button-component type="button" @click="addInvoice" class="my-4">Додати рахунок</button-component>
+        <div class="block" v-if="can('show-invoices')">
+            <button-component type="button"
+                              @click="addInvoice"
+                              class="my-4"
+                              v-if="can('create-invoices')"
+            >
+                Додати рахунок
+            </button-component>
             <InvoicesTable :data="order.invoices"
                            :statuses="invoiceStatuses"
                            :can-destroy="can('destroy-invoices')"

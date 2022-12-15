@@ -19,8 +19,25 @@
                     {{app()->getLocale() == 'ua' ? $product->h1['ua'] : $product->h1['ru']}}
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2">
-                    <span class="text-[10px]">Код: {{$product->id}}</span>
-                    <span class="text-[#38af44] text-[14px] font-medium text-end">Товар в наявності</span>
+                   <div>
+                       <span class="text-[10px]">Код: {{$product->id}}</span>
+                       @if(request()->user())
+                           <span class="text-[10px]"> Артикул: {{$product->vendor_code}}</span>
+                       @endif
+                   </div>
+                    @if($product->status == 'in stock')
+                        <span class="text-[#38af44] text-[14px] font-medium text-end">
+                        @lang('product.text_product_in_stock')
+                    </span>
+                    @elseif($product->status == 'ends')
+                        <span class="text-[#FFC300] text-[14px] font-medium text-end">
+                            @lang('product.text_product_ends')
+                        </span>
+                    @else
+                        <span class="text-[#C70039] text-[14px] font-medium text-end">
+                            @lang('product.text_product_out_of_stock')
+                        </span>
+                    @endif
                 </div>
 
                 <add-to-cart product="{{$product}}"></add-to-cart>

@@ -173,11 +173,11 @@ const state = ref({
         },
         {
             key: 'ends',
-            value: 'Нема в наявності'
+            value: 'Закінчується'
         },
         {
             key: 'out of stock',
-            value: 'Закінчується'
+            value: 'Нема в наявності'
         }
     ],
     categories: [],
