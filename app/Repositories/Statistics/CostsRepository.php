@@ -198,27 +198,29 @@ class CostsRepository extends CoreRepository
 
     public function create($data)
     {
-        if ($data['cost_type'] == 'range') {
-            $period = new DatePeriod(
-                new DateTime($this->dateFormatFromTimepicker($data['date'][0])),
-                new DateInterval('P1D'),
-                new DateTime(
-                    DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date'][1])
-                        ->modify('+1 day')
-                        ->format('Y-m-d'))
-            );
-            $sum = round($data['sum'] / iterator_count($period), 2);
+        if ($data['cost_type']) {
+            if ($data['cost_type'] == 'range') {
+                $period = new DatePeriod(
+                    new DateTime($this->dateFormatFromTimepicker($data['date'][0])),
+                    new DateInterval('P1D'),
+                    new DateTime(
+                        DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date'][1])
+                            ->modify('+1 day')
+                            ->format('Y-m-d'))
+                );
+                $sum = round($data['sum'] / iterator_count($period), 2);
 
-            foreach ($period as $key => $value) {
-                $date = $value->format('Y-m-d');
-                $params = [
-                    'comment' => $data['comment'],
-                    'quantity' => $data['quantity'],
-                    'sum' => $sum,
-                    'date' => $date,
-                    'cost_category_id' => $data['cost_category_id'],
-                ];
-                $this->onCreate($params);
+                foreach ($period as $key => $value) {
+                    $date = $value->format('Y-m-d');
+                    $params = [
+                        'comment' => $data['comment'],
+                        'quantity' => $data['quantity'],
+                        'sum' => $sum,
+                        'date' => $date,
+                        'cost_category_id' => $data['cost_category_id'],
+                    ];
+                    $this->onCreate($params);
+                }
             }
         } else {
             $this->onCreate($data);
@@ -269,8 +271,8 @@ class CostsRepository extends CoreRepository
     public function sumAdvertisingCostsByDate($date)
     {
         return $this->model::whereHas('category', function ($q) {
-                $q->where('slug', 'facebook');
-            })
+            $q->where('slug', 'facebook');
+        })
             ->whereDate('date', $date)
             ->select('total')
             ->sum('total');

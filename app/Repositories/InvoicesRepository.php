@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Enums\InvoicesStatus;
 use App\Models\Invoice as Model;
+use Illuminate\Support\Facades\Log;
 
 class InvoicesRepository extends CoreRepository
 {
@@ -128,18 +129,6 @@ class InvoicesRepository extends CoreRepository
         }
     }
 
-    public function update(int $id, array $data)
-    {
-        $model = $this->getById($id);
-
-        $model->order_id = $data['order_id'];
-        $model->status = $data['status'];
-        $model->sum = $data['sum'];
-        $model->invoice_url = $data['invoice_url'];
-
-        return $model->update();
-    }
-
     public function destroy($id)
     {
         return $this->model::destroy($id);
@@ -150,6 +139,7 @@ class InvoicesRepository extends CoreRepository
         foreach ($data as $key => $item) {
             foreach (explode(',', str_replace('"', '', $key)) as $arrItem) {
                 if (explode(':', $arrItem)[0] == 'orderReference') {
+                    Log::info($arrItem);
                     $model = $this->getById(explode(':', $arrItem)[1]);
                     $model->status = InvoicesStatus::PAID_STATUS;
                     return $model->update();
