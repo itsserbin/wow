@@ -19,12 +19,12 @@
                     {{app()->getLocale() == 'ua' ? $product->h1['ua'] : $product->h1['ru']}}
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2">
-                   <div>
-                       <span class="text-[10px]">Код: {{$product->id}}</span>
-                       @if(request()->user())
-                           <span class="text-[10px]"> Артикул: {{$product->vendor_code}}</span>
-                       @endif
-                   </div>
+                    <div class="d-flex text-[10px]">
+                        <div>Код: {{$product->id}}</div>
+                        @if(request()->user())
+                            <div> Артикул: {{$product->vendor_code}}</div>
+                        @endif
+                    </div>
                     @if($product->status == 'in stock')
                         <span class="text-[#38af44] text-[14px] font-medium text-end">
                         @lang('product.text_product_in_stock')
