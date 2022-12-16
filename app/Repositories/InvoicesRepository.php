@@ -137,10 +137,10 @@ class InvoicesRepository extends CoreRepository
 
     public function setInvoiceStatus($data)
     {
+        Log::info($data);
         foreach ($data as $key => $item) {
             foreach (explode(',', str_replace('"', '', $key)) as $arrItem) {
                 if (explode(':', $arrItem)[0] == 'orderReference') {
-                    Log::info($arrItem);
                     $model = $this->getById(explode(':', $arrItem)[1]);
                     $model->status = InvoicesStatus::PAID_STATUS;
                     return $model->update();
