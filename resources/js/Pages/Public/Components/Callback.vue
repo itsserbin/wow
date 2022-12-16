@@ -42,6 +42,7 @@
                                      v-model="state.item.phone"
                                      type="tel"
                     ></input-component>
+                    <input-error v-if="state.errors.phone" v-for="error in state.errors.phone" :message="error"/>
                 </div>
 
                 <div class="block">
@@ -82,7 +83,8 @@ const state = ref({
         name: null,
         phone: null,
         comment: null,
-    }
+    },
+    errors: []
 });
 
 function showModal() {
@@ -112,7 +114,7 @@ function sendForm() {
                 title: 'Виникла помилка',
                 text: 'Перевірте корректність данних',
             })
-            console.log(response);
+            state.value.errors = response.data;
             state.value.isLoading = false;
         })
 }

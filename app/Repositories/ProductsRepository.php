@@ -159,9 +159,14 @@ class ProductsRepository extends CoreRepository
 
     public function updateProductViewed($id)
     {
-        $model = $this->model::where('id', $id)->select('viewed')->first();
+        $model = $this->model::where('id', $id)->select('id', 'viewed')->first();
+        if ($model->viewed) {
+            $model->viewed++;
+        } else {
+            $model->viewed = 1;
+        }
 
-        return $this->model::where('id', $id)->update(['viewed' => ++$model->viewed]);
+        return $model->update();
     }
 
     public function getImages($id)
