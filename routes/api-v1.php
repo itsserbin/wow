@@ -1,15 +1,15 @@
 <?php
 
 use App\Http\Controllers\Api\BannersController;
-use App\Http\Controllers\Api\CallbacksController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\CategoriesController;
 use App\Http\Controllers\Api\FaqsController;
-use App\Http\Controllers\Api\V1\InvoicesController;
-use App\Http\Controllers\Api\V1\OrdersController;
 use App\Http\Controllers\Api\ProductReviewsController;
 use App\Http\Controllers\Api\ProductsController;
 use App\Http\Controllers\Api\SocialReviewsController;
+use App\Http\Controllers\Api\V1\OrdersController;
+use App\Http\Controllers\Api\V1\InvoicesController;
+use App\Http\Controllers\Api\V1\CallbacksController;
 use App\Http\Controllers\Api\V1\SupportsController;
 use App\Http\Controllers\External\NovaPoshtaController;
 use Illuminate\Support\Facades\Route;

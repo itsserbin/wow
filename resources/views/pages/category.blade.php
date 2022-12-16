@@ -20,4 +20,5 @@
     <div class="category-text content">
         {!! app()->getLocale() == 'ua' ? $category->seo_text['ua'] : $category->seo_text['ru'] !!}
     </div>
+    <consultation></consultation>
 @endsection

@@ -4,6 +4,7 @@
 @section('description'){{app()->getLocale() == 'ua' ? $product->description['ua'] : $product->description['ru']}}@endsection
 
 @section('content')
+
     {{ Breadcrumbs::render('home.categories.product',$product) }}
 
     <div class="grid grid-cols-1 gap-4">
@@ -98,4 +99,5 @@
         </div>
         @include('components.support')
     </div>
+    <consultation></consultation>
 @endsection

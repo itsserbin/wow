@@ -43,4 +43,5 @@
         </div>
         @include('components.support')
     </div>
+    <consultation></consultation>
 @endsection

@@ -59,12 +59,14 @@ import Textarea from '@/Pages/Public/Components/Textarea.vue';
 import Input from '@/Pages/Public/Components/Input.vue';
 import InputError from '@/Components/Form/InputError.vue';
 import Callback from '@/Pages/Public/Components/Callback.vue';
+import Consultation from '@/Pages/Public/Components/Consultation.vue';
 import Button from '@/Pages/Public/Components/Button.vue';
 import AllReviewsList from '@/Pages/Public/Components/AllReviewsList.vue';
 
 app.component('cart-icon-component', CartIconComponent)
 app.component('header-component', Header)
 app.component('callback', Callback)
+app.component('consultation', Consultation)
 app.component('categories-component', Categories)
 app.component('faq-component', FaqComponent)
 app.component('loader', Loader)
