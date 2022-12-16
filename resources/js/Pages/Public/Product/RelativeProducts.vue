@@ -4,33 +4,7 @@
             {{ textRelativeProducts }}
         </div>
         <div class="relative-slider">
-            <swiper
-                class="relative-product-slider"
-                :space-between="5"
-                :modules="modules"
-                :navigation="true"
-                :loop="true"
-                :autoplay="{
-                          delay: 3000,
-                          disableOnInteraction: false,
-                        }"
-                :slides-per-view="2"
-                :breakpoints="{
-                          '768': {
-                            slidesPerView: 3,
-                            spaceBetween: 10,
-                          },
-                          '1024': {
-                            slidesPerView: 4,
-                            spaceBetween: 20,
-                          },
-                          '1366': {
-                            slidesPerView: 5,
-                            spaceBetween: 20,
-                          },
-                        }"
-                :lazy="true"
-            >
+            <swiper :modules="modules" v-bind="settings">
 
                 <swiper-slide v-for="(product,i) in products" :key="i">
                     <product-card :product="product"
@@ -43,11 +17,38 @@
 </template>
 
 <script setup>
-import {Autoplay, Lazy, Navigation} from "swiper";
+import {Autoplay, Navigation} from "swiper";
 import {onMounted, ref} from "vue";
 
-const modules = [Navigation, Autoplay, Lazy];
+const modules = [Navigation, Autoplay];
+const settings = {
+    spaceBetween: 5,
+    navigation: true,
+    pagination: {
+        clickable: true,
 
+    },
+    loop: true,
+    autoplay: {
+        delay: 5000,
+        disableOnInteraction: false
+    },
+    slidesPerView: 2,
+    breakpoints: {
+        768: {
+            slidesPerView: 3,
+            spaceBetween: 10,
+        },
+        1024: {
+            slidesPerView: 4,
+            spaceBetween: 20,
+        },
+        1366: {
+            slidesPerView: 5,
+            spaceBetween: 20
+        }
+    }
+}
 const products = ref([]);
 
 const props = defineProps({

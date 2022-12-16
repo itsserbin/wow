@@ -15,9 +15,9 @@
 
         <div class="w-full mx-auto h-56 md:h-72">
             <a :href="route('product',product.id)">
-                <img :src="route('images.350',product.preview) "
+                <img v-lazy
+                     :data-src="route('images.350',product.preview) "
                      :alt="lang === 'ru' ? product.h1.ru : (lang === 'ua' ? product.h1.ua : null)"
-                     loading="lazy"
                      class="h-full object-cover w-full"
                 >
             </a>
@@ -114,12 +114,14 @@
             </div>
         </div>
     </div>
+
 </template>
 
 <script setup>
 import {inject, ref} from "vue";
 import {useStore} from "vuex";
 import {useGtm} from "@gtm-support/vue-gtm";
+import vLazy from '@/Includes/lazyload.js';
 
 const props = defineProps({
     product: Object,

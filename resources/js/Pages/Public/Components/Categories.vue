@@ -7,7 +7,8 @@
                  v-for="item in state.categories">
                 <a :href="route('category',item.slug)" class="text-decoration-none">
                     <div class="h-52">
-                        <img :src="route('images.350',item.preview)"
+                        <img v-lazy
+                             :data-src="route('images.350',item.preview)"
                              :alt="lang === 'ru' ? item.title.ru : (lang === 'ua' ? item.title.ua : null)"
                              class="h-full w-full object-cover"
                         >
@@ -24,6 +25,7 @@
 
 <script setup>
 import {onMounted, ref} from "vue";
+import vLazy from '@/Includes/lazyload.js';
 
 const state = ref({
     categories: [],
