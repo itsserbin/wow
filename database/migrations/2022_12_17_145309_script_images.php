@@ -21,24 +21,29 @@ return new class extends Migration {
             $file = file_get_contents(route('images', $item->src));
             $extension = pathinfo(parse_url(route('images', $item->src), PHP_URL_PATH), PATHINFO_EXTENSION);
             if ($extension !== 'webp') {
-                $name = basename(route('images', $item->src));
+                if ($extension !== 'jpeg') {
+                    $name = preg_replace('"\.(jpg|jpeg|png|webp|svg)$"', '.jpeg', basename(route('images', $item->src)));
+                } else {
+                    $name = basename(route('images', $item->src));
+                }
                 $filename_webp = preg_replace('"\.(jpg|jpeg|png|webp|svg)$"', '.webp', $name);
             } else {
                 $filename_webp = basename(route('images', $item->src));
-                $name = preg_replace('"\.(jpg|jpeg|png|webp|svg)$"', '.jpeg', $filename_webp);
+                $name = preg_replace('"\.(jpg|png|webp|svg)$"', '.jpeg', $filename_webp);
             }
-            $item->webp_src = $filename_webp;
-            $item->src = $name;
-            $item->update();
 
-            Storage::disk('s3')->put('products1/' . $name, Image::make($file)
+            Storage::disk('s3')->put('products1' . $name, Image::make($file)
                 ->encode('jpeg', 100)
                 ->stream()
             );
-            Storage::disk('s3')->put('products1/' . $filename_webp, Image::make($file)
+            Storage::disk('s3')->put('products1' . $filename_webp, Image::make($file)
                 ->encode('webp', 100)
                 ->stream()
             );
+
+            $item->webp_src = $filename_webp;
+            $item->src = $name;
+            $item->update();
 
             Storage::disk('s3')->put('products1/55/' . $name, Image::make($file)
                 ->resize(55, null, function ($constraint) {
