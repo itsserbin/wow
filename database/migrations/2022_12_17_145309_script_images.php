@@ -32,18 +32,14 @@ return new class extends Migration {
                 $name = preg_replace('"\.(jpg|png|webp|svg)$"', '.jpeg', $filename_webp);
             }
 
-            Storage::disk('s3')->put('products1' . $name, Image::make($file)
+            Storage::disk('s3')->put('products1/' . $name, Image::make($file)
                 ->encode('jpeg', 100)
                 ->stream()
             );
-            Storage::disk('s3')->put('products1' . $filename_webp, Image::make($file)
+            Storage::disk('s3')->put('products1/' . $filename_webp, Image::make($file)
                 ->encode('webp', 100)
                 ->stream()
             );
-
-            $item->webp_src = $filename_webp;
-            $item->src = $name;
-            $item->update();
 
             Storage::disk('s3')->put('products1/55/' . $name, Image::make($file)
                 ->resize(55, null, function ($constraint) {
@@ -89,6 +85,10 @@ return new class extends Migration {
                 ->encode('webp', 100)
                 ->stream()
             );
+
+            $item->webp_src = $filename_webp;
+            $item->src = $name;
+            $item->update();
         }
     }
 
