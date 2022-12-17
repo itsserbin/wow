@@ -24,11 +24,25 @@ class UploadImagesService
         $path = ImagesPath::PRODUCT_IMAGE;
 
         $filename = $image->getClientOriginalName();
-        $filename = $this->createFilename($path . $filename, $filename);
+        $extension = $image->getClientOriginalExtension();
+
+        if ($extension !== 'webp') {
+            $filename = $this->createFilename($path . $filename, $filename);
+            $filename_webp = preg_replace('"\.(jpg|jpeg|png|webp|svg)$"', '.webp', $filename);
+        } else {
+            $filename_webp = $this->createFilename($path . $filename, $filename);
+            $filename = preg_replace('"\.(jpg|jpeg|png|webp|svg)$"', '.jpeg', $filename);
+        }
 
         Storage::disk('s3')->put(ImagesPath::PRODUCT_IMAGE . $filename, Image::make($image)->stream());
+        Storage::disk('s3')->put(ImagesPath::PRODUCT_IMAGE . $filename_webp, Image::make($image)->stream());
 
         Storage::disk('s3')->put(ImagesPath::PRODUCT_IMAGE_55 . $filename, Image::make($image)
+            ->resize(55, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->stream()
+        );
+        Storage::disk('s3')->put(ImagesPath::PRODUCT_IMAGE_55 . $filename_webp, Image::make($image)
             ->resize(55, null, function ($constraint) {
                 $constraint->aspectRatio();
             })->stream()
@@ -39,8 +53,18 @@ class UploadImagesService
                 $constraint->aspectRatio();
             })->stream()
         );
+        Storage::disk('s3')->put(ImagesPath::PRODUCT_IMAGE_350 . $filename_webp, Image::make($image)
+            ->resize(350, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->stream()
+        );
 
         Storage::disk('s3')->put(ImagesPath::PRODUCT_IMAGE_500 . $filename, Image::make($image)
+            ->resize(500, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->stream()
+        );
+        Storage::disk('s3')->put(ImagesPath::PRODUCT_IMAGE_500 . $filename_webp, Image::make($image)
             ->resize(500, null, function ($constraint) {
                 $constraint->aspectRatio();
             })->stream()
@@ -48,6 +72,7 @@ class UploadImagesService
 
         $this->imagesRepository->create([
             'src' => $filename,
+            'webp_src' => $filename_webp,
             'alt' => null
         ]);
 
