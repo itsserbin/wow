@@ -22,14 +22,14 @@ return new class extends Migration {
             $extension = pathinfo(parse_url(route('images', $item->src), PHP_URL_PATH), PATHINFO_EXTENSION);
             if ($extension !== 'webp') {
                 if ($extension !== 'jpeg') {
-                    $name = preg_replace('"\.(jpg|jpeg|png|webp|svg)$"', '.jpeg', basename(route('images', $item->src)));
+                    $name = preg_replace('"\.(jpg|jpeg|png|webp)$"', '.jpeg', basename(route('images', $item->src)));
                 } else {
                     $name = basename(route('images', $item->src));
                 }
-                $filename_webp = preg_replace('"\.(jpg|jpeg|png|webp|svg)$"', '.webp', $name);
+                $filename_webp = preg_replace('"\.(jpg|jpeg|png|webp)$"', '.webp', $name);
             } else {
                 $filename_webp = basename(route('images', $item->src));
-                $name = preg_replace('"\.(jpg|png|webp|svg)$"', '.jpeg', $filename_webp);
+                $name = preg_replace('"\.(jpg|png|webp)$"', '.jpeg', $filename_webp);
             }
 
             Storage::disk('s3')->put('products1/' . $name, Image::make($file)
@@ -86,9 +86,9 @@ return new class extends Migration {
                 ->stream()
             );
 
-            $item->webp_src = $filename_webp;
-            $item->src = $name;
-            $item->update();
+//            $item->webp_src = $filename_webp;
+//            $item->src = $name;
+//            $item->update();
         }
     }
 
