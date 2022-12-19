@@ -29,6 +29,7 @@ class Options
         'text_home_page_ua',
         'text_home_page_ru',
         'callback_status',
+        'consultation_status',
         'text_heading_home_page_ua',
         'text_heading_home_page_ru',
     ];

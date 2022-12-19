@@ -46,11 +46,6 @@ defineProps(['title']);
 
 const items =[
     {
-        title: 'Головна',
-        permission: 'show-options',
-        href: route('admin.options.index')
-    },
-    {
         title: 'Основні',
         permission: 'show-main-options',
         href: route('admin.options.main')

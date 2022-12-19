@@ -43,5 +43,7 @@
         </div>
         @include('components.support')
     </div>
-    <consultation></consultation>
+    @if($options['consultation_status'] == 'on')
+        <consultation></consultation>
+    @endif
 @endsection

@@ -18,8 +18,8 @@ return new class extends Migration {
     {
         $items = \App\Models\Image::orderBy('id', 'desc')->get();
         foreach ($items as $item) {
-            $file = file_get_contents(route('images', $item->src));
             $extension = pathinfo(parse_url(route('images', $item->src), PHP_URL_PATH), PATHINFO_EXTENSION);
+
             if ($extension !== 'webp') {
                 if ($extension !== 'jpeg') {
                     $name = preg_replace('"\.(jpg|jpeg|png|webp)$"', '.jpeg', basename(route('images', $item->src)));
@@ -29,8 +29,9 @@ return new class extends Migration {
                 $filename_webp = preg_replace('"\.(jpg|jpeg|png|webp)$"', '.webp', $name);
             } else {
                 $filename_webp = basename(route('images', $item->src));
-                $name = preg_replace('"\.(jpg|png|webp)$"', '.jpeg', $filename_webp);
+                $name = preg_replace('"\.(jpg|jpeg|png|webp)$"', '.jpeg', $filename_webp);
             }
+            $file = file_get_contents(route('images', $item->src));
 
             Storage::disk('s3')->put('products1/' . $name, Image::make($file)
                 ->encode('jpeg', 100)
