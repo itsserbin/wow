@@ -16,13 +16,11 @@ return new class extends Migration {
     {
         $previews = [];
 
-        foreach (\App\Models\Product::select('id', 'preview')->orderBy('id', 'desc')->get() as $product) {
-//            array_push($previews, $product->id = $product->preview);
-            array_push($previews, ['id' => $product->id, 'preview' => $product->preview]);
+        foreach (\App\Models\Category::select('id', 'preview')->orderBy('id', 'desc')->get() as $category) {
+            array_push($previews, ['id' => $category->id, 'preview' => $category->preview]);
         }
 
-
-        Schema::table('products', function (Blueprint $table) {
+        Schema::table('categories', function (Blueprint $table) {
             $table->foreignId('preview_id')
                 ->nullable()
                 ->constrained('images')
@@ -33,7 +31,7 @@ return new class extends Migration {
         foreach ($previews as $item) {
             if ($item['preview']) {
                 $extension = (new SplFileInfo($item['preview']))->getExtension();
-                $model = \App\Models\Product::where('id', $item['id'])->first();
+                $model = \App\Models\Category::where('id', $item['id'])->first();
                 if ($extension == 'webp') {
                     $image = \App\Models\Image::where('webp_src', urlencode($item['preview']))->first();
                 } elseif ($extension == 'jpeg') {

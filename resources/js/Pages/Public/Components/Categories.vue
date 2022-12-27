@@ -7,11 +7,13 @@
                  v-for="item in state.categories">
                 <a :href="route('category',item.slug)" class="text-decoration-none">
                     <div class="h-52">
-                        <img v-lazy
-                             :data-src="route('images.350',item.preview)"
-                             :alt="lang === 'ru' ? item.title.ru : (lang === 'ua' ? item.title.ua : null)"
-                             class="h-full w-full object-cover"
-                        >
+                        <picture class="w-full">
+                            <source :srcset="route('images.350',item.preview.webp_src)" type="image/webp">
+                            <img v-lazy
+                                 :data-src="route('images.350',item.preview.src) "
+                                 class="h-full object-cover w-full"
+                            >
+                        </picture>
                     </div>
 
                     <div class="font-bold text-center p-5">

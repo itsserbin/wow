@@ -54,8 +54,9 @@ class CategoriesRepository extends CoreRepository
                 'meta_keyword',
                 'created_at',
                 'updated_at',
-                'preview',
+                'preview_id',
             )
+            ->with('preview')
             ->orderBy($sort, $param)
             ->paginate($perPage);
     }
@@ -72,9 +73,9 @@ class CategoriesRepository extends CoreRepository
                 'id',
                 'title',
                 'slug',
-                'preview',
+                'preview-id',
                 'parent_id'
-            )->get();
+            )->whith('preview')->get();
     }
 
     /**
@@ -106,13 +107,14 @@ class CategoriesRepository extends CoreRepository
             'id',
             'title',
             'slug',
-            'preview'
+            'preview_id'
         ];
 
         return $this
             ->model::select($columns)
             ->where('published', 1)
             ->orderBy('sort', 'desc')
+            ->with('preview')
             ->get();
     }
 

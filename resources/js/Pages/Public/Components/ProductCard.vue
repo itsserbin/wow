@@ -15,19 +15,19 @@
 
         <div class="w-full mx-auto h-56 md:h-72">
             <a :href="route('product',product.id)">
-<!--                <picture>-->
-<!--                    <source :srcset="route('images.350',productPreview(product.preview))" type="image/webp">-->
-<!--                    <img v-lazy-->
-<!--                         :data-src="route('images.350',product.preview) "-->
-<!--                         :alt="lang === 'ru' ? product.h1.ru : (lang === 'ua' ? product.h1.ua : null)"-->
-<!--                         class="h-full object-cover w-full"-->
-<!--                    >-->
-<!--                </picture>-->
-                <img v-lazy
-                     :data-src="route('images.350',product.preview) "
-                     :alt="lang === 'ru' ? product.h1.ru : (lang === 'ua' ? product.h1.ua : null)"
-                     class="h-full object-cover w-full"
-                >
+                <picture>
+                    <source :srcset="route('images.350',product.preview.webp_src)" type="image/webp">
+                    <img v-lazy
+                         :data-src="route('images.350',product.preview.src) "
+                         :alt="lang === 'ru' ? product.h1.ru : (lang === 'ua' ? product.h1.ua : null)"
+                         class="h-full object-cover w-full"
+                    >
+                </picture>
+                <!--                <img v-lazy-->
+                <!--                     :data-src="route('images.350',product.preview) "-->
+                <!--                     :alt="lang === 'ru' ? product.h1.ru : (lang === 'ua' ? product.h1.ua : null)"-->
+                <!--                     class="h-full object-cover w-full"-->
+                <!--                >-->
             </a>
         </div>
 
@@ -126,10 +126,9 @@
 </template>
 
 <script setup>
-import {computed, inject, ref} from "vue";
+import {inject, ref} from "vue";
 import {useStore} from "vuex";
 import {useGtm} from "@gtm-support/vue-gtm";
-import vLazy from '@/Includes/lazyload.js';
 
 const props = defineProps({
     product: Object,
@@ -143,9 +142,6 @@ const props = defineProps({
 const store = useStore();
 const swal = inject('$swal');
 const gtm = useGtm();
-const productPreview = computed(() => (image) => {
-    return image.split('.')[0] + '.webp';
-})
 const item = ref({
     count: 1,
     size: [],

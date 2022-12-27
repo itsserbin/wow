@@ -16,7 +16,45 @@ class ProductsRepository extends CoreRepository
 
     public function getById($id): Model
     {
-        return $this->model->where('id', $id)->with('colors', 'categories', 'images', 'sizes')->first();
+        return $this->model
+            ->where('id', $id)
+            ->with(
+                'colors',
+                'categories',
+                'images',
+                'sizes',
+                'preview'
+            )->first();
+    }
+
+    public function getByIdToPublic($id): Model
+    {
+        return $this->model
+            ->select(
+                'id',
+                'status',
+                'published',
+                'h1',
+                'title',
+                'description',
+                'content',
+                'price',
+                'discount_price',
+                'characteristics',
+                'youtube',
+                'vendor_code',
+                'preview_id',
+                'size_table',
+            )
+            ->where('id', $id)
+            ->with(
+                'reviews',
+                'colors',
+                'categories',
+                'images',
+                'sizes',
+                'preview'
+            )->first();
     }
 
     public function search($query)
@@ -99,7 +137,7 @@ class ProductsRepository extends CoreRepository
 
     public function getProduct($id)
     {
-        return $this->model::with('sizes')->find($id);
+        return $this->model::with('sizes', 'preview')->find($id);
     }
 
     public function getItemsWithPaginateOnProduction($perPage = null)
@@ -109,7 +147,7 @@ class ProductsRepository extends CoreRepository
             'price',
             'published',
             'discount_price',
-            'preview',
+            'preview_id',
             'sort',
             'h1',
         ];
@@ -117,6 +155,7 @@ class ProductsRepository extends CoreRepository
         return $this
             ->model::where('published', 1)
             ->select($columns)
+            ->with('preview')
             ->orderBy('sort', 'desc')
             ->paginate($perPage);
     }
@@ -128,7 +167,7 @@ class ProductsRepository extends CoreRepository
             'price',
             'published',
             'discount_price',
-            'preview',
+            'preview_id',
             'sort',
             'h1',
         ];
@@ -140,7 +179,7 @@ class ProductsRepository extends CoreRepository
             })
             ->select($columns)
             ->orderBy('total_sales', 'desc')
-            ->with('sizes')
+            ->with('sizes', 'preview')
             ->paginate($perPage);
     }
 
@@ -178,36 +217,25 @@ class ProductsRepository extends CoreRepository
     {
         $product = $this->model::where('id', $id)->with('categories')->first();
 
+        $model = $this->model::where('id', '!=', $id)
+            ->where('published', 1)
+            ->select(
+                'id',
+                'h1',
+                'price',
+                'discount_price',
+                'preview_id'
+            );
+
         if (count($product->categories)) {
-            return $this->model::where('id', '!=', $id)
-                ->where('published', 1)
-                ->select(
-                    'id',
-                    'h1',
-                    'price',
-                    'discount_price',
-                    'preview'
-                )
-                ->whereHas('categories', function ($q) use ($product) {
-                    $q->where('id', $product->categories[0]->id);
-                })
-                ->limit($limit)
-                ->with('sizes')
-                ->get();
-        } else {
-            return $this->model::where('id', '!=', $id)
-                ->where('published', 1)
-                ->select(
-                    'id',
-                    'h1',
-                    'price',
-                    'discount_price',
-                    'preview'
-                )
-                ->limit($limit)
-                ->with('sizes')
-                ->get();
+            $model->whereHas('categories', function ($q) use ($product) {
+                $q->where('id', $product->categories[0]->id);
+            });
         }
+
+        return $model->limit($limit)
+            ->with('sizes', 'preview')
+            ->get();
     }
 
     public function updateSort(int $id, $value)
@@ -371,7 +399,7 @@ class ProductsRepository extends CoreRepository
             'price',
             'published',
             'discount_price',
-            'preview',
+            'preview_id',
             'total_sales',
             'h1',
         ];
@@ -380,7 +408,7 @@ class ProductsRepository extends CoreRepository
             ->model::where('published', 1)
             ->select($columns)
             ->orderBy('total_sales', 'desc')
-            ->with('sizes')
+            ->with('sizes', 'preview')
             ->paginate($perPage);
     }
 
@@ -391,7 +419,7 @@ class ProductsRepository extends CoreRepository
             'price',
             'published',
             'discount_price',
-            'preview',
+            'preview_id',
             'total_sales',
             'h1',
         ];
@@ -400,6 +428,7 @@ class ProductsRepository extends CoreRepository
             ->model::where('published', 1)
             ->select($columns)
             ->orderBy('total_sales', 'desc')
+            ->with('preview')
             ->limit(10)
             ->get();
     }
@@ -411,7 +440,7 @@ class ProductsRepository extends CoreRepository
             'price',
             'published',
             'discount_price',
-            'preview',
+            'preview_id',
             'h1',
             'created_at',
         ];
@@ -420,7 +449,7 @@ class ProductsRepository extends CoreRepository
             ->model::where('published', 1)
             ->select($columns)
             ->orderBy('created_at', 'desc')
-            ->with('sizes')
+            ->with('sizes', 'preview')
             ->paginate(8);
     }
 
@@ -431,7 +460,7 @@ class ProductsRepository extends CoreRepository
             'price',
             'published',
             'discount_price',
-            'preview',
+            'preview_id',
             'total_sales',
             'created_at',
             'h1',
@@ -441,7 +470,7 @@ class ProductsRepository extends CoreRepository
             ->model::where('published', 1)
             ->select($columns)
             ->orderBy('created_at', 'desc')
-            ->with('sizes')
+            ->with('sizes','preview')
             ->paginate(3);
     }
 
@@ -481,6 +510,7 @@ class ProductsRepository extends CoreRepository
                     }
                 })
                 ->orderBy('total_sales', 'desc')
+                ->with('preview')
                 ->limit($limit)
                 ->get();
 
@@ -516,8 +546,8 @@ class ProductsRepository extends CoreRepository
                 'status',
                 'discount_price',
                 'price',
-                'preview',
-            )->with('images')->get();
+                'preview_id',
+            )->with('images', 'preview')->get();
     }
 
     public function getAllProductsToFbFeed()
@@ -529,7 +559,7 @@ class ProductsRepository extends CoreRepository
                 $query->where('status', '!=', ProductAvailability::OUT_OF_STOCK);
             })
             ->orderBy('created_at', 'desc')
-            ->with('images')
+            ->with('images', 'preview')
             ->get();
     }
 
@@ -543,7 +573,7 @@ class ProductsRepository extends CoreRepository
                 $query->where('status', '!=', ProductAvailability::OUT_OF_STOCK);
             })
             ->orderBy('created_at', 'desc')
-            ->with('images')
+            ->with('images', 'preview')
             ->get();
     }
 
@@ -558,7 +588,7 @@ class ProductsRepository extends CoreRepository
                 $query->where('status', '!=', ProductAvailability::OUT_OF_STOCK);
             })
             ->orderBy('created_at', 'desc')
-            ->with('images')
+            ->with('images', 'preview')
             ->get();
     }
 
@@ -574,7 +604,7 @@ class ProductsRepository extends CoreRepository
                 $query->where('status', '!=', ProductAvailability::OUT_OF_STOCK);
             })
             ->orderBy('created_at', 'desc')
-            ->with('images')
+            ->with('images', 'preview')
             ->get();
     }
 
@@ -586,7 +616,7 @@ class ProductsRepository extends CoreRepository
                 'price',
                 'published',
                 'discount_price',
-                'preview',
+                'preview_id',
                 'total_sales',
                 'h1',
             ];
@@ -595,7 +625,7 @@ class ProductsRepository extends CoreRepository
                 ->model::where('published', 1)
                 ->select($columns)
                 ->orderBy('total_sales', 'desc')
-                ->with('sizes')
+                ->with('sizes', 'preview')
                 ->paginate(12);
         }
     }

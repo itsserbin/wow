@@ -20,6 +20,8 @@ class CartItem extends Model
 
     public function product(): HasOne
     {
-        return $this->hasOne(Product::class, 'id', 'product_id');
+        return $this->hasOne(Product::class, 'id', 'product_id')
+            ->select('id', 'preview_id', 'h1', 'price', 'discount_price')
+            ->with('preview');
     }
 }

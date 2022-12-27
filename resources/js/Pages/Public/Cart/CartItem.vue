@@ -12,9 +12,10 @@
                             mt-[29px]
                         "
                 ></div>
-                <img :src="route('images.350',item.image)"
-                     :alt="item.name.ua ? item.name.ua : item.name.ru"
-                     class="p-[25px] pr-[1.25rem]">
+                <picture class=" w-full ">
+                    <source :srcset="route('images.350',item.image.webp_src)" type="image/webp">
+                    <img v-lazy :data-src="route('images.350',item.image.src)" class="w-full h-full p-[1.25rem]">
+                </picture>
             </div>
             <div class="absolute cursor-pointer ml-[580px] mt-[15px]" @click="removeFromCart">
                 <svg width="18" height="18"

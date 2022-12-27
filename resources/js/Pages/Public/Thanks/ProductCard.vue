@@ -15,11 +15,10 @@
 
         <div class="w-full mx-auto h-56 md:h-72">
             <a :href="route('product',product.id)">
-                <img :src="route('images.350',product.preview) "
-                     :alt="lang === 'ru' ? product.h1.ru : (lang === 'ua' ? product.h1.ua : null)"
-                     loading="lazy"
-                     class="h-full object-cover w-full"
-                >
+                <picture class=" w-full ">
+                    <source :srcset="route('images.350',product.preview.webp_src)" type="image/webp">
+                    <img v-lazy :data-src="route('images.350',product.preview.src)" class="w-full h-full object-cover ">
+                </picture>
             </a>
         </div>
 
@@ -114,6 +113,7 @@
 </template>
 
 <script setup>
+
 defineProps({
     product: Object,
     lang: String,

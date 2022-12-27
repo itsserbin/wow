@@ -1,9 +1,14 @@
 <template>
     <div class="grid grid-cols-8 border-[1px] border-gray-300 rounded-[10px]">
         <div class="col-span-2">
-            <img :src="route('images.350',item.preview)"
-                 :alt="item.h1.ua ? item.h1.ua : item.h1.ru"
-                 class="p-[25px] pr-[1.25rem]">
+            <picture class=" w-full ">
+                <source :srcset="route('images.350',item.preview.webp_src)" type="image/webp">
+                <img v-lazy :data-src="route('images.350',item.preview.src)" class="w-full h-full p-[1.25rem]">
+            </picture>
+
+<!--            <img :src="route('images.350',item.preview)"-->
+<!--                 :alt="item.h1.ua ? item.h1.ua : item.h1.ru"-->
+<!--                 class="p-[25px] pr-[1.25rem]">-->
         </div>
 
         <div class="col-span-6 p-[20px] flex items-center">

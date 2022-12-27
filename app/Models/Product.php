@@ -57,4 +57,9 @@ class Product extends Model
     {
         return $this->hasMany(OrderItem::class, 'product_id');
     }
+
+    public function preview(): BelongsTo
+    {
+        return $this->belongsTo(Image::class, 'preview_id');
+    }
 }

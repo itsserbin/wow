@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ImagesController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 Route::prefix('images')->group(function () {
     Route::prefix('banners')->group(function () {
@@ -27,3 +28,7 @@ Route::prefix('images')->group(function () {
     Route::get('500/{filename}', [ImagesController::class, 'products500'])
         ->name('images.500');
 });
+
+Route::get('old_images/{filename}', function ($filename) {
+    return Storage::disk('s3')->response('/products/' . $filename);
+})->name('old_images');

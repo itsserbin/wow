@@ -73,6 +73,7 @@ class ShoppingCartService
             ];
         }
 
+
         foreach ($cart->items as $item) {
             if ($item->product) {
                 $total_price += ($item->product->discount_price ?: $item->product->price) * $item->count;

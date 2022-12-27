@@ -5,6 +5,7 @@ import {createGtm} from '@gtm-support/vue-gtm';
 import {ZiggyVue} from '../../../../vendor/tightenco/ziggy/dist/vue.m';
 import store from '@/Includes/store.js';
 import {createI18n} from 'vue-i18n'
+import vLazy from '@/Includes/lazyload.js';
 
 const app = createApp();
 const i18n = createI18n({})
@@ -23,6 +24,7 @@ if (import.meta.env.MODE === 'production' && import.meta.env.VITE_GTM) {
     );
 }
 
+app.directive('lazy', vLazy);
 store.commit('loadCart');
 app.use(i18n)
 app.use(store);

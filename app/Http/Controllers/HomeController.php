@@ -63,7 +63,7 @@ class HomeController extends Controller
 
         return view('pages.product', [
             'options' => $this->getOptions(),
-            'product' => $this->productRepository->getById($id),
+            'product' => $this->productRepository->getByIdToPublic($id),
             'pages' => $this->getPagesList(),
             'advantages' => $this->getAdvantages(),
             'categories' => $this->getCategories(),
