@@ -47,14 +47,16 @@ class ProductsRepository extends CoreRepository
                 'size_table',
             )
             ->where('id', $id)
-            ->with(
-                'reviews',
+            ->with([
+                'reviews' => function ($q) {
+                    $q->where('published', 1);
+                },
                 'colors',
                 'categories',
                 'images',
                 'sizes',
                 'preview'
-            )->first();
+            ])->first();
     }
 
     public function search($query)
@@ -66,7 +68,7 @@ class ProductsRepository extends CoreRepository
             'description',
             'price',
             'discount_price',
-            'preview',
+            'preview_id',
             'h1',
             'sort',
             'vendor_code',
@@ -84,6 +86,7 @@ class ProductsRepository extends CoreRepository
         return $model
             ->where('id', $query)
             ->orWhere('vendor_code', $query)
+            ->with('preview')
             ->paginate(15);
     }
 
@@ -114,7 +117,7 @@ class ProductsRepository extends CoreRepository
             'description',
             'price',
             'discount_price',
-            'preview',
+            'preview_id',
             'h1',
             'sort',
             'vendor_code',
@@ -130,7 +133,7 @@ class ProductsRepository extends CoreRepository
         return $this
             ->model
             ->select($columns)
-            ->with('provider')
+            ->with('provider','preview')
             ->orderBy($sort, $param)
             ->paginate($perPage);
     }
@@ -470,7 +473,7 @@ class ProductsRepository extends CoreRepository
             ->model::where('published', 1)
             ->select($columns)
             ->orderBy('created_at', 'desc')
-            ->with('sizes','preview')
+            ->with('sizes', 'preview')
             ->paginate(3);
     }
 
