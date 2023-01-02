@@ -1,38 +1,28 @@
 <template>
-    <Modal :is-active="props.isActive"
-           @closeModal="$emit('closeModal')"
-           submit-button-text="Ok"
-           cancel-button-text="Load more"
-           @submitForm="$emit('closeModal')"
-           @clickCancel="$emit('loadMoreImages')"
+    <modal-component @closeModal="$emit('closeModal')"
+                     submit-button-text="Зберегти"
+                     cancel-button-text="Скасувати"
+                     @submitForm="$emit('closeModal')"
+                     @clickCancel="$emit('closeModal')"
+                     size="large"
+                     :declineButton="false"
     >
         <template #title>
-            Upload images
+            Завантаження зображень
         </template>
 
         <template #content>
-            <UploadInput :multiple="true"
-                         id="uploadImages"
-                         label="Upload images"
-                         @upload="uploadImagesFunction"
-                         :images="props.images"
-            />
+            <UploadInput @onUpload="onUploadFunction"/>
         </template>
-    </Modal>
+    </modal-component>
 </template>
 
 <script setup>
-import Modal from '@/Components/Modal.vue';
 import UploadInput from '@/Components/Form/UploadImagesInput.vue';
 
-const props = defineProps([
-    'isActive',
-    'images'
-])
+const emits = defineEmits(['closeModal', 'onUpload', 'loadMoreImages'])
 
-const emits = defineEmits(['closeModal', 'uploadImages', 'loadMoreImages'])
-
-function uploadImagesFunction(data) {
-    emits('uploadImages', data);
+function onUploadFunction(data) {
+    emits('onUpload', data);
 }
 </script>

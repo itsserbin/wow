@@ -1,7 +1,5 @@
 <template>
-
     <div>
-
         <div class="
                     fixed
                     top-0

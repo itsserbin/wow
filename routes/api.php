@@ -73,6 +73,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::get('search={search}', [ProductsController::class, 'search'])
             ->name('api.products.search');
+
+        Route::post('update-sort/{id}', [ProductsController::class, 'updateSort'])
+            ->name('api.products.sort.update');
     });
 
     Route::prefix('invoices')->group(function () {

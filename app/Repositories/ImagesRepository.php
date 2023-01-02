@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
+use App\Models\Enums\ImagesPath;
 use App\Models\Image as Model;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class ImagesRepository extends CoreRepository
@@ -29,6 +29,7 @@ class ImagesRepository extends CoreRepository
             'id',
             'alt',
             'src',
+            'webp_src',
         ];
 
         return $this
@@ -43,6 +44,7 @@ class ImagesRepository extends CoreRepository
         $model = new $this->model;
         $model->src = $data['src'];
         $model->alt = $data['alt'];
+        $model->webp_src = $data['webp_src'];
         $model->save();
 
         return $model;
@@ -51,7 +53,6 @@ class ImagesRepository extends CoreRepository
     public function update(string $id, array $data)
     {
         $model = $this->getById($id);
-        $model->src = $data['src'];
         $model->alt = $data['alt'];
         $model->update();
 
@@ -61,9 +62,19 @@ class ImagesRepository extends CoreRepository
     public function destroy($id)
     {
         $model = $this->getById($id);
-        if (File::exists(public_path($model->src))) {
-            File::delete(public_path($model->src));
-        }
+
+        Storage::disk('s3')->delete(ImagesPath::PRODUCT_IMAGE . $model->webp_src);
+        Storage::disk('s3')->delete(ImagesPath::PRODUCT_IMAGE . $model->src);
+
+        Storage::disk('s3')->delete(ImagesPath::PRODUCT_IMAGE_55 . $model->webp_src);
+        Storage::disk('s3')->delete(ImagesPath::PRODUCT_IMAGE_55 . $model->src);
+
+        Storage::disk('s3')->delete(ImagesPath::PRODUCT_IMAGE_500 . $model->webp_src);
+        Storage::disk('s3')->delete(ImagesPath::PRODUCT_IMAGE_500 . $model->src);
+
+        Storage::disk('s3')->delete(ImagesPath::PRODUCT_IMAGE_350 . $model->webp_src);
+        Storage::disk('s3')->delete(ImagesPath::PRODUCT_IMAGE_350 . $model->src);
+
         return $this->model::destroy($id);
     }
 }

@@ -22,6 +22,7 @@
                        @onEdit="onEdit"
                        @onDestroy="onDestroy"
                        :canDestroy="can('destroy-products')"
+                       @onUpdateProductSort="onUpdateProductSort"
                 />
             </div>
 
@@ -176,13 +177,18 @@ function modalFunction() {
 }
 
 function onEdit(id) {
+    state.value.isLoading = true;
     axios.get(route('api.products.edit', id))
         .then(({data}) => {
             state.value.item = data.result;
             state.value.modalAction = 'edit';
             modalFunction();
+            state.value.isLoading = false;
         })
-        .catch((response) => console.log(response))
+        .catch((response) => {
+            console.log(response);
+            state.value.isLoading = false;
+        })
 }
 
 function onUpdate() {
@@ -254,5 +260,25 @@ function destroyImage(image) {
         return item.id === image;
     })
     state.value.item.images.splice(index, 1)
+}
+
+function onUpdateProductSort(product_id, sort) {
+    state.value.isLoading = true;
+    axios.post(route('api.products.sort.update', product_id), {sort: sort})
+        .then(() => {
+            swal({
+                icon: 'success',
+                title: 'Збережено'
+            })
+            state.value.isLoading = false;
+        })
+        .catch((response) => {
+            console.log(response);
+            swal({
+                icon: 'error',
+                title: 'Помилка'
+            })
+            state.value.isLoading = false;
+        })
 }
 </script>

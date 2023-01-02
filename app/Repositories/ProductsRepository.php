@@ -133,7 +133,7 @@ class ProductsRepository extends CoreRepository
         return $this
             ->model
             ->select($columns)
-            ->with('provider','preview')
+            ->with('provider', 'preview')
             ->orderBy($sort, $param)
             ->paginate($perPage);
     }
@@ -309,7 +309,7 @@ class ProductsRepository extends CoreRepository
         $model->provider_id = $data['provider_id'];
         $model->trade_price = $data['trade_price'];
         $model->vendor_code = $data['vendor_code'];
-        $model->preview = $data['preview'];
+        $model->preview_id = $data['preview_id'];
         $model->youtube = $data['youtube'];
         $model->update();
 

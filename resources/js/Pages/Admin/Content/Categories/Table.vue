@@ -13,7 +13,7 @@
             </template>
 
             <template #preview="{data}">
-                <img :src="route('images.55', data.row.preview)"
+                <img :src="data.row.preview_id ? route('images.55', data.row.preview.src) : null"
                      :alt="activeLang === 'ua' ? data.row.title.ua :
                                 (activeLang === 'ru' ? data.row.title.ru : '-')"
                      class="mx-auto w-16"

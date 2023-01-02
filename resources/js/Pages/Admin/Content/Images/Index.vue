@@ -4,10 +4,12 @@
 
         <loader-component v-if="state.isLoading"/>
 
-        <div v-if="!state.isLoading && can('show-images')">
-            <button-component type="btn" @click.prevent="modalUploadImagesFunction" v-if="can('create-images')">
-                Додати
-            </button-component>
+        <div v-if="!state.isLoading && can('show-images')" class="grid grid-cols-1 gap-4">
+            <div>
+                <button-component type="btn" @click.prevent="modalUploadImagesFunction" v-if="can('create-images')">
+                    Додати
+                </button-component>
+            </div>
 
             <List :images="state.imagesList"
                   @clickImage="openImageModal"
@@ -15,27 +17,26 @@
                   @destroyImage="destroyImage"
             />
 
-            <pagination :pagination="state.imagesList"
-                        :click-handler="fetch"
-                        v-model="state.currentPage"
-            />
-
-            <component :is="imageModal"
-                       @closeModal="modalImagesFunction"
-                       @submitForm="updateImage"
-                       @declineForm="destroyImageFromModal"
-                       :image="state.imageModal"
-                       size="large"
-            ></component>
-
-            <component :is="imagesUploadModal"
-                       @closeModal="modalUploadImagesFunction"
-                       @uploadImages="uploadImages"
-                       @loadMoreImages="loadMoreImagesFunction"
-                       :images="state.imageUploadModal"
-                       size="large"
-            ></component>
+            <div class="text-center">
+                <pagination :pagination="state.imagesList"
+                            :click-handler="fetch"
+                            v-model="state.currentPage"
+                />
+            </div>
         </div>
+
+        <component :is="imageModal"
+                   @closeModal="modalImagesFunction"
+                   @submitForm="updateImage"
+                   @declineForm="destroyImageFromModal"
+                   :image="state.imageModal"
+                   size="large"
+        ></component>
+
+        <component :is="imagesUploadModal"
+                   @closeModal="modalUploadImagesFunction"
+                   @onUpload="onUpload"
+        ></component>
     </ContentLayout>
 </template>
 
@@ -69,23 +70,8 @@ const imageModal = computed(() => state.value.isActiveImageModal ? ImageModal : 
 
 onMounted(() => fetch());
 
-function uploadImages(images) {
-    if (can('create-images')) {
-        Array.from(images).forEach(function (image) {
-            let formData = new FormData();
-            formData.append('image', image);
-            axios.post(route('api.images.upload'), formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
-                .then(({data}) => {
-                    state.value.imageUploadModal.push({src: data.result});
-                    fetch();
-                })
-                .catch((response) => console.log(response));
-        })
-    }
+function onUpload() {
+    fetch();
 }
 
 function modalUploadImagesFunction() {
@@ -94,10 +80,6 @@ function modalUploadImagesFunction() {
 
 function modalImagesFunction() {
     state.value.isActiveImageModal = !state.value.isActiveImageModal;
-}
-
-function loadMoreImagesFunction() {
-    state.value.imageUploadModal = [];
 }
 
 function openImageModal(image) {
@@ -126,15 +108,20 @@ function destroyImageFromModal(id) {
 
 function destroyImage(id) {
     if (can('destroy-images')) {
+        state.value.isLoading = true;
         axios.delete(route('api.images.destroy', id))
             .then(() => {
                 fetch();
+                state.value.isLoading = false;
                 swal({
                     icon: 'success',
                     title: 'Destroyed!'
                 })
             })
-            .catch((response) => console.log(response));
+            .catch((response) => {
+                console.log(response);
+                state.value.isLoading = false;
+            });
     }
 }
 

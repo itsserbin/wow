@@ -1,22 +1,15 @@
 <template>
-    <div
-        :class="props.class"
-        class="w-full bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 relative"
-    >
-        <a :href="cardLink" v-if="link">
-            <img class="rounded-lg mx-auto  h-full object-cover"
-                 :src="image"
-                 :alt="alt ? alt : null"
-                 @click="$emit('clickImage')"
-            />
+    <div :class="props.class" class="w-full relative">
+        <a :href="cardLink">
+            <picture>
+                <source :srcset="imageRoute(image.webp_src)" type="image/webp">
+                <img v-lazy
+                     :data-src="imageRoute(image.src)"
+                     :alt="alt ? alt : null"
+                     class="rounded-lg mx-auto  h-full object-cover"
+                >
+            </picture>
         </a>
-
-        <img v-else
-             class="rounded-lg h-full  mx-auto object-cover hover:cursor-pointer"
-             :src="image"
-             :alt="alt ? alt : null"
-             @click="$emit('clickImage')"
-        />
 
         <a v-if="destroyIcon"
            href="javascript:"
@@ -31,10 +24,33 @@
 <script setup>
 import {computed} from "vue";
 import XCircle from '@/Components/Icons/XCircle.vue';
+import vLazy from "@/Includes/lazyload.js";
 
-const props = defineProps(['image', 'alt', 'link', 'destroyIcon', 'id','class'])
+const props = defineProps([
+    'image',
+    'alt',
+    'link',
+    'destroyIcon',
+    'id',
+    'class',
+    'size'
+]);
 
-defineEmits(['destroyImage','clickImage']);
+defineEmits(['destroyImage', 'clickImage']);
 
 const cardLink = computed(() => props.link ? props.link : 'javascript:');
+
+const imageRoute = function (src) {
+    if (src) {
+        if (props.size === '55') {
+            return route('images.55', src);
+        } else if (props.size === '350') {
+            return route('images.350', src);
+        } else if (props.size === '500') {
+            return route('images.500', src);
+        } else {
+            return route('images', src);
+        }
+    }
+}
 </script>

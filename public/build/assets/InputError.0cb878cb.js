@@ -1,0 +1,1 @@
+import{a3 as s,a9 as t,L as a,M as r,O as o,S as c}from"./___vite-browser-external_commonjs-proxy.45af3daa.js";const n={class:"text-sm text-red-600"},p={__name:"InputError",props:["message"],setup(e){return(i,m)=>s((c(),a("div",null,[r("p",n,o(e.message),1)],512)),[[t,e.message]])}};export{p as _};

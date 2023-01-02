@@ -19,13 +19,29 @@
             </div>
 
             <div class="block">
-                <upload-input-component :multiple="false"
-                                        id="uploadCategoryPreview"
-                                        label="Головне зображення"
-                                        @upload="uploadImageFunction"
-                                        :images="state.categoryPreview"
-                                        @onDestroyImage="destroyPreview"
-                />
+                <label-component value="Головне зображення"/>
+                <div class="block mb-7" v-if="item.preview_id">
+                    <ImageCard
+                        :destroyIcon="true"
+                        :image="item.preview"
+                        @destroyImage="destroyPreview"
+                        size="55"
+                    />
+                </div>
+                <div class="block mb-7" v-else>
+                    <button-component type="button" @click="previewModalFunction">Обрати зображення</button-component>
+                    <ImagesSelectModal v-if="state.isActiveSelectedPreviewModal"
+                                       @submitForm="setPreview"
+                                       @closeModal="previewModalFunction"
+                    />
+                </div>
+                <!--                <upload-input-component :multiple="false"-->
+                <!--                                        id="uploadCategoryPreview"-->
+                <!--                                        label="Головне зображення"-->
+                <!--                                        @upload="uploadImageFunction"-->
+                <!--                                        :images="state.categoryPreview"-->
+                <!--                                        @onDestroyImage="destroyPreview"-->
+                <!--                />-->
             </div>
         </div>
 
@@ -63,6 +79,8 @@
 
 <script setup>
 import {inject, onMounted, ref} from "vue";
+import ImagesSelectModal from '@/Components/ImagesSelectModal.vue';
+import ImageCard from '@/Components/ImageCard.vue';
 
 const props = defineProps(['item'])
 const tiny = inject('$tiny');
@@ -72,29 +90,31 @@ const publishedStatuses = inject('$publishedStatuses');
 const state = ref({
     categories: [],
     categoryPreview: [],
+    isActiveSelectedPreviewModal: false,
     activeLang: defaultLang
 });
 
 onMounted(() => {
     getCategoriesList();
-    if (props.item.preview) {
-        previewArray(props.item.preview);
-    }
 });
 
-function previewArray(val) {
-    state.value.categoryPreview.push({
-        src: route('images.55',val)
-    })
+function previewModalFunction() {
+    state.value.isActiveSelectedPreviewModal = !state.value.isActiveSelectedPreviewModal;
+}
+
+function destroyPreview() {
+    props.item.preview_id = null;
+    props.item.preview = {};
 }
 
 function changeLang(val) {
     state.value.activeLang = val;
 }
 
-function destroyPreview() {
-    props.item.preview = null;
-    state.value.categoryPreview = [];
+function setPreview(image) {
+    props.item.preview_id = image.id;
+    props.item.preview.src = image.src;
+    previewModalFunction();
 }
 
 function getCategoriesList() {

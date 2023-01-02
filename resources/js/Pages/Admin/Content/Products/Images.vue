@@ -1,12 +1,14 @@
 <template>
     <swiper
         :slides-per-view="8"
+        :space-between="20"
         :modules="modules"
         navigation
     >
         <swiper-slide v-for="image in images">
-            <ImageCard :image="route('images.350',image.src)"
+            <ImageCard :image="image"
                        :id="image.id"
+                       size="350"
                        :destroyIcon="true"
                        @destroyImage="destroyImage"
             />
@@ -17,12 +19,11 @@
 <script setup>
 import ImageCard from '@/Components/ImageCard.vue';
 import {Swiper, SwiperSlide} from 'swiper/vue';
-import {reactive} from "vue";
 import {Navigation} from "swiper";
 
-const modules = reactive([Navigation]);
+const modules = [Navigation];
 
-const props = defineProps(['images']);
+defineProps(['images']);
 
 const emits = defineEmits(['destroyImage']);
 

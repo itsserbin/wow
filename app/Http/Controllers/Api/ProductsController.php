@@ -85,6 +85,19 @@ class ProductsController extends BaseController
         ]);
     }
 
+    /**
+     * @param int $id
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function updateSort(int $id, Request $request): JsonResponse
+    {
+        return $this->returnResponse([
+            'success' => true,
+            'result' => $this->productsRepository->updateSort($id, $request->get('sort')),
+        ]);
+    }
+
     public function getBestSelling(): JsonResponse
     {
         return $this->returnResponse([

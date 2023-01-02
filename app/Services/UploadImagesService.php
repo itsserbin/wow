@@ -27,7 +27,7 @@ class UploadImagesService
         $extension = $image->getClientOriginalExtension();
 
         if ($extension !== 'webp') {
-            $filename = $this->createFilename($path . $filename, $filename);
+            $filename = preg_replace('"\.(jpg|jpeg|png|webp|svg)$"', '.jpeg', $this->createFilename($path . $filename, $filename));
             $filename_webp = preg_replace('"\.(jpg|jpeg|png|webp|svg)$"', '.webp', $filename);
         } else {
             $filename_webp = $this->createFilename($path . $filename, $filename);

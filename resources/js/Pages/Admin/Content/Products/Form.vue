@@ -38,13 +38,22 @@
             </div>
 
             <div class="block">
-                <upload-input-component :multiple="false"
-                                        id="uploadCategoryPreview"
-                                        label="Головне зображення"
-                                        @upload="uploadProductPreview"
-                                        :images="state.productPreview"
-                                        @onDestroyImage="destroyPreview"
-                />
+                <label-component value="Головне зображення"/>
+                <div class="block mb-7" v-if="product.preview_id">
+                    <ImageCard
+                        :destroyIcon="true"
+                        :image="product.preview"
+                        @destroyImage="destroyPreview"
+                        size="55"
+                    />
+                </div>
+                <div class="block mb-7" v-else>
+                    <button-component type="button" @click="previewModalFunction">Обрати зображення</button-component>
+                    <ImagesSelectModal v-if="state.isActiveSelectedPreviewModal"
+                                       @submitForm="setProductPreview"
+                                       @closeModal="previewModalFunction"
+                    />
+                </div>
             </div>
         </div>
 
@@ -146,6 +155,7 @@
                 <ImagesSelectModal v-if="state.isActiveSelectedImagesModal"
                                    @submitForm="setProductImages"
                                    @closeModal="imagesModalFunction"
+                                   :multiple="true"
                 />
             </div>
         </div>
@@ -154,9 +164,10 @@
 </template>
 
 <script setup>
-import Images from '@/Pages/Admin/Content/Products/Images.vue';
-import ImagesSelectModal from '@/Pages/Admin/Content/Products/ImagesSelectModal.vue';
 import {inject, onMounted, ref} from "vue";
+import Images from '@/Pages/Admin/Content/Products/Images.vue';
+import ImagesSelectModal from '@/Components/ImagesSelectModal.vue';
+import ImageCard from '@/Components/ImageCard.vue';
 
 const emits = defineEmits(['submit', 'setProductImages', 'destroyImage'])
 const props = defineProps(['product'])
@@ -165,6 +176,7 @@ const tiny = inject('$tiny');
 const publishedStatuses = inject('$publishedStatuses');
 const state = ref({
     isActiveSelectedImagesModal: false,
+    isActiveSelectedPreviewModal: false,
     activeLang: defaultLang,
     statusOptions: [
         {
@@ -184,7 +196,6 @@ const state = ref({
     providers: [],
     colors: [],
     sizes: [],
-    productPreview: []
 })
 
 onMounted(() => {
@@ -210,26 +221,15 @@ onMounted(() => {
     axios.get(route('api.sizes.list'))
         .then(({data}) => state.value.sizes = data.result)
         .catch((response) => console.log(response));
-
-    if (props.product.preview) {
-        previewArray(props.product.preview)
-
-    }
 });
-
-function previewArray(val) {
-    state.value.productPreview.push({
-        src: route('images.55', val)
-    })
-}
 
 function changeLang(val) {
     state.value.activeLang = val;
 }
 
-function h1AndCodeAndId({title, id}) {
-    if (title && id) {
-        return `${state.value.activeLang === 'ua' ? title.ua : (state.value.activeLang === 'ru' ? title.ru : '-')} -${id}`;
+function h1AndCodeAndId({h1, id}) {
+    if (h1 && id) {
+        return `${state.value.activeLang === 'ua' ? h1.ua : (state.value.activeLang === 'ru' ? h1.ru : '-')} -${id}`;
     } else {
         return `${id}`;
     }
@@ -239,29 +239,23 @@ function imagesModalFunction() {
     state.value.isActiveSelectedImagesModal = !state.value.isActiveSelectedImagesModal;
 }
 
-function uploadProductPreview(image) {
-    let formData = new FormData();
-    formData.append('image', image);
-    axios.post(route('api.images.upload'), formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data'
-        }
-    })
-        .then(({data}) => {
-            props.product.preview = data.result;
-            previewArray(data.result);
-        })
-        .catch((response) => console.log(response));
+function previewModalFunction() {
+    state.value.isActiveSelectedPreviewModal = !state.value.isActiveSelectedPreviewModal;
 }
 
 function destroyPreview() {
-    props.product.preview = null;
-    state.value.productPreview = [];
+    props.product.preview_id = null;
 }
 
 function setProductImages(images) {
     imagesModalFunction();
     emits('setProductImages', images);
+}
+
+function setProductPreview(image) {
+    props.product.preview_id = image.id;
+    props.product.preview.src = image.src;
+    previewModalFunction();
 }
 
 function destroyImage(image) {

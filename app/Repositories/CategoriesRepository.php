@@ -15,7 +15,7 @@ class CategoriesRepository extends CoreRepository
 
     public function getById($id)
     {
-        return $this->model::find($id);
+        return $this->model::where('id', $id)->with('preview')->first();
     }
 
     /**
@@ -73,9 +73,9 @@ class CategoriesRepository extends CoreRepository
                 'id',
                 'title',
                 'slug',
-                'preview-id',
+                'preview_id',
                 'parent_id'
-            )->whith('preview')->get();
+            )->with('preview')->get();
     }
 
     /**
@@ -134,7 +134,7 @@ class CategoriesRepository extends CoreRepository
         $model->meta_title = $data['meta_title'];
         $model->meta_description = $data['meta_description'];
         $model->meta_keyword = $data['meta_keyword'];
-        $model->preview = $data['preview'];
+        $model->preview_id = $data['preview_id'];
         $model->seo_text = $data['seo_text'];
 
         return $model->save();
@@ -158,7 +158,7 @@ class CategoriesRepository extends CoreRepository
         $model->meta_title = $data['meta_title'];
         $model->meta_description = $data['meta_description'];
         $model->meta_keyword = $data['meta_keyword'];
-        $model->preview = $data['preview'];
+        $model->preview_id = $data['preview_id'];
         $model->seo_text = $data['seo_text'];
 
         $model->update();
