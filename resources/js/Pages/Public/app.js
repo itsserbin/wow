@@ -114,6 +114,7 @@ import SizesTable from '@/Pages/Public/Product/SizesTable.vue';
 import RelativeProducts from '@/Pages/Public/Product/RelativeProducts.vue';
 import BestSellingProducts from '@/Pages/Public/Product/BestSellingProducts.vue';
 import NewProduct from '@/Pages/Public/Product/NewProducts.vue';
+import Content from '@/Pages/Public/Product/Content.vue';
 
 app.component('delivery-and-payment', DeliveryAndPayment);
 app.component('product-images-slider', ProductImagesSlider);
@@ -123,6 +124,7 @@ app.component('sizes-table', SizesTable);
 app.component('relative-products', RelativeProducts);
 app.component('best-selling-product', BestSellingProducts);
 app.component('new-product', NewProduct);
+app.component('product-content', Content);
 
 import CategoryBanners from '@/Pages/Public/Category/Banners.vue';
 import CategoryProducts from '@/Pages/Public/Category/Products.vue';

@@ -4,7 +4,6 @@
 @section('description'){{app()->getLocale() == 'ua' ? $product->description['ua'] : $product->description['ru']}}@endsection
 
 @section('content')
-
     {{ Breadcrumbs::render('home.categories.product',$product) }}
     <div class="grid grid-cols-1 gap-4">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -42,42 +41,56 @@
 
                 <add-to-cart product="{{$product}}"></add-to-cart>
 
-                <sizes-table size-table="{{$product->size_table}}"></sizes-table>
+                <product-content lang="{{app()->getLocale()}}"
+                                 description="{{json_encode($product->content)}}"
+                                 characteristics="{{json_encode($product->characteristics)}}"
+                                 size-table="{{json_encode($product->size_table)}}"
+                                 youtube="{{$product->youtube}}"
+                                 return-and-exchange-ua="{{$options['text_return_and_exchange_ua']}}"
+                                 return-and-exchange-ru="{{$options['text_return_and_exchange_ru']}}"
+                                 delivery-and-payment-ua="{{$options['text_delivery_and_payment_ua']}}"
+                                 delivery-and-payment-ru="{{$options['text_delivery_and_payment_ru']}}"
+                ></product-content>
+                {{--                <sizes-table size-table="{{$product->size_table}}"></sizes-table>--}}
 
-                @if($product->content['ua'] || $product->content['ru'])
-                    <div class="my-2">
-                        {!! app()->getLocale() == 'ua' ? $product->content['ua'] : $product->content['ru'] !!}
-                    </div>
-                @endif
+                {{--                @if($product->content['ua'] || $product->content['ru'])--}}
+                {{--                    <div class="my-2">--}}
+                {{--                        {!! app()->getLocale() == 'ua' ? $product->content['ua'] : $product->content['ru'] !!}--}}
+                {{--                    </div>--}}
+                {{--                @endif--}}
 
-                <delivery-and-payment></delivery-and-payment>
+                {{--                <delivery-and-payment></delivery-and-payment>--}}
             </div>
         </div>
 
-        <div class="grid grid-cols-1 @if($product->youtube) md:grid-cols-3 @else md:grid-cols-2 @endif mt-5 gap-4">
-            <div>
-                @if($product->characteristics['ua'] || $product->characteristics['ru'])
-                    <div class="text-[24px] text-[#000] font-bold mb-5 text-center">
-                        Характеристики
-                    </div>
-                    <div class="characteristics-table flex justify-center">
-                        {!! app()->getLocale() == 'ua' ? $product->characteristics['ua'] : $product->characteristics['ru'] !!}
-                    </div>
-                @endif
-            </div>
-            @if($product->youtube)
-                <div>
-                    <div class="text-[24px] text-[#000] font-bold mb-5 text-center">
-                        Відео-огляд
-                    </div>
-                    <iframe width="100%" height="250px" src="{{$product->youtube}}"></iframe>
-                </div>
-            @endif
-            <div>
-                <product-reviews :reviews="{{json_encode($product->reviews)}}"
-                                 :id="{{$product->id}}"
-                ></product-reviews>
-            </div>
+{{--        <div class="grid grid-cols-1 @if($product->youtube) md:grid-cols-3 @else md:grid-cols-2 @endif mt-5 gap-4">--}}
+{{--            <div>--}}
+{{--                @if($product->characteristics['ua'] || $product->characteristics['ru'])--}}
+{{--                    <div class="text-[24px] text-[#000] font-bold mb-5 text-center">--}}
+{{--                        Характеристики--}}
+{{--                    </div>--}}
+{{--                    <div class="characteristics-table flex justify-center">--}}
+{{--                        {!! app()->getLocale() == 'ua' ? $product->characteristics['ua'] : $product->characteristics['ru'] !!}--}}
+{{--                    </div>--}}
+{{--                @endif--}}
+{{--            </div>--}}
+{{--            @if($product->youtube)--}}
+{{--                <div>--}}
+{{--                    <div class="text-[24px] text-[#000] font-bold mb-5 text-center">--}}
+{{--                        Відео-огляд--}}
+{{--                    </div>--}}
+{{--                    <iframe width="100%" height="250px" src="{{$product->youtube}}"></iframe>--}}
+{{--                </div>--}}
+{{--            @endif--}}
+{{--            <div>--}}
+{{--                <product-reviews :reviews="{{json_encode($product->reviews)}}"--}}
+{{--                                 :id="{{$product->id}}"--}}
+{{--                ></product-reviews>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+
+        <div class="reviews">
+            <all-reviews-carousel/>
         </div>
 
         <div class="grid grid-cols-1 gap-5">

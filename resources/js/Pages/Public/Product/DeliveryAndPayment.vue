@@ -1,12 +1,9 @@
 <template>
     <Accordion>
-
         <AccordionItem>
-
             <template #accordion-trigger>
                 Доставка і оплата
             </template>
-
             <template #accordion-content>
                 <h2 class="text-[24px] font-[600] mt-[15x] mb-[15px]">Банківський переказ на карту</h2>
                 <p>Ви можете сплатити замовлення банківською карткою Visa та MasterCard без комісії, при цьому ви

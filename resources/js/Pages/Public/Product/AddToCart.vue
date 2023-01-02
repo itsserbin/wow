@@ -30,7 +30,7 @@
         <div v-if="state.product.sizes.length">
             <div class="w-full mb-2">Доступні розміри</div>
             <ul class="flex pb-[20px]">
-                <li v-for="size in state.product.sizes">
+                <li v-for="size in state.product.sizes" class="mx-1">
                     <input type="checkbox"
                            :value="size.title"
                            :id="size.title"
