@@ -1,73 +1,34 @@
 <template>
-    <Accordion>
-        <AccordionItem>
-            <template #accordion-trigger>
-                Опис
-            </template>
-            <template #accordion-content>
-                <div class="content" v-html="lang === 'ru' ? state.description.ru : state.description.ua"></div>
-            </template>
-        </AccordionItem>
-
-
-        <AccordionItem>
-            <template #accordion-trigger>
-                Характеристики
-            </template>
-            <template #accordion-content>
-                <div class="characteristics-table flex justify-center"
-                     v-html="lang === 'ru' ? state.characteristics.ru : state.characteristics.ua"
-                ></div>
-            </template>
-        </AccordionItem>
-
-        <AccordionItem>
-            <template #accordion-trigger>
-                Таблиця розмірів
-            </template>
-            <template #accordion-content>
-                <div class="sizes-table"
-                     v-html="state.sizeTable"
-                ></div>
-            </template>
-        </AccordionItem>
-
-        <AccordionItem>
-            <template #accordion-trigger>
-                Доставка і оплата
-            </template>
-            <template #accordion-content>
-                <div class="content"
-                     v-html="lang === 'ru' ? deliveryAndPaymentRu : deliveryAndPaymentUa"
-                ></div>
-            </template>
-        </AccordionItem>
-
-        <AccordionItem>
-            <template #accordion-trigger>
-                Обмін та повернення
-            </template>
-            <template #accordion-content>
-                <div class="content"
-                     v-html="lang === 'ru' ? returnAndExchangeRu : returnAndExchangeUa"
-                ></div>
-            </template>
-        </AccordionItem>
-
-        <AccordionItem v-if="youtube">
-            <template #accordion-trigger>
-                Відео-огляд
-            </template>
-            <template #accordion-content>
-                <iframe width="100%" height="350px" :src="youtube"></iframe>
-            </template>
-        </AccordionItem>
-    </Accordion>
+    <div class="border-b border-red-200 dark:border-red-700">
+        <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-red-500 dark:text-red-400">
+            <li class="mr-2" v-for="item in state" @click="setActiveTab(item.key)">
+                <a href="javascript:"
+                   class="
+                            inline-flex
+                            p-4
+                            border-b-2
+                            border-transparent
+                            rounded-t-lg
+                            hover:text-red-600
+                            hover:border-red-300
+                            dark:hover:text-red-300
+                            group
+                        "
+                   :class="{'text-red-600' : active === item.key}"
+                >
+                    {{ item.label }}
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div v-for="item in state" :class="item.class">
+        <div
+            v-html="active === item.key ? (active === 'sizeTable' ? item.value : (lang === 'ru' ? item.value.ru : item.value.ua )) : null"></div>
+    </div>
 </template>
 
 <script setup>
-import Accordion from "@/Components/Accordion/Accordion.vue";
-import AccordionItem from "@/Components/Accordion/AccordionItem.vue";
+import {ref} from "vue";
 
 const props = defineProps([
     'lang',
@@ -79,10 +40,44 @@ const props = defineProps([
     'returnAndExchangeRu',
     'deliveryAndPaymentUa',
     'deliveryAndPaymentRu',
-])
-const state = {
-    description: JSON.parse(props.description),
-    characteristics: JSON.parse(props.characteristics),
-    sizeTable: JSON.parse(props.sizeTable),
+]);
+
+const active = ref('characteristics');
+
+const state = [
+    {
+        label: 'Характеристики',
+        key: 'characteristics',
+        value: JSON.parse(props.characteristics),
+        class: 'characteristics-table'
+    },
+    {
+        label: 'Таблиця розмірів',
+        key: 'sizeTable',
+        value: JSON.parse(props.sizeTable),
+        class: 'sizes-table'
+    },
+    {
+        label: 'Доставка та оплата',
+        key: 'deliveryAndPayment',
+        value: {
+            ua: props.deliveryAndPaymentUa,
+            ru: props.deliveryAndPaymentRu
+        },
+        class: 'content'
+    },
+    {
+        label: 'Повернення та обмін',
+        key: 'returnAndExchange',
+        value: {
+            ua: props.returnAndExchangeUa,
+            ru: props.returnAndExchangeRu
+        },
+        class: 'content'
+    },
+];
+
+function setActiveTab(val) {
+    active.value = val;
 }
 </script>

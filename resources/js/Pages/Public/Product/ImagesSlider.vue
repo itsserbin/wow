@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="block w-full">
         <swiper
             :slides-per-view="1"
             :space-between="0"
@@ -7,15 +7,17 @@
             :navigation="true"
             :thumbs="{ swiper: thumbsSwiper }"
             :zoom="true"
+            class="swiper-product-slider"
+            :auto-height="true"
             :lazy="true"
         >
             <swiper-slide v-for="(image, i) in state.images">
                 <div class="swiper-zoom-container">
-                    <picture class=" w-full">
+                    <picture class="w-full">
                         <source :srcset="image.webp_src"
                                 type="image/webp">
                         <img :data-src="image.src"
-                             class="w-full h-full image"
+                             class="w-full h-full image block"
                              :key="i"
                              @click="state.index = i"
                         >
@@ -63,7 +65,7 @@ const setThumbsSwiper = (swiper) => {
     thumbsSwiper.value = swiper;
 };
 
-const modules = [Zoom, Thumbs, FreeMode, Navigation, Lazy];
+const modules = [Zoom, Lazy, Thumbs, FreeMode, Navigation];
 
 const state = ref({
     imagesLarge: [],
@@ -75,16 +77,16 @@ const state = ref({
 onMounted(() => {
     const preview = JSON.parse(props.preview);
     state.value.images.push({
-        'webp_src': route('images.500', preview.webp_src),
+        'webp_src': route('images', preview.webp_src),
         'webp_thumbnail': route('images.55', preview.webp_src),
-        'src': route('images.500', preview.src),
+        'src': route('images', preview.src),
         'thumbnail': route('images.55', preview.src),
     })
     JSON.parse(props.images).forEach(item => {
         state.value.images.push({
-            'webp_src': route('images.500', item.webp_src),
+            'webp_src': route('images', item.webp_src),
             'webp_thumbnail': route('images.55', item.webp_src),
-            'src': route('images.500', item.src),
+            'src': route('images', item.src),
             'thumbnail': route('images.55', item.src),
         })
     })
@@ -92,6 +94,43 @@ onMounted(() => {
 </script>
 
 <style>
+
+@media screen and (min-width: 320px) {
+    .swiper-product-slider .swiper-slide:first-child {
+        min-height: 300px;
+    }
+}
+
+@media screen and (min-width: 375px) {
+    .swiper-product-slider .swiper-slide:first-child {
+        min-height: 350px;
+    }
+}
+
+@media screen and (min-width: 420px) {
+    .swiper-product-slider .swiper-slide:first-child {
+        min-height: 400px;
+    }
+}
+
+@media screen and (min-width: 900px) {
+    .swiper-product-slider .swiper-slide:first-child {
+        min-height: 450px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .swiper-product-slider .swiper-slide:first-child {
+        min-height: 500px;
+    }
+}
+
+@media screen and (min-width: 1366px) {
+    .swiper-product-slider .swiper-slide:first-child {
+        min-height: 620px;
+    }
+}
+
 .swiper-product-thumbs .swiper-wrapper {
     justify-content: center;
 }

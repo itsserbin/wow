@@ -106,21 +106,21 @@ app.component('best-selling-products', BestSelling);
 app.component('new-products', NewProducts);
 app.component('all-reviews-carousel', AllReviewsCarousel);
 
-import DeliveryAndPayment from '@/Pages/Public/Product/DeliveryAndPayment.vue';
+// import DeliveryAndPayment from '@/Pages/Public/Product/DeliveryAndPayment.vue';
 import ProductImagesSlider from '@/Pages/Public/Product/ImagesSlider.vue';
 import AddToCart from '@/Pages/Public/Product/AddToCart.vue';
-import ProductReviews from '@/Pages/Public/Product/Reviews.vue';
-import SizesTable from '@/Pages/Public/Product/SizesTable.vue';
+// import ProductReviews from '@/Pages/Public/Product/Reviews.vue';
+// import SizesTable from '@/Pages/Public/Product/SizesTable.vue';
 import RelativeProducts from '@/Pages/Public/Product/RelativeProducts.vue';
 import BestSellingProducts from '@/Pages/Public/Product/BestSellingProducts.vue';
 import NewProduct from '@/Pages/Public/Product/NewProducts.vue';
 import Content from '@/Pages/Public/Product/Content.vue';
 
-app.component('delivery-and-payment', DeliveryAndPayment);
+// app.component('delivery-and-payment', DeliveryAndPayment);
 app.component('product-images-slider', ProductImagesSlider);
 app.component('add-to-cart', AddToCart);
-app.component('product-reviews', ProductReviews);
-app.component('sizes-table', SizesTable);
+// app.component('product-reviews', ProductReviews);
+// app.component('sizes-table', SizesTable);
 app.component('relative-products', RelativeProducts);
 app.component('best-selling-product', BestSellingProducts);
 app.component('new-product', NewProduct);
