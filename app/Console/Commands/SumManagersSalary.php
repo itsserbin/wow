@@ -94,8 +94,8 @@ class SumManagersSalary extends Command
             $item->count_prepayments = $this->ordersRepository->countPrepaymentsByDateAndManagerId($item->date, $item->manager_id);
 //            $item->prepayments_amount = $item->count_prepayments * 10;
 
-            $pr = $this->ordersRepository->countWithParcelReminder($item->date, $item->manager_id);
-            $wpr = $this->ordersRepository->countWithoutParcelReminder($item->date, $item->manager_id);
+//            $pr = $this->ordersRepository->countWithParcelReminder($item->date, $item->manager_id);
+//            $wpr = $this->ordersRepository->countWithoutParcelReminder($item->date, $item->manager_id);
 
             $item->sum_price_applications = $item->total_applications * 15;
 //            $item->sum_price_applications = $pr * 15;
