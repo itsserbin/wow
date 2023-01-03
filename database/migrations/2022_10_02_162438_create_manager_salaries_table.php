@@ -43,6 +43,8 @@ return new class extends Migration {
             $table->integer('price_sale_of_air')->nullable();
             $table->integer('total_sale_of_air')->nullable();
 
+            $table->integer('total_price')->nullable();
+
             $table->timestamps();
         });
     }

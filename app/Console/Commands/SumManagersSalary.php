@@ -97,8 +97,9 @@ class SumManagersSalary extends Command
             $pr = $this->ordersRepository->countWithParcelReminder($item->date, $item->manager_id);
             $wpr = $this->ordersRepository->countWithoutParcelReminder($item->date, $item->manager_id);
 
-            $item->sum_price_applications = $pr * 15;
-            $item->sum_price_applications += $wpr * 12;
+            $item->sum_price_applications = $item->total_applications * 15;
+//            $item->sum_price_applications = $pr * 15;
+//            $item->sum_price_applications += $wpr * 12;
 
 //            if ($item->count_applications <= 50) {
 //                $item->sum_price_applications = $pr * 15;
