@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Log;
 
 class OrdersController extends BaseController
 {
@@ -51,6 +52,7 @@ class OrdersController extends BaseController
     public function setPrepayment(Request $request): Redirector|Application|RedirectResponse
     {
         $result = $this->ordersRepository->setPrepayment($request->all());
+        Log::info((string)$request->all());
 
         if ($result) {
             return redirect(route('thanks', $result->id));
