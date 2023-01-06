@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Enums\InvoicesStatus;
 use App\Models\Order;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -18,7 +19,7 @@ return new class extends Migration {
             $prepayment += $item->prepayment_sum;
             if (count($item->invoices)) {
                 foreach ($item->invoices as $invoice) {
-                    if ($invoice->status == \App\Models\Enums\InvoicesStatus::PAID_STATUS) {
+                    if ($invoice->status == InvoicesStatus::PAID_STATUS) {
                         $prepayment += $invoice->sum;
                     }
                 }
@@ -35,7 +36,7 @@ return new class extends Migration {
             $total = 0;
 
             foreach ($order->invoices as $invoice) {
-                if ($invoice->status == \App\Models\Enums\InvoicesStatus::PAID_STATUS) {
+                if ($invoice->status == InvoicesStatus::PAID_STATUS) {
                     $total += $invoice->sum;
                 }
             }
