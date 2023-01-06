@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Enums\InvoicesStatus;
 use App\Models\Enums\MassActions;
 use App\Models\Enums\OrderStatus;
 use App\Models\Order as Model;
@@ -34,7 +35,7 @@ class OrdersRepository extends CoreRepository
     public function getById($id)
     {
         return $this
-            ->model::with('items.product.provider', 'client.orders', 'manager', 'invoices')
+            ->model::with('items.product.provider', 'client.orders', 'manager', 'invoices','items.product.preview')
             ->find($id);
     }
 
@@ -202,10 +203,10 @@ class OrdersRepository extends CoreRepository
             $model->clear_total_price = $totalClearPrice;
         }
 
-        $model->prepayment = $data['prepayment'];
-        if ($data['prepayment']) {
-            $model->prepayment_sum = $data['prepayment_sum'];
-        }
+//        $model->prepayment = $data['prepayment'];
+//        if ($data['prepayment']) {
+//            $model->prepayment_sum = $data['prepayment_sum'];
+//        }
 
         $model->discount = $data['discount'];
         if ($data['discount']) {
@@ -217,8 +218,36 @@ class OrdersRepository extends CoreRepository
         $model->update();
 
         $this->clientsRepository->updateAvgAndWholeCheck($model->client_id);
-        return $model;
 
+        return $this->sumPrepayment($model->id);
+
+    }
+
+    public function sumPrepayment($order_id)
+    {
+        $model = $this->model::where('id', $order_id)->with('invoices')->first();
+
+        $total = 0;
+
+        if (count($model->invoices)) {
+            foreach ($model->invoices as $invoice) {
+                if ($invoice->status == InvoicesStatus::PAID_STATUS) {
+                    $total += $invoice->sum;
+                }
+            }
+        }
+
+        if ($model->wfp_payment) {
+            $total += $model->prepayment_sum;
+        }
+
+        if ($total) {
+            $model->prepayment = 1;
+            $model->prepayment_sum = $total;
+            $model->update();
+        }
+
+        return $model;
     }
 
     public function destroy(int $id)
@@ -734,7 +763,7 @@ class OrdersRepository extends CoreRepository
             $model->wfp_payment = 1;
             $model->prepayment_sum = $data['amount'];
             $model->update();
-            return $model;
+            return $this->sumPrepayment($model->id);
         } else {
             return 0;
         }

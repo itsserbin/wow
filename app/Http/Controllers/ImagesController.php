@@ -51,5 +51,9 @@ class ImagesController extends Controller
     public function returnImage($path, $filename): StreamedResponse
     {
         return Storage::disk('s3')->response($path . $filename);
+//        try {
+//        } catch (\Exception $e) {
+//
+//        }
     }
 }

@@ -16,8 +16,13 @@
         </template>
 
         <template #preview="{data}">
-            <img :src="data.row.product.preview ? route('images.55',data.row.product.preview) : null"
-                 :alt="data.row.product.h1.ua ? data.row.product.h1.ua : data.row.product.h1.ru">
+            <picture>
+                <source :srcset="route('images.350',data.row.product.preview.webp_src)" type="image/webp">
+                <img :data-src="route('images.350',data.row.product.preview.src) "
+                     :alt="data.row.product.h1.ua ? data.row.product.h1.ua : data.row.product.h1.ru"
+                     class="h-full object-cover w-full"
+                >
+            </picture>
         </template>
 
         <template #color="{data}">

@@ -23,11 +23,6 @@
                          class="h-full object-cover w-full"
                     >
                 </picture>
-                <!--                <img v-lazy-->
-                <!--                     :data-src="route('images.350',product.preview) "-->
-                <!--                     :alt="lang === 'ru' ? product.h1.ru : (lang === 'ua' ? product.h1.ua : null)"-->
-                <!--                     class="h-full object-cover w-full"-->
-                <!--                >-->
             </a>
         </div>
 

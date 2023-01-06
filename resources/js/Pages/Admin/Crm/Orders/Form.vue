@@ -101,21 +101,6 @@
             </div>
             <div class="grid grid-cols-2">
                 <div class="block mb-5 mr-5">
-                    <label-component value="Передоплата"/>
-                    <select-component v-model="order.prepayment" :options="parcelReminderValues"
-                                      v-if="!order.wfp_payment"/>
-                    <select-component v-model="order.prepayment" :options="parcelReminderValues" v-else disabled/>
-                </div>
-                <div class="block mb-5">
-                    <label-component value="Сума передоплати (грн.)"/>
-                    <input-component v-model="order.prepayment_sum" type="number"
-                                     v-if="order.prepayment && !order.wfp_payment"/>
-                    <input-component v-model="order.prepayment_sum" type="number" v-else disabled/>
-                    <span v-if="order.wfp_payment">Оплачено на сайті</span>
-                </div>
-            </div>
-            <div class="grid grid-cols-2">
-                <div class="block mb-5 mr-5">
                     <label-component value="Знижка"/>
                     <select-component v-model="order.discount" :options="parcelReminderValues"/>
                 </div>
@@ -123,6 +108,17 @@
                     <label-component value="Сума знижки (грн.)"/>
                     <input-component v-model="order.discount_sum" type="number" v-if="order.discount"/>
                     <input-component v-model="order.discount_sum" type="number" v-else disabled/>
+                </div>
+            </div>
+            <div class="grid grid-cols-2">
+                <div class="block mb-5 mr-5">
+                    <label-component value="Передоплата"/>
+                    <select-component v-model="order.prepayment" :options="parcelReminderValues" disabled/>
+                </div>
+                <div class="block mb-5">
+                    <label-component value="Сума передоплати (грн.)"/>
+                    <input-component v-model="order.prepayment_sum" type="number" disabled/>
+                    <span v-if="order.wfp_payment">Оплачено на сайті</span>
                 </div>
             </div>
         </div>
@@ -221,14 +217,14 @@ const can = inject('$can');
 
 const props = defineProps(['order', 'statuses', 'paymentMethods', 'invoiceStatuses']);
 
-const priceForWaybill = computed( () => {
+const priceForWaybill = computed(() => {
     if (props.order.prepayment) {
         return props.order.total_price - props.order.prepayment_sum;
     } else {
         return props.order.total_price;
     }
 });
-console.log(priceForWaybill.value)
+
 const invoiceItem = reactive({
     order_id: props.order.id,
     sum: null,

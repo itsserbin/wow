@@ -3,47 +3,47 @@
                      :isSlotMode="true"
                      :rows="data"
     >
-        <template v-slot:id="{data}">
+        <template #id="{data}">
             <a href="javascript:" @click="$emit('onEdit',data.row.id,data.i)">
                 {{ data.row.id }}
             </a>
         </template>
 
-        <template v-slot:name="{data}">
-            {{ data.row.client.name ? data.row.client.name : '-' }}
+        <template #name="{data}">
+            {{ data.row.client ? (data.row.client.name ? data.row.client.name : '-') : null }}
         </template>
 
-        <template v-slot:status="{data}">
+        <template #status="{data}">
             {{ statuses[data.row.status] }}
         </template>
 
-        <template v-slot:last_name="{data}">
-            {{ data.row.client.last_name ? data.row.client.last_name : '-' }}
+        <template #last_name="{data}">
+            {{ data.row.client ? (data.row.client.last_name ? data.row.client.last_name : '-') : null }}
         </template>
 
-        <template v-slot:total_price="{data}">
+        <template #total_price="{data}">
             {{ $filters.formatMoney(data.row.total_price) }}
         </template>
 
-        <template v-slot:phone="{data}">
-            <a :href="'tel:' + data.row.client.phone" >
-                {{ data.row.client.phone }}
+        <template #phone="{data}">
+            <a :href="'tel:' + (data.row.client ? data.row.client.phone : null)">
+                {{ data.row.client ? data.row.client.phone : null }}
             </a>
         </template>
 
-        <template v-slot:comment="{data}">
+        <template #comment="{data}">
             <div class="whitespace-normal w-48">
-                {{data.row.comment ? data.row.comment.substr(0, 30) + '...' : '-'}}
+                {{ data.row.comment ? data.row.comment.substr(0, 30) + '...' : '-' }}
             </div>
         </template>
 
-        <template v-slot:timestamps="{data}">
+        <template #timestamps="{data}">
             {{ $filters.dateTimeFormat(data.row.updated_at) }}
             <hr class="my-1">
             {{ $filters.dateTimeFormat(data.row.created_at) }}
         </template>
 
-        <template v-slot:actions="{data}">
+        <template #actions="{data}">
             <a href="javascript:" @click="$emit('onDestroy',data.row.id)" v-if="canDestroy">
                 <xcircle-component/>
             </a>
@@ -54,8 +54,8 @@
 <script setup>
 import {reactive} from "vue";
 
-defineEmits(['onDestroy','onEdit'])
-defineProps(['data','statuses','canDestroy']);
+defineEmits(['onDestroy', 'onEdit'])
+defineProps(['data', 'statuses', 'canDestroy']);
 
 const headings = reactive([
     {
