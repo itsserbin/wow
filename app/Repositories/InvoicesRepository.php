@@ -145,9 +145,12 @@ class InvoicesRepository extends CoreRepository
         }
 
         if ($params['transactionStatus'] == 'Approved') {
-            $model = $this->getById($params['orderReference']);
+            $model = $this->model::where('id', $params['orderReference'])->with('order')->first();
             $model->status = InvoicesStatus::PAID_STATUS;
-            return $model->update();
+            $model->update();
+
+            $orderRepository = new OrdersRepository();
+            $orderRepository->sumPrepayment($model->order->id);
         }
     }
 

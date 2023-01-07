@@ -11,20 +11,13 @@ use App\Repositories\ProductsRepository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
 {
     private mixed $productRepository;
-
     private mixed $categoriesRepository;
-
     private mixed $optionsRepository;
-
     private mixed $advantagesRepository;
-
     private mixed $pagesRepository;
 
     public function __construct()
