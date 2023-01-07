@@ -10,42 +10,42 @@ use Throwable;
 
 class ImagesController extends Controller
 {
-    public function mobileBanner($filename): StreamedResponse
+    public function mobileBanner($filename)
     {
         return $this->returnImage(ImagesPath::MOBILE_BANNER, $filename);
     }
 
-    public function tableBanner($filename): StreamedResponse
+    public function tableBanner($filename)
     {
         return $this->returnImage(ImagesPath::TABLE_BANNER, $filename);
     }
 
-    public function desktopBanner($filename): StreamedResponse
+    public function desktopBanner($filename)
     {
         return $this->returnImage(ImagesPath::DESKTOP_BANNER, $filename);
     }
 
-    public function products($filename): StreamedResponse
+    public function products($filename)
     {
         return $this->returnImage(ImagesPath::PRODUCT_IMAGE, $filename);
     }
 
-    public function products55($filename): StreamedResponse
+    public function products55($filename)
     {
         return $this->returnImage(ImagesPath::PRODUCT_IMAGE_55, $filename);
     }
 
-    public function products350($filename): StreamedResponse
+    public function products350($filename)
     {
         return $this->returnImage(ImagesPath::PRODUCT_IMAGE_350, $filename);
     }
 
-    public function products500($filename): StreamedResponse
+    public function products500($filename)
     {
         return $this->returnImage(ImagesPath::PRODUCT_IMAGE_500, $filename);
     }
 
-    public function category($filename): StreamedResponse
+    public function category($filename)
     {
         return $this->returnImage(ImagesPath::CATEGORY, $filename);
     }

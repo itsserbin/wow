@@ -16,7 +16,7 @@
                 ">
 
             <div class="
-                        p-4
+                        py-4
                         mb-20
                         w-full
                         h-full
