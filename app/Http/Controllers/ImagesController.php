@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Enums\ImagesPath;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Throwable;
 
 class ImagesController extends Controller
 {
@@ -50,10 +52,10 @@ class ImagesController extends Controller
 
     public function returnImage($path, $filename): StreamedResponse
     {
-        return Storage::disk('s3')->response($path . $filename);
-//        try {
-//        } catch (\Exception $e) {
-//
-//        }
+        try {
+            return Storage::disk('s3')->response($path . $filename);
+        } catch (Throwable $e) {
+            Log::error('img' . $e);
+        }
     }
 }

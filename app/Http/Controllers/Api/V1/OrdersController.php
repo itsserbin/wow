@@ -52,7 +52,6 @@ class OrdersController extends BaseController
     public function setPrepayment(Request $request): Redirector|Application|RedirectResponse
     {
         $result = $this->ordersRepository->setPrepayment($request->all());
-        Log::info((string)$request->all());
 
         if ($result) {
             return redirect(route('thanks', $result->id));
