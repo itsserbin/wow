@@ -23,7 +23,7 @@
                         @if(\Illuminate\Support\Facades\Route::is('xml.fb.manual.3'))
                             {{route('images',$item->images[0]->image)}}
                         @else
-                            {{route('images',$item->preview)}}
+                            {{route('images',$item->preview->src)}}
                         @endif
                     </image_link>
                     <additional_image_link>
