@@ -213,7 +213,7 @@ class ProductsRepository extends CoreRepository
 
     public function getImages($id)
     {
-        return $this->model::where('id', $id)->select('id', 'preview')->with('images')->first();
+        return $this->model::where('id', $id)->select('id', 'preview_id')->with('images','preview')->first();
     }
 
     public function getRelativeProducts($id, $limit = 10)
@@ -363,7 +363,7 @@ class ProductsRepository extends CoreRepository
         $model->provider_id = $data['provider_id'];
         $model->trade_price = $data['trade_price'];
         $model->vendor_code = $data['vendor_code'];
-        $model->preview = $data['preview'];
+        $model->preview_id = $data['preview_id'];
         $model->youtube = $data['youtube'];
         $model->save();
 
