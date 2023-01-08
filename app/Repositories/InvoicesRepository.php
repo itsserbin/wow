@@ -149,8 +149,12 @@ class InvoicesRepository extends CoreRepository
             $model->status = InvoicesStatus::PAID_STATUS;
             $model->update();
 
-            $orderRepository = new OrdersRepository();
-            $orderRepository->sumPrepayment($model->order->id);
+            if ($model->order) {
+                $orderRepository = new OrdersRepository();
+                $orderRepository->sumPrepayment($model->order->id);
+            } else {
+                Log::info('Invoice:' . $model->id);
+            }
         }
     }
 
