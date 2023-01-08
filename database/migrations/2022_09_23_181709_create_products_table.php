@@ -30,13 +30,18 @@ return new class extends Migration {
             $table->json('content')->nullable();
             $table->json('characteristics')->nullable();
             $table->string('vendor_code')->nullable();
-            $table->string('preview')->nullable();
             $table->integer('sort')->nullable()->unsigned();
             $table->text('youtube')->nullable();
             $table->integer('total_sales')->nullable();
             $table->integer('viewed')->nullable();
             $table->integer('returns')->nullable();
             $table->integer('exchange')->nullable();
+
+            $table->foreignId('preview_id')
+                ->nullable()
+                ->constrained('images')
+                ->references('id')
+                ->onDelete('set null');
 
             $table->foreignId('provider_id')
                 ->nullable()

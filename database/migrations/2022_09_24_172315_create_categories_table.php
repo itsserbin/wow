@@ -17,7 +17,13 @@ return new class extends Migration
             $table->id();
             $table->json('title');
             $table->string('slug')->unique();
-            $table->string('preview')->nullable();
+
+            $table->foreignId('preview_id')
+                ->nullable()
+                ->constrained('images')
+                ->references('id')
+                ->onDelete('set null');
+
             $table->integer('parent_id')->nullable();
             $table->tinyInteger('published')->nullable();
             $table->integer('created_by')->nullable();
