@@ -9,12 +9,18 @@
                    type="application/rss+xml"/>
         @if (!empty($products))
 
-        @foreach ($products as $item)
+            @foreach ($products as $item)
                 <item>
                     <id>{{ $item->id }}</id>
                     <title>{{ app()->getLocale() == 'ua' ? $item->h1['ua'] : (app()->getLocale() == 'ru' ? $item->h1['ru'] : null)  }}</title>
                     <description>{{app()->getLocale() == 'ua' ? $item->content['ua'] : (app()->getLocale() == 'ru' ? $item->content['ru'] : null)  }}</description>
-                    <availability>{{$item->status}}</availability>
+                    <availability>
+                        @if($item->status == 'ends')
+                            {{\App\Models\Enums\ProductAvailability::IN_STOCK}}
+                        @else
+                            {{$item->status}}
+                        @endif
+                    </availability>
                     <brand>{{env('APP_NAME')}}</brand>
                     <condition>new</condition>
                     <price>{{$item->discount_price ?: $item->price}}</price>
@@ -32,7 +38,8 @@
                         @endforeach
                     </additional_image_link>
                     <gender>female</gender>
-                    <fb_product_category>Clothing and Accessories &gt; Clothing &gt; Women's Clothing</fb_product_category>
+                    <fb_product_category>Clothing and Accessories &gt; Clothing &gt; Women's Clothing
+                    </fb_product_category>
                     <google_product_category>Apparel and Accessories &gt; Clothing</google_product_category>
                 </item>
             @endforeach
