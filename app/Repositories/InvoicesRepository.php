@@ -146,14 +146,18 @@ class InvoicesRepository extends CoreRepository
 
         if ($params['transactionStatus'] == 'Approved') {
             $model = $this->model::where('id', $params['orderReference'])->with('order')->first();
-            $model->status = InvoicesStatus::PAID_STATUS;
-            $model->update();
+            if ($model) {
+                $model->status = InvoicesStatus::PAID_STATUS;
+                $model->update();
 
-            if ($model->order) {
-                $orderRepository = new OrdersRepository();
-                $orderRepository->sumPrepayment($model->order->id);
+                if ($model->order) {
+                    $orderRepository = new OrdersRepository();
+                    $orderRepository->sumPrepayment($model->order->id);
+                } else {
+                    Log::info('Order invoice nof found. Invoice id:' . $model->id);
+                }
             } else {
-                Log::info('Invoice:' . $model->id);
+                Log::info('Invoice nof found. Invoice id:' . $params['orderReference']);
             }
         }
     }
