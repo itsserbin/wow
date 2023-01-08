@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('alt')->nullable();
             $table->text('src');
+            $table->text('webp_src')->nullable();
             $table->timestamps();
         });
     }

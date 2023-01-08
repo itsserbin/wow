@@ -52,10 +52,15 @@ class ImagesController extends Controller
 
     public function returnImage($path, $filename)
     {
-        try {
-            return Storage::disk('s3')->response($path . $filename);
-        } catch (Throwable $e) {
-            Log::error('img' . $e);
-        }
+        return Storage::disk('s3')->response($path . $filename);
+//        try {
+//        } catch (Throwable $e) {
+//            try {
+//                return Storage::disk('s3')->response($path . urldecode($filename));
+//            } catch (Throwable $e) {
+//                Log::error('img' . $e);
+//            }
+//            Log::error('img' . $e);
+//        }
     }
 }

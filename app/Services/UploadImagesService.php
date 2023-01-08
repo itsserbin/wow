@@ -34,6 +34,9 @@ class UploadImagesService
             $filename = preg_replace('"\.(jpg|jpeg|png|webp|svg)$"', '.jpeg', $filename);
         }
 
+        $filename = urldecode($filename);
+        $filename_webp = urldecode($filename_webp);
+
         Storage::disk('s3')->put(ImagesPath::PRODUCT_IMAGE . $filename, Image::make($image)
             ->encode('jpeg', 100)
             ->stream());
