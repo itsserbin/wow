@@ -1,6 +1,13 @@
 @extends('layouts.master')
 
-@section('title'){{app()->getLocale() == 'ua' ? $product->title['ua'] : $product->title['ru']}}@endsection
+@section('title')
+    @if(app()->getLocale() == 'ua')
+        {{$product->title['ua'] ? : null}}
+    @elseif(app()->getLocale() == 'ru')
+        {{$product->title['ru'] ? : null}}
+    @endif
+@endsection
+
 @section('description'){{app()->getLocale() == 'ua' ? $product->description['ua'] : $product->description['ru']}}@endsection
 
 @section('content')
@@ -81,5 +88,7 @@
         </div>
         @include('components.support')
     </div>
-    <consultation></consultation>
+    @if($options['consultation_status'] == 'on')
+        <consultation></consultation>
+    @endif
 @endsection

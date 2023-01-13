@@ -35,7 +35,7 @@ class OrdersRepository extends CoreRepository
     public function getById($id)
     {
         return $this
-            ->model::with('items.product.provider', 'client.orders', 'manager', 'invoices','items.product.preview')
+            ->model::with('items.product.provider', 'client.orders', 'manager', 'invoices', 'items.product.preview')
             ->find($id);
     }
 
@@ -795,7 +795,8 @@ class OrdersRepository extends CoreRepository
                 'items' => function ($q) {
                     $q->select('color', 'size', 'count', 'id', 'order_id', 'product_id', 'total_price');
                     $q->with(['product' => function ($q) {
-                        $q->select('id', 'h1', 'price', 'discount_price', 'preview');
+                        $q->select('id', 'h1', 'price', 'discount_price', 'preview_id');
+                        $q->with('preview');
                     }]);
                 }
             ])
