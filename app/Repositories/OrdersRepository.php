@@ -219,7 +219,7 @@ class OrdersRepository extends CoreRepository
 
         $this->clientsRepository->updateAvgAndWholeCheck($model->client_id);
 
-        return $this->sumPrepayment($model->id);
+        return $model;
 
     }
 
