@@ -150,25 +150,29 @@ function addToCard(id) {
         .then(() => {
             store.commit('loadCart');
             if (import.meta.env.MODE === 'production') {
-                fbq('track', 'AddToCart', {
-                    "value": props.product.discount_price ? props.product.discount_price : props.product.price,
-                    "currency": "UAH",
-                    "content_type": "product",
-                    "content_ids": [item.value.item_id],
-                    "content_name": props.product.h1
-                });
+                try {
+                    fbq('track', 'AddToCart', {
+                        "value": props.product.discount_price ? props.product.discount_price : props.product.price,
+                        "currency": "UAH",
+                        "content_type": "product",
+                        "content_ids": [item.value.item_id],
+                        "content_name": props.product.h1
+                    });
 
-                gtm.trackEvent({
-                    event: 'add_product_to_cart',
-                    ecommerce: {
-                        items: [{
-                            item_name: props.product.h1,
-                            item_id: item.value.item_id,
-                            price: props.product.discount_price ? props.product.discount_price : props.product.price,
-                            quantity: 1
-                        }]
-                    }
-                });
+                    gtm.trackEvent({
+                        event: 'add_product_to_cart',
+                        ecommerce: {
+                            items: [{
+                                item_name: props.product.h1,
+                                item_id: item.value.item_id,
+                                price: props.product.discount_price ? props.product.discount_price : props.product.price,
+                                quantity: 1
+                            }]
+                        }
+                    });
+                } catch (e) {
+                    console.log(e);
+                }
             }
             swal({
                 icon: 'success',

@@ -203,23 +203,28 @@ function sendOrder() {
     axios.post(route('api.v1.orders.create'), state.value.order)
         .then(({data}) => {
             if (import.meta.env.MODE === 'production') {
-                fbq('track', 'Purchase', {
-                    "value": store.state.totalPrice,
-                    "currency": "UAH",
-                    "content_type": "product",
-                    "num_items": store.state.totalCount,
-                    "content_ids": state.value.contentIds
-                });
+                try {
+                    fbq('track', 'Purchase', {
+                        "value": store.state.totalPrice,
+                        "currency": "UAH",
+                        "content_type": "product",
+                        "num_items": store.state.totalCount,
+                        "content_ids": state.value.contentIds
+                    });
 
-                gtm.trackEvent({
-                    event: 'send_order',
-                    ecommerce: {
-                        transaction_id: data.order.id,
-                        value: data.order.total_price,
-                        currency: "UAH",
-                        items: state.value.ga4ProductsArray
-                    }
-                });
+                    gtm.trackEvent({
+                        event: 'send_order',
+                        ecommerce: {
+                            transaction_id: data.order.id,
+                            value: data.order.total_price,
+                            currency: "UAH",
+                            items: state.value.ga4ProductsArray
+                        }
+                    });
+                } catch (e) {
+                    console.log(e);
+                }
+
             }
 
             axios.post(route('sms.new.order'), {

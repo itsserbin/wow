@@ -123,25 +123,30 @@ onMounted(() => {
 
     if (import.meta.env.MODE === 'production') {
 
-        fbq('track', 'ViewContent', {
-            "value": state.value.product.discount_price ? state.value.product.discount_price : state.value.product.price,
-            "currency": "UAH",
-            "content_type": "product",
-            "content_ids": [item.value.item_id],
-            "content_name": state.value.product.h1
-        });
+        try {
+            fbq('track', 'ViewContent', {
+                "value": state.value.product.discount_price ? state.value.product.discount_price : state.value.product.price,
+                "currency": "UAH",
+                "content_type": "product",
+                "content_ids": [item.value.item_id],
+                "content_name": state.value.product.h1
+            });
 
-        gtm.trackEvent({
-            event: 'view_product',
-            ecommerce: {
-                items: [{
-                    item_name: state.value.product.h1,
-                    item_id: item.value.item_id,
-                    price: state.value.product.discount_price ? state.value.product.discount_price : state.value.product.price,
-                    quantity: 1
-                }]
-            }
-        });
+            gtm.trackEvent({
+                event: 'view_product',
+                ecommerce: {
+                    items: [{
+                        item_name: state.value.product.h1,
+                        item_id: item.value.item_id,
+                        price: state.value.product.discount_price ? state.value.product.discount_price : state.value.product.price,
+                        quantity: 1
+                    }]
+                }
+            });
+        } catch (e) {
+            console.log(e);
+        }
+
     }
 })
 
@@ -171,6 +176,31 @@ function showBuyIn1ClickModal() {
 function addToCart() {
     axios.post(route('api.v1.cart.add', item.value))
         .then(() => {
+            if (import.meta.env.MODE === 'production') {
+                try {
+                    fbq('track', 'AddToCart', {
+                        "value": state.value.product.discount_price ? state.value.product.discount_price : state.value.product.price,
+                        "currency": "UAH",
+                        "content_type": "product",
+                        "content_ids": [item.value.item_id],
+                        "content_name": state.value.product.h1
+                    });
+
+                    gtm.trackEvent({
+                        event: 'add_product_to_cart',
+                        ecommerce: {
+                            items: [{
+                                item_name: state.value.product.h1,
+                                item_id: item.value.item_id,
+                                price: state.value.product.discount_price ? state.value.product.discount_price : state.value.product.price,
+                                quantity: 1
+                            }]
+                        }
+                    });
+                } catch (e) {
+                    console.log(e);
+                }
+            }
             store.commit('loadCart');
             swal({
                 icon: 'success',
@@ -185,27 +215,7 @@ function addToCart() {
                     window.location.href = route('checkout');
                 }
             })
-            if (import.meta.env.MODE === 'production') {
-                fbq('track', 'AddToCart', {
-                    "value": state.value.product.discount_price ? state.value.product.discount_price : state.value.product.price,
-                    "currency": "UAH",
-                    "content_type": "product",
-                    "content_ids": [item.value.item_id],
-                    "content_name": state.value.product.h1
-                });
 
-                gtm.trackEvent({
-                    event: 'add_product_to_cart',
-                    ecommerce: {
-                        items: [{
-                            item_name: state.value.product.h1,
-                            item_id: item.value.item_id,
-                            price: state.value.product.discount_price ? state.value.product.discount_price : state.value.product.price,
-                            quantity: 1
-                        }]
-                    }
-                });
-            }
         })
         .catch(() => {
             swal({
