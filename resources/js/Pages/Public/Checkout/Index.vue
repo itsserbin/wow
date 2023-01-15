@@ -58,31 +58,33 @@ const state = ref({
     ga4ProductsArray: [],
 })
 onMounted(() => {
-    store.state.list.forEach((item) => {
-        state.value.contentIds.push(item.id);
-        state.value.ga4ProductsArray.push({
-            item_name: item.name.ua ? item.name.ua : item.name.ru,
-            item_id: item.id,
-            price: item.discount_price ? item.discount_price : item.price,
-            quantity: item.count
-        })
-    });
-
     if (import.meta.env.MODE === 'production') {
-        gtm.trackEvent({
-            event: 'start_checkout',
-            ecommerce: {
-                items: state.value.ga4ProductsArray
-            }
+        store.state.list.forEach((item) => {
+            state.value.contentIds.push(item.id);
+            state.value.ga4ProductsArray.push({
+                item_name: item.name.ua ? item.name.ua : item.name.ru,
+                item_id: item.id,
+                price: item.discount_price ? item.discount_price : item.price,
+                quantity: item.count
+            })
         });
-
-        fbq('track', 'InitiateCheckout', {
-            "value": store.state.totalPrice,
-            "currency": "UAH",
-            "num_items": store.state.totalCount,
-            "content_ids": state.value.contentIds,
-            "content_type": "product"
-        });
+        try {
+            fbq('track', 'InitiateCheckout', {
+                "value": store.state.totalPrice,
+                "currency": "UAH",
+                "num_items": store.state.totalCount,
+                "content_ids": state.value.contentIds,
+                "content_type": "product"
+            });
+            gtm.trackEvent({
+                event: 'start_checkout',
+                ecommerce: {
+                    items: state.value.ga4ProductsArray
+                }
+            });
+        } catch (e) {
+            console.log(e);
+        }
     }
 })
 
