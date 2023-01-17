@@ -58,6 +58,7 @@ class InvoicesRepository extends CoreRepository
 
         $item = $this->model::where('id', $model->id)->with('order.client', 'order.items.product')->first();
 
+        dd($model->id);
         $names = [];
         $prices = [];
         $counts = [];
