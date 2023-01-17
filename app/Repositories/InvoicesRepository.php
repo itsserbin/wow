@@ -74,7 +74,7 @@ class InvoicesRepository extends CoreRepository
                 [
                     'merchantAccount' => env('WFP_MERCHANT_LOGIN'),
                     'merchantDomainName' => env('APP_DOMAIN'),
-                    'orderReference' => (string)$item->id,
+                    'orderReference' => (string)$model->id,
                     'orderDate' => strtotime($item->created_at),
                     'amount' => $item->sum,
                     'currency' => "UAH",
@@ -101,7 +101,7 @@ class InvoicesRepository extends CoreRepository
                 'merchantSignature' => $hmac,
                 'orderTimeout' => 252000000,
                 'apiVersion' => 1,
-                'orderReference' => (string)$item->id,
+                'orderReference' => (string)$model->id,
                 'orderDate' => strtotime($item->created_at),
                 'amount' => $item->sum,
                 'currency' => "UAH",
