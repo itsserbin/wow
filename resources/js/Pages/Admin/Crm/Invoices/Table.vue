@@ -24,7 +24,7 @@
             {{ data.row.sms ? 'Надіслано' : 'Не надіслано' }}
             <div v-if="!data.row.sms">
                 <br/>
-                <a href="javascript:" @click="sendSms(data.row.id)" class="text-blue-600">Відправити SMS</a>
+                <a href="javascript:" v-if="data.row.invoice_url" @click="sendSms(data.row.id)" class="text-blue-600">Відправити SMS</a>
             </div>
         </template>
         <template #timestamps="{data}">
