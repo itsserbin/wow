@@ -38,33 +38,11 @@ class XmlService
     public function getProductsFromCategoryToFbFeed($categorySlug)
     {
         $xml = [
-            'title' => env('APP_NAME') . ' ' .$categorySlug . ' ' .'Products Feed',
-            'description' => env('APP_NAME') . ' ' . $categorySlug . ' ' .'Products Feed',
+            'title' => env('APP_NAME') . ' ' . $categorySlug . ' ' . 'Products Feed',
+            'description' => env('APP_NAME') . ' ' . $categorySlug . ' ' . 'Products Feed',
             'category' => 'fb',
         ];
 
         return ['xml' => $xml, 'products' => $this->productRepository->getProductsFromCategoryToFbFeed($categorySlug)];
-    }
-
-    public function getProductsFrom2CategoriesToFbFeed($categorySlug,$categorySlug2)
-    {
-        $xml = [
-            'title' => env('APP_NAME') . ' ' .$categorySlug . ' and '. $categorySlug2 . ' ' .'Products Feed',
-            'description' => env('APP_NAME') . ' ' . $categorySlug . ' and '.  $categorySlug2 . ' ' .'Products Feed',
-            'category' => 'fb',
-        ];
-
-        return ['xml' => $xml, 'products' => $this->productRepository->getProductsFrom2CategoriesToFbFeed($categorySlug,$categorySlug2)];
-    }
-
-    public function getProductsFrom3CategoriesToFbFeed($categorySlug,$categorySlug2,$categorySlug3)
-    {
-        $xml = [
-            'title' => env('APP_NAME') . ' ' .$categorySlug . ' and '. $categorySlug2 . ' and '. $categorySlug3 . ' ' .'Products Feed',
-            'description' => env('APP_NAME') . ' ' . $categorySlug . ' and '.  $categorySlug2 . ' and '. $categorySlug3 . ' ' .'Products Feed',
-            'category' => 'fb',
-        ];
-
-        return ['xml' => $xml, 'products' => $this->productRepository->getProductsFrom3CategoriesToFbFeed($categorySlug,$categorySlug2,$categorySlug3)];
     }
 }

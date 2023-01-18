@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Enums\ProductAvailability;
 use App\Models\Product;
 use App\Services\XmlService;
+use Illuminate\Http\Response;
 
 class XmlsController extends Controller
 {
@@ -36,29 +37,9 @@ class XmlsController extends Controller
         ])->header('Content-Type', 'application/xml');
     }
 
-    public function getProductsFromCategoryToFbFeed($slug)
+    public function getProductsFromCategoryToFbFeed($slugs): Response
     {
-        $result = $this->xmlService->getProductsFromCategoryToFbFeed($slug);
-
-        return response()->view('xml.fb-product-feed', [
-            'products' => $result['products'],
-            'xml' => $result['xml'],
-        ])->header('Content-Type', 'application/xml');
-    }
-
-    public function getProductsFrom2CategoriesToFbFeed($slug,$slug2)
-    {
-        $result = $this->xmlService->getProductsFrom2CategoriesToFbFeed($slug,$slug2);
-
-        return response()->view('xml.fb-product-feed', [
-            'products' => $result['products'],
-            'xml' => $result['xml'],
-        ])->header('Content-Type', 'application/xml');
-    }
-
-    public function getProductsFrom3CategoriesToFbFeed($slug,$slug2,$slug3)
-    {
-        $result = $this->xmlService->getProductsFrom3CategoriesToFbFeed($slug,$slug2,$slug3);
+        $result = $this->xmlService->getProductsFromCategoryToFbFeed($slugs);
 
         return response()->view('xml.fb-product-feed', [
             'products' => $result['products'],

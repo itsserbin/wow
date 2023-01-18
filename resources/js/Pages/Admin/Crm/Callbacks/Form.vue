@@ -24,21 +24,13 @@
 </template>
 
 <script setup>
-import {inject, onMounted, reactive, ref} from "vue";
-const props = defineProps(['item', 'statuses'])
+import {ref} from "vue";
+
+const props = defineProps(["item", "statuses"]);
 
 const state = ref({
-    statuses: []
+    statuses: Object.entries(props.statuses).map(([key, value]) => ({key, value}))
 });
-
-onMounted(() => {
-    for (const [key, value] of Object.entries(props.statuses)) {
-        state.value.statuses.push({
-            key: key,
-            value: value,
-        })
-    }
-})
 
 function changeLang(val) {
     state.value.activeLang = val;

@@ -22,14 +22,9 @@ Route::prefix('xml')->group(function () {
         Route::get('top-underwear', [XmlsController::class, 'xmlFbTopUnderwear'])
             ->name('xml.fb.top-underwear');
 
-        Route::get('category/{slug}', [XmlsController::class, 'getProductsFromCategoryToFbFeed'])
+        Route::get('category/{slugs}', [XmlsController::class, 'getProductsFromCategoryToFbFeed'])
+            ->where('slugs', '(.*)')
             ->name('xml.fb.category');
-
-        Route::get('category/{slug}/{slug2}', [XmlsController::class, 'getProductsFrom2CategoriesToFbFeed'])
-            ->name('xml.fb.2categories');
-
-        Route::get('category/{slug}/{slug2}/{slug3}', [XmlsController::class, 'getProductsFrom3CategoriesToFbFeed'])
-            ->name('xml.fb.3categories');
 
         Route::prefix('manual')->group(function () {
             Route::get('{slug}', [XmlsController::class, 'getFbFeedBySlug'])

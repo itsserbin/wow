@@ -6,6 +6,7 @@ use App\Models\Enums\MassActions;
 use App\Models\Enums\ProductAvailability;
 use App\Models\Product as Model;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Arr;
 
 class ProductsRepository extends CoreRepository
 {
@@ -14,18 +15,18 @@ class ProductsRepository extends CoreRepository
         return Model::class;
     }
 
-    public function getById($id): Model
-    {
-        return $this->model
-            ->where('id', $id)
-            ->with(
-                'colors',
-                'categories',
-                'images',
-                'sizes',
-                'preview'
-            )->first();
-    }
+        public function getById($id): Model
+        {
+            return $this->model
+                ->where('id', $id)
+                ->with(
+                    'colors',
+                    'categories',
+                    'images',
+                    'sizes',
+                    'preview'
+                )->first();
+        }
 
     public function getByIdToPublic($id): Model
     {
@@ -213,7 +214,7 @@ class ProductsRepository extends CoreRepository
 
     public function getImages($id)
     {
-        return $this->model::where('id', $id)->select('id', 'preview_id')->with('images','preview')->first();
+        return $this->model::where('id', $id)->select('id', 'preview_id')->with('images', 'preview')->first();
     }
 
     public function getRelativeProducts($id, $limit = 10)
@@ -295,99 +296,53 @@ class ProductsRepository extends CoreRepository
     {
         $model = $this->model::where('id', $id)->first();
 
-        $model->published = $data['published'];
-        $model->status = $data['status'];
-        $model->h1 = $data['h1'];
-        $model->title = $data['title'];
-        $model->description = $data['description'];
-        $model->content = $data['content'];
-        $model->characteristics = $data['characteristics'];
-        $model->size_table = $data['size_table'];
-
-        $model->price = $data['price'];
-        $model->discount_price = $data['discount_price'];
-        $model->provider_id = $data['provider_id'];
-        $model->trade_price = $data['trade_price'];
-        $model->vendor_code = $data['vendor_code'];
-        $model->preview_id = $data['preview_id'];
-        $model->youtube = $data['youtube'];
+        $model->fill($data);
         $model->update();
 
-        $colorItems = [];
-        if (count($data['colors'])) {
-            foreach ($data['colors'] as $color) {
-                array_push($colorItems, $color['id']);
-            }
-        }
-        $model->colors()->sync($colorItems);
-
-        $sizeItems = [];
-        if (count($data['sizes'])) {
-            foreach ($data['sizes'] as $size) {
-                array_push($sizeItems, $size['id']);
-            }
-        }
-        $model->sizes()->sync($sizeItems);
-
-        $categoryItems = [];
-        foreach ($data['categories'] as $category) {
-            $categoryItems[] += $category['id'];
-        }
-        $model->categories()->sync($categoryItems);
-
-        $imagesItems = [];
-        foreach ($data['images'] as $image) {
-            $imagesItems[] += $image['id'];
-        }
-        $model->images()->sync($imagesItems);
+        $this->syncColors($model, $data['colors']);
+        $this->syncSizes($model, $data['sizes']);
+        $this->syncCategories($model, $data['categories']);
+        $this->syncImages($model, $data['images']);
 
         return $model;
     }
+
 
     public function create($data)
     {
         $model = new $this->model;
 
-        $model->published = $data['published'];
-        $model->status = $data['status'];
-
-        $model->h1 = $data['h1'];
-        $model->title = $data['title'];
-        $model->description = $data['description'];
-        $model->content = $data['content'];
-        $model->characteristics = $data['characteristics'];
-        $model->size_table = $data['size_table'];
-
-        $model->price = $data['price'];
-        $model->discount_price = $data['discount_price'];
-        $model->provider_id = $data['provider_id'];
-        $model->trade_price = $data['trade_price'];
-        $model->vendor_code = $data['vendor_code'];
-        $model->preview_id = $data['preview_id'];
-        $model->youtube = $data['youtube'];
+        $model->fill($data);
         $model->save();
 
-        if (count($data['colors'])) {
-            foreach ($data['colors'] as $color) {
-                $model->colors()->attach($color['id']);
-            }
-        }
+        $this->syncColors($model, $data['colors']);
+        $this->syncSizes($model, $data['sizes']);
+        $this->syncCategories($model, $data['categories']);
+        $this->syncImages($model, $data['images']);
+    }
 
-        if (count($data['sizes'])) {
-            foreach ($data['sizes'] as $size) {
-                $model->sizes()->attach($size['id']);
-            }
-        }
+    private function syncColors($model, $colors)
+    {
+        $colorItems = Arr::pluck($colors, 'id');
+        $model->colors()->sync($colorItems);
+    }
 
-        foreach ($data['categories'] as $category) {
-            $model->categories()->attach($category['id']);
-        }
+    private function syncSizes($model, $sizes)
+    {
+        $sizeItems = Arr::pluck($sizes, 'id');
+        $model->sizes()->sync($sizeItems);
+    }
 
-        foreach ($data['images'] as $image) {
-            $model->images()->attach($image['id']);
-        }
+    private function syncCategories($model, $categories)
+    {
+        $categoryItems = Arr::pluck($categories, 'id');
+        $model->categories()->sync($categoryItems);
+    }
 
-//        $this->productsPhotoRepository->create($model->id, $data['images']);
+    private function syncImages($model, $images)
+    {
+        $imagesItems = Arr::pluck($images, 'id');
+        $model->images()->sync($imagesItems);
     }
 
     public function destroy(int $id)
@@ -482,50 +437,33 @@ class ProductsRepository extends CoreRepository
         return $this->model::select('id', 'vendor_code', 'h1')->get();
     }
 
-    public function getSpecialOffers($items)
+    public function getSpecialOffers($items, $limit = 16)
     {
         $result = [];
-        foreach ($items as $item) {
-            $product = $this->getById($item->product_id);
+        $productIds = $items->pluck('product_id')->toArray();
+        $productCategories = $this->model::whereIn('id', $productIds)->with('categories')->get();
+        $excludeCategoryIds = collect([]);
+        foreach ($productCategories as $productCategory) {
+            $excludeCategoryIds = $excludeCategoryIds->concat($productCategory->categories->pluck('id'));
+        }
 
-            if (count($items) == 1) {
-                $limit = 16;
-            } elseif (count($items) > 1 && count($items) < 5) {
-                $limit = 12;
-            } else {
-                $limit = 8;
-            }
-
-            $products = $this->model::whereHas('categories', function ($q) use ($product) {
-                foreach ($product->categories as $category) {
-                    $q->where('id', '!=', $category->id);
-                }
+        $products = $this->model::whereNotIn('id', $productIds)
+            ->where('published', 1)
+            ->whereHas('categories', function ($query) use ($excludeCategoryIds) {
+                $query->whereNotIn('id', $excludeCategoryIds);
             })
-                ->where(function ($query) use ($result, $items) {
-                    $query->where('published', 1);
-                    foreach ($items as $productItem) {
-                        $query->where('id', '!=', $productItem->product_id);
-                    }
-                    if (count($result)) {
-                        foreach ($result as $resultItem) {
-                            $query->where('id', '!=', $resultItem->id);
-                        }
-                    }
-                })
-                ->orderBy('total_sales', 'desc')
-                ->with('preview')
-                ->limit($limit)
-                ->get();
+            ->orderBy('total_sales', 'desc')
+            ->with('preview')
+            ->paginate($limit);
 
-            foreach ($products as $itemProduct) {
-                if ($itemProduct->discount_price) {
-                    $itemProduct->price = $itemProduct->discount_price;
-                    $itemProduct->discount_price -= 100;
-                } else {
-                    $itemProduct->discount_price = $itemProduct->price - 100;
-                }
-                $result[] = $itemProduct;
+        foreach ($products as $itemProduct) {
+            if ($itemProduct->discount_price) {
+                $itemProduct->price = $itemProduct->discount_price;
+                $itemProduct->discount_price -= 100;
+            } else {
+                $itemProduct->discount_price = $itemProduct->price - 100;
             }
+            $result[] = $itemProduct;
         }
 
         return $result;
@@ -566,41 +504,12 @@ class ProductsRepository extends CoreRepository
             ->get();
     }
 
-    public function getProductsFromCategoryToFbFeed($categorySlug)
+    public function getProductsFromCategoryToFbFeed($slugs)
     {
-        return $this->model::whereHas('categories', function ($q) use ($categorySlug) {
-            $q->where('slug', $categorySlug);
-        })
-            ->where(function ($query) {
-                $query->where('published', 1);
-                $query->where('status', '!=', ProductAvailability::OUT_OF_STOCK);
-            })
-            ->orderBy('created_at', 'desc')
-            ->with('images', 'preview')
-            ->get();
-    }
+        $slugs = explode('/', $slugs);
 
-    public function getProductsFrom2CategoriesToFbFeed($categorySlug, $categorySlug2)
-    {
-        return $this->model::whereHas('categories', function ($q) use ($categorySlug, $categorySlug2) {
-            $q->where('slug', $categorySlug);
-            $q->orWhere('slug', $categorySlug2);
-        })
-            ->where(function ($query) {
-                $query->where('published', 1);
-                $query->where('status', '!=', ProductAvailability::OUT_OF_STOCK);
-            })
-            ->orderBy('created_at', 'desc')
-            ->with('images', 'preview')
-            ->get();
-    }
-
-    public function getProductsFrom3CategoriesToFbFeed($categorySlug, $categorySlug2, $categorySlug3)
-    {
-        return $this->model::whereHas('categories', function ($q) use ($categorySlug, $categorySlug2, $categorySlug3) {
-            $q->where('slug', $categorySlug);
-            $q->orWhere('slug', $categorySlug2);
-            $q->orWhere('slug', $categorySlug3);
+        return $this->model::whereHas('categories', function ($q) use ($slugs) {
+            $q->whereIn('slug', $slugs);
         })
             ->where(function ($query) {
                 $query->where('published', 1);
