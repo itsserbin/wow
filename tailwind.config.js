@@ -13,6 +13,17 @@ module.exports = {
         extend: {
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+                heading: 'Montserrat', ...defaultTheme.fontFamily.sans,
+                subheading: 'Nunito', ...defaultTheme.fontFamily.sans,
+                text: 'Roboto', ...defaultTheme.fontFamily.sans
+            },
+            colors: {
+                main: '#F8696B',
+                secondary: '#FFE5E5',
+                text: '#333333',
+                accent: '#D90429',
+                button: '#F44336',
+                link: '#D90429',
             },
         },
     },

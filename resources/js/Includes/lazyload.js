@@ -1,6 +1,10 @@
 const vLazy = (el) => {
     function loadImage() {
-        el.src = el.dataset.src
+        if (el.tagName === 'img') {
+            el.src = el.dataset.src
+        } else{
+            el.srcset = el.dataset.src
+        }
     }
 
     function callback(entries, observer) {

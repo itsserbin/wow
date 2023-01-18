@@ -1,6 +1,19 @@
 <template>
-    <a :href="cartLink" class="relative w-[37px] h-[38px] rounded-[50%] flex items-center justify-center bg-red-600"
-       id="cart-icon">
+    <a :href="cartLink"
+       class="
+                relative
+                w-[37px]
+                h-[38px]
+                rounded-[50%]
+                flex
+                items-center
+                justify-center
+                bg-button
+                hover:bg-accent
+                transition-all
+                duration-500
+        "
+    >
         <div>
             <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <ellipse cx="10.541" cy="18.7917" rx="1.375" ry="1.375" fill="white"></ellipse>
@@ -16,9 +29,9 @@
                         absolute
                         left-[100%]
                         bottom-[100%]
-                        bg-[#ccc]
+                        bg-secondary
                         rounded-[50%]
-                        text-red-600
+                        text-text
                         font-semibold
                         text-[.75rem]
                         w-[20px]
@@ -37,7 +50,6 @@
 import {computed, ref} from "vue";
 import {useStore} from "vuex";
 
-const props = defineProps(['cartRoute']);
 const store = useStore();
 const cart = ref(store.state);
 

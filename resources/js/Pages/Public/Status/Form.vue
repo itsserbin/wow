@@ -1,5 +1,5 @@
 <template>
-    <div class="font-bold text-black text-center text-[24px] mb-[15px]">
+    <div class="font-bold text-black text-center text-2xl font-heading mb-[15px]">
         Перевірити статус замовлення
     </div>
     <form class="grid grid-cols-1 gap-4" @submit.prevent="$emit('submitForm')">

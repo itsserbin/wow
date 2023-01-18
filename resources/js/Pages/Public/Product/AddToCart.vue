@@ -1,13 +1,13 @@
 <template>
     <div class="pt-[5%]">
         <hr class="mb-4">
-        <div class="grid grid-cols-1 md:grid-cols-2">
+        <div class="grid grid-cols-1 md:grid-cols-2 font-subheading">
             <div class="mb-4 mb-md-0 flex items-center justify-evenly flex-col">
                 <div class="text-center" v-if="state.product.discount_price">
                     <div class="text-lg font-medium text-[#A5A5A5] line-through">
                         {{ state.product.price }} грн.
                     </div>
-                    <div class="font-bold text-[#ff0000] text-[2.5rem]">{{ state.product.discount_price }} грн.</div>
+                    <div class="font-bold text-[#ff0000] text-4xl">{{ state.product.discount_price }} грн.</div>
                 </div>
                 <div class="text-center" v-if="!state.product.discount_price">
                     <div class="text-lg font-bold font-medium text-[#A5A5A5] text-[2.5rem]">
@@ -26,7 +26,7 @@
         </div>
         <hr class="mt-4">
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5 font-subheading">
         <div v-if="state.product.sizes.length">
             <div class="w-full mb-2">Доступні розміри</div>
             <ul class="flex pb-[20px]">

@@ -20,16 +20,17 @@ onMounted(() => {
            ref="input"
            :placeholder="placeholder"
            class="
-                    text-[1rem]
+                    text-base
+                    text-text
                     border-[0.5px]
-                    border-red-400
+                    border-main
                     rounded-[10px]
                     box-border
                     mt-[0.75rem]
                     p-[1rem]
                     w-[100%]
-                    focus:border-red-600
-                    focus:ring-red-600
+                    focus:border-accent
+                    focus:ring-accent
 
             "
     >

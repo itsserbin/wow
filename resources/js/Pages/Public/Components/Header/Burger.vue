@@ -20,6 +20,7 @@
                 after:absolute
                 after:w-[100%]
                 after:ease-out
+                cursor-pointer
          "
          @click="showFunction"
          :class="{'active': show}">

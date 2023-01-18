@@ -1,15 +1,15 @@
 <template>
     <section class="grid gap-4 grid-cols-1">
         <div class="grid grid-cols-1 gap-4">
-            <h1 class="font-bold text-black text-center text-2xl">
+            <h1 class="font-bold text-black text-center text-2xl font-heading">
                 {{ textThanksPageTitle }}
             </h1>
 
-            <div class="text-center text-xl">
+            <div class="text-center text-xl font-subheading">
                 <p>{{ textThanksPageDescription }}</p>
             </div>
 
-            <div class="text-center text-xl" v-if="state.orderId">
+            <div class="text-center text-xl font-subheading" v-if="state.orderId">
                 {{ textThanksPageOrderId }} {{ state.orderId }}
             </div>
         </div>
@@ -17,7 +17,7 @@
         <loader v-if="state.isLoading"></loader>
         <div v-if="!state.isLoading">
             <div v-if="state.activeSpecialOffer" class="grid gap-4 mt-5">
-                <div class="font-bold text-black text-center text-2xl">
+                <div class="font-bold text-black text-center text-2xl font-subheading">
                     {{ textThanksPageSpecials }}
                 </div>
                 <Timer :timer="timer"/>
@@ -28,38 +28,6 @@
                                  :lang="lang"
                     />
                 </div>
-                <!--                <div class="row">-->
-                <!--                    <div class="product-list">-->
-                <!--                        <div class="col-6 col-md-3 card__product" v-for="(product,i) in products" :key="i">-->
-                <!--                            <div class="card__image">-->
-                <!--                                <a class="text-decoration-none" :href="route('product',product.id)">-->
-                <!--                                    <img :src="route('images.product.350',product.preview)"-->
-                <!--                                         :alt="lang === 'ru' ? product.h1.ru : (lang === 'ua' ? product.h1.ua : null)"-->
-                <!--                                    >-->
-                <!--                                </a>-->
-                <!--                            </div>-->
-                <!--                            <div class="card__body">-->
-                <!--                                <h5 class="card__label">-->
-                <!--                                    {{ lang === 'ru' ? product.h1.ru : (lang === 'ua' ? product.h1.ua : null) }}-->
-                <!--                                </h5>-->
-                <!--                                <div class="card__price">-->
-                <!--                                    <div v-if="!product.discount_price"-->
-                <!--                                         class="card__price-without-discount">{{ product.price }} грн.-->
-                <!--                                    </div>-->
-
-                <!--                                    <div v-if="product.discount_price" class="card__discount_price">-->
-                <!--                                        <div class="card__old-price">{{ product.price }} грн.</div>-->
-                <!--                                        <div class="card__actual-price">{{ product.discount_price }} грн.</div>-->
-                <!--                                    </div>-->
-                <!--                                </div>-->
-                <!--                                <span class="card__button"-->
-                <!--                                      @click="addItemToOrder(product.id,product.discount_price)">-->
-                <!--                                    {{ textThanksPageAddItem }}-->
-                <!--                                </span>-->
-                <!--                            </div>-->
-                <!--                        </div>-->
-                <!--                    </div>-->
-                <!--                </div>-->
             </div>
             <div v-else class="order-page__text my-5">
                 <p>{{ textThanksPageSpecialsEnds }}</p>

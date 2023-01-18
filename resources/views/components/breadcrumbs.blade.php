@@ -1,4 +1,4 @@
-<ol class="inline-flex items-center overflow-x-scroll whitespace-nowrap w-full breadcrumbs">
+<ol class="inline-flex items-center overflow-x-scroll whitespace-nowrap w-full breadcrumbs font-subheading text-sm">
     @foreach ($breadcrumbs as $breadcrumb)
         @if (!is_null($breadcrumb->url) && !$loop->last)
         <li class="inline-flex items-center !ml-0">
@@ -6,8 +6,6 @@
                class="
                         inline-flex
                         items-center
-                        text-sm
-                        font-medium
                         text-gray-700
                         hover:text-gray-900
                     "
@@ -22,7 +20,7 @@
         @else
         <li class="!ml-0">
             <div class="flex items-center">
-                <span class="text-sm font-medium text-gray-500">{{ $breadcrumb->title }}</span>
+                <span class="text-gray-500">{{ $breadcrumb->title }}</span>
             </div>
         </li>
         @endif

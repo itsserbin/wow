@@ -10,13 +10,9 @@
         </div>
         <div class="col-span-2">
             <picture class=" w-full ">
-                <source :srcset="route('images.350',item.image.webp_src)" type="image/webp">
-                <img v-lazy :data-src="route('images.350',item.image.src)" class="w-full h-full p-[1.25rem]">
+                <source v-lazy :data-src="route('images.350',item.image.webp_src)" type="image/webp">
+                <img v-lazy :data-src="route('images.350',item.image.src)" class="w-full h-full p-3 object-cover">
             </picture>
-<!--            <img :src="route('images.350',item.image)"-->
-<!--                 :alt="item.name.ua ? item.name.ua : item.name.ru"-->
-<!--                 class="p-[25px]  pr-[1.25rem]"-->
-<!--            >-->
         </div>
         <div class="col-span-6 p-[20px] flex items-center">
             <div class="flex space-x-[50px]">

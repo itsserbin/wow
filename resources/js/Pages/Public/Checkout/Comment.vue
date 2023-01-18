@@ -13,7 +13,7 @@
                 pl-[1rem]
             "
     >
-        <div class="text-[1.625rem] font-[400]">
+        <div class="text-2xl font-heading font-[400]">
             <h3>Коментар</h3>
         </div>
         <label class="text-[1.075rem] font-[500] text-[#686868]  w-[100%]">
@@ -30,9 +30,9 @@
                                 resize-none
                                 w-[100%]
                                 outline-none
-                                border-red-600
-                                focus:border-red-600
-                                focus:ring-red-600
+                                border-main
+                                focus:border-accent
+                                focus:ring-accent
                                 "
             ></textarea>
         </label>

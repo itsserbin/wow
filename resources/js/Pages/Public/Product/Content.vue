@@ -1,7 +1,7 @@
 <template>
     <div class="grid grid-cols-1 gap-4">
         <div class="border-b border-red-200 dark:border-red-700">
-            <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-red-500 dark:text-red-400">
+            <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-main">
                 <li class="mr-2" v-for="item in items" @click="setActiveTab(item.key,item.value,item.class)">
                     <a href="javascript:"
                        class="
@@ -10,10 +10,11 @@
                             border-b-2
                             border-transparent
                             rounded-t-lg
-                            hover:text-red-600
-                            hover:border-red-600
-                            dark:hover:text-red-600
+                            hover:text-accent
+                            hover:border-accent
                             group
+                            font-subheading
+                            text-base
                         "
                        :class="{'text-red-600 border-red-600' : state.active === item.key}"
                     >

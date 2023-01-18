@@ -42,6 +42,7 @@
     @if($options['callback_status'] == 'on')
         <callback></callback>
     @endif
+    <scroll-to-top></scroll-to-top>
 </div>
 @vite('resources/js/Pages/Public/app.js')
 @if(env('APP_ENV') !== 'local')

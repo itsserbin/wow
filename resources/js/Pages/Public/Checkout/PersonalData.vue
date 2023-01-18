@@ -12,7 +12,7 @@
                 pl-[1rem]
             "
     >
-        <div class="text-[1.625rem] font-[400] ">
+        <div class="text-2xl font-heading font-[400] ">
             <h3>Персональні дані</h3>
         </div>
         <div class="grid gap-4">

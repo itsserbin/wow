@@ -1,28 +1,40 @@
 <template>
-    <div class="grid grid-cols-8 border-[1px] border-gray-300 rounded-[10px]">
+    <div class="grid grid-cols-8 border-[1px] border-gray-300 rounded-[10px] relative">
         <div class="col-span-2">
-            <picture class=" w-full ">
+            <picture class="w-full ">
                 <source :srcset="route('images.350',item.preview.webp_src)" type="image/webp">
-                <img v-lazy :data-src="route('images.350',item.preview.src)" class="w-full h-full p-[1.25rem]">
+                <img v-lazy :data-src="route('images.350',item.preview.src)" class="w-full h-full object-cover">
             </picture>
-
-<!--            <img :src="route('images.350',item.preview)"-->
-<!--                 :alt="item.h1.ua ? item.h1.ua : item.h1.ru"-->
-<!--                 class="p-[25px] pr-[1.25rem]">-->
         </div>
 
-        <div class="col-span-6 p-[20px] flex items-center">
-            <div class="flex  space-x-[50px]">
-                <div class="text-red-600">
+        <div class="col-span-6 p-[20px] flex flex-col">
+            <div class="flex space-x-[50px]">
+                <div class="text-text font-subheading text-lg">
                     {{ item.h1.ua ? item.h1.ua : item.h1.ru }}
                 </div>
-                <div class="font-bold pr-[8px]">
-                    {{ item.discount_price ? item.discount_price : item.price }} <span>грн</span>
-                </div>
-
             </div>
-            <div class="border-r-[1px] content-[''] h-[100px] "></div>
-            <div class="block pl-[1.25rem]">
+            <div class="flex h-full items-end">
+                <div class="text-[#231f20] flex flex-col text-base font-[700] whitespace-nowrap font-subheading">
+                    <div class="flex flex-col justify-center" v-if="item.discount_price">
+                        <del class="text-[#777] text-[1rem] mb-3">
+                                <span class="text-gray-600 text-[1rem]">
+                                    {{ item.price }} <span class="text-xs">грн.</span>
+                                </span>
+                        </del>
+                        <ins class="text-[#ff4c3b] text-[1.5rem] font-[700] no-underline mt-[-14px]">
+                                <span class="text-red-600">
+                                    {{ item.discount_price }} <span class="text-xs"> грн.</span>
+                                </span>
+                        </ins>
+                    </div>
+                    <div class="flex flex-col justify-center" v-else>
+                        <ins class="text-[1.5rem] font-[700] no-underline mt-[-14px]">
+                            {{ item.discount_price }} <span class="text-xs"> грн.</span>
+                        </ins>
+                    </div>
+                </div>
+            </div>
+            <div class="block pl-[1.25rem] absolute right-5 top-16">
                 <div class="plus-btn" @click="addToCart">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16"
                          height="16" fill="currentColor" class="bi bi-plus-circle"

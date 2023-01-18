@@ -1,23 +1,19 @@
 <template>
     <div class="mb-3">
-        <div class="grid grid-cols-8 border-[1px] border-gray-300 rounded-[10px]">
+        <div class="grid grid-cols-8 border-[1px] border-gray-300 rounded-[10px] relative">
             <div class="col-span-2">
                 <div class="
-                            border-r-[1px]
-                            content-['']
                             h-[100px]
                             absolute
                             z-40
-                            ml-[150px]
-                            mt-[29px]
                         "
                 ></div>
                 <picture class=" w-full ">
-                    <source :srcset="route('images.350',item.image.webp_src)" type="image/webp">
-                    <img v-lazy :data-src="route('images.350',item.image.src)" class="w-full h-full p-[1.25rem]">
+                    <source v-lazy :data-src="route('images.350',item.image.webp_src)" type="image/webp">
+                    <img v-lazy :data-src="route('images.350',item.image.src)" class="w-full h-full p-3 object-cover">
                 </picture>
             </div>
-            <div class="absolute cursor-pointer ml-[580px] mt-[15px]" @click="removeFromCart">
+            <div class="absolute cursor-pointer right-3 top-3" @click="removeFromCart">
                 <svg width="18" height="18"
                      viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -25,13 +21,13 @@
                         fill="#878787"></path>
                 </svg>
             </div>
-            <div class="col-span-6 p-[20px] ">
-                <a :href="route('product',item.id)" class="mb-[0.25rem] text-red-600 col-span-7 text-[1rem]">
+            <div class="col-span-6 p-4 ">
+                <a :href="route('product',item.id)" class="text-red-600 col-span-7 text-[1rem]">
                     <div>{{ item.name.ua ? item.name.ua : item.name.ru }}</div>
                 </a>
 
-                <div class="items-center flex col-span-8 justify-between mt-0 pl-[0.75rem] pt-0">
-                    <div class="text-[#231f20] flex flex-col text-[1.5rem] font-[700] whitespace-nowrap mr-[40px]">
+                <div class="flex h-full items-center pb-3">
+                    <div class="text-[#231f20] w-full flex flex-col text-[1.5rem] font-[700] whitespace-nowrap">
                         <div class="flex flex-col justify-center" v-if="item.discount_price">
                             <del class="text-[#777] text-[1rem] mb-3">
                                 <span class="text-gray-600 text-[1rem]">
@@ -51,9 +47,10 @@
                         </div>
                     </div>
 
-                    <div class="items-center flex max-w-[6.25rem]">
-                        <div @click="decrement"
-                             class="
+                    <div class="flex justify-end w-full">
+                        <div class="flex max-w-[6.25rem]">
+                            <div @click="decrement"
+                                 class="
                                     text-red-600
                                     cursor-pointer
                                     text-[1.25rem]
@@ -63,16 +60,16 @@
                                     pr-[0.5rem]
                                     pl-[0.5rem]
                                 "
-                        >
-                            <span class="minus">-</span>
-                        </div>
-                        <input type="text"
-                               :value="item.count"
-                               class="text-[#e3342f] border-none text-sm w-10 outline-none text-center mx-auto"
-                               disabled
-                        />
-                        <div @click="increment"
-                             class="
+                            >
+                                <span class="minus">-</span>
+                            </div>
+                            <input type="text"
+                                   :value="item.count"
+                                   class="text-[#e3342f] border-none text-sm w-10 outline-none text-center mx-auto"
+                                   disabled
+                            />
+                            <div @click="increment"
+                                 class="
                                     text-red-600
                                     cursor-pointer
                                     text-[1.25rem]
@@ -82,8 +79,9 @@
                                     pr-[0.5rem]
                                     pl-[0.5rem]
                                 "
-                        >
-                            <span class="plus">+</span>
+                            >
+                                <span class="plus">+</span>
+                            </div>
                         </div>
                     </div>
                 </div>

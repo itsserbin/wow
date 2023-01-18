@@ -9,11 +9,12 @@
                 box-border
                 mb-[1.5rem]
                 p-[1rem]
+                font-subheading
             "
     >
         <div class="pb-[0.625rem]">
             <div class="items-center flex justify-between">
-                <div class="text-[#e3342f] text-[.875rem] capitalize">Ціна без знижки</div>
+                <div class="text-[#e3342f] text-base">Ціна без знижки</div>
                 <div class="value">
                     <div class="product-card__price">
                         <div class="price">
@@ -38,32 +39,16 @@
             </div>
         </div>
         <div class="items-center flex flex-col">
-            <button type="submit"
-                    class="
-                            items-center
-                            bg-[#e3342f]
-                            border-[1px]
-                            border-red-600
-                            rounded-[0.625rem]
-                            text-[#fff]
-                            cursor-pointer
-                            flex
-                            text-[1rem]
-                            font-[400]
-                            justify-center
-                            p-[0.875rem]
-                            no-underline
-                            w-[100%]
-                    "
-            >
+            <Button type="submit" class="w-full">
                 Оформити замовлення
-            </button>
+            </Button>
         </div>
     </div>
 </template>
 
 <script setup>
 import {useStore} from "vuex";
+import Button from '@/Pages/Public/Components/Button.vue';
 
 const store = useStore();
 </script>

@@ -4,19 +4,19 @@
                     no-underline
                     grid
                     border-[1px]
-                    border-[#e9e9e9]
+                    border-secondary
                     rounded-b-[5px]
                     relative
                     hover:scale-105
                     transition-all
+                    duration-300
                     h-full
             "
     >
-
         <div class="w-full mx-auto h-56 md:h-72">
             <a :href="route('product',product.id)">
                 <picture>
-                    <source :srcset="route('images.350',product.preview.webp_src)" type="image/webp">
+                    <source v-lazy :data-src="route('images.350',product.preview.webp_src)" type="image/webp">
                     <img v-lazy
                          :data-src="route('images.350',product.preview.src) "
                          :alt="lang === 'ru' ? product.h1.ru : (lang === 'ua' ? product.h1.ua : null)"
@@ -44,21 +44,22 @@
                             overflow-hidden
                             font-bold
                             text-center
-                            text-base
                             h-18
                             md:h-12
+                            font-subheading
+                            text-base
                         "
                 >
                     {{ lang === 'ru' ? product.h1.ru : (lang === 'ua' ? product.h1.ua : null) }}
                 </h5>
 
             </a>
-            <div class="text-sm text-gray-500 w-full mb-3">
+            <div class="text-sm text-gray-500 font-text w-full mb-3">
                 <span v-for="size in product.sizes">
                     {{ size.title }}&nbsp;
                 </span>
             </div>
-            <div class="card__price flex-col mr-auto">
+            <div class="card__price flex-col mr-auto font-subheading">
                 <div v-if="!product.discount_price"
                      class="
                                 font-bold
@@ -94,17 +95,20 @@
                             h-12
                             md:w-14
                             md:h-14
-                            bg-red-600
                             rounded-full
                             flex
                             justify-center
                             items-center
                             col-span-1
-                            ml-auto
                             absolute
-                            right-3
-                            bottom-2
-                            hover:bg-red-700
+                            right-[-7px]
+                            bottom-[-7px]
+                            bg-button
+                            hover:bg-accent
+                            hover:scale-105
+                            transition-all
+                            duration-500
+                            z-50
                     ">
                     <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <ellipse cx="12.459" cy="22.2084" rx="1.625" ry="1.625" fill="white"></ellipse>

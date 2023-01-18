@@ -1,34 +1,29 @@
 <template>
     <div class="max-w-7xl mx-auto">
-        <swiper
-            class="header-categories"
-            v-bind="settings"
-            :modules="modules"
-        >
+        <swiper class="header-categories" v-bind="settings" :modules="modules">
             <swiper-slide v-for="category in categories">
                 <li class="text-center py-2">
                     <a :href="route('category',category.slug)" class="font-bold text-sm whitespace-nowrap">
-                        {{
-                            lang === 'ua' ? category.title.ua :
-                                (lang === 'ru' ? category.title.ru : null)
-                        }}
+                        {{ title(category.title) }}
                     </a>
                 </li>
             </swiper-slide>
         </swiper>
     </div>
-
 </template>
 
 <script setup>
 import {Lazy, Autoplay, Pagination} from "swiper";
+import {computed} from "vue";
 
-defineProps(['categories', 'lang']);
+const props = defineProps(['categories', 'lang']);
 
 const modules = [Lazy, Autoplay, Pagination];
 
+const title = computed(() => (val) => props.lang === 'ua' ? val.ua : (props.lang === 'ru' ? val.ru : null))
+
 const settings = {
-    spaceBetween: 0,
+    spaceBetween: 10,
     pagination: {
         type: 'progressbar',
     },
@@ -61,5 +56,4 @@ const settings = {
         justify-content: center;
     }
 }
-
 </style>

@@ -21,10 +21,10 @@
             </div>
 
             <div>
-                <h2 class="text-[38px] font-bold">
+                <h2 class="text-3xl font-heading text-text font-bold">
                     {{app()->getLocale() == 'ua' ? $product->h1['ua'] : $product->h1['ru']}}
                 </h2>
-                <div class="grid grid-cols-1 md:grid-cols-2">
+                <div class="grid grid-cols-1 md:grid-cols-2 font-subheading">
                     <div class="d-flex text-[10px]">
                         <div>Код: {{$product->id}}</div>
                         @if(request()->user())

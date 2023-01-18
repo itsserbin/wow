@@ -1,7 +1,7 @@
 <template>
     <div v-if="state.products.length">
-        <loader v-if="state.isLoading"></loader>
-        <div class="font-bold text-black text-center text-[24px] mb-[15px]">{{ textLatestProducts }}</div>
+        <Loader v-if="state.isLoading"></Loader>
+        <div class="font-bold text-black text-center text-2xl font-heading mb-[15px]">{{ textLatestProducts }}</div>
         <product-cards v-if="!state.isLoading"
                        :products="state.products"
                        :lang="lang"
@@ -9,17 +9,22 @@
                        class="mb-5"
         ></product-cards>
         <div v-if="state.showLoadMore" class="text-center">
-            <loader v-if="state.isLoadingMore"></loader>
-            <button-component v-if="!state.isLoadingMore"
-                              @click="fetch"
-                              type="button"
-            >{{ textLoadMore }}</button-component>
+            <Loader v-if="state.isLoadingMore"></Loader>
+            <Button v-if="!state.isLoadingMore"
+                    @click="fetch"
+                    type="button"
+            >{{ textLoadMore }}
+            </Button>
         </div>
     </div>
 </template>
 
 <script setup>
 import {onMounted, ref} from "vue";
+
+import Loader from '@/Pages/Public/Components/Loader.vue';
+import Button from '@/Pages/Public/Components/Button.vue';
+import ProductCards from '@/Pages/Public/Components/ProductCards.vue';
 
 defineProps({
     lang: {

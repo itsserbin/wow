@@ -9,7 +9,7 @@
             </div>
             <div class="">
                 <div class="cart-item__right row mb-3">
-                    <h3 class="text-[1.625rem] mb-[1rem]">Замовлення</h3>
+                    <h3 class="text-2xl font-heading mb-[1rem]">Замовлення</h3>
 
                     <div class="grid gap-4">
                         <OrderItem v-for="item in store.state.list"

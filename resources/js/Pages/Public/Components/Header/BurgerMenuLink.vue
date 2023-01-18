@@ -18,6 +18,7 @@
                 after:absolute
                 after:right-0
                 after:w-0
+                font-subheading
         "
     >
         <slot></slot>

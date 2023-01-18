@@ -9,6 +9,7 @@
                     relative
                     hover:scale-105
                     transition-all
+                    duration-300
                     h-full
             "
     >
@@ -16,7 +17,7 @@
         <div class="w-full mx-auto h-56 md:h-72">
             <a :href="route('product',product.id)">
                 <picture class=" w-full ">
-                    <source :srcset="route('images.350',product.preview.webp_src)" type="image/webp">
+                    <source v-lazy :data-src="route('images.350',product.preview.webp_src)" type="image/webp">
                     <img v-lazy :data-src="route('images.350',product.preview.src)" class="w-full h-full object-cover ">
                 </picture>
             </a>
@@ -43,6 +44,7 @@
                             text-base
                             h-18
                             md:h-12
+                            font-subheading
                         "
                 >
                     {{ lang === 'ru' ? product.h1.ru : (lang === 'ua' ? product.h1.ua : null) }}
@@ -90,7 +92,7 @@
                             h-12
                             md:w-14
                             md:h-14
-                            bg-red-600
+                            bg-button
                             rounded-full
                             flex
                             justify-center
@@ -100,7 +102,10 @@
                             absolute
                             right-3
                             bottom-2
-                            hover:bg-red-700
+                            hover:bg-accent
+                            hover:scale-105
+                            transition-all
+
                     ">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="text-white" viewBox="0 0 16 16">
                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>

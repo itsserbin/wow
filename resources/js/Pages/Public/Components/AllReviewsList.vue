@@ -1,17 +1,17 @@
 <template>
     <div>
-        <div class="bg-red-200 rounded p-7 mb-5" v-for="review in state.reviews" :key="review.id">
+        <div class="bg-secondary rounded p-7 mb-5" v-for="review in state.reviews" :key="review.id">
             <div class="grid grid-cols-1 md:grid-cols-3">
-                <div class="font-bold">{{ review.name }}</div>
-                <div class="text-center">
+                <div class="font-bold font-subheading">{{ review.name }}</div>
+                <div class="text-center font-subheading">
                     <a :href="route('product',review.product.id)" target="_blank">
                         {{ lang === 'ru' ? review.product.h1.ru : (lang === 'ua' ? review.product.h1.ua : null) }}
                     </a>
                 </div>
-                <div class="text-end">{{ moment(review.created_at).format('MM.DD.YY') }}</div>
+                <div class="text-end font-subheading">{{ moment(review.created_at).format('MM.DD.YY') }}</div>
             </div>
             <hr class="my-2">
-            <div class="review-item-content">{{ review.comment }}</div>
+            <div class="review-item-content font-text">{{ review.comment }}</div>
         </div>
         <div class="text-center" v-if="state.showLoadMore">
             <loader v-if="state.isLoadingMore"></loader>

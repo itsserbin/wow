@@ -1,14 +1,12 @@
 <template>
     <div>
         <loader v-if="state.isLoading"></loader>
-        <div class="grid grid-cols-2 md:grid-cols-7 gap-4"
-             v-if="state.categories.length && !state.isLoading">
-            <div class="border-[1px] border-[#e9e9e9]  hover:scale-105 transition-all"
-                 v-for="item in state.categories">
-                <a :href="route('category',item.slug)" class="text-decoration-none">
+        <div class="grid grid-cols-2 md:grid-cols-7 gap-4" v-if="state.categories.length && !state.isLoading">
+            <div class="border-[1px] border-secondary hover:scale-105 transition-all duration-300" v-for="item in state.categories">
+                <a :href="route('category',item.slug)">
                     <div class="h-52">
                         <picture class="w-full">
-                            <source :srcset="route('images.350',item.preview.webp_src)" type="image/webp">
+                            <source v-lazy :data-src="route('images.350',item.preview.webp_src)" type="image/webp">
                             <img v-lazy
                                  :data-src="route('images.350',item.preview.src) "
                                  class="h-full object-cover w-full"
@@ -16,8 +14,8 @@
                         </picture>
                     </div>
 
-                    <div class="font-bold text-center p-5">
-                        {{ lang === 'ru' ? item.title.ru : (lang === 'ua' ? item.title.ua : null) }}
+                    <div class="font-bold text-center p-5 font-subheading">
+                        {{ title(item.title) }}
                     </div>
                 </a>
             </div>
@@ -26,7 +24,7 @@
 </template>
 
 <script setup>
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import vLazy from '@/Includes/lazyload.js';
 
 const state = ref({
@@ -34,7 +32,7 @@ const state = ref({
     isLoading: false,
 })
 
-defineProps(['lang', 'categoriesRoute'])
+const props = defineProps(['lang'])
 
 onMounted(() => {
     state.value.isLoading = true;
@@ -48,4 +46,6 @@ onMounted(() => {
             console.log(response);
         });
 })
+
+const title = computed(() => (val) => props.lang === 'ru' ? val.ru : (props.lang === 'ua' ? val.ua : null))
 </script>

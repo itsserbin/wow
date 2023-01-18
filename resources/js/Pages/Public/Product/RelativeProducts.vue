@@ -3,16 +3,13 @@
         <div class="font-bold text-black text-center text-[24px] mb-[15px]">
             {{ textRelativeProducts }}
         </div>
-        <div class="relative-slider">
-            <swiper :modules="modules" v-bind="settings">
-
-                <swiper-slide v-for="(product,i) in products" :key="i">
-                    <product-card :product="product"
-                                  :lang="lang"
-                    ></product-card>
-                </swiper-slide>
-            </swiper>
-        </div>
+        <swiper :modules="modules" v-bind="settings" class="relative-slider">
+            <swiper-slide v-for="(product,i) in products" :key="i">
+                <product-card :product="product"
+                              :lang="lang"
+                ></product-card>
+            </swiper-slide>
+        </swiper>
     </section>
 </template>
 
@@ -66,3 +63,9 @@ onMounted(() => {
         .catch((response) => console.log(response));
 });
 </script>
+
+<style>
+.relative-slider .swiper-wrapper{
+    margin-bottom: 1.5em;
+}
+</style>

@@ -1,6 +1,6 @@
 <template>
     <div class="additions">
-        <h3 class="text-[1.625rem] mb-[1rem]">Вам сподобаєтся</h3>
+        <h3 class="text-2xl font-heading mb-[1rem]">Вам сподобаєтся</h3>
 
         <div class="grid gap-4">
             <AdditionalProductCard

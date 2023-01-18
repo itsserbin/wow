@@ -64,7 +64,9 @@ import Callback from '@/Pages/Public/Components/Callback.vue';
 import Consultation from '@/Pages/Public/Components/Consultation.vue';
 import Button from '@/Pages/Public/Components/Button.vue';
 import AllReviewsList from '@/Pages/Public/Components/AllReviewsList.vue';
+import ScrollToTop from '@/Pages/Public/Components/ScrollToTop.vue';
 
+app.component('scroll-to-top', ScrollToTop)
 app.component('cart-icon-component', CartIconComponent)
 app.component('header-component', Header)
 app.component('callback', Callback)
@@ -98,7 +100,7 @@ import MainBanners from '@/Pages/Public/Home/MainBanners.vue';
 import AllProducts from '@/Pages/Public/Home/AllProducts.vue';
 import BestSelling from '@/Pages/Public/Home/BestSelling.vue';
 import NewProducts from '@/Pages/Public/Home/NewProducts.vue';
-import AllReviewsCarousel from '@/Pages/Public/Home/AllReviewsCarousel.vue';
+import AllReviewsCarousel from '@/Pages/Public/Components/AllReviewsCarousel.vue';
 
 app.component('main-banners', MainBanners);
 app.component('all-products', AllProducts);

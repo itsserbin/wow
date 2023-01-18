@@ -7,17 +7,20 @@
                         justify-between
                         w-full
                         p-5
-                        font-medium
                         text-left
                         text-gray-500
+                        bg-secondary
+                        hover:bg-main
+                        text-text
+                        font-subheading
+                        transition-all
+                        duration-300
                         border
-                        border-b-0
-                        border-gray-200
-                        focus:ring-4
-                        focus:ring-gray-200
-                        hover:bg-gray-100
+                        border-b-accent
+                        text-base
+                        ring-0
                 "
-                :class="{'bg-gray-100': visible}"
+                :class="{'bg-main': visible}"
                 @click="open"
         >
             <slot name="accordion-trigger"></slot>
@@ -28,17 +31,6 @@
                       clip-rule="evenodd"></path>
             </svg>
         </button>
-
-        <!--        <div-->
-        <!--            class="accordion__trigger"-->
-        <!--            :class="{'accordion__trigger_active': visible}"-->
-        <!--            @click="open">-->
-
-        <!--            &lt;!&ndash; This slot will handle the title/header of the accordion and is the part you click on &ndash;&gt;-->
-        <!--            <slot name="accordion-trigger"></slot>-->
-        <!--            <arrow-down width="20" height="20" class="text-dark"></arrow-down>-->
-        <!--        </div>-->
-
         <transition
             name="accordion"
             @enter="start"
@@ -47,7 +39,7 @@
             @after-leave="end">
 
             <div class="accordion-collapse-body" v-show="visible">
-                <div class="p-5 font-light border border-b-0 border-gray-200">
+                <div class="p-5 font-light border border-gray-200 font-text">
                     <!-- This slot will handle all the content that is passed to the accordion -->
                     <slot name="accordion-content"></slot>
                 </div>
@@ -91,3 +83,15 @@ export default {
     }
 };
 </script>
+
+<style>
+.accordion-enter-active,
+.accordion-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.accordion-enter-from,
+.accordion-leave-to {
+    opacity: 0;
+}
+</style>

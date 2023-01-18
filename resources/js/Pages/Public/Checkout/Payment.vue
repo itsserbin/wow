@@ -13,10 +13,10 @@
                 pl-[1rem]
             "
     >
-        <div class="text-[1.625rem] font-[400]">
+        <div class="text-2xl font-heading font-[400]">
             <h3>Оплата</h3>
         </div>
-        <div class="grid gap-4">
+        <div class="grid gap-4 font-subheading">
             <label class="
                                 text-[1.075rem]
                                 text-[#686868]
@@ -68,7 +68,7 @@
                        v-model="order.payment_method"
                        class="mr-2 focus:border-red-600
                     focus:ring-red-600"
-                       
+
                 >
                 <p class="a-text">Повна передоплата</p>
             </label>

@@ -3,64 +3,42 @@
                 items-center
                 border-gray-300
                 flex
-                bg-[#fff]
                 rounded-[15px]
                 shadow-lg
                 box-border
                 justify-between
                 p-[1rem]
                 mb-3
+                flex-col
+                md:flex-row
             "
     >
         <label class="
                         text-[#231f20]
                         flex-row
-                        text-[1rem]
+                        text-lg
+                        font-subheading
                         font-[500]
-                        mb-0
-                        whitespace-nowrap
-                        w-[100%]
-                        items-center
-                        flex
+                        text-center
                     "
-        >Промокод
-            <input class="
-                            border-[0.5px]
-                            border-red-600
-                            box-border
-                            text-[.875rem]
-                            p-[1rem]
-                            text-center
-                            w-[100%]
-                            rounded-[20px]
-                            mx-3
-                    "
-                   type="text"
-                   placeholder="XXX-XXX-XXX"
-                   v-model="promo_code"
-                   v-if="!store.state.promo_code"
-            >
-            <input class="
-                            border-[0.5px]
-                            border-red-600
-                            box-border
-                            text-[.875rem]
-                            p-[1rem]
-                            text-center
-                            w-[100%]
-                            rounded-[20px]
-                            mx-3
-                    "
-                   type="text"
-                   placeholder="XXX-XXX-XXX"
-                   :value="store.state.promo_code"
-                   v-if="store.state.promo_code"
-            >
-        </label>
-        <a href="javascript:"
-           v-if="store.state.promo_code"
-           @click="deactivateCode"
-           class="
+        >Промокод</label>
+        <input-component type="text"
+                         placeholder="XXX-XXX-XXX"
+                         v-model="promo_code"
+                         v-if="!store.state.promo_code"
+                         class="text-[.875rem] py-1 text-center w-[100%] rounded-[20px] mx-3 my-3 md:my-0 font-heading"
+        ></input-component>
+
+        <input-component type="text"
+                         placeholder="XXX-XXX-XXX"
+                         :value="store.state.promo_code"
+                         v-if="store.state.promo_code"
+                         class="text-[.875rem] py-1 text-center w-[100%] rounded-[20px] mx-3 my-3 md:my-0 font-heading"
+        ></input-component>
+        <button-component
+            v-if="store.state.promo_code"
+            @click="deactivateCode"
+            class="
                     items-center
                     bg-[#e3342f]
                     border-[1px]
@@ -76,28 +54,11 @@
                 "
         >
             Деактивувати
-        </a>
+        </button-component>
 
-        <a href="javascript:"
-           v-if="!store.state.promo_code"
-           @click="activateCode"
-           class="
-                    items-center
-                    bg-[#e3342f]
-                    border-[1px]
-                    border-red-600
-                    rounded-[0.625rem]
-                    text-[#fff]
-                    cursor-pointer
-                    flex
-                    font-[400]
-                    justify-center
-                    p-[0.875rem]
-                    no-underline
-                "
-        >
+        <button-component v-if="!store.state.promo_code" @click="activateCode">
             Активувати
-        </a>
+        </button-component>
     </div>
 </template>
 

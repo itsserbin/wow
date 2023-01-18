@@ -25,17 +25,18 @@ defineProps({
                     text-white
                     uppercase
                     tracking-widest
-                    active:bg-red-900
+                    active:bg-accent
                     focus:outline-none
-                    focus:border-red-900
-                    focus:shadow-outline-red
+                    focus:border-accent
+                    focus:shadow-outline-accent
                     transition
                     ease-in-out
-                    duration-150
+                    duration-300
+                    hover:scale-105
             "
             :class="{
-                'outline-none border-red-900 shadow-outline-gray bg-red-500' : active,
-                'bg-red-600 hover:bg-red-700' : !active
+                'outline-none border-accent shadow-outline-gray bg-accent' : active,
+                'bg-button hover:bg-accent' : !active
             }"
     >
         <slot/>

@@ -17,6 +17,11 @@ Breadcrumbs::for('home.cart', function (BreadcrumbTrail $trail) {
     $trail->push('Кошик', route('cart'));
 });
 
+Breadcrumbs::for('home.status', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Статус замовлення', route('status'));
+});
+
 Breadcrumbs::for('home.checkout', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
     $trail->push('Оформлення замовлення', route('checkout'));
