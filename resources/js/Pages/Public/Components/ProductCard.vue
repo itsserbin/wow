@@ -108,7 +108,6 @@
                             hover:scale-105
                             transition-all
                             duration-500
-                            z-50
                     ">
                     <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <ellipse cx="12.459" cy="22.2084" rx="1.625" ry="1.625" fill="white"></ellipse>
