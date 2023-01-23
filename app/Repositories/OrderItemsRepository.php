@@ -315,6 +315,24 @@ class OrderItemsRepository extends CoreRepository
             ->avg('clear_total_price');
     }
 
+    /**
+     * This code is a function that calculates the sum of all refunds that were made on a specific date.
+     * The function starts by querying the orders table using the whereDate() method to filter the results
+     * based on the date passed as a parameter. It then uses the whereHas() method to filter the results
+     * based on the status of the order being equal to OrderStatus::STATUS_RETURN.
+     * It then uses the select() method to select the product_id column from the table and uses the with() method
+     * to eager load the related product model. Within the product eager load, it further selects the id,
+     * provider_id columns and uses another with() method to eager load the related provider model.
+     * Within the provider eager load it selects the id, refunds, refunds_sum columns.
+     *
+     * It then iterates over the model collection and for each item,
+     * it checks if the related product and provider models exist and if the provider model has refunds.
+     * If both conditions are true, it sums up the refunds_sum of the provider model to the $refundsSum variable.
+     * Finally, it returns the calculated sum of the refunds.
+     *
+     * @param $date
+     * @return int
+     */
     public function sumRefundsByDate($date)
     {
         $model = $this->model::whereDate('created_at', $date)
@@ -330,22 +348,33 @@ class OrderItemsRepository extends CoreRepository
             }])
             ->get();
 
-//        $refundsSum = 0;
-//
-//        foreach ($model as $item) {
-//            if ($item->product->provider) {
-//                if ($item->product->provider->refunds) {
-//                    $refundsSum += $item->product->provider->refunds_sum;
-//                }
-//            }
-//
-//        }
+        $refundsSum = 0;
 
-        return $model->sum(function($item) {
-            return $item->product->provider->refunds ? $item->product->provider->refunds_sum : 0 ;
-        });
+        foreach ($model as $item) {
+            if ($item->product->provider) {
+                if ($item->product->provider->refunds) {
+                    $refundsSum += $item->product->provider->refunds_sum;
+                }
+            }
+
+        }
+
+        return $refundsSum;
     }
 
+    /**
+     * This code is a function that calculates the sum of all additional sales' marginality that were made on a specific date.
+     * The function starts by querying the orders table using the whereDate() method to filter the results based
+     * on the date passed as a parameter. It then uses the whereHas() method to filter the results
+     * based on the status of the order being equal to OrderStatus::STATUS_DONE.It then uses the select() method
+     * to select specific columns from the table and uses the where() method to filter the results
+     * based on the resale column being equal to 1. Finally,
+     * it uses the sum() method to calculate the sum of all the clear_total_price values that match the previous filters.
+     * This clear_total_price represents the marginality of additional sales.
+     *
+     * @param $date
+     * @return mixed
+     */
     public function sumMarginalityAdditionalSalesByDate($date)
     {
         return $this->model::whereDate('created_at', $date)
