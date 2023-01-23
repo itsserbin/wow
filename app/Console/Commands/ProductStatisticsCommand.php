@@ -50,6 +50,64 @@ class ProductStatisticsCommand extends Command
             }
         }
 
+//        $data = ProductStatistic::all();
+//
+//        foreach ($data as $item) {
+//            $test = Product::where('id', $item->product_id)
+//                ->with(['orderItems' => function ($q) use ($item) {
+//                    $q->whereDate('created_at', $item->date);
+//                    $q->select('id', 'product_id', 'order_id');
+//                    $q->with([
+//                        'order' => function ($q) {
+//                            $q->select('id', 'status', 'created_at');
+//                        }
+//                    ]);
+//                }])->first();
+//
+//            foreach ($test->orderItems as $orderItem) {
+//                $total = 0;
+//                $returns = 0;
+//                $exchanges = 0;
+//                $sales = 0;
+//                $canceled = 0;
+//
+//                $total++;
+//
+//                if ($orderItem->order->status == OrderStatus::STATUS_RETURN) {
+//                    $returns++;
+//                }
+//                if ($orderItem->order->status == OrderStatus::STATUS_EXCHANGE) {
+//                    $exchanges++;
+//                }
+//                if ($orderItem->order->status == OrderStatus::STATUS_DONE) {
+//                    $sales++;
+//                }
+//                if ($orderItem->order->status == OrderStatus::STATUS_CANCELED) {
+//                    $canceled++;
+//                }
+//
+//                $item->total = $total;
+//                $item->returns = $returns;
+//                $item->exchanges = $exchanges;
+//                $item->sales = $sales;
+//                $item->canceled = $canceled;
+//
+//                if ($item->sales) {
+//                    $item->conversion_rate = $item->total / $item->sales;
+//                }
+//                if ($item->canceled) {
+//                    $item->cancellation_rate = $item->total / $item->canceled;
+//                }
+//                if ($item->returns) {
+//                    $item->return_rate = $item->total / $item->returns;
+//                }
+//                if ($item->exchanges) {
+//                    $item->exchanges_rate = $item->total / $item->exchanges;
+//                }
+//                $item->update();
+//            }
+//        }
+//    }
         foreach (ProductStatistic::with([
             'product' => function ($q) {
                 $q->select('id');
@@ -68,20 +126,32 @@ class ProductStatisticsCommand extends Command
             if (count($item->product->orderItems)) {
                 foreach ($item->product->orderItems as $orderItem) {
                     if ($orderItem->order && $orderItem->order->created_at->format('Y-m-d') == $item->date) {
-                        $item->total++;
+                        $total = 0;
+                        $returns = 0;
+                        $exchanges = 0;
+                        $sales = 0;
+                        $canceled = 0;
+
+                        $total++;
 
                         if ($orderItem->order->status == OrderStatus::STATUS_RETURN) {
-                            $item->returns++;
+                            $returns++;
                         }
                         if ($orderItem->order->status == OrderStatus::STATUS_EXCHANGE) {
-                            $item->exchanges++;
+                            $exchanges++;
                         }
                         if ($orderItem->order->status == OrderStatus::STATUS_DONE) {
-                            $item->sales++;
+                            $sales++;
                         }
                         if ($orderItem->order->status == OrderStatus::STATUS_CANCELED) {
-                            $item->canceled++;
+                            $canceled++;
                         }
+
+                        $item->total = $total;
+                        $item->returns = $returns;
+                        $item->exchanges = $exchanges;
+                        $item->sales = $sales;
+                        $item->canceled = $canceled;
 
                         if ($item->sales) {
                             $item->conversion_rate = $item->total / $item->sales;
