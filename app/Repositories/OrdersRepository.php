@@ -789,8 +789,7 @@ class OrdersRepository extends CoreRepository
     {
         if ($data['transactionStatus'] == 'Approved') {
             $model = $this->getById($data['orderReference']);
-            $model->wfp_payment = 1;
-            $model->prepayment_sum = $data['amount'];
+            $model->wfp_payment_sum = $data['amount'];
             $model->update();
             return $this->sumPrepayment($model->id);
         } else {
