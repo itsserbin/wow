@@ -60,19 +60,36 @@ const params = ref({
 
 const costCategoriesOptions = ref([]);
 
-const getParams = computed(() => {
-    const data = {};
-    if (params.value.date.length === 2) {
-        data.date_start = params.value.date[0].toLocaleDateString();
-        data.date_end = params.value.date[1].toLocaleDateString();
-    }
-    if (params.value.last) {
-        data.last = params.value.last
-    }
-    data.page = params.value.currentPage;
-    return data;
+// const getParams = computed(() => {
+//     const data = {};
+//     if (params.value.date.length === 2) {
+//         data.date_start = params.value.date[0].toLocaleDateString();
+//         data.date_end = params.value.date[1].toLocaleDateString();
+//     }
+//     if (params.value.last) {
+//         data.last = params.value.last
+//     }
+//     data.page = params.value.currentPage;
+//     return data;
+//
+// })
 
-})
+const dateRange = computed(() => {
+    if (params.value.date.length === 2) {
+        return {
+            date_start: params.value.date[0].toLocaleDateString(),
+            date_end: params.value.date[1].toLocaleDateString()
+        }
+    }
+});
+const last = computed(() => params.value.last);
+const currentPage = computed(() => params.value.currentPage);
+
+const getParams = computed(() => ({
+    ...dateRange.value,
+    last: last.value,
+    page: currentPage.value
+}));
 
 onMounted(() => {
     params.value.date[0] = startOfMonth(new Date());

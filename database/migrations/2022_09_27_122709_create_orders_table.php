@@ -44,8 +44,8 @@ return new class extends Migration {
             $table->string('modified_by')->nullable();
             $table->integer('clear_total_price')->nullable();
 
-            $table->boolean('prepayment')->default(0);
             $table->integer('prepayment_sum')->nullable();
+            $table->integer('wfp_payment_sum')->nullable();
 
             $table->boolean('discount')->default(0);
             $table->integer('discount_sum')->nullable();
@@ -54,7 +54,6 @@ return new class extends Migration {
             $table->string('np_city_id')->nullable();
             $table->string('np_post_office_id')->nullable();
 
-            $table->boolean('wfp_payment')->default(0);
 
             $table->timestamps();
         });

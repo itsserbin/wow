@@ -220,36 +220,73 @@ class OrdersRepository extends CoreRepository
 
         $this->clientsRepository->updateAvgAndWholeCheck($model->client_id);
 
+        $this->sumPrepayment($model->id);
         return $model;
 
     }
+
+//    public function sumPrepayment($order_id)
+//    {
+//        $model = $this->model::where('id', $order_id)->with('invoices')->first();
+//
+//        $total = 0;
+//
+//        if (count($model->invoices)) {
+//            foreach ($model->invoices as $invoice) {
+//                if ($invoice->status == InvoicesStatus::PAID_STATUS) {
+//                    $total += $invoice->sum;
+//                }
+//            }
+//        }
+//
+//        if ($model->prepayment_sum) {
+//            $total += $model->prepayment_sum;
+//        }
+//
+//        if ($total) {
+//            $model->prepayment_sum = $total;
+//            $model->update();
+//        }
+//
+//        return $model;
+//    }
+//    public function sumPrepayment($order_id)
+//    {
+//        $model = $this->model::where('id', $order_id)->with('invoices')->first();
+//        $total = 0;
+//
+//        if ($model->invoices->isNotEmpty()) {
+//            foreach ($model->invoices as $invoice) {
+//                if ($invoice->status == InvoicesStatus::PAID_STATUS) {
+//                    $total += $invoice->sum;
+//                }
+//            }
+//        }
+//
+//        if ($model->wfp_payment_sum){
+//            $total += $model->wfp_payment_sum;
+//        }
+//
+//        optional($model)->update(['prepayment_sum' => $total]);
+//
+//        return $model;
+//    }
 
     public function sumPrepayment($order_id)
     {
-        $model = $this->model::where('id', $order_id)->with('invoices')->first();
+        $model = $this->model::where('id', $order_id)
+            ->with(['invoices' => function ($query) {
+                $query->where('status', InvoicesStatus::PAID_STATUS);
+            }])->first();
 
-        $total = 0;
+        $total = $model->invoices->sum('sum');
+        $total += optional($model)->wfp_payment_sum;
 
-        if (count($model->invoices)) {
-            foreach ($model->invoices as $invoice) {
-                if ($invoice->status == InvoicesStatus::PAID_STATUS) {
-                    $total += $invoice->sum;
-                }
-            }
-        }
-
-        if ($model->wfp_payment) {
-            $total += $model->prepayment_sum;
-        }
-
-        if ($total) {
-            $model->prepayment = 1;
-            $model->prepayment_sum = $total;
-            $model->update();
-        }
+        optional($model)->update(['prepayment_sum' => $total]);
 
         return $model;
     }
+
 
     public function destroy(int $id)
     {
@@ -704,17 +741,9 @@ class OrdersRepository extends CoreRepository
 
     public function sumPrepaymentByDate($date, $param = null)
     {
-        $model = $this->model::whereDate('created_at', $date)
-            ->select('prepayment', 'prepayment_sum', 'wfp_payment')
-            ->where('prepayment', 1);
-
-        if ($param == 'wfp') {
-            $model->where('wfp_payment', 1);
-        } elseif ($param == 'card') {
-            $model->where('wfp_payment', 0);
-        }
-
-        return $model->sum('prepayment_sum');
+        return $this->model::whereDate('created_at', $date)
+            ->select('prepayment_sum')
+            ->sum('prepayment_sum');
     }
 
     public function sumDoneOrdersClearTotalPriceByDate($date)
@@ -760,7 +789,6 @@ class OrdersRepository extends CoreRepository
     {
         if ($data['transactionStatus'] == 'Approved') {
             $model = $this->getById($data['orderReference']);
-            $model->prepayment = 1;
             $model->wfp_payment = 1;
             $model->prepayment_sum = $data['amount'];
             $model->update();

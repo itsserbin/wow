@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Order extends Model
 {
+    protected $fillable = [
+        'prepayment_sum'
+    ];
+
     protected $dates = [
         'created_at',
         'updated_at',
@@ -33,7 +37,7 @@ class Order extends Model
         return $this->belongsTo(Client::class, 'client_id');
     }
 
-    public function invoices()
+    public function invoices(): HasMany
     {
         return $this->hasMany(Invoice::class, 'order_id');
     }
