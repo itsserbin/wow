@@ -114,6 +114,7 @@ class ProductStatisticsCommand extends Command
                 $q->with([
                     'orderItems' => function ($q) {
                         $q->select('id', 'product_id', 'order_id');
+                        $q->whereHas('order');
                         $q->with([
                             'order' => function ($q) {
                                 $q->select('id', 'status', 'created_at');
@@ -125,7 +126,7 @@ class ProductStatisticsCommand extends Command
 
             if (count($item->product->orderItems)) {
                 foreach ($item->product->orderItems as $orderItem) {
-                    if ($orderItem->order && $orderItem->order->created_at->format('Y-m-d') == $item->date) {
+                    if ($orderItem->order->created_at->format('Y-m-d') == $item->date) {
                         $total = 0;
                         $returns = 0;
                         $exchanges = 0;
