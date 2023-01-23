@@ -342,7 +342,7 @@ class OrderItemsRepository extends CoreRepository
 //        }
 
         return $model->sum(function($item) {
-            return $item->product->provider->refunds_sum;
+            return $item->product->provider->refunds ? $item->product->provider->refunds_sum : 0 ;
         });
     }
 
@@ -357,6 +357,18 @@ class OrderItemsRepository extends CoreRepository
             ->sum('clear_total_price');
     }
 
+    /**
+     * This code is a function that calculates the sum of all additional sales that were made on a specific date.
+     * The function starts by querying the orders table using the whereDate() method to filter the results
+     * based on the date passed as a parameter. It then uses the whereHas() method to filter the results
+     * based on the status of the order being equal to OrderStatus::STATUS_DONE.
+     * It then uses the select() method to select specific columns from the table and uses the where()
+     * method to filter the results based on the resale column being equal to 1. Finally, it uses the sum()
+     * method to calculate the sum of all the total_price values that match the previous filters.
+     *
+     * @param $date
+     * @return mixed
+     */
     public function sumAdditionalSalesByDate($date)
     {
         return $this->model::whereDate('created_at', $date)
