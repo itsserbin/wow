@@ -108,7 +108,19 @@ class ProductStatisticsCommand extends Command
 //            }
 //        }
 //    }
-        foreach (ProductStatistic::with([
+        foreach (ProductStatistic::all() as $pr) {
+            $pr->total = 0;
+            $pr->returns = 0;
+            $pr->exchanges = 0;
+            $pr->sales = 0;
+            $pr->canceled = 0;
+            $pr->conversion_rate = 0;
+            $pr->cancellation_rate = 0;
+            $pr->return_rate = 0;
+            $pr->exchanges_rate = 0;
+            $pr->update();
+        }
+        $data = ProductStatistic::with([
             'product' => function ($q) {
                 $q->select('id');
                 $q->with([
@@ -122,8 +134,9 @@ class ProductStatisticsCommand extends Command
                         ]);
                     }]);
             }
-        ])->get() as $item) {
+        ])->get();
 
+        foreach ($data as $item) {
             if (count($item->product->orderItems)) {
                 foreach ($item->product->orderItems as $orderItem) {
                     if ($orderItem->order->created_at->format('Y-m-d') == $item->date) {
