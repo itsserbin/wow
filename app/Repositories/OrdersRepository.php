@@ -39,9 +39,9 @@ class OrdersRepository extends CoreRepository
             ->find($id);
     }
 
-    public function getAllWithPaginate($data): LengthAwarePaginator
+    public function getAllWithPaginate($data)
     {
-        $columns = [
+        $model = $this->model::select(
             'id',
             'status',
             'waybill',
@@ -51,15 +51,16 @@ class OrdersRepository extends CoreRepository
             'total_price',
             'updated_at',
             'created_at',
-        ];
+        );
 
-        $model = $this->model::select($columns);
-
-        if (array_key_exists('status', $data)) {
+        if (isset($data['status'])) {
             $model->where('status', $data['status']);
         }
+        $results = $model->with(['client'])->orderBy('id', 'desc')->paginate(15);
 
-        return $model->orderBy('id', 'desc')->with('client')->paginate(15);
+        return $results->setCollection(
+            $results->getCollection()->map->toArray()
+        );
     }
 
     /**

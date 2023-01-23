@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\SmsController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -43,8 +44,13 @@ Route::prefix('admin')
             Route::get('/', [AdminController::class, 'crm'])
                 ->name('admin.crm.index');
 
-            Route::get('orders', [AdminController::class, 'orders'])
-                ->name('admin.crm.orders');
+            Route::prefix('orders')->group(function () {
+                Route::get('/', [AdminController::class, 'orders'])
+                    ->name('admin.crm.orders');
+
+                Route::get('export', [ExportController::class, 'orders'])
+                    ->name('admin.crm.orders.export');
+            });
 
             Route::get('clients', [AdminController::class, 'clients'])
                 ->name('admin.crm.clients');

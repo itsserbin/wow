@@ -13,7 +13,7 @@
         "autoprefixer": "^10.4.2",
         "axios": "^0.27",
         "laravel-vite-plugin": "^0.6.0",
-        "lodash": "^4.17.19",
+        "lodash": "^4.17.21",
         "postcss": "^8.4.6",
         "sass": "^1.35.1",
         "sass-loader": "^11.0.1",

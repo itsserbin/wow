@@ -15,18 +15,27 @@ class ProductsRepository extends CoreRepository
         return Model::class;
     }
 
-        public function getById($id): Model
-        {
-            return $this->model
-                ->where('id', $id)
-                ->with(
-                    'colors',
-                    'categories',
-                    'images',
-                    'sizes',
-                    'preview'
-                )->first();
-        }
+    /**
+     * Retrieve a model by its id, including related models for colors, categories, images, sizes, and preview.
+     *
+     * @param int $id The id of the model to retrieve
+     * @return Model The retrieved model
+     */
+    public function getById($id): Model
+    {
+        // Use the model property to query for a model with the given id
+        return $this->model
+            ->where('id', $id)
+            // Use the with method to eager load related models
+            ->with(
+                'colors',
+                'categories',
+                'images',
+                'sizes',
+                'preview'
+            )->first();
+    }
+
 
     public function getByIdToPublic($id): Model
     {
@@ -60,8 +69,15 @@ class ProductsRepository extends CoreRepository
             ])->first();
     }
 
-    public function search($query)
+    /**
+     * Search for a model by id or vendor code, and return the results paginated.
+     *
+     * @param string $query the search query
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator the paginated results
+     */
+    public function search(string $query): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
+        //Define the columns that need to be selected
         $columns = [
             'id',
             'status',
@@ -82,14 +98,19 @@ class ProductsRepository extends CoreRepository
             'updated_at',
         ];
 
+        //Select columns from model
         $model = $this->model::select($columns);
 
+        //Search for id or vendor_code
         return $model
             ->where('id', $query)
             ->orWhere('vendor_code', $query)
+            //Eager load the preview relation
             ->with('preview')
+            //Paginate the results
             ->paginate(15);
     }
+
 
     public function getAll()
     {
@@ -103,11 +124,12 @@ class ProductsRepository extends CoreRepository
     }
 
     /**
-     * @param string $sort
-     * @param string $param
-     * @param int $perPage
+     * Retrieve all models and paginate the results, sorted by the specified column and in the specified order.
      *
-     * @return LengthAwarePaginator
+     * @param string $sort the column to sort the results by
+     * @param string $param the sorting order ('asc' or 'desc')
+     * @param int $perPage the number of results per page
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator the paginated results
      */
     public function getAllWithPaginate(string $sort = 'id', string $param = 'desc', int $perPage = 15): LengthAwarePaginator
     {
@@ -131,11 +153,14 @@ class ProductsRepository extends CoreRepository
             'updated_at',
         ];
 
+        //Select columns and related models
         return $this
             ->model
             ->select($columns)
             ->with('provider', 'preview')
+            //Sort the results
             ->orderBy($sort, $param)
+            //Paginate the results
             ->paginate($perPage);
     }
 

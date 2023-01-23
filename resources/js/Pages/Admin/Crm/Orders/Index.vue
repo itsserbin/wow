@@ -4,36 +4,47 @@
             Замовлення
         </template>
 
-        <loader-component v-if="state.isLoading"/>
+        <Loader v-if="state.isLoading"/>
 
         <div v-if="!state.isLoading && can('show-orders')">
             <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-                <div class="md:col-span-1">
-                    <sidebar-component>
-                        <sidebar-item v-if="sidebar.length"
-                                      v-for="item in sidebar"
-                                      @click="sortByStatus(item.key)"
-                                      :active="state.sidebarActive === item.key"
+                <div class="md:col-span-1 gap-4">
+                    <Sidebar class="mb-5">
+                        <SidebarItem v-if="sidebar.length"
+                                     v-for="item in sidebar"
+                                     @click="sortByStatus(item.key)"
+                                     :active="state.sidebarActive === item.key"
                         >
                             {{ item.title }}
-                        </sidebar-item>
-                    </sidebar-component>
+                        </SidebarItem>
+                    </Sidebar>
+
+                    <Sidebar v-if="can('export-orders')">
+                        <SidebarItem v-if="exportSidebar.length"
+                                     v-for="item in exportSidebar"
+                                     @click="exportFunction(item.key)"
+                        >
+                            {{ item.title }}
+                        </SidebarItem>
+                    </Sidebar>
                 </div>
                 <div class="w-full md:col-span-4 grid gap-4 grid-cols-1">
-                    <search-component @search="search"
-                                      :clear="true"
-                                      placeholder="Імʼя, прізвище, телефон, накладка, коментар..."
+                    <Search @search="search"
+                            :clear="true"
+                            placeholder="Імʼя, прізвище, телефон, накладка, коментар..."
                     />
-                    <Table :data="state.orders.data"
+                    <Table v-if="state.orders"
+                           :data="state.orders.data"
                            @onEdit="onEdit"
                            @onDestroy="destroy"
                            :statuses="statuses"
                            :canDestroy="can('destroy-orders')"
                     />
                     <div class="text-center">
-                        <pagination :pagination="state.orders"
-                                    :click-handler="paginate"
-                                    v-model="state.currentPage"
+                        <Paginate v-if="state.orders"
+                                  :pagination="state.orders"
+                                  :click-handler="paginate"
+                                  v-model="state.currentPage"
                         />
                     </div>
                 </div>
@@ -68,10 +79,17 @@
 
 <script setup>
 import {computed, inject, onMounted, ref} from "vue";
+import Paginate from '@/Components/Paginate.vue';
+import Search from '@/Components/Search.vue';
+import Loader from '@/Components/Loader.vue';
+import Sidebar from '@/Components/Sidebar/Sidebar.vue';
+import SidebarItem from '@/Components/Sidebar/SidebarItem.vue';
 import ClientModal from '@/Pages/Admin/Crm/Clients/Modal.vue';
 import OrderModal from '@/Pages/Admin/Crm/Orders/Modal.vue';
 import Table from '@/Pages/Admin/Crm/Orders/Table.vue';
 import CrmLayout from '@/Pages/Admin/Crm/CrmLayout.vue';
+import {OrdersRepository} from '@/Repositories/OrdersRepository.js';
+import _ from 'lodash';
 
 const state = ref({
     orders: [],
@@ -87,6 +105,12 @@ const state = ref({
 });
 
 const sidebar = ref([]);
+const exportSidebar = [
+    {
+        title: 'Експортувати',
+        key: 'export'
+    }
+];
 const props = defineProps(['statuses', 'payment_methods', 'invoiceStatuses']);
 
 const swal = inject('$swal')
@@ -97,13 +121,9 @@ const params = ref({
 })
 
 const getParams = computed(() => {
-    const data = {};
-    data.page = params.value.currentPage;
-    if (params.value.status) {
-        data.status = params.value.status;
-    }
-    return data;
-})
+    const {currentPage, status = null} = params.value;
+    return {page: currentPage, status};
+});
 
 onMounted(() => {
     fetch();
@@ -130,14 +150,31 @@ onMounted(() => {
 const editModal = computed(() => state.value.isActiveEditModal ? OrderModal : null);
 const clientModal = computed(() => state.value.isActiveClientModal ? ClientModal : null);
 
-function onEditClient() {
-    axios.get(route('api.clients.edit', state.value.orderModal.client.id))
-        .then(({data}) => {
-            state.value.clientModal = data.result;
-            modalClientFunction();
-        })
-        .catch((errors) => console.log(errors))
+async function fetch() {
+    try {
+        const data = await OrdersRepository().fetch(getParams.value);
+        if (data.success) {
+            state.value.orders = data.result;
+        }
+        state.value.isLoading = false;
+    } catch (e) {
+        console.error(e);
+        state.value.isLoading = false;
+    }
+}
 
+async function onEditClient() {
+    const data = await OrdersRepository().edit(state.value.orderModal.client.id);
+    if (data.success) {
+        state.value.clientModal = data.result;
+        modalClientFunction();
+    }
+}
+
+function exportFunction(key) {
+    if (key === 'export') {
+        window.location.href = route('admin.crm.orders.export');
+    }
 }
 
 function modalClientFunction() {
@@ -170,117 +207,129 @@ function onUpdateClient() {
         })
 }
 
-function submitItemForm() {
-    axios.put(route('api.orders.update', state.value.orderModal.id), state.value.orderModal)
-    axios.get(route('api.orders.edit', state.value.orderModal.id))
-        .then(({data}) => state.value.orderModal = data.result)
-        .catch((errors) => console.log(errors))
-}
-
-function sortByStatus(status) {
-    state.value.sidebarActive = status;
-    if (status === 'all') {
-        params.value.status = null
-    } else {
-        params.value.status = status
-    }
-    fetch();
-}
-
-function paginate(page) {
-    if (page) {
-        params.value.currentPage = page;
-    }
-    fetch();
-}
-
-function search(query) {
-    axios.get(route('api.orders.search', query))
-        .then(({data}) => {
-            state.value.sidebarActive = null;
-            params.value.currentPage = 1;
-            state.value.orders = data.result;
-            state.value.isLoading = false;
-        })
-        .catch(errors => {
-            console.log(errors);
-            state.value.isLoading = false;
-        })
-}
-
-function fetch() {
-    axios.get(route('api.orders.index', getParams.value))
-        .then(({data}) => {
-            state.value.orders = data.result;
-            state.value.isLoading = false;
-        })
-        .catch(errors => {
-            console.log(errors);
-            state.value.isLoading = false;
-        })
-}
-
-function destroy(id) {
-    if (can('destroy-orders')) {
+async function submitItemForm() {
+    try {
+        const {success} = await OrdersRepository().update(state.value.orderModal.id, state.value.orderModal)
+        if (success) {
+            const {result} = await OrdersRepository().edit(state.value.orderModal.id);
+            state.value.orderModal = result
+        }
+    } catch (errors) {
+        console.error(errors);
         swal({
-            title: 'Видалити?',
-            icon: 'warning',
-            showCancelButton: true,
-        }).then((result) => {
-            if (result.isConfirmed) {
-                axios.delete(route('api.orders.destroy', id))
-                    .then(() => {
-                        state.value.isLoading = false;
-                        fetch();
-                        if (state.value.isActiveEditModal) {
-                            editModalFunction();
-                        }
-                        swal({
-                            title: 'Success!',
-                            icon: 'success'
-                        })
-                    })
-                    .catch(errors => {
-                        console.log(errors);
-                        swal({
-                            title: 'Error!',
-                            icon: 'error'
-                        })
-                    })
-            }
+            title: 'Error!',
+            icon: 'error',
+            text: errors.response.data.message || 'An error occurred, please try again later'
         });
     }
 }
 
-function onEdit(id, i) {
-    axios.get(route('api.orders.edit', id))
-        .then(({data}) => {
-            state.value.orderModal.index = i;
-            state.value.orderModal = data.result;
-            editModalFunction();
-            state.value.isLoading = false;
-        })
-        .catch((errors) => console.log(errors))
+
+const sortByStatus = _.debounce((status) => {
+    if (state.value.sidebarActive !== status) {
+        state.value.sidebarActive = status;
+        params.value.status = status === 'all' ? null : status;
+        fetch();
+    }
+}, 250);
+
+function paginate(page) {
+    params.value.currentPage = page ? page : params.value.currentPage;
+    fetch();
 }
 
-function onUpdate() {
-    if (can('edit-orders')) {
-        axios.put(route('api.orders.update', state.value.orderModal.id), state.value.orderModal)
-            .then(() => {
+async function search(query) {
+    try {
+        const {result, success} = await OrdersRepository().search(query);
+        if (success) {
+            state.value.sidebarActive = null;
+            params.value.currentPage = 1;
+            state.value.orders = result;
+            state.value.isLoading = false;
+        }
+    } catch (errors) {
+        console.error(errors);
+        swal({
+            title: 'Error!',
+            icon: 'error',
+            text: errors.response.data.message || 'An error occurred, please try again later'
+        });
+    }
+}
+
+async function destroy(id) {
+    try {
+        if (can('destroy-orders')) {
+            const confirm = await swal({
+                title: 'Видалити?',
+                icon: 'warning',
+                showCancelButton: true,
+            });
+            if (confirm.isConfirmed) {
+                await OrdersRepository().destroy(id);
+                state.value.isLoading = false;
+                await fetch();
+                if (state.value.isActiveEditModal) {
+                    editModalFunction();
+                }
+                swal({
+                    title: 'Success!',
+                    icon: 'success'
+                });
+            }
+        }
+    } catch (errors) {
+        console.error(errors);
+        swal({
+            title: 'Error!',
+            icon: 'error',
+            text: errors.response.data.message || 'An error occurred, please try again later'
+        });
+    }
+}
+
+async function onEdit(id, i) {
+    try {
+        const {result, success} = await OrdersRepository().edit(id);
+        if (success) {
+            state.value.orderModal.index = i;
+            state.value.orderModal = result;
+            editModalFunction();
+            state.value.isLoading = false;
+        }
+    } catch (error) {
+        state.value.isLoading = false;
+        console.error(error);
+        swal({
+            title: 'Error!',
+            icon: 'error',
+            text: error.response.data.message || 'An error occurred, please try again later'
+        });
+    }
+}
+
+async function onUpdate() {
+    try {
+        if (can('edit-orders')) {
+            const {success} = await OrdersRepository().update(state.value.orderModal.id, state.value.orderModal);
+            console.log(success);
+            if (success) {
                 editModalFunction();
-                fetch();
+                await fetch();
                 swal({
                     title: 'Success!',
                     icon: 'success'
                 })
-            })
-            .catch((errors) => {
-                console.log(errors);
-                swal({
-                    title: 'Error!',
-                    icon: 'error'
-                })
-            })
+            }
+        }
+    } catch (error) {
+        state.value.isLoading = false;
+        console.error(error);
+        swal({
+            title: 'Error!',
+            icon: 'error',
+            text: error.response.data.message || 'An error occurred, please try again later'
+        });
     }
 }
 
