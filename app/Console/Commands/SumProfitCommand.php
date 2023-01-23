@@ -63,8 +63,6 @@ class SumProfitCommand extends Command
         }
 
         foreach ($profit_old as $item) {
-//            dd($item->date->toDateString());
-//            $created_at = $item->date->toDateString();
             $item->turnover = $this->ordersRepository->sumDoneOrdersTotalPriceByDate($item->date);
             $item->cost = $this->costsRepository->sumCostsByDate($item->date);
             $item->marginality = $this->ordersRepository->sumDoneOrdersClearTotalPriceByDate($item->date);

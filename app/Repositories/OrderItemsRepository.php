@@ -52,7 +52,7 @@ class OrderItemsRepository extends CoreRepository
             $orderItem->trade_price = $product->trade_price;
             $orderItem->sale_price = $product->discount_price ?: $product->price;
             $orderItem->pay = false;
-            $orderItem->provider_id = $product->Providers?->id;
+            $orderItem->provider_id = $product->provider?->id;
 
             if ($promoCode) {
                 $discount = $this->promoCodesRepository->getDiscount($promoCode);
@@ -318,24 +318,32 @@ class OrderItemsRepository extends CoreRepository
     public function sumRefundsByDate($date)
     {
         $model = $this->model::whereDate('created_at', $date)
-            ->select('provider_id', 'order_id')
-            ->with('provider', 'order')
             ->whereHas('order', function ($q) {
                 $q->where('status', OrderStatus::STATUS_RETURN);
-            })->get();
+            })
+            ->select('product_id')
+            ->with(['product' => function ($q) {
+                $q->select('id', 'provider_id');
+                $q->with(['provider' => function ($q) {
+                    $q->select('id', 'refunds', 'refunds_sum');
+                }]);
+            }])
+            ->get();
 
-        $refundsSum = 0;
+//        $refundsSum = 0;
+//
+//        foreach ($model as $item) {
+//            if ($item->product->provider) {
+//                if ($item->product->provider->refunds) {
+//                    $refundsSum += $item->product->provider->refunds_sum;
+//                }
+//            }
+//
+//        }
 
-        foreach ($model as $item) {
-            if ($item->provider) {
-                if ($item->provider->refunds) {
-                    $refundsSum += $item->provider->refunds_sum;
-                }
-            }
-
-        }
-
-        return $refundsSum;
+        return $model->sum(function($item) {
+            return $item->product->provider->refunds_sum;
+        });
     }
 
     public function sumMarginalityAdditionalSalesByDate($date)
