@@ -29,7 +29,7 @@ class FacebookController extends Controller
      */
     public function view()
     {
-        if (env('APP_ENV') === 'production') {
+        if (env('APP_ENV') !== 'local') {
             try {
                 $api = Api::init(null, null, $this->access_token);
                 $api->setLogger(new CurlLogger());
@@ -73,7 +73,7 @@ class FacebookController extends Controller
 
     public function viewContent($product)
     {
-        if (env('APP_ENV') === 'production') {
+        if (env('APP_ENV') !== 'local') {
             try {
                 $api = Api::init(null, null, $this->access_token);
                 $api->setLogger(new CurlLogger());
@@ -137,7 +137,7 @@ class FacebookController extends Controller
 
     public function addToCard($item, $src)
     {
-        if (env('APP_ENV') === 'production') {
+        if (env('APP_ENV') !== 'local') {
             try {
                 $api = Api::init(null, null, $this->access_token);
                 $api->setLogger(new CurlLogger());
@@ -201,7 +201,7 @@ class FacebookController extends Controller
 
     public function InitiateCheckout($list)
     {
-        if (env('APP_ENV') === 'production') {
+        if (env('APP_ENV') !== 'local') {
             try {
                 $api = Api::init(null, null, $this->access_token);
                 $api->setLogger(new CurlLogger());
@@ -268,7 +268,7 @@ class FacebookController extends Controller
 
     public function Purchase($list, $user, $order)
     {
-        if (env('APP_ENV') === 'production') {
+        if (env('APP_ENV') !== 'local') {
             try {
                 $api = Api::init(null, null, $this->access_token);
                 $api->setLogger(new CurlLogger());
