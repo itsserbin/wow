@@ -49,12 +49,6 @@ Route::group(['prefix' => App\Http\Middleware\LocaleMiddleware::getLocale()], fu
     require __DIR__ . '/xml.php';
 });
 
-Route::get('test', function () {
-    $ip = $_SERVER['HTTP_X_REAL_IP'];
-    $query = @unserialize(file_get_contents('http://ip-api.com/php/'.$ip));
-    return dd($query);
-});
-
 Route::post('sms-new-order', [SmsController::class, 'newOrder'])
     ->name('sms.new.order');
 

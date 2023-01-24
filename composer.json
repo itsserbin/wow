@@ -14,6 +14,7 @@
         "daaner/turbosms": "^1.35",
         "diglactic/laravel-breadcrumbs": "^8.0",
         "doctrine/dbal": "^3.4",
+        "facebook/php-business-sdk": "^15.0",
         "guzzlehttp/guzzle": "^7.2",
         "inertiajs/inertia-laravel": "^0.6.3",
         "intervention/image": "^2.7",

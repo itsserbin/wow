@@ -4,6 +4,7 @@ namespace App\Services;
 
 //use App\Mail\NewOrder;
 //use App\Mail\Order;
+use App\Http\Controllers\FacebookController;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Order;
@@ -28,6 +29,7 @@ class OrderCheckoutService
     private $clientsRepository;
     private $cookie;
     private $telegramNotificationService;
+    private $facebookController;
 
     public function __construct()
     {
@@ -39,6 +41,8 @@ class OrderCheckoutService
         $this->ordersRepository = app(OrdersRepository::class);
         $this->orderItemsRepository = app(OrderItemsRepository::class);
         $this->cookie = Cookie::get('cart');
+        $this->facebookController = app(FacebookController::class);
+
     }
 
     public function createOrder(array $data)
@@ -75,6 +79,7 @@ class OrderCheckoutService
                     $this->productRepository->updateProductTotalSales($item->product_id);
                 }
                 $this->clientsRepository->updateAvgAndWholeCheck($client->id);
+                $this->facebookController->Purchase($cart->items, $client, $order);
                 $this->deleteCartItems($cart->id);
 //                $this->telegramNotificationService->order($order, $name, $phone);
             }

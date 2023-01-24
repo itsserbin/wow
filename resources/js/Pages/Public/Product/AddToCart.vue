@@ -120,7 +120,7 @@ const props = defineProps([
 onMounted(() => {
     state.value.product = JSON.parse(props.product);
     item.value.item_id = state.value.product.id;
-
+    console.log()
     if (import.meta.env.MODE === 'production') {
 
         try {
@@ -155,6 +155,7 @@ const item = ref({
     size: [],
     color: [],
     item_id: null,
+    src: route(route().current(),route().params)
 });
 
 const state = ref({

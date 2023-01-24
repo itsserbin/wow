@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\V1\InvoicesController;
 use App\Http\Controllers\Api\V1\CallbacksController;
 use App\Http\Controllers\Api\V1\SupportsController;
 use App\Http\Controllers\External\NovaPoshtaController;
+use App\Http\Controllers\FacebookController;
 use Illuminate\Support\Facades\Route;
 
 /** Public API */

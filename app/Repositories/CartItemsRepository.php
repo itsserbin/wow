@@ -32,7 +32,7 @@ class CartItemsRepository extends CoreRepository
 
         $item->save();
 
-        return $item;
+        return $this->model::where('id',$item->id)->with('product')->first();
     }
 
     public function update($data, $cart_id)
@@ -42,6 +42,8 @@ class CartItemsRepository extends CoreRepository
         $item->count = $data['count'];
 
         $item->save();
+
+        return $this->model::where('id',$item->id)->with('product')->first();
     }
 
     public function destroy($cart_id, $id)

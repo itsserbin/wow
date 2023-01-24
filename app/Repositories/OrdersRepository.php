@@ -135,7 +135,7 @@ class OrdersRepository extends CoreRepository
             $this->calculatePrice($order->id);
         }
 
-        return $order;
+        return $this->model::where('id',$order->id)->first();
     }
 
     /**

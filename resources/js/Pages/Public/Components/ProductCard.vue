@@ -158,6 +158,7 @@ const item = ref({
     size: [],
     color: [],
     item_id: null,
+    src: route(route().current(), route().params)
 });
 
 const discountPercentage = computed(() => (price, discount_price) => `- ${(((price - discount_price) * 100) / price).toFixed()}%`);

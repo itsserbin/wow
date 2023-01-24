@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Controllers\FacebookController;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Repositories\CartRepository;
@@ -16,14 +17,11 @@ use Illuminate\Support\Facades\Cookie;
 class ShoppingCartService
 {
     private $cartRepository;
-
     private $cartItemsRepository;
-
     private $promoCodesRepository;
-
     private $cookie;
-
     private $uuid;
+    private $facebookController;
 
     public function __construct()
     {
@@ -32,6 +30,7 @@ class ShoppingCartService
         $this->promoCodesRepository = app(PromoCodesRepository::class);
         $this->cookie = Cookie::get('cart');
         $this->uuid = (string)Str::uuid();
+        $this->facebookController = app(FacebookController::class);
     }
 
     /**
@@ -94,6 +93,7 @@ class ShoppingCartService
                     'price' => $item->product->price * $item->count,
                     'discount_price' => $item->product->discount_price * $item->count,
                     'maxcount' => 50,
+                    'category' => count($item->product->categories) ? $item->product->categories[0]->title : 'Без категорії'
                 ];
             }
 
@@ -144,10 +144,12 @@ class ShoppingCartService
         if ($item) {
             $data['count'] = $data['count'] + $item->count;
 
-            $this->cartItemsRepository->update($data, $cart->id);
+            $cartItem = $this->cartItemsRepository->update($data, $cart->id);
         } else {
-            $this->cartItemsRepository->create($data, $cart->id);
+            $cartItem = $this->cartItemsRepository->create($data, $cart->id);
         }
+
+        $this->facebookController->addToCard($cartItem,$data['src']);
 
         return false;
     }
