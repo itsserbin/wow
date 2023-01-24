@@ -1,8 +1,8 @@
 <template>
     <section class="banners mb-5" v-if="banners.length">
         <Swiper :modules="modules" v-bind="settings">
-            <SwiperSlide v-for="(banner,i) in banners" :key="i">
-                <a :href="getLink(banner.link)" class="rounded-lg">
+            <SwiperSlide v-for="(banner,i) in banners" :key="i" class="rounded-lg">
+                <a :href="getLink(banner.link)">
                     <picture>
                         <source
                             media="(max-width: 568px)"
