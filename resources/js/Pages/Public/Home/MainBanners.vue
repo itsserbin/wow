@@ -1,16 +1,12 @@
 <template>
     <section class="banners mb-5" v-if="state.banners.length">
-        <swiper
-            :modules="modules"
-            v-bind="settings"
-        >
-
+        <swiper :modules="modules" v-bind="settings">
             <swiper-slide v-for="(banner,i) in state.banners" :key="i">
-                <a :href="lang === 'ru' ? (banner.link.ru ? banner.link.ru : 'javascript:' ) : (lang === 'ua' ? (banner.link.ua ? banner.link.ua : 'javascript:') : 'javascript:')"
-                >
+                <a :href="getLink(banner.link)" class="rounded-lg">
                     <picture>
-                        <source media="(max-width: 568px)"
-                                :srcset="route('images.banners.mobile',lang === 'ru' ? banner.image_mobile.ru : (lang === 'ua' ? banner.image_mobile.ua : null))"
+                        <source
+                            media="(max-width: 568px)"
+                            :srcset="route('images.banners.mobile',lang === 'ru' ? banner.image_mobile.ru : (lang === 'ua' ? banner.image_mobile.ua : null))"
                         >
                         <source
                             :srcset="route('images.banners.table',lang === 'ru' ? banner.image_table.ru : (lang === 'ua' ? banner.image_table.ua : null))"
@@ -20,7 +16,7 @@
                         <img
                             :srcset="route('images.banners.desktop',lang === 'ru' ? banner.image_desktop.ru : (lang === 'ua' ? banner.image_desktop.ua : null))"
                             :alt="lang === 'ru' ? banner.title.ru : (lang === 'ua' ? banner.title.ua : null)"
-                            class="w-full rounded-lg"
+                            class="w-full"
                         >
                     </picture>
                 </a>
@@ -31,12 +27,12 @@
 </template>
 
 <script setup>
-import {Lazy, Autoplay, Pagination,EffectCreative} from "swiper";
-import {onMounted, ref} from "vue";
+import {Lazy, Autoplay, Pagination, EffectCreative} from "swiper";
+import {computed, onMounted, ref} from "vue";
 
-defineProps(['lang']);
+const props = defineProps(['lang']);
 
-const modules = [Lazy, Autoplay, Pagination,EffectCreative];
+const modules = [Lazy, Autoplay, Pagination, EffectCreative];
 const settings = {
     slidesPerView: 1,
     spaceBetween: 0,
@@ -61,6 +57,16 @@ const settings = {
         },
     }
 };
+
+function getLink(val) {
+    if (props.lang === 'ru') {
+        return val.ru ? val.ru : 'javascript:'
+    } else if (props.lang === 'ua') {
+        return val.ua ? val.ua : 'javascript:'
+    } else {
+        return 'javascript:'
+    }
+}
 
 const state = ref({
     banners: [],
