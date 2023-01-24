@@ -19,7 +19,7 @@ defineProps({
                     py-2
                     border
                     border-transparent
-                    rounded-md
+                    rounded-lg
                     font-semibold
                     text-xs
                     text-white

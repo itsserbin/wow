@@ -1,6 +1,6 @@
 <template>
     <section class="relative product-list" v-if="products.length">
-        <div class="font-bold text-black text-center text-[24px] mb-[15px]">
+        <div class="font-bold text-black text-center text-2xl font-heading mb-[15px]">
             {{ textBestSelling }}
         </div>
         <div class="relative-slider">
@@ -22,7 +22,7 @@ import {onMounted, ref} from "vue";
 
 const modules = [Navigation, Autoplay, Lazy];
 const settings = {
-    spaceBetween: 5,
+    spaceBetween: 10,
     navigation: true,
     pagination: {
         clickable: true,

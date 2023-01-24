@@ -5,7 +5,7 @@
                     grid
                     border-[1px]
                     border-secondary
-                    rounded-b-[5px]
+                    rounded-lg
                     relative
                     hover:scale-105
                     transition-all
@@ -13,6 +13,18 @@
                     h-full
             "
     >
+        <div v-if="product.discount_price"
+             class="
+                    absolute
+                    rounded-xl
+                    bg-secondary
+                    p-1
+                    top-1
+                    left-1
+                "
+        >
+            {{ discountPercentage(product.price, product.discount_price) }}
+        </div>
         <div class="w-full mx-auto h-56 md:h-72">
             <a :href="route('product',product.id)">
                 <picture>
@@ -20,7 +32,7 @@
                     <img v-lazy
                          :data-src="route('images.350',product.preview.src) "
                          :alt="lang === 'ru' ? product.h1.ru : (lang === 'ua' ? product.h1.ua : null)"
-                         class="h-full object-cover w-full"
+                         class="h-full object-cover w-full rounded-t-lg"
                     >
                 </picture>
             </a>
@@ -124,7 +136,7 @@
 </template>
 
 <script setup>
-import {inject, ref} from "vue";
+import {computed, inject, ref} from "vue";
 import {useStore} from "vuex";
 import {useGtm} from "@gtm-support/vue-gtm";
 
@@ -146,6 +158,8 @@ const item = ref({
     color: [],
     item_id: null,
 });
+
+const discountPercentage = computed(() => (price, discount_price) => `- ${(((price - discount_price) * 100) / price).toFixed()}%`);
 
 function addToCard(id) {
     item.value.item_id = id;

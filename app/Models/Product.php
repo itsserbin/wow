@@ -65,7 +65,8 @@ class Product extends Model
      * The function specifies that the Product model belongs to a Provider model using the 'provider_id' foreign key.
      * This relationship allows us to retrieve the Provider associated with a
      * specific Product by calling the 'provider' function on an instance of the Product model.
-     * @return BelongsTo
+     *
+     * @return BelongsTo relationship
      */
     public function provider(): BelongsTo
     {
@@ -73,10 +74,11 @@ class Product extends Model
     }
 
     /**
-     *
      * The categories() function returns a morphToMany relationship between the Product model and the Category model.
      * This relationship allows the Product model to belong to multiple categories through the categoryables table.
      * The 'categoryables' table is used as a pivot table to store the relationship between the Product model and the Category model.
+     *
+     * @return MorphToMany relationship
      */
     public function categories(): MorphToMany
     {
@@ -84,10 +86,10 @@ class Product extends Model
     }
 
     /**
-     *
      * Define a many-to-many relationship between Product and Color models.
      * product_colors table is used as a pivot table with 'product_id' and 'color_id' as foreign keys.
-     * @return BelongsToMany
+     *
+     * @return BelongsToMany relationship
      */
     public function colors(): BelongsToMany
     {
@@ -95,13 +97,13 @@ class Product extends Model
     }
 
     /**
-     *
      * This function creates a relationship between the Product model and the Size model.
      * It uses the Eloquent ORM's BelongsToMany method, specifying that a product can have multiple sizes,
      * and a size can belong to multiple products.
      * The relationship is defined by the pivot table 'product_sizes', with the foreign key 'product_id'
      * linking to the 'id' column of the Product model, and the foreign key 'size_id' linking to the 'id' column of the Size model.
-     * @return BelongsToMany
+     *
+     * @return BelongsToMany relationship
      */
     public function sizes(): BelongsToMany
     {
@@ -109,11 +111,11 @@ class Product extends Model
     }
 
     /**
-     *
      * This function is used to define a one-to-many relationship between the Product model and the ProductReview model.
      * The Product model is the parent of the relationship and the ProductReview model is the child.
      * The 'product_id' column in the ProductReview model is used to connect the two models.
-     * @return HasMany
+     *
+     * @return HasMany relationship
      */
     public function reviews(): HasMany
     {
@@ -121,13 +123,13 @@ class Product extends Model
     }
 
     /**
-     *
      * Define a many-to-many relationship with the Image model.
      * This relationship represents the images that are associated with a product.
      * The pivot table used for this relationship is 'product_images'.
      * The foreign key on the product_images table for the product model is 'product_id'.
      * The foreign key on the product_images table for the image model is 'image_id'.
-     * @return BelongsToMany
+     *
+     * @return BelongsToMany relationship
      */
     public function images(): BelongsToMany
     {
@@ -135,11 +137,11 @@ class Product extends Model
     }
 
     /**
-     *
-     *
      * This function returns a HasMany relationship with the OrderItem model.
      * It specifies that a product has many order items and the foreign key on the order_items table is 'product_id'.
      * This allows us to easily retrieve all the order items associated with a specific product.
+     *
+     * @return HasMany relationship
      */
     public function orderItems(): HasMany
     {
@@ -147,10 +149,10 @@ class Product extends Model
     }
 
     /**
-     *
      * Define the relationship between the Product model and the Image model.
      * The Product model belongs to an Image model.
      * This relationship is defined by the "preview_id" column on the products table and the id column on the images table.
+     *
      * @return BelongsTo relationship
      */
     public function preview(): BelongsTo

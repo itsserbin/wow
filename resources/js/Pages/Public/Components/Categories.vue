@@ -2,14 +2,14 @@
     <div>
         <loader v-if="state.isLoading"></loader>
         <div class="grid grid-cols-2 md:grid-cols-7 gap-4" v-if="state.categories.length && !state.isLoading">
-            <div class="border-[1px] border-secondary hover:scale-105 transition-all duration-300" v-for="item in state.categories">
+            <div class="border-[1px] border-secondary hover:scale-105 transition-all duration-300 rounded-lg" v-for="item in state.categories">
                 <a :href="route('category',item.slug)">
                     <div class="h-52">
                         <picture class="w-full">
                             <source v-lazy :data-src="route('images.350',item.preview.webp_src)" type="image/webp">
                             <img v-lazy
                                  :data-src="route('images.350',item.preview.src) "
-                                 class="h-full object-cover w-full"
+                                 class="h-full object-cover w-full rounded-t-lg"
                             >
                         </picture>
                     </div>
