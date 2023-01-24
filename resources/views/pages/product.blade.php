@@ -49,6 +49,7 @@
                 <add-to-cart product="{{$product}}"
                              event-id-content="{{$event_id_content}}"
                              event-id-add-to-card="{{$event_id_addToCard}}"
+                             event-id-purchase-in-1-click="{{$event_id_purchase_in_1_click}}"
                 ></add-to-cart>
                 <div class="content">
                     {!! app()->getLocale() == 'ua' ? $product->content['ua'] : $product->content['ru'] !!}

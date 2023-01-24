@@ -100,11 +100,13 @@
                  :item="item"
                  :product="state.product"
                  :cart="store.state.list"
+                 :eventIdPurchaseIn1Click="props.eventIdPurchaseIn1Click"
+                 :eventIdAddToCard="props.eventIdAddToCard"
     />
 </template>
 
 <script setup>
-import {computed, inject, onMounted, ref} from "vue";
+import {inject, onMounted, ref} from "vue";
 import {useStore} from "vuex";
 import BuyIn1Click from '@/Pages/Public/Product/BuyIn1ClickModal.vue';
 import {useGtm} from "@gtm-support/vue-gtm";
@@ -116,7 +118,8 @@ const store = useStore();
 const props = defineProps([
     'product',
     'eventIdContent',
-    'eventIdAddToCard'
+    'eventIdAddToCard',
+    'eventIdPurchaseIn1Click',
 ]);
 
 onMounted(() => {

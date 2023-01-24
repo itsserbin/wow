@@ -2,12 +2,6 @@
 
 namespace App\Services;
 
-//use App\Mail\NewOrder;
-//use App\Mail\Order;
-use App\Http\Controllers\FacebookController;
-use App\Models\Cart;
-use App\Models\CartItem;
-use App\Models\Order;
 use App\Repositories\CartItemsRepository;
 use App\Repositories\CartRepository;
 use App\Repositories\ClientsRepository;
@@ -16,8 +10,6 @@ use App\Repositories\OrdersRepository;
 use App\Repositories\ProductsRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 
 class OrderCheckoutService
 {
@@ -29,7 +21,7 @@ class OrderCheckoutService
     private $clientsRepository;
     private $cookie;
     private $telegramNotificationService;
-    private $facebookController;
+    private $facebookService;
 
     public function __construct()
     {
@@ -41,7 +33,7 @@ class OrderCheckoutService
         $this->ordersRepository = app(OrdersRepository::class);
         $this->orderItemsRepository = app(OrderItemsRepository::class);
         $this->cookie = Cookie::get('cart');
-        $this->facebookController = app(FacebookController::class);
+        $this->facebookService = app(FacebookService::class);
 
     }
 
@@ -79,7 +71,7 @@ class OrderCheckoutService
                     $this->productRepository->updateProductTotalSales($item->product_id);
                 }
                 $this->clientsRepository->updateAvgAndWholeCheck($client->id);
-                $this->facebookController->Purchase($cart->items, $client, $order, $data['event_id']);
+                $this->facebookService->Purchase($cart->items, $client, $order, $data['event_id']);
                 $this->deleteCartItems($cart->id);
 //                $this->telegramNotificationService->order($order, $name, $phone);
             }

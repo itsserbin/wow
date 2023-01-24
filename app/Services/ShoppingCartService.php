@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Http\Controllers\FacebookController;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Repositories\CartRepository;
@@ -21,7 +20,7 @@ class ShoppingCartService
     private $promoCodesRepository;
     private $cookie;
     private $uuid;
-    private $facebookController;
+    private $facebookService;
 
     public function __construct()
     {
@@ -30,7 +29,7 @@ class ShoppingCartService
         $this->promoCodesRepository = app(PromoCodesRepository::class);
         $this->cookie = Cookie::get('cart');
         $this->uuid = (string)Str::uuid();
-        $this->facebookController = app(FacebookController::class);
+        $this->facebookService = app(FacebookService::class);
     }
 
     /**
@@ -149,7 +148,7 @@ class ShoppingCartService
             $cartItem = $this->cartItemsRepository->create($data, $cart->id);
         }
 
-        $this->facebookController->addToCard($cartItem,$data['src'],$data['event_id']);
+        $this->facebookService->addToCard($cartItem,$data['src'],$data['event_id']);
 
         return false;
     }

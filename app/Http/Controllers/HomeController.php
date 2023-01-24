@@ -8,11 +8,11 @@ use App\Repositories\CategoriesRepository;
 use App\Repositories\OptionsRepository;
 use App\Repositories\PagesRepository;
 use App\Repositories\ProductsRepository;
+use App\Services\FacebookService;
 use App\Services\ShoppingCartService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Cookie;
 
 class HomeController extends Controller
 {
@@ -21,7 +21,7 @@ class HomeController extends Controller
     private mixed $optionsRepository;
     private mixed $advantagesRepository;
     private mixed $pagesRepository;
-    private mixed $facebookController;
+    private mixed $facebookService;
     private mixed $shoppingCartService;
 
     public function __construct()
@@ -32,13 +32,13 @@ class HomeController extends Controller
         $this->optionsRepository = app(OptionsRepository::class);
         $this->advantagesRepository = app(AdvantagesRepository::class);
         $this->pagesRepository = app(PagesRepository::class);
-        $this->facebookController = app(FacebookController::class);
+        $this->facebookService = app(FacebookService::class);
         $this->shoppingCartService = app(ShoppingCartService::class);
     }
 
     public function home(): View|Factory|Application
     {
-        $this->facebookController->view();
+        $this->facebookService->view();
         return view('pages.home', [
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
@@ -52,7 +52,7 @@ class HomeController extends Controller
         $result = $this->categoriesRepository->findFySlug($slug);
 
         if ($result) {
-            $this->facebookController->view();
+            $this->facebookService->view();
             return view('pages.category', [
                 'category' => $result,
                 'categories' => $this->getCategories(),
@@ -69,10 +69,14 @@ class HomeController extends Controller
         $result = $this->productRepository->getByIdToPublic($id);
 
         if ($result) {
-            $this->facebookController->view();
+            $this->facebookService->view();
+
             $event_id_content = uniqid() . '_viewContent' . '_' . time();
             $event_id_addToCard = uniqid() . '_AddToCart' . '_' . time();
-            $this->facebookController->viewContent($result, $event_id_content);
+            $event_id_purchase_in_1_click = uniqid() . '_Purchase_in_1_click' . '_' . time();
+            $event_id_add_to_cart_in_1_click = uniqid() . '_AddToCard_in_1_click' . '_' . time();
+
+            $this->facebookService->viewContent($result, $event_id_content);
             $this->productRepository->updateProductViewed($id);
             return view('pages.product', [
                 'options' => $this->getOptions(),
@@ -82,6 +86,8 @@ class HomeController extends Controller
                 'categories' => $this->getCategories(),
                 'event_id_content' => $event_id_content,
                 'event_id_addToCard' => $event_id_addToCard,
+                'event_id_purchase_in_1_click' => $event_id_purchase_in_1_click,
+                'event_id_add_to_cart_in_1_click' => $event_id_add_to_cart_in_1_click,
             ]);
         } else {
             return abort(404);
@@ -91,7 +97,7 @@ class HomeController extends Controller
 
     public function cart(): Factory|View|Application
     {
-        $this->facebookController->view();
+        $this->facebookService->view();
 
         return view('pages.cart', [
             'options' => $this->getOptions(),
@@ -103,8 +109,8 @@ class HomeController extends Controller
     public function checkout(): Factory|View|Application
     {
         $event_id_initiateCheckout = uniqid() . '_initiateCheckout' . '_' . time();
-        $this->facebookController->view();
-        $this->facebookController->InitiateCheckout($this->shoppingCartService->cartList(), $event_id_initiateCheckout);
+        $this->facebookService->view();
+        $this->facebookService->InitiateCheckout($this->shoppingCartService->cartList(), $event_id_initiateCheckout);
         return view('pages.checkout', [
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
@@ -118,7 +124,7 @@ class HomeController extends Controller
     {
         $result = $this->pagesRepository->getBySlug($slug);
         if ($result) {
-            $this->facebookController->view();
+            $this->facebookService->view();
             return view('pages.page', [
                 'page' => $result,
                 'options' => $this->getOptions(),
@@ -133,7 +139,7 @@ class HomeController extends Controller
 
     public function reviews(): View|Factory|Application
     {
-        $this->facebookController->view();
+        $this->facebookService->view();
         return view('pages.reviews', [
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
@@ -152,7 +158,7 @@ class HomeController extends Controller
 
     public function status(): View|Factory|Application
     {
-        $this->facebookController->view();
+        $this->facebookService->view();
         return view('pages.status', [
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
@@ -163,7 +169,7 @@ class HomeController extends Controller
 
     public function support(): View|Factory|Application
     {
-        $this->facebookController->view();
+        $this->facebookService->view();
         return view('pages.support', [
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),

@@ -12,7 +12,6 @@ use App\Http\Controllers\Api\V1\InvoicesController;
 use App\Http\Controllers\Api\V1\CallbacksController;
 use App\Http\Controllers\Api\V1\SupportsController;
 use App\Http\Controllers\External\NovaPoshtaController;
-use App\Http\Controllers\FacebookController;
 use Illuminate\Support\Facades\Route;
 
 /** Public API */
@@ -109,6 +108,9 @@ Route::prefix('v1')->middleware('api')->group(function () {
 
         Route::post('create', [OrdersController::class, 'create'])
             ->name('api.v1.orders.create');
+
+        Route::post('create-1-click', [OrdersController::class, 'create1Click'])
+            ->name('api.v1.orders.create.1click');
 
         Route::get('special/{orderId}', [OrdersController::class, 'getSpecialOffer'])
             ->name('api.v1.orders.special');

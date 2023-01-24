@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Requests\Public\OrderCreate1ClickRequest;
 use App\Http\Requests\Public\OrderCreateRequest;
 use App\Http\Requests\Public\OrderStatusRequest;
 use App\Repositories\OrdersRepository;
@@ -26,6 +27,14 @@ class OrdersController extends BaseController
     }
 
     public function create(OrderCreateRequest $request): JsonResponse
+    {
+        return $this->returnResponse([
+            'success' => true,
+            'order' => $this->orderCheckoutService->createOrder($request->all())
+        ]);
+    }
+
+    public function create1Click(OrderCreate1ClickRequest $request): JsonResponse
     {
         return $this->returnResponse([
             'success' => true,
