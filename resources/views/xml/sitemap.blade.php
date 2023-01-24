@@ -5,16 +5,6 @@
         <changefreq>daily</changefreq>
         <priority>1</priority>
     </url>
-    <url>
-        <loc>{{route('privacy-policy')}}</loc>
-        <changefreq>daily</changefreq>
-        <priority>1</priority>
-    </url>
-    <url>
-        <loc>{{route('exchange-policy')}}</loc>
-        <changefreq>daily</changefreq>
-        <priority>1</priority>
-    </url>
     @if (!empty($categories))
         @foreach ($categories as $category_item)
             <url>
@@ -29,6 +19,7 @@
         @foreach ($products as $item)
             <url>
                 <loc>{{route('product',$item->id)}}</loc>
+
                 <lastmod>{{$item->updated_at->toAtomString()}}</lastmod>
                 <changefreq>daily</changefreq>
                 <priority>1</priority>

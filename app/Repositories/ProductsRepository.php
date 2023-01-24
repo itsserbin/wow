@@ -556,6 +556,8 @@ class ProductsRepository extends CoreRepository
                 'preview_id',
                 'total_sales',
                 'h1',
+                'created_at',
+                'updated_at',
             ];
 
             return $this

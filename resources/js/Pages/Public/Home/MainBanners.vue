@@ -1,7 +1,7 @@
 <template>
     <section class="banners mb-5" v-if="banners.length">
         <Swiper :modules="modules" v-bind="settings" class="main-banners-slider">
-            <SwiperSlide v-for="(banner,i) in banners" :key="i" class="rounded-lg">
+            <SwiperSlide v-for="(banner,i) in banners" :key="i" class="shadow-sm">
                 <a :href="getLink(banner.link)">
                     <picture>
                         <source
@@ -16,7 +16,7 @@
                         <img
                             :srcset="route('images.banners.desktop',lang === 'ru' ? banner.image_desktop.ru : (lang === 'ua' ? banner.image_desktop.ua : null))"
                             :alt="lang === 'ru' ? banner.title.ru : (lang === 'ua' ? banner.title.ua : null)"
-                            class="w-full rounded-lg shadow-sm"
+                            class="w-full"
                         >
                     </picture>
                 </a>
@@ -75,12 +75,3 @@ function getLink(val) {
     }
 }
 </script>
-
-<style>
-.main-banners-slider .swiper-slide-duplicate-next {
-    display: none;
-}
-.main-banners-slider .swiper-slide-duplicate-prev {
-    display: none;
-}
-</style>

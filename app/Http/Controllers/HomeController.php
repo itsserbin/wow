@@ -93,7 +93,7 @@ class HomeController extends Controller
         ]);
     }
 
-    public function page($slug): Factory|View|Application
+    public function page($slug)
     {
         $result = $this->pagesRepository->getBySlug($slug);
         if ($result) {

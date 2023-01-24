@@ -154,6 +154,25 @@ class XmlsController extends Controller
             'products' => $products
         ])->header('Content-Type', 'application/xml');
     }
+
+    public function sitemap(): Response
+    {
+       $result = $this->xmlService->getSitemap();
+
+        return response()->view('xml.sitemap', [
+            'products' => $result['products'],
+            'categories' => $result['categories'],
+        ])->header('Content-Type', 'application/xml');
+    }
+
+    public function imagesSitemap(): Response
+    {
+        $result = $this->xmlService->getImagesSitemap();
+
+        return response()->view('xml.images-sitemap', [
+            'products' => $result,
+        ])->header('Content-Type', 'application/xml');
+    }
 //
 //    /**
 //     * Открыть товарный фид для prom.ua.

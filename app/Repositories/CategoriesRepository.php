@@ -86,7 +86,7 @@ class CategoriesRepository extends CoreRepository
     public function getAllToFeed()
     {
         return $this
-            ->model::where('published', true)
+            ->model::where('published', 1)
             ->select(
                 'id',
                 'title',

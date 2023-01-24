@@ -4,11 +4,11 @@
     @foreach($products as $product)
         <url>
             <loc>{{route('product',$product->id)}}</loc>
-            @foreach($product->ProductsPhoto as $item)
+            @foreach($product->images as $item)
                 <image:image>
-                    <image:loc>{{asset($item->image)}}</image:loc>
-                    <image:caption>{{$product->description}}</image:caption>
-                    <image:title>{{$product->h1}}</image:title>
+                    <image:loc>{{asset(route('images',$item->src))}}</image:loc>
+                    <image:caption>{{$product->description[app()->getLocale()]}}</image:caption>
+                    <image:title>{{$product->h1[app()->getLocale()]}}</image:title>
                 </image:image>
             @endforeach
         </url>
