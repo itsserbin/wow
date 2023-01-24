@@ -80,8 +80,7 @@ function getLink(val) {
 .main-banners-slider .swiper-slide-duplicate-next {
     display: none;
 }
-
-.main-banners-slider .swiper-slide-duplicate {
+.main-banners-slider .swiper-slide-duplicate-prev {
     display: none;
 }
 </style>
