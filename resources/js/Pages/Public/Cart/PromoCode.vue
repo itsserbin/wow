@@ -22,49 +22,34 @@
                         text-center
                     "
         >Промокод</label>
-        <input-component type="text"
-                         placeholder="XXX-XXX-XXX"
-                         v-model="promo_code"
-                         v-if="!store.state.promo_code"
-                         class="text-[.875rem] py-1 text-center w-[100%] rounded-[20px] mx-3 my-3 md:my-0 font-heading"
-        ></input-component>
+        <Input type="text"
+               placeholder="XXX-XXX-XXX"
+               v-model="promo_code"
+               v-if="!store.state.promo_code"
+               class="py-1 text-center w-[100%] rounded-[20px] mx-3 my-3 md:my-0 font-heading"
+        />
 
-        <input-component type="text"
-                         placeholder="XXX-XXX-XXX"
-                         :value="store.state.promo_code"
-                         v-if="store.state.promo_code"
-                         class="text-[.875rem] py-1 text-center w-[100%] rounded-[20px] mx-3 my-3 md:my-0 font-heading"
-        ></input-component>
-        <button-component
-            v-if="store.state.promo_code"
-            @click="deactivateCode"
-            class="
-                    items-center
-                    bg-[#e3342f]
-                    border-[1px]
-                    border-red-600
-                    rounded-[0.625rem]
-                    text-[#fff]
-                    cursor-pointer
-                    flex
-                    font-[400]
-                    justify-center
-                    p-[0.875rem]
-                    no-underline
-                "
-        >
+        <Input type="text"
+               placeholder="XXX-XXX-XXX"
+               :value="store.state.promo_code"
+               v-if="store.state.promo_code"
+               class="py-1 text-center w-[100%] rounded-[20px] mx-3 my-3 md:my-0 font-heading"
+        />
+        <Button type="button" v-if="store.state.promo_code" @click="deactivateCode">
             Деактивувати
-        </button-component>
+        </Button>
 
-        <button-component v-if="!store.state.promo_code" @click="activateCode">
+        <Button v-if="!store.state.promo_code" @click="activateCode" type="button">
             Активувати
-        </button-component>
+        </Button>
     </div>
 </template>
 
 <script setup>
 import {inject, ref} from "vue";
 import {useStore} from "vuex";
+import Button from '@/Pages/Public/Components/Button.vue'
+import Input from '@/Pages/Public/Components/Input.vue'
 
 const promo_code = ref(null);
 

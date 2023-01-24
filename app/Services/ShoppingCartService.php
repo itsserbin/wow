@@ -101,11 +101,12 @@ class ShoppingCartService
 
         if ($cart->promo_code) {
             $discount = $this->promoCodesRepository->getDiscount($cart->promo_code);
-
-            if ($discount->discount_in_hryvnia) {
-                $total_price -= $discount->discount_in_hryvnia;
-            } elseif ($discount->percent_discount) {
-                $total_price = $total_price * (100 - $discount->percent_discount) / 100;
+            if ($discount) {
+                if ($discount->discount_in_hryvnia) {
+                    $total_price -= $discount->discount_in_hryvnia;
+                } elseif ($discount->percent_discount) {
+                    $total_price = $total_price * (100 - $discount->percent_discount) / 100;
+                }
             }
         }
 

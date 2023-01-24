@@ -39,6 +39,19 @@ class OrdersRepository extends CoreRepository
             ->find($id);
     }
 
+    /**
+     * This method retrieves all orders from the database, with the ability to filter the results by order status.
+     * It selects specific columns from the order table, including the order's ID, status, waybill, client ID,
+     * comment, total count, total price, and the timestamps for when it was last updated and created.
+     *
+     * If a status filter is provided in the input data,
+     * the query is further narrowed down to only include orders with that specific status.
+     * The method also eager loads the client relationship, orders by descending ID,
+     * and paginates the results to show 15 orders per page. Finally, it maps the collection to an array before returning it.
+     *
+     * @param $data
+     * @return mixed
+     */
     public function getAllWithPaginate($data)
     {
         $model = $this->model::select(
@@ -91,6 +104,13 @@ class OrdersRepository extends CoreRepository
     }
 
     /**
+     * This method creates a new order and assigns the provided data to it.
+     * The order's city, postal office, client ID, status, promo code, comment,
+     * and payment method are set from the provided data. The method then saves the order.
+     * It also creates new order items with the provided items, order ID, and promo code.
+     * If the items are created successfully, it calls the calculatePrice method to update the order's total price.
+     * Finally, it returns the created order.
+     *
      * @param $data
      * @param $client_id
      * @param $promoCode
@@ -102,76 +122,49 @@ class OrdersRepository extends CoreRepository
         $order = new $this->model;
 
         $order->city = $data['city'] ?? null;
-//        $order->city = $data['city']['Description'] ?? null;
-//        $order->np_city_id = $data['city']['Ref'] ?? null;
         $order->postal_office = $data['postal_office'] ?? null;
-//        $order->postal_office = $data['postal_office']['Description'] ?? null;
-//        $order->np_post_office_id = $data['postal_office']['Ref'] ?? null;
         $order->client_id = $client_id;
-        $order->status = 'new';
+        $order->status = OrderStatus::STATUS_NEW;
         $order->promo_code = $promoCode;
         $order->comment = $data['comment'];
         $order->payment_method = $data['payment_method'];
-
-        $totalPrice = 0;
-        $totalCount = 0;
-        $totalClearPrice = 0;
-
-        foreach ($items as $item) {
-            if ($item->product) {
-                $totalPrice += ($item->product->discount_price ?: $item->product->price) * $item->count;
-                $totalCount += $item->count;
-                $totalClearPrice += (($item->product->discount_price ?: $item->product->price) - $item->product->trade_price) * $item->count;
-            }
-        }
-
-        if ($promoCode) {
-            $discount = $this->promoCodesRepository->getDiscount($promoCode);
-
-            if ($discount->discount_in_hryvnia) {
-                $totalPrice -= $discount->discount_in_hryvnia;
-            } elseif ($discount->percent_discount) {
-                $totalPrice = $totalPrice * (100 - $discount->percent_discount) / 100;
-            }
-        }
-
-        $order->total_count = $totalCount;
-        $order->total_price = $totalPrice;
-        $order->clear_total_price = $totalClearPrice;
-
         $order->save();
+
+        $orderItemsRepository = new OrderItemsRepository();
+        if ($orderItemsRepository->create($items, $order->id, $promoCode)) {
+            $this->calculatePrice($order->id);
+        }
 
         return $order;
     }
 
-    public function find(int $id)
-    {
-        return $this->model::where('id', $id)->with('items', 'items.product')->first();
-    }
-
     /**
-     * Обновить данные клиента.
+     * The function calculatePrice takes in an ID and retrieves the model with the associated ID along with its related items.
+     * It then initializes three variables, totalPrice, totalCount, and totalClearPrice, which are used to track the total price,
+     * item count, and clear total price of the model. The function iterates through the related items,
+     * and for each item that has a product, it updates the total price, total count, and total clear price.
      *
-     * @param int $id
-     * @param array $data
-     * @return Builder|Builder[]|Collection|\Illuminate\Database\Eloquent\Model
+     * Next, the function checks if the model has a promo code and if so, it retrieves the discount associated
+     * with the promo code and updates the total price based on the type of discount applied.
+     * If the discount is in hryvnias, it subtracts the discount amount from the total price, otherwise,
+     * it calculates the percent discount and updates the total price accordingly.
+     *
+     * The function then adds the sale of air price to the total price and total clear price if the sale of air field is set.
+     * Next, it subtracts the discount sum from the total price and total clear price if the discount field is set.
+     *
+     * Finally, the function updates the model's total count, total price and clear total price fields and returns the update query.
+     *
+     * @param $id
+     * @return mixed
      */
-    public function update(int $id, array $data)
+    public function calculatePrice($id)
     {
-        $model = $this->getById($id);
-        $model->status = $data['status'];
-        $model->comment = $data['comment'];
-        $model->city = $data['city'];
-        $model->waybill = $data['waybill'];
-        $model->postal_office = $data['postal_office'];
-        $model->manager_id = $data['manager_id'];
-        $model->parcel_reminder = $data['parcel_reminder'];
-
-        $model->sale_of_air = $data['sale_of_air'];
+        $model = $this->model::where('id', $id)->with('items')->first();
 
         $totalPrice = 0;
         $totalCount = 0;
         $totalClearPrice = 0;
+
         foreach ($model->items as $item) {
             if ($item->product) {
                 $totalPrice += ($item->product->discount_price ?: $item->product->price) * $item->count;
@@ -182,96 +175,89 @@ class OrdersRepository extends CoreRepository
 
         if ($model->promo_code) {
             $discount = $this->promoCodesRepository->getDiscount($model->promo_code);
+
             if ($discount) {
-                if ($discount->discount_in_hryvnia) {
-                    $totalPrice -= $discount->discount_in_hryvnia;
-                } elseif ($discount->percent_discount) {
-                    $totalPrice = $totalPrice * (100 - $discount->percent_discount) / 100;
-                }
-            } else {
-                $totalPrice -= 100;
+                $totalPrice = $discount->discount_in_hryvnia
+                    ? $totalPrice - $discount->discount_in_hryvnia
+                    : $totalPrice * (100 - $discount->percent_discount) / 100;
             }
         }
 
-        if ($data['sale_of_air']) {
-            $model->sale_of_air_price = $data['sale_of_air_price'];
-            $model->total_price = $totalPrice + $data['sale_of_air_price'];
-            $model->clear_total_price = $totalClearPrice + $data['sale_of_air_price'];
+        $totalPrice += $model->sale_of_air_price;
+        $totalClearPrice += $model->sale_of_air_price;
 
-        } else {
-            $model->sale_of_air_price = null;
-            $model->total_price = $totalPrice;
-            $model->clear_total_price = $totalClearPrice;
-        }
+        $totalPrice -= $model->discount_sum;
+        $totalClearPrice -= $model->discount_sum;
 
-//        $model->prepayment = $data['prepayment'];
-//        if ($data['prepayment']) {
-//            $model->prepayment_sum = $data['prepayment_sum'];
-//        }
+        $model->update([
+            'total_count' => $totalCount,
+            'total_price' => $totalPrice,
+            'clear_total_price' => $totalClearPrice
+        ]);
 
-        $model->discount = $data['discount'];
-        if ($data['discount']) {
-            $model->discount_sum = $data['discount_sum'];
-            $model->total_price -= $data['discount_sum'];
-            $model->clear_total_price -= $data['discount_sum'];
-        }
-
-        $model->update();
-
-        $this->clientsRepository->updateAvgAndWholeCheck($model->client_id);
-
-        $this->sumPrepayment($model->id);
-        return $model;
-
+        return $model->update();
     }
 
-//    public function sumPrepayment($order_id)
-//    {
-//        $model = $this->model::where('id', $order_id)->with('invoices')->first();
-//
-//        $total = 0;
-//
-//        if (count($model->invoices)) {
-//            foreach ($model->invoices as $invoice) {
-//                if ($invoice->status == InvoicesStatus::PAID_STATUS) {
-//                    $total += $invoice->sum;
-//                }
-//            }
-//        }
-//
-//        if ($model->prepayment_sum) {
-//            $total += $model->prepayment_sum;
-//        }
-//
-//        if ($total) {
-//            $model->prepayment_sum = $total;
-//            $model->update();
-//        }
-//
-//        return $model;
-//    }
-//    public function sumPrepayment($order_id)
-//    {
-//        $model = $this->model::where('id', $order_id)->with('invoices')->first();
-//        $total = 0;
-//
-//        if ($model->invoices->isNotEmpty()) {
-//            foreach ($model->invoices as $invoice) {
-//                if ($invoice->status == InvoicesStatus::PAID_STATUS) {
-//                    $total += $invoice->sum;
-//                }
-//            }
-//        }
-//
-//        if ($model->wfp_payment_sum){
-//            $total += $model->wfp_payment_sum;
-//        }
-//
-//        optional($model)->update(['prepayment_sum' => $total]);
-//
-//        return $model;
-//    }
+    public function find(int $id)
+    {
+        return $this->model::where('id', $id)->with('items', 'items.product')->first();
+    }
 
+    /**
+     * This code updates a record of a certain model by its ID, using the data passed in the $data array.
+     * It first retrieves the model by calling the getById method, and then assigns the attributes
+     * from the $data array to the corresponding fields of the model.
+     * It also sets the sale_of_air and sale_of_air_price to null if they are not present in the data array.
+     * The same applies for discount and discount_sum.
+     * After updating the model, the function calls the calculatePrice method to recalculate
+     * the total price for the model and the updateAvgAndWholeCheck method from the clientsRepository
+     * to update the average and whole check for the client. Finally it returns the updated model.
+     *
+     * @param int $id
+     * @param array $data
+     * @return Builder|Builder[]|Collection|\Illuminate\Database\Eloquent\Model|null
+     */
+    public function update(int $id, array $data)
+    {
+        $model = $this->getById($id);
+        $attributes = [
+            'status' => $data['status'],
+            'comment' => $data['comment'],
+            'city' => $data['city'],
+            'waybill' => $data['waybill'],
+            'postal_office' => $data['postal_office'],
+            'manager_id' => $data['manager_id'],
+            'parcel_reminder' => $data['parcel_reminder'],
+            'sale_of_air' => $data['sale_of_air'] ?: null,
+            'sale_of_air_price' => $data['sale_of_air_price'] ?: null,
+            'discount' => $data['discount'] ?: null,
+            'discount_sum' => $data['discount_sum'] ?: null,
+        ];
+
+        $model->update($attributes);
+        $this->calculatePrice($model->id);
+        $this->clientsRepository->updateAvgAndWholeCheck($model->client_id);
+        return $model;
+    }
+
+
+    /**
+     * This code is a function that calculates the total sum of prepaid payments for a specific order.
+     * It begins by querying the database for a model that matches the provided $order_id and eager loads the related
+     * invoices that have a status of "PAID_STATUS".
+     *
+     * Then it uses the sum() function on the collection to calculate the total sum of the related
+     * invoices that match the specified status. Next, it adds the value of the wfp_payment_sum field (if it exists)
+     * to the total sum. Finally, it updates the prepayment_sum field on the model with the calculated total sum
+     * and returns the updated model.
+     *
+     * The function also uses the optional() function to avoid any error if the $model is null and update method
+     * to update the model instead of saving it.
+     * It also makes use of Eloquent's with method to filter the related invoices with the specific status
+     *
+     * @param $order_id
+     * @return mixed
+     */
     public function sumPrepayment($order_id)
     {
         $model = $this->model::where('id', $order_id)

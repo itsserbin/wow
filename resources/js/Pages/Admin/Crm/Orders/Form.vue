@@ -112,13 +112,13 @@
             </div>
             <div class="grid grid-cols-2">
                 <div class="block mb-5 mr-5">
-                    <label-component value="Передоплата"/>
-                    <select-component v-model="order.prepayment" :options="parcelReminderValues" disabled/>
+                    <label-component value="Оплата на сайті"/>
+                    <input-component value="Оплачено" type="text" disabled v-if="order.wfp_payment_sum"/>
+                    <input-component value="Не плачено" type="text" disabled v-else/>
                 </div>
                 <div class="block mb-5">
-                    <label-component value="Сума передоплати (грн.)"/>
+                    <label-component value="Загальна сума передоплати (грн.)"/>
                     <input-component v-model="order.prepayment_sum" type="number" disabled/>
-                    <span v-if="order.wfp_payment">Оплачено на сайті</span>
                 </div>
             </div>
         </div>
@@ -436,7 +436,7 @@ function destroyOrderItem(id, i) {
                 order_id: props.order.id
             }))
                 .then(() => {
-                    props.order.items.splice(i, 1)
+                    emits('submitItemForm');
                     swal({
                         title: 'Success',
                         icon: 'success',

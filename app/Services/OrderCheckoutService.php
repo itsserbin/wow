@@ -70,7 +70,7 @@ class OrderCheckoutService
             );
 
 
-            if ($this->orderItemsRepository->create($items, $order->id, $cart->promo_code)) {
+            if ($order) {
                 foreach ($items as $item) {
                     $this->productRepository->updateProductTotalSales($item->product_id);
                 }
