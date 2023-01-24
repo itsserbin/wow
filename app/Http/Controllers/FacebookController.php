@@ -60,9 +60,8 @@ class FacebookController extends Controller
                 $request = (new EventRequest($this->pixel_id))
                     ->setTestEventCode('TEST70453')
                     ->setEvents($events);
-//        $response = $request->execute();
-//        print_r($response);
-                return true;
+
+                return $request->execute();
             } catch (Exception $e) {
                 Log::error('FB API ERROR(view):' . $e);
                 return false;
@@ -125,9 +124,8 @@ class FacebookController extends Controller
                 $request = (new EventRequest($this->pixel_id))
                     ->setTestEventCode('TEST70453')
                     ->setEvents($events);
-//        $response = $request->execute();
-//        dd($request);
-                return true;
+
+                return $request->execute();
             } catch (Exception $e) {
                 Log::error('FB API ERROR(viewContent):' . $e);
                 return false;
@@ -188,9 +186,8 @@ class FacebookController extends Controller
                 $request = (new EventRequest($this->pixel_id))
                     ->setTestEventCode('TEST70453')
                     ->setEvents($events);
-                return true;
-//        $response = $request->execute();
-//        dd($response);
+
+                return $request->execute();
             } catch (Exception $e) {
                 Log::error('FB API ERROR(addToCard):' . $e);
                 return false;
@@ -225,7 +222,7 @@ class FacebookController extends Controller
 
                 foreach ($list['list'] as $listItem) {
                     array_push($content, (new Content())
-                        ->setProductId($listItem['product_id'])
+                        ->setProductId($listItem['id'])
                         ->setItemPrice($listItem['discount_price'] ?: $listItem['price'])
                         ->setTitle($listItem['name']['ua'] ?: $listItem['name']['ru'])
                         ->setCategory($listItem['category']['ua'] ?: $listItem['category']['ru'])
@@ -257,8 +254,9 @@ class FacebookController extends Controller
                 $request = (new EventRequest($this->pixel_id))
                     ->setTestEventCode('TEST70453')
                     ->setEvents($events);
-//                $response = $request->execute();
-                return true;
+
+                return $request->execute();
+
             } catch (Exception $e) {
                 Log::error('FB API ERROR(InitiateCheckout):' . $e);
                 return false;
@@ -325,9 +323,8 @@ class FacebookController extends Controller
                 $request = (new EventRequest($this->pixel_id))
                     ->setTestEventCode('TEST70453')
                     ->setEvents($events);
-//        $response = $request->execute();
-//        dd($response);
-                return true;
+
+                return $request->execute();
             } catch (Exception $e) {
                 Log::error('FB API ERROR(Purchase):' . $e);
                 return false;
