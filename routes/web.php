@@ -88,8 +88,8 @@ Route::get('test', function (){
             $request = (new EventRequest($this->pixel_id))
                 ->setTestEventCode('TEST70453')
                 ->setEvents($events);
+        dd($request);
         $response = $request->execute();
-        dd($response);
 //        print_r($response);
             return true;
         } catch (Exception $e) {
