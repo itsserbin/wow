@@ -50,7 +50,7 @@ Route::group(['prefix' => App\Http\Middleware\LocaleMiddleware::getLocale()], fu
 });
 
 Route::get('test', function () {
-    return dd($_SERVER);
+    return dd($_SERVER['HTTP_X_REAL_IP']);
 });
 
 Route::post('sms-new-order', [SmsController::class, 'newOrder'])
