@@ -1,7 +1,7 @@
 <template>
-    <section class="banners mb-5" v-if="state.banners.length">
-        <swiper :modules="modules" v-bind="settings">
-            <swiper-slide v-for="(banner,i) in state.banners" :key="i">
+    <section class="banners mb-5" v-if="banners.length">
+        <Swiper :modules="modules" v-bind="settings">
+            <SwiperSlide v-for="(banner,i) in banners" :key="i">
                 <a :href="getLink(banner.link)" class="rounded-lg">
                     <picture>
                         <source
@@ -16,21 +16,22 @@
                         <img
                             :srcset="route('images.banners.desktop',lang === 'ru' ? banner.image_desktop.ru : (lang === 'ua' ? banner.image_desktop.ua : null))"
                             :alt="lang === 'ru' ? banner.title.ru : (lang === 'ua' ? banner.title.ua : null)"
-                            class="w-full"
+                            class="w-full rounded-lg shadow-sm"
                         >
                     </picture>
                 </a>
-            </swiper-slide>
-        </swiper>
-
+            </SwiperSlide>
+        </Swiper>
     </section>
 </template>
 
 <script setup>
 import {Lazy, Autoplay, Pagination, EffectCreative} from "swiper";
-import {computed, onMounted, ref} from "vue";
+import {onMounted, ref} from "vue";
+import {Swiper, SwiperSlide} from 'swiper/vue';
 
 const props = defineProps(['lang']);
+const banners = ref([]);
 
 const modules = [Lazy, Autoplay, Pagination, EffectCreative];
 const settings = {
@@ -42,7 +43,7 @@ const settings = {
     },
     loop: true,
     autoplay: {
-        delay: 4000,
+        delay: 5000,
         disableOnInteraction: false,
     },
     lazy: true,
@@ -58,6 +59,12 @@ const settings = {
     }
 };
 
+onMounted(() => {
+    axios.get('/api/v1/banners/all')
+        .then(({data}) => banners.value = data.result)
+        .catch((response) => console.log(response));
+})
+
 function getLink(val) {
     if (props.lang === 'ru') {
         return val.ru ? val.ru : 'javascript:'
@@ -67,14 +74,4 @@ function getLink(val) {
         return 'javascript:'
     }
 }
-
-const state = ref({
-    banners: [],
-})
-
-onMounted(() => {
-    axios.get('/api/v1/banners/all')
-        .then(({data}) => state.value.banners = data.result)
-        .catch((response) => console.log(response));
-})
 </script>
