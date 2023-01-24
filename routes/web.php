@@ -50,7 +50,9 @@ Route::group(['prefix' => App\Http\Middleware\LocaleMiddleware::getLocale()], fu
 });
 
 Route::get('test', function () {
-    return dd($_SERVER['HTTP_CLIENT_IP'],$_SERVER['HTTP_X_FORWARDED_FOR']);
+    return dd($_SERVER['HTTP_CLIENT_IP']
+        ? : ($_SERVER['HTTP_X_FORWARDED_FOR']
+            ? : $_SERVER['REMOTE_ADDR']));
 });
 
 Route::post('sms-new-order', [SmsController::class, 'newOrder'])
