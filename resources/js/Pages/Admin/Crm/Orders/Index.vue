@@ -89,6 +89,7 @@ import OrderModal from '@/Pages/Admin/Crm/Orders/Modal.vue';
 import Table from '@/Pages/Admin/Crm/Orders/Table.vue';
 import CrmLayout from '@/Pages/Admin/Crm/CrmLayout.vue';
 import {OrdersRepository} from '@/Repositories/OrdersRepository.js';
+import {ClientsRepository} from '@/Repositories/ClientsRepository.js';
 import _ from 'lodash';
 
 const state = ref({
@@ -164,7 +165,7 @@ async function fetch() {
 }
 
 async function onEditClient() {
-    const data = await OrdersRepository().edit(state.value.orderModal.client.id);
+    const data = await ClientsRepository().edit(state.value.orderModal.client.id);
     if (data.success) {
         state.value.clientModal = data.result;
         modalClientFunction();

@@ -218,7 +218,7 @@ const can = inject('$can');
 const props = defineProps(['order', 'statuses', 'paymentMethods', 'invoiceStatuses']);
 
 const priceForWaybill = computed(() => {
-    if (props.order.prepayment) {
+    if (props.order.prepayment_sum) {
         return props.order.total_price - props.order.prepayment_sum;
     } else {
         return props.order.total_price;
