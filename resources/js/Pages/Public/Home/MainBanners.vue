@@ -1,6 +1,6 @@
 <template>
     <section class="banners mb-5" v-if="banners.length">
-        <Swiper :modules="modules" v-bind="settings">
+        <Swiper :modules="modules" v-bind="settings" class="main-banners-slider">
             <SwiperSlide v-for="(banner,i) in banners" :key="i" class="rounded-lg">
                 <a :href="getLink(banner.link)">
                     <picture>
@@ -75,3 +75,9 @@ function getLink(val) {
     }
 }
 </script>
+
+<style>
+.main-banners-slider .swiper-slide-duplicate-next{
+  display: none;
+}
+</style>
