@@ -37,7 +37,7 @@ class ProductsRepository extends CoreRepository
     }
 
 
-    public function getByIdToPublic($id): Model
+    public function getByIdToPublic($id)
     {
         return $this->model
             ->select(
