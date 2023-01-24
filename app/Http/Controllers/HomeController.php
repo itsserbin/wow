@@ -70,8 +70,8 @@ class HomeController extends Controller
 
         if ($result) {
             $this->facebookController->view();
-            $event_id_content = Cookie::get('XSRF-TOKEN') . '_viewContent' . '_' . time();
-            $event_id_addToCard = Cookie::get('XSRF-TOKEN') . '_AddToCart' . '_' . time();
+            $event_id_content = uniqid() . '_viewContent' . '_' . time();
+            $event_id_addToCard = uniqid() . '_AddToCart' . '_' . time();
             $this->facebookController->viewContent($result, $event_id_content);
             $this->productRepository->updateProductViewed($id);
             return view('pages.product', [
@@ -102,7 +102,7 @@ class HomeController extends Controller
 
     public function checkout(): Factory|View|Application
     {
-        $event_id_initiateCheckout = Cookie::get('XSRF-TOKEN') . '_initiateCheckout' . '_' . time();
+        $event_id_initiateCheckout = uniqid() . '_initiateCheckout' . '_' . time();
         $this->facebookController->view();
         $this->facebookController->InitiateCheckout($this->shoppingCartService->cartList(), $event_id_initiateCheckout);
         return view('pages.checkout', [
@@ -110,7 +110,7 @@ class HomeController extends Controller
             'pages' => $this->getPagesList(),
             'categories' => $this->getCategories(),
             'event_id_initiateCheckout' => $event_id_initiateCheckout,
-            'event_id_purchase' => Cookie::get('XSRF-TOKEN') . '_purchase' . '_' . time()
+            'event_id_purchase' => uniqid() . '_purchase' . '_' . time()
         ]);
     }
 

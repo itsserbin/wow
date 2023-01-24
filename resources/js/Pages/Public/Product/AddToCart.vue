@@ -186,7 +186,6 @@ function showBuyIn1ClickModal() {
 function addToCart() {
     axios.post(route('api.v1.cart.add', item.value))
         .then(() => {
-            console.log(item.value.event_id)
             if (import.meta.env.MODE === 'production') {
                 try {
                     fbq('track',
