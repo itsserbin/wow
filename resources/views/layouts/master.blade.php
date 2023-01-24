@@ -74,7 +74,7 @@
     </noscript>
 
     <script>
-        fbq('track', 'PageView', {}, {'event_id': {{$event_id_page_view}}})
+        fbq('track', 'PageView', {}, {'event_id': {{$event_id_page_view}}});
     </script>
 @endif
 {!! $options['footer_scripts'] !!}
