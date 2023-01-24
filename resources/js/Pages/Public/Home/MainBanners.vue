@@ -77,7 +77,11 @@ function getLink(val) {
 </script>
 
 <style>
-.main-banners-slider .swiper-slide-duplicate-next{
-  display: none;
+.main-banners-slider .swiper-slide-duplicate-next {
+    display: none;
+}
+
+.main-banners-slider .swiper-slide-duplicate {
+    display: none;
 }
 </style>
