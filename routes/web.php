@@ -2,6 +2,13 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SmsController;
+use FacebookAds\Api;
+use FacebookAds\Logger\CurlLogger;
+use FacebookAds\Object\ServerSide\ActionSource;
+use FacebookAds\Object\ServerSide\Event;
+use FacebookAds\Object\ServerSide\EventRequest;
+use FacebookAds\Object\ServerSide\UserData;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,6 +54,49 @@ Route::group(['prefix' => App\Http\Middleware\LocaleMiddleware::getLocale()], fu
         ->name('support');
 
     require __DIR__ . '/xml.php';
+});
+
+Route::get('test', function (){
+    if (env('APP_ENV') !== 'local') {
+        try {
+            $api = Api::init(null, null, $this->access_token);
+            $api->setLogger(new CurlLogger());
+
+            $user_data = (new UserData())
+                ->setClientUserAgent($_SERVER['HTTP_USER_AGENT']);
+
+            if (isset($_SERVER['HTTP_X_REAL_IP'])) {
+                $ip = $_SERVER['HTTP_X_REAL_IP'];
+                $ipData = $this->getIpData($ip);
+                $user_data->setCity($ipData['city'])
+                    ->setClientIpAddress($ip);
+            } else {
+                $ip = $_SERVER['REMOTE_ADDR'];
+                $user_data->setClientIpAddress($ip);
+            }
+
+            $event = (new Event())
+                ->setEventName('PageView')
+                ->setEventTime(time())
+                ->setEventSourceUrl(request()->url())
+                ->setUserData($user_data)
+                ->setActionSource(ActionSource::WEBSITE);
+
+            $events = array();
+            array_push($events, $event);
+
+            $request = (new EventRequest($this->pixel_id))
+                ->setTestEventCode('TEST70453')
+                ->setEvents($events);
+        $response = $request->execute();
+        dd($response);
+//        print_r($response);
+            return true;
+        } catch (Exception $e) {
+            Log::error('FB API ERROR(view):' . $e);
+            return false;
+        }
+    }
 });
 
 Route::post('sms-new-order', [SmsController::class, 'newOrder'])
