@@ -26,7 +26,7 @@ class FacebookService
     /**
      * @throws Exception
      */
-    public function view()
+    public function view($event_id)
     {
         if (env('APP_ENV') !== 'local') {
             try {
@@ -50,6 +50,7 @@ class FacebookService
                     ->setEventName('PageView')
                     ->setEventTime(time())
                     ->setEventSourceUrl(request()->url())
+                    ->setEventId($event_id)
                     ->setUserData($user_data)
                     ->setActionSource(ActionSource::WEBSITE);
 
