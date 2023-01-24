@@ -40,28 +40,40 @@ class HomeController extends Controller
         ]);
     }
 
-    public function category($slug): View|Factory|Application
+    public function category($slug)
     {
-        return view('pages.category', [
-            'category' => $this->categoriesRepository->findFySlug($slug),
-            'categories' => $this->getCategories(),
-            'options' => $this->getOptions(),
-            'pages' => $this->getPagesList(),
-        ]);
+        $result = $this->categoriesRepository->findFySlug($slug);
+
+        if ($result) {
+            return view('pages.category', [
+                'category' => $result,
+                'categories' => $this->getCategories(),
+                'options' => $this->getOptions(),
+                'pages' => $this->getPagesList(),
+            ]);
+        } else {
+            return abort(404);
+        }
     }
 
-    public function product($id): Factory|View|Application
+    public function product($id)
     {
-        $this->productRepository->updateProductViewed($id);
+        $result = $this->productRepository->getByIdToPublic($id);
 
-        return view('pages.product', [
-            'options' => $this->getOptions(),
-            'product' => $this->productRepository->getByIdToPublic($id),
-            'pages' => $this->getPagesList(),
-            'advantages' => $this->getAdvantages(),
-            'categories' => $this->getCategories(),
-        ]);
+        if ($result) {
+            $this->productRepository->updateProductViewed($id);
+            return view('pages.product', [
+                'options' => $this->getOptions(),
+                'product' => $result,
+                'pages' => $this->getPagesList(),
+                'advantages' => $this->getAdvantages(),
+                'categories' => $this->getCategories(),
+            ]);
+        } else {
+            return abort(404);
+        }
     }
+
 
     public function cart(): Factory|View|Application
     {
@@ -83,12 +95,18 @@ class HomeController extends Controller
 
     public function page($slug): Factory|View|Application
     {
-        return view('pages.page', [
-            'page' => $this->pagesRepository->getBySlug($slug),
-            'options' => $this->getOptions(),
-            'pages' => $this->getPagesList(),
-            'categories' => $this->getCategories(),
-        ]);
+        $result = $this->pagesRepository->getBySlug($slug);
+        if ($result) {
+            return view('pages.page', [
+                'page' => $result,
+                'options' => $this->getOptions(),
+                'pages' => $this->getPagesList(),
+                'categories' => $this->getCategories(),
+            ]);
+        } else {
+            return abort(404);
+        }
+
     }
 
     public function reviews(): View|Factory|Application

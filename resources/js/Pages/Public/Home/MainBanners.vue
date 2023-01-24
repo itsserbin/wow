@@ -20,7 +20,7 @@
                         <img
                             :srcset="route('images.banners.desktop',lang === 'ru' ? banner.image_desktop.ru : (lang === 'ua' ? banner.image_desktop.ua : null))"
                             :alt="lang === 'ru' ? banner.title.ru : (lang === 'ua' ? banner.title.ua : null)"
-                            class="w-full"
+                            class="w-full rounded-lg"
                         >
                     </picture>
                 </a>
