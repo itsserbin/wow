@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="rounded-lg">
         <slot></slot>
     </div>
 </template>
