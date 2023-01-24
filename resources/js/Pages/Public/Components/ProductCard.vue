@@ -158,10 +158,21 @@ const item = ref({
     size: [],
     color: [],
     item_id: null,
-    src: route(route().current(), route().params)
+    src: route(route().current(), route().params),
+    event_id: ''
 });
 
 const discountPercentage = computed(() => (price, discount_price) => `- ${(((price - discount_price) * 100) / price).toFixed()}%`);
+
+setInterval(() => {
+    item.value.event_id = uuidv4() + '_AddToCard' + '_' + new Date().getTime();
+}, 3000);
+
+function uuidv4() {
+    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
+}
 
 function addToCard(id) {
     item.value.item_id = id;
@@ -170,13 +181,19 @@ function addToCard(id) {
             store.commit('loadCart');
             if (import.meta.env.MODE === 'production') {
                 try {
-                    fbq('track', 'AddToCart', {
-                        "value": props.product.discount_price ? props.product.discount_price : props.product.price,
-                        "currency": "UAH",
-                        "content_type": "product",
-                        "content_ids": [item.value.item_id],
-                        "content_name": props.product.h1
-                    });
+                    fbq('track',
+                        'AddToCart',
+                        {
+                            "value": props.product.discount_price ? props.product.discount_price : props.product.price,
+                            "currency": "UAH",
+                            "content_type": "product",
+                            "content_ids": [item.value.item_id],
+                            "content_name": props.product.h1
+                        },
+                        {
+                            event_id: item.value.event_id
+                        }
+                    );
 
                     gtm.trackEvent({
                         event: 'add_product_to_cart',

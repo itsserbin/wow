@@ -21,6 +21,7 @@ import Button from '@/Pages/Public/Components/Button.vue';
 import Loader from '@/Pages/Public/Components/Loader.vue';
 import ProductCards from '@/Pages/Public/Components/ProductCards.vue';
 
+
 defineProps({
     lang: {
         type: String,

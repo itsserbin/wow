@@ -12,6 +12,7 @@ use App\Services\ShoppingCartService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Cookie;
 
 class HomeController extends Controller
 {
@@ -69,7 +70,9 @@ class HomeController extends Controller
 
         if ($result) {
             $this->facebookController->view();
-            $this->facebookController->viewContent($result);
+            $event_id_content = Cookie::get('XSRF-TOKEN') . '_viewContent' . '_' . time();
+            $event_id_addToCard = Cookie::get('XSRF-TOKEN') . '_AddToCart' . '_' . time();
+            $this->facebookController->viewContent($result, $event_id_content);
             $this->productRepository->updateProductViewed($id);
             return view('pages.product', [
                 'options' => $this->getOptions(),
@@ -77,6 +80,8 @@ class HomeController extends Controller
                 'pages' => $this->getPagesList(),
                 'advantages' => $this->getAdvantages(),
                 'categories' => $this->getCategories(),
+                'event_id_content' => $event_id_content,
+                'event_id_addToCard' => $event_id_addToCard,
             ]);
         } else {
             return abort(404);
@@ -97,12 +102,15 @@ class HomeController extends Controller
 
     public function checkout(): Factory|View|Application
     {
+        $event_id_initiateCheckout = Cookie::get('XSRF-TOKEN') . '_initiateCheckout' . '_' . time();
         $this->facebookController->view();
-        $this->facebookController->InitiateCheckout($this->shoppingCartService->cartList());
+        $this->facebookController->InitiateCheckout($this->shoppingCartService->cartList(), $event_id_initiateCheckout);
         return view('pages.checkout', [
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
             'categories' => $this->getCategories(),
+            'event_id_initiateCheckout' => $event_id_initiateCheckout,
+            'event_id_purchase' => Cookie::get('XSRF-TOKEN') . '_purchase' . '_' . time()
         ]);
     }
 

@@ -40,6 +40,7 @@ import CryptoJS from 'crypto-js';
 const store = useStore();
 const swal = inject('$swal');
 const gtm = useGtm();
+const props = defineProps(['eventIdInitiateCheckout', 'eventIdPurchase']);
 
 const state = ref({
     order: {
@@ -52,11 +53,19 @@ const state = ref({
         city: null,
         postal_office: null,
         payment_method: null,
+        event_id: props.eventIdPurchase
     },
     errors: [],
     contentIds: [],
     ga4ProductsArray: [],
 })
+
+const event_id = ref();
+
+setInterval(() => {
+    event_id.value = getCookie('XSRF-TOKEN') + '_' + new Date().getTime();
+}, 3000);
+
 onMounted(() => {
     if (import.meta.env.MODE === 'production') {
         store.state.list.forEach((item) => {
@@ -69,13 +78,19 @@ onMounted(() => {
             })
         });
         try {
-            fbq('track', 'InitiateCheckout', {
-                "value": store.state.totalPrice,
-                "currency": "UAH",
-                "num_items": store.state.totalCount,
-                "content_ids": state.value.contentIds,
-                "content_type": "product"
-            });
+            fbq('track',
+                'InitiateCheckout',
+                {
+                    "value": store.state.totalPrice,
+                    "currency": "UAH",
+                    "num_items": store.state.totalCount,
+                    "content_ids": state.value.contentIds,
+                    "content_type": "product"
+                },
+                {
+                    event_id: props.eventIdInitiateCheckout
+                }
+            );
             gtm.trackEvent({
                 event: 'start_checkout',
                 ecommerce: {
@@ -87,6 +102,13 @@ onMounted(() => {
         }
     }
 })
+
+
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
 
 function wfp(order) {
     const wayforpay = new Wayforpay();
@@ -206,13 +228,19 @@ function sendOrder() {
         .then(({data}) => {
             if (import.meta.env.MODE === 'production') {
                 try {
-                    fbq('track', 'Purchase', {
-                        "value": store.state.totalPrice,
-                        "currency": "UAH",
-                        "content_type": "product",
-                        "num_items": store.state.totalCount,
-                        "content_ids": state.value.contentIds
-                    });
+                    fbq('track',
+                        'Purchase',
+                        {
+                            "value": store.state.totalPrice,
+                            "currency": "UAH",
+                            "content_type": "product",
+                            "num_items": store.state.totalCount,
+                            "content_ids": state.value.contentIds
+                        },
+                        {
+                            event_id: props.eventIdPurchase
+                        }
+                    );
 
                     gtm.trackEvent({
                         event: 'send_order',

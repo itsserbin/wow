@@ -79,7 +79,7 @@ class OrderCheckoutService
                     $this->productRepository->updateProductTotalSales($item->product_id);
                 }
                 $this->clientsRepository->updateAvgAndWholeCheck($client->id);
-                $this->facebookController->Purchase($cart->items, $client, $order);
+                $this->facebookController->Purchase($cart->items, $client, $order, $data['event_id']);
                 $this->deleteCartItems($cart->id);
 //                $this->telegramNotificationService->order($order, $name, $phone);
             }

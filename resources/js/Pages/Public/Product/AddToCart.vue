@@ -104,7 +104,7 @@
 </template>
 
 <script setup>
-import {inject, onMounted, ref} from "vue";
+import {computed, inject, onMounted, ref} from "vue";
 import {useStore} from "vuex";
 import BuyIn1Click from '@/Pages/Public/Product/BuyIn1ClickModal.vue';
 import {useGtm} from "@gtm-support/vue-gtm";
@@ -115,22 +115,29 @@ const store = useStore();
 
 const props = defineProps([
     'product',
+    'eventIdContent',
+    'eventIdAddToCard'
 ]);
 
 onMounted(() => {
     state.value.product = JSON.parse(props.product);
     item.value.item_id = state.value.product.id;
-    console.log()
     if (import.meta.env.MODE === 'production') {
 
         try {
-            fbq('track', 'ViewContent', {
-                "value": state.value.product.discount_price ? state.value.product.discount_price : state.value.product.price,
-                "currency": "UAH",
-                "content_type": "product",
-                "content_ids": [item.value.item_id],
-                "content_name": state.value.product.h1
-            });
+            fbq('track',
+                'ViewContent',
+                {
+                    "value": state.value.product.discount_price ? state.value.product.discount_price : state.value.product.price,
+                    "currency": "UAH",
+                    "content_type": "product",
+                    "content_ids": [item.value.item_id],
+                    "content_name": state.value.product.h1
+                },
+                {
+                    event_name: props.eventIdContent
+                }
+            );
 
             gtm.trackEvent({
                 event: 'view_product',
@@ -150,12 +157,14 @@ onMounted(() => {
     }
 })
 
+
 const item = ref({
     count: 1,
     size: [],
     color: [],
     item_id: null,
-    src: route(route().current(),route().params)
+    src: route(route().current(), route().params),
+    event_id: props.eventIdAddToCard
 });
 
 const state = ref({
@@ -177,15 +186,22 @@ function showBuyIn1ClickModal() {
 function addToCart() {
     axios.post(route('api.v1.cart.add', item.value))
         .then(() => {
+            console.log(item.value.event_id)
             if (import.meta.env.MODE === 'production') {
                 try {
-                    fbq('track', 'AddToCart', {
-                        "value": state.value.product.discount_price ? state.value.product.discount_price : state.value.product.price,
-                        "currency": "UAH",
-                        "content_type": "product",
-                        "content_ids": [item.value.item_id],
-                        "content_name": state.value.product.h1
-                    });
+                    fbq('track',
+                        'AddToCart',
+                        {
+                            "value": state.value.product.discount_price ? state.value.product.discount_price : state.value.product.price,
+                            "currency": "UAH",
+                            "content_type": "product",
+                            "content_ids": [item.value.item_id],
+                            "content_name": state.value.product.h1
+                        },
+                        {
+                            event_id: item.value.event_id
+                        }
+                    );
 
                     gtm.trackEvent({
                         event: 'add_product_to_cart',

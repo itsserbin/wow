@@ -46,7 +46,10 @@
                     @endif
                 </div>
 
-                <add-to-cart product="{{$product}}"></add-to-cart>
+                <add-to-cart product="{{$product}}"
+                             event-id-content="{{$event_id_content}}"
+                             event-id-add-to-card="{{$event_id_addToCard}}"
+                ></add-to-cart>
                 <div class="content">
                     {!! app()->getLocale() == 'ua' ? $product->content['ua'] : $product->content['ru'] !!}
                 </div>

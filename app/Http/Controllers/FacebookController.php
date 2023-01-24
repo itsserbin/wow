@@ -58,7 +58,7 @@ class FacebookController extends Controller
                 array_push($events, $event);
 
                 $request = (new EventRequest($this->pixel_id))
-                    // ->setTestEventCode('TEST70453')
+                    ->setTestEventCode('TEST70453')
                     ->setEvents($events);
 
                 return $request->execute();
@@ -70,7 +70,7 @@ class FacebookController extends Controller
 
     }
 
-    public function viewContent($product)
+    public function viewContent($product, $event_id)
     {
         if (env('APP_ENV') !== 'local') {
             try {
@@ -114,6 +114,7 @@ class FacebookController extends Controller
                     ->setEventName('ViewContent')
                     ->setEventTime(time())
                     ->setEventSourceUrl(request()->url())
+                    ->setEventId($event_id)
                     ->setUserData($user_data)
                     ->setCustomData($custom_data)
                     ->setActionSource(ActionSource::WEBSITE);
@@ -122,7 +123,7 @@ class FacebookController extends Controller
                 array_push($events, $event);
 
                 $request = (new EventRequest($this->pixel_id))
-                    // ->setTestEventCode('TEST70453')
+                    ->setTestEventCode('TEST70453')
                     ->setEvents($events);
 
                 return $request->execute();
@@ -133,7 +134,7 @@ class FacebookController extends Controller
         }
     }
 
-    public function addToCard($item, $src)
+    public function addToCard($item, $src, $event_id)
     {
         if (env('APP_ENV') !== 'local') {
             try {
@@ -175,6 +176,7 @@ class FacebookController extends Controller
                 $event = (new Event())
                     ->setEventName('AddToCart')
                     ->setEventTime(time())
+                    ->setEventId($event_id)
                     ->setEventSourceUrl($src)
                     ->setUserData($user_data)
                     ->setCustomData($custom_data)
@@ -184,7 +186,7 @@ class FacebookController extends Controller
                 array_push($events, $event);
 
                 $request = (new EventRequest($this->pixel_id))
-                    // ->setTestEventCode('TEST70453')
+                    ->setTestEventCode('TEST70453')
                     ->setEvents($events);
 
                 return $request->execute();
@@ -196,7 +198,7 @@ class FacebookController extends Controller
 
     }
 
-    public function InitiateCheckout($list)
+    public function InitiateCheckout($list, $event_id)
     {
         if (env('APP_ENV') !== 'local') {
             try {
@@ -242,6 +244,7 @@ class FacebookController extends Controller
                 $event = (new Event())
                     ->setEventName('InitiateCheckout')
                     ->setEventTime(time())
+                    ->setEventId($event_id)
                     ->setEventSourceUrl(request()->url())
                     ->setUserData($user_data)
                     ->setCustomData($custom_data)
@@ -251,7 +254,7 @@ class FacebookController extends Controller
                 array_push($events, $event);
 
                 $request = (new EventRequest($this->pixel_id))
-                    // ->setTestEventCode('TEST70453')
+                    ->setTestEventCode('TEST70453')
                     ->setEvents($events);
 
                 return $request->execute();
@@ -263,7 +266,7 @@ class FacebookController extends Controller
         }
     }
 
-    public function Purchase($list, $user, $order)
+    public function Purchase($list, $user, $order, $event_id)
     {
         if (env('APP_ENV') !== 'local') {
             try {
@@ -311,6 +314,7 @@ class FacebookController extends Controller
                 $event = (new Event())
                     ->setEventName('Purchase')
                     ->setEventTime(time())
+                    ->setEventId($event_id)
                     ->setEventSourceUrl(route('checkout'))
                     ->setUserData($user_data)
                     ->setCustomData($custom_data)
@@ -320,7 +324,7 @@ class FacebookController extends Controller
                 array_push($events, $event);
 
                 $request = (new EventRequest($this->pixel_id))
-                    // ->setTestEventCode('TEST70453')
+                    ->setTestEventCode('TEST70453')
                     ->setEvents($events);
 
                 return $request->execute();

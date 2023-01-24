@@ -149,7 +149,7 @@ class ShoppingCartService
             $cartItem = $this->cartItemsRepository->create($data, $cart->id);
         }
 
-        $this->facebookController->addToCard($cartItem,$data['src']);
+        $this->facebookController->addToCard($cartItem,$data['src'],$data['event_id']);
 
         return false;
     }
