@@ -135,7 +135,7 @@ onMounted(() => {
                     "content_name": state.value.product.h1
                 },
                 {
-                    event_name: props.eventIdContent
+                    event_id: props.eventIdContent
                 }
             );
 
