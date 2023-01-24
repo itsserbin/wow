@@ -49,6 +49,10 @@ Route::group(['prefix' => App\Http\Middleware\LocaleMiddleware::getLocale()], fu
     require __DIR__ . '/xml.php';
 });
 
+Route::get('test', function () {
+    return dd($_SERVER['REMOTE_ADDR']);
+});
+
 Route::post('sms-new-order', [SmsController::class, 'newOrder'])
     ->name('sms.new.order');
 
