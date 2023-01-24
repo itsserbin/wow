@@ -135,7 +135,7 @@ class OrdersRepository extends CoreRepository
             $this->calculatePrice($order->id);
         }
 
-        return $this->model::where('id',$order->id)->first();
+        return $this->model::where('id', $order->id)->first();
     }
 
     /**
@@ -509,7 +509,7 @@ class OrdersRepository extends CoreRepository
         if ($manager_id and $date) {
             return $this->model::whereDate('created_at', $date)
                 ->where([
-                    ['prepayment', 1],
+                    ['prepayment_sum', '!=', null],
                     ['manager_id', $manager_id]
                 ])
 //                ->where(function ($query) {
@@ -520,7 +520,7 @@ class OrdersRepository extends CoreRepository
                 ->count();
         } elseif ($date) {
             return $this->model::whereDate('created_at', $date)
-                ->where('prepayment', 1)
+                ->where('prepayment_sum', '!=', null)
 //                ->where(function ($query) {
 //                    $query->where('status', OrderStatus::STATUS_DONE);
 //                    $query->orWhere('status', OrderStatus::STATUS_ON_THE_ROAD);
@@ -529,7 +529,7 @@ class OrdersRepository extends CoreRepository
                 ->count();
         } elseif ($manager_id) {
             return $this->model::where([
-                ['prepayment', 1],
+                ['prepayment_sum', '!=', null],
                 ['manager_id', $manager_id]
             ])
 //                ->where(function ($query) {
@@ -539,7 +539,7 @@ class OrdersRepository extends CoreRepository
 //                })
                 ->count();
         } else {
-            return $this->model::where('prepayment', 1)
+            return $this->model::where('prepayment_sum', '!=', null)
 //                ->where(function ($query) {
 //                    $query->where('status', OrderStatus::STATUS_DONE);
 //                    $query->orWhere('status', OrderStatus::STATUS_ON_THE_ROAD);
