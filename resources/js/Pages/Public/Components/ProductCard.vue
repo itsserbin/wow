@@ -21,6 +21,7 @@
                     p-1
                     top-1
                     left-1
+                    text-[0.675rem]
                 "
         >
             {{ discountPercentage(product.price, product.discount_price) }}
