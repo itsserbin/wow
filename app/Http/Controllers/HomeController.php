@@ -23,6 +23,7 @@ class HomeController extends Controller
     private mixed $pagesRepository;
     private mixed $facebookService;
     private mixed $shoppingCartService;
+    private $event_id_page_view;
 
     public function __construct()
     {
@@ -34,6 +35,7 @@ class HomeController extends Controller
         $this->pagesRepository = app(PagesRepository::class);
         $this->facebookService = app(FacebookService::class);
         $this->shoppingCartService = app(ShoppingCartService::class);
+        $this->event_id_page_view = uniqid(null,true) . '_PageView' . '_' . time();
     }
 
     public function home(): View|Factory|Application
@@ -44,6 +46,7 @@ class HomeController extends Controller
             'pages' => $this->getPagesList(),
             'categories' => $this->getCategories(),
             'advantages' => $this->advantagesRepository->getAllToPublic(),
+            'event_id_page_view' => $this->event_id_page_view
         ]);
     }
 
@@ -58,6 +61,7 @@ class HomeController extends Controller
                 'categories' => $this->getCategories(),
                 'options' => $this->getOptions(),
                 'pages' => $this->getPagesList(),
+                'event_id_page_view' => $this->event_id_page_view
             ]);
         } else {
             return abort(404);
@@ -71,10 +75,10 @@ class HomeController extends Controller
         if ($result) {
             $this->facebookService->view();
 
-            $event_id_content = uniqid() . '_viewContent' . '_' . time();
-            $event_id_addToCard = uniqid() . '_AddToCart' . '_' . time();
-            $event_id_purchase_in_1_click = uniqid() . '_Purchase_in_1_click' . '_' . time();
-            $event_id_add_to_cart_in_1_click = uniqid() . '_AddToCard_in_1_click' . '_' . time();
+            $event_id_content = uniqid(null,true) . '_viewContent' . '_' . time();
+            $event_id_addToCard = uniqid(null,true) . '_AddToCart' . '_' . time();
+            $event_id_purchase_in_1_click = uniqid(null,true) . '_Purchase_in_1_click' . '_' . time();
+            $event_id_add_to_cart_in_1_click = uniqid(null,true) . '_AddToCard_in_1_click' . '_' . time();
 
             $this->facebookService->viewContent($result, $event_id_content);
             $this->productRepository->updateProductViewed($id);
@@ -88,6 +92,7 @@ class HomeController extends Controller
                 'event_id_addToCard' => $event_id_addToCard,
                 'event_id_purchase_in_1_click' => $event_id_purchase_in_1_click,
                 'event_id_add_to_cart_in_1_click' => $event_id_add_to_cart_in_1_click,
+                'event_id_page_view' => $this->event_id_page_view
             ]);
         } else {
             return abort(404);
@@ -103,12 +108,13 @@ class HomeController extends Controller
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
             'categories' => $this->getCategories(),
+            'event_id_page_view' => $this->event_id_page_view
         ]);
     }
 
     public function checkout(): Factory|View|Application
     {
-        $event_id_initiateCheckout = uniqid() . '_initiateCheckout' . '_' . time();
+        $event_id_initiateCheckout = uniqid(null,true) . '_initiateCheckout' . '_' . time();
         $this->facebookService->view();
         $this->facebookService->InitiateCheckout($this->shoppingCartService->cartList(), $event_id_initiateCheckout);
         return view('pages.checkout', [
@@ -116,7 +122,8 @@ class HomeController extends Controller
             'pages' => $this->getPagesList(),
             'categories' => $this->getCategories(),
             'event_id_initiateCheckout' => $event_id_initiateCheckout,
-            'event_id_purchase' => uniqid() . '_purchase' . '_' . time()
+            'event_id_purchase' => uniqid() . '_purchase' . '_' . time(),
+            'event_id_page_view' => $this->event_id_page_view
         ]);
     }
 
@@ -130,6 +137,7 @@ class HomeController extends Controller
                 'options' => $this->getOptions(),
                 'pages' => $this->getPagesList(),
                 'categories' => $this->getCategories(),
+                'event_id_page_view' => $this->event_id_page_view
             ]);
         } else {
             return abort(404);
@@ -144,6 +152,7 @@ class HomeController extends Controller
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
             'categories' => $this->getCategories(),
+            'event_id_page_view' => $this->event_id_page_view
         ]);
     }
 
@@ -153,6 +162,7 @@ class HomeController extends Controller
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
             'categories' => $this->getCategories(),
+            'event_id_page_view' => $this->event_id_page_view
         ]);
     }
 
@@ -163,7 +173,8 @@ class HomeController extends Controller
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
             'categories' => $this->getCategories(),
-            'statuses' => OrderStatus::state
+            'statuses' => OrderStatus::state,
+            'event_id_page_view' => $this->event_id_page_view
         ]);
     }
 
@@ -174,6 +185,7 @@ class HomeController extends Controller
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
             'categories' => $this->getCategories(),
+            'event_id_page_view' => $this->event_id_page_view
         ]);
     }
 
