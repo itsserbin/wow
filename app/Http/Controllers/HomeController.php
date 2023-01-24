@@ -35,7 +35,7 @@ class HomeController extends Controller
         $this->pagesRepository = app(PagesRepository::class);
         $this->facebookService = app(FacebookService::class);
         $this->shoppingCartService = app(ShoppingCartService::class);
-        $this->event_id_page_view = uniqid() . '_PageView' . '_' . time();
+        $this->event_id_page_view = uniqid(null,true) . '_PageView' . '_' . time();
     }
 
     public function home(): View|Factory|Application
