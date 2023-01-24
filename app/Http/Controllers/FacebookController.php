@@ -216,7 +216,6 @@ class FacebookController extends Controller
                     $user_data->setClientIpAddress($ip);
                 }
 
-
                 $content = [];
 
 
@@ -232,7 +231,7 @@ class FacebookController extends Controller
                 }
 
                 $custom_data = (new CustomData())
-                    ->setContentIds(Arr::pluck($list['list'], 'product_id'))
+                    ->setContentIds(Arr::pluck($list['list'], 'id'))
                     ->setContentType('product_group')
                     ->setContents($content)
                     ->setCurrency('uah')
