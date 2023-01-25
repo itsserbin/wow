@@ -70,7 +70,7 @@
     </script>
     <noscript>
         <img height="1" width="1" style="display:none"
-             src="'https://www.facebook.com/tr?id={{env('FB_PIXEL_ID')}}&ev=PageView&noscript=1'"
+             src="'https://www.facebook.com/tr?id={{env('FB_PIXEL_ID')}}&ev=PageView&eid={{$event_id_page_view}}&noscript=1'"
         />
     </noscript>
 @endif
