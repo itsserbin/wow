@@ -8,7 +8,7 @@
             <div class="grid grid-cols-2 gap-4 justify-center items-center">
                 <h3 class="font-semibold text-xl">Статус виконання:</h3>
                 <div class="text-xl">{{
-                        props.statuses === 'transferred_to_supplier' ? 'Передано до упакування' : props.statuses[order.status]
+                        order.status === 'transferred_to_supplier' ? 'Передано до упакування' : props.statuses[order.status]
                     }}
                 </div>
             </div>
@@ -57,7 +57,7 @@ const props = defineProps(['order', 'statuses']);
 
 const name = computed(() => {
     const {name, last_name, middle_name} = props.order.client;
-    return `${name} ${last_name} ${middle_name}`;
+    return `${name ? name : null} ${last_name ? last_name : null} ${middle_name ? middle_name : null}`;
 })
 
 </script>
