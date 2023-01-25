@@ -164,10 +164,6 @@ const item = ref({
 
 const discountPercentage = computed(() => (price, discount_price) => `- ${(((price - discount_price) * 100) / price).toFixed()}%`);
 
-setInterval(() => {
-    item.value.event_id = uuidv4() + '_AddToCard' + '_' + new Date().getTime();
-}, 3000);
-
 function uuidv4() {
     return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
         (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
@@ -176,6 +172,8 @@ function uuidv4() {
 
 function addToCard(id) {
     item.value.item_id = id;
+    item.value.event_id = uuidv4() + '_AddToCard' + '_' + new Date().getTime();
+    console.log(item.value.event_id)
     axios.post(route('api.v1.cart.add', item.value))
         .then(() => {
             store.commit('loadCart');
