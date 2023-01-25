@@ -1,9 +1,8 @@
 .characteristics-table {
     border-collapse: collapse;
-    font-size: 12px;
 
     table {
-        width: 100%;
+        width: 100% !important;
     }
 
     tr {
@@ -27,7 +26,6 @@
 
 @media(min-width: 400px) {
     .characteristics-table {
-        font-size: 15px;
 
         th,
         td {
