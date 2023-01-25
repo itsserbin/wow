@@ -35,6 +35,9 @@ Route::prefix('xml')->group(function () {
 
     Route::get('prom/feed/products', [XmlsController::class, 'promProductFeed'])
         ->name('prom.product.feed');
+
+    Route::get('merchant', [XmlsController::class, 'merchant'])
+        ->name('xml.merchant');
 });
 
 Route::get('sitemap.xml', [XmlsController::class, 'sitemap'])

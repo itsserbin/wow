@@ -37,6 +37,16 @@ class XmlsController extends Controller
         ])->header('Content-Type', 'application/xml');
     }
 
+    public function merchant()
+    {
+        $result = $this->xmlService->getAllProductsToFbFeed();
+
+        return response()->view('xml.merchant', [
+            'products' => $result['products'],
+            'xml' => $result['xml'],
+        ])->header('Content-Type', 'application/xml');
+    }
+
     public function getProductsFromCategoryToFbFeed($slugs): Response
     {
         $result = $this->xmlService->getProductsFromCategoryToFbFeed($slugs);
