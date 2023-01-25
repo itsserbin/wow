@@ -7,19 +7,22 @@
             </div>
             <div class="grid grid-cols-2 gap-4 justify-center items-center">
                 <h3 class="font-semibold text-xl">Статус виконання:</h3>
-                <div class="text-xl">{{ props.statuses === 'transferred_to_supplier' ? 'Передано до упакування' :props.statuses[order.status] }}</div>
+                <div class="text-xl">{{
+                        props.statuses === 'transferred_to_supplier' ? 'Передано до упакування' : props.statuses[order.status]
+                    }}
+                </div>
             </div>
             <div class="grid grid-cols-2 gap-4 justify-center items-center">
                 <h3 class="font-semibold text-xl">Загальна сума замовлення:</h3>
                 <div class="text-xl">{{ order.total_price }}</div>
             </div>
-            <div class="grid grid-cols-2 gap-4 justify-center items-center" v-if="order.prepayment">
+            <div class="grid grid-cols-2 gap-4 justify-center items-center" v-if="order.prepayment_sum">
                 <h3 class="font-semibold text-xl">Передоплата:</h3>
                 <div class="text-xl">{{ order.prepayment_sum }}</div>
             </div>
             <hr class="my-3">
             <div class="grid grid-cols-2 gap-4 justify-center items-center">
-                <h3 class="font-semibold text-xl">Контакнті дані:</h3>
+                <h3 class="font-semibold text-xl">Контактні дані:</h3>
                 <div class="text-xl">{{ name }}</div>
             </div>
             <div class="grid grid-cols-2 gap-4 justify-center items-center">
@@ -53,10 +56,8 @@ import OrderItem from '@/Pages/Public/Status/OrderItem.vue';
 const props = defineProps(['order', 'statuses']);
 
 const name = computed(() => {
-    let name = props.order.client.name;
-    let last_name = props.order.client.last_name;
-    let middle_name = props.order.client.middle_name;
-
-    return [name, last_name, middle_name].join(' ');
+    const {name, last_name, middle_name} = props.order.client;
+    return `${name} ${last_name} ${middle_name}`;
 })
+
 </script>

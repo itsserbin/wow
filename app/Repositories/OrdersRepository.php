@@ -795,7 +795,6 @@ class OrdersRepository extends CoreRepository
                 'total_price',
                 'client_id',
                 'waybill',
-                'prepayment',
                 'prepayment_sum',
             )
             ->where('id', $data['order_id'])
