@@ -1,8 +1,9 @@
 <template>
     <div class="
                     items-stretch
+                    flex
+                    flex-col
                     no-underline
-                    grid
                     border-[1px]
                     border-secondary
                     rounded-lg
@@ -22,21 +23,57 @@
                     top-1
                     left-1
                     text-[0.675rem]
+                    z-10
                 "
         >
             {{ discountPercentage(product.price, product.discount_price) }}
         </div>
-        <div class="w-full mx-auto h-56 md:h-72">
-            <a :href="route('product',product.id)">
-                <picture>
-                    <source v-lazy :data-src="route('images.350',product.preview.webp_src)" type="image/webp">
-                    <img v-lazy
-                         :data-src="route('images.350',product.preview.src) "
-                         :alt="lang === 'ru' ? product.h1.ru : (lang === 'ua' ? product.h1.ua : null)"
-                         class="h-full object-cover w-full rounded-t-lg"
-                    >
-                </picture>
-            </a>
+        <div>
+            <div class="w-full mx-auto">
+                <div v-if="!slider">
+                    <a :href="route('product',product.id)">
+                        <picture>
+                            <source v-lazy :data-src="route('images.350',product.preview.webp_src)" type="image/webp">
+                            <img v-lazy
+                                 :data-src="route('images.350',product.preview.src) "
+                                 :alt="lang === 'ru' ? product.h1.ru : (lang === 'ua' ? product.h1.ua : null)"
+                                 class="h-full object-cover w-full rounded-t-lg h-56 md:h-72 swiper-lazy"
+                            >
+                        </picture>
+                    </a>
+                </div>
+                <div v-if="slider">
+                    <swiper v-bind="settings" :modules="modules" class="mySwiper">
+                        <swiper-slide>
+                            <a :href="route('product',product.id)">
+                                <picture>
+                                    <source v-lazy :data-src="route('images.350',product.preview.webp_src)" type="image/webp">
+                                    <img v-lazy
+                                        :data-src="route('images.350',product.preview.src) "
+                                        :alt="lang === 'ru' ? product.h1.ru : (lang === 'ua' ? product.h1.ua : null)"
+                                        class="h-full object-cover w-full rounded-t-lg  h-56 md:h-72 swiper-lazy"
+                                    >
+                                </picture>
+                                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+                            </a>
+                        </swiper-slide>
+                        <swiper-slide v-for="image in product.images">
+                            <a :href="route('product',product.id)">
+                                <picture>
+                                    <source v-lazy :data-src="route('images.350',image.webp_src)" type="image/webp">
+                                    <img  v-lazy
+                                        :data-src="route('images.350',image.src) "
+                                        :alt="lang === 'ru' ? product.h1.ru : (lang === 'ua' ? product.h1.ua : null)"
+                                        class="h-full object-cover w-full rounded-t-lg h-56 md:h-72 swiper-lazy"
+                                    >
+                                </picture>
+                                <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+                            </a>
+                        </swiper-slide>
+                    </swiper>
+                </div>
+
+            </div>
         </div>
 
         <div class="
@@ -140,6 +177,9 @@
 import {computed, inject, ref} from "vue";
 import {useStore} from "vuex";
 import {useGtm} from "@gtm-support/vue-gtm";
+import vLazy from '@/Includes/lazyload.js'
+import {Swiper, SwiperSlide} from 'swiper/vue';
+import {Lazy, Navigation} from "swiper";
 
 const props = defineProps({
     product: Object,
@@ -148,7 +188,23 @@ const props = defineProps({
         type: String,
         default: 'Докладніше'
     },
+    slider: {
+        type: Boolean,
+        default: false
+    }
 });
+
+const modules = [Lazy, Navigation];
+const settings = {
+    slidesPerView: 1,
+    lazy: true,
+    navigation: true,
+    loop: true,
+    style: {
+        '--swiper-navigation-color': 'rgba(255, 255, 255, 0.3)',
+        '--swiper-pagination-color': 'rgba(255, 255, 255, 0.3)',
+    }
+};
 
 const store = useStore();
 const swal = inject('$swal');

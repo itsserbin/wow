@@ -5,7 +5,7 @@ use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\CategoriesController;
 use App\Http\Controllers\Api\FaqsController;
 use App\Http\Controllers\Api\ProductReviewsController;
-use App\Http\Controllers\Api\ProductsController;
+use App\Http\Controllers\Api\V1\ProductsController;
 use App\Http\Controllers\Api\SocialReviewsController;
 use App\Http\Controllers\Api\V1\OrdersController;
 use App\Http\Controllers\Api\V1\InvoicesController;
@@ -56,7 +56,7 @@ Route::prefix('v1')->middleware('api')->group(function () {
         Route::get('relative/{id}', [ProductsController::class, 'getRelativeProducts'])
             ->name('api.v1.products.relative.get');
 
-        Route::get('best-selling', [ProductsController::class, 'getBestSelling'])
+        Route::get('best-selling', [ProductsController::class, 'getBestSellingProductsWithPaginate'])
             ->name('api.v1.products.best-selling');
 
         Route::get('category/{slug}', [ProductsController::class, 'getWhereCategorySlug'])

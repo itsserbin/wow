@@ -8,6 +8,7 @@
                       :text-go-to-product-card="textGoToProductCard"
                       :product-route="productRoute"
                       class="mb-5"
+                      :slider="true"
         />
         <div v-if="state.showLoadMore" class="text-center">
             <Loader v-if="state.isLoadingMore"></Loader>

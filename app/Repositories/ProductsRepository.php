@@ -375,7 +375,7 @@ class ProductsRepository extends CoreRepository
         return $this->model::destroy($id);
     }
 
-    public function getBestSelling($perPage = 8)
+    public function getBestSellingProductsWithPaginate($perPage = 8)
     {
         $columns = [
             'id',
@@ -391,7 +391,7 @@ class ProductsRepository extends CoreRepository
             ->model::where('published', 1)
             ->select($columns)
             ->orderBy('total_sales', 'desc')
-            ->with('sizes', 'preview')
+            ->with('sizes', 'preview','images')
             ->paginate($perPage);
     }
 

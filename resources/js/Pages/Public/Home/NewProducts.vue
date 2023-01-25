@@ -7,6 +7,7 @@
                        :lang="lang"
                        :text-go-to-product-card="textGoToProductCard"
                        class="mb-5"
+                       :slider="true"
         ></product-cards>
         <div v-if="state.showLoadMore" class="text-center">
             <Loader v-if="state.isLoadingMore"></Loader>
