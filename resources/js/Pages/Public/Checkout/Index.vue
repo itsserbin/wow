@@ -60,12 +60,6 @@ const state = ref({
     ga4ProductsArray: [],
 })
 
-const event_id = ref();
-
-setInterval(() => {
-    event_id.value = getCookie('XSRF-TOKEN') + '_' + new Date().getTime();
-}, 3000);
-
 onMounted(() => {
     if (import.meta.env.MODE === 'production') {
         store.state.list.forEach((item) => {
@@ -102,13 +96,6 @@ onMounted(() => {
         }
     }
 })
-
-
-function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-}
 
 function wfp(order) {
     const wayforpay = new Wayforpay();

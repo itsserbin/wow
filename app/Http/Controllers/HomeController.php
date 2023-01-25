@@ -158,6 +158,7 @@ class HomeController extends Controller
 
     public function thanks(): View|Factory|Application
     {
+        $this->facebookService->view($this->event_id_page_view);
         return view('pages.thanks', [
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
