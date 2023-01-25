@@ -375,7 +375,7 @@ class ProductsRepository extends CoreRepository
         return $this->model::destroy($id);
     }
 
-    public function getBestSellingProductsWithPaginate($perPage = 8)
+    public function getProductsForPublicWithPaginate($by = 'id', $sort = 'desc', $perPage = 8)
     {
         $columns = [
             'id',
@@ -390,50 +390,9 @@ class ProductsRepository extends CoreRepository
         return $this
             ->model::where('published', 1)
             ->select($columns)
-            ->orderBy('total_sales', 'desc')
-            ->with('sizes', 'preview','images')
+            ->orderBy($by,$sort)
+            ->with('sizes', 'preview', 'images')
             ->paginate($perPage);
-    }
-
-    public function getBestSellingProducts()
-    {
-        $columns = [
-            'id',
-            'price',
-            'published',
-            'discount_price',
-            'preview_id',
-            'total_sales',
-            'h1',
-        ];
-
-        return $this
-            ->model::where('published', 1)
-            ->select($columns)
-            ->orderBy('total_sales', 'desc')
-            ->with('preview')
-            ->limit(10)
-            ->get();
-    }
-
-    public function getNewProducts()
-    {
-        $columns = [
-            'id',
-            'price',
-            'published',
-            'discount_price',
-            'preview_id',
-            'h1',
-            'created_at',
-        ];
-
-        return $this
-            ->model::where('published', 1)
-            ->select($columns)
-            ->orderBy('created_at', 'desc')
-            ->with('sizes', 'preview')
-            ->paginate(8);
     }
 
     public function getRecommendProducts()
@@ -564,7 +523,7 @@ class ProductsRepository extends CoreRepository
                 ->model::where('published', 1)
                 ->select($columns)
                 ->inRandomOrder()
-                ->with('sizes', 'preview')
+                ->with('sizes', 'preview','images')
                 ->paginate(8);
         }
     }

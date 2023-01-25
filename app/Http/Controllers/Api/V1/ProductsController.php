@@ -29,7 +29,7 @@ class ProductsController extends BaseController
      */
     public function getBestSellingProductsWithPaginate(): JsonResponse
     {
-        $result = $this->productsRepository->getBestSellingProductsWithPaginate();
+        $result = $this->productsRepository->getProductsForPublicWithPaginate('total_sales', 'desc');
 
         return $this->returnResponse([
             'success' => true,
@@ -41,7 +41,7 @@ class ProductsController extends BaseController
     {
         return $this->returnResponse([
             'success' => true,
-            'result' => $this->productsRepository->getNewProducts(),
+            'result' => $this->productsRepository->getProductsForPublicWithPaginate('id','desc'),
         ]);
     }
 
