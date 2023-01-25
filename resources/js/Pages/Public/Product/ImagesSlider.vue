@@ -10,7 +10,21 @@
             class="swiper-product-slider"
             :lazy="true"
             :auto-heigth="true"
+            :passiveListeners="false"
         >
+
+            <swiper-slide>
+                <div class="swiper-zoom-container">
+                    <picture>
+                        <source :srcset="state.preview.webp_src"
+                                type="image/webp">
+                        <img
+                            :src="state.preview.src"
+                            class="h-full w-full"
+                        >
+                    </picture>
+                </div>
+            </swiper-slide>
 
             <swiper-slide v-for="(image, i) in state.images">
                 <div class="swiper-zoom-container">
@@ -82,7 +96,7 @@ onMounted(() => {
         'src': route('images', JSON.parse(props.preview).src),
         'thumbnail': route('images.55', JSON.parse(props.preview).src),
     }
-    const images = [...JSON.parse(props.images), JSON.parse(props.preview)].map( item => ({
+    const images = [...JSON.parse(props.images)].map(item => ({
         'webp_src': route('images', item.webp_src),
         'webp_thumbnail': route('images.55', item.webp_src),
         'src': route('images', item.src),
@@ -98,41 +112,47 @@ onMounted(() => {
     width: 100%;
     height: auto;
 }
+
 .swiper-product-slider .swiper-slide img {
     width: 100%;
     height: auto;
 }
 
-@media screen and (min-width: 320px) {
-    .swiper-product-slider .swiper-slide:first-child {
-        min-height: 300px;
-    }
-}
-@media screen and (min-width: 375px) {
-    .swiper-product-slider .swiper-slide:first-child {
-        min-height: 350px;
-    }
-}
-@media screen and (min-width: 420px) {
-    .swiper-product-slider .swiper-slide:first-child {
-        min-height: 400px;
-    }
-}
-@media screen and (min-width: 900px) {
-    .swiper-product-slider .swiper-slide:first-child {
-        min-height: 450px;
-    }
-}
-@media screen and (min-width: 1024px) {
-    .swiper-product-slider .swiper-slide:first-child {
-        min-height: 500px;
-    }
-}
-@media screen and (min-width: 1366px) {
-    .swiper-product-slider .swiper-slide:first-child {
-        min-height: 620px;
-    }
-}
+/*@media screen and (min-width: 320px) {*/
+/*    .swiper-product-slider .swiper-slide:first-child {*/
+/*        min-height: 300px;*/
+/*    }*/
+/*}*/
+
+/*@media screen and (min-width: 375px) {*/
+/*    .swiper-product-slider .swiper-slide:first-child {*/
+/*        min-height: 350px;*/
+/*    }*/
+/*}*/
+
+/*@media screen and (min-width: 420px) {*/
+/*    .swiper-product-slider .swiper-slide:first-child {*/
+/*        min-height: 400px;*/
+/*    }*/
+/*}*/
+
+/*@media screen and (min-width: 900px) {*/
+/*    .swiper-product-slider .swiper-slide:first-child {*/
+/*        min-height: 450px;*/
+/*    }*/
+/*}*/
+
+/*@media screen and (min-width: 1024px) {*/
+/*    .swiper-product-slider .swiper-slide:first-child {*/
+/*        min-height: 500px;*/
+/*    }*/
+/*}*/
+
+/*@media screen and (min-width: 1366px) {*/
+/*    .swiper-product-slider .swiper-slide:first-child {*/
+/*        min-height: 620px;*/
+/*    }*/
+/*}*/
 
 
 /*.swiper-product-thumbs .swiper-wrapper {*/
