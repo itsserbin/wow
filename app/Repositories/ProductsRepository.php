@@ -563,9 +563,9 @@ class ProductsRepository extends CoreRepository
             return $this
                 ->model::where('published', 1)
                 ->select($columns)
-                ->orderBy('total_sales', 'desc')
+                ->inRandomOrder()
                 ->with('sizes', 'preview')
-                ->paginate(12);
+                ->paginate(8);
         }
     }
 }

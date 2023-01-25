@@ -18,18 +18,18 @@
             >
             </categories-component>
         </div>
-        <div class="best-selling">
+        <div class="best-selling mb-5">
             <best-selling-products lang="{{app()->getLocale()}}"
             >
             </best-selling-products>
         </div>
-        <div class="all-products mb-5">
-            <all-products lang="{{app()->getLocale()}}"
-            ></all-products>
-        </div>
         <div class="new-products mb-5">
             <new-products lang="{{app()->getLocale()}}"
             ></new-products>
+        </div>
+        <div class="all-products ">
+            <all-products lang="{{app()->getLocale()}}"
+            ></all-products>
         </div>
         @include('components.advantages')
         <div class="reviews">

@@ -8,20 +8,29 @@
             :thumbs="{ swiper: thumbsSwiper }"
             :zoom="true"
             class="swiper-product-slider"
-            :auto-height="true"
             :lazy="true"
+            :auto-heigth="true"
+            :preloadImages="false"
+            preloaderClass="h-full"
+            :on="{
+                lazyImageReady: function() {
+                  var swiper = this;
+                  setTimeout(function() {
+                    swiper.updateAutoHeight();
+                  }, 1);
+                }
+              }"
         >
+
             <swiper-slide v-for="(image, i) in state.images">
                 <div class="swiper-zoom-container">
-                    <picture class="w-full">
-                        <source :srcset="image.webp_src"
-                                type="image/webp">
-                        <img :data-src="image.src"
-                             class="w-full h-full image block"
-                             :key="i"
-                             @click="state.index = i"
-                        >
-                    </picture>
+                    <img :data-srcset="image.webp_src"
+                         :data-src="image.src"
+                         class="w-full h-full swiper-lazy"
+                         :key="i"
+                         @click="state.index = i"
+                    >
+                    <div class="swiper-lazy-preloader swiper-lazy-preloader"></div>
                 </div>
             </swiper-slide>
         </swiper>
@@ -38,7 +47,7 @@
         >
 
             <swiper-slide v-for="(image, i) in state.images">
-                <picture class=" w-full">
+                <picture class="w-full">
                     <source :srcset="image.webp_thumbnail"
                             type="image/webp">
                     <img :data-src="image.thumbnail"
@@ -56,6 +65,7 @@
 <script setup>
 import {Zoom, FreeMode, Navigation, Thumbs, Lazy} from 'swiper';
 import {onMounted, ref} from 'vue';
+import {Swiper, SwiperSlide} from 'swiper/vue';
 
 const props = defineProps(['images', 'preview']);
 
@@ -70,68 +80,34 @@ const modules = [Zoom, Lazy, Thumbs, FreeMode, Navigation];
 const state = ref({
     imagesLarge: [],
     images: [],
+    preview: {},
     index: null,
     currentId: null,
 });
 
 onMounted(() => {
-    const preview = JSON.parse(props.preview);
-    state.value.images.push({
-        'webp_src': route('images', preview.webp_src),
-        'webp_thumbnail': route('images.55', preview.webp_src),
-        'src': route('images', preview.src),
-        'thumbnail': route('images.55', preview.src),
-    })
-    JSON.parse(props.images).forEach(item => {
-        state.value.images.push({
-            'webp_src': route('images', item.webp_src),
-            'webp_thumbnail': route('images.55', item.webp_src),
-            'src': route('images', item.src),
-            'thumbnail': route('images.55', item.src),
-        })
-    })
-})
+    const images = [...JSON.parse(props.images), JSON.parse(props.preview)].map( item => ({
+        'webp_src': route('images', item.webp_src),
+        'webp_thumbnail': route('images.55', item.webp_src),
+        'src': route('images', item.src),
+        'thumbnail': route('images.55', item.src),
+    }))
+    state.value.images.push(...images);
+});
 </script>
 
 <style>
 
-@media screen and (min-width: 320px) {
-    .swiper-product-slider .swiper-slide:first-child {
-        min-height: 300px;
-    }
+.swiper-product-slider .swiper-slide {
+    width: 100%;
+    height: auto;
 }
 
-@media screen and (min-width: 375px) {
-    .swiper-product-slider .swiper-slide:first-child {
-        min-height: 350px;
-    }
-}
+/*.swiper-product-thumbs .swiper-wrapper {*/
+/*    justify-content: center;*/
+/*}*/
 
-@media screen and (min-width: 420px) {
-    .swiper-product-slider .swiper-slide:first-child {
-        min-height: 400px;
-    }
-}
-
-@media screen and (min-width: 900px) {
-    .swiper-product-slider .swiper-slide:first-child {
-        min-height: 450px;
-    }
-}
-
-@media screen and (min-width: 1024px) {
-    .swiper-product-slider .swiper-slide:first-child {
-        min-height: 500px;
-    }
-}
-
-@media screen and (min-width: 1366px) {
-    .swiper-product-slider .swiper-slide:first-child {
-        min-height: 620px;
-    }
-}
-
-.swiper-product-thumbs .swiper-wrapper {
-    justify-content: center;
-}
+/*.swiper-lazy-preloader {*/
+/*    color: red;*/
+/*}*/
 </style>
