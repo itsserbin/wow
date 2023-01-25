@@ -57,7 +57,7 @@ const props = defineProps(['order', 'statuses']);
 
 const name = computed(() => {
     const {name, last_name, middle_name} = props.order.client;
-    return `${name ? name : null} ${last_name ? last_name : null} ${middle_name ? middle_name : null}`;
+    return `${name ? name : ''} ${last_name ? last_name : ''} ${middle_name ? middle_name : ''}`;
 })
 
 </script>
