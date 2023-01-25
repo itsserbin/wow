@@ -58,12 +58,12 @@ class FacebookService
                 array_push($events, $event);
 
                 $request = (new EventRequest($this->pixel_id))
-                    //->setTestEventCode('TEST70453')
+                    ->setTestEventCode('TEST70453')
                     ->setEvents($events);
 
                 return $request->execute();
             } catch (Exception $e) {
-                Log::error('FB API ERROR(view):' . $e);
+                Log::error('FB API ERROR (View):' . $e);
                 return false;
             }
         }
@@ -123,7 +123,7 @@ class FacebookService
                 array_push($events, $event);
 
                 $request = (new EventRequest($this->pixel_id))
-                    //->setTestEventCode('TEST70453')
+                    ->setTestEventCode('TEST70453')
                     ->setEvents($events);
 
                 return $request->execute();
@@ -186,7 +186,7 @@ class FacebookService
                 array_push($events, $event);
 
                 $request = (new EventRequest($this->pixel_id))
-                    //->setTestEventCode('TEST70453')
+                    ->setTestEventCode('TEST70453')
                     ->setEvents($events);
 
                 return $request->execute();
@@ -254,7 +254,7 @@ class FacebookService
                 array_push($events, $event);
 
                 $request = (new EventRequest($this->pixel_id))
-                    //->setTestEventCode('TEST70453')
+                    ->setTestEventCode('TEST70453')
                     ->setEvents($events);
 
                 return $request->execute();
@@ -324,7 +324,7 @@ class FacebookService
                 array_push($events, $event);
 
                 $request = (new EventRequest($this->pixel_id))
-                    //->setTestEventCode('TEST70453')
+                    ->setTestEventCode('TEST70453')
                     ->setEvents($events);
 
                 return $request->execute();

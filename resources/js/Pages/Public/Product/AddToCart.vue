@@ -102,6 +102,7 @@
                  :cart="store.state.list"
                  :eventIdPurchaseIn1Click="props.eventIdPurchaseIn1Click"
                  :eventIdAddToCard="props.eventIdAddToCard"
+                 :isAddToCart="props.isAddToCart"
     />
 </template>
 
@@ -121,6 +122,8 @@ const props = defineProps([
     'eventIdAddToCard',
     'eventIdPurchaseIn1Click',
 ]);
+
+const isAddToCart = ref(false);
 
 onMounted(() => {
     state.value.product = JSON.parse(props.product);
@@ -187,61 +190,64 @@ function showBuyIn1ClickModal() {
 }
 
 function addToCart() {
-    axios.post(route('api.v1.cart.add', item.value))
-        .then(() => {
-            if (import.meta.env.MODE === 'production') {
-                try {
-                    fbq('track',
-                        'AddToCart',
-                        {
-                            "value": state.value.product.discount_price ? state.value.product.discount_price : state.value.product.price,
-                            "currency": "UAH",
-                            "content_type": "product",
-                            "content_ids": [item.value.item_id],
-                            "content_name": state.value.product.h1
-                        },
-                        {
-                            event_id: item.value.event_id
-                        }
-                    );
+    if (!isAddToCart.value){
+        axios.post(route('api.v1.cart.add', item.value))
+            .then(() => {
+                isAddToCart.value = true;
+                if (import.meta.env.MODE === 'production') {
+                    try {
+                        fbq('track',
+                            'AddToCart',
+                            {
+                                "value": state.value.product.discount_price ? state.value.product.discount_price : state.value.product.price,
+                                "currency": "UAH",
+                                "content_type": "product",
+                                "content_ids": [item.value.item_id],
+                                "content_name": state.value.product.h1
+                            },
+                            {
+                                event_id: item.value.event_id
+                            }
+                        );
 
-                    gtm.trackEvent({
-                        event: 'add_product_to_cart',
-                        ecommerce: {
-                            items: [{
-                                item_name: state.value.product.h1,
-                                item_id: item.value.item_id,
-                                price: state.value.product.discount_price ? state.value.product.discount_price : state.value.product.price,
-                                quantity: 1
-                            }]
-                        }
-                    });
-                } catch (e) {
-                    console.log(e);
+                        gtm.trackEvent({
+                            event: 'add_product_to_cart',
+                            ecommerce: {
+                                items: [{
+                                    item_name: state.value.product.h1,
+                                    item_id: item.value.item_id,
+                                    price: state.value.product.discount_price ? state.value.product.discount_price : state.value.product.price,
+                                    quantity: 1
+                                }]
+                            }
+                        });
+                    } catch (e) {
+                        console.log(e);
+                    }
                 }
-            }
-            store.commit('loadCart');
-            swal({
-                icon: 'success',
-                title: 'Товар додано до вашого кошика!',
-                text: 'Ви можете оформити замовлення або продовжити покупки :)',
-                showCancelButton: true,
-                confirmButtonText: 'Оформити замовлення',
-                cancelButtonText: 'Продовжити покупки',
+                store.commit('loadCart');
+                swal({
+                    icon: 'success',
+                    title: 'Товар додано до вашого кошика!',
+                    text: 'Ви можете оформити замовлення або продовжити покупки :)',
+                    showCancelButton: true,
+                    confirmButtonText: 'Оформити замовлення',
+                    cancelButtonText: 'Продовжити покупки',
 
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = route('checkout');
-                }
-            })
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = route('checkout');
+                    }
+                })
 
-        })
-        .catch(() => {
-            swal({
-                icon: 'error',
-                title: 'Виникла помилка',
-                text: 'Перевірте корректність данних'
             })
-        });
+            .catch(() => {
+                swal({
+                    icon: 'error',
+                    title: 'Виникла помилка',
+                    text: 'Перевірте корректність данних'
+                })
+            });
+    }
 }
 </script>

@@ -40,6 +40,7 @@ const props = defineProps([
     'product',
     'eventIdPurchaseIn1Click',
     'eventIdAddToCard',
+    'isAddToCart'
 ]);
 const gtm = useGtm();
 const swal = inject('$swal');
@@ -59,7 +60,6 @@ const order = ref({
 const state = ref({
     isLoading: false,
     errors: [],
-    isAddToCart: false,
     contentIds: [],
     ga4ProductsArray: []
 });
@@ -70,10 +70,10 @@ async function sendForm() {
     state.value.errors = [];
     state.value.isLoading = true;
 
-    if (!state.value.isAddToCart) {
+    if (!props.isAddToCart) {
         await axios.post(route('api.v1.cart.add'), props.item)
             .then(() => {
-                state.value.isAddToCart = true;
+                props.isAddToCart = true;
                 if (import.meta.env.MODE === 'production') {
                     try {
                         fbq('track',
