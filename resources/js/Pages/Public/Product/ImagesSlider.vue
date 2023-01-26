@@ -12,7 +12,6 @@
             :auto-heigth="true"
             :passiveListeners="false"
         >
-
             <swiper-slide>
                 <div class="swiper-zoom-container">
                     <picture>
@@ -71,7 +70,6 @@
                 </picture>
             </swiper-slide>
         </swiper>
-
     </div>
 </template>
 
@@ -126,49 +124,4 @@ onMounted(() => {
     width: 100%;
     height: auto;
 }
-
-/*@media screen and (min-width: 320px) {*/
-/*    .swiper-product-slider .swiper-slide:first-child {*/
-/*        min-height: 300px;*/
-/*    }*/
-/*}*/
-
-/*@media screen and (min-width: 375px) {*/
-/*    .swiper-product-slider .swiper-slide:first-child {*/
-/*        min-height: 350px;*/
-/*    }*/
-/*}*/
-
-/*@media screen and (min-width: 420px) {*/
-/*    .swiper-product-slider .swiper-slide:first-child {*/
-/*        min-height: 400px;*/
-/*    }*/
-/*}*/
-
-/*@media screen and (min-width: 900px) {*/
-/*    .swiper-product-slider .swiper-slide:first-child {*/
-/*        min-height: 450px;*/
-/*    }*/
-/*}*/
-
-/*@media screen and (min-width: 1024px) {*/
-/*    .swiper-product-slider .swiper-slide:first-child {*/
-/*        min-height: 500px;*/
-/*    }*/
-/*}*/
-
-/*@media screen and (min-width: 1366px) {*/
-/*    .swiper-product-slider .swiper-slide:first-child {*/
-/*        min-height: 620px;*/
-/*    }*/
-/*}*/
-
-
-/*.swiper-product-thumbs .swiper-wrapper {*/
-/*    justify-content: center;*/
-/*}*/
-
-/*.swiper-lazy-preloader {*/
-/*    color: red;*/
-/*}*/
 </style>

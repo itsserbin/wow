@@ -1,14 +1,8 @@
 @extends('layouts.master')
 
-@section('title')
-    @if(app()->getLocale() == 'ua')
-        {{$product->title['ua'] ? : null}}
-    @elseif(app()->getLocale() == 'ru')
-        {{$product->title['ru'] ? : null}}
-    @endif
-@endsection
-
-@section('description'){{app()->getLocale() == 'ua' ? $product->description['ua'] : $product->description['ru']}}@endsection
+@section('title'){{$product->title[app()->getLocale()]}}@endsection
+@section('description'){{$product->description[app()->getLocale()]}}@endsection
+@section('schema')@include('schema.product',$product)@endsection
 
 @section('content')
     {{ Breadcrumbs::render('home.categories.product',$product) }}
