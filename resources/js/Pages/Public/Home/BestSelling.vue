@@ -46,7 +46,7 @@ defineProps({
     textBestSelling: {
         type: String,
         default: 'Найпопулярніші'
-    }
+    },
 });
 
 const state = ref({

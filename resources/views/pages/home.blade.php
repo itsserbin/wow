@@ -19,9 +19,7 @@
             </categories-component>
         </div>
         <div class="best-selling mb-5">
-            <best-selling-products lang="{{app()->getLocale()}}"
-            >
-            </best-selling-products>
+            <best-selling-products lang="{{app()->getLocale()}}"></best-selling-products>
         </div>
         <div class="new-products mb-5">
             <new-products lang="{{app()->getLocale()}}"

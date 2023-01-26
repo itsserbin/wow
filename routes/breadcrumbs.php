@@ -12,6 +12,16 @@ Breadcrumbs::for('home', function (BreadcrumbTrail $trail) {
     $trail->push(env('APP_NAME'), route('home'));
 });
 
+Breadcrumbs::for('home.404', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Сторінку не знайдено');
+});
+
+Breadcrumbs::for('home.support', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Підтримка');
+});
+
 Breadcrumbs::for('home.cart', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
     $trail->push('Кошик', route('cart'));
