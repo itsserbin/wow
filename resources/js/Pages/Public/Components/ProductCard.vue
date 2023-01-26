@@ -67,30 +67,6 @@
                                 <div class="swiper-lazy-preloader swiper-lazy-preloader-black"></div>
                             </a>
                         </swiper-slide>
-                        <div class="swiper-button-next">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <g stroke-width="0"></g>
-                                <g stroke-linecap="round" stroke-linejoin="round"></g>
-                                <g>
-                                    <path
-                                        d="M8.91016 19.9201L15.4302 13.4001C16.2002 12.6301 16.2002 11.3701 15.4302 10.6001L8.91016 4.08008"
-                                        stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"
-                                        stroke-linecap="round" stroke-opacity=".3" stroke-linejoin="round"></path>
-                                </g>
-                            </svg>
-                        </div>
-                        <div class="swiper-button-prev">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <g stroke-width="0"></g>
-                                <g stroke-linecap="round" stroke-linejoin="round"></g>
-                                <g>
-                                    <path
-                                        d="M14.9998 19.9201L8.47984 13.4001C7.70984 12.6301 7.70984 11.3701 8.47984 10.6001L14.9998 4.08008"
-                                        stroke="#292D32" stroke-opacity=".3" stroke-width="1.5" stroke-miterlimit="10"
-                                        stroke-linecap="round" stroke-linejoin="round"></path>
-                                </g>
-                            </svg>
-                        </div>
                     </swiper>
                 </div>
 
@@ -220,16 +196,12 @@ const modules = [Lazy, Navigation];
 const settings = {
     slidesPerView: 1,
     lazy: true,
-    navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-    },
+    navigation: true,
     loop: true,
-
-    // style: {
-    //     '--swiper-navigation-color': 'rgba(255, 255, 255, 0.3)',
-    //     '--swiper-pagination-color': 'rgba(255, 255, 255, 0.3)',
-    // }
+    style: {
+        '--swiper-navigation-color': 'rgba(255, 255, 255, 0.3)',
+        '--swiper-pagination-color': 'rgba(255, 255, 255, 0.3)',
+    }
 };
 
 const store = useStore();
@@ -316,13 +288,14 @@ function addToCard(id) {
 </script>
 
 <style>
+.product-card-swiper .swiper-button-prev{
+    left: 0;
+}
+.product-card-swiper .swiper-button-next{
+    right: 0;
+}
 .product-card-swiper .swiper-button-prev::after,
 .product-card-swiper .swiper-button-next::after {
-    display: none;
-}
-
-.swiper-button-prev,
-.swiper-button-next {
-    opacity: 1;
+    font-size: 20px;
 }
 </style>
