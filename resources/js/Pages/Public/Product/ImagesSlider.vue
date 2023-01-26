@@ -20,7 +20,7 @@
                                 type="image/webp">
                         <img
                             :src="state.preview.src"
-                            class="h-full w-full object-cover"
+                            class="h-full w-full"
                         >
                     </picture>
                 </div>
@@ -30,7 +30,7 @@
                 <div class="swiper-zoom-container">
                     <img :data-srcset="image.webp_src"
                          :data-src="image.src"
-                         class="w-full h-full swiper-lazy object-cover"
+                         class="w-full h-full swiper-lazy"
                          :key="i"
                          @click="state.index = i"
                     >

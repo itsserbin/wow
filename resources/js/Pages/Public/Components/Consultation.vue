@@ -42,14 +42,13 @@ const state = ref({
 });
 
 setTimeout(() => {
-    showModal();
+    if (state.value.isShow) {
+        showModal();
+    }
 }, 60000)
 
 function showModal() {
-    if (state.value.isShow) {
-        state.value.isShow = false;
-        state.value.show = !state.value.show;
-    }
+    state.value.show = !state.value.show;
 }
 
 async function sendForm() {
