@@ -12,7 +12,7 @@
     @routes
     {!! $options['head_scripts'] !!}
     <meta property="og:title" content="@yield('meta_title')"/>
-    <meta property="og:type" content="@yield('meta_description')"/>
+    <meta property="og:type" content="website"/>
     <meta property="og:url" content="{{url()->current()}}"/>
     <meta property="og:site_name" content="{{env('APP_NAME')}}"/>
     <meta property="og:description" content="@yield('meta_description')"/>
