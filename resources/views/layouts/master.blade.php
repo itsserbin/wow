@@ -10,7 +10,7 @@
     @vite('resources/scss/public.scss')
     @routes
     {!! $options['head_scripts'] !!}
-    @yield('schema');
+    @yield('schema')
 </head>
 <body class="h-full">
 {!! $options['after_body_scripts'] !!}
