@@ -30,7 +30,8 @@ import {inject, ref} from "vue";
 const swal = inject('$swal');
 
 const state = ref({
-    show: false,
+    show: true,
+    isShow: false,
     isLoading: false,
     item: {
         name: null,
@@ -42,15 +43,18 @@ const state = ref({
 
 setTimeout(() => {
     showModal();
-}, 45000)
+}, 60000)
 
 function showModal() {
-    state.value.show = !state.value.show;
+    if (state.value.isShow) {
+        state.value.isShow = false;
+        state.value.show = !state.value.show;
+    }
 }
 
-function sendForm() {
+async function sendForm() {
     state.value.isLoading = true;
-    axios.post(route('api.v1.callback.create'), state.value.item)
+    await axios.post(route('api.v1.callback.create'), state.value.item)
         .then(() => {
             swal({
                 icon: 'success',
