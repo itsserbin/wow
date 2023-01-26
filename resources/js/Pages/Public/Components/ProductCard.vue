@@ -65,6 +65,30 @@
                                 <div class="swiper-lazy-preloader swiper-lazy-preloader-black"></div>
                             </a>
                         </swiper-slide>
+                        <div class="swiper-button-next">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g stroke-width="0"></g>
+                                <g stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g>
+                                    <path
+                                        d="M8.91016 19.9201L15.4302 13.4001C16.2002 12.6301 16.2002 11.3701 15.4302 10.6001L8.91016 4.08008"
+                                        stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"
+                                        stroke-linecap="round" stroke-opacity=".3" stroke-linejoin="round"></path>
+                                </g>
+                            </svg>
+                        </div>
+                        <div class="swiper-button-prev">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g stroke-width="0"></g>
+                                <g stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g>
+                                    <path
+                                        d="M14.9998 19.9201L8.47984 13.4001C7.70984 12.6301 7.70984 11.3701 8.47984 10.6001L14.9998 4.08008"
+                                        stroke="#292D32" stroke-opacity=".3" stroke-width="1.5" stroke-miterlimit="10"
+                                        stroke-linecap="round" stroke-linejoin="round"></path>
+                                </g>
+                            </svg>
+                        </div>
                     </swiper>
                 </div>
 
@@ -104,6 +128,7 @@
                     {{ size.title }}&nbsp;
                 </span>
             </div>
+
             <div class="card__price flex-col mr-auto font-subheading">
                 <div v-if="!product.discount_price"
                      class="
@@ -193,12 +218,16 @@ const modules = [Lazy, Navigation];
 const settings = {
     slidesPerView: 1,
     lazy: true,
-    navigation: true,
+    navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+    },
     loop: true,
-    style: {
-        '--swiper-navigation-color': 'rgba(255, 255, 255, 0.3)',
-        '--swiper-pagination-color': 'rgba(255, 255, 255, 0.3)',
-    }
+
+    // style: {
+    //     '--swiper-navigation-color': 'rgba(255, 255, 255, 0.3)',
+    //     '--swiper-pagination-color': 'rgba(255, 255, 255, 0.3)',
+    // }
 };
 
 const store = useStore();
@@ -283,3 +312,39 @@ function addToCard(id) {
         });
 }
 </script>
+
+<style>
+/*.swiper-button-prev {*/
+/*    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M0%2C22L22%2C0l2.1%2C2.1L4.2%2C22l19.9%2C19.9L22%2C44L0%2C22L0%2C22L0%2C22z'%20fill%3D'%234c71ae'%2F%3E%3C%2Fsvg%3E") !important;*/
+/*}*/
+
+.swiper-button-prev::after {
+    display: none;
+    /*content: "";*/
+    /*border: solid black;*/
+    /*border-width: 0 3px 3px 0;*/
+    /*display: inline-block;*/
+    /*padding: 3px;*/
+    /*transform: rotate(135deg);*/
+    /*background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 17.00 17.00' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' class='si-glyph si-glyph-arrow-left' fill='none'%3E%3Cg stroke-width='0'%3E%3C/g%3E%3Cg stroke-linecap='round' stroke-linejoin='round'%3E%3C/g%3E%3Cg%3E%3Cdefs%3E%3C/defs%3E%3Cg stroke-width='0.00017' fill='none'%3E%3Cpath d='M10.978,1.162 C10.978,1.387 10.916,1.612 10.782,1.812 L6.626,8.041 L10.823,14.078 C11.182,14.619 11.036,15.348 10.495,15.707 C9.956,16.068 9.224,15.922 8.865,15.382 L4.235,8.694 C3.971,8.3 3.969,7.786 4.233,7.39 L8.822,0.51 C9.182,-0.032 9.914,-0.178 10.454,0.181 C10.795,0.409 10.978,0.782 10.978,1.162 L10.978,1.162 Z' fill='%23b8b8b8' fill-opacity='0.3' class='si-glyph-fill'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/svg%3E") !important*/
+}
+
+.swiper-button-next::after {
+    display: none;
+    /*content: "";*/
+    /*border: solid black;*/
+    /*border-width: 0 3px 3px 0;*/
+    /*display: inline-block;*/
+    /*padding: 3px;*/
+    /*transform: rotate(-45deg);*/
+    /*background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 17.00 17.00' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' class='si-glyph si-glyph-arrow-left' fill='none'%3E%3Cg stroke-width='0'%3E%3C/g%3E%3Cg stroke-linecap='round' stroke-linejoin='round'%3E%3C/g%3E%3Cg%3E%3Cdefs%3E%3C/defs%3E%3Cg stroke-width='0.00017' fill='none'%3E%3Cpath d='M10.978,1.162 C10.978,1.387 10.916,1.612 10.782,1.812 L6.626,8.041 L10.823,14.078 C11.182,14.619 11.036,15.348 10.495,15.707 C9.956,16.068 9.224,15.922 8.865,15.382 L4.235,8.694 C3.971,8.3 3.969,7.786 4.233,7.39 L8.822,0.51 C9.182,-0.032 9.914,-0.178 10.454,0.181 C10.795,0.409 10.978,0.782 10.978,1.162 L10.978,1.162 Z' fill='%23b8b8b8' fill-opacity='0.3' class='si-glyph-fill'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/svg%3E") !important*/
+}
+
+/*.swiper-button-prev::after,*/
+/*.swiper-button-next::after {*/
+/*    display: none;*/
+/*}*/
+/*.swiper-button-prev img {*/
+/*    transform: rotate(180deg);*/
+/*}*/
+</style>
