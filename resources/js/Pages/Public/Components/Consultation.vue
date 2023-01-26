@@ -30,8 +30,8 @@ import {inject, ref} from "vue";
 const swal = inject('$swal');
 
 const state = ref({
-    show: true,
-    isShow: false,
+    show: false,
+    isShow: true,
     isLoading: false,
     item: {
         name: null,
