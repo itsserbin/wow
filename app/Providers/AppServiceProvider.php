@@ -5,7 +5,6 @@ namespace App\Providers;
 use App\Repositories\CategoriesRepository;
 use App\Repositories\OptionsRepository;
 use App\Repositories\PagesRepository;
-use App\Repositories\ProductsRepository;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -31,14 +30,13 @@ class AppServiceProvider extends ServiceProvider
         $optionsRepository = new OptionsRepository();
         $categoriesRepository = new CategoriesRepository();
         $pagesRepository = new PagesRepository();
-        $productsRepository = new ProductsRepository();
 
         View::composer(['errors::*', 'errors.*'], function ($view) use ($pagesRepository, $categoriesRepository, $optionsRepository) {
             $view->with([
                 'options' => $optionsRepository->getToProd(),
                 'categories' => $categoriesRepository->listPublic(),
                 'pages' => $pagesRepository->getPagesListToPublic(),
-//                'products' => $pagesRepository->getPagesListToPublic(),
+                'event_id_page_view' => uniqid(null,true) . '_PageView' . '_' . time()
             ]);
         });
     }
