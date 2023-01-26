@@ -20,7 +20,7 @@
                                 type="image/webp">
                         <img
                             :src="state.preview.src"
-                            class="h-full w-full"
+                            class="h-full w-full object-cover"
                         >
                     </picture>
                 </div>
@@ -30,7 +30,7 @@
                 <div class="swiper-zoom-container">
                     <img :data-srcset="image.webp_src"
                          :data-src="image.src"
-                         class="w-full h-full swiper-lazy"
+                         class="w-full h-full swiper-lazy object-cover"
                          :key="i"
                          @click="state.index = i"
                     >
@@ -49,7 +49,16 @@
             :modules="modules"
             :lazy="true"
         >
-
+            <swiper-slide>
+                <picture>
+                    <source :srcset="state.preview.webp_src"
+                            type="image/webp">
+                    <img
+                        :src="state.preview.src"
+                        class="h-full w-full"
+                    >
+                </picture>
+            </swiper-slide>
             <swiper-slide v-for="(image, i) in state.images">
                 <picture class="w-full">
                     <source :srcset="image.webp_thumbnail"
