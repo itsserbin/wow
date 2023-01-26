@@ -1,14 +1,11 @@
 @extends('layouts.master')
 
-@section('title')
-    @if(app()->getLocale() == 'ua')
-        {{$category->meta_title['ua'] ? : null}}
-    @elseif(app()->getLocale() == 'ru')
-        {{$category->meta_title['ru'] ? : null}}
-    @endif
-@endsection
+@section('title',$category->meta_title[app()->getLocale()])
+@section('description',$category->meta_description[app()->getLocale()])
 
-@section('description', app()->getLocale() == 'ua' ? $category->meta_description['ua'] : (app()->getLocale() == 'ru' ? $category->meta_description['ru'] : null))
+@section('head')
+    @include('schema.breadcrumbs',$breadcrumbs = Breadcrumbs::generate('home.categories',$category))
+@endsection
 
 @section('content')
     {{ Breadcrumbs::render('home.categories',$category) }}

@@ -1,5 +1,11 @@
 @extends('layouts.master')
 
+@section('title','Оформлення замовлення')
+
+@section('head')
+    @include('schema.breadcrumbs',$breadcrumbs = Breadcrumbs::generate('home.checkout'))
+@endsection
+
 @section('scripts')
     <script id="widget-wfp-script" language="javascript" type="text/javascript"
             src="https://secure.wayforpay.com/server/pay-widget.js"></script>

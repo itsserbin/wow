@@ -1,6 +1,10 @@
 @extends('layouts.master')
 
-@section('title',app()->getLocale() == 'ua' ? $page->meta_title['ua'] : $page->meta_title['ru'] )
+@section('title', $page->meta_title[app()->getLocale()])
+
+@section('head')
+    @include('schema.breadcrumbs',$breadcrumbs = Breadcrumbs::generate('home.pages',$page))
+@endsection
 
 @section('content')
     {{ Breadcrumbs::render('home.pages',$page) }}

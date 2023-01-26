@@ -2,6 +2,10 @@
 
 @section('title')Відгуки@endsection
 
+@section('head')
+    @include('schema.breadcrumbs',$breadcrumbs = Breadcrumbs::generate('home.reviews'))
+@endsection
+
 @section('content')
     {{ Breadcrumbs::render('home.reviews') }}
 

@@ -2,7 +2,10 @@
 
 @section('title'){{$product->title[app()->getLocale()]}}@endsection
 @section('description'){{$product->description[app()->getLocale()]}}@endsection
-@section('schema')@include('schema.product',$product)@endsection
+@section('head')
+    @include('schema.product',$product)
+    @include('schema.breadcrumbs',$breadcrumbs = Breadcrumbs::generate('home.categories.product',$product))
+@endsection
 
 @section('content')
     {{ Breadcrumbs::render('home.categories.product',$product) }}
