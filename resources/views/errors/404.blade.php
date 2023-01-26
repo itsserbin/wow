@@ -24,8 +24,5 @@
                 </a>
             </div>
         </div>
-        <div class="mt-10">
-            <best-selling-products lang="{{app()->getLocale()}}" text-best-selling="Популярні товари"></best-selling-products>
-        </div>
     </div>
 @endsection
