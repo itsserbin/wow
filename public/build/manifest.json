@@ -10,7 +10,7 @@
       "_index.822e508e.js"
     ],
     "css": [
-      "assets/app.30a9e8ce.css"
+      "assets/app.ed0caf32.css"
     ]
   },
   "resources/js/Pages/Admin/app.js": {
@@ -1664,18 +1664,18 @@
     "file": "assets/app.ff1b5532.css",
     "src": "resources/js/Pages/Admin/app.css"
   },
-  "resources/scss/public.scss": {
-    "file": "assets/public.939c649d.css",
-    "src": "resources/scss/public.scss",
-    "isEntry": true
+  "resources/js/Pages/Public/app.css": {
+    "file": "assets/app.ed0caf32.css",
+    "src": "resources/js/Pages/Public/app.css"
   },
   "resources/scss/app.scss": {
     "file": "assets/app.a3524254.css",
     "src": "resources/scss/app.scss",
     "isEntry": true
   },
-  "resources/js/Pages/Public/app.css": {
-    "file": "assets/app.30a9e8ce.css",
-    "src": "resources/js/Pages/Public/app.css"
+  "resources/scss/public.scss": {
+    "file": "assets/public.939c649d.css",
+    "src": "resources/scss/public.scss",
+    "isEntry": true
   }
 }

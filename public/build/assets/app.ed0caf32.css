@@ -1,4 +1,4 @@
-@charset "UTF-8";@media screen and (min-width: 1366px){.header-categories .swiper-wrapper{justify-content:center}}.swiper-button-prev:after{display:none}.swiper-button-next:after{display:none}/*!
+@charset "UTF-8";@media screen and (min-width: 1366px){.header-categories .swiper-wrapper{justify-content:center}}.swiper-button-prev:after{display:none}.swiper-button-next:after{display:none}.swiper-button-next,.swiper-button-prev{text-rendering:auto}/*!
  * animate.css - https://animate.style/
  * Version - 4.1.1
  * Licensed under the MIT license - http://opensource.org/licenses/MIT
