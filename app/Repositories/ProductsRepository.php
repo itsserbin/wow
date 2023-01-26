@@ -208,7 +208,7 @@ class ProductsRepository extends CoreRepository
             })
             ->select($columns)
             ->orderBy('total_sales', 'desc')
-            ->with('sizes', 'preview')
+            ->with('sizes', 'preview', 'images')
             ->paginate($perPage);
     }
 
@@ -390,7 +390,7 @@ class ProductsRepository extends CoreRepository
         return $this
             ->model::where('published', 1)
             ->select($columns)
-            ->orderBy($by,$sort)
+            ->orderBy($by, $sort)
             ->with('sizes', 'preview', 'images')
             ->paginate($perPage);
     }
@@ -523,7 +523,7 @@ class ProductsRepository extends CoreRepository
                 ->model::where('published', 1)
                 ->select($columns)
                 ->inRandomOrder()
-                ->with('sizes', 'preview','images')
+                ->with('sizes', 'preview', 'images')
                 ->paginate(8);
         }
     }
