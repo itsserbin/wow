@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title','Підтримка клієнтів')
+@section('meta_title','Підтримка клієнтів')
 
 @section('head')
     @include('schema.breadcrumbs',$breadcrumbs = Breadcrumbs::generate('home.support'))

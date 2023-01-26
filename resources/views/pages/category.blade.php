@@ -1,9 +1,13 @@
 @extends('layouts.master')
 
-@section('title',$category->meta_title[app()->getLocale()])
-@section('description',$category->meta_description[app()->getLocale()])
+@section('meta_title',$category->meta_title[app()->getLocale()])
+@section('meta_description',$category->meta_description[app()->getLocale()])
 
 @section('head')
+    <meta property="og:image" content="{{asset(route('images',$category->preview->webp_src))}}"/>
+    <meta property="og:image:secure_url" content="{{asset(route('images',$category->preview->webp_src))}}"/>
+    <meta property="og:image:type" content="image/webp"/>
+    <meta property="og:image:alt" content="{{$category->title[app()->getLocale()]}}"/>
     @include('schema.breadcrumbs',$breadcrumbs = Breadcrumbs::generate('home.categories',$category))
 @endsection
 

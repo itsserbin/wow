@@ -1,12 +1,14 @@
 @extends('layouts.master')
 
 @if($options['meta_title_ua'] || $options['meta_title_ru'])
-@section('title'){{ app()->getLocale() == 'ua' ? $options['meta_title_ua'] : $options['meta_title_ru'] }}@endsection
+@section('meta_title'){{ app()->getLocale() == 'ua' ? $options['meta_title_ua'] : $options['meta_title_ru'] }}@endsection
 @endif
 
 @if($options['meta_description_ua'] || $options['meta_description_ru'])
-@section('description'){{ app()->getLocale() == 'ua' ? $options['meta_description_ua'] : $options['meta_description_ru'] }}@endsection
+@section('meta_description'){{ app()->getLocale() == 'ua' ? $options['meta_description_ua'] : $options['meta_description_ru'] }}@endsection
 @endif
+
+
 
 @section('content')
     <div class="grid grid-cols-1 gap-7">

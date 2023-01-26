@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('meta_title','Сторінку не знайдено')
+
 @section('content')
     {{ Breadcrumbs::render('home.404') }}
 

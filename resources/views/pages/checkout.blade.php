@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title','Оформлення замовлення')
+@section('meta_title','Оформлення замовлення')
 
 @section('head')
     @include('schema.breadcrumbs',$breadcrumbs = Breadcrumbs::generate('home.checkout'))

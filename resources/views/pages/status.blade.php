@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title','Статус замовлення')
+@section('meta_title','Статус замовлення')
 
 @section('head')
     @include('schema.breadcrumbs',$breadcrumbs = Breadcrumbs::generate('home.status'))

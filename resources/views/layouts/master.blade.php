@@ -6,11 +6,25 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title')</title>
+    <meta name="description" content="@yield('meta_description')">
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
     @vite('resources/scss/public.scss')
     @routes
     {!! $options['head_scripts'] !!}
+
+    <meta property="og:title" content="@yield('meta_title')"/>
+    <meta property="og:type" content="@yield('meta_description')"/>
+    <meta property="og:url" content="{{url()->current()}}"/>
+    <meta property="og:site_name" content="{{env('APP_NAME')}}"/>
+    <meta property="og:description" content="@yield('meta_description')"/>
+    @if(!Route::is('product') && !Route::is('category'))
+        <meta property="og:image" content="{{asset('storage/img/content/logo.png')}}"/>
+        <meta property="og:image:secure_url" content="{{asset('storage/img/content/logo.png')}}"/>
+        <meta property="og:image:type" content="image/png"/>
+        <meta property="og:image:alt" content="{{env('APP_NAME')}}"/>
+    @endif
     @yield('head')
+    @include('schema.organization')
 </head>
 <body class="h-full">
 {!! $options['after_body_scripts'] !!}
@@ -34,9 +48,9 @@
     </header>
     <main class="main flex-[1_0_auto]">
         <div class="max-w-7xl mx-auto pt-32 md:pt-40 px-3 h-full">
-{{--            <div class="grid grid-cols-1 ">--}}
-                @yield('content')
-{{--            </div>--}}
+            {{--            <div class="grid grid-cols-1 ">--}}
+            @yield('content')
+            {{--            </div>--}}
         </div>
     </main>
     @include('components.footer')

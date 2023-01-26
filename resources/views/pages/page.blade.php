@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', $page->meta_title[app()->getLocale()])
+@section('meta_title', $page->meta_title[app()->getLocale()])
 
 @section('head')
     @include('schema.breadcrumbs',$breadcrumbs = Breadcrumbs::generate('home.pages',$page))

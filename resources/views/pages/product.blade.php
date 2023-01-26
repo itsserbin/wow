@@ -1,8 +1,12 @@
 @extends('layouts.master')
 
-@section('title'){{$product->title[app()->getLocale()]}}@endsection
-@section('description'){{$product->description[app()->getLocale()]}}@endsection
+@section('meta_title'){{$product->title[app()->getLocale()]}}@endsection
+@section('meta_description'){{$product->description[app()->getLocale()]}}@endsection
 @section('head')
+    <meta property="og:image" content="{{asset(route('images',$product->preview->webp_src))}}"/>
+    <meta property="og:image:secure_url" content="{{asset(route('images',$product->preview->webp_src))}}"/>
+    <meta property="og:image:type" content="image/webp"/>
+    <meta property="og:image:alt" content="{{$product->h1[app()->getLocale()]}}"/>
     @include('schema.product',$product)
     @include('schema.breadcrumbs',$breadcrumbs = Breadcrumbs::generate('home.categories.product',$product))
 @endsection

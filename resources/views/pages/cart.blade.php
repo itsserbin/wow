@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title','Кошик')
+@section('meta_title','Кошик')
 
 @section('head')
     @include('schema.breadcrumbs',$breadcrumbs = Breadcrumbs::generate('home.cart'))

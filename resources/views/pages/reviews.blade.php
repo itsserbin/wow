@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title')Відгуки@endsection
+@section('meta_title')Відгуки@endsection
 
 @section('head')
     @include('schema.breadcrumbs',$breadcrumbs = Breadcrumbs::generate('home.reviews'))
