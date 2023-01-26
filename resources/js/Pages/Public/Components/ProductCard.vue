@@ -46,14 +46,16 @@
                 <div v-if="slider">
                     <swiper v-bind="settings" :modules="modules" class="mySwiper">
                         <swiper-slide>
-                            <picture>
-                                <source v-lazy :data-src="route('images.350',product.preview.webp_src)"
-                                        type="image/webp">
-                                <img v-lazy
-                                     :data-src="route('images.350',product.preview.src)"
-                                     class="h-full object-cover w-full rounded-t-lg  h-56 md:h-72 swiper-lazy"
-                                >
-                            </picture>
+                            <a :href="route('product',product.id)">
+                                <picture>
+                                    <source v-lazy :data-src="route('images.350',product.preview.webp_src)"
+                                            type="image/webp">
+                                    <img v-lazy
+                                         :data-src="route('images.350',product.preview.src)"
+                                         class="h-full object-cover w-full rounded-t-lg  h-56 md:h-72 swiper-lazy"
+                                    >
+                                </picture>
+                            </a>
                         </swiper-slide>
                         <swiper-slide v-for="image in product.images">
                             <a :href="route('product',product.id)">
