@@ -9,7 +9,6 @@
     <meta name="description" content="@yield('meta_description')">
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
     @vite('resources/scss/public.scss')
-    @routes
     {!! $options['head_scripts'] !!}
     <meta property="og:title" content="@yield('meta_title')"/>
     <meta property="og:type" content="website"/>
@@ -55,6 +54,7 @@
     @endif
     <scroll-to-top></scroll-to-top>
 </div>
+@routes
 @vite('resources/js/Pages/Public/app.js')
 @if(env('APP_ENV') !== 'local')
     <script>
