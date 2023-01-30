@@ -27,7 +27,6 @@
                     <g:availability>in stock</g:availability>
                     <g:price>{{$item->discount_price ?: $item->price}} UAH</g:price>
                     <g:brand>{{env('APP_NAME')}}</g:brand>
-                    <g:identifier_exist>false</g:identifier_exist>
                 </item>
             @endforeach
         @endif
