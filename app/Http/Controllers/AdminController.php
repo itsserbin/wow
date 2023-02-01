@@ -161,6 +161,10 @@ class AdminController extends Controller
         return Inertia::render('Options/Colors/Index');
     }
 
+    public function characteristics(): Response
+    {
+        return Inertia::render('Options/Characteristics/Index');
+    }
 
     public function sizes(): Response
     {

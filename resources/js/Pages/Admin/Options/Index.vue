@@ -94,6 +94,11 @@ const items3 = [
         href: route('admin.options.sizes.index')
     },
     {
+        title: 'Характеристики',
+        permission: 'show-characteristics',
+        href: route('admin.options.characteristics.index')
+    },
+    {
         title: 'Постачальники',
         permission: 'show-providers',
         href: route('admin.options.providers.index')

@@ -1,50 +1,51 @@
 <template>
-    <auth-layout :title="title">
+    <AuthenticatedLayout :title="title">
         <template #header>
             <slot name="header"></slot>
         </template>
 
         <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
             <div class="md:col-span-1">
-                <sidebar-component class="mb-5">
-                    <sidebar-item v-for="item in items"
-                                  v-show="can(item.permission)"
-                                  :item="item"
-                                  :active="route(route().current()) === item.href"
+                <Sidebar class="mb-5">
+                    <SidebarItem v-for="item in items"
+                                 v-show="can(item.permission)"
+                                 :item="item"
+                                 :active="route(route().current()) === item.href"
                     />
-                </sidebar-component>
-                <sidebar-component class="mb-5">
-                    <sidebar-item v-for="item in items3"
-                                  v-show="can(item.permission)"
-                                  :item="item"
-                                  :active="route(route().current()) === item.href"
+                </Sidebar>
+                <Sidebar class="mb-5">
+                    <SidebarItem v-for="item in items3"
+                                 v-show="can(item.permission)"
+                                 :item="item"
+                                 :active="route(route().current()) === item.href"
                     />
-                </sidebar-component>
+                </Sidebar>
 
-                <sidebar-component>
-                    <sidebar-item v-for="item in items2"
-                                  v-show="can(item.permission)"
-                                  :item="item"
-                                  :active="route(route().current()) === item.href"
+                <Sidebar>
+                    <SidebarItem v-for="item in items2"
+                                 v-show="can(item.permission)"
+                                 :item="item"
+                                 :active="route(route().current()) === item.href"
                     />
-                </sidebar-component>
+                </Sidebar>
             </div>
             <div class="w-full md:col-span-4">
                 <slot></slot>
             </div>
         </div>
-
-    </auth-layout>
-
+    </AuthenticatedLayout>
 </template>
 
 <script setup>
 import {inject} from "vue";
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
+import Sidebar from '@/Components/Sidebar/Sidebar.vue'
+import SidebarItem from '@/Components/Sidebar/SidebarItem.vue'
 
 const can = inject('$can');
 defineProps(['title']);
 
-const items =[
+const items = [
     {
         title: 'Основні',
         permission: 'show-main-options',
@@ -100,6 +101,11 @@ const items3 = [
         title: 'Розміри',
         permission: 'show-sizes',
         href: route('admin.options.sizes.index')
+    },
+    {
+        title: 'Характеристики',
+        permission: 'show-characteristics',
+        href: route('admin.options.characteristics.index')
     },
     {
         title: 'Постачальники',

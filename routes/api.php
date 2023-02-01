@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\AdvantagesController;
 use App\Http\Controllers\Api\BannersController;
 use App\Http\Controllers\Api\CallbacksController;
 use App\Http\Controllers\Api\CategoriesController;
+use App\Http\Controllers\Api\CharacteristicsController;
 use App\Http\Controllers\Api\ClientsController;
 use App\Http\Controllers\Api\ColorsController;
 use App\Http\Controllers\Api\FaqsController;
@@ -498,6 +499,26 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::delete('destroy/{id}', [SupportsController::class, 'destroy'])
             ->name('api.supports.destroy');
+    });
+
+    Route::prefix('characteristics')->group(function () {
+        Route::get('list', [CharacteristicsController::class, 'list'])
+            ->name('api.characteristics.list');
+
+        Route::get('/', [CharacteristicsController::class, 'index'])
+            ->name('api.characteristics.index');
+
+        Route::get('edit/{id}', [CharacteristicsController::class, 'edit'])
+            ->name('api.characteristics.edit');
+
+        Route::post('create', [CharacteristicsController::class, 'create'])
+            ->name('api.characteristics.create');
+
+        Route::put('update/{id}', [CharacteristicsController::class, 'update'])
+            ->name('api.characteristics.update');
+
+        Route::delete('destroy/{id}', [CharacteristicsController::class, 'destroy'])
+            ->name('api.characteristics.destroy');
     });
 
     Route::prefix('statistics')->group(function () {

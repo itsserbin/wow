@@ -159,4 +159,9 @@ class Product extends Model
     {
         return $this->belongsTo(Image::class, 'preview_id');
     }
+
+    public function characteristicsNew(): BelongsToMany
+    {
+        return $this->belongsToMany(CharacteristicValue::class, 'product_characteristics', 'product_id', 'characteristic_id');
+    }
 }

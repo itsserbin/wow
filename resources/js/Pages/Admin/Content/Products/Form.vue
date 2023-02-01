@@ -2,24 +2,24 @@
     <form @submit.prevent="$emit('submit',product)" class="grid grid-cols-1 gap-4">
         <div class="grid grid-cols-3 gap-4 mb-5">
             <div class="block">
-                <label-component value="Статус публікації"/>
-                <select-component v-model="product.published" :options="publishedStatuses"/>
+                <Label value="Статус публікації"/>
+                <Select v-model="product.published" :options="publishedStatuses"/>
             </div>
 
             <div class="block">
-                <label-component value="Наявність товару"/>
-                <select-component v-model="product.status" :options="state.statusOptions"/>
+                <Label value="Наявність товару"/>
+                <Select v-model="product.status" :options="state.statusOptions"/>
             </div>
 
             <div class="block">
-                <label-component value="Артикул"/>
-                <input-component v-model="product.vendor_code" type="text"/>
+                <Label value="Артикул"/>
+                <Input v-model="product.vendor_code" type="text"/>
             </div>
         </div>
 
         <div class="grid grid-cols-3 gap-4">
             <div class="block">
-                <label-component value="Категорії"/>
+                <Label value="Категорії"/>
                 <multiselect
                     :options="state.categories"
                     v-model="product.categories"
@@ -33,12 +33,12 @@
             </div>
 
             <div class="block">
-                <label-component value="Постачальники"/>
-                <select-component v-model="product.provider_id" :options="state.providers"/>
+                <Label value="Постачальники"/>
+                <Select v-model="product.provider_id" :options="state.providers"/>
             </div>
 
             <div class="block">
-                <label-component value="Головне зображення"/>
+                <Label value="Головне зображення"/>
                 <div class="block mb-7" v-if="product.preview_id">
                     <ImageCard
                         :destroyIcon="true"
@@ -48,7 +48,7 @@
                     />
                 </div>
                 <div class="block mb-7" v-else>
-                    <button-component type="button" @click="previewModalFunction">Обрати зображення</button-component>
+                    <Button type="button" @click="previewModalFunction">Обрати зображення</Button>
                     <ImagesSelectModal v-if="state.isActiveSelectedPreviewModal"
                                        @submitForm="setProductPreview"
                                        @closeModal="previewModalFunction"
@@ -59,7 +59,7 @@
 
         <div class="grid grid-cols-2 gap-4">
             <div class="block">
-                <label-component value="Розміри"/>
+                <Label value="Розміри"/>
                 <multiselect
                     :options="state.sizes"
                     v-model="product.sizes"
@@ -73,7 +73,7 @@
             </div>
 
             <div class="block">
-                <label-component value="Кольори"/>
+                <Label value="Кольори"/>
                 <multiselect
                     :options="state.colors"
                     v-model="product.colors"
@@ -88,70 +88,70 @@
         </div>
 
         <div class="block">
-            <label-component value="Youtube"/>
-            <input-component v-model="product.youtube" type="text"/>
+            <Label value="Youtube"/>
+            <Input v-model="product.youtube" type="text"/>
         </div>
 
-        <lang-tabs @clickLang="changeLang"/>
+        <LangTabs @clickLang="changeLang"/>
         <hr class="mb-5">
 
         <div class="grid grid-cols-1 gap-4">
             <div class="block">
-                <label-component value="Назва товару"/>
-                <input-component v-model="product.h1[state.activeLang]" type="text"/>
+                <Label value="Назва товару"/>
+                <Input v-model="product.h1[state.activeLang]" type="text"/>
             </div>
 
             <div class="block">
-                <label-component value="META Title"/>
-                <input-component v-model="product.title[state.activeLang]" type="text"/>
+                <Label value="META Title"/>
+                <Input v-model="product.title[state.activeLang]" type="text"/>
             </div>
 
             <div class="block">
-                <label-component value="META Description"/>
-                <textarea-component v-model="product.description[state.activeLang]"/>
+                <Label value="META Description"/>
+                <Textarea v-model="product.description[state.activeLang]"/>
             </div>
 
 
             <div class="block">
-                <label-component value="Опис товару"/>
+                <Label value="Опис товару"/>
                 <editor :api-key="tiny.api" v-model="product.content[state.activeLang]" :init="tiny.settings"/>
             </div>
 
             <div class="block">
-                <label-component value="Характеристики"/>
+                <Label value="Характеристики"/>
                 <editor :api-key="tiny.api" v-model="product.characteristics[state.activeLang]" :init="tiny.settings"/>
             </div>
 
             <div class="block">
-                <label-component value="Таблиця розмірів"/>
+                <Label value="Таблиця розмірів"/>
                 <editor :api-key="tiny.api" v-model="product.size_table" :init="tiny.settings"/>
             </div>
 
             <div class="grid grid-cols-3 gap-4 mb-5">
                 <div class="block">
-                    <label-component value="Ціна"/>
-                    <input-component v-model="product.price" type="number"/>
+                    <Label value="Ціна"/>
+                    <Input v-model="product.price" type="number"/>
                 </div>
 
                 <div class="block">
-                    <label-component value="Ціна зі знижкою"/>
-                    <input-component v-model="product.discount_price" type="number"/>
+                    <Label value="Ціна зі знижкою"/>
+                    <Input v-model="product.discount_price" type="number"/>
                 </div>
 
                 <div class="block">
-                    <label-component value="Ціна закупки"/>
-                    <input-component v-model="product.trade_price" type="number"/>
+                    <Label value="Ціна закупки"/>
+                    <Input v-model="product.trade_price" type="number"/>
                 </div>
             </div>
         </div>
 
         <div class="row">
             <div class="block mb-7" v-if="product.images">
-                <label-component value="Зображення"/>
+                <Label value="Зображення"/>
                 <Images :images="product.images" @destroyImage="destroyImage"/>
             </div>
             <div class="block mb-7">
-                <button-component type="button" @click="imagesModalFunction">Обрати зображення</button-component>
+                <Button type="button" @click="imagesModalFunction">Обрати зображення</Button>
                 <ImagesSelectModal v-if="state.isActiveSelectedImagesModal"
                                    @submitForm="setProductImages"
                                    @closeModal="imagesModalFunction"
@@ -160,6 +160,23 @@
             </div>
         </div>
 
+        <div class="grid grid-cols-4 gap-4">
+            <div class="block" v-for="characteristic in state.characteristics" v-if="state.characteristics.length">
+                <Label :value="characteristic.title[state.activeLang]"/>
+                <multiselect
+                    :options="characteristic.values"
+                    v-model="product.characteristicsNew[characteristic.id]"
+                    :custom-label="customCharacteristicLabel"
+                    placeholder="Оберіть значення"
+                    class="mb-5"
+                    track-by="id"
+                    value="id"
+                    :searchable="true"
+                    :multiple="true"
+                    :close-on-select="false"
+                />
+            </div>
+        </div>
     </form>
 </template>
 
@@ -167,7 +184,14 @@
 import {inject, onMounted, ref} from "vue";
 import Images from '@/Pages/Admin/Content/Products/Images.vue';
 import ImagesSelectModal from '@/Components/ImagesSelectModal.vue';
+import Button from '@/Components/Button.vue';
+import Label from '@/Components/Form/Label.vue';
+import Textarea from '@/Components/Form/Textarea.vue';
+import Input from '@/Components/Form/Input.vue';
+import Select from '@/Components/Form/Select.vue';
 import ImageCard from '@/Components/ImageCard.vue';
+import LangTabs from '@/Components/LangTabs.vue';
+import {CharacteristicsRepository} from "@/Repositories/CharacteristicsRepository";
 
 const emits = defineEmits(['submit', 'setProductImages', 'destroyImage'])
 const props = defineProps(['product'])
@@ -196,9 +220,12 @@ const state = ref({
     providers: [],
     colors: [],
     sizes: [],
+    characteristics: []
 })
 
 onMounted(() => {
+    getCharacteristicsList();
+
     axios.get(route('api.categories.list'))
         .then(({data}) => state.value.categories = data.result)
         .catch((response) => console.log(response));
@@ -222,6 +249,23 @@ onMounted(() => {
         .then(({data}) => state.value.sizes = data.result)
         .catch((response) => console.log(response));
 });
+
+function customCharacteristicLabel({title}) {
+    if (title) {
+        return title[state.value.activeLang];
+    }
+}
+
+async function getCharacteristicsList() {
+    try {
+        const {result, success} = await CharacteristicsRepository().list();
+        if (success) {
+            state.value.characteristics = result;
+        }
+    } catch (e) {
+        console.error(e);
+    }
+}
 
 function changeLang(val) {
     state.value.activeLang = val;

@@ -118,6 +118,9 @@ Route::prefix('admin')
             Route::get('colors', [AdminController::class, 'colors'])
                 ->name('admin.options.colors.index');
 
+            Route::get('characteristics', [AdminController::class, 'characteristics'])
+                ->name('admin.options.characteristics.index');
+
             Route::get('banners', [AdminController::class, 'optionsBanners'])
                 ->name('admin.options.banners.index');
 

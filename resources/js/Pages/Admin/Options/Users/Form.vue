@@ -20,7 +20,7 @@
                 label="name"
                 placeholder="Оберіть ролі"
                 track-by="id"
-                :close-on-select="true"
+                :close-on-select="false"
                 :searchable="true"
                 multiple
             />

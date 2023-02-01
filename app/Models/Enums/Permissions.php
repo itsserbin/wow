@@ -24,6 +24,11 @@ class Permissions
         ['name' => 'Show scripts options', 'slug' => 'show-scripts-options'],
         ['name' => 'Edit scripts options', 'slug' => 'edit-scripts-options'],
 
+        ['name' => 'Show characteristics', 'slug' => 'show-characteristics'],
+        ['name' => 'Create characteristics', 'slug' => 'create-characteristics'],
+        ['name' => 'Destroy characteristics', 'slug' => 'destroy-characteristics'],
+        ['name' => 'Edit characteristics', 'slug' => 'edit-characteristics'],
+
         ['name' => 'Show nova poshta senders', 'slug' => 'show-option-nova-poshta-senders'],
         ['name' => 'Create nova poshta senders', 'slug' => 'create-option-nova-poshta-senders'],
         ['name' => 'Destroy nova poshta senders', 'slug' => 'destroy-option-nova-poshta-senders'],

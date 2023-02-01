@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
             $user->save();
             $user->roles()->attach($administrator);
         } else {
-            User::where('email', 'admin@gmail.com')->first()->roles()->attach($administrator);
+            User::where('email', 'admin@gmail.com')->first()->roles()->sync($administrator);
         }
     }
 }

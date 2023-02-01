@@ -19,6 +19,7 @@
                 :searchable="true"
                 :multiple="true"
                 :close-on-select="false"
+                :clear-on-select="false"
             />
         </div>
     </form>

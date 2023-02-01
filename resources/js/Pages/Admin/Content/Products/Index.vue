@@ -76,6 +76,7 @@ const product = reactive({
         ru: null,
         ua: null
     },
+    characteristicsNew: {},
     published: 0,
     preview: null,
     size_table: null,
@@ -181,6 +182,15 @@ function onEdit(id) {
     axios.get(route('api.products.edit', id))
         .then(({data}) => {
             state.value.item = data.result;
+            state.value.item.characteristicsNew = {};
+            if (state.value.item.characteristics_new.length) {
+                state.value.item.characteristics_new.forEach((item) => {
+                    state.value.item.characteristicsNew[item.characteristic_id] = [];
+                })
+                state.value.item.characteristics_new.forEach((item) => {
+                    state.value.item.characteristicsNew[item.characteristic_id].push(item);
+                })
+            }
             state.value.modalAction = 'edit';
             modalFunction();
             state.value.isLoading = false;
