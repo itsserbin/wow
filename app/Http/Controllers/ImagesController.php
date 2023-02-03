@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Enums\ImagesPath;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Throwable;
 
@@ -52,10 +53,15 @@ class ImagesController extends Controller
 
     public function returnImage($path, $filename)
     {
-        try {
-            return Storage::disk('s3')->response($path . $filename);
-        } catch (Throwable $e) {
-            abort(404);
+        if (env('APP_ENV') !== 'local') {
+            try {
+                return Storage::disk('s3')->response($path . $filename);
+            } catch (Throwable $e) {
+                abort(404);
+            }
+        } else {
+            return Image::make('storage/no_image.png')->response();
         }
+
     }
 }

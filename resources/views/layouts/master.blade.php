@@ -23,6 +23,9 @@
     @endif
     @yield('head')
     @include('schema.organization')
+    <link rel="alternate" href="{{setLinkToLang(request()->url(),'ru')}}" hreflang="ru-UA"/>
+    <link rel="alternate" href="{{setLinkToLang(request()->url(),'ua')}}" hreflang="uk-UA"/>
+    <link rel="alternate" href="{{setLinkToLang(request()->url(),'ua')}}" hreflang="x-default"/>
 </head>
 <body class="h-full">
 {!! $options['after_body_scripts'] !!}

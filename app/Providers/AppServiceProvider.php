@@ -39,5 +39,7 @@ class AppServiceProvider extends ServiceProvider
                 'event_id_page_view' => uniqid(null,true) . '_PageView' . '_' . time()
             ]);
         });
+
+        require app_path('Helpers/Hreflang.php');
     }
 }
