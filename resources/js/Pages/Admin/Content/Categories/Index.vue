@@ -48,6 +48,7 @@ const item = reactive({
     published: 0,
     slug: null,
     parent_id: null,
+    preview_id: null,
     preview: null,
     title: {
         ru: null,
@@ -85,7 +86,6 @@ onMounted(() => {
 })
 
 const activeModal = computed(() => state.value.isActiveModal ? Modal : null)
-
 
 function fetch(page) {
     state.value.isLoading = true;

@@ -52,20 +52,6 @@ const params = ref({
     currentPage: 1,
 })
 
-const item = reactive({
-    title: {
-        ua: null,
-        ru: null
-    },
-    values: [
-        {
-            title: {
-                ua: null,
-                ru: null
-            }
-        }
-    ],
-})
 
 const state = ref({
     data: [],
@@ -177,16 +163,16 @@ async function onUpdate() {
 
 async function onCreate() {
     try {
-        if (can('edit-characteristics')) {
+        if (can('create-characteristics')) {
             const {success} = await CharacteristicsRepository().create(state.value.item);
             if (success) {
                 modalFunction();
-                state.value.item = item;
                 await fetch();
                 swal({
                     title: 'Success!',
                     icon: 'success'
                 })
+                state.value.item = {};
             }
         }
     } catch (error) {
@@ -195,7 +181,7 @@ async function onCreate() {
         swal({
             title: 'Error!',
             icon: 'error',
-            text: error.response.data.message || 'An error occurred, please try again later'
+            text: error || 'An error occurred, please try again later'
         });
     }
 }
@@ -210,7 +196,20 @@ function submitForm() {
 
 function create() {
     if (can('create-characteristics')) {
-        Object.assign(state.value.item, item);
+        state.value.item = {
+            title: {
+                ua: null,
+                ru: null
+            },
+            values: [
+                {
+                    title: {
+                        ua: null,
+                        ru: null
+                    }
+                }
+            ]
+        };
         state.value.modalAction = 'create';
         modalFunction();
     }
