@@ -301,18 +301,6 @@ class ProductsRepository extends CoreRepository
         return false;
     }
 
-    public function attachColor($id, $data)
-    {
-        $model = $this->model::where('id', $id)->first();
-        $model->colors()->attach($data['color_id']);
-    }
-
-    public function detachColor($id, $data)
-    {
-        $model = $this->model::where('id', $id)->first();
-        $model->colors()->detach($data['color_id']);
-    }
-
     public function getProductColors($id)
     {
         return $this->model->where('id', $id)->with('colors')->select('id')->first();
@@ -329,17 +317,13 @@ class ProductsRepository extends CoreRepository
         $this->syncSizes($model, $data['sizes']);
         $this->syncCategories($model, $data['categories']);
         $this->syncImages($model, $data['images']);
+        $this->syncCharacteristics($model, $data['characteristicsNew']);
     }
 
 
     public function update(int $id, array $data)
     {
         $model = $this->model::where('id', $id)->first();
-        foreach ($data['characteristicsNew'] as $characteristic) {
-            $model->characteristicsNew()->attach(Arr::pluck($characteristic, 'id'));
-
-        }
-
         $model->fill($data);
         $model->update();
 
@@ -347,8 +331,20 @@ class ProductsRepository extends CoreRepository
         $this->syncSizes($model, $data['sizes']);
         $this->syncCategories($model, $data['categories']);
         $this->syncImages($model, $data['images']);
+        $this->syncCharacteristics($model, $data['characteristicsNew']);
 
         return $model;
+    }
+
+    private function syncCharacteristics($model, $values)
+    {
+        $model->characteristicsNew()->detach();
+
+        if (count($values)) {
+            foreach ($values as $value) {
+                $model->characteristicsNew()->attach(Arr::pluck($value, 'id'));
+            }
+        }
     }
 
     private function syncColors($model, $colors)
