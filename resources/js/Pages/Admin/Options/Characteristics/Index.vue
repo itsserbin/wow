@@ -179,15 +179,13 @@ async function onCreate() {
         if (can('create-characteristics')) {
             const {success} = await CharacteristicsRepository().create(state.value.item);
             if (success) {
+                state.value.item = {};
                 modalFunction();
                 await fetch();
                 swal({
                     title: 'Success!',
                     icon: 'success'
                 })
-                console.log(item);
-                state.value.item = {};
-                console.log(item);
             }
         }
     } catch (error) {
