@@ -52,6 +52,20 @@ const params = ref({
     currentPage: 1,
 })
 
+const item = {
+    title: {
+        ua: null,
+        ru: null
+    },
+    values: [
+        {
+            title: {
+                ua: null,
+                ru: null
+            }
+        }
+    ]
+};
 
 const state = ref({
     data: [],
@@ -140,7 +154,6 @@ async function onUpdate() {
     try {
         if (can('edit-characteristics')) {
             const {success} = await CharacteristicsRepository().update(state.value.item.id, state.value.item);
-            console.log(success);
             if (success) {
                 modalFunction();
                 await fetch();
@@ -172,7 +185,9 @@ async function onCreate() {
                     title: 'Success!',
                     icon: 'success'
                 })
+                console.log(item);
                 state.value.item = {};
+                console.log(item);
             }
         }
     } catch (error) {
@@ -196,20 +211,7 @@ function submitForm() {
 
 function create() {
     if (can('create-characteristics')) {
-        state.value.item = {
-            title: {
-                ua: null,
-                ru: null
-            },
-            values: [
-                {
-                    title: {
-                        ua: null,
-                        ru: null
-                    }
-                }
-            ]
-        };
+        state.value.item = JSON.parse(JSON.stringify(item));
         state.value.modalAction = 'create';
         modalFunction();
     }
