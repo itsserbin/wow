@@ -116,6 +116,7 @@ const props = defineProps(['statuses', 'payment_methods', 'invoiceStatuses']);
 
 const swal = inject('$swal')
 const can = inject('$can');
+
 const params = ref({
     status: null,
     currentPage: 1,

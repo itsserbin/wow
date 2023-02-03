@@ -45,11 +45,11 @@ class ProductsController extends BaseController
         ]);
     }
 
-    public function getWhereCategorySlug($slug): JsonResponse
+    public function getByCategorySlug($slug, Request $request): JsonResponse
     {
         return $this->returnResponse([
             'success' => true,
-            'result' => $this->productsRepository->getWhereCategorySlugToPublic($slug, 12),
+            'result' => $this->productsRepository->getByCategorySlugToPublic($slug,$request->all()),
         ]);
     }
 

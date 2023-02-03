@@ -1,44 +1,49 @@
 <template>
     <div v-if="state.products.length">
-        <loader v-if="state.isLoading"></loader>
-        <section v-if="!state.isLoading" class="product-list card">
+        <div class="flex justify-end">
+            <select v-model="params.sort" @change="sort">
+                <option :value="null">Спочатку популярні</option>
+                <option value="created_at">Спочатку новинки</option>
+                <option value="min_price">Від дешевих до дорогих</option>
+                <option value="max_price">Від дорогих до дешевих</option>
+            </select>
+        </div>
+        <Loader v-if="state.isLoading"/>
+        <div v-if="!state.isLoading">
             <div class="font-bold text-black text-center text-[24px] mb-[15px]">{{ title }}</div>
-            <product-cards :products="state.products"
-                           :lang="lang"
-                           :text-go-to-product-card="textGoToProductCard"
-                           :product-route="productRoute"
-                           :slider="true"
-            ></product-cards>
+            <ProductCards :products="state.products"
+                          :lang="lang"
+                          :text-go-to-product-card="textGoToProductCard"
+                          :slider="true"
+            ></ProductCards>
             <div v-if="state.showLoadMore" class="text-center mt-5">
-                <loader v-if="state.isLoadingMore"></loader>
-                <button-component v-if="!state.isLoadingMore"
-                                  @click="fetch"
-                                  type="button"
+                <Loader v-if="state.isLoadingMore"/>
+                <Button v-if="!state.isLoadingMore"
+                        @click="loadMore"
+                        type="button"
                 >Завантажити ще
-                </button-component>
+                </Button>
             </div>
-        </section>
+        </div>
     </div>
 </template>
 
 <script setup>
-import {ref, onMounted} from "vue";
+import {ref, onMounted, computed} from "vue";
+import Loader from '@/Pages/Public/Components/Loader.vue'
+import ProductCards from '@/Pages/Public/Components/ProductCards.vue'
+import Button from '@/Pages/Public/Components/Button.vue'
+import {ProductsRepository} from '@/Repositories/ProductsRepository.js'
 
 const state = ref({
-    category: null,
     products: [],
-    isLoading: true,
+    isLoading: false,
     isLoadingMore: false,
     showLoadMore: true,
-    currentPage: 1,
-    total: 1,
-    endpoint: `/api/v1/product/category/?page=`
 });
 
 const props = defineProps({
     title: String,
-    slug: String,
-    productRoute: String,
     lang: {
         type: String,
         default: 'ua'
@@ -53,35 +58,58 @@ const props = defineProps({
     },
 });
 
-onMounted(() => {
-    state.value.endpoint = '/api/v1/product/category/' + props.slug + '?page=';
+const params = ref({
+    currentPage: 1,
+    sort: null
+});
 
-    axios.get('/api/v1/product/category/' + props.slug)
-        .then(({data}) => {
-            state.value.isLoading = false;
-            state.value.products = data.result.data;
-            state.value.total = data.result.total;
-            state.value.currentPage = data.result.current_page;
-            state.value.showLoadMore = (data.result.to !== data.result.total);
-        })
-        .catch((response) => {
-            state.value.isLoading = false;
-            console.log(response);
-        });
-})
+const getParams = computed(() => {
+    const {currentPage, sort} = params.value;
+    return {
+        page: currentPage,
+        sort: sort,
+        slug: (route().params).slug
+    };
+});
 
-function fetch() {
+onMounted(() => fetch());
+
+async function fetch() {
+    state.value.isLoading = true;
+    try {
+        const {success, result} = await ProductsRepository().v1().category(getParams.value);
+        if (success) {
+            state.value.isLoading = false;
+            params.value.currentPage = result.current_page;
+            state.value.products = result.data;
+            state.value.showLoadMore = (result.to !== result.total);
+        }
+    } catch (e) {
+        console.error(e);
+        state.value.isLoading = false;
+    }
+}
+
+async function sort() {
+    state.value.isLoading = true;
+    params.value.currentPage = 1;
+    await fetch();
+}
+
+async function loadMore() {
     state.value.isLoadingMore = true;
-    axios.get(state.value.endpoint + (state.value.currentPage + 1))
-        .then(({data}) => {
+    params.value.currentPage += 1;
+    try {
+        const {success, result} = await ProductsRepository().v1().category(getParams.value);
+        if (success) {
             state.value.isLoadingMore = false;
-            state.value.currentPage = data.result.current_page;
-            state.value.products = state.value.products.concat(data.result.data);
-            state.value.showLoadMore = (data.result.to !== data.result.total);
-        })
-        .catch((response) => {
-            state.value.isLoading = false;
-            console.log(response);
-        });
+            params.value.currentPage = result.current_page;
+            state.value.products = state.value.products.concat(result.data);
+            state.value.showLoadMore = (result.to !== result.total);
+        }
+    } catch (e) {
+        console.error(e);
+        state.value.isLoadingMore = false;
+    }
 }
 </script>

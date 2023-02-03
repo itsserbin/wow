@@ -59,7 +59,7 @@ Route::prefix('v1')->middleware('api')->group(function () {
         Route::get('best-selling', [ProductsController::class, 'getBestSellingProductsWithPaginate'])
             ->name('api.v1.products.best-selling');
 
-        Route::get('category/{slug}', [ProductsController::class, 'getWhereCategorySlug'])
+        Route::get('category/{slug}', [ProductsController::class, 'getByCategorySlug'])
             ->name('api.v1.products.category');
 
         Route::get('recommend-products', [ProductsController::class, 'getRecommendProducts'])

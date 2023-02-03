@@ -34,6 +34,7 @@
                     <a :href="route('product',product.id)">
                         <picture>
                             <source v-lazy :data-src="route('images.350',product.preview.webp_src)"
+                                    v-if="route('images.350',product.preview.webp_src)"
                                     type="image/webp">
                             <img v-lazy
                                  :data-src="route('images.350',product.preview.src)"

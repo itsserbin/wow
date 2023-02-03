@@ -190,7 +190,7 @@ class ProductsRepository extends CoreRepository
             ->paginate($perPage);
     }
 
-    public function getWhereCategorySlugToPublic($slug, $perPage = 15)
+    public function getByCategorySlugToPublic($slug, $data, $perPage = 16)
     {
         $columns = [
             'id',
@@ -202,16 +202,27 @@ class ProductsRepository extends CoreRepository
             'h1',
         ];
 
-        return $this
-            ->model::where('published', 1)
+        $model = $this
+            ->model::select($columns)
+            ->where('published', 1)
             ->whereHas('categories', function ($q) use ($slug) {
                 $q->where('slug', $slug);
-            })
-            ->select($columns)
-            ->orderBy('total_sales', 'desc')
-            ->with('sizes', 'preview', 'images')
-            ->paginate($perPage);
+            })->with('sizes', 'preview', 'images');
+
+        if (isset($data['sort'])) {
+            if ($data['sort'] == 'min_price') {
+                $model->orderBy('discount_price', 'asc');
+            } elseif ($data['sort'] == 'max_price') {
+                $model->orderBy('discount_price', 'desc');
+            } elseif ($data['sort'] == 'created_at') {
+                $model->orderBy('id', 'desc');
+            }
+        } else {
+            $model->orderBy('total_sales', 'desc');
+        }
+        return $model->paginate($perPage);
     }
+
 
     /**
      * Увеличить кол-во покупок товара на 1.
