@@ -65,7 +65,7 @@ Route::get('test',function (){
 //        ];
 //    }
 
-    dd($_SERVER['HTTP_X_REAL_IP'],$query);
+    echo($_SERVER);
 });
 
 Route::post('sms-new-order', [SmsController::class, 'newOrder'])
