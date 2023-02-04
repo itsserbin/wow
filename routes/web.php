@@ -73,10 +73,10 @@ Route::get('test', function () {
 //    }
 
     $userAgent = $_SERVER['HTTP_USER_AGENT'];
-    if (preg_match('/bot|crawler|spider|robot|crawling|Googlebot/i', $userAgent)) {
-        return $userAgent;
+    if (!preg_match('/bot|crawler|spider|robot|crawling|Googlebot/i', $_SERVER['HTTP_USER_AGENT'])) {
+        return 'none';
     } else {
-        return false;
+        return $userAgent;
     }
 
 //    foreach ($_SERVER as $item) {
