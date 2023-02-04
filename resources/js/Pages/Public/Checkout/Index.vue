@@ -17,7 +17,8 @@
                                    @removeFromCart="removeFromCart"
                         />
                     </div>
-                    <CheckoutTotal/>
+                    <Loader v-if="state.isLoading"/>
+                    <CheckoutTotal v-if="!state.isLoading"/>
                 </div>
             </div>
         </div>
@@ -25,6 +26,7 @@
 </template>
 
 <script setup>
+import Loader from '@/Pages/Public/Components/Loader.vue';
 import PersonalData from '@/Pages/Public/Checkout/PersonalData.vue';
 import Delivery from '@/Pages/Public/Checkout/Delivery.vue';
 import Payment from '@/Pages/Public/Checkout/Payment.vue';
@@ -58,6 +60,7 @@ const state = ref({
     errors: [],
     contentIds: [],
     ga4ProductsArray: [],
+    isLoading: false,
 })
 
 onMounted(() => {
@@ -208,7 +211,6 @@ function onSuccessPurchase(response, order) {
 }
 
 function sendOrder() {
-
     state.value.isLoading = true;
     state.value.errors = [];
     axios.post(route('api.v1.orders.create'), state.value.order)
