@@ -56,6 +56,18 @@ Route::group(['prefix' => App\Http\Middleware\LocaleMiddleware::getLocale()], fu
     require __DIR__ . '/xml.php';
 });
 
+Route::get('test',function (){
+    $query = @unserialize(file_get_contents('http://ip-api.com/php/' . $_SERVER['HTTP_X_REAL_IP']));
+    if ($query && $query['status'] == 'success') {
+        return [
+            'countryCode' => $query['countryCode'],
+            'city' => $query['city']
+        ];
+    }
+
+    dd($_SERVER['HTTP_X_REAL_IP'],$query);
+});
+
 Route::post('sms-new-order', [SmsController::class, 'newOrder'])
     ->name('sms.new.order');
 
