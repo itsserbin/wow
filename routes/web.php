@@ -56,35 +56,6 @@ Route::group(['prefix' => App\Http\Middleware\LocaleMiddleware::getLocale()], fu
     require __DIR__ . '/xml.php';
 });
 
-Route::get('test', function () {
-//    $query = @unserialize(file_get_contents('http://ip-api.com/php/' . $_SERVER['HTTP_X_REAL_IP']));
-//    if ($query && $query['status'] == 'success') {
-//        return [
-//            'countryCode' => $query['countryCode'],
-//            'city' => $query['city']
-//        ];
-//    }
-
-//    $user_agent = $_SERVER['HTTP_USER_AGENT'];
-//    if (strpos($user_agent, 'Googlebot') !== false) {
-//        // Здесь бот Google
-//    } else {
-//        // Здесь не бот Google
-//    }
-
-    $userAgent = $_SERVER['HTTP_USER_AGENT'];
-    if (!preg_match('/bot|crawler|spider|robot|crawling|Googlebot/i', $_SERVER['HTTP_USER_AGENT'])) {
-        return 'none';
-    } else {
-        return $userAgent;
-    }
-
-//    foreach ($_SERVER as $item) {
-//        echo($item);
-//
-//    }
-});
-
 Route::post('sms-new-order', [SmsController::class, 'newOrder'])
     ->name('sms.new.order');
 
