@@ -65,10 +65,24 @@ Route::get('test', function () {
 //        ];
 //    }
 
-    foreach ($_SERVER as $item) {
-        echo($item);
+//    $user_agent = $_SERVER['HTTP_USER_AGENT'];
+//    if (strpos($user_agent, 'Googlebot') !== false) {
+//        // Здесь бот Google
+//    } else {
+//        // Здесь не бот Google
+//    }
 
+    $userAgent = $_SERVER['HTTP_USER_AGENT'];
+    if (preg_match('/bot|crawler|spider|robot|crawling|Googlebot/i', $userAgent)) {
+        return $userAgent;
+    } else {
+        return false;
     }
+
+//    foreach ($_SERVER as $item) {
+//        echo($item);
+//
+//    }
 });
 
 Route::post('sms-new-order', [SmsController::class, 'newOrder'])
