@@ -57,7 +57,7 @@ Route::group(['prefix' => App\Http\Middleware\LocaleMiddleware::getLocale()], fu
 });
 
 Route::get('test',function (){
-    $query = @unserialize(file_get_contents('http://ip-api.com/php/' . $_SERVER['HTTP_X_REAL_IP']));
+//    $query = @unserialize(file_get_contents('http://ip-api.com/php/' . $_SERVER['HTTP_X_REAL_IP']));
 //    if ($query && $query['status'] == 'success') {
 //        return [
 //            'countryCode' => $query['countryCode'],
