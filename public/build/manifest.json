@@ -1,24 +1,24 @@
 {
   "resources/js/Pages/Public/app.js": {
-    "file": "assets/app.e86851f7.js",
+    "file": "assets/app.f12b0103.js",
     "src": "resources/js/Pages/Public/app.js",
     "isEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
-      "_swiper-slide.d90e18c7.js",
-      "_InputError.ed319742.js",
-      "_index.fdc9cb9f.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
+      "_swiper-slide.5d123557.js",
+      "_InputError.12030d87.js",
+      "_index.947e569a.js"
     ],
     "css": [
       "assets/app.a8078d41.css"
     ]
   },
   "resources/js/Pages/Admin/app.js": {
-    "file": "assets/app.778d7e5e.js",
+    "file": "assets/app.281af17d.js",
     "src": "resources/js/Pages/Admin/app.js",
     "isEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ],
     "dynamicImports": [
       "resources/js/Pages/Admin/Auth/ConfirmPassword.vue",
@@ -151,7 +151,7 @@
       "resources/js/Pages/Admin/Statistics/Costs/Index.vue",
       "resources/js/Pages/Admin/Statistics/Costs/Modal.vue",
       "resources/js/Pages/Admin/Statistics/Costs/Table.vue",
-      "_Datepicker.3e7bb667.js",
+      "_Datepicker.4fac43b5.js",
       "resources/js/Pages/Admin/Statistics/Index.vue",
       "resources/js/Pages/Admin/Statistics/Managers/Chart.vue",
       "resources/js/Pages/Admin/Statistics/Managers/Index.vue",
@@ -175,184 +175,184 @@
       "assets/app.ff1b5532.css"
     ]
   },
-  "____vite-browser-external_commonjs-proxy.846f2c44.js": {
-    "file": "assets/___vite-browser-external_commonjs-proxy.846f2c44.js"
+  "____vite-browser-external_commonjs-proxy.3241581e.js": {
+    "file": "assets/___vite-browser-external_commonjs-proxy.3241581e.js"
   },
-  "_swiper-slide.d90e18c7.js": {
-    "file": "assets/swiper-slide.d90e18c7.js",
+  "_swiper-slide.5d123557.js": {
+    "file": "assets/swiper-slide.5d123557.js",
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
-  "_InputError.ed319742.js": {
-    "file": "assets/InputError.ed319742.js",
+  "_InputError.12030d87.js": {
+    "file": "assets/InputError.12030d87.js",
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
-  "_index.fdc9cb9f.js": {
-    "file": "assets/index.fdc9cb9f.js",
+  "_index.947e569a.js": {
+    "file": "assets/index.947e569a.js",
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Auth/ConfirmPassword.vue": {
-    "file": "assets/ConfirmPassword.e7821472.js",
+    "file": "assets/ConfirmPassword.081e7a16.js",
     "src": "resources/js/Pages/Admin/Auth/ConfirmPassword.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
-      "_GuestLayout.4083905a.js",
-      "_InputError.ed319742.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
+      "_GuestLayout.f55c4514.js",
+      "_InputError.12030d87.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
-  "_GuestLayout.4083905a.js": {
-    "file": "assets/GuestLayout.4083905a.js",
+  "_GuestLayout.f55c4514.js": {
+    "file": "assets/GuestLayout.f55c4514.js",
     "imports": [
       "resources/js/Pages/Admin/app.js",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Auth/ForgotPassword.vue": {
-    "file": "assets/ForgotPassword.21abcf9c.js",
+    "file": "assets/ForgotPassword.fef3a276.js",
     "src": "resources/js/Pages/Admin/Auth/ForgotPassword.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
-      "_GuestLayout.4083905a.js",
-      "_InputError.ed319742.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
+      "_GuestLayout.f55c4514.js",
+      "_InputError.12030d87.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Auth/Login.vue": {
-    "file": "assets/Login.45a7c3b9.js",
+    "file": "assets/Login.d592423a.js",
     "src": "resources/js/Pages/Admin/Auth/Login.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/app.js",
-      "_GuestLayout.4083905a.js",
-      "_InputError.ed319742.js"
+      "_GuestLayout.f55c4514.js",
+      "_InputError.12030d87.js"
     ]
   },
   "resources/js/Pages/Admin/Auth/Register.vue": {
-    "file": "assets/Register.39599e70.js",
+    "file": "assets/Register.f06c6c8b.js",
     "src": "resources/js/Pages/Admin/Auth/Register.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
-      "_GuestLayout.4083905a.js",
-      "_InputError.ed319742.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
+      "_GuestLayout.f55c4514.js",
+      "_InputError.12030d87.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Auth/ResetPassword.vue": {
-    "file": "assets/ResetPassword.eab6f454.js",
+    "file": "assets/ResetPassword.fc3c28cc.js",
     "src": "resources/js/Pages/Admin/Auth/ResetPassword.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
-      "_GuestLayout.4083905a.js",
-      "_InputError.ed319742.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
+      "_GuestLayout.f55c4514.js",
+      "_InputError.12030d87.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Auth/VerifyEmail.vue": {
-    "file": "assets/VerifyEmail.88a5ac9f.js",
+    "file": "assets/VerifyEmail.d064dbdb.js",
     "src": "resources/js/Pages/Admin/Auth/VerifyEmail.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
-      "_GuestLayout.4083905a.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
+      "_GuestLayout.f55c4514.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Content/Categories/Form.vue": {
-    "file": "assets/Form.b9eafaa4.js",
+    "file": "assets/Form.e733267d.js",
     "src": "resources/js/Pages/Admin/Content/Categories/Form.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
-      "_ImagesSelectModal.e790ddd8.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
+      "_ImagesSelectModal.889d3775.js",
       "resources/js/Pages/Admin/app.js",
-      "_UploadImagesModal.8efce209.js"
+      "_UploadImagesModal.f69d6a70.js"
     ]
   },
-  "_ImagesSelectModal.e790ddd8.js": {
-    "file": "assets/ImagesSelectModal.e790ddd8.js",
+  "_ImagesSelectModal.889d3775.js": {
+    "file": "assets/ImagesSelectModal.889d3775.js",
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
-      "_UploadImagesModal.8efce209.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
+      "_UploadImagesModal.f69d6a70.js"
     ]
   },
-  "_UploadImagesModal.8efce209.js": {
-    "file": "assets/UploadImagesModal.8efce209.js",
+  "_UploadImagesModal.f69d6a70.js": {
+    "file": "assets/UploadImagesModal.f69d6a70.js",
     "imports": [
       "resources/js/Pages/Admin/app.js",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Content/Categories/Index.vue": {
-    "file": "assets/Index.f2d7f6c0.js",
+    "file": "assets/Index.3d3bd401.js",
     "src": "resources/js/Pages/Admin/Content/Categories/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Content/Categories/Modal.vue",
       "resources/js/Pages/Admin/Content/Categories/Table.vue",
       "resources/js/Pages/Admin/Content/ContentLayout.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Content/Categories/Form.vue",
-      "_ImagesSelectModal.e790ddd8.js",
-      "_UploadImagesModal.8efce209.js",
+      "_ImagesSelectModal.889d3775.js",
+      "_UploadImagesModal.f69d6a70.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Content/Categories/Modal.vue": {
-    "file": "assets/Modal.cbd4c79d.js",
+    "file": "assets/Modal.08327449.js",
     "src": "resources/js/Pages/Admin/Content/Categories/Modal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Content/Categories/Form.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
-      "_ImagesSelectModal.e790ddd8.js",
-      "_UploadImagesModal.8efce209.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
+      "_ImagesSelectModal.889d3775.js",
+      "_UploadImagesModal.f69d6a70.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Content/Categories/Table.vue": {
-    "file": "assets/Table.9f24d45e.js",
+    "file": "assets/Table.e48f46de.js",
     "src": "resources/js/Pages/Admin/Content/Categories/Table.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Content/ContentLayout.vue": {
-    "file": "assets/ContentLayout.720349ee.js",
+    "file": "assets/ContentLayout.1fb047ac.js",
     "src": "resources/js/Pages/Admin/Content/ContentLayout.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/app.js",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Content/Images/Form.vue": {
-    "file": "assets/Form.b357258e.js",
+    "file": "assets/Form.4d72f5f6.js",
     "src": "resources/js/Pages/Admin/Content/Images/Form.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/app.js",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Content/Images/Index.vue": {
-    "file": "assets/Index.07d2c425.js",
+    "file": "assets/Index.217e4465.js",
     "src": "resources/js/Pages/Admin/Content/Images/Index.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
-      "_UploadImagesModal.8efce209.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
+      "_UploadImagesModal.f69d6a70.js",
       "resources/js/Pages/Admin/Content/Images/List.vue",
       "resources/js/Pages/Admin/Content/Images/Modal.vue",
       "resources/js/Pages/Admin/app.js",
@@ -361,385 +361,385 @@
     ]
   },
   "resources/js/Pages/Admin/Content/Images/List.vue": {
-    "file": "assets/List.ae67c385.js",
+    "file": "assets/List.524e08a9.js",
     "src": "resources/js/Pages/Admin/Content/Images/List.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/app.js",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Content/Images/Modal.vue": {
-    "file": "assets/Modal.0ffe6e3e.js",
+    "file": "assets/Modal.267e38ac.js",
     "src": "resources/js/Pages/Admin/Content/Images/Modal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Content/Images/Form.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Content/Index.vue": {
-    "file": "assets/Index.7debdf9d.js",
+    "file": "assets/Index.d1325a9c.js",
     "src": "resources/js/Pages/Admin/Content/Index.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Content/Pages/Form.vue": {
-    "file": "assets/Form.ac3ba6e3.js",
+    "file": "assets/Form.d1b5755f.js",
     "src": "resources/js/Pages/Admin/Content/Pages/Form.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Content/Pages/Index.vue": {
-    "file": "assets/Index.2eaecf02.js",
+    "file": "assets/Index.221eec4b.js",
     "src": "resources/js/Pages/Admin/Content/Pages/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Content/Pages/Modal.vue",
       "resources/js/Pages/Admin/Content/Pages/Table.vue",
       "resources/js/Pages/Admin/Content/ContentLayout.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Content/Pages/Form.vue",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Content/Pages/Modal.vue": {
-    "file": "assets/Modal.d4935705.js",
+    "file": "assets/Modal.d4936335.js",
     "src": "resources/js/Pages/Admin/Content/Pages/Modal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Content/Pages/Form.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Content/Pages/Table.vue": {
-    "file": "assets/Table.20dbb3da.js",
+    "file": "assets/Table.9eca6514.js",
     "src": "resources/js/Pages/Admin/Content/Pages/Table.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Content/Products/Form.vue": {
-    "file": "assets/Form.20c3e358.js",
+    "file": "assets/Form.07ad4373.js",
     "src": "resources/js/Pages/Admin/Content/Products/Form.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Content/Products/Images.vue",
-      "_ImagesSelectModal.e790ddd8.js",
+      "_ImagesSelectModal.889d3775.js",
       "resources/js/Pages/Admin/app.js",
       "_CharacteristicsRepository.ec452529.js",
-      "_swiper-slide.d90e18c7.js",
-      "_UploadImagesModal.8efce209.js"
+      "_swiper-slide.5d123557.js",
+      "_UploadImagesModal.f69d6a70.js"
     ]
   },
   "resources/js/Pages/Admin/Content/Products/Images.vue": {
-    "file": "assets/Images.b297fb89.js",
+    "file": "assets/Images.4977eb9b.js",
     "src": "resources/js/Pages/Admin/Content/Products/Images.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/app.js",
-      "_swiper-slide.d90e18c7.js",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "_swiper-slide.5d123557.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "_CharacteristicsRepository.ec452529.js": {
     "file": "assets/CharacteristicsRepository.ec452529.js"
   },
   "resources/js/Pages/Admin/Content/Products/Index.vue": {
-    "file": "assets/Index.e3dab5a2.js",
+    "file": "assets/Index.cd4e189c.js",
     "src": "resources/js/Pages/Admin/Content/Products/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Content/Products/Modal.vue",
       "resources/js/Pages/Admin/Content/Products/Table.vue",
       "resources/js/Pages/Admin/Content/ContentLayout.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Content/Products/Form.vue",
       "resources/js/Pages/Admin/Content/Products/Images.vue",
       "resources/js/Pages/Admin/app.js",
-      "_swiper-slide.d90e18c7.js",
-      "_ImagesSelectModal.e790ddd8.js",
-      "_UploadImagesModal.8efce209.js",
+      "_swiper-slide.5d123557.js",
+      "_ImagesSelectModal.889d3775.js",
+      "_UploadImagesModal.f69d6a70.js",
       "_CharacteristicsRepository.ec452529.js"
     ]
   },
   "resources/js/Pages/Admin/Content/Products/Modal.vue": {
-    "file": "assets/Modal.5bf9f6e6.js",
+    "file": "assets/Modal.76a98f97.js",
     "src": "resources/js/Pages/Admin/Content/Products/Modal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Content/Products/Form.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Content/Products/Images.vue",
       "resources/js/Pages/Admin/app.js",
-      "_swiper-slide.d90e18c7.js",
-      "_ImagesSelectModal.e790ddd8.js",
-      "_UploadImagesModal.8efce209.js",
+      "_swiper-slide.5d123557.js",
+      "_ImagesSelectModal.889d3775.js",
+      "_UploadImagesModal.f69d6a70.js",
       "_CharacteristicsRepository.ec452529.js"
     ]
   },
   "resources/js/Pages/Admin/Content/Products/Table.vue": {
-    "file": "assets/Table.3e4567f9.js",
+    "file": "assets/Table.70f2a969.js",
     "src": "resources/js/Pages/Admin/Content/Products/Table.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Content/Reviews/Products/Form.vue": {
-    "file": "assets/Form.8595ac68.js",
+    "file": "assets/Form.129f44b5.js",
     "src": "resources/js/Pages/Admin/Content/Reviews/Products/Form.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Content/Reviews/Products/Index.vue": {
-    "file": "assets/Index.4a66bf3f.js",
+    "file": "assets/Index.0f57f83a.js",
     "src": "resources/js/Pages/Admin/Content/Reviews/Products/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Content/Reviews/Products/Modal.vue",
       "resources/js/Pages/Admin/Content/Reviews/Products/Table.vue",
       "resources/js/Pages/Admin/Content/Reviews/ReviewsLayout.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Content/Reviews/Products/Form.vue",
       "resources/js/Pages/Admin/Content/ContentLayout.vue",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Content/Reviews/Products/Modal.vue": {
-    "file": "assets/Modal.95b4a69b.js",
+    "file": "assets/Modal.705a7a45.js",
     "src": "resources/js/Pages/Admin/Content/Reviews/Products/Modal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Content/Reviews/Products/Form.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Content/Reviews/Products/Table.vue": {
-    "file": "assets/Table.c9ddbbc8.js",
+    "file": "assets/Table.b1b91ba3.js",
     "src": "resources/js/Pages/Admin/Content/Reviews/Products/Table.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Content/Reviews/ReviewsLayout.vue": {
-    "file": "assets/ReviewsLayout.bf875096.js",
+    "file": "assets/ReviewsLayout.251e3c17.js",
     "src": "resources/js/Pages/Admin/Content/Reviews/ReviewsLayout.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Content/ContentLayout.vue",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Content/Reviews/Socials/Form.vue": {
-    "file": "assets/Form.a49e6030.js",
+    "file": "assets/Form.a6a32e71.js",
     "src": "resources/js/Pages/Admin/Content/Reviews/Socials/Form.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Content/Reviews/Socials/Index.vue": {
-    "file": "assets/Index.d4c82c37.js",
+    "file": "assets/Index.2011fe68.js",
     "src": "resources/js/Pages/Admin/Content/Reviews/Socials/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Content/Reviews/Socials/Modal.vue",
       "resources/js/Pages/Admin/Content/Reviews/ReviewsLayout.vue",
       "resources/js/Pages/Admin/Content/Reviews/Socials/Table.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Content/Reviews/Socials/Form.vue",
       "resources/js/Pages/Admin/Content/ContentLayout.vue",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Content/Reviews/Socials/Modal.vue": {
-    "file": "assets/Modal.4b1f46f3.js",
+    "file": "assets/Modal.ff991b66.js",
     "src": "resources/js/Pages/Admin/Content/Reviews/Socials/Modal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Content/Reviews/Socials/Form.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Content/Reviews/Socials/Table.vue": {
-    "file": "assets/Table.f969c1d5.js",
+    "file": "assets/Table.80cca7dc.js",
     "src": "resources/js/Pages/Admin/Content/Reviews/Socials/Table.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Crm/Callbacks/Form.vue": {
-    "file": "assets/Form.ac892b3c.js",
+    "file": "assets/Form.ab4241f0.js",
     "src": "resources/js/Pages/Admin/Crm/Callbacks/Form.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Crm/Callbacks/Index.vue": {
-    "file": "assets/Index.b0ddddb0.js",
+    "file": "assets/Index.4ada6a6a.js",
     "src": "resources/js/Pages/Admin/Crm/Callbacks/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Crm/Callbacks/Modal.vue",
       "resources/js/Pages/Admin/Crm/Callbacks/Table.vue",
       "resources/js/Pages/Admin/Crm/CrmLayout.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Crm/Callbacks/Form.vue",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Crm/Callbacks/Modal.vue": {
-    "file": "assets/Modal.a8a5497b.js",
+    "file": "assets/Modal.4155c4c5.js",
     "src": "resources/js/Pages/Admin/Crm/Callbacks/Modal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Crm/Callbacks/Form.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Crm/Callbacks/Table.vue": {
-    "file": "assets/Table.404021b9.js",
+    "file": "assets/Table.266d3425.js",
     "src": "resources/js/Pages/Admin/Crm/Callbacks/Table.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Crm/CrmLayout.vue": {
-    "file": "assets/CrmLayout.194c4c09.js",
+    "file": "assets/CrmLayout.e4dd5154.js",
     "src": "resources/js/Pages/Admin/Crm/CrmLayout.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/app.js",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Crm/Clients/Form.vue": {
-    "file": "assets/Form.472924bf.js",
+    "file": "assets/Form.5d45aef7.js",
     "src": "resources/js/Pages/Admin/Crm/Clients/Form.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Crm/Clients/ItemsTable.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Crm/Clients/ItemsTable.vue": {
-    "file": "assets/ItemsTable.1d4dc435.js",
+    "file": "assets/ItemsTable.ec85b641.js",
     "src": "resources/js/Pages/Admin/Crm/Clients/ItemsTable.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Crm/Clients/Index.vue": {
-    "file": "assets/Index.85c299fc.js",
+    "file": "assets/Index.49751074.js",
     "src": "resources/js/Pages/Admin/Crm/Clients/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Crm/Clients/Modal.vue",
       "resources/js/Pages/Admin/Crm/Clients/Table.vue",
       "resources/js/Pages/Admin/Crm/CrmLayout.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Crm/Clients/Form.vue",
       "resources/js/Pages/Admin/Crm/Clients/ItemsTable.vue",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Crm/Clients/Modal.vue": {
-    "file": "assets/Modal.dff81f48.js",
+    "file": "assets/Modal.c389ec92.js",
     "src": "resources/js/Pages/Admin/Crm/Clients/Modal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Crm/Clients/Form.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Crm/Clients/ItemsTable.vue"
     ]
   },
   "resources/js/Pages/Admin/Crm/Clients/Table.vue": {
-    "file": "assets/Table.73254b10.js",
+    "file": "assets/Table.615a5b04.js",
     "src": "resources/js/Pages/Admin/Crm/Clients/Table.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Crm/Index.vue": {
-    "file": "assets/Index.f8c28d26.js",
+    "file": "assets/Index.ad742dae.js",
     "src": "resources/js/Pages/Admin/Crm/Index.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Crm/Invoices/Form.vue": {
-    "file": "assets/Form.57c89ccb.js",
+    "file": "assets/Form.04084dbf.js",
     "src": "resources/js/Pages/Admin/Crm/Invoices/Form.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Crm/Invoices/Index.vue": {
-    "file": "assets/Index.fb43208e.js",
+    "file": "assets/Index.f10e64f8.js",
     "src": "resources/js/Pages/Admin/Crm/Invoices/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Crm/Invoices/Modal.vue",
       "resources/js/Pages/Admin/Crm/Invoices/Table.vue",
       "resources/js/Pages/Admin/Crm/CrmLayout.vue",
-      "_index.fdc9cb9f.js",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "_index.947e569a.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Crm/Invoices/Form.vue",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Crm/Invoices/Modal.vue": {
-    "file": "assets/Modal.b01ddf12.js",
+    "file": "assets/Modal.afaeb3aa.js",
     "src": "resources/js/Pages/Admin/Crm/Invoices/Modal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Crm/Invoices/Form.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Crm/Invoices/Table.vue": {
-    "file": "assets/Table.4ed2fa83.js",
+    "file": "assets/Table.b2ca1915.js",
     "src": "resources/js/Pages/Admin/Crm/Invoices/Table.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Crm/Orders/ClientOrders.vue": {
-    "file": "assets/ClientOrders.3051de84.js",
+    "file": "assets/ClientOrders.19b2eb33.js",
     "src": "resources/js/Pages/Admin/Crm/Orders/ClientOrders.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Crm/Orders/Form.vue": {
-    "file": "assets/Form.22028818.js",
+    "file": "assets/Form.93acfa49.js",
     "src": "resources/js/Pages/Admin/Crm/Orders/Form.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Crm/Orders/ItemsModal.vue",
       "resources/js/Pages/Admin/Crm/Orders/ItemsTable.vue",
       "resources/js/Pages/Admin/Crm/Orders/ClientOrders.vue",
@@ -750,32 +750,32 @@
     ]
   },
   "resources/js/Pages/Admin/Crm/Orders/ItemsModal.vue": {
-    "file": "assets/ItemsModal.268d2f95.js",
+    "file": "assets/ItemsModal.e4547f97.js",
     "src": "resources/js/Pages/Admin/Crm/Orders/ItemsModal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Crm/Orders/ItemsForm.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Crm/Orders/ItemsTable.vue": {
-    "file": "assets/ItemsTable.eec24041.js",
+    "file": "assets/ItemsTable.41a948b7.js",
     "src": "resources/js/Pages/Admin/Crm/Orders/ItemsTable.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Crm/Orders/ItemsForm.vue": {
-    "file": "assets/ItemsForm.82ffbd83.js",
+    "file": "assets/ItemsForm.fae816fe.js",
     "src": "resources/js/Pages/Admin/Crm/Orders/ItemsForm.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Crm/Orders/Index.vue": {
-    "file": "assets/Index.1c9932ef.js",
+    "file": "assets/Index.7a0ebed1.js",
     "src": "resources/js/Pages/Admin/Crm/Orders/Index.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -784,7 +784,7 @@
       "resources/js/Pages/Admin/Crm/Orders/Modal.vue",
       "resources/js/Pages/Admin/Crm/Orders/Table.vue",
       "resources/js/Pages/Admin/Crm/CrmLayout.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Crm/Clients/Form.vue",
       "resources/js/Pages/Admin/Crm/Clients/ItemsTable.vue",
       "resources/js/Pages/Admin/Crm/Orders/Form.vue",
@@ -798,12 +798,12 @@
     ]
   },
   "resources/js/Pages/Admin/Crm/Orders/Modal.vue": {
-    "file": "assets/Modal.783563a4.js",
+    "file": "assets/Modal.f5c27241.js",
     "src": "resources/js/Pages/Admin/Crm/Orders/Modal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Crm/Orders/Form.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Crm/Orders/ItemsModal.vue",
       "resources/js/Pages/Admin/Crm/Orders/ItemsForm.vue",
       "resources/js/Pages/Admin/Crm/Orders/ItemsTable.vue",
@@ -814,221 +814,221 @@
     ]
   },
   "resources/js/Pages/Admin/Crm/Orders/Table.vue": {
-    "file": "assets/Table.a6244a95.js",
+    "file": "assets/Table.53b3c1bf.js",
     "src": "resources/js/Pages/Admin/Crm/Orders/Table.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Crm/Orders/InvoicesTable.vue": {
-    "file": "assets/InvoicesTable.af87b195.js",
+    "file": "assets/InvoicesTable.9f5d4ae3.js",
     "src": "resources/js/Pages/Admin/Crm/Orders/InvoicesTable.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Crm/Supports/Form.vue": {
-    "file": "assets/Form.49a4db42.js",
+    "file": "assets/Form.6bebc209.js",
     "src": "resources/js/Pages/Admin/Crm/Supports/Form.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Crm/Supports/Index.vue": {
-    "file": "assets/Index.b1c8ade9.js",
+    "file": "assets/Index.d910338b.js",
     "src": "resources/js/Pages/Admin/Crm/Supports/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Crm/Supports/Modal.vue",
       "resources/js/Pages/Admin/Crm/Supports/Table.vue",
       "resources/js/Pages/Admin/Crm/CrmLayout.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Crm/Supports/Form.vue",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Crm/Supports/Modal.vue": {
-    "file": "assets/Modal.3cc7acef.js",
+    "file": "assets/Modal.c494b180.js",
     "src": "resources/js/Pages/Admin/Crm/Supports/Modal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Crm/Supports/Form.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Crm/Supports/Table.vue": {
-    "file": "assets/Table.9bd86b81.js",
+    "file": "assets/Table.9fdde52f.js",
     "src": "resources/js/Pages/Admin/Crm/Supports/Table.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Dashboard.vue": {
-    "file": "assets/Dashboard.63ab8dc3.js",
+    "file": "assets/Dashboard.585655b4.js",
     "src": "resources/js/Pages/Admin/Dashboard.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Statistics/Orders/Chart.vue",
       "resources/js/Pages/Admin/Statistics/Orders/Indicators.vue",
       "resources/js/Pages/Admin/Statistics/Orders/Table.vue",
-      "_Datepicker.3e7bb667.js",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
-      "_index.0d4ff696.js",
+      "_Datepicker.4fac43b5.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
+      "_index.21f8c3b3.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Statistics/Orders/Chart.vue": {
-    "file": "assets/Chart.f23ab89b.js",
+    "file": "assets/Chart.3a1f35e2.js",
     "src": "resources/js/Pages/Admin/Statistics/Orders/Chart.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_index.0d4ff696.js",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "_index.21f8c3b3.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Statistics/Orders/Indicators.vue": {
-    "file": "assets/Indicators.fa6542fc.js",
+    "file": "assets/Indicators.6147ed19.js",
     "src": "resources/js/Pages/Admin/Statistics/Orders/Indicators.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Statistics/Orders/Table.vue": {
-    "file": "assets/Table.be26bcb4.js",
+    "file": "assets/Table.6a89d3d1.js",
     "src": "resources/js/Pages/Admin/Statistics/Orders/Table.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
-  "_Datepicker.3e7bb667.js": {
-    "file": "assets/Datepicker.3e7bb667.js",
+  "_Datepicker.4fac43b5.js": {
+    "file": "assets/Datepicker.4fac43b5.js",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/app.js",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
-  "_index.0d4ff696.js": {
-    "file": "assets/index.0d4ff696.js",
+  "_index.21f8c3b3.js": {
+    "file": "assets/index.21f8c3b3.js",
     "imports": [
       "resources/js/Pages/Admin/app.js",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Advantages/Form.vue": {
-    "file": "assets/Form.001ba59b.js",
+    "file": "assets/Form.2b97eec1.js",
     "src": "resources/js/Pages/Admin/Options/Advantages/Form.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Advantages/Index.vue": {
-    "file": "assets/Index.586ccd1d.js",
+    "file": "assets/Index.75e255f8.js",
     "src": "resources/js/Pages/Admin/Options/Advantages/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Options/Advantages/Modal.vue",
       "resources/js/Pages/Admin/Options/OptionsLayout.vue",
       "resources/js/Pages/Admin/Options/Advantages/Table.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Options/Advantages/Form.vue",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Advantages/Modal.vue": {
-    "file": "assets/Modal.f29de1b5.js",
+    "file": "assets/Modal.681f08c4.js",
     "src": "resources/js/Pages/Admin/Options/Advantages/Modal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Options/Advantages/Form.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/OptionsLayout.vue": {
-    "file": "assets/OptionsLayout.1923c458.js",
+    "file": "assets/OptionsLayout.8b7cd8f5.js",
     "src": "resources/js/Pages/Admin/Options/OptionsLayout.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Advantages/Table.vue": {
-    "file": "assets/Table.78d2c711.js",
+    "file": "assets/Table.055e2362.js",
     "src": "resources/js/Pages/Admin/Options/Advantages/Table.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Banners/Form.vue": {
-    "file": "assets/Form.347c5150.js",
+    "file": "assets/Form.ab80bbaa.js",
     "src": "resources/js/Pages/Admin/Options/Banners/Form.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Options/Banners/UploadBannersInput.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Banners/UploadBannersInput.vue": {
-    "file": "assets/UploadBannersInput.1c0e6e3d.js",
+    "file": "assets/UploadBannersInput.f0d173c3.js",
     "src": "resources/js/Pages/Admin/Options/Banners/UploadBannersInput.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Banners/Index.vue": {
-    "file": "assets/Index.b733b54f.js",
+    "file": "assets/Index.ef40eb41.js",
     "src": "resources/js/Pages/Admin/Options/Banners/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Options/Banners/Modal.vue",
       "resources/js/Pages/Admin/Options/OptionsLayout.vue",
       "resources/js/Pages/Admin/Options/Banners/Table.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Options/Banners/Form.vue",
       "resources/js/Pages/Admin/Options/Banners/UploadBannersInput.vue",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Banners/Modal.vue": {
-    "file": "assets/Modal.77847792.js",
+    "file": "assets/Modal.7a1af905.js",
     "src": "resources/js/Pages/Admin/Options/Banners/Modal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Options/Banners/Form.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Options/Banners/UploadBannersInput.vue"
     ]
   },
   "resources/js/Pages/Admin/Options/Banners/Table.vue": {
-    "file": "assets/Table.6aa0a06c.js",
+    "file": "assets/Table.a364bfd2.js",
     "src": "resources/js/Pages/Admin/Options/Banners/Table.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Characteristics/Form.vue": {
-    "file": "assets/Form.852d6ace.js",
+    "file": "assets/Form.dc8cd1b4.js",
     "src": "resources/js/Pages/Admin/Options/Characteristics/Form.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/app.js",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Characteristics/Index.vue": {
-    "file": "assets/Index.39c438bd.js",
+    "file": "assets/Index.169c61ed.js",
     "src": "resources/js/Pages/Admin/Options/Characteristics/Index.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -1037,512 +1037,512 @@
       "resources/js/Pages/Admin/Options/OptionsLayout.vue",
       "resources/js/Pages/Admin/Options/Characteristics/Table.vue",
       "_CharacteristicsRepository.ec452529.js",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Options/Characteristics/Form.vue"
     ]
   },
   "resources/js/Pages/Admin/Options/Characteristics/Modal.vue": {
-    "file": "assets/Modal.88a7244a.js",
+    "file": "assets/Modal.f28f6e2a.js",
     "src": "resources/js/Pages/Admin/Options/Characteristics/Modal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/app.js",
       "resources/js/Pages/Admin/Options/Characteristics/Form.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Characteristics/Table.vue": {
-    "file": "assets/Table.a61410c8.js",
+    "file": "assets/Table.dc074432.js",
     "src": "resources/js/Pages/Admin/Options/Characteristics/Table.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/app.js",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Colors/Form.vue": {
-    "file": "assets/Form.9a9c5bc3.js",
+    "file": "assets/Form.b7f7e032.js",
     "src": "resources/js/Pages/Admin/Options/Colors/Form.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Colors/Index.vue": {
-    "file": "assets/Index.4eb45b34.js",
+    "file": "assets/Index.21946280.js",
     "src": "resources/js/Pages/Admin/Options/Colors/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Options/Colors/Modal.vue",
       "resources/js/Pages/Admin/Options/OptionsLayout.vue",
       "resources/js/Pages/Admin/Options/Colors/Table.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Options/Colors/Form.vue",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Colors/Modal.vue": {
-    "file": "assets/Modal.08491749.js",
+    "file": "assets/Modal.09083eff.js",
     "src": "resources/js/Pages/Admin/Options/Colors/Modal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Options/Colors/Form.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Colors/Table.vue": {
-    "file": "assets/Table.b2de3ecb.js",
+    "file": "assets/Table.6dab0834.js",
     "src": "resources/js/Pages/Admin/Options/Colors/Table.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Faqs/Form.vue": {
-    "file": "assets/Form.59f6ee83.js",
+    "file": "assets/Form.7eea4a3c.js",
     "src": "resources/js/Pages/Admin/Options/Faqs/Form.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Faqs/Index.vue": {
-    "file": "assets/Index.99649c8b.js",
+    "file": "assets/Index.cf66878b.js",
     "src": "resources/js/Pages/Admin/Options/Faqs/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Options/Faqs/Modal.vue",
       "resources/js/Pages/Admin/Options/OptionsLayout.vue",
       "resources/js/Pages/Admin/Options/Faqs/Table.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Options/Faqs/Form.vue",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Faqs/Modal.vue": {
-    "file": "assets/Modal.0511834c.js",
+    "file": "assets/Modal.9a737884.js",
     "src": "resources/js/Pages/Admin/Options/Faqs/Modal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Options/Faqs/Form.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Faqs/Table.vue": {
-    "file": "assets/Table.793d0533.js",
+    "file": "assets/Table.d619bddc.js",
     "src": "resources/js/Pages/Admin/Options/Faqs/Table.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Index.vue": {
-    "file": "assets/Index.06613943.js",
+    "file": "assets/Index.45aaae8c.js",
     "src": "resources/js/Pages/Admin/Options/Index.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Main/Form.vue": {
-    "file": "assets/Form.1bcf7ec6.js",
+    "file": "assets/Form.bcababb2.js",
     "src": "resources/js/Pages/Admin/Options/Main/Form.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Main/Index.vue": {
-    "file": "assets/Index.444ffb35.js",
+    "file": "assets/Index.fb9640a0.js",
     "src": "resources/js/Pages/Admin/Options/Main/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Options/OptionsLayout.vue",
       "resources/js/Pages/Admin/Options/Main/Form.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Permissions/Form.vue": {
-    "file": "assets/Form.56186b1d.js",
+    "file": "assets/Form.3a26097e.js",
     "src": "resources/js/Pages/Admin/Options/Permissions/Form.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Permissions/Index.vue": {
-    "file": "assets/Index.4dc4a124.js",
+    "file": "assets/Index.ae649798.js",
     "src": "resources/js/Pages/Admin/Options/Permissions/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Options/Permissions/Modal.vue",
       "resources/js/Pages/Admin/Options/OptionsLayout.vue",
       "resources/js/Pages/Admin/Options/Permissions/Table.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Options/Permissions/Form.vue",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Permissions/Modal.vue": {
-    "file": "assets/Modal.0ac3806f.js",
+    "file": "assets/Modal.e51077b8.js",
     "src": "resources/js/Pages/Admin/Options/Permissions/Modal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Options/Permissions/Form.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Permissions/Table.vue": {
-    "file": "assets/Table.c8f3527c.js",
+    "file": "assets/Table.21d62db7.js",
     "src": "resources/js/Pages/Admin/Options/Permissions/Table.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/PromoCodes/Form.vue": {
-    "file": "assets/Form.a26bd95c.js",
+    "file": "assets/Form.a8f96a4b.js",
     "src": "resources/js/Pages/Admin/Options/PromoCodes/Form.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/PromoCodes/Index.vue": {
-    "file": "assets/Index.cb74e7e0.js",
+    "file": "assets/Index.6a5b874e.js",
     "src": "resources/js/Pages/Admin/Options/PromoCodes/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Options/PromoCodes/Modal.vue",
       "resources/js/Pages/Admin/Options/OptionsLayout.vue",
       "resources/js/Pages/Admin/Options/PromoCodes/Table.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Options/PromoCodes/Form.vue",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Options/PromoCodes/Modal.vue": {
-    "file": "assets/Modal.e735d3e8.js",
+    "file": "assets/Modal.b536e14a.js",
     "src": "resources/js/Pages/Admin/Options/PromoCodes/Modal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Options/PromoCodes/Form.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/PromoCodes/Table.vue": {
-    "file": "assets/Table.204fd256.js",
+    "file": "assets/Table.eca2236b.js",
     "src": "resources/js/Pages/Admin/Options/PromoCodes/Table.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Providers/Form.vue": {
-    "file": "assets/Form.31d7c5d3.js",
+    "file": "assets/Form.cf022cad.js",
     "src": "resources/js/Pages/Admin/Options/Providers/Form.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Providers/Index.vue": {
-    "file": "assets/Index.a4a29732.js",
+    "file": "assets/Index.886953a2.js",
     "src": "resources/js/Pages/Admin/Options/Providers/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Options/Providers/Modal.vue",
       "resources/js/Pages/Admin/Options/OptionsLayout.vue",
       "resources/js/Pages/Admin/Options/Providers/Table.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Options/Providers/Form.vue",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Providers/Modal.vue": {
-    "file": "assets/Modal.70441d3e.js",
+    "file": "assets/Modal.d162b7d1.js",
     "src": "resources/js/Pages/Admin/Options/Providers/Modal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Options/Providers/Form.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Providers/Table.vue": {
-    "file": "assets/Table.9b994846.js",
+    "file": "assets/Table.7f36503e.js",
     "src": "resources/js/Pages/Admin/Options/Providers/Table.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Roles/Form.vue": {
-    "file": "assets/Form.2f18ee62.js",
+    "file": "assets/Form.05ed7f66.js",
     "src": "resources/js/Pages/Admin/Options/Roles/Form.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Roles/Index.vue": {
-    "file": "assets/Index.23e06b10.js",
+    "file": "assets/Index.ac64d9e7.js",
     "src": "resources/js/Pages/Admin/Options/Roles/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Options/Roles/Modal.vue",
       "resources/js/Pages/Admin/Options/OptionsLayout.vue",
       "resources/js/Pages/Admin/Options/Roles/Table.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Options/Roles/Form.vue",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Roles/Modal.vue": {
-    "file": "assets/Modal.85bc6590.js",
+    "file": "assets/Modal.0c684773.js",
     "src": "resources/js/Pages/Admin/Options/Roles/Modal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Options/Roles/Form.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Roles/Table.vue": {
-    "file": "assets/Table.99f17eb6.js",
+    "file": "assets/Table.a1200a43.js",
     "src": "resources/js/Pages/Admin/Options/Roles/Table.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Scripts/Form.vue": {
-    "file": "assets/Form.e128bba5.js",
+    "file": "assets/Form.e8e3f99e.js",
     "src": "resources/js/Pages/Admin/Options/Scripts/Form.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Scripts/Index.vue": {
-    "file": "assets/Index.48fb4ec1.js",
+    "file": "assets/Index.f222c8ca.js",
     "src": "resources/js/Pages/Admin/Options/Scripts/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Options/OptionsLayout.vue",
       "resources/js/Pages/Admin/Options/Scripts/Form.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Sizes/Form.vue": {
-    "file": "assets/Form.0e656d92.js",
+    "file": "assets/Form.ce0deac3.js",
     "src": "resources/js/Pages/Admin/Options/Sizes/Form.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Sizes/Index.vue": {
-    "file": "assets/Index.a75178c8.js",
+    "file": "assets/Index.81eb5317.js",
     "src": "resources/js/Pages/Admin/Options/Sizes/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Options/Sizes/Modal.vue",
       "resources/js/Pages/Admin/Options/OptionsLayout.vue",
       "resources/js/Pages/Admin/Options/Sizes/Table.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Options/Sizes/Form.vue",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Sizes/Modal.vue": {
-    "file": "assets/Modal.8a1ae141.js",
+    "file": "assets/Modal.20370959.js",
     "src": "resources/js/Pages/Admin/Options/Sizes/Modal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Options/Sizes/Form.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Sizes/Table.vue": {
-    "file": "assets/Table.00749007.js",
+    "file": "assets/Table.7ecd9e61.js",
     "src": "resources/js/Pages/Admin/Options/Sizes/Table.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Translations/Form.vue": {
-    "file": "assets/Form.4fc22603.js",
+    "file": "assets/Form.2d891595.js",
     "src": "resources/js/Pages/Admin/Options/Translations/Form.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Translations/Index.vue": {
-    "file": "assets/Index.a64b4688.js",
+    "file": "assets/Index.13891a0d.js",
     "src": "resources/js/Pages/Admin/Options/Translations/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Options/Sizes/Modal.vue",
       "resources/js/Pages/Admin/Options/OptionsLayout.vue",
       "resources/js/Pages/Admin/Options/Sizes/Table.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Options/Sizes/Form.vue",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Translations/Modal.vue": {
-    "file": "assets/Modal.32a7e1d1.js",
+    "file": "assets/Modal.33f51319.js",
     "src": "resources/js/Pages/Admin/Options/Translations/Modal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Options/Sizes/Form.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Translations/Table.vue": {
-    "file": "assets/Table.9d0a855b.js",
+    "file": "assets/Table.49ad3764.js",
     "src": "resources/js/Pages/Admin/Options/Translations/Table.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Users/Form.vue": {
-    "file": "assets/Form.5e468a42.js",
+    "file": "assets/Form.30d133d6.js",
     "src": "resources/js/Pages/Admin/Options/Users/Form.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Users/Index.vue": {
-    "file": "assets/Index.57963d9b.js",
+    "file": "assets/Index.8e0e780b.js",
     "src": "resources/js/Pages/Admin/Options/Users/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Options/Users/Modal.vue",
       "resources/js/Pages/Admin/Options/OptionsLayout.vue",
       "resources/js/Pages/Admin/Options/Users/Table.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Options/Users/Form.vue",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Users/Modal.vue": {
-    "file": "assets/Modal.f48062fe.js",
+    "file": "assets/Modal.8ef91cdb.js",
     "src": "resources/js/Pages/Admin/Options/Users/Modal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Options/Users/Form.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Users/Table.vue": {
-    "file": "assets/Table.a0fa2a2b.js",
+    "file": "assets/Table.a9b497e3.js",
     "src": "resources/js/Pages/Admin/Options/Users/Table.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Xmls/Form.vue": {
-    "file": "assets/Form.237590a7.js",
+    "file": "assets/Form.69017cd7.js",
     "src": "resources/js/Pages/Admin/Options/Xmls/Form.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Xmls/Index.vue": {
-    "file": "assets/Index.23baa4a3.js",
+    "file": "assets/Index.6958d667.js",
     "src": "resources/js/Pages/Admin/Options/Xmls/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Options/Xmls/Modal.vue",
       "resources/js/Pages/Admin/Options/OptionsLayout.vue",
       "resources/js/Pages/Admin/Options/Xmls/Table.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Options/Xmls/Form.vue",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Xmls/Modal.vue": {
-    "file": "assets/Modal.a953caaa.js",
+    "file": "assets/Modal.0cc5d0fa.js",
     "src": "resources/js/Pages/Admin/Options/Xmls/Modal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Options/Xmls/Form.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Options/Xmls/Table.vue": {
-    "file": "assets/Table.3459e9ae.js",
+    "file": "assets/Table.f00796d3.js",
     "src": "resources/js/Pages/Admin/Options/Xmls/Table.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Statistics/CostCategories/Form.vue": {
-    "file": "assets/Form.934fda3d.js",
+    "file": "assets/Form.5e0eaadb.js",
     "src": "resources/js/Pages/Admin/Statistics/CostCategories/Form.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Statistics/CostCategories/Index.vue": {
-    "file": "assets/Index.29a14ca6.js",
+    "file": "assets/Index.49a2ee09.js",
     "src": "resources/js/Pages/Admin/Statistics/CostCategories/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Statistics/CostCategories/Modal.vue",
       "resources/js/Pages/Admin/Statistics/StatisticLayout.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Statistics/CostCategories/Form.vue"
     ]
   },
   "resources/js/Pages/Admin/Statistics/CostCategories/Modal.vue": {
-    "file": "assets/Modal.e30fb732.js",
+    "file": "assets/Modal.bb39df15.js",
     "src": "resources/js/Pages/Admin/Statistics/CostCategories/Modal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Statistics/CostCategories/Form.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Statistics/StatisticLayout.vue": {
-    "file": "assets/StatisticLayout.78decb42.js",
+    "file": "assets/StatisticLayout.25247811.js",
     "src": "resources/js/Pages/Admin/Statistics/StatisticLayout.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Statistics/Costs/Chart.vue": {
-    "file": "assets/Chart.7a0fcfb1.js",
+    "file": "assets/Chart.e9c3fa5f.js",
     "src": "resources/js/Pages/Admin/Statistics/Costs/Chart.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_index.0d4ff696.js",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "_index.21f8c3b3.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Statistics/Costs/Form.vue": {
-    "file": "assets/Form.eb7207c8.js",
+    "file": "assets/Form.11a3f86e.js",
     "src": "resources/js/Pages/Admin/Statistics/Costs/Form.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Statistics/Costs/Index.vue": {
-    "file": "assets/Index.6afbd27c.js",
+    "file": "assets/Index.770c1bdf.js",
     "src": "resources/js/Pages/Admin/Statistics/Costs/Index.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -1550,118 +1550,118 @@
       "resources/js/Pages/Admin/Statistics/Costs/Chart.vue",
       "resources/js/Pages/Admin/Statistics/Costs/Table.vue",
       "resources/js/Pages/Admin/Statistics/StatisticLayout.vue",
-      "_Datepicker.3e7bb667.js",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "_Datepicker.4fac43b5.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/Statistics/Costs/Form.vue",
-      "_index.0d4ff696.js",
+      "_index.21f8c3b3.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Statistics/Costs/Modal.vue": {
-    "file": "assets/Modal.2888176a.js",
+    "file": "assets/Modal.d277333b.js",
     "src": "resources/js/Pages/Admin/Statistics/Costs/Modal.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Statistics/Costs/Form.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Statistics/Costs/Table.vue": {
-    "file": "assets/Table.5778f41d.js",
+    "file": "assets/Table.8b6d698e.js",
     "src": "resources/js/Pages/Admin/Statistics/Costs/Table.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Statistics/Index.vue": {
-    "file": "assets/Index.3ef0e8cd.js",
+    "file": "assets/Index.cd208d6a.js",
     "src": "resources/js/Pages/Admin/Statistics/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Statistics/StatisticLayout.vue",
       "resources/js/Pages/Admin/Statistics/Costs/Chart.vue",
       "resources/js/Pages/Admin/Statistics/Profits/Chart.vue",
-      "_Datepicker.3e7bb667.js",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
-      "_index.0d4ff696.js",
+      "_Datepicker.4fac43b5.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
+      "_index.21f8c3b3.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Statistics/Profits/Chart.vue": {
-    "file": "assets/Chart.4d616a59.js",
+    "file": "assets/Chart.708d6a61.js",
     "src": "resources/js/Pages/Admin/Statistics/Profits/Chart.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_index.0d4ff696.js",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "_index.21f8c3b3.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Statistics/Managers/Chart.vue": {
-    "file": "assets/Chart.e03b542c.js",
+    "file": "assets/Chart.d27ce998.js",
     "src": "resources/js/Pages/Admin/Statistics/Managers/Chart.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_index.0d4ff696.js",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "_index.21f8c3b3.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Statistics/Managers/Index.vue": {
-    "file": "assets/Index.32b654fe.js",
+    "file": "assets/Index.fb865896.js",
     "src": "resources/js/Pages/Admin/Statistics/Managers/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Statistics/StatisticLayout.vue",
-      "_Datepicker.3e7bb667.js",
+      "_Datepicker.4fac43b5.js",
       "resources/js/Pages/Admin/Statistics/Managers/Table.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Statistics/Managers/Table.vue": {
-    "file": "assets/Table.79918b67.js",
+    "file": "assets/Table.6f070a31.js",
     "src": "resources/js/Pages/Admin/Statistics/Managers/Table.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Statistics/Marketing/Chart.vue": {
-    "file": "assets/Chart.481c4796.js",
+    "file": "assets/Chart.b8731b9c.js",
     "src": "resources/js/Pages/Admin/Statistics/Marketing/Chart.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_index.0d4ff696.js",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "_index.21f8c3b3.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Statistics/Marketing/Index.vue": {
-    "file": "assets/Index.cb397967.js",
+    "file": "assets/Index.01383042.js",
     "src": "resources/js/Pages/Admin/Statistics/Marketing/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Statistics/Marketing/Chart.vue",
       "resources/js/Pages/Admin/Statistics/StatisticLayout.vue",
-      "_Datepicker.3e7bb667.js",
+      "_Datepicker.4fac43b5.js",
       "resources/js/Pages/Admin/Statistics/Marketing/Table.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
-      "_index.0d4ff696.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
+      "_index.21f8c3b3.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Statistics/Marketing/Table.vue": {
-    "file": "assets/Table.ca6972a4.js",
+    "file": "assets/Table.2776239e.js",
     "src": "resources/js/Pages/Admin/Statistics/Marketing/Table.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Statistics/Orders/Index.vue": {
-    "file": "assets/Index.da1db2bc.js",
+    "file": "assets/Index.628b53f0.js",
     "src": "resources/js/Pages/Admin/Statistics/Orders/Index.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -1669,76 +1669,76 @@
       "resources/js/Pages/Admin/Statistics/Orders/Table.vue",
       "resources/js/Pages/Admin/Statistics/Orders/Indicators.vue",
       "resources/js/Pages/Admin/Statistics/StatisticLayout.vue",
-      "_Datepicker.3e7bb667.js",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
-      "_index.0d4ff696.js",
+      "_Datepicker.4fac43b5.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
+      "_index.21f8c3b3.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Statistics/Products/Chart.vue": {
-    "file": "assets/Chart.cc00c051.js",
+    "file": "assets/Chart.9601830f.js",
     "src": "resources/js/Pages/Admin/Statistics/Products/Chart.vue",
     "isDynamicEntry": true,
     "imports": [
-      "_index.0d4ff696.js",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "_index.21f8c3b3.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Statistics/Products/Index.vue": {
-    "file": "assets/Index.6d36f6a4.js",
+    "file": "assets/Index.0323f119.js",
     "src": "resources/js/Pages/Admin/Statistics/Products/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Statistics/StatisticLayout.vue",
-      "_Datepicker.3e7bb667.js",
+      "_Datepicker.4fac43b5.js",
       "resources/js/Pages/Admin/Statistics/Products/Table.vue",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Statistics/Products/Table.vue": {
-    "file": "assets/Table.517ffa6e.js",
+    "file": "assets/Table.4b9fe338.js",
     "src": "resources/js/Pages/Admin/Statistics/Products/Table.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/Statistics/Profits/Index.vue": {
-    "file": "assets/Index.ae155c1e.js",
+    "file": "assets/Index.6440b767.js",
     "src": "resources/js/Pages/Admin/Statistics/Profits/Index.vue",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/Pages/Admin/Statistics/Profits/Chart.vue",
       "resources/js/Pages/Admin/Statistics/Profits/Table.vue",
       "resources/js/Pages/Admin/Statistics/StatisticLayout.vue",
-      "_Datepicker.3e7bb667.js",
-      "____vite-browser-external_commonjs-proxy.846f2c44.js",
-      "_index.0d4ff696.js",
+      "_Datepicker.4fac43b5.js",
+      "____vite-browser-external_commonjs-proxy.3241581e.js",
+      "_index.21f8c3b3.js",
       "resources/js/Pages/Admin/app.js"
     ]
   },
   "resources/js/Pages/Admin/Statistics/Profits/Table.vue": {
-    "file": "assets/Table.a2186058.js",
+    "file": "assets/Table.8a6c4e61.js",
     "src": "resources/js/Pages/Admin/Statistics/Profits/Table.vue",
     "isDynamicEntry": true,
     "imports": [
-      "____vite-browser-external_commonjs-proxy.846f2c44.js"
+      "____vite-browser-external_commonjs-proxy.3241581e.js"
     ]
   },
   "resources/js/Pages/Admin/app.css": {
     "file": "assets/app.ff1b5532.css",
     "src": "resources/js/Pages/Admin/app.css"
   },
-  "resources/js/Pages/Public/app.css": {
-    "file": "assets/app.a8078d41.css",
-    "src": "resources/js/Pages/Public/app.css"
-  },
   "resources/scss/app.scss": {
     "file": "assets/app.bcc2575f.css",
     "src": "resources/scss/app.scss",
     "isEntry": true
+  },
+  "resources/js/Pages/Public/app.css": {
+    "file": "assets/app.a8078d41.css",
+    "src": "resources/js/Pages/Public/app.css"
   },
   "resources/scss/public.scss": {
     "file": "assets/public.46b6baee.css",

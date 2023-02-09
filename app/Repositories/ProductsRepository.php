@@ -40,7 +40,7 @@ class ProductsRepository extends CoreRepository
 
     public function getByIdToPublic($id)
     {
-        return $this->model
+        $result = $this->model
             ->select(
                 'id',
                 'status',
@@ -66,8 +66,27 @@ class ProductsRepository extends CoreRepository
                 'categories',
                 'images',
                 'sizes',
-                'preview'
+                'preview',
             ])->first();
+
+        return $result;
+    }
+
+    public function getCharacteristicsForPublic($id): array
+    {
+        $model = $this->model::select('id')->where('id', $id)->with('characteristicsNew.characteristic')->first();
+        $locale = app()->getLocale();
+        $characteristics = [];
+        foreach ($model->characteristicsNew as $value) {
+            $title = $value->characteristic->title[$locale];
+            if (array_key_exists($title, $characteristics)) {
+                $characteristics[$title][] = $value->title[$locale];
+            } else {
+                $characteristics[$title] = [$value->title[$locale]];
+            }
+        }
+
+        return $characteristics;
     }
 
     /**

@@ -61,7 +61,8 @@
         <div>
             <product-content lang="{{app()->getLocale()}}"
                              description="{{json_encode($product->content)}}"
-                             characteristics="{{json_encode($product->characteristics)}}"
+{{--                             characteristics="{{json_encode($product->characteristics)}}"--}}
+                             characteristics="{{json_encode($characteristics)}}"
                              size-table="{{json_encode($product->size_table)}}"
                              youtube="{{$product->youtube}}"
                              return-and-exchange-ua="{{$options['text_return_and_exchange_ua']}}"

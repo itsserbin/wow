@@ -83,6 +83,7 @@ class HomeController extends Controller
             $this->facebookService->viewContent($result, $event_id_content);
             $this->productRepository->updateProductViewed($id);
             return view('pages.product', [
+                'characteristics' => $this->productRepository->getCharacteristicsForPublic($id),
                 'options' => $this->getOptions(),
                 'product' => $result,
                 'pages' => $this->getPagesList(),

@@ -19,7 +19,7 @@ class CharacteristicValue extends Model
         'title' => 'array'
     ];
 
-    public function characteristic()
+    public function characteristic(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(Characteristic::class, 'id', 'characteristic_id');
     }

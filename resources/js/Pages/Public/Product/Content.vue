@@ -23,12 +23,14 @@
                 </li>
             </ul>
         </div>
-        <div v-html="state.content" :class="state.class"></div>
+        <div v-html="state.content" :class="state.class" v-if="state.active !== 'characteristics'"></div>
+        <component :is="isActiveCharacteristic" :items="characteristics" :lang="lang"></component>
     </div>
 </template>
 
 <script setup>
-import {ref} from "vue";
+import {computed, ref} from "vue";
+import Characteristic from '@/Pages/Public/Product/Characteristics.vue'
 
 const props = defineProps([
     'lang',
@@ -44,11 +46,13 @@ const props = defineProps([
 
 const state = ref({
     active: 'characteristics',
-    content: props.lang === 'ru' ? JSON.parse(props.characteristics).ru : JSON.parse(props.characteristics).ua,
+    content: '',
     class: 'characteristics-table'
 })
-// const active = ref('characteristics');
-// const content = ref(JSON.parse(props.characteristics));
+
+const isActiveCharacteristic = computed(() => state.value.active === 'characteristics' ? Characteristic : null);
+
+
 const items = [
     {
         label: 'Характеристики',
