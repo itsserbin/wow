@@ -30,6 +30,7 @@ class Order extends Model
         'total_count',
         'total_price',
         'clear_total_price',
+        'payment_method'
     ];
 
     /**

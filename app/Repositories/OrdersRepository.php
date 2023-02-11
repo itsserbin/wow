@@ -232,6 +232,7 @@ class OrdersRepository extends CoreRepository
             'sale_of_air_price' => $data['sale_of_air_price'] ?: null,
             'discount' => $data['discount'] ?: null,
             'discount_sum' => $data['discount_sum'] ?: null,
+            'payment_method' => $data['payment_method'] ?: null,
         ];
 
         $model->update($attributes);
