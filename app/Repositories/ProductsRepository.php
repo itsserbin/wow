@@ -225,7 +225,7 @@ class ProductsRepository extends CoreRepository
             ->model::select($columns)
             ->where('published', 1)
             ->whereHas('categories', function ($q) use ($slug) {
-                $q->where('slug', $slug);
+                $q->where('slug', urldecode($slug));
             })->with('sizes', 'preview', 'images');
 
         if (isset($data['sort'])) {

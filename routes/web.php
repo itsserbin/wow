@@ -23,6 +23,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['prefix' => App\Http\Middleware\LocaleMiddleware::getLocale()], function () {
+    Route::get('category/penyuary i pizhamy', function () {
+        return redirect(route('category','penyuary-i-pizhamy'), 301);
+    });
+
     Route::get('/', [HomeController::class, 'home'])
         ->name('home');;
 

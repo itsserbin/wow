@@ -35,7 +35,7 @@ class HomeController extends Controller
         $this->pagesRepository = app(PagesRepository::class);
         $this->facebookService = app(FacebookService::class);
         $this->shoppingCartService = app(ShoppingCartService::class);
-        $this->event_id_page_view = uniqid(null,true) . '_PageView' . '_' . time();
+        $this->event_id_page_view = uniqid(null, true) . '_PageView' . '_' . time();
     }
 
     public function home(): View|Factory|Application
@@ -52,20 +52,24 @@ class HomeController extends Controller
 
     public function category($slug)
     {
-        $result = $this->categoriesRepository->findFySlug($slug);
+//        if ($slug == 'penyuary i pizhamy') {
+//            return redirect('category/penyuary-i-pizhamy', 301);
+//        } else {
+            $result = $this->categoriesRepository->findFySlug($slug);
 
-        if ($result) {
-            $this->facebookService->view($this->event_id_page_view);
-            return view('pages.category', [
-                'category' => $result,
-                'categories' => $this->getCategories(),
-                'options' => $this->getOptions(),
-                'pages' => $this->getPagesList(),
-                'event_id_page_view' => $this->event_id_page_view
-            ]);
-        } else {
-            return abort(404);
-        }
+            if ($result) {
+                $this->facebookService->view($this->event_id_page_view);
+                return view('pages.category', [
+                    'category' => $result,
+                    'categories' => $this->getCategories(),
+                    'options' => $this->getOptions(),
+                    'pages' => $this->getPagesList(),
+                    'event_id_page_view' => $this->event_id_page_view
+                ]);
+            } else {
+                return abort(404);
+            }
+//        }
     }
 
     public function product($id)
@@ -75,10 +79,10 @@ class HomeController extends Controller
         if ($result) {
             $this->facebookService->view($this->event_id_page_view);
 
-            $event_id_content = uniqid(null,true) . '_viewContent' . '_' . time();
-            $event_id_addToCard = uniqid(null,true) . '_AddToCart' . '_' . time();
-            $event_id_purchase_in_1_click = uniqid(null,true) . '_Purchase_in_1_click' . '_' . time();
-            $event_id_add_to_cart_in_1_click = uniqid(null,true) . '_AddToCard_in_1_click' . '_' . time();
+            $event_id_content = uniqid(null, true) . '_viewContent' . '_' . time();
+            $event_id_addToCard = uniqid(null, true) . '_AddToCart' . '_' . time();
+            $event_id_purchase_in_1_click = uniqid(null, true) . '_Purchase_in_1_click' . '_' . time();
+            $event_id_add_to_cart_in_1_click = uniqid(null, true) . '_AddToCard_in_1_click' . '_' . time();
 
             $this->facebookService->viewContent($result, $event_id_content);
             $this->productRepository->updateProductViewed($id);
@@ -115,7 +119,7 @@ class HomeController extends Controller
 
     public function checkout(): Factory|View|Application
     {
-        $event_id_initiateCheckout = uniqid(null,true) . '_initiateCheckout' . '_' . time();
+        $event_id_initiateCheckout = uniqid(null, true) . '_initiateCheckout' . '_' . time();
         $this->facebookService->view($this->event_id_page_view);
         $this->facebookService->InitiateCheckout($this->shoppingCartService->cartList(), $event_id_initiateCheckout);
         return view('pages.checkout', [
