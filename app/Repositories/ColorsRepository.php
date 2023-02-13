@@ -57,4 +57,13 @@ class ColorsRepository extends CoreRepository
     {
         return $this->model::destroy($id);
     }
+
+    public function getListForPublic($slug)
+    {
+        return $this->model::whereHas('products', function ($q) use ($slug) {
+            $q->whereHas('categories', function ($q) use ($slug) {
+                $q->where('slug', $slug);
+            });
+        })->get();
+    }
 }

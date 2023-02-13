@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Enums\OrderStatus;
 use App\Repositories\AdvantagesRepository;
 use App\Repositories\CategoriesRepository;
+use App\Repositories\CharacteristicsRepository;
+use App\Repositories\ColorsRepository;
 use App\Repositories\OptionsRepository;
 use App\Repositories\PagesRepository;
 use App\Repositories\ProductsRepository;
+use App\Repositories\SizesRepository;
 use App\Services\FacebookService;
 use App\Services\ShoppingCartService;
 use Illuminate\Contracts\Foundation\Application;
@@ -23,6 +26,9 @@ class HomeController extends Controller
     private mixed $pagesRepository;
     private mixed $facebookService;
     private mixed $shoppingCartService;
+    private mixed $characteristicsRepository;
+    private mixed $sizesRepository;
+    private mixed $colorsRepository;
     private $event_id_page_view;
 
     public function __construct()
@@ -35,6 +41,9 @@ class HomeController extends Controller
         $this->pagesRepository = app(PagesRepository::class);
         $this->facebookService = app(FacebookService::class);
         $this->shoppingCartService = app(ShoppingCartService::class);
+        $this->characteristicsRepository = app(CharacteristicsRepository::class);
+        $this->sizesRepository = app(SizesRepository::class);
+        $this->colorsRepository = app(ColorsRepository::class);
         $this->event_id_page_view = uniqid(null, true) . '_PageView' . '_' . time();
     }
 
@@ -52,24 +61,27 @@ class HomeController extends Controller
 
     public function category($slug)
     {
-//        if ($slug == 'penyuary i pizhamy') {
-//            return redirect('category/penyuary-i-pizhamy', 301);
-//        } else {
-            $result = $this->categoriesRepository->findFySlug($slug);
+        $result = $this->categoriesRepository->findFySlug($slug);
 
-            if ($result) {
-                $this->facebookService->view($this->event_id_page_view);
-                return view('pages.category', [
-                    'category' => $result,
-                    'categories' => $this->getCategories(),
-                    'options' => $this->getOptions(),
-                    'pages' => $this->getPagesList(),
-                    'event_id_page_view' => $this->event_id_page_view
-                ]);
-            } else {
-                return abort(404);
-            }
-//        }
+        if ($result) {
+            $this->facebookService->view($this->event_id_page_view);
+            $characteristics = [
+                'list' => $this->characteristicsRepository->getForPublic($slug),
+                'price' => $this->productRepository->getMinMaxProductPrice($slug),
+                'sizes' => $this->sizesRepository->getListForPublic($slug),
+                'colors' => $this->colorsRepository->getListForPublic($slug)
+            ];
+            return view('pages.category', [
+                'category' => $result,
+                'categories' => $this->getCategories(),
+                'options' => $this->getOptions(),
+                'pages' => $this->getPagesList(),
+                'characteristics' => $characteristics,
+                'event_id_page_view' => $this->event_id_page_view
+            ]);
+        } else {
+            return abort(404);
+        }
     }
 
     public function product($id)

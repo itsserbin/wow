@@ -12,8 +12,8 @@ class Size extends Model
         'updated_at',
     ];
 
-//    public function products(): BelongsToMany
-//    {
-//        return $this->belongsToMany(Product::class, 'product_sizes', 'size_id', 'product_id');
-//    }
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'product_sizes', 'size_id', 'product_id');
+    }
 }

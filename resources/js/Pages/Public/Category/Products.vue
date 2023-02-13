@@ -1,28 +1,54 @@
 <template>
-    <div v-if="state.products.length">
-        <div class="flex justify-end">
-            <select v-model="params.sort" @change="sort">
-                <option :value="null">Спочатку популярні</option>
-                <option value="created_at">Спочатку новинки</option>
-                <option value="min_price">Від дешевих до дорогих</option>
-                <option value="max_price">Від дорогих до дешевих</option>
-            </select>
+    <div class="relative">
+        <div class="flex justify-between md:justify-end items-center">
+            <div class="block md:hidden mr-2">
+                <Button type="button" @click="toggleFilter">Фільтрувати</Button>
+            </div>
+
+            <div class="block">
+                <select v-model="params.sort"
+                        @change="sort"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                    <option :value="null">Популярні</option>
+                    <option value="created_at">Новинки</option>
+                    <option value="min_price">Від дешевих до дорогих</option>
+                    <option value="max_price">Від дорогих до дешевих</option>
+                </select>
+            </div>
         </div>
-        <Loader v-if="state.isLoading"/>
-        <div v-if="!state.isLoading">
-            <div class="font-bold text-black text-center text-[24px] mb-[15px]">{{ title }}</div>
-            <ProductCards :products="state.products"
-                          :lang="lang"
-                          :text-go-to-product-card="textGoToProductCard"
-                          :slider="true"
-            ></ProductCards>
-            <div v-if="state.showLoadMore" class="text-center mt-5">
-                <Loader v-if="state.isLoadingMore"/>
-                <Button v-if="!state.isLoadingMore"
-                        @click="loadMore"
-                        type="button"
-                >Завантажити ще
-                </Button>
+        <div>
+            <div class="grid grid-cols-12 gap-4">
+                <div :class="{'!block fixed h-full w-full z-50 overflow-y-scroll top-0 right-0' : state.isShowFilter}"
+                     class="filter hidden md:col-span-3 md:block"
+                >
+                    <Filter :characteristics="JSON.parse(characteristics)"
+                            :lang="lang"
+                            @fetch="filter"
+                            @close="toggleFilter"
+                            :isShow="state.isShowFilter"
+                    />
+                </div>
+                <div class="products col-span-12 md:col-span-9" v-if="state.products.length">
+                    <Loader v-if="state.isLoading"/>
+                    <div v-if="!state.isLoading">
+                        <div class="font-bold text-black text-center text-[24px] mb-[15px]">{{ title }}</div>
+                        <ProductCards :products="state.products"
+                                      :lang="lang"
+                                      :text-go-to-product-card="textGoToProductCard"
+                                      :slider="true"
+                        ></ProductCards>
+                        <div v-if="state.showLoadMore" class="text-center mt-5">
+                            <Loader v-if="state.isLoadingMore"/>
+                            <Button v-if="!state.isLoadingMore"
+                                    @click="loadMore"
+                                    type="button"
+                            >Завантажити ще
+                            </Button>
+                        </div>
+                    </div>
+
+                </div>
+                <div v-else class="col-span-9 font-bold text-black text-center text-[24px]">Результати відсутні</div>
             </div>
         </div>
     </div>
@@ -33,13 +59,15 @@ import {ref, onMounted, computed} from "vue";
 import Loader from '@/Pages/Public/Components/Loader.vue'
 import ProductCards from '@/Pages/Public/Components/ProductCards.vue'
 import Button from '@/Pages/Public/Components/Button.vue'
+import Filter from '@/Pages/Public/Category/Filter.vue'
 import {ProductsRepository} from '@/Repositories/ProductsRepository.js'
 
 const state = ref({
     products: [],
-    isLoading: false,
+    isLoading: true,
     isLoadingMore: false,
     showLoadMore: true,
+    isShowFilter: false
 });
 
 const props = defineProps({
@@ -56,18 +84,21 @@ const props = defineProps({
         type: String,
         default: 'Детальніше'
     },
+    characteristics: String
 });
 
 const params = ref({
     currentPage: 1,
-    sort: null
+    sort: null,
+    filter: null,
 });
 
 const getParams = computed(() => {
-    const {currentPage, sort} = params.value;
+    const {currentPage, sort, filter} = params.value;
     return {
         page: currentPage,
         sort: sort,
+        filter: filter,
         slug: (route().params).slug
     };
 });
@@ -88,6 +119,17 @@ async function fetch() {
         console.error(e);
         state.value.isLoading = false;
     }
+}
+
+async function filter(val) {
+    params.value.filter = val;
+    state.value.isLoading = true;
+    params.value.currentPage = 1;
+
+    if (state.value.isShowFilter) {
+        toggleFilter();
+    }
+    await fetch();
 }
 
 async function sort() {
@@ -111,5 +153,9 @@ async function loadMore() {
         console.error(e);
         state.value.isLoadingMore = false;
     }
+}
+
+function toggleFilter() {
+    state.value.isShowFilter = !state.value.isShowFilter;
 }
 </script>

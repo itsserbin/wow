@@ -22,6 +22,7 @@
                        title="{{app()->getLocale() == 'ua' ? $category->title['ua'] : $category->title['ru']}}"
                        slug="{{$category->slug}}"
                        product-route="{{route('product')}}"
+                       characteristics="{{json_encode($characteristics)}}"
     ></category-products>
 
     <div class="category-text content">

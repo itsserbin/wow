@@ -79,4 +79,20 @@ class CharacteristicsRepository extends CoreRepository
         return $this->model::destroy($id);
     }
 
+    public function getForPublic($category_slug)
+    {
+        return $this
+            ->model::select('title', 'id')
+            ->whereHas('values', function ($q) use ($category_slug) {
+                $q->with('products');
+                $q->whereHas('products', function ($q) use ($category_slug) {
+                    $q->whereHas('categories', function ($q) use ($category_slug) {
+                        $q->where('slug', $category_slug);
+                    });
+                });
+            })
+            ->with('values')
+            ->get();
+    }
+
 }

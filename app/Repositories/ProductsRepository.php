@@ -7,6 +7,7 @@ use App\Models\Enums\ProductAvailability;
 use App\Models\Product as Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
+use JetBrains\PhpStorm\ArrayShape;
 
 class ProductsRepository extends CoreRepository
 {
@@ -227,6 +228,30 @@ class ProductsRepository extends CoreRepository
             ->whereHas('categories', function ($q) use ($slug) {
                 $q->where('slug', urldecode($slug));
             })->with('sizes', 'preview', 'images');
+
+
+        if (isset($data['filter'])) {
+            if (isset($data['filter']['price'])) {
+                $model->whereBetween('discount_price', [$data['filter']['price'][0], $data['filter']['price'][1]]);
+            }
+
+            if (isset($data['filter']['characteristics'])) {
+                $model->whereHas('characteristicsNew', function ($q) use ($data) {
+                    $q->whereIn('id', $data['filter']['characteristics']);
+                });
+            }
+
+            if (isset($data['filter']['sizes'])) {
+                $model->whereHas('sizes', function ($q) use ($data) {
+                    $q->whereIn('id', $data['filter']['sizes']);
+                });
+            }
+            if (isset($data['filter']['colors'])) {
+                $model->whereHas('colors', function ($q) use ($data) {
+                    $q->whereIn('id', $data['filter']['colors']);
+                });
+            }
+        }
 
         if (isset($data['sort'])) {
             if ($data['sort'] == 'min_price') {
@@ -557,5 +582,27 @@ class ProductsRepository extends CoreRepository
                 ->with('sizes', 'preview', 'images')
                 ->paginate(8);
         }
+    }
+
+    #[ArrayShape(['min' => "mixed", 'max' => "mixed"])] public function getMinMaxProductPrice($slug): array
+    {
+        $min = $this->model::select('discount_price', 'price')
+            ->whereHas('categories', function ($q) use ($slug) {
+                $q->where('slug', $slug);
+            })
+            ->orderBy('discount_price', 'asc')
+            ->first();
+
+        $max = $this->model::select('discount_price', 'price')
+            ->whereHas('categories', function ($q) use ($slug) {
+                $q->where('slug', $slug);
+            })
+            ->orderBy('discount_price', 'desc')
+            ->first();
+
+        return [
+            'min' => $min->discount_price ?: $min->price,
+            'max' => $max->discount_price ?: $max->price
+        ];
     }
 }

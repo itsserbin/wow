@@ -26,6 +26,6 @@ class CharacteristicValue extends Model
 
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class, 'product_characteristic', 'characteristic_id', 'product_id');
+        return $this->belongsToMany(Product::class, 'product_characteristics', 'characteristic_id', 'product_id');
     }
 }

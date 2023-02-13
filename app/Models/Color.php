@@ -12,8 +12,8 @@ class Color extends Model
         'updated_at',
     ];
 
-//    public function products(): BelongsToMany
-//    {
-//        return $this->belongsToMany(Product::class, 'product_sizes', 'color_id', 'product_id');
-//    }
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'product_colors', 'color_id', 'product_id');
+    }
 }

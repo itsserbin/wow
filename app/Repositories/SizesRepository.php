@@ -31,9 +31,9 @@ class SizesRepository extends CoreRepository
     public function list()
     {
         return $this->model::select(
-                'id',
-                'title',
-            )->get();
+            'id',
+            'title',
+        )->get();
     }
 
     public function create($data)
@@ -50,5 +50,14 @@ class SizesRepository extends CoreRepository
         $model->published = $data['published'];
         $model->title = $data['title'];
         return $model->update();
+    }
+
+    public function getListForPublic($slug)
+    {
+        return $this->model::whereHas('products', function ($q) use ($slug) {
+            $q->whereHas('categories', function ($q) use ($slug) {
+                $q->where('slug', $slug);
+            });
+        })->get();
     }
 }
