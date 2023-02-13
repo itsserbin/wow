@@ -28,27 +28,31 @@
                             :isShow="state.isShowFilter"
                     />
                 </div>
-                <div class="products col-span-12 md:col-span-9" v-if="state.products.length">
+                <div class="products col-span-12 md:col-span-9">
                     <Loader v-if="state.isLoading"/>
                     <div v-if="!state.isLoading">
-                        <div class="font-bold text-black text-center text-[24px] mb-[15px]">{{ title }}</div>
-                        <ProductCards :products="state.products"
-                                      :lang="lang"
-                                      :text-go-to-product-card="textGoToProductCard"
-                                      :slider="true"
-                        ></ProductCards>
-                        <div v-if="state.showLoadMore" class="text-center mt-5">
-                            <Loader v-if="state.isLoadingMore"/>
-                            <Button v-if="!state.isLoadingMore"
-                                    @click="loadMore"
-                                    type="button"
-                            >Завантажити ще
-                            </Button>
+                        <div v-if="state.products.length">
+                            <div class="font-bold text-black text-center text-[24px] mb-[15px]">{{ title }}</div>
+                            <ProductCards :products="state.products"
+                                          :lang="lang"
+                                          :text-go-to-product-card="textGoToProductCard"
+                                          :slider="true"
+                            ></ProductCards>
+                            <div v-if="state.showLoadMore" class="text-center mt-5">
+                                <Loader v-if="state.isLoadingMore"/>
+                                <Button v-if="!state.isLoadingMore"
+                                        @click="loadMore"
+                                        type="button"
+                                >Завантажити ще
+                                </Button>
+                            </div>
+                        </div>
+                        <div v-else class="col-span-9 font-bold text-black text-center text-2xl">
+                            Результати відсутні
                         </div>
                     </div>
 
                 </div>
-                <div v-else class="col-span-9 font-bold text-black text-center text-[24px]">Результати відсутні</div>
             </div>
         </div>
     </div>

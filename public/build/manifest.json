@@ -1,6 +1,6 @@
 {
   "resources/js/Pages/Public/app.js": {
-    "file": "assets/app.02551f39.js",
+    "file": "assets/app.a712ed1a.js",
     "src": "resources/js/Pages/Public/app.js",
     "isEntry": true,
     "imports": [
@@ -1727,22 +1727,22 @@
       "____vite-browser-external_commonjs-proxy.86165f86.js"
     ]
   },
+  "resources/js/Pages/Admin/app.css": {
+    "file": "assets/app.ff1b5532.css",
+    "src": "resources/js/Pages/Admin/app.css"
+  },
   "resources/scss/app.scss": {
     "file": "assets/app.bad70555.css",
     "src": "resources/scss/app.scss",
     "isEntry": true
   },
-  "resources/js/Pages/Public/app.css": {
-    "file": "assets/app.bbfc59f6.css",
-    "src": "resources/js/Pages/Public/app.css"
-  },
-  "resources/js/Pages/Admin/app.css": {
-    "file": "assets/app.ff1b5532.css",
-    "src": "resources/js/Pages/Admin/app.css"
-  },
   "resources/scss/public.scss": {
     "file": "assets/public.4e8ac77a.css",
     "src": "resources/scss/public.scss",
     "isEntry": true
+  },
+  "resources/js/Pages/Public/app.css": {
+    "file": "assets/app.bbfc59f6.css",
+    "src": "resources/js/Pages/Public/app.css"
   }
 }

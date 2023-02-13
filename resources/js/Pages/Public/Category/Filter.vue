@@ -129,7 +129,7 @@ const state = ref({
     sizes: [],
     colors: []
 });
-console.log(props.isShow)
+
 props.characteristics.list.forEach((item) => {
     state.value.characteristics[item.id] = [];
 });
