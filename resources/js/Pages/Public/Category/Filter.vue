@@ -104,7 +104,7 @@
                     </template>
                 </AccordionItem>
             </Accordion>
-            <Button type="button" @click="filter">Філтрувати</Button>
+            <Button type="button" @click="filter">Фільтрувати</Button>
         </div>
     </div>
 </template>
