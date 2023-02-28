@@ -41,7 +41,7 @@ class ProductsRepository extends CoreRepository
 
     public function getByIdToPublic($id)
     {
-        $result = $this->model
+        return $this->model
             ->select(
                 'id',
                 'status',
@@ -58,7 +58,10 @@ class ProductsRepository extends CoreRepository
                 'preview_id',
                 'size_table',
             )
-            ->where('id', $id)
+            ->where(function ($q) use ($id) {
+                $q->where('id', $id);
+                $q->where('published', 1);
+            })
             ->with([
                 'reviews' => function ($q) {
                     $q->where('published', 1);
@@ -69,8 +72,6 @@ class ProductsRepository extends CoreRepository
                 'sizes',
                 'preview',
             ])->first();
-
-        return $result;
     }
 
     public function getCharacteristicsForPublic($id): array

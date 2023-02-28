@@ -23,7 +23,18 @@
                 </li>
             </ul>
         </div>
-        <div v-html="state.content" :class="state.class" v-if="state.active !== 'characteristics'"></div>
+
+        <div v-html="state.content"
+             :class="state.class"
+             v-if="state.active !== 'characteristics' && state.active !== 'youtube'"
+        ></div>
+
+        <iframe width="100%"
+                height="500px"
+                :src="state.content"
+                v-if="state.active === 'youtube'"
+        ></iframe>
+
         <component :is="isActiveCharacteristic" :items="characteristics" :lang="lang"></component>
     </div>
 </template>
@@ -44,28 +55,16 @@ const props = defineProps([
     'deliveryAndPaymentRu',
 ]);
 
+
 const state = ref({
-    active: 'characteristics',
+    active: '',
     content: '',
-    class: 'characteristics-table'
-})
+    class: ''
+});
 
 const isActiveCharacteristic = computed(() => state.value.active === 'characteristics' ? Characteristic : null);
 
-
 const items = [
-    {
-        label: 'Характеристики',
-        key: 'characteristics',
-        value: JSON.parse(props.characteristics),
-        class: 'characteristics-table'
-    },
-    {
-        label: 'Таблиця розмірів',
-        key: 'sizeTable',
-        value: JSON.parse(props.sizeTable),
-        class: 'sizes-table'
-    },
     {
         label: 'Доставка та оплата',
         key: 'deliveryAndPayment',
@@ -86,11 +85,62 @@ const items = [
     },
 ];
 
-function setActiveTab(key, val, style) {
-    state.value.active = key;
-    state.value.content = key === 'sizeTable' ? val : (props.lang === 'ru' ? val.ru : val.ua);
-    state.value.class = style;
-    // active.value = key;
-    // content.value = props.lang === 'ru' ? val.ru : val.ua;
+if ((props.youtube).length) {
+    items.unshift({
+        label: 'Відео-огляд',
+        key: 'youtube',
+        value: props.youtube,
+        class: 'youtube'
+    });
+    state.value = {
+        active: 'youtube',
+        content: props.youtube,
+        class: 'youtube'
+    };
 }
+
+if (Object.keys(JSON.parse(props.sizeTable)).length) {
+    items.unshift({
+        label: 'Таблиця розмірів',
+        key: 'sizeTable',
+        value: JSON.parse(props.sizeTable),
+        class: 'sizes-table'
+    });
+    state.value = {
+        active: 'sizeTable',
+        content: JSON.parse(props.sizeTable),
+        class: 'sizes-table'
+    };
+}
+
+if (Object.keys(JSON.parse(props.characteristics)).length) {
+    items.unshift({
+        label: 'Характеристики',
+        key: 'characteristics',
+        value: JSON.parse(props.characteristics),
+        class: 'characteristics-table'
+    });
+    state.value = {
+        active: 'characteristics',
+        content: '',
+        class: 'characteristics-table'
+    };
+}
+
+const setActiveTab = (key, val, style) => {
+    state.value.active = key;
+    switch (key) {
+        case 'sizeTable':
+        case 'youtube':
+            state.value.content = val;
+            break;
+        case 'characteristics':
+            state.value.content = key;
+            break;
+        default:
+            state.value.content = props.lang === 'ru' ? val.ru : val.ua;
+            break;
+    }
+    state.value.class = style;
+};
 </script>
