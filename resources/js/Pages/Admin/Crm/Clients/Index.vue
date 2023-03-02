@@ -4,25 +4,34 @@
             Клієнти
         </template>
 
-        <loader-component v-if="state.isLoading"/>
+        <Loader v-if="state.isLoading"/>
 
         <div v-if="!state.isLoading && can('show-clients')">
             <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
                 <div class="md:col-span-1">
-                    <sidebar-component>
-                        <sidebar-item v-if="sidebar.length"
-                                      v-for="item in sidebar"
-                                      @click="sortByStatus(item.key)"
-                                      :active="state.sidebarActive === item.key"
+                    <Sidebar class="mb-5">
+                        <SidebarItem v-if="sidebar.length"
+                                     v-for="item in sidebar"
+                                     @click="sortByStatus(item.key)"
+                                     :active="state.sidebarActive === item.key"
                         >
                             {{ item.title }}
-                        </sidebar-item>
-                    </sidebar-component>
+                        </SidebarItem>
+                    </Sidebar>
+
+                    <Sidebar v-if="can('export-orders')">
+                        <SidebarItem v-if="exportSidebar.length"
+                                     v-for="item in exportSidebar"
+                                     @click="exportFunction(item.key)"
+                        >
+                            {{ item.title }}
+                        </SidebarItem>
+                    </Sidebar>
                 </div>
                 <div class="w-full md:col-span-4 grid grid-cols-1 gap-4">
-                    <search-component @search="search"
-                                      :clear="true"
-                                      placeholder="Імʼя, прізвище, по-батькові, телефон, email, коментар..."
+                    <Search @search="search"
+                            :clear="true"
+                            placeholder="Імʼя, прізвище, по-батькові, телефон, email, коментар..."
                     />
                     <Table :data="state.data.data"
                            @onEdit="onEdit"
@@ -31,9 +40,9 @@
                            :canDestroy="can('destroy-clients')"
                     />
                     <div class="text-center">
-                        <pagination :pagination="state.data"
-                                    :click-handler="paginate"
-                                    v-model="params.currentPage"
+                        <Paginate :pagination="state.data"
+                                  :click-handler="paginate"
+                                  v-model="params.currentPage"
                         />
                     </div>
                 </div>
@@ -57,6 +66,18 @@ import {computed, inject, onMounted, reactive, ref} from "vue";
 import Modal from '@/Pages/Admin/Crm/Clients/Modal.vue';
 import Table from '@/Pages/Admin/Crm/Clients/Table.vue';
 import CrmLayout from '@/Pages/Admin/Crm/CrmLayout.vue';
+import Loader from '@/Components/Loader.vue';
+import Sidebar from '@/Components/Sidebar/Sidebar.vue';
+import SidebarItem from '@/Components/Sidebar/SidebarItem.vue';
+import Search from '@/Components/Search.vue';
+import Paginate from '@/Components/Paginate.vue';
+
+const exportSidebar = [
+    {
+        title: 'Експортувати',
+        key: 'export'
+    }
+];
 
 const state = ref({
     data: [],
@@ -74,12 +95,10 @@ const params = ref({
 })
 
 const getParams = computed(() => {
-    const data = {};
-    data.page = params.value.currentPage;
-    if (params.value.status) {
-        data.status = params.value.status;
-    }
-    return data;
+    return {
+        page: params.value.currentPage,
+        status: params.value.status ? params.value.status : null
+    };
 })
 
 const sidebar = ref([]);
@@ -102,7 +121,7 @@ onMounted(() => {
             }
         });
 
-    if (route().params.id){
+    if (route().params.id) {
         state.value.isLoading = true;
         onEdit(route().params.id);
     }
@@ -110,8 +129,14 @@ onMounted(() => {
 
 const editModal = computed(() => state.value.isActiveEditModal ? Modal : null);
 
-function search(query) {
-    axios.get(route('api.clients.search', {search: query}))
+const exportFunction = (key) => {
+    if (key === 'export') {
+        window.location.href = route('admin.crm.clients.export');
+    }
+}
+
+const search = async (query) => {
+    await axios.get(route('api.clients.search', {search: query}))
         .then(({data}) => {
             state.value.sidebarActive = null;
             params.value.currentPage = 1;
@@ -124,25 +149,21 @@ function search(query) {
         })
 }
 
-function sortByStatus(status) {
+const sortByStatus = (status) => {
     state.value.sidebarActive = status;
-    if (status === 'all') {
-        params.value.status = null;
-    } else {
-        params.value.status = status;
-    }
+    params.value.status = status === 'all' ? null : status;
     fetch();
 }
 
-function paginate(page) {
+const paginate = async (page) => {
     if (page) {
         params.value.currentPage = page;
     }
-    fetch();
+    await fetch();
 }
 
-function fetch() {
-    axios.get(route('api.clients.index', getParams.value))
+const fetch = async () => {
+    await axios.get(route('api.clients.index', getParams.value))
         .then(({data}) => {
             state.value.data = data.result;
             state.value.isLoading = false;
@@ -153,15 +174,15 @@ function fetch() {
         })
 }
 
-function destroy(id) {
+const destroy = async (id) => {
     if (can('destroy-clients')) {
         swal({
             title: 'Видалити?',
             icon: 'warning',
             showCancelButton: true,
-        }).then((result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
-                axios.delete(route('api.clients.destroy', id))
+                await axios.delete(route('api.clients.destroy', id))
                     .then(() => {
                         state.value.isLoading = false;
                         fetch();
@@ -185,8 +206,8 @@ function destroy(id) {
     }
 }
 
-function onEdit(id, i) {
-    axios.get(route('api.clients.edit', id))
+const onEdit = async (id, i) => {
+    await axios.get(route('api.clients.edit', id))
         .then(({data}) => {
             state.value.modal.index = i;
             state.value.modal = data.result;
@@ -196,8 +217,8 @@ function onEdit(id, i) {
         .catch((errors) => console.log(errors))
 }
 
-function onUpdate() {
-    axios.put(route('api.clients.update', state.value.modal.id), state.value.modal)
+const onUpdate = async () => {
+    await axios.put(route('api.clients.update', state.value.modal.id), state.value.modal)
         .then(() => {
             editModalFunction();
             fetch();
@@ -215,7 +236,7 @@ function onUpdate() {
         })
 }
 
-function editModalFunction() {
+const editModalFunction = () => {
     state.value.isActiveEditModal = !state.value.isActiveEditModal;
 }
 </script>

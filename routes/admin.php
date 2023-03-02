@@ -52,8 +52,13 @@ Route::prefix('admin')
                     ->name('admin.crm.orders.export');
             });
 
-            Route::get('clients', [AdminController::class, 'clients'])
-                ->name('admin.crm.clients');
+            Route::prefix('clients')->group(function () {
+                Route::get('/', [AdminController::class, 'clients'])
+                    ->name('admin.crm.clients');
+
+                Route::get('export', [ExportController::class, 'clients'])
+                    ->name('admin.crm.clients.export');
+            });
 
             Route::get('callbacks', [AdminController::class, 'callbacks'])
                 ->name('admin.crm.callbacks');
