@@ -152,7 +152,7 @@ onMounted(() => {
 const editModal = computed(() => state.value.isActiveEditModal ? OrderModal : null);
 const clientModal = computed(() => state.value.isActiveClientModal ? ClientModal : null);
 
-async function fetch() {
+const fetch = async () => {
     try {
         const data = await OrdersRepository().fetch(getParams.value);
         if (data.success) {
@@ -165,7 +165,7 @@ async function fetch() {
     }
 }
 
-async function onEditClient() {
+const onEditClient = async () => {
     const data = await ClientsRepository().edit(state.value.orderModal.client.id);
     if (data.success) {
         state.value.clientModal = data.result;
@@ -173,17 +173,17 @@ async function onEditClient() {
     }
 }
 
-function exportFunction(key) {
+const exportFunction = (key) => {
     if (key === 'export') {
         window.location.href = route('admin.crm.orders.export');
     }
 }
 
-function modalClientFunction() {
+const modalClientFunction = () => {
     state.value.isActiveClientModal = !state.value.isActiveClientModal;
 }
 
-function onUpdateClient() {
+const onUpdateClient = () => {
     axios.put(route('api.clients.update', state.value.clientModal.id), state.value.clientModal)
         .then(() => {
             modalClientFunction();
@@ -209,7 +209,7 @@ function onUpdateClient() {
         })
 }
 
-async function submitItemForm() {
+const submitItemForm = async () => {
     try {
         const {success} = await OrdersRepository().update(state.value.orderModal.id, state.value.orderModal)
         if (success) {
@@ -235,12 +235,12 @@ const sortByStatus = _.debounce((status) => {
     }
 }, 250);
 
-function paginate(page) {
+const paginate = (page) => {
     params.value.currentPage = page ? page : params.value.currentPage;
     fetch();
 }
 
-async function search(query) {
+const search = async (query) => {
     try {
         const {result, success} = await OrdersRepository().search(query);
         if (success) {
@@ -259,7 +259,7 @@ async function search(query) {
     }
 }
 
-async function destroy(id) {
+const destroy = async (id) => {
     try {
         if (can('destroy-orders')) {
             const confirm = await swal({
@@ -290,7 +290,7 @@ async function destroy(id) {
     }
 }
 
-async function onEdit(id, i) {
+const onEdit = async (id, i) => {
     try {
         const {result, success} = await OrdersRepository().edit(id);
         if (success) {
@@ -310,11 +310,10 @@ async function onEdit(id, i) {
     }
 }
 
-async function onUpdate() {
+const onUpdate = async () => {
     try {
         if (can('edit-orders')) {
             const {success} = await OrdersRepository().update(state.value.orderModal.id, state.value.orderModal);
-            console.log(success);
             if (success) {
                 editModalFunction();
                 await fetch();
@@ -335,7 +334,7 @@ async function onUpdate() {
     }
 }
 
-function editModalFunction() {
+const editModalFunction = () => {
     state.value.isActiveEditModal = !state.value.isActiveEditModal;
 }
 </script>
