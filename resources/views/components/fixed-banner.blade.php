@@ -50,6 +50,6 @@
                     null
                 )
             }}"
-        class="w-100"
+        class="w-[100%]"
     >
 </picture>
