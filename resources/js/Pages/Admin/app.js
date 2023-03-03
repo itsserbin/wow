@@ -9,6 +9,7 @@ import VueSweetalert2 from 'vue-sweetalert2';
 import moment from "moment";
 import numeral from "numeral";
 import Editor from '@tinymce/tinymce-vue';
+import i18n from "@/Includes/i18n";
 
 import Card from '@/Components/Card.vue';
 import Sidebar from '@/Components/Sidebar/Sidebar.vue';
@@ -47,6 +48,7 @@ createInertiaApp({
 
         app.use(VueSweetalert2);
         app.use(user);
+        app.use(i18n);
         // user.commit('load');
         app.provide('$can', function (val) {
             return user.state.permissions.includes(val);
@@ -120,7 +122,7 @@ createInertiaApp({
             },
         ]);
 
-        app.provide('$tiny',{
+        app.provide('$tiny', {
             api: import.meta.env.VITE_TINY_API,
             settings: {
                 plugins: ['table', 'code', 'lists'],

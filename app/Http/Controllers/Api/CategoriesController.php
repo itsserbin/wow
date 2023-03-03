@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\Admin\Categories\CategoryCreateRequest;
+use App\Http\Requests\Admin\Categories\CategoryUpdateRequest;
 use App\Repositories\CategoriesRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -61,10 +63,10 @@ class CategoriesController extends BaseController
     }
 
     /**
-     * @param Request $request
+     * @param CategoryCreateRequest $request
      * @return JsonResponse
      */
-    public function create(Request $request): JsonResponse
+    public function create(CategoryCreateRequest $request): JsonResponse
     {
         $result = $this->categoriesRepository->create($request->all());
 
@@ -90,10 +92,10 @@ class CategoriesController extends BaseController
 
     /**
      * @param $id
-     * @param Request $request
+     * @param CategoryUpdateRequest $request
      * @return JsonResponse
      */
-    public function update($id, Request $request): JsonResponse
+    public function update($id, CategoryUpdateRequest $request): JsonResponse
     {
         $result = $this->categoriesRepository->update($id, $request->all());
 

@@ -20,11 +20,11 @@ const emits = defineEmits(['fetch', 'clickImage', 'destroyImage']);
 
 defineProps(['images'])
 
-function fetch(data) {
+const fetch = (data) => {
     emits('fetch', data)
 }
 
-function destroyImage(image) {
+const destroyImage = (image) => {
     emits('destroyImage', image);
 }
 </script>

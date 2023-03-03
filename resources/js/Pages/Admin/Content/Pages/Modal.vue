@@ -1,20 +1,22 @@
 <template>
-    <modal-component @closeModal="$emit('closeModal')"
-                     :decline-button="canDestroy"
-                     @declineForm="$emit('declineForm',item.id)"
-                     @submitForm="$emit('submitForm')"
-                     @clickCancel="$emit('closeModal')"
-                     size="extralarge"
+    <Modal @closeModal="$emit('closeModal')"
+           :decline-button="canDestroy"
+           @declineForm="$emit('declineForm',item.id)"
+           @submitForm="$emit('submitForm')"
+           @clickCancel="$emit('closeModal')"
+           size="extralarge"
     >
         <template #title>{{ formHeading }}</template>
         <template #content>
             <Form :item="item"/>
         </template>
-    </modal-component>
+    </Modal>
 </template>
 
 <script setup>
 import Form from '@/Pages/Admin/Content/Pages/Form.vue';
+import Modal from '@/Components/Modal.vue';
+
 import {computed} from "vue";
 
 const props = defineProps([
@@ -28,8 +30,14 @@ defineEmits([
     'declineForm',
 ])
 
-const formHeading = computed(() =>
-    props.item.id ? props.item.id + (props.item.title ? ' / ' + props.item.title : null) : null
-);
+const formHeading = computed(() => {
+    let title = null;
+    if (props.item.h1.ua) {
+        title = props.item.h1.ua;
+    } else if (props.item.h1.ru) {
+        title = props.item.h1.ru.trim();
+    }
+    return props.item.id && title ? `${props.item.id} / ${title}` : null;
+});
 
 </script>

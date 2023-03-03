@@ -1,15 +1,13 @@
 <template>
-    <ContentLayout title="Сторінки">
-        <template #header>
-            Сторінки
-        </template>
+    <ContentLayout :title="$t('pages.page_title')">
+        <template #header>{{ $t('pages.page_title') }}</template>
 
-        <loader-component v-if="state.isLoading"/>
+        <Loader v-if="state.isLoading"/>
         <div v-if="!state.isLoading && can('show-pages')" class="grid gap-4 grid-cols-1">
             <div>
-                <button-component type="btn" @click="create" v-if="can('create-pages')">
-                    Додати
-                </button-component>
+                <Button type="btn" @click="create" v-if="can('create-pages')">
+                    {{ $t('add') }}
+                </Button>
             </div>
 
             <div>
@@ -21,9 +19,9 @@
             </div>
 
             <div class="text-center">
-                <pagination :pagination="state.data"
-                            :click-handler="fetch"
-                            v-model="state.currentPage"
+                <Paginate :pagination="state.data"
+                          :click-handler="fetch"
+                          v-model="state.currentPage"
                 />
             </div>
         </div>
@@ -38,13 +36,20 @@
 </template>
 
 <script setup>
-import {reactive, onMounted, inject, ref, computed} from "vue";
+import Loader from '@/Components/Loader.vue';
+import Button from '@/Components/Button.vue';
+import Paginate from '@/Components/Paginate.vue';
 import Modal from '@/Pages/Admin/Content/Pages/Modal.vue';
 import Table from '@/Pages/Admin/Content/Pages/Table.vue'
 import ContentLayout from '@/Pages/Admin/Content/ContentLayout.vue'
 
+import {reactive, onMounted, inject, ref, computed} from "vue";
+import PagesRepository from "@/Repositories/PagesRepository";
+import {useI18n} from 'vue-i18n'
+
 const swal = inject('$swal')
 const can = inject('$can');
+const {t} = useI18n();
 
 const item = reactive({
     slug: null,
@@ -77,6 +82,7 @@ const state = ref({
     isLoading: true,
     isActiveModal: false,
     modalAction: '',
+    errors: [],
     item: {},
 });
 
@@ -86,123 +92,109 @@ onMounted(() => {
 
 const activeModal = computed(() => state.value.isActiveModal ? Modal : null)
 
-function fetch(page) {
+const fetch = async (page) => {
     state.value.isLoading = true;
     if (page) {
         state.value.currentPage = page;
     }
-    axios.get(route('api.pages.index', {'page': state.value.currentPage}))
-        .then(response => {
-            Object.assign(state.value.data, response.data.result);
-            state.value.isLoading = false;
-        })
-        .catch(errors => {
-            console.log(errors);
-            state.value.isLoading = false;
-        })
+    const data = await PagesRepository.fetch({'page': state.value.currentPage});
+    state.value.data = data.success ? data.result : [];
+    state.value.isLoading = false;
 }
 
-function onDestroy(id) {
+const onDestroy = async (id) => {
     if (can('destroy-pages')) {
-        swal({
-            title: 'Видалити?',
+        const result = await swal({
+            title: t('swal.sure'),
             icon: 'warning',
             showCancelButton: true,
-        }).then((result) => {
-            if (result.isConfirmed) {
-                axios.delete(route('api.pages.destroy', id))
-                    .then(() => {
-                        fetch();
-                        if (state.value.isActiveModal) {
-                            modalFunction();
-                        }
-                        swal({
-                            icon: 'success',
-                            title: 'Destroyed!'
-                        })
-                    })
-                    .catch(errors => {
-                        console.log(errors);
-                        swal({
-                            icon: 'error',
-                            title: 'Error!'
-                        })
-                    })
-            }
         })
-
+        if (result.isConfirmed) {
+            const {success} = await PagesRepository.destroy(id);
+            if (success) {
+                await fetch();
+                if (state.value.isActiveModal) {
+                    modalFunction();
+                }
+                await swal({
+                    icon: 'success',
+                    title: t('swal.destroyed')
+                });
+            }
+        }
     }
 }
 
-function modalFunction() {
+const modalFunction = () => {
     state.value.isActiveModal = !state.value.isActiveModal;
 }
 
-function onEdit(id, i) {
+const onEdit = async (id, i) => {
     if (can('edit-pages')) {
-        axios.get(route('api.pages.edit', id))
-            .then(({data}) => {
-                state.value.item = data.result;
-                state.value.modalAction = 'edit';
-                state.value.item.index = i;
-                modalFunction();
-            })
-            .catch((response) => console.log(response))
+        const data = await PagesRepository.edit(id);
+        if (data.success) {
+            state.value.item = data.result;
+            state.value.modalAction = 'edit';
+            state.value.item.index = i;
+            modalFunction();
+        }
     }
 }
 
-function onUpdate() {
+const onUpdate = async () => {
     if (can('edit-pages')) {
-        axios.put(route('api.pages.update', state.value.item.id), state.value.item)
-            .then(() => {
-                modalFunction();
-                fetch();
-                swal({
-                    title: 'Success!',
-                    icon: 'success'
-                })
+        const data = await PagesRepository.update(state.value.item);
+        if (data.success) {
+            modalFunction();
+            await fetch();
+            await swal({
+                title: t('swal.updated'),
+                icon: 'success'
             })
-            .catch((response) => {
-                console.log(response);
-                swal({
-                    title: 'Error!',
-                    icon: 'error'
-                })
+        } else {
+            state.value.errors = data;
+            console.log(data);
+            await swal({
+                title: t('swal.error'),
+                icon: 'error',
+                text: t('swal.check_data')
             })
+        }
     }
 }
 
-function onCreate() {
+const onCreate = async () => {
     if (can('create-pages')) {
-        axios.post(route('api.pages.create'), state.value.item)
-            .then(({data}) => {
-                modalFunction();
-                state.value.item = {};
-                fetch();
-                swal({
-                    title: 'Success!',
-                    icon: 'success'
-                })
+        const data = await PagesRepository.create(state.value.item);
+        if (data.success) {
+            modalFunction();
+            state.value.item = {};
+            await fetch();
+            await swal({
+                title: t('swal.created'),
+                icon: 'success'
+            });
+        } else {
+            state.value.errors = data;
+            console.log(data);
+            await swal({
+                title: t('swal.error'),
+                text: t('swal.check_data'),
+                icon: 'error'
             })
-            .catch((response) => {
-                console.log(response);
-                swal({
-                    title: 'Error!',
-                    icon: 'error'
-                })
-            })
+        }
     }
 }
 
-function submitForm() {
+const submitForm = async () => {
     if (state.value.modalAction === 'edit' && can('edit-pages')) {
-        onUpdate();
+        await onUpdate();
     } else if (state.value.modalAction === 'create' && can('create-pages')) {
-        onCreate();
+        await onCreate();
     }
 }
 
-function create() {
+const create = () => {
     if (can('create-pages')) {
         state.value.item = item;
         state.value.modalAction = 'create';

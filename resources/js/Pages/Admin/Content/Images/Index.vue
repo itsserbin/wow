@@ -1,14 +1,15 @@
 <template>
-    <ContentLayout title="Зображення">
-        <template #header>Зображення</template>
+    <ContentLayout :title="$t('images.page_title')">
+        <template #header>{{ $t('images.page_title') }}</template>
 
-        <loader-component v-if="state.isLoading"/>
+        <Loader v-if="state.isLoading"/>
 
         <div v-if="!state.isLoading && can('show-images')" class="grid grid-cols-1 gap-4">
             <div>
-                <button-component type="btn" @click.prevent="modalUploadImagesFunction" v-if="can('create-images')">
-                    Додати
-                </button-component>
+                <Button type="btn" @click.prevent="modalUploadImagesFunction"
+                        v-if="can('create-images')">
+                    {{ $t('add') }}
+                </Button>
             </div>
 
             <List :images="state.imagesList"
@@ -18,9 +19,9 @@
             />
 
             <div class="text-center">
-                <pagination :pagination="state.imagesList"
-                            :click-handler="fetch"
-                            v-model="state.currentPage"
+                <Paginate :pagination="state.imagesList"
+                          :click-handler="fetch"
+                          v-model="state.currentPage"
                 />
             </div>
         </div>
@@ -35,21 +36,27 @@
 
         <component :is="imagesUploadModal"
                    @closeModal="modalUploadImagesFunction"
-                   @onUpload="onUpload"
+                   @onUpload="fetch"
         ></component>
     </ContentLayout>
 </template>
 
 <script setup>
+import Loader from '@/Components/Loader.vue';
+import Button from '@/Components/Button.vue';
+import Paginate from '@/Components/Paginate.vue';
 import UploadImagesModal from '@/Components/UploadImagesModal.vue';
 import List from '@/Pages/Admin/Content/Images/List.vue';
 import ImageModal from '@/Pages/Admin/Content/Images/Modal.vue';
-import {Head, Link} from '@inertiajs/inertia-vue3';
-import {reactive, onMounted, inject, ref, computed} from "vue";
 import ContentLayout from '@/Pages/Admin/Content/ContentLayout.vue'
+
+import {onMounted, inject, ref, computed} from "vue";
+import ImagesRepository from "@/Repositories/ImagesRepository";
+import {useI18n} from 'vue-i18n'
 
 const swal = inject('$swal')
 const can = inject('$can');
+const {t} = useI18n();
 
 const state = ref({
     imagesList: [],
@@ -70,74 +77,67 @@ const imageModal = computed(() => state.value.isActiveImageModal ? ImageModal : 
 
 onMounted(() => fetch());
 
-function onUpload() {
-    fetch();
-}
-
-function modalUploadImagesFunction() {
+const modalUploadImagesFunction = () => {
     state.value.isActiveUploadModal = !state.value.isActiveUploadModal;
 }
 
-function modalImagesFunction() {
+const modalImagesFunction = () => {
     state.value.isActiveImageModal = !state.value.isActiveImageModal;
 }
 
-function openImageModal(image) {
+const openImageModal = (image) => {
     modalImagesFunction();
     state.value.imageModal = image;
 }
 
-function updateImage() {
+const updateImage = async () => {
     if (can('edit-images')) {
-        axios.put(route('api.images.update', state.value.imageModal.id), state.value.imageModal)
-            .then(() => {
-                modalImagesFunction();
-                swal({
-                    icon: 'success',
-                    title: 'Updated!'
-                })
+        const {success} = await ImagesRepository.update(state.value.imageModal);
+        if (success) {
+            modalImagesFunction();
+            await swal({
+                icon: 'success',
+                title: t('swal.updated')
             })
-            .catch((response) => console.log(response));
+        }
     }
 }
 
-function destroyImageFromModal(id) {
-    destroyImage(id);
+const destroyImageFromModal = async (id) => {
+    await destroyImage(id);
     modalImagesFunction();
 }
 
-function destroyImage(id) {
+const destroyImage = async (id) => {
     if (can('destroy-images')) {
-        state.value.isLoading = true;
-        axios.delete(route('api.images.destroy', id))
-            .then(() => {
-                fetch();
-                state.value.isLoading = false;
-                swal({
+        const result = await swal({
+            title: t('swal.sure'),
+            icon: 'warning',
+            showCancelButton: true,
+        });
+
+        if (result.isConfirmed) {
+            state.value.isLoading = true;
+            const {success} = await ImagesRepository.destroy(id);
+            if (success) {
+                await fetch();
+                await swal({
                     icon: 'success',
-                    title: 'Destroyed!'
-                })
-            })
-            .catch((response) => {
-                console.log(response);
-                state.value.isLoading = false;
-            });
+                    title: t('swal.destroyed')
+                });
+            }
+            state.value.isLoading = false;
+        }
     }
 }
 
-async function fetch(page) {
+const fetch = async (page) => {
     state.value.isLoading = true;
     if (page) {
         state.value.currentPage = page;
     }
-    await axios.get(route('api.images.index', {'page': state.value.currentPage}))
-        .then(response => {
-            Object.assign(state.value.imagesList, response.data.result);
-            state.value.isLoading = false;
-        })
-        .catch(errors => {
-            console.log(errors);
-            state.value.isLoading = false;
-        })
+    const data = await ImagesRepository.fetch({'page': state.value.currentPage});
+    state.value.imagesList = data.success ? data.result : [];
+    state.value.isLoading = false;
 }
 </script>

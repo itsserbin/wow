@@ -1,78 +1,78 @@
 <template>
-    <lang-tabs @clickLang="changeLang"/>
+    <LangTabs @clickLang="changeLang"/>
 
-    <table-component :headings="headings"
-                     :isSlotMode="true"
-                     :rows="data"
+    <Table :headings="headings"
+           :isSlotMode="true"
+           :rows="data"
     >
-        <template v-slot:id="{data}">
+        <template #id="{data}">
             <a href="javascript:" @click="$emit('onEdit', data.row.id,data.i)">
                 {{ data.row.id }}
             </a>
         </template>
 
-        <template v-slot:heading="{data}">
-            {{
-                activeLang === 'ua' ? data.row.heading.ua :
-                    (activeLang === 'ru' ? data.row.heading.ru : '-')
-            }}
+        <template #heading="{data}">
+            {{ data.row.heading[activeLang] }}
         </template>
 
-        <template v-slot:h1="{data}">
-            {{
-                activeLang === 'ua' ? data.row.h1.ua :
-                    (activeLang === 'ru' ? data.row.h1.ru : '-')
-            }}
+        <template #h1="{data}">
+            {{ data.row.h1[activeLang] }}
         </template>
 
-        <template v-slot:published="{data}">
+        <template #published="{data}">
             {{ $filters.publishedStatus(data.row.published) }}
         </template>
 
-        <template v-slot:timestamps="{data}">
-            {{ $filters.dateFormat(data.row.updated_at) }}
+        <template #timestamps="{data}">
+            {{ $filters.dateTimeFormat(data.row.updated_at) }}
             <hr class="my-1">
-            {{ $filters.dateFormat(data.row.created_at) }}
+            {{ $filters.dateTimeFormat(data.row.created_at) }}
         </template>
 
-        <template v-slot:actions="{data}">
+        <template #actions="{data}">
             <a href="javascript:" @click="$emit('onDestroy', data.row.id)" v-if="canDestroy">
-                <xcircle-component/>
+                <XCircle/>
             </a>
         </template>
-    </table-component>
+    </Table>
 </template>
 
 
 <script setup>
+import LangTabs from '@/Components/LangTabs.vue';
+import Table from '@/Components/Table.vue';
+import XCircle from '@/Components/Icons/XCircle.vue';
+
 import {inject, ref} from "vue";
+import {useI18n} from 'vue-i18n'
 
 defineProps(['data', 'canDestroy']);
 defineEmits(['onDestroy', 'onEdit'])
 
 const defaultLang = inject('$defaultLang');
+const {t} = useI18n();
 
 const activeLang = ref(defaultLang);
 
 const headings = [
     {
-        label: 'ID',
+        label: t('id'),
         key: 'id'
     },
     {
-        label: 'Назва в меню',
+        label: t('pages.heading'),
         key: 'heading'
     },
     {
-        label: 'Заголовок',
+        label: t('pages.h1'),
         key: 'h1'
     },
     {
-        label: 'Статус публікації',
+        label: t('published'),
         key: 'published'
     },
     {
-        label: "Оновлено<hr class='my-1'>Створено",
+        label: t('updated_at') + "<hr class='my-1'>" + t('created_at'),
         key: 'timestamps'
     },
     {
@@ -82,7 +82,7 @@ const headings = [
 ];
 
 
-function changeLang(val) {
+const changeLang = (val) => {
     activeLang.value = val;
 }
 </script>

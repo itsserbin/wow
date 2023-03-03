@@ -1,10 +1,10 @@
 <template>
     <div>
-        <lang-tabs @clickLang="changeLang"/>
+        <LangTabs @clickLang="changeLang"/>
 
-        <table-component :headings="headings"
-                         :isSlotMode="true"
-                         :rows="data"
+        <Table :headings="headings"
+               :isSlotMode="true"
+               :rows="data"
         >
             <template #id="{data}">
                 <a href="javascript:" @click="$emit('onEdit',data.row.id,data.i)">
@@ -14,18 +14,14 @@
 
             <template #preview="{data}">
                 <img :src="data.row.preview_id ? route('images.55', data.row.preview.src) : null"
-                     :alt="activeLang === 'ua' ? data.row.title.ua :
-                                (activeLang === 'ru' ? data.row.title.ru : '-')"
+                     :alt="data.row.title[activeLang]"
                      class="mx-auto w-16"
                 >
             </template>
 
             <template #title="{data}">
                 <a href="javascript:">
-                    {{
-                        activeLang === 'ua' ? data.row.title.ua :
-                            (activeLang === 'ru' ? data.row.title.ru : '-')
-                    }}
+                    {{ data.row.title[activeLang] }}
                 </a>
             </template>
 
@@ -34,57 +30,62 @@
             </template>
 
             <template #timestamps="{data}">
-                {{ $filters.dateFormat(data.row.updated_at) }}
+                {{ $filters.dateTimeFormat(data.row.updated_at) }}
                 <hr class="my-1">
-                {{ $filters.dateFormat(data.row.created_at) }}
+                {{ $filters.dateTimeFormat(data.row.created_at) }}
             </template>
 
             <template #actions="{data}">
                 <a href="javascript:" @click="$emit('onDestroy',data.row.id)" v-if="canDestroy">
-                    <xcircle-component/>
+                    <XCircle/>
                 </a>
             </template>
-        </table-component>
+        </Table>
     </div>
 </template>
 
 <script setup>
+import LangTabs from '@/Components/LangTabs.vue';
+import Table from '@/Components/Table.vue';
+import XCircle from '@/Components/Icons/XCircle.vue';
+
 import {inject, ref} from "vue";
+import {useI18n} from 'vue-i18n'
 
 defineProps(['data', 'canDestroy']);
 defineEmits(['onEdit', 'onDestroy']);
 
 const defaultLang = inject('$defaultLang');
-
+const {t} = useI18n();
 const activeLang = ref(defaultLang);
 
 const headings = ([
     {
-        label: 'ID',
+        label: t('id'),
         key: 'id'
     },
     {
-        label: 'Головне зображення',
+        label: t('preview'),
         key: 'preview'
     },
     {
-        label: 'Назва',
+        label: t('categories.title'),
         key: 'title'
     },
     {
-        label: 'Статус публікації',
+        label: t('published'),
         key: 'published'
     },
     {
-        label: 'Батьківська категорія',
+        label: t('categories.parent'),
         key: 'parent_id'
     },
     {
-        label: 'Сортування',
+        label: t('sort'),
         key: 'sort'
     },
     {
-        label: "Оновлено<hr class='my-1'>Створено",
+        label: t('updated_at') + "<hr class='my-1'>" + t('created_at'),
         key: 'timestamps'
     },
     {
@@ -93,7 +94,7 @@ const headings = ([
     }
 ]);
 
-function changeLang(val) {
+const changeLang = (val) => {
     activeLang.value = val;
 }
 </script>

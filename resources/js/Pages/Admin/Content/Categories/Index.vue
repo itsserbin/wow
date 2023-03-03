@@ -1,15 +1,13 @@
 <template>
-    <ContentLayout title="Категорії">
-        <template #header>
-            Категорії
-        </template>
+    <ContentLayout :title="$t('categories.page_title')">
+        <template #header>{{ $t('categories.page_title') }}</template>
 
-        <loader-component v-if="state.isLoading"/>
+        <Loader v-if="state.isLoading"/>
         <div v-if="!state.isLoading && can('show-categories')" class="grid gap-4 grid-cols-1">
             <div>
-                <button-component type="btn" @click="create" v-if="can('create-categories')">
-                    Додати
-                </button-component>
+                <Button type="btn" @click="create" v-if="can('create-categories')">
+                    {{ $t('add') }}
+                </Button>
             </div>
 
             <Table :data="state.categories.data"
@@ -19,14 +17,15 @@
             />
 
             <div class="text-center">
-                <pagination :pagination="state.categories"
-                            :click-handler="fetch"
-                            v-model="state.currentPage"
+                <Paginate :pagination="state.categories"
+                          :click-handler="fetch"
+                          v-model="state.currentPage"
                 />
             </div>
         </div>
         <component :is="activeModal"
                    :item="state.item"
+                   :errors="state.errors"
                    @closeModal="modalFunction"
                    @submitForm="submitForm"
                    @declineForm="onDestroy"
@@ -36,13 +35,20 @@
 </template>
 
 <script setup>
-import {reactive, onMounted, inject, ref, computed} from "vue";
 import Modal from '@/Pages/Admin/Content/Categories/Modal.vue';
 import Table from '@/Pages/Admin/Content/Categories/Table.vue';
 import ContentLayout from '@/Pages/Admin/Content/ContentLayout.vue'
+import Loader from '@/Components/Loader.vue';
+import Paginate from '@/Components/Paginate.vue';
+import Button from '@/Components/Button.vue';
+import CategoriesRepository from "@/Repositories/CategoriesRepository";
+
+import {reactive, onMounted, inject, ref, computed} from "vue";
+import {useI18n} from 'vue-i18n'
 
 const swal = inject('$swal')
 const can = inject('$can');
+const {t} = useI18n();
 
 const item = reactive({
     published: 0,
@@ -79,6 +85,7 @@ const state = ref({
     isActiveModal: false,
     modalAction: '',
     item: {},
+    errors: []
 });
 
 onMounted(() => {
@@ -87,127 +94,115 @@ onMounted(() => {
 
 const activeModal = computed(() => state.value.isActiveModal ? Modal : null)
 
-function fetch(page) {
+const fetch = async (page) => {
     state.value.isLoading = true;
     if (page) {
         state.value.currentPage = page;
     }
-    axios.get(route('api.categories.index', {'page': state.value.currentPage}))
-        .then(response => {
-            Object.assign(state.value.categories, response.data.result);
-            state.value.isLoading = false;
-        })
-        .catch(errors => {
-            console.log(errors);
-            state.value.isLoading = false;
-        })
+    const data = await CategoriesRepository.fetch({'page': state.value.currentPage});
+    state.value.categories = data.success ? data.result : [];
+    state.value.isLoading = false;
 }
 
-function onDestroy(id) {
+const onDestroy = async (id) => {
     if (can('destroy-categories')) {
-        swal({
-            title: 'Видалити?',
+        const result = await swal({
+            title: t('swal.sure'),
             icon: 'warning',
             showCancelButton: true,
-        }).then((result) => {
-            if (result.isConfirmed) {
-                axios.delete(route('api.categories.destroy', id))
-                    .then(() => {
-                        fetch();
-                        if (state.value.isActiveModal) {
-                            modalFunction();
-                        }
-                        swal({
-                            icon: 'success',
-                            title: 'Destroyed!'
-                        })
-                    })
-                    .catch(errors => {
-                        console.log(errors);
-                        swal({
-                            icon: 'error',
-                            title: 'Error!'
-                        })
-                    })
-            }
         })
-
+        if (result.isConfirmed) {
+            const {success} = await CategoriesRepository.destroy(id);
+            if (success) {
+                await fetch();
+                if (state.value.isActiveModal) {
+                    modalFunction();
+                }
+                await swal({
+                    icon: 'success',
+                    title: t('swal.destroyed')
+                })
+            }
+        }
     }
 }
 
-function modalFunction() {
+const modalFunction = () => {
     state.value.isActiveModal = !state.value.isActiveModal;
 }
 
-function onEdit(id, i) {
+const onEdit = async (id, i) => {
     if (can('edit-categories')) {
-        axios.get(route('api.categories.edit', id))
-            .then(({data}) => {
-                state.value.item = data.result;
-                state.value.modalAction = 'edit';
-                state.value.item.index = i;
-                modalFunction();
-            })
-            .catch((response) => console.log(response))
+        const data = await CategoriesRepository.edit(id);
+        if (data.success) {
+            state.value.item = data.result;
+            state.value.modalAction = 'edit';
+            state.value.item.index = i;
+            modalFunction();
+        }
     }
 }
 
-function onUpdate() {
+const onUpdate = async () => {
     if (can('edit-categories')) {
-        axios.put(route('api.categories.update', state.value.item.id), state.value.item)
-            .then(() => {
-                modalFunction();
-                fetch();
-                swal({
-                    title: 'Success!',
-                    icon: 'success'
-                })
+        const data = await CategoriesRepository.update(state.value.item);
+        state.value.errors = [];
+        if (data.success) {
+            modalFunction();
+            await fetch();
+            await swal({
+                title: t('swal.updated'),
+                icon: 'success'
             })
-            .catch((response) => {
-                console.log(response);
-                swal({
-                    title: 'Error!',
-                    icon: 'error'
-                })
+        } else {
+            state.value.errors = data;
+            console.log(data);
+            await swal({
+                title: t('swal.error'),
+                icon: 'error',
+                text: t('swal.check_data')
             })
+        }
     }
 }
 
-function onCreate() {
+const onCreate = async () => {
     if (can('create-categories')) {
-
-        axios.post(route('api.categories.create'), state.value.item)
-            .then(({data}) => {
-                modalFunction();
-                state.value.item = {};
-                fetch();
-                swal({
-                    title: 'Success!',
-                    icon: 'success'
-                })
+        const data = await CategoriesRepository.create(state.value.item);
+        state.value.errors = [];
+        if (data.success) {
+            modalFunction();
+            state.value.item = {};
+            await fetch();
+            await swal({
+                title: t('swal.created'),
+                icon: 'success'
+            });
+        } else {
+            state.value.errors = data;
+            console.log(data);
+            await swal({
+                title: t('swal.error'),
+                text: t('swal.check_data'),
+                icon: 'error'
             })
-            .catch((response) => {
-                console.log(response);
-                swal({
-                    title: 'Error!',
-                    icon: 'error'
-                })
-            })
+        }
     }
 }
 
-function submitForm() {
+const submitForm = async () => {
     if (state.value.modalAction === 'edit' && can('edit-categories')) {
-        onUpdate();
+        await onUpdate();
     } else if (state.value.modalAction === 'create' && can('create-categories')) {
-        onCreate();
+        await onCreate();
     }
 }
 
-function create() {
+const create = () => {
     if (can('create-categories')) {
         Object.assign(state.value.item, item);
         state.value.modalAction = 'create';
+        state.value.errors = [];
         modalFunction();
     }
 }
