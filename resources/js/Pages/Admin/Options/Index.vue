@@ -3,23 +3,23 @@
         <div class="grid grid-cols-1 gap-14">
             <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                 <Link v-for="item in items" :href="item.href" v-show="can(item.permission)">
-                    <div class="p-5 bg-gray-50 rounded dark:bg-gray-800 text-gray-900 dark:text-white">
-                        {{ item.title }}
-                    </div>
+                <div class="p-5 bg-gray-50 rounded dark:bg-gray-800 text-gray-900 dark:text-white">
+                    {{ item.title }}
+                </div>
                 </Link>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                 <Link v-for="item in items2" :href="item.href" v-show="can(item.permission)">
-                    <div class="p-5 bg-gray-50 rounded dark:bg-gray-800 text-gray-900 dark:text-white">
-                        {{ item.title }}
-                    </div>
+                <div class="p-5 bg-gray-50 rounded dark:bg-gray-800 text-gray-900 dark:text-white">
+                    {{ item.title }}
+                </div>
                 </Link>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                 <Link v-for="item in items3" :href="item.href" v-show="can(item.permission)">
-                    <div class="p-5 bg-gray-50 rounded dark:bg-gray-800 text-gray-900 dark:text-white">
-                        {{ item.title }}
-                    </div>
+                <div class="p-5 bg-gray-50 rounded dark:bg-gray-800 text-gray-900 dark:text-white">
+                    {{ item.title }}
+                </div>
                 </Link>
             </div>
         </div>
@@ -27,8 +27,8 @@
 </template>
 
 <script setup>
-import {inject} from "vue";
-import {Link} from "@inertiajs/inertia-vue3";
+import { inject } from "vue";
+import { Link } from "@inertiajs/inertia-vue3";
 
 const can = inject('$can');
 const items = [
@@ -79,7 +79,12 @@ const items2 = [
         title: 'Права',
         permission: 'show-permissions',
         href: route('admin.permissions.index')
-    }
+    },
+    {
+        title: 'Логотип',
+        permission: 'show-logo',
+        href: route('admin.logo')
+    },
 ];
 
 const items3 = [
@@ -113,5 +118,7 @@ const items3 = [
         permission: 'show-xmls',
         href: route('admin.options.xmls.index')
     },
+
+
 ];
 </script>

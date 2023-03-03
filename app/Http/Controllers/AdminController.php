@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Inertia\Inertia;
 use Inertia\Response;
+use Ramsey\Uuid\Type\Integer;
 
 class AdminController extends Controller
 {
@@ -154,6 +155,11 @@ class AdminController extends Controller
     public function optionsXmls(): Response
     {
         return Inertia::render('Options/Xmls/Index');
+    }
+
+    public function optionsLogo(): Response
+    {
+        return Inertia::render('Options/Logo/Index');
     }
 
     public function colors(): Response
