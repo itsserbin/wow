@@ -44,9 +44,9 @@ import Button from '@/Components/Button.vue';
 import CategoriesRepository from "@/Repositories/CategoriesRepository";
 
 import {reactive, onMounted, inject, ref, computed} from "vue";
-import {useI18n} from 'vue-i18n'
+import {useI18n} from 'vue-i18n';
 
-const swal = inject('$swal')
+const swal = inject('$swal');
 const can = inject('$can');
 const {t} = useI18n();
 

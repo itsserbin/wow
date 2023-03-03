@@ -27,7 +27,7 @@ defineProps(['images']);
 
 const emits = defineEmits(['destroyImage']);
 
-function destroyImage(image) {
+const destroyImage = (image) => {
     emits('destroyImage', image)
 }
 </script>

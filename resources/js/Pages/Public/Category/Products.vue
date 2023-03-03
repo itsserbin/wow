@@ -64,7 +64,7 @@ import Loader from '@/Pages/Public/Components/Loader.vue'
 import ProductCards from '@/Pages/Public/Components/ProductCards.vue'
 import Button from '@/Pages/Public/Components/Button.vue'
 import Filter from '@/Pages/Public/Category/Filter.vue'
-import {ProductsRepository} from '@/Repositories/ProductsRepository.js'
+import ProductsRepository from '@/Repositories/ProductsRepository.js'
 
 const state = ref({
     products: [],
@@ -109,10 +109,10 @@ const getParams = computed(() => {
 
 onMounted(() => fetch());
 
-async function fetch() {
+const fetch = async () => {
     state.value.isLoading = true;
     try {
-        const {success, result} = await ProductsRepository().v1().category(getParams.value);
+        const {success, result} = await ProductsRepository.v1().category(getParams.value);
         if (success) {
             state.value.isLoading = false;
             params.value.currentPage = result.current_page;
@@ -125,7 +125,7 @@ async function fetch() {
     }
 }
 
-async function filter(val) {
+const filter = async (val) => {
     params.value.filter = val;
     state.value.isLoading = true;
     params.value.currentPage = 1;
@@ -136,22 +136,22 @@ async function filter(val) {
     await fetch();
 }
 
-async function sort() {
+const sort = async () => {
     state.value.isLoading = true;
     params.value.currentPage = 1;
     await fetch();
 }
 
-async function loadMore() {
+const loadMore = async () => {
     state.value.isLoadingMore = true;
     params.value.currentPage += 1;
     try {
-        const {success, result} = await ProductsRepository().v1().category(getParams.value);
-        if (success) {
+        const data = await ProductsRepository.v1().category(getParams.value);
+        if (data.success) {
             state.value.isLoadingMore = false;
-            params.value.currentPage = result.current_page;
-            state.value.products = state.value.products.concat(result.data);
-            state.value.showLoadMore = (result.to !== result.total);
+            params.value.currentPage = data.result.current_page;
+            state.value.products = state.value.products.concat(data.result.data);
+            state.value.showLoadMore = (data.result.to !== data.result.total);
         }
     } catch (e) {
         console.error(e);
@@ -159,7 +159,7 @@ async function loadMore() {
     }
 }
 
-function toggleFilter() {
+const toggleFilter = () => {
     state.value.isShowFilter = !state.value.isShowFilter;
 }
 </script>

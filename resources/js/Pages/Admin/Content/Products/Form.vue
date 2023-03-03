@@ -2,29 +2,30 @@
     <form @submit.prevent="$emit('submit',product)" class="grid grid-cols-1 gap-4">
         <div class="grid grid-cols-3 gap-4 mb-5">
             <div class="block">
-                <Label value="Статус публікації"/>
+                <Label :value="$t('published')"/>
                 <Select v-model="product.published" :options="publishedStatuses"/>
             </div>
 
             <div class="block">
-                <Label value="Наявність товару"/>
+                <Label :value="$t('products.status')"/>
                 <Select v-model="product.status" :options="state.statusOptions"/>
             </div>
 
             <div class="block">
-                <Label value="Артикул"/>
-                <Input v-model="product.vendor_code" type="text"/>
+                <Label :value="$t('products.vendor_code')"/>
+                <Input v-model="product.vendor_code" type="text"
+                       :placeholder="$t('products.enter_vendor_code')"/>
             </div>
         </div>
 
         <div class="grid grid-cols-3 gap-4">
             <div class="block">
-                <Label value="Категорії"/>
+                <Label :value="$t('products.categories')"/>
                 <multiselect
                     :options="state.categories"
                     v-model="product.categories"
                     :custom-label="h1AndCodeAndId"
-                    placeholder="Оберіть категорії"
+                    :placeholder="$t('products.enter_categories')"
                     class="mb-5"
                     track-by="id"
                     :searchable="true"
@@ -33,12 +34,12 @@
             </div>
 
             <div class="block">
-                <Label value="Постачальники"/>
+                <Label :value="$t('products.provider')"/>
                 <Select v-model="product.provider_id" :options="state.providers"/>
             </div>
 
             <div class="block">
-                <Label value="Головне зображення"/>
+                <Label :value="$t('preview')"/>
                 <div class="block mb-7" v-if="product.preview_id">
                     <ImageCard
                         :destroyIcon="true"
@@ -48,7 +49,9 @@
                     />
                 </div>
                 <div class="block mb-7" v-else>
-                    <Button type="button" @click="previewModalFunction">Обрати зображення</Button>
+                    <Button type="button" @click="previewModalFunction">
+                        {{ $t('select_image') }}
+                    </Button>
                     <ImagesSelectModal v-if="state.isActiveSelectedPreviewModal"
                                        @submitForm="setProductPreview"
                                        @closeModal="previewModalFunction"
@@ -59,12 +62,12 @@
 
         <div class="grid grid-cols-2 gap-4">
             <div class="block">
-                <Label value="Розміри"/>
+                <Label :value="$t('products.sizes')"/>
                 <multiselect
                     :options="state.sizes"
                     v-model="product.sizes"
                     label="title"
-                    placeholder="Оберіть розміри"
+                    :placeholder="$t('products.enter_sizes')"
                     track-by="id"
                     :close-on-select="false"
                     :searchable="true"
@@ -73,12 +76,12 @@
             </div>
 
             <div class="block">
-                <Label value="Кольори"/>
+                <Label :value="$t('products.colors')"/>
                 <multiselect
                     :options="state.colors"
                     v-model="product.colors"
                     label="name"
-                    placeholder="Оберіть кольори"
+                    :placeholder="$t('products.enter_colors')"
                     track-by="id"
                     :close-on-select="false"
                     :searchable="true"
@@ -88,8 +91,9 @@
         </div>
 
         <div class="block">
-            <Label value="Youtube"/>
-            <Input v-model="product.youtube" type="text"/>
+            <Label :value="$t('products.youtube')"/>
+            <Input v-model="product.youtube" type="text"
+                   :placeholder="$t('products.enter_youtube')"/>
         </div>
 
         <LangTabs @clickLang="changeLang"/>
@@ -97,61 +101,63 @@
 
         <div class="grid grid-cols-1 gap-4">
             <div class="block">
-                <Label value="Назва товару"/>
-                <Input v-model="product.h1[state.activeLang]" type="text"/>
+                <Label :value="$t('products.h1')"/>
+                <Input v-model="product.h1[state.activeLang]" type="text"
+                       :placeholder="$t('products.enter_h1')"/>
             </div>
 
             <div class="block">
-                <Label value="META Title"/>
-                <Input v-model="product.title[state.activeLang]" type="text"/>
+                <Label :value="$t('meta.title')"/>
+                <Input v-model="product.title[state.activeLang]" type="text"
+                       :placeholder="$t('meta.enter_title')"/>
             </div>
 
             <div class="block">
-                <Label value="META Description"/>
-                <Textarea v-model="product.description[state.activeLang]"/>
+                <Label :value="$t('meta.description')"/>
+                <Textarea v-model="product.description[state.activeLang]"
+                          :placeholder="$t('meta.enter_description')"/>
             </div>
 
-
             <div class="block">
-                <Label value="Опис товару"/>
+                <Label :value="$t('products.content')"/>
                 <editor :api-key="tiny.api" v-model="product.content[state.activeLang]" :init="tiny.settings"/>
             </div>
 
             <div class="block">
-                <Label value="Характеристики"/>
-                <editor :api-key="tiny.api" v-model="product.characteristics[state.activeLang]" :init="tiny.settings"/>
-            </div>
-
-            <div class="block">
-                <Label value="Таблиця розмірів"/>
+                <Label :value="$t('products.size_table')"/>
                 <editor :api-key="tiny.api" v-model="product.size_table" :init="tiny.settings"/>
             </div>
 
             <div class="grid grid-cols-3 gap-4 mb-5">
                 <div class="block">
-                    <Label value="Ціна"/>
-                    <Input v-model="product.price" type="number"/>
+                    <Label :value="$t('products.price')"/>
+                    <Input v-model="product.price" type="number"
+                           :placeholder="$t('products.enter_price')"/>
                 </div>
 
                 <div class="block">
-                    <Label value="Ціна зі знижкою"/>
-                    <Input v-model="product.discount_price" type="number"/>
+                    <Label :value="$t('products.discount_price')"/>
+                    <Input v-model="product.discount_price" type="number"
+                           :placeholder="$t('products.enter_discount_price')"/>
                 </div>
 
                 <div class="block">
-                    <Label value="Ціна закупки"/>
-                    <Input v-model="product.trade_price" type="number"/>
+                    <Label :value="$t('products.trade_price')"/>
+                    <Input v-model="product.trade_price" type="number"
+                           :placeholder="$t('products.enter_trade_price')"/>
                 </div>
             </div>
         </div>
 
         <div class="row">
             <div class="block mb-7" v-if="product.images">
-                <Label value="Зображення"/>
+                <Label :value="$t('images.page_title')"/>
                 <Images :images="product.images" @destroyImage="destroyImage"/>
             </div>
             <div class="block mb-7">
-                <Button type="button" @click="imagesModalFunction">Обрати зображення</Button>
+                <Button type="button" @click="imagesModalFunction">
+                    {{ $t('select_image') }}
+                </Button>
                 <ImagesSelectModal v-if="state.isActiveSelectedImagesModal"
                                    @submitForm="setProductImages"
                                    @closeModal="imagesModalFunction"
@@ -167,7 +173,7 @@
                     :options="characteristic.values"
                     v-model="product.characteristicsNew[characteristic.id]"
                     :custom-label="customCharacteristicLabel"
-                    placeholder="Оберіть значення"
+                    :placeholder="$t('products.select_characteristic_value')"
                     class="mb-5"
                     track-by="id"
                     value="id"

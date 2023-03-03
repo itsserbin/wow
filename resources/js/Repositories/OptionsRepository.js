@@ -6,7 +6,7 @@ export default {
                     const response = await axios.get(route('api.options.main.index'));
                     return response.data;
                 } catch (error) {
-                    throw new Error(error.response.data.message);
+                    throw new Error(error.response.data);
                 }
             },
             async update(params) {
@@ -14,7 +14,7 @@ export default {
                     const response = await  axios.put(route('api.options.main.update'), params);
                     return response.data;
                 } catch (error) {
-                    throw new Error(error.response.data.message);
+                    throw new Error(error.response.data);
                 }
             },
         }

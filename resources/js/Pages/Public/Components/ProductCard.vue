@@ -48,19 +48,12 @@
                     <swiper v-bind="settings" :modules="modules" class="product-card-swiper">
                         <swiper-slide>
                             <a :href="route('product',product.id)">
-<!--                                <picture>-->
-<!--                                    <source :srcset="route('images.350',product.preview.webp_src)"-->
-<!--                                            type="image/webp">-->
-<!--                                    <img :src="route('images.350',product.preview.src)"-->
-<!--                                         class="h-full object-cover w-full rounded-t-lg  h-56 md:h-72 swiper-lazy"-->
-<!--                                    >-->
-<!--                                </picture>-->
-
                                 <picture>
-                                    <source v-lazy :data-src="route('images.350',product.preview.webp_src)"
+                                    <source v-lazy
+                                            :data-src="product.preview ? route('images.350',product.preview.webp_src) : null"
                                             type="image/webp">
                                     <img v-lazy
-                                         :data-src="route('images.350',product.preview.src)"
+                                         :data-src="product.preview ? route('images.350',product.preview.src) : null"
                                          class="h-full object-cover w-full rounded-t-lg  h-56 md:h-72 swiper-lazy"
                                     >
                                 </picture>
@@ -297,12 +290,14 @@ function addToCard(id) {
 </script>
 
 <style>
-.product-card-swiper .swiper-button-prev{
+.product-card-swiper .swiper-button-prev {
     left: 0;
 }
-.product-card-swiper .swiper-button-next{
+
+.product-card-swiper .swiper-button-next {
     right: 0;
 }
+
 .product-card-swiper .swiper-button-prev::after,
 .product-card-swiper .swiper-button-next::after {
     font-size: 20px;

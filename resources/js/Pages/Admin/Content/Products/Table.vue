@@ -1,9 +1,9 @@
 <template>
-    <lang-tabs @clickLang="changeLang"/>
+    <LangTabs @clickLang="changeLang"/>
 
-    <table-component :headings="headings"
-                     :isSlotMode="true"
-                     :rows="data"
+    <Table :headings="headings"
+           :isSlotMode="true"
+           :rows="data"
     >
         <template #id="{data}">
             <a href="javascript:" @click="$emit('onEdit', data.row.id,data.i)">
@@ -11,12 +11,8 @@
             </a>
         </template>
 
-        <template #title="{data}">
-            {{
-                activeLang === 'ua'
-                    ? data.row.h1.ua
-                    : (activeLang === 'ru' ? data.row.h1.ru : null)
-            }}
+        <template #h1="{data}">
+            {{ data.row.h1[activeLang] }}
         </template>
 
         <template #published="{data}">
@@ -33,8 +29,7 @@
 
         <template #preview="{data}">
             <img :src="data.row.preview_id ? route('images.55',data.row.preview.src) : null"
-                 :alt="activeLang === 'ua' ? data.row.h1.ua :
-                            (activeLang === 'ru' ? data.row.h1.ru : null)"
+                 :alt="data.row.h1[activeLang]"
                  class="mx-auto"
             >
         </template>
@@ -52,7 +47,7 @@
 
         <template #sort="{data}">
             <div class="grid grid-cols-2 gap-3 items-center">
-                <input-component v-model="data.row.sort" class="px-3 text-center"/>
+                <Input v-model="data.row.sort" class="px-3 text-center"/>
                 <a href="javascript:" @click="updateProductSort(data.row.id,data.row.sort)">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                          class="bi bi-save" viewBox="0 0 16 16">
@@ -65,62 +60,69 @@
 
         <template #actions="{data}">
             <a href="javascript:" @click="$emit('onDestroy', data.row.id)" v-if="canDestroy">
-                <xcircle-component/>
+                <XCircle/>
             </a>
         </template>
-    </table-component>
+    </Table>
 </template>
 
 
 <script setup>
+import Input from '@/Components/Form/Input.vue'
+import LangTabs from '@/Components/LangTabs.vue'
+import Table from '@/Components/Table.vue'
+import XCircle from '@/Components/Icons/XCircle.vue'
+
 import {inject, ref} from "vue";
+import {useI18n} from 'vue-i18n';
 
 defineProps(['data', 'canDestroy']);
 const emits = defineEmits(['onDestroy', 'onEdit', 'onUpdateProductSort'])
 
 const defaultLang = inject('$defaultLang');
+const {t} = useI18n();
 
 const activeLang = ref(defaultLang);
 
 const headings = [
     {
-        label: 'ID',
+        label: t('id'),
         key: 'id'
     },
     {
-        label: 'Головне зображення',
+        label: t('preview'),
         key: 'preview'
     },
     {
-        label: 'Назва',
-        key: 'title'
+        label: t('products.h1'),
+        key: 'h1'
     },
     {
-        label: 'Статус публікації',
+        label: t('published'),
         key: 'published'
     },
     {
-        label: 'Артикул',
+        label: t('products.vendor_code'),
         key: 'vendor_code'
     },
     {
-        label: 'Ціна',
+        label: t('products.price'),
         key: 'price'
     },
     {
-        label: 'Ціна зі знижкою',
+        label: t('products.discount_price'),
         key: 'discount_price'
     },
     {
-        label: 'Сортування',
+        label: t('sort'),
         key: 'sort'
     },
     {
-        label: "Переглядів<hr class='my-1'>Покупок",
+        label: t('products.views') + "<hr class='my-1'>" + t('products.sales'),
         key: 'stat'
     },
     {
-        label: "Повернень<hr class='my-1'>Обмінів",
+        label: t('products.returns') + "<hr class='my-1'>" + t('products.refunds'),
         key: 'stat2'
     },
     {
@@ -129,11 +131,11 @@ const headings = [
     }
 ];
 
-function changeLang(val) {
+const changeLang = (val) => {
     activeLang.value = val;
 }
 
-function updateProductSort(product_id, sort) {
+const updateProductSort = (product_id, sort) => {
     emits('onUpdateProductSort', product_id, sort)
 }
 </script>

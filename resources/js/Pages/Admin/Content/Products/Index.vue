@@ -1,22 +1,20 @@
 <template>
-    <ContentLayout title="Товари">
-        <template #header>
-            Товари
-        </template>
+    <ContentLayout :title="$t('products.page_title')">
+        <template #header>{{ $t('products.page_title') }}</template>
 
-        <loader-component v-if="state.isLoading"/>
+        <Loader v-if="state.isLoading"/>
         <div v-if="!state.isLoading && can('show-products')" class="grid gap-4 grid-cols-1">
             <div>
-                <button-component type="btn" @click="create" v-if="can('create-products')">
-                    Додати
-                </button-component>
+                <Button type="btn" @click="create" v-if="can('create-products')">
+                    {{ $t('add') }}
+                </Button>
             </div>
 
             <div class="grid grid-cols-1 gap-4">
-                <search-component @search="search"
-                                  :clear="true"
-                                  placeholder="ID або артикул"
-                                  @onClear="fetch"
+                <Search @search="search"
+                        :clear="true"
+                        :placeholder="$t('products.search_placeholder')"
+                        @onClear="fetch"
                 />
                 <Table :data="state.products.data"
                        @onEdit="onEdit"
@@ -27,14 +25,14 @@
             </div>
 
             <div class="text-center">
-                <pagination :pagination="state.products"
-                            :click-handler="fetch"
-                            v-model="state.currentPage"
+                <Paginate :pagination="state.products"
+                          :click-handler="fetch"
+                          v-model="state.currentPage"
                 />
             </div>
         </div>
         <component :is="activeModal"
-                   :product="state.item"
+                   :item="state.item"
                    @closeModal="modalFunction"
                    @submitForm="submitForm"
                    @declineForm="onDestroy"
@@ -46,13 +44,21 @@
 </template>
 
 <script setup>
-import {reactive, onMounted, inject, ref, computed} from "vue";
 import ProductModal from '@/Pages/Admin/Content/Products/Modal.vue';
 import Table from '@/Pages/Admin/Content/Products/Table.vue'
+import Loader from '@/Components/Loader.vue'
+import Button from '@/Components/Button.vue'
+import Paginate from '@/Components/Paginate.vue'
+import Search from '@/Components/Search.vue'
 import ContentLayout from '@/Pages/Admin/Content/ContentLayout.vue'
+
+import {reactive, onMounted, inject, ref, computed} from "vue";
+import ProductsRepository from "@/Repositories/ProductsRepository";
+import {useI18n} from 'vue-i18n';
 
 const swal = inject('$swal')
 const can = inject('$can');
+const {t} = useI18n();
 
 const product = reactive({
     status: null,
@@ -99,6 +105,7 @@ const state = ref({
     isActiveModal: false,
     modalAction: '',
     item: product,
+    errors: []
 });
 
 onMounted(() => {
@@ -112,148 +119,127 @@ onMounted(() => {
 
 const activeModal = computed(() => state.value.isActiveModal ? ProductModal : null)
 
-function search(query) {
+const search = async (query) => {
     state.value.isLoading = true;
-    axios.get(route('api.products.search', query))
-        .then(({data}) => {
-            state.value.currentPage = 1;
-            state.value.products = data.result;
-            state.value.isLoading = false;
-        })
-        .catch(errors => {
-            console.log(errors);
-            state.value.isLoading = false;
-        })
+    const data = await ProductsRepository.search(query);
+    if (data.success) {
+        state.value.currentPage = 1;
+        state.value.products = data.result;
+    }
+    state.value.isLoading = false;
 }
 
-function fetch(page) {
+const fetch = async (page) => {
     state.value.isLoading = true;
     if (page) {
         state.value.currentPage = page;
     }
-    axios.get(route('api.products.index', {'page': state.value.currentPage}))
-        .then(({data}) => {
-            state.value.products = data.result;
-            state.value.isLoading = false;
-        })
-        .catch(errors => {
-            console.log(errors);
-            state.value.isLoading = false;
-        })
+    const data = await ProductsRepository.fetch({'page': state.value.currentPage});
+    state.value.products = data.success ? data.result : [];
+    state.value.isLoading = false;
 }
 
-function onDestroy(id) {
+const onDestroy = async (id) => {
     if (can('destroy-products')) {
-        swal({
-            title: 'Видалити?',
+        const result = await swal({
+            title: t('swal.sure'),
             icon: 'warning',
             showCancelButton: true,
-        }).then((result) => {
-            if (result.isConfirmed) {
-                axios.delete(route('api.products.destroy', id))
-                    .then(() => {
-                        fetch();
-                        if (state.value.isActiveModal) {
-                            modalFunction();
-                        }
-                        swal({
-                            icon: 'success',
-                            title: 'Destroyed!'
-                        })
-                    })
-                    .catch(errors => {
-                        console.log(errors);
-                        swal({
-                            icon: 'error',
-                            title: 'Error!'
-                        })
-                    })
-            }
         })
+        if (result.isConfirmed) {
+            const {success} = await ProductsRepository.destroy(id);
+            if (success) {
+                await fetch();
+                if (state.value.isActiveModal) {
+                    modalFunction();
+                }
+                await swal({
+                    icon: 'success',
+                    title: t('swal.destroyed')
+                })
+            }
+        }
     }
 }
 
-function modalFunction() {
+const modalFunction = () => {
     state.value.isActiveModal = !state.value.isActiveModal;
 }
 
-function onEdit(id) {
+const onEdit = async (id) => {
     state.value.isLoading = true;
-    axios.get(route('api.products.edit', id))
-        .then(({data}) => {
-            state.value.item = data.result;
-            state.value.item.characteristicsNew = {};
-            if (state.value.item.characteristics_new.length) {
-                state.value.item.characteristics_new.forEach((item) => {
-                    state.value.item.characteristicsNew[item.characteristic_id] = [];
-                })
-                state.value.item.characteristics_new.forEach((item) => {
-                    state.value.item.characteristicsNew[item.characteristic_id].push(item);
-                })
-            }
-            state.value.modalAction = 'edit';
-            modalFunction();
-            state.value.isLoading = false;
-        })
-        .catch((response) => {
-            console.log(response);
-            state.value.isLoading = false;
-        })
+    const data = await ProductsRepository.edit(id);
+    if (data.success) {
+        state.value.item = data.result;
+        state.value.item.characteristicsNew = {};
+        if (state.value.item.characteristics_new.length) {
+            state.value.item.characteristics_new.forEach((item) => {
+                state.value.item.characteristicsNew[item.characteristic_id] = [];
+            })
+            state.value.item.characteristics_new.forEach((item) => {
+                state.value.item.characteristicsNew[item.characteristic_id].push(item);
+            })
+        }
+        state.value.modalAction = 'edit';
+        modalFunction();
+    }
+    state.value.isLoading = false;
 }
 
-function onUpdate() {
+const onUpdate = async () => {
     if (can('edit-products')) {
-        axios.put(route('api.products.update', state.value.item.id), state.value.item)
-            .then(({data}) => {
-                modalFunction();
-                fetch();
-                swal({
-                    title: 'Success!',
-                    icon: 'success'
-                })
+        const data = await ProductsRepository.update(state.value.item);
+        if (data.success) {
+            modalFunction();
+            await fetch();
+            await swal({
+                title: t('swal.updated'),
+                icon: 'success'
             })
-            .catch((response) => {
-                console.log(response);
-                swal({
-                    title: 'Error!',
-                    icon: 'error'
-                })
+        } else {
+            state.value.errors = data;
+            console.log(data);
+            await swal({
+                title: t('swal.error'),
+                icon: 'error',
+                text: t('swal.check_data')
             })
+        }
     }
 }
 
-function onCreate() {
+const onCreate = async () => {
     if (can('create-products')) {
-        axios.post(route('api.products.create'), state.value.item)
-            .then(({data}) => {
-                modalFunction();
-                state.value.products.data.unshift(data.result)
-                state.value.item = product;
-                fetch();
-                swal({
-                    title: 'Success!',
-                    icon: 'success'
-                })
+        const data = await ProductsRepository.create(state.value.item);
+        if (data.success) {
+            modalFunction();
+            state.value.item = product;
+            await fetch();
+            await swal({
+                title: t('swal.created'),
+                icon: 'success'
+            });
+        } else {
+            state.value.errors = data;
+            console.log(data);
+            await swal({
+                title: t('swal.error'),
+                text: t('swal.check_data'),
+                icon: 'error'
             })
-            .catch((response) => {
-                console.log(response);
-                swal({
-                    title: 'Error!',
-                    icon: 'error'
-                })
-            })
+        }
     }
 }
 
-function submitForm() {
+const submitForm = async () => {
     if (state.value.modalAction === 'edit' && can('edit-products')) {
-        onUpdate();
+        await onUpdate();
     } else if (state.value.modalAction === 'create' && can('create-products')) {
-        onCreate();
+        await onCreate();
     }
 }
 
-function create() {
+const create = () => {
     if (can('create-products')) {
         state.value.item = product;
         state.value.modalAction = 'create';
@@ -261,34 +247,26 @@ function create() {
     }
 }
 
-function setProductImages(images) {
+const setProductImages = (images) => {
     state.value.item.images = state.value.item.images.concat(images);
 }
 
-function destroyImage(image) {
+const destroyImage = (image) => {
     let index = state.value.item.images.findIndex((item) => {
         return item.id === image;
     })
     state.value.item.images.splice(index, 1)
 }
 
-function onUpdateProductSort(product_id, sort) {
+const onUpdateProductSort = async (product_id, sort) => {
     state.value.isLoading = true;
-    axios.post(route('api.products.sort.update', product_id), {sort: sort})
-        .then(() => {
-            swal({
-                icon: 'success',
-                title: 'Збережено'
-            })
-            state.value.isLoading = false;
+    const data = await ProductsRepository.updateSort(product_id, sort);
+    if (data.success) {
+        await swal({
+            title: t('swal.updated'),
+            icon: 'success'
         })
-        .catch((response) => {
-            console.log(response);
-            swal({
-                icon: 'error',
-                title: 'Помилка'
-            })
-            state.value.isLoading = false;
-        })
+    }
+    state.value.isLoading = false;
 }
 </script>
