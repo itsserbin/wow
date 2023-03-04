@@ -15,6 +15,7 @@ class Order extends Model
      * from injecting unwanted data into the database.
      */
     protected $fillable = [
+        'client_id',
         'prepayment_sum',
         'sale_of_air',
         'sale_of_air_price',
