@@ -32,7 +32,7 @@ const instructions = 'Виберіть зображення логотипу';
 
 const image = ref(null);
 
-//Загрузка лого
+//Загрузка фото
 const onFileChange = (event) => {
     const file = event.target.files[0];
     const formData = new FormData();

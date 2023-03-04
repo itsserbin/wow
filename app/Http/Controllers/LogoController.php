@@ -10,31 +10,33 @@ class LogoController extends Controller
 {
     public function store(Request $request)
     {
-        if ($request->hasFile('logo')) {
-            $file = $request->file('logo');
-            $filename = $file->getClientOriginalName();
-            $path = $file->storeAs('public', 'logo.png');
+        $logoImage = Image::where('alt', 'Logo')->first();
 
-            $image = new Image();
-            $image->alt = 'Logo';
-            $image->src = Storage::url($path);
-            $image->webp_src = '';
-            $image->save();
-
-            return response()->json(['path' => $image->src]);
+        if ($logoImage) {
+            Storage::delete('public/' . basename($logoImage->src));
         } else {
-            return response()->json(['error' => 'No logo provided'], 400);
+            $logoImage = new Image();
+            $logoImage->alt = 'Logo';
         }
-    }
 
+        $file = $request->file('logo');
+        $path = $file->store('public');
+        $logoImage->src = Storage::url($path);
+        $logoImage->webp_src = '';
+        $logoImage->save();
+
+        return response()->json(['path' => $logoImage->src]);
+    }
 
     public function destroy()
     {
-        $image = Image::where('alt', 'Logo')->first();
-        if ($image) {
-            Storage::delete('public/' . basename($image->src));
-            $image->delete();
+        $logoImage = Image::where('alt', 'Logo')->first();
+
+        if ($logoImage) {
+            Storage::delete('public/' . basename($logoImage->src));
+            $logoImage->delete();
         }
+
         return response()->json(['success' => true]);
     }
 }

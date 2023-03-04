@@ -1,10 +1,26 @@
 <template>
-    <a :href="route('home')">
-        <img src="/storage/logo.png" :alt="appName" class="w-[55px]">
-        <!--                        <img :src="logoApp" :alt="appName">-->
-    </a>
+    <img :src="logoUrl" :alt="appName">
 </template>
+  
+<script>
+import axios from 'axios';
 
-<script setup>
-defineProps(['appName']);
+const appName = import.meta.env.VITE_APP_NAME;
+export default {
+    data() {
+        return {
+            logoUrl: null,
+        };
+    },
+    mounted() {
+        axios.get('/logo-url')
+            .then(response => {
+                this.logoUrl = response.data;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    },
+};
 </script>
+  
