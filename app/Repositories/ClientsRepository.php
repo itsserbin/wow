@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Client as Model;
 use App\Models\Enums\ClientStatus;
 use App\Models\Enums\MassActions;
+use App\Models\Enums\OrderStatus;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class ClientsRepository extends CoreRepository
@@ -199,7 +200,30 @@ class ClientsRepository extends CoreRepository
             $model->number_of_purchases = $countOrder;
             return $model->update();
         }
+    }
 
+    public function updatePurchaseGoods($id)
+    {
+        $model = $this
+            ->model::where('id', $id)
+            ->select('id', 'purchased_goods')
+            ->with(['orders' => function ($q) {
+                $q->select('client_id', 'status', 'id');
+            }])
+            ->first();
+
+        $goods = 0;
+
+        if (count($model->orders)) {
+            foreach ($model->orders as $order) {
+                if ($order->status == OrderStatus::STATUS_DONE) {
+                    $goods++;
+                }
+            }
+        }
+
+        $model->purchased_goods = $goods;
+        return $model->update();
     }
 
     public function massActions($action, $data): bool

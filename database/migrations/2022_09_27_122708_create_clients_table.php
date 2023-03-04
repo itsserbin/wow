@@ -14,19 +14,22 @@ return new class extends Migration {
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
+            $table->string('status');
+            $table->string('sub_status')->nullable();
+
             $table->string('name');
+            $table->string('last_name')->nullable();
             $table->string('middle_name')->nullable();
             $table->string('phone');
-            $table->integer('number_of_purchases')->nullable();
-            $table->integer('whole_check')->nullable();
-            $table->integer('average_check')->nullable();
-            $table->string('status');
-            $table->string('modified_by')->nullable();
-            $table->text('comment')->nullable();
-            $table->string('last_name')->nullable();
             $table->string('email')->nullable();
-            $table->string('sub_status')->nullable();
-            $table->integer('purchased_goods')->nullable();
+            $table->text('comment')->nullable();
+
+
+            $table->integer('number_of_purchases')->default(0);
+            $table->integer('whole_check')->default(0);
+            $table->integer('average_check')->default(0);
+            $table->integer('purchased_goods')->default(0);
+            $table->string('modified_by')->nullable();
             $table->timestamps();
         });
     }

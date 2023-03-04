@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Enums\OrderStatus;
 use App\Models\Order;
+use App\Repositories\ClientsRepository;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
@@ -23,6 +24,8 @@ class ApiNovaPoshtaCommand extends Command
      */
     protected $description = 'Command description';
 
+    private mixed $clientsRepository;
+
     /**
      * Create a new command instance.
      *
@@ -30,6 +33,7 @@ class ApiNovaPoshtaCommand extends Command
      */
     public function __construct()
     {
+        $this->clientsRepository = app(ClientsRepository::class);
         parent::__construct();
     }
 
@@ -49,7 +53,7 @@ class ApiNovaPoshtaCommand extends Command
             ['status', '!=', 'canceled'],
             ['status', '!=', 'done'],
             ['status', '!=', 'awaiting_prepayment'],
-        ])->select('id', 'status', 'waybill')->get();
+        ])->select('id', 'client_id', 'status', 'waybill')->get();
 
         foreach ($orders as $item) {
             $curl = curl_init();
@@ -95,6 +99,7 @@ class ApiNovaPoshtaCommand extends Command
                 }
 
                 $item->update();
+                $this->clientsRepository->updatePurchaseGoods($item->client_id);
             }
         }
     }
