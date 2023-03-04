@@ -87,8 +87,13 @@ const headings = [
         key: 'phone'
     },
     {
-        label: 'Замовлень',
+        label: 'Всього замовлень',
         key: 'number_of_purchases',
+        sortable: true
+    },
+    {
+        label: 'Виконаних замовлень',
+        key: 'purchased_goods',
         sortable: true
     },
     {

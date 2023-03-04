@@ -40,6 +40,7 @@ class ClientsRepository extends CoreRepository
             'status',
             'sub_status',
             'number_of_purchases',
+            'purchased_goods',
             'comment',
             'whole_check',
             'average_check',
