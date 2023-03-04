@@ -58,6 +58,11 @@ const items = [
         href: route('admin.options.advantages.index')
     },
     {
+        title: 'Логотип',
+        permission: 'show-main-options',
+        href: route('admin.logo')
+    },
+    {
         title: 'FAQ',
         permission: 'show-faq',
         href: route('admin.options.faqs.index')
@@ -80,11 +85,7 @@ const items2 = [
         permission: 'show-permissions',
         href: route('admin.permissions.index')
     },
-    {
-        title: 'Логотип',
-        permission: 'show-logo',
-        href: route('admin.logo')
-    },
+
 ];
 
 const items3 = [

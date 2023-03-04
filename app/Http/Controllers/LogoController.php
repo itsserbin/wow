@@ -10,12 +10,13 @@ class LogoController extends Controller
     public function store(Request $request)
     {
         if ($request->hasFile('logo')) {
-            $path = $request->file('logo')->store('public');
+            $path = $request->file('logo')->storeAs('public', 'logo.png');
             return response()->json(['path' => Storage::url($path)]);
         } else {
             return response()->json(['error' => 'No logo provided'], 400);
         }
     }
+
 
     public function destroy()
     {
