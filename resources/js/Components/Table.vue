@@ -26,18 +26,24 @@
                     <tr>
                         <th v-for="heading in headings"
                             class="
-                                        border-b
-                                        dark:border-slate-600
-                                        font-medium
-                                        p-4
-                                        pl-8
-                                        pt-0
-                                        pb-3
-                                        text-slate-400
-                                        dark:text-slate-200
+                                    border-b
+                                    dark:border-slate-600
+                                    font-medium
+                                    p-4
+                                    pl-8
+                                    pt-0
+                                    pb-3
+                                    text-slate-400
+                                    dark:text-slate-200
                                 "
                         >
-                            <span v-html="heading.label"></span>
+                            <div class="flex items-center justify-center">
+                                <span v-html="heading.label"></span>
+                                <div v-if="heading.sortable" class="hover:cursor-pointer ml-2">
+                                    <ArrowUp @click="$emit('sort',heading.key,'asc')"/>
+                                    <ArrowDown @click="$emit('sort',heading.key,'desc')"/>
+                                </div>
+                            </div>
                         </th>
                     </tr>
                     </thead>
@@ -62,9 +68,6 @@
                             </div>
                         </td>
                     </tr>
-                    <!--                        <tr v-else>-->
-                    <!--                            <td :colspan="headings.length" class="text-center py-5">No data</td>-->
-                    <!--                        </tr>-->
                     </tbody>
                 </table>
             </div>
@@ -83,7 +86,10 @@
 </template>
 
 <script setup>
-defineEmits(['fetch']);
+import ArrowUp from '@/Components/Icons/ArrowUp.vue';
+import ArrowDown from '@/Components/Icons/ArrowDown.vue';
+
+defineEmits(['fetch', 'sort']);
 
 defineProps({
     headings: Array,

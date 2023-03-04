@@ -37,6 +37,7 @@
                            :data="state.orders.data"
                            @onEdit="onEdit"
                            @onDestroy="destroy"
+                           @orderBy="orderBy"
                            :statuses="statuses"
                            :canDestroy="can('destroy-orders')"
                     />
@@ -120,12 +121,25 @@ const can = inject('$can');
 const params = ref({
     status: null,
     currentPage: 1,
+    orderBy: {
+        key: null,
+        val: null
+    }
 })
 
 const getParams = computed(() => {
-    const {currentPage, status = null} = params.value;
-    return {page: currentPage, status};
+    const {currentPage, status = null, orderBy = null} = params.value;
+    return {page: currentPage, status, orderBy};
 });
+
+const orderBy = (key, val) => {
+    params.value.orderBy = {
+        key: key,
+        val: val
+    }
+    params.value.currentPage = 1;
+    fetch();
+}
 
 onMounted(() => {
     fetch();
@@ -229,6 +243,10 @@ const submitItemForm = async () => {
 
 const sortByStatus = _.debounce((status) => {
     if (state.value.sidebarActive !== status) {
+        params.value.orderBy = {
+            key: null,
+            val: null
+        }
         state.value.sidebarActive = status;
         params.value.status = status === 'all' ? null : status;
         fetch();

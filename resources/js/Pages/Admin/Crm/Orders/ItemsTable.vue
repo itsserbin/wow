@@ -1,5 +1,5 @@
 <template>
-    <table-component
+    <Table
         :isSlotMode="true"
         :rows="data"
         :headings="headings"
@@ -10,17 +10,20 @@
                     <Pencil/>
                 </a>
                 <a href="javascript:" @click="$emit('destroyOrderItem', data.row.id,data.i)">
-                    <xcircle-component/>
+                    <XCircle/>
                 </a>
             </div>
         </template>
 
         <template #preview="{data}">
-            <picture>
-                <source :srcset="route('images.350',data.row.product.preview.webp_src)" type="image/webp">
-                <img :data-src="route('images.350',data.row.product.preview.src) "
-                     :alt="data.row.product.h1.ua ? data.row.product.h1.ua : data.row.product.h1.ru"
-                     class="h-full object-cover w-full"
+            <picture v-if="data.row.product">
+                <source
+                    :srcset="data.row.product.preview ? route('images.350', data.row.product.preview.webp_src) : null"
+                    type="image/webp">
+                <img
+                    :data-src="data.row.product.preview ? route('images.350', data.row.product.preview.src) : null"
+                    :alt="data.row.product.h1.ua ? data.row.product.h1.ua : data.row.product.h1.ru"
+                    class="h-full object-cover w-full"
                 >
             </picture>
         </template>
@@ -46,25 +49,28 @@
         </template>
 
         <template #vendor_code="{data}">
-            {{ data.row.product.vendor_code }}
+            <div v-if="data.row.product">
+                {{ data.row.product.vendor_code }}
+            </div>
         </template>
 
         <template #h1="{data}">
-            <a :href="route('product',data.row.product.id)" target="_blank">
+            <a v-if="data.row.product" :href="route('product',data.row.product.id)" target="_blank">
                 {{ data.row.product.h1.ua ? data.row.product.h1.ua : data.row.product.h1.ru }}
             </a>
         </template>
-    </table-component>
+    </Table>
 </template>
 
 <script setup>
+import Table from '@/Components/Table.vue';
 import Pencil from '@/Components/Icons/Pencil.vue';
-import {reactive} from "vue";
+import XCircle from '@/Components/Icons/XCircle.vue';
 
 defineProps(['data']);
 defineEmits(['editOrderItem', 'destroyOrderItem'])
 
-const headings = reactive([
+const headings = [
     {
         label: 'Фото',
         key: 'preview'
@@ -109,5 +115,5 @@ const headings = reactive([
         label: '#',
         key: 'actions'
     },
-])
+];
 </script>

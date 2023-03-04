@@ -1,65 +1,78 @@
 <template>
-    <table-component :headings="headings"
-                     :isSlotMode="true"
-                     :rows="data"
+    <Table :headings="headings"
+           :isSlotMode="true"
+           :rows="data"
+           @sort="sort"
     >
-        <template v-slot:id="{data}">
+        <template #id="{data}">
             <a href="javascript:" @click="$emit('onEdit',data.row.id,data.i)">
                 {{ data.row.id }}
             </a>
         </template>
 
-        <template v-slot:name="{data}">
+        <template #name="{data}">
             {{ data.row.name }}
         </template>
 
-        <template v-slot:last_name="{data}">
+        <template #last_name="{data}">
             {{ data.row.last_name }}
         </template>
 
-        <template v-slot:phone="{data}">
+        <template #phone="{data}">
             <a :href="'tel:' + data.row.phone">
                 {{ data.row.phone }}
             </a>
         </template>
 
-        <template v-slot:average_check="{data}">
+        <template #average_check="{data}">
             {{ $filters.formatMoney(data.row.average_check) }}
         </template>
 
-        <template v-slot:whole_check="{data}">
+        <template #whole_check="{data}">
             {{ $filters.formatMoney(data.row.whole_check) }}
         </template>
 
-        <template v-slot:status="{data}">
+        <template #status="{data}">
             {{ statuses[data.row.status] }}
         </template>
 
-        <template v-slot:timestamps="{data}">
-            {{ $filters.dateTimeFormat(data.row.updated_at) }}
-            <hr class="my-1">
+        <template #created_at="{data}">
             {{ $filters.dateTimeFormat(data.row.created_at) }}
         </template>
-        <template v-slot:actions="{data}">
+
+        <template #updated_at="{data}">
+            {{ $filters.dateTimeFormat(data.row.updated_at) }}
+        </template>
+
+        <template #actions="{data}">
             <a href="javascript:" @click="$emit('onDestroy',data.row.id)" v-if="canDestroy">
-                <xcircle-component/>
+                <XCircle/>
             </a>
         </template>
-    </table-component>
+    </Table>
 </template>
 
 <script setup>
-defineEmits(['onDestroy', 'onEdit'])
+import Table from '@/Components/Table.vue';
+import XCircle from '@/Components/Icons/XCircle.vue';
+
+const emits = defineEmits(['onDestroy', 'onEdit', 'orderBy'])
 defineProps(['data', 'onEdit', 'statuses', 'canDestroy']);
+
+const sort = (key, type) => {
+    emits('orderBy', key, type);
+}
 
 const headings = [
     {
         label: 'ID',
-        key: 'id'
+        key: 'id',
+        sortable: true
     },
     {
         label: 'Статус',
-        key: 'status'
+        key: 'status',
+        sortable: true
     },
     {
         label: 'Імʼя',
@@ -75,19 +88,28 @@ const headings = [
     },
     {
         label: 'Замовлень',
-        key: 'number_of_purchases'
+        key: 'number_of_purchases',
+        sortable: true
     },
     {
         label: 'Середній чек',
-        key: 'average_check'
+        key: 'average_check',
+        sortable: true
     },
     {
         label: 'Загальний чек',
-        key: 'whole_check'
+        key: 'whole_check',
+        sortable: true
     },
     {
-        label: "Оновлено<hr class='my-1'>Створено",
-        key: 'timestamps'
+        label: 'Створено',
+        key: 'created_at',
+        sortable: true
+    },
+    {
+        label: 'Оновлено',
+        key: 'updated_at',
+        sortable: true
     },
     {
         label: '#',

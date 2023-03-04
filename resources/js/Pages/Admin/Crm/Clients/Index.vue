@@ -36,6 +36,7 @@
                     <Table :data="state.data.data"
                            @onEdit="onEdit"
                            @onDestroy="destroy"
+                           @orderBy="orderBy"
                            :statuses="state.statuses"
                            :canDestroy="can('destroy-clients')"
                     />
@@ -92,14 +93,25 @@ const state = ref({
 const params = ref({
     status: null,
     currentPage: 1,
+    orderBy: {
+        key: null,
+        val: null
+    }
 })
 
 const getParams = computed(() => {
-    return {
-        page: params.value.currentPage,
-        status: params.value.status ? params.value.status : null
-    };
-})
+    const {currentPage, status = null, orderBy = null} = params.value;
+    return {page: currentPage, status, orderBy};
+});
+
+const orderBy = (key, val) => {
+    params.value.orderBy = {
+        key: key,
+        val: val
+    }
+    params.value.currentPage = 1;
+    fetch();
+}
 
 const sidebar = ref([]);
 const swal = inject('$swal')

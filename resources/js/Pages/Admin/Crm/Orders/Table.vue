@@ -1,7 +1,8 @@
 <template>
-    <table-component :headings="headings"
-                     :isSlotMode="true"
-                     :rows="data"
+    <Table :headings="headings"
+           :isSlotMode="true"
+           :rows="data"
+           @sort="sort"
     >
         <template #id="{data}">
             <a href="javascript:" @click="$emit('onEdit',data.row.id,data.i)">
@@ -37,34 +38,43 @@
             </div>
         </template>
 
-        <template #timestamps="{data}">
-            {{ $filters.dateTimeFormat(data.row.updated_at) }}
-            <hr class="my-1">
+        <template #created_at="{data}">
             {{ $filters.dateTimeFormat(data.row.created_at) }}
+        </template>
+
+        <template #updated_at="{data}">
+            {{ $filters.dateTimeFormat(data.row.updated_at) }}
         </template>
 
         <template #actions="{data}">
             <a href="javascript:" @click="$emit('onDestroy',data.row.id)" v-if="canDestroy">
-                <xcircle-component/>
+                <XCircle/>
             </a>
         </template>
-    </table-component>
+    </Table>
 </template>
 
 <script setup>
-import {reactive} from "vue";
+import Table from '@/Components/Table.vue'
+import XCircle from '@/Components/Icons/XCircle.vue'
 
-defineEmits(['onDestroy', 'onEdit'])
+const emits = defineEmits(['onDestroy', 'onEdit', 'orderBy'])
 defineProps(['data', 'statuses', 'canDestroy']);
 
-const headings = reactive([
+const sort = (key, type) => {
+    emits('orderBy', key, type);
+}
+
+const headings = [
     {
         label: 'ID',
-        key: 'id'
+        key: 'id',
+        sortable: true
     },
     {
         label: 'Статус',
-        key: 'status'
+        key: 'status',
+        sortable: true
     },
     {
         label: 'Імʼя',
@@ -79,29 +89,37 @@ const headings = reactive([
         key: 'phone'
     },
     {
-        label: 'Накладка',
+        label: 'ТТН',
         key: 'waybill'
     },
     {
         label: 'Товарів',
-        key: 'total_count'
+        key: 'total_count',
+        sortable: true
     },
     {
         label: 'Сума',
-        key: 'total_price'
+        key: 'total_price',
+        sortable: true
     },
     {
         label: 'Коментар',
         key: 'comment'
     },
     {
-        label: "Оновлено<hr class='my-1'>Створено",
-        key: 'timestamps'
+        label: 'Створено',
+        key: 'created_at',
+        sortable: true
+    },
+    {
+        label: 'Оновлено',
+        key: 'updated_at',
+        sortable: true
     },
     {
         label: '#',
         key: 'actions'
     }
-]);
+];
 
 </script>

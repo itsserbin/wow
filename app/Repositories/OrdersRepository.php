@@ -69,7 +69,14 @@ class OrdersRepository extends CoreRepository
         if (isset($data['status'])) {
             $model->where('status', $data['status']);
         }
-        $results = $model->with(['client'])->orderBy('id', 'desc')->paginate(15);
+
+        if (isset($data['orderBy'])) {
+            $model->orderBy($data['orderBy']['key'], $data['orderBy']['val']);
+        } else {
+            $model->orderBy('id', 'desc');
+        }
+
+        $results = $model->with(['client'])->paginate(15);
 
         return $results->setCollection(
             $results->getCollection()->map->toArray()

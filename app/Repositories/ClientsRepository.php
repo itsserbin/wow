@@ -52,9 +52,17 @@ class ClientsRepository extends CoreRepository
             $model->where('status', $data['status']);
         }
 
-        return $model
-            ->orderBy('id', 'desc')
-            ->paginate(15);
+        if (isset($data['orderBy'])) {
+            $model->orderBy($data['orderBy']['key'], $data['orderBy']['val']);
+        } else {
+            $model->orderBy('id', 'desc');
+        }
+
+        $results = $model->paginate(15);
+
+        return $results->setCollection(
+            $results->getCollection()->map->toArray()
+        );
     }
 
     public function search($search)
