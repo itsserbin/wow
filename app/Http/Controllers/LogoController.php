@@ -13,7 +13,7 @@ class LogoController extends Controller
         if ($request->hasFile('logo')) {
             $file = $request->file('logo');
             $filename = $file->getClientOriginalName();
-            $path = $file->storeAs('public', $filename);
+            $path = $file->storeAs('public', 'logo.png');
 
             $image = new Image();
             $image->alt = 'Logo';

@@ -32,6 +32,7 @@ const instructions = 'Виберіть зображення логотипу';
 
 const image = ref(null);
 
+//Загрузка лого
 const onFileChange = (event) => {
     const file = event.target.files[0];
     const formData = new FormData();
@@ -51,6 +52,7 @@ const onFileChange = (event) => {
         });
 };
 
+//Удаляем лого которое загрузилось
 const destroyImage = () => {
     axios.delete('/delete-image')
         .then(() => {
@@ -70,5 +72,4 @@ const emit = (event, payload) => {
         attrs[eventName](payload);
     }
 };
-
 </script>
