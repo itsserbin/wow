@@ -71,15 +71,4 @@ const emit = (event, payload) => {
     }
 };
 
-const getImage = () => {
-    axios.get('/logo')
-        .then(response => {
-            image.value = response.data.path;
-        })
-        .catch(error => {
-            console.error(error);
-        });
-};
-
-getImage();
 </script>
