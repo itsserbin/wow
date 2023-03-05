@@ -92,7 +92,11 @@ class AdminController extends Controller
 
     public function clients(): Response
     {
-        return Inertia::render('Crm/Clients/Index');
+        return Inertia::render('Crm/Clients/Index',[
+            'orderStatuses' => OrderStatus::state,
+            'statuses' => ClientStatus::state,
+            'subStatuses' => ClientSubStatus::state
+        ]);
     }
 
     public function callbacks(): Response

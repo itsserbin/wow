@@ -1,8 +1,8 @@
 <template>
-    <div class="grid grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card v-for="(item, i) in data"
               :title="i"
-              :description="item + '%'"
+              :description="item"
               class="text-center"
         />
     </div>

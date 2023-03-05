@@ -1,8 +1,6 @@
 <template>
-    <CrmLayout title="Клієнти">
-        <template #header>
-            Клієнти
-        </template>
+    <CrmLayout :title="$t('clients.page_title')">
+        <template #header>{{ $t('clients.page_title') }}</template>
 
         <Loader v-if="state.isLoading"/>
 
@@ -35,13 +33,13 @@
                     <Indicators :data="state.indicators"/>
                     <Search @search="search"
                             :clear="true"
-                            placeholder="Імʼя, прізвище, по-батькові, телефон, email, коментар..."
+                            :placeholder="$t('clients.search_placeholder')"
                     />
                     <Table :data="state.data.data"
                            @onEdit="onEdit"
                            @onDestroy="destroy"
                            @orderBy="orderBy"
-                           :statuses="state.statuses"
+                           :statuses="statuses"
                            :canDestroy="can('destroy-clients')"
                     />
                     <div class="text-center">
@@ -54,8 +52,9 @@
             </div>
             <component :is="editModal"
                        :item="state.modal"
-                       :statuses="state.statuses"
-                       :sub-statuses="state.subStatuses"
+                       :statuses="statuses"
+                       :sub-statuses="subStatuses"
+                       :order-statuses="orderStatuses"
                        size="extralarge"
                        @closeModal="editModalFunction"
                        @declineForm="destroy"
@@ -67,7 +66,6 @@
 </template>
 
 <script setup>
-import {computed, inject, onMounted, ref} from "vue";
 import Indicators from '@/Pages/Admin/Crm/Clients/Indicators.vue';
 import Modal from '@/Pages/Admin/Crm/Clients/Modal.vue';
 import Table from '@/Pages/Admin/Crm/Clients/Table.vue';
@@ -79,9 +77,21 @@ import Search from '@/Components/Search.vue';
 import Paginate from '@/Components/Paginate.vue';
 import DatepickerComponent from '@/Pages/Admin/Statistics/Datepicker.vue'
 
+import {computed, inject, onMounted, ref} from "vue";
+import ClientsRepository from "@/Repositories/ClientsRepository";
+import {useI18n} from 'vue-i18n';
+
+const props = defineProps(['statuses', 'subStatuses', 'orderStatuses']);
+
+const {t} = useI18n();
+const swal = inject('$swal')
+const can = inject('$can');
+
+const sidebar = ref([]);
+
 const exportSidebar = [
     {
-        title: 'Експортувати',
+        title: t('clients.export'),
         key: 'export'
     }
 ];
@@ -89,8 +99,6 @@ const exportSidebar = [
 const state = ref({
     data: [],
     indicators: {},
-    statuses: [],
-    subStatuses: [],
     isLoading: true,
     isActiveEditModal: false,
     sidebarActive: 'all',
@@ -130,25 +138,16 @@ const orderBy = (key, val) => {
     fetch();
 }
 
-const sidebar = ref([]);
-const swal = inject('$swal')
-const can = inject('$can');
-
 onMounted(() => {
     fetch();
 
-    axios.get(route('api.clients.statuses'))
-        .then(({data}) => {
-            state.value.statuses = data.statuses;
-            state.value.subStatuses = data.subStatuses;
-            sidebar.value.push({title: 'Всі клієнти', key: 'all'});
-            for (const [key, value] of Object.entries(data.statuses)) {
-                sidebar.value.push({
-                    title: value,
-                    key: key,
-                })
-            }
-        });
+    sidebar.value.push({title: t('clients.all_clients'), key: 'all'});
+    for (const [key, value] of Object.entries(props.statuses)) {
+        sidebar.value.push({
+            title: value,
+            key: key,
+        })
+    }
 
     if (route().params.id) {
         state.value.isLoading = true;
@@ -165,17 +164,15 @@ const exportFunction = (key) => {
 }
 
 const search = async (query) => {
-    await axios.get(route('api.clients.search', {search: query}))
-        .then(({data}) => {
-            state.value.sidebarActive = null;
-            params.value.currentPage = 1;
-            state.value.data = data.result;
-            state.value.isLoading = false;
-        })
-        .catch(errors => {
-            console.log(errors);
-            state.value.isLoading = false;
-        })
+    state.value.isLoading = true;
+    const data = await ClientsRepository.search(query);
+    if (data.success) {
+        state.value.sidebarActive = null;
+        params.value.currentPage = 1;
+        state.value.data = data.result;
+        state.value.isLoading = false;
+    }
+    state.value.isLoading = false;
 }
 
 const sortByStatus = (status) => {
@@ -199,78 +196,62 @@ const paginate = async (page) => {
 }
 
 const fetch = async () => {
-    await axios.get(route('api.clients.index', getParams.value))
-        .then(({data}) => {
-            state.value.indicators = data.indicators;
-            state.value.data = data.result;
-            state.value.isLoading = false;
-        })
-        .catch(errors => {
-            console.log(errors);
-            state.value.isLoading = false;
-        })
+    state.value.isLoading = true;
+    const data = await ClientsRepository.fetch(getParams.value);
+    if (data.success) {
+        state.value.indicators = data.indicators;
+        state.value.data = data.result;
+        state.value.isLoading = false;
+    }
 }
 
 const destroy = async (id) => {
     if (can('destroy-clients')) {
-        swal({
-            title: 'Видалити?',
+        const result = await swal({
+            title: t('swal.sure'),
             icon: 'warning',
             showCancelButton: true,
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                await axios.delete(route('api.clients.destroy', id))
-                    .then(() => {
-                        state.value.isLoading = false;
-                        fetch();
-                        if (state.value.isActiveEditModal) {
-                            editModalFunction();
-                        }
-                        swal({
-                            title: 'Success!',
-                            icon: 'success'
-                        })
-                    })
-                    .catch(errors => {
-                        console.log(errors);
-                        swal({
-                            title: 'Error!',
-                            icon: 'error'
-                        })
-                    })
+        })
+
+        if (result.isConfirmed) {
+            const {success} = await ClientsRepository.destroy(id);
+            if (success) {
+                state.value.isLoading = false;
+                await fetch();
+                if (state.value.isActiveEditModal) {
+                    editModalFunction();
+                }
+                swal({
+                    title: t('swal.destroyed'),
+                    icon: 'success'
+                })
             }
-        });
+        }
     }
 }
 
 const onEdit = async (id, i) => {
-    await axios.get(route('api.clients.edit', id))
-        .then(({data}) => {
-            state.value.modal.index = i;
-            state.value.modal = data.result;
-            editModalFunction();
-            state.value.isLoading = false;
-        })
-        .catch((errors) => console.log(errors))
+    state.value.isLoading = true;
+    const data = await ClientsRepository.edit(id);
+    if (data.success) {
+        state.value.modal.index = i;
+        state.value.modal = data.result;
+        editModalFunction();
+        state.value.isLoading = false;
+    }
 }
 
 const onUpdate = async () => {
-    await axios.put(route('api.clients.update', state.value.modal.id), state.value.modal)
-        .then(() => {
-            editModalFunction();
-            fetch();
-            swal({
-                title: 'Success!',
-                icon: 'success'
-            })
+    const data = await ClientsRepository.update(state.value.modal);
+
+    if (data.success) {
+        editModalFunction();
+        await fetch();
+        swal({
+            title: t('swal.updated'),
+            icon: 'success'
         })
-        .catch((errors) => {
-            console.log(errors);
-            swal({
-                title: 'Error!',
-                icon: 'error'
-            })
-        })
+    }
 }
 
 const editModalFunction = () => {

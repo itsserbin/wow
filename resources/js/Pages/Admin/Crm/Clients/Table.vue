@@ -56,6 +56,10 @@
 import Table from '@/Components/Table.vue';
 import XCircle from '@/Components/Icons/XCircle.vue';
 
+import {useI18n} from 'vue-i18n';
+
+const {t} = useI18n();
+
 const emits = defineEmits(['onDestroy', 'onEdit', 'orderBy'])
 defineProps(['data', 'onEdit', 'statuses', 'canDestroy']);
 
@@ -65,54 +69,54 @@ const sort = (key, type) => {
 
 const headings = [
     {
-        label: 'ID',
+        label: t('id'),
         key: 'id',
         sortable: true
     },
     {
-        label: 'Статус',
+        label: t('status'),
         key: 'status',
         sortable: true
     },
     {
-        label: 'Імʼя',
+        label: t('clients.name'),
         key: 'name'
     },
     {
-        label: 'Прізвище',
+        label: t('clients.last_name'),
         key: 'last_name'
     },
     {
-        label: 'Телефон',
+        label: t('clients.phone'),
         key: 'phone'
     },
     {
-        label: 'Всього замовлень',
+        label: t('clients.number_of_purchases'),
         key: 'number_of_purchases',
         sortable: true
     },
     {
-        label: 'Виконаних замовлень',
+        label: t('clients.purchased_goods'),
         key: 'purchased_goods',
         sortable: true
     },
     {
-        label: 'Середній чек',
+        label: t('clients.average_check'),
         key: 'average_check',
         sortable: true
     },
     {
-        label: 'Загальний чек',
+        label: t('clients.whole_check'),
         key: 'whole_check',
         sortable: true
     },
     {
-        label: 'Створено',
+        label: t('created_at'),
         key: 'created_at',
         sortable: true
     },
     {
-        label: 'Оновлено',
+        label: t('updated_at'),
         key: 'updated_at',
         sortable: true
     },

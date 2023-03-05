@@ -341,15 +341,18 @@ class ClientsRepository extends CoreRepository
             $percentage_of_canceled_purchases = ($canceled_purchases / $total_count) * 100;
 
         } else {
+            $successful_repeat_purchases = 0;
+            $repeat_purchases = 0;
+            $canceled_purchases = 0;
             $percentage_of_successful_repeat_purchases = 0;
             $percentage_of_repeat_purchases = 0;
             $percentage_of_canceled_purchases = 0;
         }
 
         return [
-            '% успішних повторних завмовлень' => round($percentage_of_successful_repeat_purchases, 2),
-            'Загальний % повторних завмовлень' => round($percentage_of_repeat_purchases, 2),
-            '% хто не зробив покупку' => round($percentage_of_canceled_purchases, 2)
+            'Виконаних повторних завмовлень' => $successful_repeat_purchases . " (" . round($percentage_of_successful_repeat_purchases, 2) . "%)",
+            'Повторних завмовлень' => $repeat_purchases . " (" . round($percentage_of_repeat_purchases, 2) . "%)",
+            'Жодної покупки' => $canceled_purchases . " (" . round($percentage_of_canceled_purchases, 2) . "%)"
         ];
     }
 }
