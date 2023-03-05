@@ -4,13 +4,14 @@
                 last:rounded-b-lg
                 border
                 border-gray-200
-                dark:border-gray-900
+                dark:border-gray-800
                 hover:bg-gray-100
-                dark:hover:bg-gray-900
+                dark:hover:bg-gray-800
+                transition-all
             "
          :class="{
-                    'dark:bg-gray-900' : visible,
-                    'dark:bg-gray-800' : !visible
+                    'dark:bg-gray-800' : visible,
+                    'dark:bg-gray-600' : !visible
                 }"
     >
         <button @click="open" type="button"
@@ -44,8 +45,8 @@
                             border
                             border-b-0
                             border-gray-200
-                            dark:border-gray-700
-                            dark:bg-gray-900
+                            dark:border-gray-800
+                            dark:bg-gray-800
                         ">
                     <slot name="accordion-content"></slot>
                 </div>
