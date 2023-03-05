@@ -70,6 +70,7 @@ const i18n = createI18n({
                 search_placeholder: 'Імʼя, прізвище, по-батькові, телефон, email, коментар...',
             },
             orders:{
+                page_title: 'Замовлення',
                 total_count: 'Кількість',
                 total_price: 'Сума',
             },

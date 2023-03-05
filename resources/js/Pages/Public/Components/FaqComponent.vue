@@ -20,8 +20,8 @@
 
 <script setup>
 import {onMounted, ref} from "vue";
-import Accordion from "@/Components/Accordion/Accordion.vue";
-import AccordionItem from "@/Components/Accordion/AccordionItem.vue";
+import Accordion from "@/Pages/Public/Components/Accordion/Accordion.vue";
+import AccordionItem from "@/Pages/Public/Components/Accordion/AccordionItem.vue";
 
 const state = ref({
     faqs: [],

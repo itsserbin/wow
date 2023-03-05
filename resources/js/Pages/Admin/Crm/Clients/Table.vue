@@ -74,7 +74,7 @@ const headings = [
         sortable: true
     },
     {
-        label: t('status'),
+        label: t('clients.status'),
         key: 'status',
         sortable: true
     },

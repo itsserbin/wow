@@ -60,20 +60,29 @@
             </div>
         </div>
 
-        <ItemsTable :data="item.orders" :order-statuses="orderStatuses"/>
+        <Accordion v-if="item.orders.length">
+            <AccordionItem>
+                <template #accordion-trigger>
+                    {{ $t('orders.page_title') }}
+                </template>
+                <template #accordion-content>
+                    <ItemsTable :data="item.orders" :order-statuses="orderStatuses"/>
+                </template>
+            </AccordionItem>
+        </Accordion>
 
-        <div class="grid grid-cols-1 md:grid-cols-4 text-center gap-4">
+        <div v-if="item.orders.length" class="grid grid-cols-1 md:grid-cols-4 text-center gap-4">
             <div class="block">
-                {{$t('clients.number_of_purchases')}}: {{ item.number_of_purchases }}
+                {{ $t('clients.number_of_purchases') }}: {{ item.number_of_purchases }}
             </div>
             <div class="block">
-                {{$t('clients.purchased_goods')}}: {{ item.purchased_goods }}
+                {{ $t('clients.purchased_goods') }}: {{ item.purchased_goods }}
             </div>
             <div class="block">
-                {{$t('clients.average_check')}}: {{ $filters.formatMoney(item.average_check) }}
+                {{ $t('clients.average_check') }}: {{ $filters.formatMoney(item.average_check) }}
             </div>
             <div class="block">
-                {{$t('clients.whole_check')}}: {{ $filters.formatMoney(item.whole_check) }}
+                {{ $t('clients.whole_check') }}: {{ $filters.formatMoney(item.whole_check) }}
             </div>
         </div>
     </form>
@@ -85,10 +94,12 @@ import Label from '@/Components/Form/Label.vue';
 import Select from '@/Components/Form/Select.vue';
 import Input from '@/Components/Form/Input.vue';
 import Textarea from '@/Components/Form/Textarea.vue';
+import Accordion from '@/Components/Accordion/Accordion.vue';
+import AccordionItem from '@/Components/Accordion/AccordionItem.vue';
 
 import {onMounted, ref} from "vue";
 
-const props = defineProps(['item', 'statuses', 'subStatuses','orderStatuses'])
+const props = defineProps(['item', 'statuses', 'subStatuses', 'orderStatuses'])
 
 const state = ref({
     itemsModalAction: '',

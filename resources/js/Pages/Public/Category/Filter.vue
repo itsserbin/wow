@@ -113,8 +113,8 @@
 import {computed, ref} from "vue";
 import Input from '@/Pages/Public/Components/Input.vue'
 import Button from '@/Pages/Public/Components/Button.vue'
-import Accordion from "@/Components/Accordion/Accordion.vue";
-import AccordionItem from "@/Components/Accordion/AccordionItem.vue";
+import Accordion from "@/Pages/Public/Components/Accordion/Accordion.vue";
+import AccordionItem from "@/Pages/Public/Components/Accordion/AccordionItem.vue";
 import Slider from '@vueform/slider'
 
 const props = defineProps(['characteristics', 'lang','isShow']);

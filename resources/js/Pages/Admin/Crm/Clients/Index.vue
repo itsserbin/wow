@@ -2,9 +2,8 @@
     <CrmLayout :title="$t('clients.page_title')">
         <template #header>{{ $t('clients.page_title') }}</template>
 
-        <Loader v-if="state.isLoading"/>
 
-        <div v-if="!state.isLoading && can('show-clients')">
+        <div v-if="can('show-clients')">
             <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
                 <div class="md:col-span-1">
                     <Sidebar class="mb-5">
@@ -26,27 +25,32 @@
                         </SidebarItem>
                     </Sidebar>
                 </div>
-                <div class="w-full md:col-span-4 grid grid-cols-1 gap-4">
-                    <DatepickerComponent v-model="params.date"
-                                         @update:modelValue="sortByDate"
-                    />
-                    <Indicators :data="state.indicators"/>
-                    <Search @search="search"
-                            :clear="true"
-                            :placeholder="$t('clients.search_placeholder')"
-                    />
-                    <Table :data="state.data.data"
-                           @onEdit="onEdit"
-                           @onDestroy="destroy"
-                           @orderBy="orderBy"
-                           :statuses="statuses"
-                           :canDestroy="can('destroy-clients')"
-                    />
-                    <div class="text-center">
-                        <Paginate :pagination="state.data"
-                                  :click-handler="paginate"
-                                  v-model="params.currentPage"
+
+
+                <div class="md:col-span-4">
+                    <Loader v-if="state.isLoading"/>
+                    <div v-if="!state.isLoading" class="w-full grid grid-cols-1 gap-4">
+                        <DatepickerComponent v-model="params.date"
+                                             @update:modelValue="sortByDate"
                         />
+                        <Indicators :data="state.indicators"/>
+                        <Search @search="search"
+                                :clear="true"
+                                :placeholder="$t('clients.search_placeholder')"
+                        />
+                        <Table :data="state.data.data"
+                               @onEdit="onEdit"
+                               @onDestroy="destroy"
+                               @orderBy="orderBy"
+                               :statuses="statuses"
+                               :canDestroy="can('destroy-clients')"
+                        />
+                        <div class="text-center">
+                            <Paginate :pagination="state.data"
+                                      :click-handler="paginate"
+                                      v-model="params.currentPage"
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
