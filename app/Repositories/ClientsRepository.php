@@ -7,6 +7,7 @@ use App\Models\Enums\ClientStatus;
 use App\Models\Enums\MassActions;
 use App\Models\Enums\OrderStatus;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 
 class ClientsRepository extends CoreRepository
 {
@@ -49,6 +50,13 @@ class ClientsRepository extends CoreRepository
         ];
 
         $model = $this->model::select($columns);
+
+        if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
+            $model->whereBetween('created_at', [
+                date_format(date_create($data['date_start']), 'Y-m-d') . ' 00:00:00',
+                date_format(date_create($data['date_end']), 'Y-m-d') . ' 23:59:59'
+            ]);
+        }
 
         if (array_key_exists('status', $data)) {
             $model->where('status', $data['status']);
@@ -286,5 +294,62 @@ class ClientsRepository extends CoreRepository
             ->select($columns)
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);
+    }
+
+    public function indicators($data)
+    {
+        if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
+            $total_count = $this->model->whereBetween('created_at', [
+                date_format(date_create($data['date_start']), 'Y-m-d') . ' 00:00:00',
+                date_format(date_create($data['date_end']), 'Y-m-d') . ' 23:59:59'
+            ])->count();
+        } else {
+            $total_count = $this->model->count();
+        }
+
+        if ($total_count) {
+            if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data)) {
+                $successful_repeat_purchases = $this->model->whereBetween('created_at', [
+                    date_format(date_create($data['date_start']), 'Y-m-d') . ' 00:00:00',
+                    date_format(date_create($data['date_end']), 'Y-m-d') . ' 23:59:59'
+                ])->where('purchased_goods', '>=', 2)->count();
+
+                $repeat_purchases = $this->model->whereBetween('created_at', [
+                    date_format(date_create($data['date_start']), 'Y-m-d') . ' 00:00:00',
+                    date_format(date_create($data['date_end']), 'Y-m-d') . ' 23:59:59'
+                ])->has('orders', '>=', 2)->count();
+
+                $canceled_purchases = $this->model->whereBetween('created_at', [
+                    date_format(date_create($data['date_start']), 'Y-m-d') . ' 00:00:00',
+                    date_format(date_create($data['date_end']), 'Y-m-d') . ' 23:59:59'
+                ])->whereHas('orders', function ($query) {
+                    $query->where('status', 'canceled');
+                })->doesntHave('orders', 'and', function ($query) {
+                    $query->where('status', '!=', 'canceled');
+                })->count();
+            } else {
+                $successful_repeat_purchases = $this->model->where('purchased_goods', '>=', 2)->count();
+                $repeat_purchases = $this->model->has('orders', '>=', 2)->count();
+                $canceled_purchases = $this->model->whereHas('orders', function ($query) {
+                    $query->where('status', 'canceled');
+                })->doesntHave('orders', 'and', function ($query) {
+                    $query->where('status', '!=', 'canceled');
+                })->count();
+            }
+            $percentage_of_successful_repeat_purchases = ($successful_repeat_purchases / $total_count) * 100;
+            $percentage_of_repeat_purchases = ($repeat_purchases / $total_count) * 100;
+            $percentage_of_canceled_purchases = ($canceled_purchases / $total_count) * 100;
+
+        } else {
+            $percentage_of_successful_repeat_purchases = 0;
+            $percentage_of_repeat_purchases = 0;
+            $percentage_of_canceled_purchases = 0;
+        }
+
+        return [
+            '% успішних повторних завмовлень' => round($percentage_of_successful_repeat_purchases, 2),
+            'Загальний % повторних завмовлень' => round($percentage_of_repeat_purchases, 2),
+            '% хто не зробив покупку' => round($percentage_of_canceled_purchases, 2)
+        ];
     }
 }

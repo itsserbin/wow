@@ -29,6 +29,10 @@
                     </Sidebar>
                 </div>
                 <div class="w-full md:col-span-4 grid grid-cols-1 gap-4">
+                    <DatepickerComponent v-model="params.date"
+                                         @update:modelValue="sortByDate"
+                    />
+                    <Indicators :data="state.indicators"/>
                     <Search @search="search"
                             :clear="true"
                             placeholder="Імʼя, прізвище, по-батькові, телефон, email, коментар..."
@@ -63,7 +67,8 @@
 </template>
 
 <script setup>
-import {computed, inject, onMounted, reactive, ref} from "vue";
+import {computed, inject, onMounted, ref} from "vue";
+import Indicators from '@/Pages/Admin/Crm/Clients/Indicators.vue';
 import Modal from '@/Pages/Admin/Crm/Clients/Modal.vue';
 import Table from '@/Pages/Admin/Crm/Clients/Table.vue';
 import CrmLayout from '@/Pages/Admin/Crm/CrmLayout.vue';
@@ -72,6 +77,7 @@ import Sidebar from '@/Components/Sidebar/Sidebar.vue';
 import SidebarItem from '@/Components/Sidebar/SidebarItem.vue';
 import Search from '@/Components/Search.vue';
 import Paginate from '@/Components/Paginate.vue';
+import DatepickerComponent from '@/Pages/Admin/Statistics/Datepicker.vue'
 
 const exportSidebar = [
     {
@@ -82,6 +88,7 @@ const exportSidebar = [
 
 const state = ref({
     data: [],
+    indicators: {},
     statuses: [],
     subStatuses: [],
     isLoading: true,
@@ -96,12 +103,22 @@ const params = ref({
     orderBy: {
         key: null,
         val: null
-    }
+    },
+    date: [],
 })
+
+const dateRange = computed(() => {
+    if (params.value.date.length === 2) {
+        return {
+            date_start: params.value.date[0].toLocaleDateString(),
+            date_end: params.value.date[1].toLocaleDateString()
+        }
+    }
+});
 
 const getParams = computed(() => {
     const {currentPage, status = null, orderBy = null} = params.value;
-    return {page: currentPage, status, orderBy};
+    return {page: currentPage, status, orderBy, ...dateRange.value};
 });
 
 const orderBy = (key, val) => {
@@ -164,7 +181,14 @@ const search = async (query) => {
 const sortByStatus = (status) => {
     state.value.sidebarActive = status;
     params.value.status = status === 'all' ? null : status;
+    params.value.date = [];
+    params.value.currentPage = 1;
     fetch();
+}
+
+const sortByDate = async () => {
+    params.value.currentPage = 1;
+    await fetch();
 }
 
 const paginate = async (page) => {
@@ -177,6 +201,7 @@ const paginate = async (page) => {
 const fetch = async () => {
     await axios.get(route('api.clients.index', getParams.value))
         .then(({data}) => {
+            state.value.indicators = data.indicators;
             state.value.data = data.result;
             state.value.isLoading = false;
         })

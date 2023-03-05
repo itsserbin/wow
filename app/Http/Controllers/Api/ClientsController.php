@@ -24,6 +24,7 @@ class ClientsController extends BaseController
         return $this->returnResponse([
             'success' => true,
             'result' => $this->clientsRepository->getAllWithPaginate($request->all()),
+            'indicators' => $this->clientsRepository->indicators($request->all())
         ]);
     }
 
