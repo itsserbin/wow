@@ -40,53 +40,66 @@ class UploadImagesService
         Storage::disk('s3')->put(ImagesPath::PRODUCT_IMAGE . $filename, Image::make($image)
             ->encode('jpeg', 100)
             ->stream());
+
         Storage::disk('s3')->put(ImagesPath::PRODUCT_IMAGE . $filename_webp, Image::make($image)
             ->encode('webp', 100)
             ->stream());
 
-        Storage::disk('s3')->put(ImagesPath::PRODUCT_IMAGE_55 . $filename, Image::make($image)
-            ->resize(55, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })
-            ->encode('jpeg', 100)
-            ->stream()
+        Storage::disk('s3')->put(
+            ImagesPath::PRODUCT_IMAGE_55 . $filename,
+            Image::make($image)
+                ->resize(55, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->encode('jpeg', 100)
+                ->stream()
         );
-        Storage::disk('s3')->put(ImagesPath::PRODUCT_IMAGE_55 . $filename_webp, Image::make($image)
-            ->resize(55, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })
-            ->encode('webp', 100)
-            ->stream()
-        );
-
-        Storage::disk('s3')->put(ImagesPath::PRODUCT_IMAGE_350 . $filename, Image::make($image)
-            ->resize(350, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })
-            ->encode('jpeg', 100)
-            ->stream()
-        );
-        Storage::disk('s3')->put(ImagesPath::PRODUCT_IMAGE_350 . $filename_webp, Image::make($image)
-            ->resize(350, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })
-            ->encode('webp', 100)
-            ->stream()
+        Storage::disk('s3')->put(
+            ImagesPath::PRODUCT_IMAGE_55 . $filename_webp,
+            Image::make($image)
+                ->resize(55, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->encode('webp', 100)
+                ->stream()
         );
 
-        Storage::disk('s3')->put(ImagesPath::PRODUCT_IMAGE_500 . $filename, Image::make($image)
-            ->resize(500, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })
-            ->encode('jpeg', 100)
-            ->stream()
+        Storage::disk('s3')->put(
+            ImagesPath::PRODUCT_IMAGE_350 . $filename,
+            Image::make($image)
+                ->resize(350, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->encode('jpeg', 100)
+                ->stream()
         );
-        Storage::disk('s3')->put(ImagesPath::PRODUCT_IMAGE_500 . $filename_webp, Image::make($image)
-            ->resize(500, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })
-            ->encode('webp', 100)
-            ->stream()
+        Storage::disk('s3')->put(
+            ImagesPath::PRODUCT_IMAGE_350 . $filename_webp,
+            Image::make($image)
+                ->resize(350, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->encode('webp', 100)
+                ->stream()
+        );
+
+        Storage::disk('s3')->put(
+            ImagesPath::PRODUCT_IMAGE_500 . $filename,
+            Image::make($image)
+                ->resize(500, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->encode('jpeg', 100)
+                ->stream()
+        );
+        Storage::disk('s3')->put(
+            ImagesPath::PRODUCT_IMAGE_500 . $filename_webp,
+            Image::make($image)
+                ->resize(500, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->encode('webp', 100)
+                ->stream()
         );
 
         $this->imagesRepository->create([
@@ -121,6 +134,14 @@ class UploadImagesService
 
         Storage::disk('s3')->put($path . $filename, Image::make($image)->stream());
 
+        return $filename;
+    }
+
+    public function uploadLogo($data)
+    {
+        $image = $data['logo'];
+        $filename = 'logo.jpeg';
+        Storage::put($filename, Image::make($image)->encode('jpeg', 100));
         return $filename;
     }
 

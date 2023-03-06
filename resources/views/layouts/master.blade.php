@@ -30,6 +30,7 @@
 <body class="h-full">
 {!! $options['after_body_scripts'] !!}
 <div id="app" class="h-full flex flex-col">
+    <div v-else>
     <header class="w-[100%] fixed top-0 z-20 bg-[#fff] flex-[0_0_auto]">
         @include('components.fixed-banner')
         <header-component
@@ -56,6 +57,7 @@
         <callback></callback>
     @endif
     <scroll-to-top></scroll-to-top>
+    </div>
 </div>
 @routes
 @vite('resources/js/Pages/Public/app.js')

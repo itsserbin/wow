@@ -144,8 +144,6 @@ Route::prefix('admin')
             Route::get('logo', [AdminController::class, 'optionsLogo'])
                 ->name('admin.logo');
 
-            Route::post('/upload-image', [LogoController::class, 'uploadImage']);
-
             Route::get('xmls', [AdminController::class, 'optionsXmls'])
                 ->name('admin.options.xmls.index');
 

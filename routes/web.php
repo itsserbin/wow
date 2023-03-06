@@ -61,8 +61,6 @@ Route::group(['prefix' => App\Http\Middleware\LocaleMiddleware::getLocale()], fu
     require __DIR__ . '/xml.php';
 });
 
-Route::post('/upload-image', [LogoController::class, 'store']);
-Route::delete('/delete-image', [LogoController::class, 'destroy']);
 
 Route::post('sms-new-order', [SmsController::class, 'newOrder'])
     ->name('sms.new.order');

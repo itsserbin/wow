@@ -52,15 +52,11 @@ const items = [
         permission: 'show-banners',
         href: route('admin.options.banners.index')
     },
+
     {
         title: 'Переваги',
         permission: 'show-advantages',
         href: route('admin.options.advantages.index')
-    },
-    {
-        title: 'Логотип',
-        permission: 'show-main-options',
-        href: route('admin.logo')
     },
     {
         title: 'FAQ',

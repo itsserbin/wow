@@ -62,6 +62,5 @@ class ImagesController extends Controller
         } else {
             return Image::make('storage/no_image.png')->response();
         }
-
     }
 }

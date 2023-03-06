@@ -6,6 +6,7 @@
 import axios from 'axios';
 
 const appName = import.meta.env.VITE_APP_NAME;
+
 export default {
     data() {
         return {
@@ -13,7 +14,7 @@ export default {
         };
     },
     mounted() {
-        axios.get('/logo-url')
+        axios.get('/upload-image')
             .then(response => {
                 this.logoUrl = response.data;
             })

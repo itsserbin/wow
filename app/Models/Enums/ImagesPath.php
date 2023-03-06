@@ -7,6 +7,8 @@ class ImagesPath
     const MOBILE_BANNER = '/banners/mobile/';
     const TABLE_BANNER = '/banners/table/';
     const DESKTOP_BANNER = '/banners/desktop/';
+    const LOGO = '/storage/';
+
 
     const PRODUCT_IMAGE = '/products2/';
     const PRODUCT_IMAGE_350 = '/products2/350/';
@@ -14,5 +16,4 @@ class ImagesPath
     const PRODUCT_IMAGE_500 = '/products2/500/';
 
     const CATEGORY = '/categories/';
-
 }

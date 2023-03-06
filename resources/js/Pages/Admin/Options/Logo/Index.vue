@@ -4,7 +4,7 @@
             <slot name="header"></slot>
         </template>
         <div class="mb-4">
-            <label class="block font-medium text-gray-700">{{ label }}</label>
+            <label class="block font-medium text-gray-700">Логотип</label>
             <div class="mt-2">
                 <div v-if="image">
                     <img :src="image" class="w-20 h-20 object-contain mb-2">
@@ -33,19 +33,19 @@ const instructions = 'Виберіть зображення логотипу';
 const image = ref(null);
 
 //Загрузка фото
-const onFileChange = (event) => {
+const onFileChange = async (event) => {
     const file = event.target.files[0];
     const formData = new FormData();
     formData.append('logo', file);
 
-    axios.post('/upload-image', formData, {
+    await axios.post('/upload-image', formData, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
     })
-        .then(response => {
+        .then(({ data }) => {
             image.value = URL.createObjectURL(file);
-            emit('upload', response.data.path);
+            emit('upload', data.path);
         })
         .catch(error => {
             console.error(error);
@@ -53,16 +53,18 @@ const onFileChange = (event) => {
 };
 
 //Удаляем лого которое загрузилось
-const destroyImage = () => {
-    axios.delete('/delete-image')
+const destroyImage = async () => {
+    await axios.delete(route('logo.upload'))
         .then(() => {
             image.value = null;
-            emit('onDestroyImage');
+            emits('onDestroyImage');
         })
         .catch(error => {
             console.error(error);
         });
 };
+
+const emits = defineEmits(['upload']);
 
 const emit = (event, payload) => {
     const eventName = `update:${event}`;

@@ -32,5 +32,6 @@ class Options
         'consultation_status',
         'text_heading_home_page_ua',
         'text_heading_home_page_ru',
+        'logo'
     ];
 }
