@@ -97,6 +97,9 @@ const i18n = createI18n({
                 text_return_and_exchange_ru: 'Умови обміну та повернення на сторінці товару RU',
                 text_home_page_ua: 'Текст на головній сторінці UA',
                 text_home_page_ru: 'Текст на головній сторінці RU',
+                text_label_logo:'Логотип',
+                text_destroyLabel:'Видалити',
+                instructions:'Виберіть зображення логотипу',
             },
             meta: {
                 title: 'META Title',
