@@ -172,7 +172,7 @@ class AdminController extends Controller
 
     public function optionsLogo(): Response
     {
-        return Inertia::render('Options/Logo/Index');
+        return Inertia::render('Options/Main/Logo');
     }
 
     public function colors(): Response
