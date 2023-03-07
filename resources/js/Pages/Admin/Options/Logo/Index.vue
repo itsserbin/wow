@@ -4,7 +4,7 @@
             <label class="block font-medium text-gray-700">{{ $t('options.text_label_logo') }}</label>
             <div class="mt-2">
                 <div v-if="image">
-                    <img :src="image" class="w-[5.625rem] h-[5.625rem] mb-2">
+                    <img :src="image" class="w-[6.25rem] h-[6.25rem] mb-2">
                     <button type="button" class="text-sm font-medium text-red-500 hover:text-red-700"
                         @click="destroyImage">{{ $t('options.text_destroyLabel') }}</button>
                 </div>
