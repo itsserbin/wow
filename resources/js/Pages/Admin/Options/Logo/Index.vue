@@ -61,7 +61,6 @@ const onFileChange = async (event) => {
     }
 };
 
-
 //Удаление логотипа
 const destroyImage = async () => {
     await axios.delete(route('api.images.delete'))

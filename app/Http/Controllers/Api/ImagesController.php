@@ -65,6 +65,7 @@ class ImagesController extends BaseController
 
     public function uploadLogo(Request $request)
     {
+
         $logoImage = Image::where('alt', 'Logo')->first();
 
         if ($logoImage) {
