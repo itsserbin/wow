@@ -10,7 +10,7 @@ use FacebookAds\Object\ServerSide\EventRequest;
 use FacebookAds\Object\ServerSide\UserData;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LogoController;
+use App\Http\Controllers\ImagesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,8 +58,11 @@ Route::group(['prefix' => App\Http\Middleware\LocaleMiddleware::getLocale()], fu
     Route::get('support', [HomeController::class, 'support'])
         ->name('support');
 
+
+
     require __DIR__ . '/xml.php';
 });
+
 
 
 Route::post('sms-new-order', [SmsController::class, 'newOrder'])

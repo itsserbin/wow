@@ -118,7 +118,6 @@ Route::prefix('admin')
             Route::get('main', [AdminController::class, 'optionsMain'])
                 ->name('admin.options.main');
 
-
             Route::get('scripts', [AdminController::class, 'optionsScripts'])
                 ->name('admin.options.scripts');
 
@@ -142,7 +141,7 @@ Route::prefix('admin')
 
             //logo
             Route::get('logo', [AdminController::class, 'optionsLogo'])
-                ->name('admin.logo');
+                ->name('admin.options.logo');
 
             Route::get('xmls', [AdminController::class, 'optionsXmls'])
                 ->name('admin.options.xmls.index');

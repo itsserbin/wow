@@ -7,6 +7,8 @@ use App\Repositories\ImagesRepository;
 use App\Services\UploadImagesService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Models\Image;
+use Illuminate\Support\Facades\Storage;
 
 class ImagesController extends BaseController
 {
@@ -58,5 +60,43 @@ class ImagesController extends BaseController
             'success' => true,
             'result' => $result,
         ]);
+    }
+
+
+    public function uploadLogo(Request $request)
+    {
+        $logoImage = Image::where('alt', 'Logo')->first();
+
+        if ($logoImage) {
+            Storage::delete('public/' . basename($logoImage->src));
+        } else {
+            $logoImage = new Image();
+            $logoImage->alt = 'Logo';
+        }
+
+        $file = $request->file('logo');
+        $path = $file->storeAs('public', 'logo.jpeg');
+        $logoImage->src = Storage::url($path);
+        $logoImage->webp_src = '';
+        $logoImage->save();
+
+        if ($logoImage->save()) {
+            return response()->json(['path' => $logoImage->src, 'success' => true]);
+        } else {
+            return response()->json(['success' => false]);
+        }
+    }
+
+
+    public function deleteLogo()
+    {
+        $logoImage = Image::where('alt', 'Logo')->first();
+
+        if ($logoImage) {
+            Storage::delete('public/' . basename($logoImage->src));
+            $logoImage->delete();
+        }
+
+        return response()->json(['success' => true]);
     }
 }

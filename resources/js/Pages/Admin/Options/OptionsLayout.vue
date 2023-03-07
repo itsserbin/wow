@@ -55,7 +55,7 @@ const items = [
     {
         title: 'Логотип',
         permission: 'show-main-options',
-        href: route('admin.logo')
+        href: route('admin.options.logo')
     },
     {
         title: 'Переваги',
