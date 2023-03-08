@@ -34,8 +34,7 @@ const onFileChange = async (event) => {
     const formData = new FormData();
     formData.append('logo', file);
 
-
-    await axios.post('/api/images/logo', formData, {
+    await axios.post(route('api.images.logo'), formData, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
