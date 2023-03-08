@@ -7,15 +7,18 @@ use App\Repositories\ImagesRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+use App\Repositories\OptionsRepository;
 
 class UploadImagesService
 {
 
     private mixed $imagesRepository;
+    protected $optionsRepository;
 
     public function __construct()
     {
         $this->imagesRepository = app(ImagesRepository::class);
+        $this->optionsRepository = app(OptionsRepository::class);
     }
 
     public function uploadImages($data)
@@ -139,21 +142,28 @@ class UploadImagesService
 
     public function uploadLogo($data)
     {
+
         $image = $data['logo'];
         $filename = 'logo.jpeg';
-        $path = storage_path('app/public/' . $filename);
-        Image::make($image)->resize(100, null, function ($constraint) {
-            $constraint->aspectRatio();
-        })->save($path);
+        Storage::put($filename, Image::make($image)->encode('jpeg', 100));
+        $image->storeAs('public', $filename);
+        if ($image->storeAs('public', $filename)) {
+            $this->optionsRepository->update('logo', Storage::url($filename));
+        } else {
+            $this->optionsRepository->create('logo', Storage::url($filename));
+        }
+
         return Storage::url($filename);
     }
-
 
 
     public function deleteLogo()
     {
         $filename = 'logo.jpeg';
         Storage::delete('public/' . $filename);
+        if (Storage::delete('public/' . $filename)) {
+            $this->optionsRepository->update('logo', NULL);
+        }
     }
 
     public function createFilename($path, $filename)
