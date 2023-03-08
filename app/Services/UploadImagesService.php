@@ -142,8 +142,10 @@ class UploadImagesService
         $image = $data['logo'];
         $filename = 'logo.jpeg';
         Storage::put($filename, Image::make($image)->encode('jpeg', 100));
-        return $filename;
+        $image->storeAs('public', $filename);
+        return Storage::url($filename);
     }
+
 
     public function createFilename($path, $filename)
     {

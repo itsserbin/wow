@@ -34,6 +34,7 @@ use App\Http\Controllers\Api\Statistics\CostsController;
 use App\Http\Controllers\Api\SupportsController;
 use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Api\XmlsController;
+use App\Services\UploadImagesService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -109,7 +110,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('destroy/{id}', [ImagesController::class, 'destroy'])
             ->name('api.images.destroy');
 
-        Route::post('logo', [ImagesController::class, 'uploadLogo'])
+        Route::post('logo', [ImagesController::class, 'logo'])
             ->name('api.images.logo.upload');
 
         Route::delete('logo', [ImagesController::class, 'deleteLogo'])

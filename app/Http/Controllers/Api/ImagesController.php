@@ -42,6 +42,14 @@ class ImagesController extends BaseController
         ]);
     }
 
+    public function logo(Request $request): JsonResponse
+    {
+        return $this->returnResponse([
+            'success' => true,
+            'result' => $this->uploadImagesService->uploadLogo($request->all()),
+        ]);
+    }
+
     public function update($id, Request $request): JsonResponse
     {
         $result = $this->imagesRepository->update($id, $request->all());
@@ -60,32 +68,6 @@ class ImagesController extends BaseController
             'success' => true,
             'result' => $result,
         ]);
-    }
-
-
-    public function uploadLogo(Request $request)
-    {
-
-        $logoImage = Image::where('alt', 'Logo')->first();
-
-        if ($logoImage) {
-            Storage::delete('public/' . basename($logoImage->src));
-        } else {
-            $logoImage = new Image();
-            $logoImage->alt = 'Logo';
-        }
-
-        $file = $request->file('logo');
-        $path = $file->storeAs('public', 'logo.jpeg');
-        $logoImage->src = Storage::url($path);
-        $logoImage->webp_src = '';
-        $logoImage->save();
-
-        if ($logoImage->save()) {
-            return response()->json(['path' => $logoImage->src, 'success' => true]);
-        } else {
-            return response()->json(['success' => false]);
-        }
     }
 
 

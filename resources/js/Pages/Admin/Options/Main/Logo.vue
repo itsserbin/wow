@@ -27,13 +27,8 @@ const swal = inject('$swal');
 const image = ref(null);
 const { t } = useI18n();
 
-defineProps({
-    title: String,
-    accept: {
-        type: String,
-        default: 'image/jpeg,image/png'
-    }
-})
+defineProps(['title']);
+
 
 //Загрузка логотипа
 const onFileChange = async (file) => {
@@ -46,7 +41,7 @@ const onFileChange = async (file) => {
         }
     })
         .then(({ data }) => {
-            image.value = data.path;
+            image.value = data.result;
             swal({
                 title: t('swal.logo.upload'),
                 icon: 'success',

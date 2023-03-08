@@ -87,6 +87,9 @@ class BannersController extends BaseController
         ]);
     }
 
+
+
+
     public function all(): JsonResponse
     {
         return $this->returnResponse([
