@@ -110,10 +110,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('destroy/{id}', [ImagesController::class, 'destroy'])
             ->name('api.images.destroy');
 
-        Route::post('logo', [ImagesController::class, 'logo'])
+        Route::post('logo', [ImagesController::class, 'logoUpload'])
             ->name('api.images.logo.upload');
 
-        Route::delete('logo', [ImagesController::class, 'deleteLogo'])
+        Route::delete('logo', [ImagesController::class, 'destroyLogo'])
             ->name('api.images.logo.delete');
     });
 

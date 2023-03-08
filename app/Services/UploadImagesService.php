@@ -147,6 +147,12 @@ class UploadImagesService
     }
 
 
+    public function deleteLogo($data)
+    {
+        $filename = 'logo.jpeg';
+        Storage::delete('public/' . $filename);
+    }
+
     public function createFilename($path, $filename)
     {
         if (Storage::disk('s3')->exists($path)) {

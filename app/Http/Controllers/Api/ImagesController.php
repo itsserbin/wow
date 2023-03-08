@@ -42,11 +42,20 @@ class ImagesController extends BaseController
         ]);
     }
 
-    public function logo(Request $request): JsonResponse
+    public function logoUpload(Request $request): JsonResponse
     {
         return $this->returnResponse([
             'success' => true,
             'result' => $this->uploadImagesService->uploadLogo($request->all()),
+        ]);
+    }
+
+
+    public function destroyLogo(Request $request): JsonResponse
+    {
+        return $this->returnResponse([
+            'success' => true,
+            'result' => $this->uploadImagesService->deleteLogo($request->all()),
         ]);
     }
 
@@ -68,18 +77,5 @@ class ImagesController extends BaseController
             'success' => true,
             'result' => $result,
         ]);
-    }
-
-
-    public function deleteLogo()
-    {
-        $logoImage = Image::where('alt', 'Logo')->first();
-
-        if ($logoImage) {
-            Storage::delete('public/' . basename($logoImage->src));
-            $logoImage->delete();
-        }
-
-        return response()->json(['success' => true]);
     }
 }
