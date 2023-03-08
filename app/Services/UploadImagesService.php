@@ -141,13 +141,16 @@ class UploadImagesService
     {
         $image = $data['logo'];
         $filename = 'logo.jpeg';
-        Storage::put($filename, Image::make($image)->encode('jpeg', 100));
-        $image->storeAs('public', $filename);
+        $path = storage_path('app/public/' . $filename);
+        Image::make($image)->resize(100, null, function ($constraint) {
+            $constraint->aspectRatio();
+        })->save($path);
         return Storage::url($filename);
     }
 
 
-    public function deleteLogo($data)
+
+    public function deleteLogo()
     {
         $filename = 'logo.jpeg';
         Storage::delete('public/' . $filename);
