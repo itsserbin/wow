@@ -9,7 +9,7 @@
                         @click="destroyImage">{{ $t('options.text_destroyLabel') }}</button>
                 </div>
                 <div v-else>
-                    <Input type="file" @change="onFileChange" />
+                    <Input type="file" :accept="accept" @change="onFileChange($event.target.files[0])" />
                     <p class="mt-2 text-sm text-gray-500">{{ $t('options.instructions') }}</p>
                 </div>
             </div>
@@ -22,19 +22,25 @@ import Input from '@/Components/Form/Input.vue';
 import Label from '@/Components/Form/Label.vue';
 import { useI18n } from 'vue-i18n';
 import { ref, inject } from 'vue';
+
 const swal = inject('$swal');
+const image = ref(null);
 const { t } = useI18n();
 
-defineProps(['title'], ['accept']);
-const image = ref(null);
+defineProps({
+    title: String,
+    accept: {
+        type: String,
+        default: 'image/jpeg,image/png'
+    }
+})
 
 //Загрузка логотипа
-const onFileChange = async (event) => {
-    const file = event.target.files[0];
+const onFileChange = async (file) => {
     const formData = new FormData();
     formData.append('logo', file);
 
-    await axios.post(route('api.images.logo'), formData, {
+    await axios.post(route('api.images.logo.upload'), formData, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
@@ -57,11 +63,9 @@ const onFileChange = async (event) => {
         });
 }
 
-
-
 //Удаление логотипа
 const destroyImage = async () => {
-    await axios.delete(route('api.images.delete'))
+    await axios.delete(route('api.images.logo.delete'))
         .then(() => {
             image.value = null;
             swal({

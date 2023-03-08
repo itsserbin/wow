@@ -110,10 +110,10 @@ Route::middleware('auth:sanctum')->group(function () {
             ->name('api.images.destroy');
 
         Route::post('logo', [ImagesController::class, 'uploadLogo'])
-            ->name('api.images.logo');
+            ->name('api.images.logo.upload');
 
         Route::delete('logo', [ImagesController::class, 'deleteLogo'])
-            ->name('api.images.delete');
+            ->name('api.images.logo.delete');
     });
 
     Route::prefix('users')->group(function () {
