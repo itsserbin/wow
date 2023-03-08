@@ -1,7 +1,7 @@
 <template>
     <OptionsLayout>
         <div class="mb-4">
-            <label class="block font-medium text-gray-700">{{ $t('options.text_label_logo') }}</label>
+            <Label :value="$t('options.text_label_logo')" />
             <div class="mt-2">
                 <div v-if="image">
                     <img :src="image" class="w-[6.25rem] h-[6.25rem] mb-2">
@@ -9,7 +9,7 @@
                         @click="destroyImage">{{ $t('options.text_destroyLabel') }}</button>
                 </div>
                 <div v-else>
-                    <input type="file" @change="onFileChange" :accept="accept">
+                    <Input type="file" @change="onFileChange" />
                     <p class="mt-2 text-sm text-gray-500">{{ $t('options.instructions') }}</p>
                 </div>
             </div>
@@ -18,12 +18,14 @@
 </template>
 <script setup>
 import OptionsLayout from '@/Pages/Admin/Options/OptionsLayout.vue'
+import Input from '@/Components/Form/Input.vue';
+import Label from '@/Components/Form/Label.vue';
+import { useI18n } from 'vue-i18n';
 import { ref, inject } from 'vue';
-const swal = inject('$swal')
+const swal = inject('$swal');
+const { t } = useI18n();
 
-defineProps(['title']);
-
-const accept = 'image/*';
+defineProps(['title'], ['accept']);
 const image = ref(null);
 
 //Загрузка логотипа
@@ -32,34 +34,30 @@ const onFileChange = async (event) => {
     const formData = new FormData();
     formData.append('logo', file);
 
-    const img = new Image();
-    img.src = URL.createObjectURL(file);
 
-    img.onload = async () => {
-        await axios.post('/api/images/logo', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        })
-            .then(({ data }) => {
-                image.value = URL.createObjectURL(file);
-                swal({
-                    title: 'Success!',
-                    text: 'Логотип был успешно загружен!',
-                    icon: 'success',
-                    confirmButtonText: 'Ok'
-                });
+    await axios.post('/api/images/logo', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+        .then(({ data }) => {
+            image.value = data.path;
+            swal({
+                title: t('swal.logo.upload'),
+                icon: 'success',
+                confirmButtonText: 'Ok'
             })
-            .catch(error => {
-                swal({
-                    title: 'Error!',
-                    text: 'Возникла ошибка логотип не был загружен!',
-                    icon: 'error',
-                    confirmButtonText: 'Ok'
-                });
+        })
+        .catch(error => {
+            console.log(error);
+            swal({
+                text: t('swal.logo.error'),
+                icon: 'error',
+                confirmButtonText: 'Ok'
             });
-    }
-};
+        });
+}
+
 
 
 //Удаление логотипа
@@ -68,16 +66,15 @@ const destroyImage = async () => {
         .then(() => {
             image.value = null;
             swal({
-                title: 'Success!',
-                text: 'Логотип был успешно удален!',
+                title: t('swal.logo.destroy.success'),
                 icon: 'success',
                 confirmButtonText: 'Ok'
             });
         })
         .catch(error => {
+            console.log(error);
             swal({
-                title: 'Error!',
-                text: 'Возникла ошибка при удалении логотипа!',
+                title: t('swal.logo.destroy.error'),
                 icon: 'error',
                 confirmButtonText: 'Ok'
             });

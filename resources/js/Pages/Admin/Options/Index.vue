@@ -52,7 +52,6 @@ const items = [
         permission: 'show-banners',
         href: route('admin.options.banners.index')
     },
-
     {
         title: 'Переваги',
         permission: 'show-advantages',
