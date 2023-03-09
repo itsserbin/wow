@@ -149,8 +149,6 @@ class UploadImagesService
         $image->storeAs('public', $filename);
         if ($image->storeAs('public', $filename)) {
             $this->optionsRepository->update('logo', Storage::url($filename));
-        } else {
-            $this->optionsRepository->create('logo', Storage::url($filename));
         }
 
         return Storage::url($filename);
