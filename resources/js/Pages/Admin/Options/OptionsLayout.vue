@@ -53,11 +53,6 @@ const items = [
         href: route('admin.options.banners.index')
     },
     {
-        title: 'Логотип',
-        permission: 'show-main-options',
-        href: route('admin.options.logo')
-    },
-    {
         title: 'Переваги',
         permission: 'show-advantages',
         href: route('admin.options.advantages.index')

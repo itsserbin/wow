@@ -1,23 +1,20 @@
 <template>
-    <OptionsLayout>
-        <div class="mb-4">
-            <Label :value="$t('options.text_label_logo')" />
-            <div class="mt-2">
-                <div v-if="image">
-                    <img :src="image" class="w-[6.25rem] h-[6.25rem] mb-2">
-                    <button type="button" class="text-sm font-medium text-red-500 hover:text-red-700"
-                        @click="destroyImage">{{ $t('options.text_destroyLabel') }}</button>
-                </div>
-                <div v-else>
-                    <Input type="file" :accept="accept" @change="onFileChange($event.target.files[0])" />
-                    <p class="mt-2 text-sm text-gray-500">{{ $t('options.instructions') }}</p>
-                </div>
+    <div class="mb-4">
+        <Label :value="$t('options.text_label_logo')" />
+        <div class="mt-2">
+            <div v-if="image">
+                <img :src="image" class="w-[6.25rem] h-[6.25rem] mb-2">
+                <button type="button" class="text-sm font-medium text-red-500 hover:text-red-700" @click="destroyImage">{{
+                    $t('options.text_destroyLabel') }}</button>
+            </div>
+            <div v-else>
+                <Input type="file" :accept="accept" @change="onFileChange($event.target.files[0])" />
+                <p class="mt-2 text-sm text-gray-500">{{ $t('options.instructions') }}</p>
             </div>
         </div>
-    </OptionsLayout>
+    </div>
 </template>
 <script setup>
-import OptionsLayout from '@/Pages/Admin/Options/OptionsLayout.vue'
 import Input from '@/Components/Form/Input.vue';
 import Label from '@/Components/Form/Label.vue';
 import { useI18n } from 'vue-i18n';
