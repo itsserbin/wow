@@ -1,19 +1,19 @@
 <script setup>
-import {ref, onMounted, inject} from 'vue';
+import { ref, onMounted, inject } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import {Link, Head} from '@inertiajs/inertia-vue3';
-import {useStore} from "vuex";
+import { Link, Head } from '@inertiajs/inertia-vue3';
+import { useStore } from "vuex";
 
 const showingNavigationDropdown = ref(false);
 
 const user = useStore();
 const can = inject('$can');
 
-defineProps(['title']);
+defineProps(['title', 'logo']);
 
 onMounted(() => {
     user.commit('load');
@@ -21,9 +21,9 @@ onMounted(() => {
 </script>
 
 <template>
-
     <div>
-        <Head :title="title"/>
+
+        <Head :title="title" />
 
         <div class="min-h-screen">
             <nav class="bg-white border-b border-gray-100 dark:bg-gray-800 dark:border-gray-700">
@@ -34,38 +34,33 @@ onMounted(() => {
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
                                 <Link :href="route('admin.dashboard')">
-                                    <ApplicationLogo class="block h-9 w-auto"/>
+                                <ApplicationLogo class="block h-9 w-auto" />
                                 </Link>
                             </div>
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 xl:flex">
-                                <NavLink :href="route('admin.dashboard')"
-                                         :active="route().current('admin.dashboard')">
+                                <NavLink :href="route('admin.dashboard')" :active="route().current('admin.dashboard')">
                                     Головна
                                 </NavLink>
 
-                                <NavLink :href="route('admin.content.index')"
-                                         v-if="can('show-content')"
-                                         :active="route().current('admin.content.*')">
+                                <NavLink :href="route('admin.content.index')" v-if="can('show-content')"
+                                    :active="route().current('admin.content.*')">
                                     Контент
                                 </NavLink>
 
-                                <NavLink :href="route('admin.crm.index')"
-                                         v-if="can('show-crm')"
-                                         :active="route().current('admin.crm.*')">
+                                <NavLink :href="route('admin.crm.index')" v-if="can('show-crm')"
+                                    :active="route().current('admin.crm.*')">
                                     CRM
                                 </NavLink>
 
-                                <NavLink :href="route('admin.statistics.index')"
-                                         v-if="can('show-bookkeeping')"
-                                         :active="route().current('admin.statistics.*')">
+                                <NavLink :href="route('admin.statistics.index')" v-if="can('show-bookkeeping')"
+                                    :active="route().current('admin.statistics.*')">
                                     Статистика
                                 </NavLink>
 
-                                <NavLink :href="route('admin.options.index')"
-                                         v-if="can('show-options')"
-                                         :active="route().current('admin.options.*')">
+                                <NavLink :href="route('admin.options.index')" v-if="can('show-options')"
+                                    :active="route().current('admin.options.*')">
                                     Налаштування
                                 </NavLink>
                             </div>
@@ -78,14 +73,14 @@ onMounted(() => {
                                     <template #trigger>
                                         <span class="inline-flex rounded-md">
                                             <button type="button"
-                                                    class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                                                 {{ $page.props.auth.user.name }}
 
                                                 <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                                     viewBox="0 0 20 20" fill="currentColor">
+                                                    viewBox="0 0 20 20" fill="currentColor">
                                                     <path fill-rule="evenodd"
-                                                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                          clip-rule="evenodd"/>
+                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                        clip-rule="evenodd" />
                                                 </svg>
                                             </button>
                                         </span>
@@ -102,17 +97,17 @@ onMounted(() => {
 
                         <!-- Hamburger -->
                         <div class="flex items-center xl:hidden">
-                            <button @click="showingNavigationDropdown = ! showingNavigationDropdown"
-                                    class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                            <button @click="showingNavigationDropdown = !showingNavigationDropdown"
+                                class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
                                 <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                                     <path
-                                        :class="{'hidden': showingNavigationDropdown, 'inline-flex': ! showingNavigationDropdown }"
+                                        :class="{ 'hidden': showingNavigationDropdown, 'inline-flex': !showingNavigationDropdown }"
                                         stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M4 6h16M4 12h16M4 18h16"/>
+                                        d="M4 6h16M4 12h16M4 18h16" />
                                     <path
-                                        :class="{'hidden': ! showingNavigationDropdown, 'inline-flex': showingNavigationDropdown }"
+                                        :class="{ 'hidden': !showingNavigationDropdown, 'inline-flex': showingNavigationDropdown }"
                                         stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M6 18L18 6M6 6l12 12"/>
+                                        d="M6 18L18 6M6 6l12 12" />
                                 </svg>
                             </button>
                         </div>
@@ -120,35 +115,29 @@ onMounted(() => {
                 </div>
 
                 <!-- Responsive Navigation Menu -->
-                <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}"
-                     class="xl:hidden">
+                <div :class="{ 'block': showingNavigationDropdown, 'hidden': !showingNavigationDropdown }" class="xl:hidden">
                     <div class="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink :href="route('admin.dashboard')"
-                                           :active="route().current('admin.dashboard')">
+                        <ResponsiveNavLink :href="route('admin.dashboard')" :active="route().current('admin.dashboard')">
                             Головна
                         </ResponsiveNavLink>
 
-                        <ResponsiveNavLink :href="route('admin.content.index')"
-                                           v-if="can('show-content')"
-                                           :active="route().current('admin.content.*')">
+                        <ResponsiveNavLink :href="route('admin.content.index')" v-if="can('show-content')"
+                            :active="route().current('admin.content.*')">
                             Контент
                         </ResponsiveNavLink>
 
-                        <ResponsiveNavLink :href="route('admin.crm.index')"
-                                           v-if="can('show-crm')"
-                                           :active="route().current('admin.crm.index')">
+                        <ResponsiveNavLink :href="route('admin.crm.index')" v-if="can('show-crm')"
+                            :active="route().current('admin.crm.index')">
                             CRM
                         </ResponsiveNavLink>
 
-                        <ResponsiveNavLink :href="route('admin.statistics.index')"
-                                           v-if="can('show-bookkeeping')"
-                                           :active="route().current('admin.statistics.*')">
+                        <ResponsiveNavLink :href="route('admin.statistics.index')" v-if="can('show-bookkeeping')"
+                            :active="route().current('admin.statistics.*')">
                             Статистика
                         </ResponsiveNavLink>
 
-                        <ResponsiveNavLink :href="route('admin.options.index')"
-                                           v-if="can('show-options')"
-                                           :active="route().current('admin.options.*')">
+                        <ResponsiveNavLink :href="route('admin.options.index')" v-if="can('show-options')"
+                            :active="route().current('admin.options.*')">
                             Налаштування
                         </ResponsiveNavLink>
                     </div>
@@ -173,7 +162,7 @@ onMounted(() => {
             <header class="bg-white shadow dark:bg-gray-700 " v-if="$slots.header">
                 <div class="container mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     <h2 class="font-semibold text-xl text-gray-800 leading-tight dark:text-gray-300">
-                        <slot name="header"/>
+                        <slot name="header" />
                     </h2>
                 </div>
             </header>
@@ -184,7 +173,7 @@ onMounted(() => {
                     <div class="container mx-auto">
                         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                             <div class="p-6 bg-white border-gray-200 dark:bg-gray-600">
-                                <slot/>
+                                <slot />
                             </div>
                         </div>
                     </div>

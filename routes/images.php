@@ -3,6 +3,7 @@
 use App\Http\Controllers\ImagesController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Image;
 
 Route::prefix('images')->group(function () {
     Route::prefix('banners')->group(function () {
@@ -27,6 +28,12 @@ Route::prefix('images')->group(function () {
 
     Route::get('500/{filename}', [ImagesController::class, 'products500'])
         ->name('images.500');
+});
+
+
+Route::get('/currentlogo', function () {
+    $image = Image::where('alt', 'Logo')->first();
+    return $image ? $image->src : null;
 });
 
 Route::get('old_images/{filename}', function ($filename) {

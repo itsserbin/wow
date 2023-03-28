@@ -7,26 +7,17 @@
         <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
             <div class="md:col-span-1">
                 <Sidebar class="mb-5">
-                    <SidebarItem v-for="item in items"
-                                 v-show="can(item.permission)"
-                                 :item="item"
-                                 :active="route(route().current()) === item.href"
-                    />
+                    <SidebarItem v-for="item in items" v-show="can(item.permission)" :item="item"
+                        :active="route(route().current()) === item.href" />
                 </Sidebar>
                 <Sidebar class="mb-5">
-                    <SidebarItem v-for="item in items3"
-                                 v-show="can(item.permission)"
-                                 :item="item"
-                                 :active="route(route().current()) === item.href"
-                    />
+                    <SidebarItem v-for="item in items3" v-show="can(item.permission)" :item="item"
+                        :active="route(route().current()) === item.href" />
                 </Sidebar>
 
                 <Sidebar>
-                    <SidebarItem v-for="item in items2"
-                                 v-show="can(item.permission)"
-                                 :item="item"
-                                 :active="route(route().current()) === item.href"
-                    />
+                    <SidebarItem v-for="item in items2" v-show="can(item.permission)" :item="item"
+                        :active="route(route().current()) === item.href" />
                 </Sidebar>
             </div>
             <div class="w-full md:col-span-4">
@@ -37,7 +28,7 @@
 </template>
 
 <script setup>
-import {inject} from "vue";
+import { inject } from "vue";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import Sidebar from '@/Components/Sidebar/Sidebar.vue'
 import SidebarItem from '@/Components/Sidebar/SidebarItem.vue'

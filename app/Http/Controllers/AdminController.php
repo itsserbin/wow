@@ -6,24 +6,37 @@ use App\Models\Enums\CallbackStatus;
 use App\Models\Enums\ClientStatus;
 use App\Models\Enums\ClientSubStatus;
 use App\Models\Enums\InvoicesStatus;
+use App\Models\Enums\Options;
 use App\Models\Enums\OrderStatus;
 use App\Models\Enums\PaymentMethod;
 use App\Models\Enums\SupportStatus;
+use App\Repositories\OptionsRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Inertia\Inertia;
 use Inertia\Response;
+use Ramsey\Uuid\Type\Integer;
 
 class AdminController extends Controller
 {
+    private mixed $optionsRepository;
+
     public function __construct()
     {
         parent::__construct();
+        $this->optionsRepository = app(OptionsRepository::class);
+    }
+
+    public function getLogo()
+    {
+        return $this->optionsRepository->getOptionValue('logo');
     }
 
     public function content(): Response
     {
-        return Inertia::render('Content/Index');
+        return Inertia::render('Content/Index', [
+            'logo' => $this->getLogo()
+        ]);
     }
 
     public function users(): Response
@@ -140,6 +153,7 @@ class AdminController extends Controller
         return Inertia::render('Options/Banners/Index');
     }
 
+
     public function optionsFaqs(): Response
     {
         return Inertia::render('Options/Faqs/Index');
@@ -158,6 +172,11 @@ class AdminController extends Controller
     public function optionsXmls(): Response
     {
         return Inertia::render('Options/Xmls/Index');
+    }
+
+    public function optionsLogo(): Response
+    {
+        return Inertia::render('Options/Main/Logo');
     }
 
     public function colors(): Response

@@ -20,13 +20,10 @@
                 <div class="font-bold text-black text-center text-2xl font-subheading">
                     {{ textThanksPageSpecials }}
                 </div>
-                <Timer :timer="timer"/>
+                <Timer :timer="timer" />
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <ProductCard v-for="product in state.products"
-                                 :product="product"
-                                 @addItemToOrder="addItemToOrder"
-                                 :lang="lang"
-                    />
+                    <ProductCard v-for="product in state.products" :product="product" @addItemToOrder="addItemToOrder"
+                        :lang="lang" />
                 </div>
             </div>
             <div v-else class="order-page__text my-5">
@@ -37,7 +34,7 @@
 </template>
 
 <script setup>
-import {inject, onMounted, ref} from "vue";
+import { inject, onMounted, ref } from "vue";
 import Timer from '@/Pages/Public/Thanks/Timer.vue'
 import ProductCard from '@/Pages/Public/Thanks/ProductCard.vue'
 
@@ -84,7 +81,7 @@ onMounted(() => {
     state.value.orderId = route().params.id;
 
     axios.get(route('api.v1.orders.special', state.value.orderId))
-        .then(({data}) => {
+        .then(({ data }) => {
             if (data.result) {
                 setInterval(function () {
                     let t = new Date(data.result.end_time).getTime() - new Date().getTime();

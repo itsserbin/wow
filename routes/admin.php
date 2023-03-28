@@ -1,9 +1,12 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Api\ImagesController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\SmsController;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
+
 use Inertia\Inertia;
 
 Route::prefix('admin')
@@ -37,7 +40,6 @@ Route::prefix('admin')
                 Route::get('social', [AdminController::class, 'socialReviews'])
                     ->name('admin.content.reviews.social');
             });
-
         });
 
         Route::prefix('crm')->group(function () {
@@ -107,7 +109,6 @@ Route::prefix('admin')
                         ->name('admin.statistics.costs.categories.index');
                 });
             });
-
         });
 
         Route::prefix('options')->group(function () {
@@ -137,6 +138,10 @@ Route::prefix('admin')
 
             Route::get('promo-codes', [AdminController::class, 'optionsPromoCodes'])
                 ->name('admin.options.promo-codes.index');
+
+            //logo
+            Route::get('logo', [AdminController::class, 'optionsLogo'])
+                ->name('admin.options.logo');
 
             Route::get('xmls', [AdminController::class, 'optionsXmls'])
                 ->name('admin.options.xmls.index');

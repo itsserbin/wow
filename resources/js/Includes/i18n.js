@@ -126,6 +126,9 @@ const i18n = createI18n({
                 text_return_and_exchange_ru: 'Умови обміну та повернення на сторінці товару RU',
                 text_home_page_ua: 'Текст на головній сторінці UA',
                 text_home_page_ru: 'Текст на головній сторінці RU',
+                text_label_logo:'Логотип',
+                text_destroyLabel:'Видалити',
+                instructions:'Виберіть зображення логотипу',
             },
             meta: {
                 title: 'META Title',
@@ -141,7 +144,15 @@ const i18n = createI18n({
                 destroyed: 'Дані успішно видалені',
                 sure: 'Ви впевнені?',
                 error: 'Виникла помилка',
-                check_data: 'Перевірте дані'
+                check_data: 'Перевірте дані',
+                logo: {
+                    upload:'Логотип було успішно завантажено!',
+                    error:'Виникла помилка логотип не було завантажено!',
+                    destroy:{
+                        success:'Логотип було успішно видалено!',
+                        error:'Виникла помилка під час видалення логотипу!',
+                    }
+                }
             },
             id: 'ID',
             status: 'Статус',

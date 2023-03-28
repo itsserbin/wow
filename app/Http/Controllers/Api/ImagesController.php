@@ -7,6 +7,8 @@ use App\Repositories\ImagesRepository;
 use App\Services\UploadImagesService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Models\Image;
+use Illuminate\Support\Facades\Storage;
 
 class ImagesController extends BaseController
 {
@@ -37,6 +39,23 @@ class ImagesController extends BaseController
         return $this->returnResponse([
             'success' => true,
             'result' => $result,
+        ]);
+    }
+
+    public function logoUpload(Request $request): JsonResponse
+    {
+        return $this->returnResponse([
+            'success' => true,
+            'result' => $this->uploadImagesService->uploadLogo($request->all()),
+        ]);
+    }
+
+
+    public function destroyLogo(Request $request): JsonResponse
+    {
+        return $this->returnResponse([
+            'success' => true,
+            'result' => $this->uploadImagesService->deleteLogo($request->all()),
         ]);
     }
 

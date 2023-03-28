@@ -1,10 +1,8 @@
 <template>
-    <a :href="route('home')">
-        <img src="/storage/logo.png" :alt="appName" class="w-[55px]">
-        <!--                        <img :src="logoApp" :alt="appName">-->
-    </a>
+    <img src="/storage/logo.jpeg" class="w-[3.5rem] h-[3.5rem]" :alt="appName">
 </template>
-
-<script setup>
-defineProps(['appName']);
+  
+<script>
+const appName = import.meta.env.VITE_APP_NAME;
 </script>
+  

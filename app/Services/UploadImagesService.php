@@ -7,15 +7,18 @@ use App\Repositories\ImagesRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+use App\Repositories\OptionsRepository;
 
 class UploadImagesService
 {
 
     private mixed $imagesRepository;
+    protected $optionsRepository;
 
     public function __construct()
     {
         $this->imagesRepository = app(ImagesRepository::class);
+        $this->optionsRepository = app(OptionsRepository::class);
     }
 
     public function uploadImages($data)
@@ -40,53 +43,66 @@ class UploadImagesService
         Storage::disk('s3')->put(ImagesPath::PRODUCT_IMAGE . $filename, Image::make($image)
             ->encode('jpeg', 100)
             ->stream());
+
         Storage::disk('s3')->put(ImagesPath::PRODUCT_IMAGE . $filename_webp, Image::make($image)
             ->encode('webp', 100)
             ->stream());
 
-        Storage::disk('s3')->put(ImagesPath::PRODUCT_IMAGE_55 . $filename, Image::make($image)
-            ->resize(55, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })
-            ->encode('jpeg', 100)
-            ->stream()
+        Storage::disk('s3')->put(
+            ImagesPath::PRODUCT_IMAGE_55 . $filename,
+            Image::make($image)
+                ->resize(55, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->encode('jpeg', 100)
+                ->stream()
         );
-        Storage::disk('s3')->put(ImagesPath::PRODUCT_IMAGE_55 . $filename_webp, Image::make($image)
-            ->resize(55, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })
-            ->encode('webp', 100)
-            ->stream()
-        );
-
-        Storage::disk('s3')->put(ImagesPath::PRODUCT_IMAGE_350 . $filename, Image::make($image)
-            ->resize(350, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })
-            ->encode('jpeg', 100)
-            ->stream()
-        );
-        Storage::disk('s3')->put(ImagesPath::PRODUCT_IMAGE_350 . $filename_webp, Image::make($image)
-            ->resize(350, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })
-            ->encode('webp', 100)
-            ->stream()
+        Storage::disk('s3')->put(
+            ImagesPath::PRODUCT_IMAGE_55 . $filename_webp,
+            Image::make($image)
+                ->resize(55, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->encode('webp', 100)
+                ->stream()
         );
 
-        Storage::disk('s3')->put(ImagesPath::PRODUCT_IMAGE_500 . $filename, Image::make($image)
-            ->resize(500, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })
-            ->encode('jpeg', 100)
-            ->stream()
+        Storage::disk('s3')->put(
+            ImagesPath::PRODUCT_IMAGE_350 . $filename,
+            Image::make($image)
+                ->resize(350, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->encode('jpeg', 100)
+                ->stream()
         );
-        Storage::disk('s3')->put(ImagesPath::PRODUCT_IMAGE_500 . $filename_webp, Image::make($image)
-            ->resize(500, null, function ($constraint) {
-                $constraint->aspectRatio();
-            })
-            ->encode('webp', 100)
-            ->stream()
+        Storage::disk('s3')->put(
+            ImagesPath::PRODUCT_IMAGE_350 . $filename_webp,
+            Image::make($image)
+                ->resize(350, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->encode('webp', 100)
+                ->stream()
+        );
+
+        Storage::disk('s3')->put(
+            ImagesPath::PRODUCT_IMAGE_500 . $filename,
+            Image::make($image)
+                ->resize(500, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->encode('jpeg', 100)
+                ->stream()
+        );
+        Storage::disk('s3')->put(
+            ImagesPath::PRODUCT_IMAGE_500 . $filename_webp,
+            Image::make($image)
+                ->resize(500, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->encode('webp', 100)
+                ->stream()
         );
 
         $this->imagesRepository->create([
@@ -122,6 +138,30 @@ class UploadImagesService
         Storage::disk('s3')->put($path . $filename, Image::make($image)->stream());
 
         return $filename;
+    }
+
+    public function uploadLogo($data)
+    {
+
+        $image = $data['logo'];
+        $filename = 'logo.jpeg';
+        Storage::put($filename, Image::make($image)->encode('jpeg', 100));
+        $image->storeAs('public', $filename);
+        if ($image->storeAs('public', $filename)) {
+            $this->optionsRepository->update('logo', Storage::url($filename));
+        }
+
+        return Storage::url($filename);
+    }
+
+
+    public function deleteLogo()
+    {
+        $filename = 'logo.jpeg';
+        Storage::delete('public/' . $filename);
+        if (Storage::delete('public/' . $filename)) {
+            $this->optionsRepository->update('logo', NULL);
+        }
     }
 
     public function createFilename($path, $filename)

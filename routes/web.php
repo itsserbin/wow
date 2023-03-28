@@ -10,6 +10,7 @@ use FacebookAds\Object\ServerSide\EventRequest;
 use FacebookAds\Object\ServerSide\UserData;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ImagesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => App\Http\Middleware\LocaleMiddleware::getLocale()], function () {
     Route::get('category/penyuary i pizhamy', function () {
-        return redirect(route('category','penyuary-i-pizhamy'), 301);
+        return redirect(route('category', 'penyuary-i-pizhamy'), 301);
     });
 
     Route::get('/', [HomeController::class, 'home'])
@@ -57,8 +58,12 @@ Route::group(['prefix' => App\Http\Middleware\LocaleMiddleware::getLocale()], fu
     Route::get('support', [HomeController::class, 'support'])
         ->name('support');
 
+
+
     require __DIR__ . '/xml.php';
 });
+
+
 
 Route::post('sms-new-order', [SmsController::class, 'newOrder'])
     ->name('sms.new.order');
