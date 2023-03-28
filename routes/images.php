@@ -30,12 +30,6 @@ Route::prefix('images')->group(function () {
         ->name('images.500');
 });
 
-
-Route::get('/currentlogo', function () {
-    $image = Image::where('alt', 'Logo')->first();
-    return $image ? $image->src : null;
-});
-
 Route::get('old_images/{filename}', function ($filename) {
     return Storage::disk('s3')->response('/products/' . $filename);
 })->name('old_images');

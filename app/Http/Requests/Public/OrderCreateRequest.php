@@ -27,9 +27,8 @@ class OrderCreateRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'order_id' => 'required',
+            'last_name' => 'required',
             'phone' => 'required',
-            'comment' => 'min:5'
         ];
     }
 
