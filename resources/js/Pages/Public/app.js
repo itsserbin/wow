@@ -53,6 +53,7 @@ import Header from '@/Pages/Public/Components/Header/Header.vue';
 import Categories from '@/Pages/Public/Components/Categories.vue';
 import FaqComponent from '@/Pages/Public/Components/FaqComponent.vue';
 import Loader from '@/Pages/Public/Components/Loader.vue';
+import MasterLayout from '@/Layouts/MasterLayout.vue';
 import ProductCard from '@/Pages/Public/Components/ProductCard.vue';
 import ProductCards from '@/Pages/Public/Components/ProductCards.vue';
 import Modal from '@/Pages/Public/Components/Modal.vue';
@@ -73,6 +74,7 @@ app.component('callback', Callback)
 app.component('consultation', Consultation)
 app.component('categories-component', Categories)
 app.component('faq-component', FaqComponent)
+app.component('master-layout', MasterLayout)
 app.component('loader', Loader)
 app.component('product-card', ProductCard)
 app.component('product-cards', ProductCards)

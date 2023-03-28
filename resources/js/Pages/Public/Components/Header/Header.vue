@@ -3,7 +3,7 @@
         <div class="max-w-7xl mx-auto px-3">
             <div class="grid grid-cols-4 items-center">
                 <div>
-                    <Logo :app-name="appName"/>
+                    <Logo />
                 </div>
                 <div class="grid justify-end">
                     <CartIcon/>

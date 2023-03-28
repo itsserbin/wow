@@ -145,21 +145,17 @@ class UploadImagesService
 
         $image = $data['logo'];
         $filename = 'logo.jpeg';
-        Storage::put($filename, Image::make($image)->encode('jpeg', 100));
-        $image->storeAs('public', $filename);
-        if ($image->storeAs('public', $filename)) {
+        if (Storage::disk('public')->put($filename, Image::make($image)->encode('jpeg', 100))) {
             $this->optionsRepository->update('logo', Storage::url($filename));
         }
-
-        return Storage::url($filename);
+        return Storage::disk('public')->url($filename);
     }
 
 
     public function deleteLogo()
     {
         $filename = 'logo.jpeg';
-        Storage::delete('public/' . $filename);
-        if (Storage::delete('public/' . $filename)) {
+        if (Storage::disk('public')->delete($filename)) {
             $this->optionsRepository->update('logo', NULL);
         }
     }
