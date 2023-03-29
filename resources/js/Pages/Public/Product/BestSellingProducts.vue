@@ -4,21 +4,30 @@
             {{ textBestSelling }}
         </div>
         <div class="relative-slider">
-            <swiper :modules="modules" v-bind="settings">
-                <swiper-slide v-for="(product,i) in products" :key="i">
-                    <product-card :product="product"
-                                  :lang="lang"
-                    ></product-card>
-                </swiper-slide>
-            </swiper>
+            <Swiper :modules="modules" v-bind="settings">
+                <Swiper-slide v-for="(product,i) in products" :key="i">
+                    <ProductCard :product="product"
+                                 :lang="lang"
+                    ></ProductCard>
+                </Swiper-slide>
+            </Swiper>
         </div>
     </section>
 </template>
 
 <script setup>
-
+import {Swiper, SwiperSlide} from 'swiper/vue';
+import ProductCard from '@/Pages/Public/Components/ProductCard.vue'
 import {Autoplay, Lazy, Navigation} from "swiper";
-import {onMounted, ref} from "vue";
+
+defineProps({
+    lang: String,
+    products: Array,
+    textBestSelling: {
+        type: String,
+        default: 'Найпопулярніші'
+    },
+});
 
 const modules = [Navigation, Autoplay, Lazy];
 const settings = {
@@ -49,19 +58,4 @@ const settings = {
         }
     }
 }
-const products = ref([]);
-
-defineProps({
-    lang: String,
-    textBestSelling: {
-        type: String,
-        default: 'Найпопулярніші'
-    },
-});
-
-onMounted(() => {
-    axios.get(route('api.v1.products.best-selling'))
-        .then(({data}) => products.value = data.result.data)
-        .catch((response) => console.log(response));
-});
 </script>

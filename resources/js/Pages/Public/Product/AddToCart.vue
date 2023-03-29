@@ -3,15 +3,15 @@
         <hr class="mb-4">
         <div class="grid grid-cols-1 md:grid-cols-2 font-subheading">
             <div class="mb-4 mb-md-0 flex items-center justify-evenly flex-col">
-                <div class="text-center" v-if="state.product.discount_price">
+                <div class="text-center" v-if="product.discount_price">
                     <div class="text-lg font-medium text-[#A5A5A5] line-through">
-                        {{ state.product.price }} грн.
+                        {{ product.price }} грн.
                     </div>
-                    <div class="font-bold text-[#ff0000] text-4xl">{{ state.product.discount_price }} грн.</div>
+                    <div class="font-bold text-[#ff0000] text-4xl">{{ product.discount_price }} грн.</div>
                 </div>
-                <div class="text-center" v-if="!state.product.discount_price">
+                <div class="text-center" v-if="!product.discount_price">
                     <div class="text-lg font-bold font-medium text-[#A5A5A5] text-[2.5rem]">
-                        {{ state.product.price }} грн.
+                        {{ product.price }} грн.
                     </div>
                 </div>
             </div>
@@ -27,10 +27,10 @@
         <hr class="mt-4">
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5 font-subheading">
-        <div v-if="state.product.sizes.length">
+        <div v-if="product.sizes.length">
             <div class="w-full mb-2">Доступні розміри</div>
             <ul class="flex pb-[20px]">
-                <li v-for="size in state.product.sizes" class="mx-1">
+                <li v-for="size in product.sizes" class="mx-1">
                     <input type="checkbox"
                            :value="size.title"
                            :id="size.title"
@@ -60,10 +60,10 @@
                 </li>
             </ul>
         </div>
-        <div v-if="state.product.colors.length">
+        <div v-if="product.colors.length">
             <div class="w-100 mb-2">Доступні кольори</div>
             <div class="flex">
-                <div v-for="color in state.product.colors">
+                <div v-for="color in product.colors">
                     <input type="checkbox"
                            :id="color.name"
                            :value="color.name"
@@ -98,11 +98,11 @@
     <BuyIn1Click v-if="state.isActiveBuyIn1ClickModal"
                  @closeModal="showBuyIn1ClickModal"
                  :item="item"
-                 :product="state.product"
+                 :product="product"
                  :cart="store.state.list"
                  :eventIdPurchaseIn1Click="props.eventIdPurchaseIn1Click"
                  :eventIdAddToCard="props.eventIdAddToCard"
-                 :isAddToCart="props.isAddToCart"
+                 :isAddToCart="state.isAddToCart"
     />
 </template>
 
@@ -118,57 +118,16 @@ const store = useStore();
 
 const props = defineProps([
     'product',
-    'eventIdContent',
     'eventIdAddToCard',
     'eventIdPurchaseIn1Click',
 ]);
-
-const isAddToCart = ref(false);
-
-onMounted(() => {
-    state.value.product = JSON.parse(props.product);
-    item.value.item_id = state.value.product.id;
-    if (import.meta.env.MODE === 'production') {
-
-        try {
-            fbq('track',
-                'ViewContent',
-                {
-                    "value": state.value.product.discount_price ? state.value.product.discount_price : state.value.product.price,
-                    "currency": "UAH",
-                    "content_type": "product",
-                    "content_ids": [item.value.item_id],
-                    "content_name": state.value.product.h1
-                },
-                {
-                    event_id: props.eventIdContent
-                }
-            );
-
-            gtm.trackEvent({
-                event: 'view_product',
-                ecommerce: {
-                    items: [{
-                        item_name: state.value.product.h1,
-                        item_id: item.value.item_id,
-                        price: state.value.product.discount_price ? state.value.product.discount_price : state.value.product.price,
-                        quantity: 1
-                    }]
-                }
-            });
-        } catch (e) {
-            console.log(e);
-        }
-
-    }
-})
 
 
 const item = ref({
     count: 1,
     size: [],
     color: [],
-    item_id: null,
+    item_id: props.product.id,
     src: route(route().current(), route().params),
     event_id: props.eventIdAddToCard
 });
@@ -182,7 +141,8 @@ const state = ref({
         sizes: [],
         colors: [],
     },
-    isActiveBuyIn1ClickModal: false
+    isActiveBuyIn1ClickModal: false,
+    isAddToCart: false,
 })
 
 function showBuyIn1ClickModal() {
@@ -190,20 +150,20 @@ function showBuyIn1ClickModal() {
 }
 
 function addToCart() {
-    if (!isAddToCart.value){
+    if (!state.value.isAddToCart) {
         axios.post(route('api.v1.cart.add', item.value))
             .then(() => {
-                isAddToCart.value = true;
+                state.value.isAddToCart = true;
                 if (import.meta.env.MODE === 'production') {
                     try {
                         fbq('track',
                             'AddToCart',
                             {
-                                "value": state.value.product.discount_price ? state.value.product.discount_price : state.value.product.price,
+                                "value": props.product.discount_price ? props.product.discount_price : props.product.price,
                                 "currency": "UAH",
                                 "content_type": "product",
                                 "content_ids": [item.value.item_id],
-                                "content_name": state.value.product.h1
+                                "content_name": props.product.h1
                             },
                             {
                                 event_id: item.value.event_id
@@ -214,9 +174,9 @@ function addToCart() {
                             event: 'add_product_to_cart',
                             ecommerce: {
                                 items: [{
-                                    item_name: state.value.product.h1,
+                                    item_name: props.product.h1,
                                     item_id: item.value.item_id,
-                                    price: state.value.product.discount_price ? state.value.product.discount_price : state.value.product.price,
+                                    price: props.product.discount_price ? props.product.discount_price : props.product.price,
                                     quantity: 1
                                 }]
                             }

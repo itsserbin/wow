@@ -211,7 +211,7 @@ class ProductsRepository extends CoreRepository
             ->paginate($perPage);
     }
 
-    public function getByCategorySlugToPublic($slug, $data, $perPage = 16)
+    final public function getByCategorySlugToPublic(string $slug, array $data, int $perPage = 16): LengthAwarePaginator
     {
         $columns = [
             'id',
@@ -228,9 +228,22 @@ class ProductsRepository extends CoreRepository
             ->where('published', 1)
             ->whereHas('categories', function ($q) use ($slug) {
                 $q->where('slug', urldecode($slug));
-            })->with('sizes', 'preview', 'images');
+            })->with([
+                'sizes:title',
+                'preview:id,src,webp_src',
+                'images:id,src,webp_src'
+            ]);
 
 
+        $model = $this->applyFilters($model, $data);
+        $model = $this->applySorting($model, $data);
+
+
+        return $model->paginate($perPage);
+    }
+
+    final public function applyFilters($model, array $data)
+    {
         if (isset($data['filter'])) {
             if (isset($data['filter']['price'])) {
                 $model->whereBetween('discount_price', [$data['filter']['price'][0], $data['filter']['price'][1]]);
@@ -253,19 +266,27 @@ class ProductsRepository extends CoreRepository
                 });
             }
         }
+        return $model;
+    }
 
-        if (isset($data['sort'])) {
-            if ($data['sort'] == 'min_price') {
-                $model->orderBy('discount_price', 'asc');
-            } elseif ($data['sort'] == 'max_price') {
-                $model->orderBy('discount_price', 'desc');
-            } elseif ($data['sort'] == 'created_at') {
-                $model->orderBy('id', 'desc');
+    final public function applySorting($model, array $data)
+    {
+        if (!empty($data['sort'])) {
+            switch ($data['sort']) {
+                case 'min_price':
+                    $model->orderBy('discount_price', 'asc');
+                    break;
+                case 'max_price':
+                    $model->orderBy('discount_price', 'desc');
+                    break;
+                case 'created_at':
+                    $model->orderBy('id', 'desc');
+                    break;
             }
         } else {
             $model->orderBy('total_sales', 'desc');
         }
-        return $model->paginate($perPage);
+        return $model;
     }
 
 
@@ -299,30 +320,30 @@ class ProductsRepository extends CoreRepository
         return $this->model::where('id', $id)->select('id', 'preview_id')->with('images', 'preview')->first();
     }
 
-    public function getRelativeProducts($id, $limit = 10)
-    {
-        $product = $this->model::where('id', $id)->with('categories')->first();
-
-        $model = $this->model::where('id', '!=', $id)
-            ->where('published', 1)
-            ->select(
-                'id',
-                'h1',
-                'price',
-                'discount_price',
-                'preview_id'
-            );
-
-        if (count($product->categories)) {
-            $model->whereHas('categories', function ($q) use ($product) {
-                $q->where('id', $product->categories[0]->id);
-            });
-        }
-
-        return $model->limit($limit)
-            ->with('sizes', 'preview')
-            ->get();
-    }
+//    public function getRelativeProducts($id, $limit = 10)
+//    {
+//        $product = $this->model::where('id', $id)->with('categories')->first();
+//
+//        $model = $this->model::where('id', '!=', $id)
+//            ->where('published', 1)
+//            ->select(
+//                'id',
+//                'h1',
+//                'price',
+//                'discount_price',
+//                'preview_id'
+//            );
+//
+//        if (count($product->categories)) {
+//            $model->whereHas('categories', function ($q) use ($product) {
+//                $q->where('id', $product->categories[0]->id);
+//            });
+//        }
+//
+//        return $model->limit($limit)
+//            ->with('sizes', 'preview')
+//            ->get();
+//    }
 
     public function updateSort(int $id, $value)
     {
@@ -432,7 +453,7 @@ class ProductsRepository extends CoreRepository
         return $this->model::destroy($id);
     }
 
-    public function getProductsForPublicWithPaginate($by = 'id', $sort = 'desc', $perPage = 8)
+    final public function getProductsForPublicWithPaginate(string $by = 'id', string $sort = 'desc', int $perPage = 8): LengthAwarePaginator
     {
         $columns = [
             'id',
@@ -444,15 +465,51 @@ class ProductsRepository extends CoreRepository
             'h1',
         ];
 
-        return $this
+        $result = $this
             ->model::where('published', 1)
             ->select($columns)
-            ->orderBy($by, $sort)
-            ->with('sizes', 'preview', 'images')
-            ->paginate($perPage);
+            ->orderBy($by, $sort);
+
+        $result->with([
+            'sizes:id,title',
+            'preview:id,src,webp_src,alt',
+            'images:id,src,webp_src,alt'
+        ]);
+
+        return $result->paginate($perPage);
     }
 
-    public function getRecommendProducts()
+    final public function getRecommendProductsForPublicWithLimit(int $id = null, string $by = 'id', string $sort = 'desc', int $limit = 8)
+    {
+        $model = $this->model::where('published', 1)
+            ->select(
+                'id',
+                'h1',
+                'price',
+                'discount_price',
+                'preview_id'
+            );
+
+        if ($id) {
+            $product = $this->model::where('id', $id)->with('categories')->first();
+            $model->where('id', '!=', $id);
+            if (count($product->categories)) {
+                $model->whereHas('categories', function ($q) use ($product) {
+                    $q->where('id', $product->categories[0]->id);
+                });
+            }
+        }
+
+        return $model->limit($limit)
+            ->with([
+                'sizes:title',
+                'preview:id,src,webp_src'
+            ])
+            ->orderBy($by, $sort)
+            ->get();
+    }
+
+    public function getRecommendProductsForPublicCart(int $limit = 3)
     {
         $columns = [
             'id',
@@ -468,9 +525,10 @@ class ProductsRepository extends CoreRepository
         return $this
             ->model::where('published', 1)
             ->select($columns)
-            ->orderBy('created_at', 'desc')
+            ->orderBy('total_sales', 'desc')
             ->with('sizes', 'preview')
-            ->paginate(3);
+            ->limit($limit)
+            ->get();
     }
 
     public function list()
@@ -561,29 +619,27 @@ class ProductsRepository extends CoreRepository
             ->get();
     }
 
-    public function getAllToPublic()
-    {
-        {
-            $columns = [
-                'id',
-                'price',
-                'published',
-                'discount_price',
-                'preview_id',
-                'total_sales',
-                'h1',
-                'created_at',
-                'updated_at',
-            ];
-
-            return $this
-                ->model::where('published', 1)
-                ->select($columns)
-                ->inRandomOrder()
-                ->with('sizes', 'preview', 'images')
-                ->paginate(8);
-        }
-    }
+//    final public function getAllToPublic(): LengthAwarePaginator
+//    {
+//        $columns = [
+//            'id',
+//            'price',
+//            'published',
+//            'discount_price',
+//            'preview_id',
+//            'total_sales',
+//            'h1',
+//            'created_at',
+//            'updated_at',
+//        ];
+//
+//        $result = $this
+//            ->model::where('published', 1)
+//            ->select($columns);
+//
+//        $result->->with('sizes', 'preview', 'images');
+//        return $result->paginate(8);
+//    }
 
     #[ArrayShape(['min' => "mixed", 'max' => "mixed"])] public function getMinMaxProductPrice($slug): array
     {

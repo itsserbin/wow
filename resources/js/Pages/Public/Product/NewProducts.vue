@@ -16,9 +16,18 @@
 </template>
 
 <script setup>
-
+import ProductCard from '@/Pages/Public/Components/ProductCard.vue'
+import {Swiper, SwiperSlide} from 'swiper/vue';
 import {Autoplay, Navigation} from "swiper";
-import {onMounted, ref} from "vue";
+
+defineProps({
+    products: Array,
+    textLatestProducts: {
+        type: String,
+        default: 'Останні надходження'
+    },
+    lang: String,
+});
 
 const modules = [Navigation, Autoplay];
 const settings = {
@@ -49,20 +58,4 @@ const settings = {
         }
     }
 }
-
-const products = ref([]);
-
-defineProps({
-    textLatestProducts: {
-        type: String,
-        default: 'Останні надходження\n'
-    },
-    lang: String,
-});
-
-onMounted(() => {
-    axios.get('/api/v1/product/new-products')
-        .then(({data}) => products.value = data.result.data)
-        .catch((response) => console.log(response));
-});
 </script>

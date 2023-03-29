@@ -62,7 +62,11 @@
                 @yield('content')
             </div>
         </main>
-        @include('components.footer')
+        <footer-component lang="{{app()->getLocale()}}"
+                          options="{{json_encode($options,JSON_THROW_ON_ERROR)}}"
+                          pages="{{json_encode($pages,JSON_THROW_ON_ERROR)}}"
+        ></footer-component>
+        {{--        @include('components.footer')--}}
         @if($options['callback_status'] == 'on')
             <callback></callback>
         @endif

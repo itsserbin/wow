@@ -2,7 +2,7 @@
     <div class="characteristics-table">
         <table>
             <tbody>
-            <tr v-for="(value,key) in data">
+            <tr v-for="(value,key) in items">
                 <td>
                     <p><strong>{{ key }}</strong></p>
                 </td>
@@ -18,6 +18,5 @@
 </template>
 
 <script setup>
-const props = defineProps(['items', 'lang']);
-const data = JSON.parse(props.items);
+defineProps(['items']);
 </script>

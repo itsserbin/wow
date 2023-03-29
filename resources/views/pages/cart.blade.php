@@ -3,13 +3,13 @@
 @section('meta_title','Кошик')
 
 @section('head')
-    @include('schema.breadcrumbs',$breadcrumbs = Breadcrumbs::generate('home.cart'))
+    @include('schema.breadcrumbs', $breadcrumbs = Breadcrumbs::generate('home.cart'))
 @endsection
 
 @section('content')
     {{ Breadcrumbs::render('home.cart') }}
 
-    <div class="cart">
-        <cart-component></cart-component>
-    </div>
+    <cart-index lang="{{app()->getLocale()}}"
+                recommend-products="{{$recommend_products}}"
+    ></cart-index>
 @endsection

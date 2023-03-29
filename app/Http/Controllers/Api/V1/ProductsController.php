@@ -27,7 +27,7 @@ class ProductsController extends BaseController
      *
      * @return JsonResponse
      */
-    public function getBestSellingProductsWithPaginate(): JsonResponse
+    final public function getBestSellingProductsWithPaginate(): JsonResponse
     {
         $result = $this->productsRepository->getProductsForPublicWithPaginate('total_sales', 'desc');
 
@@ -37,11 +37,19 @@ class ProductsController extends BaseController
         ]);
     }
 
-    public function getNewProducts(): JsonResponse
+    final public function getNewProducts(): JsonResponse
     {
         return $this->returnResponse([
             'success' => true,
-            'result' => $this->productsRepository->getProductsForPublicWithPaginate('id','desc'),
+            'result' => $this->productsRepository->getProductsForPublicWithPaginate('id', 'desc'),
+        ]);
+    }
+
+    final public function getAllToPublic(): JsonResponse
+    {
+        return $this->returnResponse([
+            'success' => true,
+            'result' => $this->productsRepository->getProductsForPublicWithPaginate('sort', 'desc'),
         ]);
     }
 
@@ -49,7 +57,7 @@ class ProductsController extends BaseController
     {
         return $this->returnResponse([
             'success' => true,
-            'result' => $this->productsRepository->getByCategorySlugToPublic($slug,$request->all()),
+            'result' => $this->productsRepository->getByCategorySlugToPublic($slug, $request->all()),
         ]);
     }
 
@@ -74,14 +82,6 @@ class ProductsController extends BaseController
         return $this->returnResponse([
             'success' => true,
             'result' => $this->productsRepository->getBestSellingProducts(),
-        ]);
-    }
-
-    public function getAllToPublic(): JsonResponse
-    {
-        return $this->returnResponse([
-            'success' => true,
-            'result' => $this->productsRepository->getAllToPublic(),
         ]);
     }
 }

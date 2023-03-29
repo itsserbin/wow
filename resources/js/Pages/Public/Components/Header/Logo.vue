@@ -1,5 +1,7 @@
 <template>
-    <img src="/storage/logo.jpeg" class="w-[3.5rem] h-[3.5rem]" :alt="appName">
+    <a :href="route('home')">
+        <img src="/storage/logo.jpeg" class="w-[3.5rem] h-[3.5rem]" :alt="appName">
+    </a>
 </template>
 
 <script setup>

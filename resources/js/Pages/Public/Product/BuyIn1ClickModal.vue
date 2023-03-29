@@ -34,7 +34,7 @@ import {inject, ref} from "vue";
 import {useGtm} from "@gtm-support/vue-gtm";
 import {useStore} from "vuex";
 
-defineEmits(['closeModal']);
+const emits = defineEmits(['closeModal', 'addToCard']);
 const props = defineProps([
     'item',
     'product',

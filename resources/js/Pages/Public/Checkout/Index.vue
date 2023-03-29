@@ -38,6 +38,7 @@ import {useStore} from "vuex";
 import {useGtm} from '@gtm-support/vue-gtm';
 import hmacMD5 from 'crypto-js/hmac-md5';
 import CryptoJS from 'crypto-js';
+import {isLoading} from "@/Pages/Public/load";
 
 const store = useStore();
 const swal = inject('$swal');
@@ -98,6 +99,7 @@ onMounted(() => {
             console.log(e);
         }
     }
+    isLoading.value = false;
 })
 
 function wfp(order) {

@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Enums\OrderStatus;
 use App\Repositories\AdvantagesRepository;
+use App\Repositories\BannersRepository;
 use App\Repositories\CategoriesRepository;
 use App\Repositories\CharacteristicsRepository;
 use App\Repositories\ColorsRepository;
+use App\Repositories\FaqsRepository;
 use App\Repositories\OptionsRepository;
 use App\Repositories\PagesRepository;
+use App\Repositories\ProductReviewsRepository;
 use App\Repositories\ProductsRepository;
 use App\Repositories\SizesRepository;
 use App\Services\FacebookService;
@@ -29,6 +32,9 @@ class HomeController extends Controller
     private mixed $characteristicsRepository;
     private mixed $sizesRepository;
     private mixed $colorsRepository;
+    private mixed $bannersRepository;
+    private mixed $productReviewsRepository;
+    private mixed $faqsRepository;
     private $event_id_page_view;
 
     public function __construct()
@@ -44,22 +50,29 @@ class HomeController extends Controller
         $this->characteristicsRepository = app(CharacteristicsRepository::class);
         $this->sizesRepository = app(SizesRepository::class);
         $this->colorsRepository = app(ColorsRepository::class);
+        $this->bannersRepository = app(BannersRepository::class);
+        $this->productReviewsRepository = app(ProductReviewsRepository::class);
+        $this->faqsRepository = app(FaqsRepository::class);
         $this->event_id_page_view = uniqid(null, true) . '_PageView' . '_' . time();
     }
 
-    public function home(): View|Factory|Application
+    final public function home(): View|Factory|Application
     {
         $this->facebookService->view($this->event_id_page_view);
+
         return view('pages.home', [
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
             'categories' => $this->getCategories(),
+            'banners' => $this->bannersRepository->getForPublic(),
             'advantages' => $this->advantagesRepository->getAllToPublic(),
+            'reviews' => $this->productReviewsRepository->carouselList(10),
+            'faqs' => $this->faqsRepository->getAllToPublic(),
             'event_id_page_view' => $this->event_id_page_view
         ]);
     }
 
-    public function category($slug)
+    final public function category(string $slug)
     {
         $result = $this->categoriesRepository->findFySlug($slug);
 
@@ -72,6 +85,7 @@ class HomeController extends Controller
                 'colors' => $this->colorsRepository->getListForPublic($slug)
             ];
             return view('pages.category', [
+                'banners' => $this->bannersRepository->getForPublicByCategory($slug),
                 'category' => $result,
                 'categories' => $this->getCategories(),
                 'options' => $this->getOptions(),
@@ -84,7 +98,7 @@ class HomeController extends Controller
         }
     }
 
-    public function product($id)
+    final public function product($id)
     {
         $result = $this->productRepository->getByIdToPublic($id);
 
@@ -98,6 +112,7 @@ class HomeController extends Controller
 
             $this->facebookService->viewContent($result, $event_id_content);
             $this->productRepository->updateProductViewed($id);
+
             return view('pages.product', [
                 'characteristics' => $this->productRepository->getCharacteristicsForPublic($id),
                 'options' => $this->getOptions(),
@@ -105,6 +120,11 @@ class HomeController extends Controller
                 'pages' => $this->getPagesList(),
                 'advantages' => $this->getAdvantages(),
                 'categories' => $this->getCategories(),
+                'reviews' => $this->productReviewsRepository->carouselList(10),
+                'recommend_products' => $this->productRepository->getRecommendProductsForPublicWithLimit($id, 'total_sales'),
+                'new_products' => $this->productRepository->getRecommendProductsForPublicWithLimit($id, 'id'),
+                'best_products' => $this->productRepository->getRecommendProductsForPublicWithLimit(null, 'total_sales'),
+                'faqs' => $this->faqsRepository->getAllToPublic(),
                 'event_id_content' => $event_id_content,
                 'event_id_addToCard' => $event_id_addToCard,
                 'event_id_purchase_in_1_click' => $event_id_purchase_in_1_click,
@@ -125,6 +145,7 @@ class HomeController extends Controller
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
             'categories' => $this->getCategories(),
+            'recommend_products' => $this->productRepository->getRecommendProductsForPublicCart(),
             'event_id_page_view' => $this->event_id_page_view
         ]);
     }
@@ -139,7 +160,7 @@ class HomeController extends Controller
             'pages' => $this->getPagesList(),
             'categories' => $this->getCategories(),
             'event_id_initiateCheckout' => $event_id_initiateCheckout,
-            'event_id_purchase' => uniqid() . '_purchase' . '_' . time(),
+            'event_id_purchase' => uniqid(null, true) . '_purchase' . '_' . time(),
             'event_id_page_view' => $this->event_id_page_view
         ]);
     }

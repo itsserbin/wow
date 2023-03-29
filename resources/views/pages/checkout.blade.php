@@ -13,9 +13,7 @@
 
 @section('content')
     {{ Breadcrumbs::render('home.checkout') }}
-    <div class="checkout">
-        <checkout-component event-id-initiate-checkout="{{$event_id_initiateCheckout}}"
-                            event-id-purchase="{{$event_id_purchase}}"
-        ></checkout-component>
-    </div>
+    <checkout-index event-id-initiate-checkout="{{$event_id_initiateCheckout}}"
+                    event-id-purchase="{{$event_id_purchase}}"
+    ></checkout-index>
 @endsection

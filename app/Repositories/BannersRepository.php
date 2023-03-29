@@ -57,7 +57,7 @@ class BannersRepository extends CoreRepository
             ->get();
     }
 
-    public function getForPublicByCategory($id)
+    final public function getForPublicByCategory($slug)
     {
         $columns = [
             'id',
@@ -71,8 +71,8 @@ class BannersRepository extends CoreRepository
 
         return $this
             ->model::select($columns)
-            ->whereHas('categories', function ($q) use ($id) {
-                $q->where('id', $id);
+            ->whereHas('categories', function ($q) use ($slug) {
+                $q->where('slug', $slug);
             })
             ->where('published', 1)
             ->orderBy('sort', 'desc')

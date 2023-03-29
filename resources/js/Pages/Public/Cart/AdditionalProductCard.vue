@@ -3,14 +3,17 @@
         <div class="col-span-2">
             <picture class="w-full ">
                 <source :srcset="route('images.350',item.preview.webp_src)" type="image/webp">
-                <img v-lazy :data-src="route('images.350',item.preview.src)" class="w-full h-full object-cover">
+                <img :src="route('images.350',item.preview.src)"
+                     class="w-full h-full object-cover"
+                     :alt="item.h1[lang]"
+                >
             </picture>
         </div>
 
         <div class="col-span-6 p-[20px] flex flex-col">
             <div class="flex space-x-[50px]">
                 <div class="text-text font-subheading text-lg">
-                    {{ item.h1.ua ? item.h1.ua : item.h1.ru }}
+                    {{ item.h1[lang] }}
                 </div>
             </div>
             <div class="flex h-full items-end">
@@ -56,7 +59,7 @@
 import {useStore} from "vuex";
 import {inject} from "vue";
 
-const props = defineProps(['item']);
+const props = defineProps(['item', 'lang']);
 const store = useStore();
 const swal = inject('$swal');
 

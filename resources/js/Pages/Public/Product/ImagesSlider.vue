@@ -98,12 +98,12 @@ const state = ref({
 
 onMounted(() => {
     state.value.preview = {
-        'webp_src': route('images', JSON.parse(props.preview).webp_src),
-        'webp_thumbnail': route('images.55', JSON.parse(props.preview).webp_src),
-        'src': route('images', JSON.parse(props.preview).src),
-        'thumbnail': route('images.55', JSON.parse(props.preview).src),
+        'webp_src': route('images', props.preview.webp_src),
+        'webp_thumbnail': route('images.55', props.preview.webp_src),
+        'src': route('images', props.preview.src),
+        'thumbnail': route('images.55', props.preview.src),
     }
-    const images = [...JSON.parse(props.images)].map(item => ({
+    const images = [...props.images].map(item => ({
         'webp_src': route('images', item.webp_src),
         'webp_thumbnail': route('images.55', item.webp_src),
         'src': route('images', item.src),

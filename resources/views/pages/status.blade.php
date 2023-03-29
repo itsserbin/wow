@@ -9,5 +9,5 @@
 @section('content')
     {{ Breadcrumbs::render('home.status') }}
 
-    <status-component statuses="{{json_encode($statuses)}}"></status-component>
+    <order-status-index statuses="{{json_encode($statuses,JSON_THROW_ON_ERROR)}}"></order-status-index>
 @endsection

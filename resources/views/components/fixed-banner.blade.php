@@ -1,6 +1,8 @@
-<picture>
-    <source media="(max-width: 768px)"
-            srcset="{{
+@if (Storage::disk('public')->exists('banners/support_ukraine_ru_1900.png'))
+
+    <picture>
+        <source media="(max-width: 768px)"
+                srcset="{{
                         app()->getLocale() === 'ua' ?
                         asset('storage/banners/support_ukraine_ua_768.png') :
                         (
@@ -9,9 +11,9 @@
                             null
                         )
                     }}"
-    >
-    <source media="(max-width: 1000px)"
-            srcset="{{
+        >
+        <source media="(max-width: 1000px)"
+                srcset="{{
                         app()->getLocale() === 'ua' ?
                         asset('storage/banners/support_ukraine_ua_1000.png') :
                         (
@@ -20,9 +22,9 @@
                             null
                         )
                     }}"
-    >
-    <source
-        srcset="{{
+        >
+        <source
+            srcset="{{
                     app()->getLocale() === 'ua' ?
                     asset('storage/banners/support_ukraine_ua_1900.png') :
                     (
@@ -30,9 +32,9 @@
                          null
                      )
                  }}"
-    >
-    <img
-        srcset="{{
+        >
+        <img
+            srcset="{{
                     app()->getLocale() === 'ua' ?
                     asset('storage/banners/support_ukraine_ua_1900.png') :
                     (
@@ -41,7 +43,7 @@
                         null
                     )
                 }}"
-        alt="{{
+            alt="{{
                 app()->getLocale() === 'ua' ?
                 'Слава Україні!' :
                 (
@@ -50,6 +52,7 @@
                     null
                 )
             }}"
-        class="w-[100%]"
-    >
-</picture>
+            class="w-[100%]"
+        >
+    </picture>
+@endif

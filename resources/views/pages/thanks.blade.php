@@ -3,5 +3,5 @@
 @section('meta_title','Дякуємо за покупку!')
 
 @section('content')
-    <thanks-component lang="{{app()->getLocale()}}"></thanks-component>
+    <thanks-index lang="{{app()->getLocale()}}"></thanks-index>
 @endsection

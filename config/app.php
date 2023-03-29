@@ -198,6 +198,8 @@ return [
         Daaner\TurboSMS\TurboSMSServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
 
+//        Barryvdh\Debugbar\ServiceProvider::class,
+
     ],
 
     /*
@@ -214,7 +216,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         'TurboSMS' => Daaner\TurboSMS\Facades\TurboSMS::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-        // 'ExampleClass' => App\Example\ExampleClass::class,
+//        'Debugbar' => Barryvdh\Debugbar\Facades\Debugbar::class,
     ])->toArray(),
 
 ];

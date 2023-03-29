@@ -1,20 +1,16 @@
 <template>
-    <div>
-        <loader v-if="state.isLoading"></loader>
-        <div v-if="!state.isLoading">
-            <div class="max-w-xl mx-auto">
-                <Form :item="state.item"
-                      @submitForm="submitForm"
-                      :errors="state.errors"
-                />
-            </div>
-        </div>
+    <div class="max-w-xl mx-auto">
+        <Form :item="state.item"
+              @submitForm="submitForm"
+              :errors="state.errors"
+        />
     </div>
 </template>
 
 <script setup>
-import {inject, ref} from "vue";
+import {inject, onMounted, ref} from "vue";
 import Form from '@/Pages/Public/Support/Form.vue';
+import {isLoading} from "@/Pages/Public/load";
 
 const swal = inject('$swal');
 
@@ -29,8 +25,12 @@ const state = ref({
     errors: []
 })
 
-function submitForm() {
-    axios.post(route('api.v1.support.create'), state.value.item)
+onMounted(() => {
+    isLoading.value = false;
+})
+
+const submitForm = async () => {
+    await axios.post(route('api.v1.support.create'), state.value.item)
         .then(() => {
             swal({
                 icon: 'success',

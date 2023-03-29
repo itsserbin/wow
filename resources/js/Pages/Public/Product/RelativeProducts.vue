@@ -14,8 +14,18 @@
 </template>
 
 <script setup>
+import ProductCard from '@/Pages/Public/Components/ProductCard.vue'
+import {Swiper, SwiperSlide} from 'swiper/vue';
 import {Autoplay, Navigation} from "swiper";
-import {onMounted, ref} from "vue";
+
+defineProps({
+    products: Array,
+    lang: String,
+    textRelativeProducts: {
+        type: String,
+        default: 'Схожі товари',
+    },
+});
 
 const modules = [Navigation, Autoplay];
 const settings = {
@@ -46,26 +56,10 @@ const settings = {
         }
     }
 }
-const products = ref([]);
-
-const props = defineProps({
-    id: String,
-    lang: String,
-    textRelativeProducts: {
-        type: String,
-        default: 'Схожі товари',
-    },
-});
-
-onMounted(() => {
-    axios.get('/api/v1/product/relative/' + props.id)
-        .then(({data}) => products.value = data.result)
-        .catch((response) => console.log(response));
-});
 </script>
 
 <style>
-.relative-slider .swiper-wrapper{
+.relative-slider .swiper-wrapper {
     margin-bottom: 1.5em;
 }
 </style>

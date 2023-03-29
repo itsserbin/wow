@@ -33,13 +33,14 @@
                 <div v-if="!slider">
                     <a :href="route('product',product.id)">
                         <picture>
-                            <source v-lazy :data-src="route('images.350',product.preview.webp_src)"
+                            <source v-lazy
+                                    :data-src="route('images.350',product.preview.webp_src)"
                                     v-if="route('images.350',product.preview.webp_src)"
                                     type="image/webp">
                             <img v-lazy
                                  :data-src="route('images.350',product.preview.src)"
                                  :alt="lang === 'ru' ? product.h1.ru : (lang === 'ua' ? product.h1.ua : null)"
-                                 class="h-full object-cover w-full rounded-t-lg  h-56 md:h-72 swiper-lazy"
+                                 class="h-full object-cover w-full rounded-t-lg  h-56 md:h-72 "
                             >
                         </picture>
                     </a>
@@ -49,12 +50,12 @@
                         <swiper-slide>
                             <a :href="route('product',product.id)">
                                 <picture>
-                                    <source v-lazy
-                                            :data-src="product.preview ? route('images.350',product.preview.webp_src) : null"
-                                            type="image/webp">
-                                    <img v-lazy
-                                         :data-src="product.preview ? route('images.350',product.preview.src) : null"
+                                    <source
+                                        :srcset="product.preview ? route('images.350',product.preview.webp_src) : null"
+                                        type="image/webp">
+                                    <img :src="product.preview ? route('images.350',product.preview.src) : null"
                                          class="h-full object-cover w-full rounded-t-lg  h-56 md:h-72 swiper-lazy"
+                                         :alt="product.h1[lang]"
                                     >
                                 </picture>
                             </a>
@@ -229,7 +230,6 @@ function uuidv4() {
 function addToCard(id) {
     item.value.item_id = id;
     item.value.event_id = uuidv4() + '_AddToCard' + '_' + new Date().getTime();
-    console.log(item.value.event_id)
     axios.post(route('api.v1.cart.add', item.value))
         .then(() => {
             store.commit('loadCart');

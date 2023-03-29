@@ -9,5 +9,5 @@
 @section('content')
     {{ Breadcrumbs::render('home.support') }}
 
-    <support-component></support-component>
+    <support-index></support-index>
 @endsection

@@ -11,19 +11,24 @@ use Throwable;
 
 class ImagesController extends Controller
 {
-    public function mobileBanner($filename)
+    final public function mobileBanner(string $filename)
     {
-        return $this->returnImage(ImagesPath::MOBILE_BANNER, $filename);
+        return Storage::disk('s3')->response(ImagesPath::MOBILE_BANNER . $filename);
+//        return $this->returnImage(ImagesPath::MOBILE_BANNER, $filename);
     }
 
-    public function tableBanner($filename)
+    final public function tableBanner(string $filename)
     {
-        return $this->returnImage(ImagesPath::TABLE_BANNER, $filename);
+        return Storage::disk('s3')->response(ImagesPath::TABLE_BANNER . $filename);
+
+//        return $this->returnImage(ImagesPath::TABLE_BANNER, $filename);
     }
 
-    public function desktopBanner($filename)
+    final public function desktopBanner(string $filename)
     {
-        return $this->returnImage(ImagesPath::DESKTOP_BANNER, $filename);
+        return Storage::disk('s3')->response(ImagesPath::DESKTOP_BANNER . $filename);
+
+//        return $this->returnImage(ImagesPath::DESKTOP_BANNER, $filename);
     }
 
     public function products($filename)

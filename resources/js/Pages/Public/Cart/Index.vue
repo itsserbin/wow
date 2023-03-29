@@ -8,7 +8,7 @@
                 <div class="cart-item__right row mb-3">
                     <PromoCode/>
                     <CartTotal/>
-                    <AdditionalProducts/>
+                    <AdditionalProducts :products="recommendProducts" :lang="lang"/>
                 </div>
             </div>
         </div>
@@ -21,12 +21,21 @@ import CartItem from '@/Pages/Public/Cart/CartItem.vue'
 import PromoCode from '@/Pages/Public/Cart/PromoCode.vue'
 import CartTotal from '@/Pages/Public/Cart/CartTotal.vue'
 import {useStore} from "vuex";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
+import {isLoading} from "@/Pages/Public/load";
+
+const props = defineProps(['recommendProducts', 'lang']);
+
+const recommendProducts = props.recommendProducts ? JSON.parse(props.recommendProducts) : null;
 
 const store = useStore();
-const cart = ref(store.state);
+const cart = ref({});
 
-function goToCheckout() {
+onMounted(async () => {
+    cart.value = store.state;
+    isLoading.value = false;
+});
+const goToCheckout = () => {
     window.location.href = route('checkout');
 }
 </script>

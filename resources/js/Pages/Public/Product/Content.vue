@@ -55,7 +55,6 @@ const props = defineProps([
     'deliveryAndPaymentRu',
 ]);
 
-
 const state = ref({
     active: '',
     content: '',
@@ -85,7 +84,7 @@ const items = [
     },
 ];
 
-if ((props.youtube).length) {
+if (props.youtube) {
     items.unshift({
         label: 'Відео-огляд',
         key: 'youtube',
@@ -99,25 +98,25 @@ if ((props.youtube).length) {
     };
 }
 
-if (Object.keys(JSON.parse(props.sizeTable)).length) {
+if (props.sizeTable) {
     items.unshift({
         label: 'Таблиця розмірів',
         key: 'sizeTable',
-        value: JSON.parse(props.sizeTable),
+        value: props.sizeTable,
         class: 'sizes-table'
     });
     state.value = {
         active: 'sizeTable',
-        content: JSON.parse(props.sizeTable),
+        content: props.sizeTable,
         class: 'sizes-table'
     };
 }
 
-if (Object.keys(JSON.parse(props.characteristics)).length) {
+if (Object.keys(props.characteristics).length) {
     items.unshift({
         label: 'Характеристики',
         key: 'characteristics',
-        value: JSON.parse(props.characteristics),
+        value: props.characteristics,
         class: 'characteristics-table'
     });
     state.value = {

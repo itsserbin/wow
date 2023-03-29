@@ -16,20 +16,13 @@
 @section('content')
     {{ Breadcrumbs::render('home.categories',$category) }}
 
-    <category-banners lang="{{app()->getLocale()}}"
-                      id="{{$category->id}}"
-    ></category-banners>
+    <category-index lang="{{app()->getLocale()}}"
+                    banners="{{json_encode($banners,JSON_THROW_ON_ERROR)}}"
+                    characteristics="{{json_encode($characteristics,JSON_THROW_ON_ERROR)}}"
+                    title="{{$category->title[app()->getLocale()]}}"
+                    text="{{$category->seo_text[app()->getLocale()]}}"
+    ></category-index>
 
-    <category-products lang="{{app()->getLocale()}}"
-                       title="{{app()->getLocale() == 'ua' ? $category->title['ua'] : $category->title['ru']}}"
-                       slug="{{$category->slug}}"
-                       product-route="{{route('product')}}"
-                       characteristics="{{json_encode($characteristics)}}"
-    ></category-products>
-
-    <div class="category-text content">
-        {!! app()->getLocale() == 'ua' ? $category->seo_text['ua'] : $category->seo_text['ru'] !!}
-    </div>
     @if($options['consultation_status'] == 'on')
         <consultation></consultation>
     @endif
