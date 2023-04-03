@@ -8,6 +8,76 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
+/**
+ * App\Models\Product
+ *
+ * @property int $id
+ * @property string $status
+ * @property array|null $title
+ * @property array|null $description
+ * @property array|null $h1
+ * @property array|null $content
+ * @property array|null $characteristics
+ * @property int|null $price
+ * @property int|null $discount_price
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int $published
+ * @property int|null $trade_price
+ * @property string|null $vendor_code
+ * @property int|null $total_sales
+ * @property string|null $size_table
+ * @property int|null $viewed
+ * @property int|null $provider_id
+ * @property int|null $sort
+ * @property int|null $returns
+ * @property int|null $exchange
+ * @property string|null $youtube
+ * @property int|null $preview_id
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Category> $categories
+ * @property-read int|null $categories_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CharacteristicValue> $characteristicsNew
+ * @property-read int|null $characteristics_new_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Color> $colors
+ * @property-read int|null $colors_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Image> $images
+ * @property-read int|null $images_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\OrderItem> $orderItems
+ * @property-read int|null $order_items_count
+ * @property-read \App\Models\Image|null $preview
+ * @property-read \App\Models\Provider|null $provider
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductReview> $reviews
+ * @property-read int|null $reviews_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Size> $sizes
+ * @property-read int|null $sizes_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Product newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Product newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Product query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereCharacteristics($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereContent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereDiscountPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereExchange($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereH1($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product wherePreviewId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereProviderId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product wherePublished($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereReturns($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereSizeTable($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereSort($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereTotalSales($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereTradePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereVendorCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereViewed($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereYoutube($value)
+ * @mixin \Eloquent
+ */
 class Product extends Model
 {
     /**

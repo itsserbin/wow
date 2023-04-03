@@ -6,6 +6,27 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * App\Models\CharacteristicValue
+ *
+ * @property int $id
+ * @property int|null $characteristic_id
+ * @property array $title
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Characteristic|null $characteristic
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Product> $products
+ * @property-read int|null $products_count
+ * @method static \Illuminate\Database\Eloquent\Builder|CharacteristicValue newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CharacteristicValue newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CharacteristicValue query()
+ * @method static \Illuminate\Database\Eloquent\Builder|CharacteristicValue whereCharacteristicId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CharacteristicValue whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CharacteristicValue whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CharacteristicValue whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CharacteristicValue whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class CharacteristicValue extends Model
 {
     /**

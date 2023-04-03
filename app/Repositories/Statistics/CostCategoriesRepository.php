@@ -4,7 +4,9 @@ namespace App\Repositories\Statistics;
 
 use App\Models\Statistics\CostCategory as Model;
 use App\Repositories\CoreRepository;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
+
 
 class CostCategoriesRepository extends CoreRepository
 {
@@ -13,59 +15,66 @@ class CostCategoriesRepository extends CoreRepository
         parent::__construct();
     }
 
-    protected function getModelClass()
+    final public function getModelClass(): string
     {
         return Model::class;
     }
 
-    public function getById($id)
+    final public function getById(int $id): ?\Illuminate\Database\Eloquent\Model
     {
         return $this->model::find($id);
     }
 
-    public function getBySlug($slug)
+    final public function getBySlug(string $slug): ?\Illuminate\Database\Eloquent\Model
     {
         return $this->model::where('slug', $slug)->first();
     }
 
-    public function getAllWithPaginate(string $sort = 'id', string $param = 'desc', int $perPage = 15)
+    final public function getByCode(string $code): ?\Illuminate\Database\Eloquent\Model
     {
-        return $this
-            ->model::select(
-                'id',
-                'title',
-                'slug',
-                'created_at',
-                'updated_at',
-            )
-            ->orderBy($sort, $param)
-            ->paginate($perPage);
+        return $this->model::where('code', $code)->first();
     }
 
-    public function create($data)
+    final public function getAllWithPaginate(string $sort = 'id', string $param = 'desc', int $perPage = 15): LengthAwarePaginator
+    {
+        return $this->model::orderBy($sort, $param)->paginate($perPage);
+    }
+
+    final public function create(array $data): \Illuminate\Database\Eloquent\Model
     {
         $model = new $this->model;
         $model->title = $data['title'];
+        $model->code = $data['code'];
         $model->slug = $data['slug'];
-        return $model->save();
+        $model->save();
+
+        return $model;
     }
 
-    public function update($id, $data)
+    final public function update(int $id, array $data): \Illuminate\Database\Eloquent\Model
     {
         $model = $this->getById($id);
-        $model->title = $data['title'];
-        $model->slug = $data['slug'];
 
-        return $model->update();
+        if ($model) {
+            $model->title = $data['title'];
+            $model->code = $data['code'];
+            $model->slug = $data['slug'];
+            $model->update();
+        } else {
+            $model = $this->create($data);
+        }
+
+        return $model;
+
     }
 
-    public function destroy(int $id)
+    final public function destroy(int $id): ?int
     {
         return $this->model::destroy($id);
     }
 
-    public function list()
+    final public function list(): Collection
     {
-        return $this->model::select('id', 'title', 'slug')->orderBy('id', 'desc')->get();
+        return $this->model::select(['id', 'title', 'slug'])->orderBy('id', 'desc')->get();
     }
 }

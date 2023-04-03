@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\ApiNovaPoshtaCommand;
+use App\Console\Commands\MonobankApiCommand;
 use App\Console\Commands\OrdersStatisticCommand;
 use App\Console\Commands\ProductStatisticsCommand;
 use App\Console\Commands\SumCostsCommand;
@@ -22,15 +23,16 @@ class Kernel extends ConsoleKernel
         SumCostsCommand::class,
         UpdateProductStatisticsCommand::class,
         ProductStatisticsCommand::class,
+        MonobankApiCommand::class,
     ];
 
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param Schedule $schedule
      * @return void
      */
-    protected function schedule(Schedule $schedule)
+    protected function schedule(Schedule $schedule): void
     {
         $schedule->command('products:statistics')->everyThreeHours();
         $schedule->command('product:update_statistic')->everyThirtyMinutes();
@@ -40,6 +42,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('api_nova_poshta:order_integration')->everyThirtyMinutes();
         $schedule->command('profits:sum')->everyThirtyMinutes();
         $schedule->command('marketing_statistic:sum')->everyThirtyMinutes();
+        $schedule->command('api:monobank')->everyThirtyMinutes();
     }
 
     /**
@@ -47,9 +50,9 @@ class Kernel extends ConsoleKernel
      *
      * @return void
      */
-    protected function commands()
+    final protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

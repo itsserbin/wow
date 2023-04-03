@@ -6,6 +6,73 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * App\Models\Order
+ *
+ * @property int $id
+ * @property string $status
+ * @property string|null $city
+ * @property string|null $waybill
+ * @property string|null $comment
+ * @property int|null $client_id
+ * @property string|null $modified_by
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $postal_office
+ * @property int $total_count
+ * @property int $total_price
+ * @property int $sms_waybill_status
+ * @property string|null $promo_code
+ * @property int|null $manager_id
+ * @property int $parcel_reminder
+ * @property int $sale_of_air
+ * @property int|null $sale_of_air_price
+ * @property int|null $prepayment_sum
+ * @property int|null $clear_total_price
+ * @property string|null $payment_method
+ * @property string|null $np_city_id
+ * @property string|null $np_post_office_id
+ * @property int $discount
+ * @property int|null $discount_sum
+ * @property int|null $wfp_payment_sum
+ * @property-read \App\Models\Client|null $client
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Invoice> $invoices
+ * @property-read int|null $invoices_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\OrderItem> $items
+ * @property-read int|null $items_count
+ * @property-read \App\Models\User|null $manager
+ * @property-read \App\Models\User|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder|Order newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Order newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Order query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereClearTotalPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereClientId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereComment($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereDiscount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereDiscountSum($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereManagerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereModifiedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereNpCityId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereNpPostOfficeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereParcelReminder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order wherePaymentMethod($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order wherePostalOffice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order wherePrepaymentSum($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order wherePromoCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereSaleOfAir($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereSaleOfAirPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereSmsWaybillStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereTotalCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereTotalPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereWaybill($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereWfpPaymentSum($value)
+ * @mixin \Eloquent
+ */
 class Order extends Model
 {
     /**

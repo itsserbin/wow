@@ -64,6 +64,11 @@ Route::group(['prefix' => App\Http\Middleware\LocaleMiddleware::getLocale()], fu
 });
 
 
+Route::get('test',function (){
+    $s = new \App\Services\MonobankService();
+    return $s->setData();
+});
+
 
 Route::post('sms-new-order', [SmsController::class, 'newOrder'])
     ->name('sms.new.order');

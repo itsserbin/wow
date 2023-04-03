@@ -59,6 +59,7 @@ const can = inject('$can');
 const item = ({
     title: null,
     slug: null,
+    code: null,
 })
 
 const state = ref({
@@ -79,6 +80,10 @@ const headings = reactive([
     {
         label: 'ID',
         key: 'id'
+    },
+    {
+        label: 'Код ',
+        key: 'code'
     },
     {
         label: 'Назва',

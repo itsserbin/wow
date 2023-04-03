@@ -2,23 +2,31 @@
     <form>
         <div class="grid grid-cols-1 gap-4">
             <div class="block">
-                <label-component value="Назва"/>
-                <input-component v-model="item.title" type="text"/>
+                <Label value="Назва"/>
+                <Input v-model="item.title" type="text"/>
             </div>
 
             <div class="block">
-                <label-component value="Slug"/>
-                <input-component v-model="item.slug" type="text"/>
+                <Label value="Код транзації в банку"/>
+                <Input v-model="item.code" type="text"/>
+            </div>
+
+            <div class="block">
+                <Label value="Slug"/>
+                <Input v-model="item.slug" type="text"/>
             </div>
         </div>
     </form>
 </template>
 
 <script setup>
-import {computed, onMounted, ref} from "vue";
+import Label from '@/Components/Form/Label.vue';
+import Input from '@/Components/Form/Input.vue';
+
+import {onMounted, ref} from "vue";
 
 const props = defineProps(['item'])
-
+console.log(props.item);
 const categories = ref([]);
 
 onMounted(() => {
@@ -32,6 +40,4 @@ onMounted(() => {
             })
         })
 })
-
-const totalSum = computed(() => props.item.quantity * props.item.sum)
 </script>

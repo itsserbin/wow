@@ -24,6 +24,13 @@ class CostsRepository extends CoreRepository
         return Model::class;
     }
 
+    final public function getByCostCategoryAndDate(string $costCategory, string $date): ?\Illuminate\Database\Eloquent\Model
+    {
+        return $this->model::whereHas('category', static function ($q) use ($costCategory) {
+            $q->where('id', $costCategory);
+        })->where('date', $date)->first();
+    }
+
     public function getById($id)
     {
         return $this->model::find($id);
@@ -231,7 +238,9 @@ class CostsRepository extends CoreRepository
     public function onCreate($data)
     {
         $model = new $this->model;
-        $model->comment = $data['comment'];
+        if (isset($data['comment'])) {
+            $model->comment = $data['comment'];
+        }
         $model->quantity = $data['quantity'];
         $model->sum = $data['sum'];
         $model->date = $data['date'];
