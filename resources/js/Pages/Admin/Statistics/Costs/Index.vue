@@ -41,7 +41,7 @@
                 </card-component>
             </div>
 
-            <Table :data="state.data.result.data" @onDestroy="onDestroy"/>
+            <Table :data="state.data.result.data" @onDestroy="onDestroy" @onEdit="onEdit"/>
 
             <div class="text-center">
                 <pagination :pagination="state.data.result"

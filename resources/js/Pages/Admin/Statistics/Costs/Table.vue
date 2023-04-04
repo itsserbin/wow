@@ -1,10 +1,10 @@
 <template>
-    <table-component :headings="headings"
-                     :rows="data"
-                     :isSlotMode="true"
+    <Table :headings="headings"
+           :rows="data"
+           :isSlotMode="true"
     >
         <template #id="{data}">
-            <a href="javascript:" @click="onEdit(data.row.id,data.i)">
+            <a href="javascript:" @click="$emit('onEdit',data.row.id,data.i)">
                 {{ data.row.id }}
             </a>
         </template>
@@ -31,15 +31,18 @@
 
         <template #actions="{data}">
             <a href="javascript:" @click="$emit('onDestroy',data.row.id)">
-                <xcircle-component/>
+                <XCircle/>
             </a>
         </template>
-    </table-component>
+    </Table>
 </template>
 
 <script setup>
+import Table from '@/Components/Table.vue';
+import XCircle from '@/Components/Icons/XCircle.vue';
+
 defineProps(['data']);
-defineEmits(['onDestroy']);
+defineEmits(['onDestroy', 'onEdit']);
 
 const headings = [
     {
