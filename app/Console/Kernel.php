@@ -32,7 +32,7 @@ class Kernel extends ConsoleKernel
      * @param Schedule $schedule
      * @return void
      */
-    protected function schedule(Schedule $schedule): void
+    final public function schedule(Schedule $schedule): void
     {
         $schedule->command('products:statistics')->everyThreeHours();
         $schedule->command('product:update_statistic')->everyThirtyMinutes();
@@ -50,7 +50,7 @@ class Kernel extends ConsoleKernel
      *
      * @return void
      */
-    final protected function commands()
+    final public function commands(): void
     {
         $this->load(__DIR__ . '/Commands');
 
