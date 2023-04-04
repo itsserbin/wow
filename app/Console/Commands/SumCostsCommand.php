@@ -69,18 +69,20 @@ class SumCostsCommand extends Command
 
     public function createCostsManagerSalary($date)
     {
-        $costCategoriesItem = $this->costCategoriesRepository->getBySlug('salary');
+        $costCategoriesItem = $this->costCategoriesRepository->getByCode('#CC');
 
-        $data = [
-            'cost_category_id' => $costCategoriesItem->id,
-            'comment' => null,
-            'quantity' => 1,
-            'date' => $date,
-            'user_id' => null,
-            'sum' => $this->managersSalaryRepository->sumColumnByDateRangeAndManagerId('total_price', $date),
-            'total' => $this->managersSalaryRepository->sumColumnByDateRangeAndManagerId('total_price', $date)
-        ];
+        if ($costCategoriesItem){
+            $data = [
+                'cost_category_id' => $costCategoriesItem->id,
+                'comment' => null,
+                'quantity' => 1,
+                'date' => $date,
+                'user_id' => null,
+                'sum' => $this->managersSalaryRepository->sumColumnByDateRangeAndManagerId('total_price', $date),
+                'total' => $this->managersSalaryRepository->sumColumnByDateRangeAndManagerId('total_price', $date)
+            ];
 
-        $this->costsRepository->create($data);
+            $this->costsRepository->create($data);
+        }
     }
 }

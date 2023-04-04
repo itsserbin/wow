@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use DateInterval;
 use DatePeriod;
 use DateTime;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -287,20 +288,32 @@ class CostsRepository extends CoreRepository
             ->sum('total');
     }
 
-    public function getManagerSalaryRowByDate($date)
+    final public function getManagerSalaryRowByDate(string $date): \Illuminate\Database\Eloquent\Model|null
     {
-        $costCategoriesRepository = new CostCategoriesRepository;
-        $costCategoriesItem = $costCategoriesRepository->getBySlug('salary');
+        $costCategoriesRepository = new CostCategoriesRepository();
+        $costCategoriesItem = $costCategoriesRepository->getByCode('#CC');
 
-        return $this->model::where('cost_category_id', $costCategoriesItem->id)
-            ->whereDate('date', $date)->first();
+        if ($costCategoriesItem) {
+            $model = $this->model::where('cost_category_id', $costCategoriesItem->id)
+                ->where('date', '>=', Carbon::parse($date)->startOfDay())
+                ->where('date', '<=', Carbon::parse($date)->endOfDay())
+                ->first();
+
+            return $model ?? null;
+        }
+
+        return null;
     }
 
-    public function getAllManagerSalaryRows()
+    final public function getAllManagerSalaryRows(): Collection|bool
     {
         $costCategoriesRepository = new CostCategoriesRepository;
-        $costCategoriesItem = $costCategoriesRepository->getBySlug('salary');
+        $costCategoriesItem = $costCategoriesRepository->getByCode('#CC');
 
-        return $this->model::where('cost_category_id', $costCategoriesItem->id)->get();
+        if ($costCategoriesItem) {
+            return $this->model::where('cost_category_id', $costCategoriesItem->id)->get();
+        }
+
+        return false;
     }
 }
