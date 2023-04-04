@@ -204,36 +204,68 @@ class CostsRepository extends CoreRepository
         ];
     }
 
-    public function create($data)
-    {
-        if (array_key_exists('cost_type', $data)) {
-            if ($data['cost_type'] == 'range') {
-                $period = new DatePeriod(
-                    new DateTime($this->dateFormatFromTimepicker($data['date'][0])),
-                    new DateInterval('P1D'),
-                    new DateTime(
-                        DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date'][1])
-                            ->modify('+1 day')
-                            ->format('Y-m-d'))
-                );
-                $sum = round($data['sum'] / iterator_count($period), 2);
+//    public function create(array $data)
+//    {
+//        if (array_key_exists('cost_type', $data) && $data['cost_type'] === 'range') {
+//            $period = new DatePeriod(
+//                new DateTime($this->dateFormatFromTimepicker($data['date'][0])),
+//                new DateInterval('P1D'),
+//                new DateTime(
+//                    DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date'][1])
+//                        ->modify('+1 day')
+//                        ->format('Y-m-d'))
+//            );
+//            $sum = round($data['sum'] / iterator_count($period), 2);
+//
+//            foreach ($period as $key => $value) {
+//                $date = $value->format('Y-m-d');
+//                $params = [
+//                    'comment' => $data['comment'],
+//                    'quantity' => $data['quantity'],
+//                    'sum' => $sum,
+//                    'date' => $date,
+//                    'cost_category_id' => $data['cost_category_id'],
+//                ];
+//                $this->onCreate($params);
+//            }
+//        } else {
+//            $this->onCreate($data);
+//        }
 
-                foreach ($period as $key => $value) {
-                    $date = $value->format('Y-m-d');
-                    $params = [
-                        'comment' => $data['comment'],
-                        'quantity' => $data['quantity'],
-                        'sum' => $sum,
-                        'date' => $date,
-                        'cost_category_id' => $data['cost_category_id'],
-                    ];
-                    $this->onCreate($params);
-                }
+//    }
+
+    /**
+     * @throws \Exception
+     */
+    final public function create(array $data)
+    {
+        $costType = $data['cost_type'] ?? null;
+
+        if ($costType === 'range') {
+            $period = new DatePeriod(
+                new DateTime($this->dateFormatFromTimepicker($data['date'][0])),
+                new DateInterval('P1D'),
+                new DateTime(
+                    DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $data['date'][1])
+                        ->modify('+1 day')
+                        ->format('Y-m-d'))
+            );
+            $sum = round($data['sum'] / iterator_count($period), 2);
+
+            $params = [
+                'comment' => $data['comment'],
+                'quantity' => $data['quantity'],
+                'sum' => $sum,
+                'cost_category_id' => $data['cost_category_id'],
+            ];
+
+            foreach ($period as $key => $value) {
+                $params['date'] = $value->format('Y-m-d');
+                $this->onCreate($params);
             }
         } else {
             $this->onCreate($data);
         }
-
     }
 
     public function onCreate($data)

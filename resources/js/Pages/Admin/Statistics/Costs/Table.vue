@@ -30,7 +30,7 @@
         </template>
 
         <template #actions="{data}">
-            <a href="javascript:" @click="onDestroy(data.row.id)">
+            <a href="javascript:" @click="$emit('onDestroy',data.row.id)">
                 <xcircle-component/>
             </a>
         </template>
@@ -39,6 +39,7 @@
 
 <script setup>
 defineProps(['data']);
+defineEmits(['onDestroy']);
 
 const headings = [
     {
