@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="grid grid-cols-2 md:grid-cols-7 gap-4" v-if="data.length">
+        <div :class="classes" v-if="data.length">
             <div class="border-[1px] border-secondary hover:scale-105 transition-all duration-300 rounded-lg"
                  v-for="item in data">
                 <a :href="route('category',item.slug)">
@@ -10,6 +10,7 @@
                                     type="image/webp">
                             <img :src="item.preview ? route('images.350',item.preview.src) : null "
                                  class="h-full object-cover w-full rounded-t-lg"
+                                 :alt="item.title[lang]"
                             >
                         </picture>
                     </div>
@@ -24,23 +25,17 @@
 </template>
 
 <script setup>
-import {computed, onMounted, ref} from "vue";
-import vLazy from '@/Includes/lazyload.js';
+import {computed} from "vue";
+
+const classes = computed(() => {
+    const classes = {
+        'grid': true,
+        'gap-4': true,
+        'grid-cols-2': true,
+    };
+    classes[`md:grid-cols-${props.data.length}`] = true;
+    return classes;
+});
 
 const props = defineProps(['lang', 'data'])
-//
-// onMounted(() => {
-//     state.value.isLoading = true;
-//     axios.get('/api/v1/category/list')
-//         .then(({data}) => {
-//             state.value.categories = data.result;
-//             state.value.isLoading = false;
-//         })
-//         .catch((response) => {
-//             state.value.isLoading = false;
-//             console.log(response);
-//         });
-// })
-//
-// const title = computed(() => (val) => props.lang === 'ru' ? val.ru : (props.lang === 'ua' ? val.ua : null))
 </script>
