@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div :class="classes" v-if="data.length">
+        <div class="grid gap-4 grid-cols-2 md:grid-cols-8" v-if="data.length">
             <div class="border-[1px] border-secondary hover:scale-105 transition-all duration-300 rounded-lg"
                  v-for="item in data">
                 <a :href="route('category',item.slug)">
@@ -25,17 +25,5 @@
 </template>
 
 <script setup>
-import {computed} from "vue";
-
-const classes = computed(() => {
-    const classes = {
-        'grid': true,
-        'gap-4': true,
-        'grid-cols-2': true,
-    };
-    classes[`md:grid-cols-${props.data.length}`] = true;
-    return classes;
-});
-
-const props = defineProps(['lang', 'data'])
+defineProps(['lang', 'data'])
 </script>
