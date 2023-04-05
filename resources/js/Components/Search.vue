@@ -1,5 +1,5 @@
 <template>
-    <form class="flex items-center" @submit.prevent="$emit('search', query)">
+    <form class="flex items-center" @submit.prevent="$emit('search', encodeURIComponent(query))">
         <label for="search" class="sr-only">Пошук</label>
         <div class="relative w-full">
             <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">

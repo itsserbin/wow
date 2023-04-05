@@ -95,11 +95,10 @@ class ProductsRepository extends CoreRepository
      * Search for a model by id or vendor code, and return the results paginated.
      *
      * @param string $query the search query
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator the paginated results
+     * @return LengthAwarePaginator the paginated results
      */
-    public function search(string $query): \Illuminate\Contracts\Pagination\LengthAwarePaginator
+    final public function search(string $query): LengthAwarePaginator
     {
-        //Define the columns that need to be selected
         $columns = [
             'id',
             'status',
@@ -120,16 +119,10 @@ class ProductsRepository extends CoreRepository
             'updated_at',
         ];
 
-        //Select columns from model
-        $model = $this->model::select($columns);
-
-        //Search for id or vendor_code
-        return $model
-            ->where('id', $query)
-            ->orWhere('vendor_code', $query)
-            //Eager load the preview relation
+        return $this->model::select($columns)
+            ->where('id', urldecode($query))
+            ->orWhere('vendor_code', urldecode($query))
             ->with('preview')
-            //Paginate the results
             ->paginate(15);
     }
 
