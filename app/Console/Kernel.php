@@ -9,6 +9,7 @@ use App\Console\Commands\ProductStatisticsCommand;
 use App\Console\Commands\SumCostsCommand;
 use App\Console\Commands\SumManagersSalary;
 use App\Console\Commands\SumProfitCommand;
+use App\Console\Commands\SumRefundsCommand;
 use App\Console\Commands\UpdateProductStatisticsCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -24,6 +25,7 @@ class Kernel extends ConsoleKernel
         UpdateProductStatisticsCommand::class,
         ProductStatisticsCommand::class,
         MonobankApiCommand::class,
+        SumRefundsCommand::class,
     ];
 
     /**
@@ -43,6 +45,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('profits:sum')->everyThirtyMinutes();
         $schedule->command('marketing_statistic:sum')->everyThirtyMinutes();
         $schedule->command('api:monobank')->everyThirtyMinutes();
+        $schedule->command('refunds:sum')->everyThirtyMinutes();
     }
 
     /**
