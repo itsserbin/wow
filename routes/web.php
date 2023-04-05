@@ -65,8 +65,8 @@ Route::group(['prefix' => App\Http\Middleware\LocaleMiddleware::getLocale()], fu
 
 
 Route::get('test',function (){
-    $s = new \App\Services\MonobankService();
-    return $s->setData();
+    $s = new \App\Services\RefundsStatisticsService();
+    return $s->index();
 });
 
 

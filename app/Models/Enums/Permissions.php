@@ -4,8 +4,9 @@ namespace App\Models\Enums;
 
 class Permissions
 {
-    const state = [
+    public const state = [
         ['name' => 'Show bookkeeping', 'slug' => 'show-bookkeeping'],
+        ['name' => 'Show bookkeeping refunds', 'slug' => 'show-bookkeeping-refunds'],
         ['name' => 'Show bookkeeping profits', 'slug' => 'show-bookkeeping-profits'],
         ['name' => 'Show bookkeeping costs', 'slug' => 'show-bookkeeping-costs'],
         ['name' => 'Show bookkeeping orders', 'slug' => 'show-bookkeeping-orders'],

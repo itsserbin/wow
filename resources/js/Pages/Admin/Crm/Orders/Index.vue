@@ -57,6 +57,7 @@
                        :statuses="props.statuses"
                        :invoiceStatuses="props.invoiceStatuses"
                        :paymentMethods="props.payment_methods"
+                       :clientStatuses="props.clientStatuses"
                        size="extralarge"
                        @closeModal="editModalFunction"
                        @declineForm="destroy"
@@ -113,7 +114,12 @@ const exportSidebar = [
         key: 'export'
     }
 ];
-const props = defineProps(['statuses', 'payment_methods', 'invoiceStatuses']);
+const props = defineProps([
+    'statuses',
+    'payment_methods',
+    'invoiceStatuses',
+    'clientStatuses'
+]);
 
 const swal = inject('$swal')
 const can = inject('$can');

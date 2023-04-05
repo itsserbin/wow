@@ -218,15 +218,16 @@ class OrdersRepository extends CoreRepository
      * The same applies for discount and discount_sum.
      * After updating the model, the function calls the calculatePrice method to recalculate
      * the total price for the model and the updateAvgAndWholeCheck method from the clientsRepository
-     * to update the average and whole check for the client. Finally it returns the updated model.
+     * to update the average and whole check for the client. Finally, it returns the updated model.
      *
      * @param int $id
      * @param array $data
-     * @return Builder|Builder[]|Collection|\Illuminate\Database\Eloquent\Model|null
+     * @return \Illuminate\Database\Eloquent\Model|null
      */
-    public function update(int $id, array $data)
+    final public function update(int $id, array $data): ?\Illuminate\Database\Eloquent\Model
     {
         $model = $this->getById($id);
+
         $attributes = [
             'status' => $data['status'],
             'comment' => $data['comment'],
@@ -235,11 +236,9 @@ class OrdersRepository extends CoreRepository
             'postal_office' => $data['postal_office'],
             'manager_id' => $data['manager_id'],
             'parcel_reminder' => $data['parcel_reminder'],
-            'sale_of_air' => $data['sale_of_air'] ?: null,
-            'sale_of_air_price' => $data['sale_of_air_price'] ?: null,
-            'discount' => $data['discount'] ?: null,
-            'discount_sum' => $data['discount_sum'] ?: null,
-            'payment_method' => $data['payment_method'] ?: null,
+            'sale_of_air_price' => $data['sale_of_air_price'],
+            'discount_sum' => $data['discount_sum'],
+            'payment_method' => $data['payment_method'],
         ];
 
         $model->update($attributes);
@@ -608,7 +607,7 @@ class OrdersRepository extends CoreRepository
         if ($manager_id and $date) {
             return $this->model::whereDate('created_at', $date)
                 ->where([
-                    ['sale_of_air', 1],
+                    ['sale_of_air_price', '!=', null],
                     ['manager_id', $manager_id]
                 ])
                 ->where(function ($query) {
@@ -622,7 +621,7 @@ class OrdersRepository extends CoreRepository
                 ->count();
         } elseif ($date) {
             return $this->model::whereDate('created_at', $date)
-                ->where('sale_of_air', 1)
+                ->where('sale_of_air_price', '!=', null)
                 ->where(function ($query) {
                     $query->where('status', OrderStatus::STATUS_DONE);
                     $query->orWhere('status', OrderStatus::STATUS_TRANSFERRED_TO_SUPPLIER);
@@ -634,7 +633,7 @@ class OrdersRepository extends CoreRepository
                 ->count();
         } elseif ($manager_id) {
             return $this->model::where([
-                ['sale_of_air', 1],
+                ['sale_of_air_price', '!=', null],
                 ['manager_id', $manager_id]
             ])
                 ->where(function ($query) {
@@ -647,7 +646,7 @@ class OrdersRepository extends CoreRepository
                 })
                 ->count();
         } else {
-            return $this->model::where('sale_of_air', 1)
+            return $this->model::where('sale_of_air_price', '!=', null)
                 ->where(function ($query) {
                     $query->where('status', OrderStatus::STATUS_DONE);
                     $query->orWhere('status', OrderStatus::STATUS_TRANSFERRED_TO_SUPPLIER);
@@ -667,7 +666,6 @@ class OrdersRepository extends CoreRepository
                 ->where(function ($query) {
                     $query->where('status', OrderStatus::STATUS_DONE);
                 })->where([
-                    ['sale_of_air', 1],
                     ['sale_of_air_price', '>', 80],
                     ['manager_id', $manager_id]
                 ])
@@ -677,13 +675,11 @@ class OrdersRepository extends CoreRepository
                 ->where(function ($query) {
                     $query->where('status', OrderStatus::STATUS_DONE);
                 })->where([
-                    ['sale_of_air', 1],
                     ['sale_of_air_price', '>', 80]
                 ])
                 ->sum('sale_of_air_price');
         } elseif ($manager_id) {
             return $this->model::where([
-                ['sale_of_air', 1],
                 ['sale_of_air_price', '>', 80],
                 ['manager_id', $manager_id]
             ])
@@ -702,7 +698,6 @@ class OrdersRepository extends CoreRepository
                 $query->orWhere('status', OrderStatus::STATUS_ON_THE_ROAD);
             })
                 ->where([
-                    ['sale_of_air', 1],
                     ['sale_of_air_price', '>', 80],
                 ])
                 ->sum('sale_of_air_price');
@@ -822,5 +817,23 @@ class OrdersRepository extends CoreRepository
                 }
             ])
             ->first();
+    }
+
+    final public function getAllRefunds(): Collection
+    {
+        return $this
+            ->model::select([
+                'id',
+                'prepayment_sum',
+                'total_price',
+                'refund_other_waybill',
+                'other_waybill',
+                'created_at'
+            ])
+            ->where('status', OrderStatus::STATUS_RETURN)
+            ->whereNotNull('waybill')
+            ->whereHas('items.product')
+            ->with('items.product')
+            ->get();
     }
 }

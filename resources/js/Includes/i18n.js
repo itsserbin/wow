@@ -69,10 +69,32 @@ const i18n = createI18n({
                 whole_check: 'Загальний чек',
                 search_placeholder: 'Імʼя, прізвище, по-батькові, телефон, email, коментар...',
             },
-            orders:{
+            orders: {
                 page_title: 'Замовлення',
+                status: 'Статус замовлення',
+                manager_id: 'Менеджер',
+                discount: 'Знижка',
+                enter_discount_sum: 'Вкажіть сума знижки (грн.)',
+                sale_of_air: 'Дод.продаж повітря',
+                enter_sale_of_air_price: 'Вкажіть суму доп.продажу повітря (грн.)',
+                payment_method: 'Спосіб оплати',
+                parcel_reminder: 'Нагадування про посилку',
+                client_card: 'Картка клієнта',
                 total_count: 'Кількість',
                 total_price: 'Сума',
+                postal_office: 'Почтове відділення',
+                enter_postal_office: 'Вкажіть почтове відділення',
+                city: 'Місто',
+                enter_city: 'Вкажіть місто',
+                waybill: 'Номер накладної',
+                waybill_sent: 'ТТН отправлена',
+                waybill_resent: 'Отправить повторно',
+                send_waybill_for_client: 'Отправить ТТН клиенту',
+                enter_waybill: 'Вкажіть номер накладної',
+                comment: 'Коментарі до замовлення',
+                enter_comment: 'Вкажіть коментарі до замовлення',
+                refund_other_waybill: 'Повернення по іншій ТТН',
+                enter_refund_other_waybill: 'Вкажіть номер ТТН',
             },
             pages: {
                 page_title: 'Сторінки',
@@ -126,9 +148,9 @@ const i18n = createI18n({
                 text_return_and_exchange_ru: 'Умови обміну та повернення на сторінці товару RU',
                 text_home_page_ua: 'Текст на головній сторінці UA',
                 text_home_page_ru: 'Текст на головній сторінці RU',
-                text_label_logo:'Логотип',
-                text_destroyLabel:'Видалити',
-                instructions:'Виберіть зображення логотипу',
+                text_label_logo: 'Логотип',
+                text_destroyLabel: 'Видалити',
+                instructions: 'Виберіть зображення логотипу',
             },
             meta: {
                 title: 'META Title',
@@ -146,11 +168,11 @@ const i18n = createI18n({
                 error: 'Виникла помилка',
                 check_data: 'Перевірте дані',
                 logo: {
-                    upload:'Логотип було успішно завантажено!',
-                    error:'Виникла помилка логотип не було завантажено!',
-                    destroy:{
-                        success:'Логотип було успішно видалено!',
-                        error:'Виникла помилка під час видалення логотипу!',
+                    upload: 'Логотип було успішно завантажено!',
+                    error: 'Виникла помилка логотип не було завантажено!',
+                    destroy: {
+                        success: 'Логотип було успішно видалено!',
+                        error: 'Виникла помилка під час видалення логотипу!',
                     }
                 }
             },

@@ -39,7 +39,6 @@ return new class extends Migration {
             $table->boolean('sms_waybill_status')->default(0);
             $table->boolean('parcel_reminder')->default(0);
             $table->string('promo_code')->nullable();
-            $table->boolean('sale_of_air')->default(0);
             $table->integer('sale_of_air_price')->nullable();
             $table->string('modified_by')->nullable();
             $table->integer('clear_total_price')->nullable();
@@ -47,7 +46,6 @@ return new class extends Migration {
             $table->integer('prepayment_sum')->nullable();
             $table->integer('wfp_payment_sum')->nullable();
 
-            $table->boolean('discount')->default(0);
             $table->integer('discount_sum')->nullable();
 
             $table->string('payment_method')->nullable();

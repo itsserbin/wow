@@ -85,6 +85,9 @@ Route::prefix('admin')
             Route::get('/', [AdminController::class, 'statistics'])
                 ->name('admin.statistics.index');
 
+            Route::get('refunds', [AdminController::class, 'statisticRefunds'])
+                ->name('admin.statistics.refunds.index');
+
             Route::get('profits', [AdminController::class, 'statisticProfits'])
                 ->name('admin.statistics.profits.index');
 

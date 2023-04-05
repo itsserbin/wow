@@ -2,129 +2,150 @@
     <form class="grid gap-4">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div class="block">
-                <label-component value="Імʼя"/>
-                <input-component v-model="order.client.name" type="text" disabled/>
+                <Label :value="$t('clients.status')"/>
+                <Input :value="clientStatuses[order.client.status]" type="text" disabled/>
             </div>
             <div class="block">
-                <label-component value="Прізвище"/>
-                <input-component v-model="order.client.last_name" type="text" disabled/>
+                <Label :value="$t('clients.name')"/>
+                <Input :value="fullName"
+                       type="text"
+                       disabled
+                />
             </div>
             <div class="block">
-                <label-component value="По-батькові"/>
-                <input-component v-model="order.client.middle_name" type="text" disabled/>
+                <Label :value="$t('clients.phone')"/>
+                <a :href="'tel:+' + order.client.phone">
+                    <Input v-model="order.client.phone"
+                           type="text"
+                           disabled
+                           class="hover:cursor-pointer"
+                    />
+                </a>
             </div>
             <div class="block">
-                <label-component value="&nbsp;"/>
-                <button-component class="w-full" type="button" @click="$emit('onEditClient')">
-                    Картка клієнта
-                </button-component>
+                <Label value="&nbsp;"/>
+                <Button class="w-full" type="button" @click="$emit('onEditClient')">
+                    {{ $t('orders.client_card') }}
+                </Button>
             </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="block">
-                <label-component value="Статус клієнта"/>
-                <input-component v-model="order.client.status" type="text" disabled/>
-            </div>
-            <div class="block">
-                <label-component value="Телефон"/>
-                <input-component v-model="order.client.phone" type="text" disabled/>
-            </div>
-        </div>
-        <div class="block" v-if="order.client.orders.length > 1">
-            <ClientOrders :data="order.client.orders" :statuses="statuses"/>
-        </div>
-        <hr>
-        <div class="grid grid-cols-1 md:grid-cols-4 mb-5">
-            <div class="block mb-5 md:mr-5">
-                <label-component value="Статус замовлення"/>
-                <select-component v-model="order.status" :options="state.statuses"/>
-            </div>
-            <div class="block mb-5 md:mr-5">
-                <label-component value="Менеджер"/>
-                <select-component v-model="order.manager_id" :options="state.managers"/>
-            </div>
-            <div class="block mb-5 md:mr-5">
-                <label-component value="Спосіб оплати"/>
-                <select-component v-model="order.payment_method" :options="state.paymentMethods"/>
-            </div>
-            <div class="block mb-5">
-                <label-component value="Нагадування про посилку"/>
-                <select-component v-model="order.parcel_reminder" :options="parcelReminderValues"/>
-            </div>
-        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 mb-10">
-            <div class="block md:mr-5">
-                <div class="block mb-5">
-                    <label-component value="Місто"/>
-                    <input-component v-model="order.city" type="text"/>
+
+        </div>
+        <ClientOrders v-if="order.client.orders.length > 1"
+                      :data="order.client.orders"
+                      :statuses="statuses"
+        />
+        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-500">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="block">
+                <Label :value="$t('orders.status')"/>
+                <Select v-model="order.status" :options="state.statuses"/>
+            </div>
+            <div class="block">
+                <Label :value="$t('orders.manager_id')"/>
+                <Select v-model="order.manager_id" :options="state.managers"/>
+            </div>
+            <div class="block">
+                <Label :value="$t('orders.payment_method')"/>
+                <Select v-model="order.payment_method" :options="state.paymentMethods"/>
+            </div>
+            <div class="block">
+                <Label :value="$t('orders.parcel_reminder')"/>
+                <div class="block">
+                    <div class="flex gap-x-2 items-center w-full">
+                        <Checkbox v-model="order.parcel_reminder"/>
+                        <Label :value="order.parcel_reminder ? 'Так' : 'Ні'"/>
+                    </div>
                 </div>
-                <div class="block mb-5">
-                    <label-component value="Почтове відділення"/>
-                    <input-component v-model="order.postal_office" type="text"/>
+            </div>
+        </div>
+        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-500">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 gap-4">
+                <div class="block">
+                    <Label :value="$t('orders.city')"/>
+                    <Input v-model="order.city"
+                           type="text"
+                           :placeholder="$t('orders.enter_city')"
+                    />
                 </div>
                 <div class="block">
-                    <label-component value="Номер накладної"/>
-                    <input-component v-model="order.waybill" type="text"/>
+                    <Label :value="$t('orders.postal_office')"/>
+                    <Input v-model="order.postal_office"
+                           type="text"
+                           :placeholder="$t('orders.enter_postal_office')"
+                    />
+                </div>
+                <div class="block">
+                    <Label :value="$t('orders.waybill')"/>
+                    <Input v-model="order.waybill"
+                           type="text"
+                           :placeholder="$t('orders.enter_waybill')"
+                    />
                     <div v-if="!order.sms_waybill_status && order.waybill">
                         <a
                             href="javascript:"
                             @click.prevent="sendWaybill(order.client.phone,order.waybill)"
-                        >Отправить ТТН клиенту</a>
+                        >{{ $t('orders.send_waybill_for_client') }}</a>
                     </div>
                     <div v-if="order.sms_waybill_status">
-                        ТТН отправлена (<a href="javascript:"
-                                           @click.prevent="sendWaybill(order.client.phone,order.waybill)"
-                    >Отправить повторно</a>)
+                        {{ $t('orders.waybill_sent') }}
+                        (<a href="javascript:"
+                            @click.prevent="sendWaybill(order.client.phone,order.waybill)"
+                    >{{ $t('orders.waybill_resent') }}</a>)
                     </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-x-2" v-if="order.status === 'return'">
+                    <div class="flex gap-x-2">
+                        <Checkbox v-model="order.refund_other_waybill" @change="test"/>
+                        <Label :value="$t('orders.refund_other_waybill')"/>
+                    </div>
+                    <Input v-if="order.refund_other_waybill"
+                           v-model="order.other_waybill"
+                           type="text"
+                           :placeholder="$t('orders.enter_refund_other_waybill')"
+                    />
                 </div>
             </div>
             <div class="block">
-                <label-component value="Коментар"/>
-                <textarea-component rows="10"
-                                    v-model="order.comment"/>
+                <Label :value="$t('orders.comment')"/>
+                <Textarea rows="12"
+                          v-model="order.comment"
+                          :placeholder="$t('orders.enter_comment')"
+                />
             </div>
         </div>
+        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-500">
+        <div class="grid grid-cols-1 gap-y-4">
+            <div class="block">
+                <Label :value="$t('orders.sale_of_air')"/>
+                <Input v-model="order.sale_of_air_price"
+                       type="number"
+                       :placeholder="$t('orders.enter_sale_of_air_price')"
+                />
+            </div>
 
-        <div class="mb-7">
-            <div class="grid grid-cols-2">
-                <div class="block mb-5 mr-5">
-                    <label-component value="Дод.продаж повітря"/>
-                    <select-component v-model="order.sale_of_air" :options="parcelReminderValues"/>
-                </div>
-                <div class="block mb-5">
-                    <label-component value="Сума доп.продажу повітря (грн.)"/>
-                    <input-component v-model="order.sale_of_air_price" type="number" v-if="order.sale_of_air"/>
-                    <input-component v-model="order.sale_of_air_price" type="number" v-else disabled/>
-                </div>
+            <div class="block">
+                <Label :value="$t('orders.discount')"/>
+                <Input v-model="order.discount_sum"
+                       type="number"
+                       :placeholder="$t('orders.enter_discount_sum')"
+                />
             </div>
-            <div class="grid grid-cols-2">
-                <div class="block mb-5 mr-5">
-                    <label-component value="Знижка"/>
-                    <select-component v-model="order.discount" :options="parcelReminderValues"/>
-                </div>
-                <div class="block mb-5">
-                    <label-component value="Сума знижки (грн.)"/>
-                    <input-component v-model="order.discount_sum" type="number" v-if="order.discount"/>
-                    <input-component v-model="order.discount_sum" type="number" v-else disabled/>
-                </div>
-            </div>
-            <div class="grid grid-cols-2">
-                <div class="block mb-5 mr-5">
-                    <label-component value="Оплата на сайті"/>
-                    <input-component value="Оплачено" type="text" disabled v-if="order.wfp_payment_sum"/>
-                    <input-component value="Не плачено" type="text" disabled v-else/>
-                </div>
-                <div class="block mb-5">
-                    <label-component value="Загальна сума передоплати (грн.)"/>
-                    <input-component v-model="order.prepayment_sum" type="number" disabled/>
-                </div>
+
+            <div class="block">
+                <Label value="Загальна сума передоплати (грн.)"/>
+                <Input v-model="order.prepayment_sum" type="number" disabled/>
             </div>
         </div>
 
         <div class="block mb-5">
-            <button-component type="button" @click="addProductToOrder">Додати товар</button-component>
+            <Button type="button" @click="addProductToOrder">Додати товар</Button>
             <component :is="itemsModal"
                        :item="state.item"
                        size="medium"
@@ -138,50 +159,36 @@
                     @destroyOrderItem="destroyOrderItem"
         />
 
-        <div class="grid grid-cols-1 md:grid-cols-4 mt-5">
-            <div class="flex justify-center">
-                <p class="font-semibold text-l text-gray-900 dark:text-white">
-                    Кількість товарів:&nbsp;
-                </p>
-                <p class="text-l  text-gray-900 dark:text-white">
-                    {{ order.total_count }}
-                </p>
-            </div>
-            <div class="flex justify-center">
-                <p class="font-semibold text-l text-gray-900 dark:text-white">
-                    Загальна ціна:&nbsp;
-                </p>
-                <p class="text-l  text-gray-900 dark:text-white">
-                    {{ $filters.formatMoney(order.total_price) }}
-                </p>
-            </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 mt-5">
+            <Card title="Кількість товарів"
+                  :description="order.total_count"
+                  class="text-center"
+            />
 
-            <div class="flex justify-center">
-                <p class="font-semibold text-l text-gray-900 dark:text-white">
-                    Ціна на посилку:&nbsp;
-                </p>
-                <p class="text-l  text-gray-900 dark:text-white">
-                    {{ priceForWaybill }}
-                </p>
-            </div>
-            <div class="flex justify-center">
-                <p class="font-semibold text-l text-gray-900 dark:text-white">
-                    Промо-код:&nbsp;
-                </p>
-                <p class="text-l text-gray-900 dark:text-white">
-                    {{ order.promo_code ? order.promo_code : 'Відсутній' }}
-                </p>
-            </div>
+            <Card title="Загальна ціна"
+                  :description="$filters.formatMoney(order.total_price)"
+                  class="text-center"
+            />
+
+            <Card title="Ціна на посилку"
+                  :description="$filters.formatMoney(priceForWaybill)"
+                  class="text-center"
+            />
+
+            <Card title="Промо-код"
+                  :description="order.promo_code ? order.promo_code : 'Відсутній'"
+                  class="text-center"
+            />
         </div>
 
         <div class="block" v-if="can('show-invoices')">
-            <button-component type="button"
-                              @click="addInvoice"
-                              class="my-4"
-                              v-if="can('create-invoices')"
+            <Button type="button"
+                    @click="addInvoice"
+                    class="my-4"
+                    v-if="can('create-invoices')"
             >
                 Додати рахунок
-            </button-component>
+            </Button>
             <InvoicesTable :data="order.invoices"
                            :statuses="invoiceStatuses"
                            :can-destroy="can('destroy-invoices')"
@@ -201,8 +208,15 @@
 
 <script setup>
 import {computed, onMounted, reactive, ref, inject} from "vue";
-import ModalAddItemToOrder from '@/Pages/Admin/Crm/Orders/ItemsModal.vue'
-import ItemsTable from '@/Pages/Admin/Crm/Orders/ItemsTable.vue'
+import Card from '@/Components/Card.vue'
+import Select from '@/Components/Form/Select.vue'
+import Label from '@/Components/Form/Label.vue'
+import Checkbox from '@/Components/Form/Checkbox.vue'
+import Textarea from '@/Components/Form/Textarea.vue'
+import Input from '@/Components/Form/Input.vue'
+import Button from '@/Components/Button.vue'
+import ModalAddItemToOrder from '@/Pages/Admin/Crm/Orders/Items/Modal.vue'
+import ItemsTable from '@/Pages/Admin/Crm/Orders/Items/Table.vue'
 import ClientOrders from '@/Pages/Admin/Crm/Orders/ClientOrders.vue'
 import InvoicesTable from '@/Pages/Admin/Crm/Invoices/Table.vue';
 import InvoiceModal from '@/Pages/Admin/Crm/Invoices/Modal.vue';
@@ -215,14 +229,20 @@ const emits = defineEmits([
 const swal = inject('$swal');
 const can = inject('$can');
 
-const props = defineProps(['order', 'statuses', 'paymentMethods', 'invoiceStatuses']);
+const props = defineProps([
+    'order',
+    'statuses',
+    'paymentMethods',
+    'clientStatuses',
+    'invoiceStatuses'
+]);
 
-const priceForWaybill = computed(() => {
-    if (props.order.prepayment_sum) {
-        return props.order.total_price - props.order.prepayment_sum;
-    } else {
-        return props.order.total_price;
-    }
+const priceForWaybill = computed(() => props.order.total_price - props.order.prepayment_sum);
+
+const fullName = computed(() => {
+    const { name, last_name, middle_name } = props.order.client;
+    const fullNameParts = [last_name, name, middle_name].filter(Boolean);
+    return fullNameParts.length ? fullNameParts.join(' ') : 'Дані не вказані';
 });
 
 const invoiceItem = reactive({

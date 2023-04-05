@@ -31,6 +31,7 @@ use App\Http\Controllers\Api\SizesController;
 use App\Http\Controllers\Api\SocialReviewsController;
 use App\Http\Controllers\Api\Statistics\CostCategoriesController;
 use App\Http\Controllers\Api\Statistics\CostsController;
+use App\Http\Controllers\Api\Statistics\RefundsController;
 use App\Http\Controllers\Api\SupportsController;
 use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Api\XmlsController;
@@ -568,6 +569,9 @@ Route::middleware('auth:sanctum')->group(function () {
                     ->name('api.statistics.costs.categories.list');
             });
         });
+
+        Route::get('refunds', [RefundsController::class, 'index'])
+            ->name('api.statistics.refunds.index');
 
         Route::prefix('profits')->group(function () {
             Route::get('/', [ProfitsController::class, 'index'])

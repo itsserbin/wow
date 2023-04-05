@@ -1,5 +1,5 @@
 <template>
-    <table-component
+    <Table
         :isSlotMode="true"
         :rows="data"
         :headings="headings"
@@ -21,17 +21,16 @@
         <template #created_at="{data}">
             {{ $filters.dateFormat(data.row.created_at) }}
         </template>
-    </table-component>
+    </Table>
 </template>
 
 <script setup>
-import Pencil from '@/Components/Icons/Pencil.vue';
-import {reactive} from "vue";
+import Table from '@/Components/Table.vue';
 
-defineProps(['data','statuses']);
+defineProps(['data', 'statuses']);
 defineEmits(['editOrderItem', 'destroyOrderItem'])
 
-const headings = reactive([
+const headings = [
     {
         label: 'ID',
         key: 'id'
@@ -53,5 +52,5 @@ const headings = reactive([
         key: 'created_at'
     },
 
-])
+]
 </script>
