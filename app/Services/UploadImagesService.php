@@ -140,17 +140,38 @@ class UploadImagesService
         return $filename;
     }
 
-    public function uploadLogo($data)
+    final public function uploadLogo(array $data): string|bool
     {
 
         $image = $data['logo'];
-        $filename = 'logo.jpeg';
-        if (Storage::disk('public')->put($filename, Image::make($image)->encode('jpeg', 100))) {
-            $this->optionsRepository->update('logo', Storage::url($filename));
+        $filename = 'logo';
+
+        if (
+            Storage::disk('public')->put($filename . '.jpeg', $this->makeImage($image, true, 75))
+            &&
+            Storage::disk('public')->put($filename . '.webp', $this->makeImage($image, true, 75, 'webp'))
+        ) {
+            $this->optionsRepository->update('logo', $filename);
+            return $filename;
         }
-        return Storage::disk('public')->url($filename);
+
+        return false;
     }
 
+    final public function makeImage($image, bool $resize = false, int $width = null, string $encode = 'jpeg', int $quality = 100)
+    {
+        $image = Image::make($image);
+
+        if (isset($resize)) {
+            $image->resize($width, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+        }
+
+        $image->encode($encode, $quality);
+
+        return $image;
+    }
 
     public function deleteLogo()
     {

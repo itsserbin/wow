@@ -1,6 +1,9 @@
 <template>
     <a :href="route('home')">
-        <img src="/storage/logo.jpeg" class="w-[3.5rem] h-[3.5rem]" :alt="appName">
+        <picture>
+            <source srcset="/storage/logo.webp" type="image/webp">
+            <img src="/storage/logo.jpeg" :alt="appName" width="55" height="55">
+        </picture>
     </a>
 </template>
 

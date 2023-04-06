@@ -1,14 +1,18 @@
 <template>
     <div class="mb-4">
-        <Label :value="$t('options.text_label_logo')" />
+        <Label :value="$t('options.text_label_logo')"/>
         <div class="mt-2">
             <div v-if="image">
-                <img :src="image" class="w-[6.25rem] h-[6.25rem] mb-2">
-                <button type="button" class="text-sm font-medium text-red-500 hover:text-red-700" @click="destroyImage">{{
-                    $t('options.text_destroyLabel') }}</button>
+                <picture>
+                    <source :srcset="'/storage/' + image + '.webp'" type="image/webp">
+                    <img :src="'/storage/' + image + '.jpeg'" :alt="$t('options.text_label_logo')">
+                </picture>
+                <button type="button" class="text-sm font-medium text-red-500 hover:text-red-700" @click="destroyImage">
+                    {{ $t('options.text_destroyLabel') }}
+                </button>
             </div>
             <div v-else>
-                <Input type="file" :accept="accept" @change="onFileChange($event.target.files[0])" />
+                <Input type="file" @change="onFileChange($event.target.files[0])"/>
                 <p class="mt-2 text-sm text-gray-500">{{ $t('options.instructions') }}</p>
             </div>
         </div>
@@ -17,17 +21,15 @@
 <script setup>
 import Input from '@/Components/Form/Input.vue';
 import Label from '@/Components/Form/Label.vue';
-import { useI18n } from 'vue-i18n';
-import { ref, inject } from 'vue';
+import {useI18n} from 'vue-i18n';
+import {ref, inject} from 'vue';
 
 const swal = inject('$swal');
 const image = ref(null);
-const { t } = useI18n();
+const {t} = useI18n();
 
 defineProps(['title']);
 
-
-//Загрузка логотипа
 const onFileChange = async (file) => {
     const formData = new FormData();
     formData.append('logo', file);
@@ -37,7 +39,7 @@ const onFileChange = async (file) => {
             'Content-Type': 'multipart/form-data'
         }
     })
-        .then(({ data }) => {
+        .then(({data}) => {
             image.value = data.result;
             swal({
                 title: t('swal.logo.upload'),
