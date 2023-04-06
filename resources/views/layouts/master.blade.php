@@ -66,8 +66,7 @@
                           options="{{json_encode($options,JSON_THROW_ON_ERROR)}}"
                           pages="{{json_encode($pages,JSON_THROW_ON_ERROR)}}"
         ></footer-component>
-        {{--        @include('components.footer')--}}
-        @if($options['callback_status'] == 'on')
+        @if($options['callback_status'] === 'on')
             <callback></callback>
         @endif
         <scroll-to-top></scroll-to-top>
@@ -75,21 +74,15 @@
 </div>
 <script>
     const preloader = document.querySelector('.loader');
-    // Обробник події DOMContentLoaded
     document.addEventListener('DOMContentLoaded', () => {
         preloader.classList.add('hidden');
     });
-
-    // Обробник події load
-    // window.addEventListener('load', () => {
-    //     // Виключаємо клас 'hidden', який приховує прелоадер
-    //     preloader.classList.add('hidden');
-    // });
 </script>
 @routes
+{{--<script defer type="module" src="{{ vite('resources/js/Pages/Public/app.js') }}"></script>--}}
 @vite('resources/js/Pages/Public/app.js')
 @if(env('APP_ENV') !== 'local')
-    <script>
+    <script async>
         !function (f, b, e, v, n, t, s) {
             if (f.fbq) return;
             n = f.fbq = function () {

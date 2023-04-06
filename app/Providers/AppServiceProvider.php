@@ -7,6 +7,7 @@ use App\Repositories\OptionsRepository;
 use App\Repositories\PagesRepository;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Vite;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -36,10 +37,14 @@ class AppServiceProvider extends ServiceProvider
                 'options' => $optionsRepository->getToProd(),
                 'categories' => $categoriesRepository->listPublic(),
                 'pages' => $pagesRepository->getPagesListToPublic(),
-                'event_id_page_view' => uniqid(null,true) . '_PageView' . '_' . time()
+                'event_id_page_view' => uniqid(null, true) . '_PageView' . '_' . time()
             ]);
         });
 
         require app_path('Helpers/Hreflang.php');
+
+        Vite::useScriptTagAttributes([
+            'async' => true,
+        ]);
     }
 }

@@ -6,7 +6,7 @@
                 <Input :value="clientStatuses[order.client.status]" type="text" disabled/>
             </div>
             <div class="block">
-                <Label :value="$t('clients.name')"/>
+                <Label :value="$t('clients.full_name')"/>
                 <Input :value="fullName"
                        type="text"
                        disabled

@@ -46,6 +46,7 @@ const i18n = createI18n({
                 page_title: 'Зображення',
             },
             clients: {
+                full_name: 'ФІО',
                 status: 'Статус клієнта',
                 sub_status: 'Додатковий клієнта',
                 export: 'Експортувати',
