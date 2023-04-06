@@ -7,6 +7,7 @@ use App\Models\Enums\ProductAvailability;
 use App\Models\Product as Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
 use JetBrains\PhpStorm\ArrayShape;
 
 class ProductsRepository extends CoreRepository
@@ -206,6 +207,40 @@ class ProductsRepository extends CoreRepository
 
     final public function getByCategorySlugToPublic(string $slug, array $data, int $perPage = 16): LengthAwarePaginator
     {
+//        $columns = [
+//            'id',
+//            'price',
+//            'published',
+//            'discount_price',
+//            'preview_id',
+//            'sort',
+//            'h1',
+//        ];
+//
+//        $model = $this
+//            ->model::select($columns)
+//            ->where('published', 1)
+//            ->whereHas('categories', function ($q) use ($slug) {
+//                $q->where('slug', urldecode($slug));
+//            })->with([
+//                'sizes:title',
+//                'preview:id,src,webp_src',
+//                'images:id,src,webp_src'
+//            ]);
+//
+//
+//        $model = $this->applyFilters($model, $data);
+//        $model = $this->applySorting($model, $data);
+//
+//
+//        return $model->paginate($perPage);
+        $cacheKey = 'products_' . $slug . '_' . implode('_', $data) . '_' . $perPage;
+        $cachedProducts = Cache::get($cacheKey);
+
+        if ($cachedProducts) {
+            return $cachedProducts;
+        }
+
         $columns = [
             'id',
             'price',
@@ -227,12 +262,15 @@ class ProductsRepository extends CoreRepository
                 'images:id,src,webp_src'
             ]);
 
-
         $model = $this->applyFilters($model, $data);
         $model = $this->applySorting($model, $data);
 
+        $cachedProducts = $model->paginate($perPage);
 
-        return $model->paginate($perPage);
+        Cache::put($cacheKey, $cachedProducts, now()->addMinutes(60)); // Кешувати на 60 хвилин
+
+        return $cachedProducts;
+
     }
 
     final public function applyFilters($model, array $data)
