@@ -43,8 +43,8 @@ class AppServiceProvider extends ServiceProvider
 
         require app_path('Helpers/Hreflang.php');
 
-        Vite::useScriptTagAttributes([
-            'async' => true,
-        ]);
+//        Vite::useScriptTagAttributes([
+//            'async' => true,
+//        ]);
     }
 }

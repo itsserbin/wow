@@ -42,29 +42,28 @@
 
 <script setup>
 import {isLoading} from "@/Pages/Public/load";
-import {onMounted, ref} from "vue";
-// import {defineAsyncComponent} from 'vue'
-import AllProducts from './AllProducts.vue';
-import Content from './Content.vue';
-import BestSelling from './BestSelling.vue';
-import NewProducts from './NewProducts.vue';
-import Advantages from './../Components/Advantages.vue';
-import AllReviewsCarousel from './../Components/AllReviewsCarousel.vue';
-import FaqComponent from './../Components/FaqComponent.vue';
-import Support from './../Components/Support.vue';
-import Categories from './../Components/Categories.vue';
-import MainBanners from './../Components/Banners.vue';
+import {onMounted, ref,defineAsyncComponent} from "vue";
+// import AllProducts from './AllProducts.vue';
+// import Content from './Content.vue';
+// import BestSelling from './BestSelling.vue';
+// import NewProducts from './NewProducts.vue';
+// import Advantages from './../Components/Advantages.vue';
+// import AllReviewsCarousel from './../Components/AllReviewsCarousel.vue';
+// import FaqComponent from './../Components/FaqComponent.vue';
+// import Support from './../Components/Support.vue';
+// import Categories from './../Components/Categories.vue';
+// import MainBanners from './../Components/Banners.vue';
 //
-// const AllProducts = defineAsyncComponent(() => import('./AllProducts.vue'))
-// const Content = defineAsyncComponent(() => import('./Content.vue'))
-// const BestSelling = defineAsyncComponent(() => import('./BestSelling.vue'))
-// const NewProducts = defineAsyncComponent(() => import('./NewProducts.vue'))
-// const Advantages = defineAsyncComponent(() => import('./../Components/Advantages.vue'))
-// const AllReviewsCarousel = defineAsyncComponent(() => import('./../Components/AllReviewsCarousel.vue'))
-// const FaqComponent = defineAsyncComponent(() => import('./../Components/FaqComponent.vue'))
-// const Support = defineAsyncComponent(() => import('./../Components/Support.vue'))
-// const Categories = defineAsyncComponent(() => import('./../Components/Categories.vue'))
-// const MainBanners = defineAsyncComponent(() => import('./../Components/Banners.vue'))
+const AllProducts = defineAsyncComponent(() => import('./AllProducts.vue'))
+const Content = defineAsyncComponent(() => import('./Content.vue'))
+const BestSelling = defineAsyncComponent(() => import('./BestSelling.vue'))
+const NewProducts = defineAsyncComponent(() => import('./NewProducts.vue'))
+const Advantages = defineAsyncComponent(() => import('./../Components/Advantages.vue'))
+const AllReviewsCarousel = defineAsyncComponent(() => import('./../Components/AllReviewsCarousel.vue'))
+const FaqComponent = defineAsyncComponent(() => import('./../Components/FaqComponent.vue'))
+const Support = defineAsyncComponent(() => import('./../Components/Support.vue'))
+const Categories = defineAsyncComponent(() => import('./../Components/Categories.vue'))
+const MainBanners = defineAsyncComponent(() => import('./../Components/Banners.vue'))
 
 const props = defineProps([
     'lang',
