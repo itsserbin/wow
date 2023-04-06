@@ -65,6 +65,12 @@ class FacebookService
                     return $request->execute();
                 }
             } catch (Exception $e) {
+                if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
+                    $userIpAddress = $_SERVER["HTTP_CF_CONNECTING_IP"];
+                } else {
+                    $userIpAddress = $_SERVER["REMOTE_ADDR"];
+                }
+                Log::info($userIpAddress);
                 Log::error('FB API ERROR (View). User-agent:' . json_encode($_SERVER, JSON_THROW_ON_ERROR) . "\n" . $e);
                 return false;
             }
