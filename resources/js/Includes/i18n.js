@@ -161,6 +161,7 @@ const i18n = createI18n({
                 enter_keywords: 'Вкажіть META Keywords',
             },
             swal: {
+                data_copied: 'Дані успішно скопійовані',
                 updated: 'Дані успішно оновлені',
                 created: 'Дані успішно створені',
                 destroyed: 'Дані успішно видалені',

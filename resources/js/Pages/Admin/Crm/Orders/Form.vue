@@ -14,13 +14,19 @@
             </div>
             <div class="block">
                 <Label :value="$t('clients.phone')"/>
-                <a :href="'tel:+' + order.client.phone">
+                <div class="flex items-center gap-x-2">
+                    <a :href="'tel:+' + order.client.phone" class="border-lg rounded-lg border p-3">
+                        <Telephone/>
+                    </a>
                     <Input v-model="order.client.phone"
                            type="text"
                            disabled
-                           class="hover:cursor-pointer"
                     />
-                </a>
+                    <a :href="'javascript:'" @click="copyPhone" class="border-lg rounded-lg border p-3">
+                        <Copy/>
+                    </a>
+                </div>
+
             </div>
             <div class="block">
                 <Label value="&nbsp;"/>
@@ -208,6 +214,10 @@
 
 <script setup>
 import {computed, onMounted, reactive, ref, inject} from "vue";
+import {useI18n} from 'vue-i18n';
+
+import Telephone from '@/Components/Icons/Telephone.vue'
+import Copy from '@/Components/Icons/Copy.vue'
 import Card from '@/Components/Card.vue'
 import Select from '@/Components/Form/Select.vue'
 import Label from '@/Components/Form/Label.vue'
@@ -220,6 +230,8 @@ import ItemsTable from '@/Pages/Admin/Crm/Orders/Items/Table.vue'
 import ClientOrders from '@/Pages/Admin/Crm/Orders/ClientOrders.vue'
 import InvoicesTable from '@/Pages/Admin/Crm/Invoices/Table.vue';
 import InvoiceModal from '@/Pages/Admin/Crm/Invoices/Modal.vue';
+
+const {t} = useI18n();
 
 const emits = defineEmits([
     'submitItemForm',
@@ -240,7 +252,7 @@ const props = defineProps([
 const priceForWaybill = computed(() => props.order.total_price - props.order.prepayment_sum);
 
 const fullName = computed(() => {
-    const { name, last_name, middle_name } = props.order.client;
+    const {name, last_name, middle_name} = props.order.client;
     const fullNameParts = [last_name, name, middle_name].filter(Boolean);
     return fullNameParts.length ? fullNameParts.join(' ') : 'Дані не вказані';
 });
@@ -302,6 +314,22 @@ function invoiceModalFunction() {
     state.value.showInvoicesModal = !state.value.showInvoicesModal
 };
 
+const copyPhone = () => {
+    navigator.clipboard.writeText(props.order.client.phone)
+        .then(() => {
+            swal({
+                icon: 'success',
+                title: t('swal.data_copied'),
+                timer: 1000,
+                showConfirmButton: false
+            })
+        })
+        .catch((error) => {
+            console.error('Виникла помилка під час копіювання тексту:', error);
+        });
+}
+
+
 function onDestroyInvoice(id) {
     if (can('destroy-invoices')) {
         swal({
@@ -315,7 +343,7 @@ function onDestroyInvoice(id) {
                         emits('submitItemForm');
                         swal({
                             icon: 'success',
-                            title: 'Destroyed!'
+                            title: 'Destroyed!',
                         })
                     })
                     .catch(errors => {
