@@ -127,14 +127,15 @@ class UploadImagesService
         }
 
         $filename = $image->getClientOriginalName();
-        $filename = $this->createFilename($path . $filename, $filename);
+        $filename = $this->createFilename($path . $filename . '.jpeg', $filename . '.jpeg');
+        $filename_webp = $this->createFilename($path . $filename . '.webp', $filename . '.webp');
 
         Storage::disk('s3')->put(
-            $path . $filename . '.jpeg',
+            $path . $filename,
             $this->makeImage($image, false, null, 'jpeg', 100, true)
         );
         Storage::disk('s3')->put(
-            $path . $filename . '.webp',
+            $path . $filename_webp,
             $this->makeImage($image, false, null, 'webp', 100, true)
         );
 
@@ -196,12 +197,11 @@ class UploadImagesService
     final public function createFilename(string $path, string $filename): string
     {
         if (Storage::disk('s3')->exists($path)) {
+            $type = array_slice(explode('.', $filename), -1)[0];
             $url = explode('.', $filename);
             array_pop($url);
             $originalName = implode('.', $url);
-            $filename = $originalName . '_' . preg_replace('/[^0-9]/', '', Carbon::now()->format('dmYH:i'));
-        } else {
-            $filename = implode('.', explode('.', $filename));
+            $filename = $originalName . '_' . preg_replace('/[^0-9]/', '', Carbon::now()->format('dmYH:i')) . '.' . $type;
         }
         return $filename;
     }
