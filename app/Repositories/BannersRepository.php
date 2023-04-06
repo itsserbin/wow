@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Banner as Model;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Cache;
 
 class BannersRepository extends CoreRepository
 {
@@ -57,27 +58,51 @@ class BannersRepository extends CoreRepository
             ->get();
     }
 
-    final public function getForPublicByCategory($slug)
+//    final public function getForPublicByCategory(string $slug)
+//    {
+//        $columns = [
+//            'id',
+//            'title',
+//            'image_mobile',
+//            'image_table',
+//            'image_desktop',
+//            'sort',
+//            'link'
+//        ];
+//
+//        return $this
+//            ->model::select($columns)
+//            ->whereHas('categories', function ($q) use ($slug) {
+//                $q->where('slug', $slug);
+//            })
+//            ->where('published', 1)
+//            ->orderBy('sort', 'desc')
+//            ->get();
+//    }
+    final public function getForPublicByCategory(string $slug): array
     {
-        $columns = [
-            'id',
-            'title',
-            'image_mobile',
-            'image_table',
-            'image_desktop',
-            'sort',
-            'link'
-        ];
-
-        return $this
-            ->model::select($columns)
-            ->whereHas('categories', function ($q) use ($slug) {
-                $q->where('slug', $slug);
-            })
-            ->where('published', 1)
-            ->orderBy('sort', 'desc')
-            ->get();
+        $cacheKey = 'banners_by_category_' . $slug;
+        return Cache::remember($cacheKey, 60 * 60, function () use ($slug) {
+            $columns = [
+                'id',
+                'title',
+                'image_mobile',
+                'image_table',
+                'image_desktop',
+                'sort',
+                'link'
+            ];
+            return $this->model::select($columns)
+                ->whereHas('categories', function ($q) use ($slug) {
+                    $q->where('slug', $slug);
+                })
+                ->where('published', 1)
+                ->orderBy('sort', 'desc')
+                ->get()
+                ->toArray();
+        });
     }
+
 
     /**
      * @param array $data

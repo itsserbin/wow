@@ -7,6 +7,7 @@ use App\Models\Enums\MassActions;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
 
 class CharacteristicsRepository extends CoreRepository
 {
@@ -79,19 +80,18 @@ class CharacteristicsRepository extends CoreRepository
         return $this->model::destroy($id);
     }
 
-    public function getForPublic($category_slug)
+    final public function getForPublic(string $category_slug): Collection
     {
-        return $this
-            ->model::select('title', 'id')
-            ->whereHas('values', function ($q) use ($category_slug) {
-                $q->whereHas('products', function ($q) use ($category_slug) {
-                    $q->whereHas('categories', function ($q) use ($category_slug) {
-                        $q->where('slug', $category_slug);
-                    });
-                });
-            })
-            ->with('values')
-            ->get();
+        $cacheKey = 'products_for_public_' . $category_slug;
+
+        return Cache::remember($cacheKey, now()->addHour(), function () use ($category_slug) {
+            return $this->model::select(['title', 'id'])
+                ->whereHas('values.products.categories', function ($q) use ($category_slug) {
+                    $q->where('slug', $category_slug);
+                })
+                ->with('values')
+                ->get();
+        });
     }
 
 }

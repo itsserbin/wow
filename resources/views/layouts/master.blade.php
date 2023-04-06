@@ -35,7 +35,7 @@
             @include('components.fixed-banner')
             <header-component
                 lang="{{app()->getLocale()}}"
-                categories="{{$categories}}"
+                categories="{{json_encode($categories,JSON_THROW_ON_ERROR)}}"
                 pages="{{json_encode($pages,JSON_THROW_ON_ERROR)}}"
                 app-name="{{env('APP_NAME')}}"
                 app-phone="{{$options['phone']}}"

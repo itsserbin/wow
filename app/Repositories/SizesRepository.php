@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\Size as Model;
+use Illuminate\Support\Facades\Cache;
+use JetBrains\PhpStorm\ArrayShape;
 
 class SizesRepository extends CoreRepository
 {
@@ -52,12 +54,29 @@ class SizesRepository extends CoreRepository
         return $model->update();
     }
 
-    public function getListForPublic($slug)
+//    final public function getListForPublic(string $slug)
+//    {
+//        return $this->model::whereHas('products', function ($q) use ($slug) {
+//            $q->whereHas('categories', function ($q) use ($slug) {
+//                $q->where('slug', $slug);
+//            });
+//        })->get();
+//    }
+
+    #[ArrayShape(['id' => "int", 'title' => "string"])] final public function getListForPublic(string $slug): array
     {
-        return $this->model::whereHas('products', function ($q) use ($slug) {
-            $q->whereHas('categories', function ($q) use ($slug) {
-                $q->where('slug', $slug);
-            });
-        })->get();
+        $cacheKey = 'sizesListBySlug_' . $slug;
+        $cacheTtl = 60 * 60 * 24; // TTL - 24 години
+
+        return Cache::remember($cacheKey, $cacheTtl, function () use ($slug) {
+            return $this->model::select(['id', 'title'])
+                ->whereHas('products', function ($q) use ($slug) {
+                    $q->whereHas('categories', function ($q) use ($slug) {
+                        $q->where('slug', $slug);
+                    });
+                })
+                ->get()
+                ->toArray();
+        });
     }
 }

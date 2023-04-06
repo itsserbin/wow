@@ -672,25 +672,37 @@ class ProductsRepository extends CoreRepository
 //        return $result->paginate(8);
 //    }
 
-    #[ArrayShape(['min' => "mixed", 'max' => "mixed"])] public function getMinMaxProductPrice($slug): array
+    final public function getMinMaxProductPrice(string $slug): array
     {
-        $min = $this->model::select('discount_price', 'price')
+        $cacheKey = 'product-price-min-max-' . $slug;
+
+        $cached = Cache::get($cacheKey);
+
+        if ($cached !== null) {
+            return $cached;
+        }
+
+        $min = $this->model::select(['discount_price', 'price'])
             ->whereHas('categories', function ($q) use ($slug) {
                 $q->where('slug', $slug);
             })
             ->orderBy('discount_price', 'asc')
             ->first();
 
-        $max = $this->model::select('discount_price', 'price')
+        $max = $this->model::select(['discount_price', 'price'])
             ->whereHas('categories', function ($q) use ($slug) {
                 $q->where('slug', $slug);
             })
             ->orderBy('discount_price', 'desc')
             ->first();
 
-        return [
+        $result = [
             'min' => $min->discount_price ?: $min->price,
             'max' => $max->discount_price ?: $max->price
         ];
+
+        Cache::put($cacheKey, $result, now()->addMinutes(60));
+
+        return $result;
     }
 }

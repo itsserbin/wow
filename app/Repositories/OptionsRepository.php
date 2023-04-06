@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Enums\Options;
 use App\Models\Option as Model;
+use Illuminate\Support\Facades\Cache;
 
 class OptionsRepository extends CoreRepository
 {
@@ -12,19 +13,44 @@ class OptionsRepository extends CoreRepository
         return Model::class;
     }
 
-    public function getToProd(): array
+    final public function getMainOptions(): array
+    {
+        return Cache::remember('main_options', now()->addDay(), function () {
+            $options = [];
+            foreach (Options::state as $option) {
+                $options[$option] = $this->getOptionValue($option);
+            }
+            return $options;
+        });
+    }
+
+    final public function getToProd(): array
     {
         return $this->getMainOptions();
     }
 
-    public function getMainOptions(): array
+    final public function getOptionValue(string $name): ?string
     {
-        $options = [];
-        foreach (Options::state as $option) {
-            $options[$option] = $this->getOptionValue($option);
-        }
-        return $options;
+        return Cache::remember("option_value_{$name}", now()->addDay(), function () use ($name) {
+            $option = $this->model::where('name', $name)->select('value')->first();
+            return $option?->value;
+        });
     }
+
+
+//    public function getToProd(): array
+//    {
+//        return $this->getMainOptions();
+//    }
+
+//    final public function getMainOptions(): array
+//    {
+//        $options = [];
+//        foreach (Options::state as $option) {
+//            $options[$option] = $this->getOptionValue($option);
+//        }
+//        return $options;
+//    }
 
     public function updateOptions($data): bool
     {
@@ -44,10 +70,10 @@ class OptionsRepository extends CoreRepository
         return $options;
     }
 
-    public function getOptionValue($name)
-    {
-        return $this->model::where('name', $name)->select('value')->first()->value;
-    }
+//    final public function getOptionValue(string $name)
+//    {
+//        return $this->model::where('name', $name)->select('value')->first()->value;
+//    }
 
     public function create($name, $value)
     {
@@ -58,4 +84,5 @@ class OptionsRepository extends CoreRepository
     {
         return $this->model::where('name', $name)->update(['value' => $value]);
     }
+
 }

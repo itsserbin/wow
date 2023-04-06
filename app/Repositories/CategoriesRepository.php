@@ -5,6 +5,8 @@ namespace App\Repositories;
 use App\Models\Category as Model;
 use App\Models\Enums\MassActions;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Cache;
+use JetBrains\PhpStorm\ArrayShape;
 
 class CategoriesRepository extends CoreRepository
 {
@@ -18,16 +20,20 @@ class CategoriesRepository extends CoreRepository
         return $this->model::where('id', $id)->with('preview')->first();
     }
 
-    /**
-     * Найти категории по slug.
-     *
-     * @param $slug
-     * @return mixed
-     */
-    public function findFySlug($slug)
+//    final public function findFySlug(string $slug)
+//    {
+//        return $this->model::where('slug', $slug)->first();
+//    }
+    final public function findBySlug(string $slug)
     {
-        return $this->model::where('slug', $slug)->first();
+        $cacheKey = 'findCategoryBySlug_' . $slug;
+        $cacheTime = 60; // час життя кешу, в секундах
+
+        return Cache::remember($cacheKey, $cacheTime, function () use ($slug) {
+            return $this->model::where('slug', $slug)->first();
+        });
     }
+
 
     /**
      * Получить все категории и вывести в пагинации по 15 шт.
@@ -101,22 +107,45 @@ class CategoriesRepository extends CoreRepository
      *
      * @return mixed
      */
-    public function listPublic()
+//    final public function listPublic()
+//    {
+//        $columns = [
+//            'id',
+//            'title',
+//            'slug',
+//            'preview_id'
+//        ];
+//
+//        return $this
+//            ->model::select($columns)
+//            ->where('published', 1)
+//            ->orderBy('sort', 'desc')
+//            ->with('preview')
+//            ->get();
+//    }
+    #[ArrayShape(['id' => "int", 'title' => "string", 'slug' => "string", 'preview_id' => "int", 'preview' => "null|array"])]
+    final public function listPublic(): array
     {
-        $columns = [
-            'id',
-            'title',
-            'slug',
-            'preview_id'
-        ];
+        $cacheKey = 'listCategoriesPublic';
+        $cacheTime = now()->addMinutes(60);
 
-        return $this
-            ->model::select($columns)
-            ->where('published', 1)
-            ->orderBy('sort', 'desc')
-            ->with('preview')
-            ->get();
+        return Cache::remember($cacheKey, $cacheTime, function () {
+            $columns = [
+                'id',
+                'title',
+                'slug',
+                'preview_id'
+            ];
+
+            return $this->model::select($columns)
+                ->where('published', 1)
+                ->orderBy('sort', 'desc')
+                ->with('preview')
+                ->get()
+                ->toArray();
+        });
     }
+
 
     /**
      * Создание новой категории.

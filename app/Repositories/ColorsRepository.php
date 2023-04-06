@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 use App\Models\Color as Model;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Cache;
+use JetBrains\PhpStorm\ArrayShape;
 
 class ColorsRepository extends CoreRepository
 {
@@ -58,12 +60,34 @@ class ColorsRepository extends CoreRepository
         return $this->model::destroy($id);
     }
 
-    public function getListForPublic($slug)
+//    final public function getListForPublic(string $slug)
+//    {
+//        return $this->model::whereHas('products', function ($q) use ($slug) {
+//            $q->whereHas('categories', function ($q) use ($slug) {
+//                $q->where('slug', $slug);
+//            });
+//        })->get();
+//    }
+    #[ArrayShape(['id' => "int", 'title' => "string"])]
+    final public function getListForPublic(string $slug): array
     {
-        return $this->model::whereHas('products', function ($q) use ($slug) {
-            $q->whereHas('categories', function ($q) use ($slug) {
-                $q->where('slug', $slug);
-            });
-        })->get();
+        $cacheKey = 'getColorsListForPublicBySlug_' . $slug;
+        $cacheTime = 60 * 60 * 24; // 24 години
+        $cached = Cache::remember($cacheKey, $cacheTime, function () use ($slug) {
+            return $this->model::whereHas('products', function ($q) use ($slug) {
+                $q->whereHas('categories', function ($q) use ($slug) {
+                    $q->where('slug', $slug);
+                });
+            })->get();
+        });
+
+        return $cached->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'hex' => $item->hex,
+                'title' => $item->title,
+            ];
+        })->toArray();
     }
+
 }

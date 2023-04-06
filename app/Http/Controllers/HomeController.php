@@ -74,7 +74,7 @@ class HomeController extends Controller
 
     final public function category(string $slug)
     {
-        $result = $this->categoriesRepository->findFySlug($slug);
+        $result = $this->categoriesRepository->findBySlug($slug);
 
         if ($result) {
             $this->facebookService->view($this->event_id_page_view);

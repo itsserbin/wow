@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Page as Model;
+use Illuminate\Support\Facades\Cache;
 
 class PagesRepository extends CoreRepository
 {
@@ -81,13 +82,37 @@ class PagesRepository extends CoreRepository
         )->first();
     }
 
-    public function getPagesListToPublic()
+//    final public function getPagesListToPublic()
+//    {
+//        return $this->model::where('published', 1)
+//            ->select(
+//                'id',
+//                'slug',
+//                'heading',
+//            )->get();
+//    }
+
+    final public function getPagesListToPublic(): array
     {
-        return $this->model::where('published', 1)
+        $cacheKey = 'pages_list_public';
+        $cachedPagesList = Cache::get($cacheKey);
+
+        if ($cachedPagesList) {
+            return $cachedPagesList;
+        }
+
+        $pagesList = $this->model::where('published', 1)
             ->select(
                 'id',
                 'slug',
                 'heading',
-            )->get();
+            )
+            ->get()
+            ->toArray();
+
+        Cache::put($cacheKey, $pagesList, now()->addHours(12));
+
+        return $pagesList;
     }
+
 }
