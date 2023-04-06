@@ -85,7 +85,7 @@ class HomeController extends Controller
                 'colors' => $this->colorsRepository->getListForPublic($slug)
             ];
             return view('pages.category', [
-                'banners' => $this->bannersRepository->getForPublicByCategory($slug),
+                'banners' => $this->bannersRepository->getForPublic($slug),
                 'category' => $result,
                 'categories' => $this->getCategories(),
                 'options' => $this->getOptions(),

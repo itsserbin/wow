@@ -39,23 +39,31 @@ class BannersRepository extends CoreRepository
     /**
      * @return mixed
      */
-    public function getForPublic()
+    public function getForPublic(string $slug = null)
     {
-        $columns = [
-            'id',
-            'title',
-            'image_mobile',
-            'image_table',
-            'image_desktop',
-            'sort',
-            'link'
-        ];
+        $cacheKey = 'banners_paginate_' . $slug;
+        return Cache::remember($cacheKey, 60 * 60, function () use ($slug) {
+            $columns = [
+                'id',
+                'title',
+                'image_mobile',
+                'image_table',
+                'image_desktop',
+                'sort',
+                'link'
+            ];
+            $model = $this->model::select($columns)->where('published', 1);
 
-        return $this
-            ->model::select($columns)
-            ->where('published', 1)
-            ->orderBy('sort', 'desc')
-            ->get();
+            if ($slug) {
+                $model->whereHas('categories', function ($q) use ($slug) {
+                    $q->where('slug', $slug);
+                });
+            }
+            return $model
+                ->orderBy('sort', 'desc')
+                ->get()
+                ->toArray();
+        });
     }
 
 //    final public function getForPublicByCategory(string $slug)

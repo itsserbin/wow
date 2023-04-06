@@ -54,8 +54,24 @@ class AdvantagesRepository extends CoreRepository
         return $this->model::destroy($id);
     }
 
-    public function getAllToPublic()
+    final public function getAllToPublic(): array
     {
-        return $this->model::where('published', 1)->select('id', 'icon', 'text')->orderBy('id', 'desc')->get();
+        $cacheKey = 'all_advantages_for_public';
+        $cacheTTL = now()->addMinutes(60);
+
+        return \Cache::remember($cacheKey, $cacheTTL, function () {
+            $columns = [
+                'id',
+                'icon',
+                'text'
+            ];
+
+            return $this->model::select($columns)
+                ->where('published', 1)
+                ->orderBy('id', 'desc')
+                ->get()
+                ->toArray();
+        });
     }
+
 }

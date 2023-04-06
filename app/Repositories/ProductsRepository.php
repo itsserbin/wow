@@ -207,34 +207,7 @@ class ProductsRepository extends CoreRepository
 
     final public function getByCategorySlugToPublic(string $slug, array $data, int $perPage = 16): LengthAwarePaginator
     {
-//        $columns = [
-//            'id',
-//            'price',
-//            'published',
-//            'discount_price',
-//            'preview_id',
-//            'sort',
-//            'h1',
-//        ];
-//
-//        $model = $this
-//            ->model::select($columns)
-//            ->where('published', 1)
-//            ->whereHas('categories', function ($q) use ($slug) {
-//                $q->where('slug', urldecode($slug));
-//            })->with([
-//                'sizes:title',
-//                'preview:id,src,webp_src',
-//                'images:id,src,webp_src'
-//            ]);
-//
-//
-//        $model = $this->applyFilters($model, $data);
-//        $model = $this->applySorting($model, $data);
-//
-//
-//        return $model->paginate($perPage);
-        $cacheKey = 'products_' . $slug . '_' . implode('_', $data) . '_' . $perPage;
+        $cacheKey = 'products_by_slug' . $slug . '_' . implode('_', $data) . '_' . $perPage;
         $cachedProducts = Cache::get($cacheKey);
 
         if ($cachedProducts) {
@@ -486,6 +459,12 @@ class ProductsRepository extends CoreRepository
 
     final public function getProductsForPublicWithPaginate(string $by = 'id', string $sort = 'desc', int $perPage = 8): LengthAwarePaginator
     {
+        $cacheKey = 'products_' . $by . '_' . $sort . '_' . $perPage;
+
+        if (Cache::has($cacheKey)) {
+            return Cache::get($cacheKey);
+        }
+
         $columns = [
             'id',
             'price',
@@ -496,19 +475,23 @@ class ProductsRepository extends CoreRepository
             'h1',
         ];
 
-        $result = $this
-            ->model::where('published', 1)
+        $query = $this->model::where('published', 1)
             ->select($columns)
             ->orderBy($by, $sort);
 
-        $result->with([
+        $query->with([
             'sizes:id,title',
             'preview:id,src,webp_src,alt',
             'images:id,src,webp_src,alt'
         ]);
 
-        return $result->paginate($perPage);
+        $result = $query->paginate($perPage);
+
+        Cache::put($cacheKey, $result, 60); // кешуємо на 1 хвилину
+
+        return $result;
     }
+
 
     final public function getRecommendProductsForPublicWithLimit(int $id = null, string $by = 'id', string $sort = 'desc', int $limit = 8)
     {

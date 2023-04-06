@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Faq as Model;
+use Illuminate\Support\Facades\Cache;
 
 class FaqsRepository extends CoreRepository
 {
@@ -54,8 +55,15 @@ class FaqsRepository extends CoreRepository
         return $this->model::destroy($id);
     }
 
-    public function getAllToPublic()
+    final public function getAllToPublic(): array
     {
-        return $this->model::where('published', 1)->select('id', 'answer', 'question')->orderBy('id', 'desc')->get();
+        return Cache::remember('all_faqs_to-public', 3600, function () {
+            return $this->model::where('published', 1)
+                ->select(['id', 'answer', 'question'])
+                ->orderBy('id', 'desc')
+                ->get()
+                ->toArray();
+        });
     }
+
 }

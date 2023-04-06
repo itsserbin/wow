@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\ProductReview as Model;
+use Illuminate\Support\Facades\Cache;
 
 class ProductReviewsRepository extends CoreRepository
 {
@@ -16,9 +17,11 @@ class ProductReviewsRepository extends CoreRepository
         return $this->model::where('id', $id)->with('product')->first();
     }
 
-    public function carouselList($limit = 10)
+    final public function carouselList(int $limit = 10): array
     {
-        return $this->model->where('published', 1)->orderBy('created_at', 'DESC')->limit($limit)->get();
+        return Cache::remember('product_reviews_carosel_' . $limit, now()->addMinutes(10), function () use ($limit) {
+            return $this->model::where('published', 1)->orderBy('created_at', 'desc')->limit($limit)->get()->toArray();
+        });
     }
 
     public function paginateList($perPage = 15)
