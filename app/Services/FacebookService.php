@@ -29,8 +29,8 @@ class FacebookService
     public function view($event_id)
     {
         if (env('APP_ENV') !== 'local') {
-            if (!preg_match('/bot|crawler|spider|robot|crawling|Googlebot/i', $_SERVER['HTTP_USER_AGENT'])) {
-                try {
+            try {
+                if (!preg_match('/bot|crawler|spider|robot|crawling|Googlebot/i', $_SERVER['HTTP_USER_AGENT'])) {
                     $api = Api::init(null, null, $this->access_token);
                     $api->setLogger(new CurlLogger());
 
@@ -63,10 +63,10 @@ class FacebookService
                         ->setEvents($events);
 
                     return $request->execute();
-                } catch (Exception $e) {
-                    Log::error('FB API ERROR (View). User-agent:' . $_SERVER['HTTP_USER_AGENT'] ."\n" . $e);
-                    return false;
                 }
+            } catch (Exception $e) {
+                Log::error('FB API ERROR (View). User-agent:' . $_SERVER['HTTP_USER_AGENT'] . "\n" . $e);
+                return false;
             }
         }
 
@@ -131,7 +131,7 @@ class FacebookService
 
                     return $request->execute();
                 } catch (Exception $e) {
-                    Log::error('FB API ERROR (viewContent). User-agent:' . $_SERVER['HTTP_USER_AGENT'] ."\n" . $e);
+                    Log::error('FB API ERROR (viewContent). User-agent:' . $_SERVER['HTTP_USER_AGENT'] . "\n" . $e);
 
                     return false;
                 }
@@ -197,7 +197,7 @@ class FacebookService
 
                     return $request->execute();
                 } catch (Exception $e) {
-                    Log::error('FB API ERROR (addToCard). User-agent:' . $_SERVER['HTTP_USER_AGENT'] ."\n" . $e);
+                    Log::error('FB API ERROR (addToCard). User-agent:' . $_SERVER['HTTP_USER_AGENT'] . "\n" . $e);
 
                     return false;
                 }
@@ -269,7 +269,7 @@ class FacebookService
                     return $request->execute();
 
                 } catch (Exception $e) {
-                    Log::error('FB API ERROR (InitiateCheckout). User-agent:' . $_SERVER['HTTP_USER_AGENT'] ."\n" . $e);
+                    Log::error('FB API ERROR (InitiateCheckout). User-agent:' . $_SERVER['HTTP_USER_AGENT'] . "\n" . $e);
                     return false;
                 }
             }
@@ -340,7 +340,7 @@ class FacebookService
 
                     return $request->execute();
                 } catch (Exception $e) {
-                    Log::error('FB API ERROR (Purchase). User-agent:' . $_SERVER['HTTP_USER_AGENT'] ."\n" . $e);
+                    Log::error('FB API ERROR (Purchase). User-agent:' . $_SERVER['HTTP_USER_AGENT'] . "\n" . $e);
 
                     return false;
                 }
