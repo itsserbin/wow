@@ -65,7 +65,7 @@ class FacebookService
                     return $request->execute();
                 }
             } catch (Exception $e) {
-                Log::error('FB API ERROR (View). User-agent:' . $_SERVER['HTTP_USER_AGENT'] . "\n" . $e);
+                Log::error('FB API ERROR (View). User-agent:' . $_SERVER . "\n" . $e);
                 return false;
             }
         }
