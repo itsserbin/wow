@@ -65,12 +65,6 @@ class FacebookService
                     return $request->execute();
                 }
             } catch (Exception $e) {
-                if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
-                    $userIpAddress = $_SERVER["HTTP_CF_CONNECTING_IP"];
-                } else {
-                    $userIpAddress = $_SERVER["REMOTE_ADDR"];
-                }
-                Log::info($userIpAddress);
                 Log::error('FB API ERROR (View). User-agent:' . json_encode($_SERVER, JSON_THROW_ON_ERROR) . "\n" . $e);
                 return false;
             }
@@ -81,8 +75,8 @@ class FacebookService
     public function viewContent($product, $event_id)
     {
         if (env('APP_ENV') !== 'local') {
-            if (!preg_match('/bot|crawler|spider|robot|crawling|Googlebot/i', $_SERVER['HTTP_USER_AGENT'])) {
-                try {
+            try {
+                if (isset($_SERVER['HTTP_USER_AGENT']) && !preg_match('/bot|crawler|spider|robot|crawling|Googlebot/i', $_SERVER['HTTP_USER_AGENT'])) {
                     $api = Api::init(null, null, $this->access_token);
                     $api->setLogger(new CurlLogger());
 
@@ -136,11 +130,11 @@ class FacebookService
                         ->setEvents($events);
 
                     return $request->execute();
-                } catch (Exception $e) {
-                    Log::error('FB API ERROR (viewContent). User-agent:' . $_SERVER['HTTP_USER_AGENT'] . "\n" . $e);
-
-                    return false;
                 }
+            } catch (Exception $e) {
+                Log::error('FB API ERROR (viewContent). User-agent:' . json_encode($_SERVER, JSON_THROW_ON_ERROR) . "\n" . $e);
+
+                return false;
             }
         }
     }
@@ -148,8 +142,8 @@ class FacebookService
     public function addToCard($item, $src, $event_id)
     {
         if (env('APP_ENV') !== 'local') {
-            if (!preg_match('/bot|crawler|spider|robot|crawling|Googlebot/i', $_SERVER['HTTP_USER_AGENT'])) {
-                try {
+            try {
+                if (isset($_SERVER['HTTP_USER_AGENT']) && !preg_match('/bot|crawler|spider|robot|crawling|Googlebot/i', $_SERVER['HTTP_USER_AGENT'])) {
                     $api = Api::init(null, null, $this->access_token);
                     $api->setLogger(new CurlLogger());
 
@@ -202,11 +196,11 @@ class FacebookService
                         ->setEvents($events);
 
                     return $request->execute();
-                } catch (Exception $e) {
-                    Log::error('FB API ERROR (addToCard). User-agent:' . $_SERVER['HTTP_USER_AGENT'] . "\n" . $e);
-
-                    return false;
                 }
+            } catch (Exception $e) {
+                Log::error('FB API ERROR (addToCard). User-agent:' . json_encode($_SERVER, JSON_THROW_ON_ERROR) . "\n" . $e);
+
+                return false;
             }
         }
 
@@ -215,8 +209,8 @@ class FacebookService
     public function InitiateCheckout($list, $event_id)
     {
         if (env('APP_ENV') !== 'local') {
-            if (!preg_match('/bot|crawler|spider|robot|crawling|Googlebot/i', $_SERVER['HTTP_USER_AGENT'])) {
-                try {
+            try {
+                if (isset($_SERVER['HTTP_USER_AGENT']) && !preg_match('/bot|crawler|spider|robot|crawling|Googlebot/i', $_SERVER['HTTP_USER_AGENT'])) {
                     $api = Api::init(null, null, $this->access_token);
                     $api->setLogger(new CurlLogger());
 
@@ -274,10 +268,10 @@ class FacebookService
 
                     return $request->execute();
 
-                } catch (Exception $e) {
-                    Log::error('FB API ERROR (InitiateCheckout). User-agent:' . $_SERVER['HTTP_USER_AGENT'] . "\n" . $e);
-                    return false;
                 }
+            } catch (Exception $e) {
+                Log::error('FB API ERROR (InitiateCheckout). User-agent:' . json_encode($_SERVER, JSON_THROW_ON_ERROR) . "\n" . $e);
+                return false;
             }
         }
     }
@@ -285,8 +279,8 @@ class FacebookService
     public function Purchase($list, $user, $order, $event_id)
     {
         if (env('APP_ENV') !== 'local') {
-            if (!preg_match('/bot|crawler|spider|robot|crawling|Googlebot/i', $_SERVER['HTTP_USER_AGENT'])) {
-                try {
+            try {
+                if (isset($_SERVER['HTTP_USER_AGENT']) && !preg_match('/bot|crawler|spider|robot|crawling|Googlebot/i', $_SERVER['HTTP_USER_AGENT'])) {
                     $api = Api::init(null, null, $this->access_token);
                     $api->setLogger(new CurlLogger());
 
@@ -345,11 +339,11 @@ class FacebookService
                         ->setEvents($events);
 
                     return $request->execute();
-                } catch (Exception $e) {
-                    Log::error('FB API ERROR (Purchase). User-agent:' . $_SERVER['HTTP_USER_AGENT'] . "\n" . $e);
-
-                    return false;
                 }
+            } catch (Exception $e) {
+                Log::error('FB API ERROR (Purchase). User-agent:' . json_encode($_SERVER, JSON_THROW_ON_ERROR) . "\n" . $e);
+
+                return false;
             }
         }
     }
