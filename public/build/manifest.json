@@ -1,6 +1,6 @@
 {
   "resources/js/Pages/Public/app.js": {
-    "file": "assets/app.b5ed8857.js",
+    "file": "assets/app.aef064f2.js",
     "src": "resources/js/Pages/Public/app.js",
     "isEntry": true,
     "imports": [
@@ -13,6 +13,7 @@
     ],
     "dynamicImports": [
       "resources/js/Pages/Public/Home/AllProducts.vue",
+      "resources/js/Pages/Public/Home/Content.vue",
       "resources/js/Pages/Public/Home/BestSelling.vue",
       "resources/js/Pages/Public/Home/NewProducts.vue",
       "resources/js/Pages/Public/Components/Advantages.vue",
@@ -216,7 +217,7 @@
     "file": "assets/index.02b5b7d6.js"
   },
   "resources/js/Pages/Public/Home/AllProducts.vue": {
-    "file": "assets/AllProducts.fbabb14b.js",
+    "file": "assets/AllProducts.70558f8c.js",
     "src": "resources/js/Pages/Public/Home/AllProducts.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -229,8 +230,16 @@
       "_index.e44f0a5e.js"
     ]
   },
+  "resources/js/Pages/Public/Home/Content.vue": {
+    "file": "assets/Content.17870c8f.js",
+    "src": "resources/js/Pages/Public/Home/Content.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_moment.359c110c.js"
+    ]
+  },
   "resources/js/Pages/Public/Home/BestSelling.vue": {
-    "file": "assets/BestSelling.3461a993.js",
+    "file": "assets/BestSelling.a63cc9db.js",
     "src": "resources/js/Pages/Public/Home/BestSelling.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -244,7 +253,7 @@
     ]
   },
   "resources/js/Pages/Public/Home/NewProducts.vue": {
-    "file": "assets/NewProducts.389f106f.js",
+    "file": "assets/NewProducts.fa1a44f1.js",
     "src": "resources/js/Pages/Public/Home/NewProducts.vue",
     "isDynamicEntry": true,
     "imports": [
@@ -1884,14 +1893,14 @@
     "file": "assets/app.78fb3e87.css",
     "src": "resources/js/Pages/Admin/app.css"
   },
+  "resources/js/Pages/Public/app.css": {
+    "file": "assets/app.372a7229.css",
+    "src": "resources/js/Pages/Public/app.css"
+  },
   "resources/scss/app.scss": {
     "file": "assets/app.eb0db679.css",
     "src": "resources/scss/app.scss",
     "isEntry": true
-  },
-  "resources/js/Pages/Public/app.css": {
-    "file": "assets/app.372a7229.css",
-    "src": "resources/js/Pages/Public/app.css"
   },
   "resources/scss/public.scss": {
     "file": "assets/public.a243e45e.css",

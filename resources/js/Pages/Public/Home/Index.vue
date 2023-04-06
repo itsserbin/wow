@@ -1,14 +1,15 @@
 <template>
     <div class="grid grid-cols-1 gap-4">
-        <MainBanners :data="banners" :lang="lang"/>
+        <MainBanners v-if="banners.length" :data="banners" :lang="lang"/>
 
-        <Categories :data="categories" :lang="lang"/>
+        <Categories v-if="categories.length" :data="categories" :lang="lang"/>
 
         <BestSelling :lang="lang"
                      :data="stateBestSellingProducts.data"
                      :isLoadMore="stateBestSellingProducts.isLoadMore"
                      :isShowLoadMore="stateBestSellingProducts.isShowLoadMore"
                      @fetch="fetchBestSellingProducts"
+                     v-if="stateBestSellingProducts.data.length"
         />
 
         <NewProducts :lang="lang"
@@ -16,6 +17,7 @@
                      :isLoadMore="stateNewProducts.isLoadMore"
                      :isShowLoadMore="stateNewProducts.isShowLoadMore"
                      @fetch="fetchNewProducts"
+                     v-if="stateNewProducts.data.length"
         />
 
         <AllProducts :lang="lang"
@@ -23,17 +25,18 @@
                      :isLoadMore="stateAllProducts.isLoadMore"
                      :isShowLoadMore="stateAllProducts.isShowLoadMore"
                      @fetch="fetchAllProducts"
+                     v-if="stateAllProducts.data.length"
         />
 
-        <Advantages :lang="lang" :data="advantages"/>
+        <Advantages v-if="advantages.length" :lang="lang" :data="advantages"/>
 
-        <AllReviewsCarousel :data="reviews"/>
+        <AllReviewsCarousel v-if="reviews.length" :data="reviews"/>
 
-        <div class="content" v-if="text" v-html="text[lang]"></div>
+        <Content v-if="text" :data="text[lang]"/>
 
-        <FaqComponent :lang="lang" :data="faqs"/>
+        <FaqComponent v-if="faqs.length" :lang="lang" :data="faqs"/>
 
-        <Support/>
+        <Support v-if="!isLoading"/>
     </div>
 </template>
 
@@ -43,6 +46,7 @@ import {onMounted, ref} from "vue";
 import {defineAsyncComponent} from 'vue'
 
 const AllProducts = defineAsyncComponent(() => import('./AllProducts.vue'))
+const Content = defineAsyncComponent(() => import('./Content.vue'))
 const BestSelling = defineAsyncComponent(() => import('./BestSelling.vue'))
 const NewProducts = defineAsyncComponent(() => import('./NewProducts.vue'))
 const Advantages = defineAsyncComponent(() => import('./../Components/Advantages.vue'))
@@ -62,12 +66,12 @@ const props = defineProps([
     'advantages'
 ]);
 
-const banners = JSON.parse(props.banners);
-const categories = JSON.parse(props.categories);
-const advantages = JSON.parse(props.advantages);
-const reviews = JSON.parse(props.reviews);
-const text = JSON.parse(props.text);
-const faqs = JSON.parse(props.faqs);
+const banners = ref([]);
+const categories = ref([]);
+const advantages = ref([]);
+const reviews = ref([]);
+const text = ref([]);
+const faqs = ref([]);
 
 const stateNewProducts = ref({
     data: [],
@@ -94,9 +98,14 @@ const stateBestSellingProducts = ref({
 });
 
 onMounted(async () => {
+    banners.value = JSON.parse(props.banners);
+    categories.value = JSON.parse(props.categories);
     await fetchAllProducts();
     await fetchBestSellingProducts();
     await fetchNewProducts();
+    advantages.value = JSON.parse(props.advantages);
+    reviews.value = JSON.parse(props.reviews);
+    faqs.value = JSON.parse(props.faqs);
     isLoading.value = false;
 })
 
