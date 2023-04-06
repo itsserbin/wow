@@ -11,6 +11,7 @@ use FacebookAds\Object\ServerSide\UserData;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ImagesController;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,14 +60,34 @@ Route::group(['prefix' => App\Http\Middleware\LocaleMiddleware::getLocale()], fu
         ->name('support');
 
 
-
     require __DIR__ . '/xml.php';
 });
 
 
-Route::get('test',function (){
-    $s = new \App\Services\RefundsStatisticsService();
-    return $s->index();
+Route::get('test', function () {
+    $data = [
+        'support_ukraine_ru_1900',
+        'support_ukraine_ua_1900',
+        'support_ukraine_ru_1000',
+        'support_ukraine_ua_1000',
+        'support_ukraine_ru_768',
+        'support_ukraine_ua_768',
+    ];
+
+    foreach ($data as $item) {
+        $image = Storage::disk('public')->get('banners/' . $item . '.png');
+
+        Storage::disk('public')->put(
+            'banners/' . $item . '.webp',
+            \Intervention\Image\Facades\Image::make($image)->encode('webp', 100)
+        );
+
+        Storage::disk('public')->put(
+            'banners/' . $item . '.webp',
+            \Intervention\Image\Facades\Image::make($image)->encode('webp', 100)
+        );
+    }
+
 });
 
 

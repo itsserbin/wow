@@ -29,16 +29,6 @@
 </head>
 <body class="h-full">
 {!! $options['after_body_scripts'] !!}
-<div class="loader">
-    <div class="fixed inset-0 z-50 flex items-center justify-center backdrop-filter backdrop-blur-md">
-        <div class="lds-ellipsis inline-block relative w-[80px] h-[80px]">
-            <div class="absolute top-[33px] w-[13px] h-[13px] rounded-[50%] bg-[#ff0000]"></div>
-            <div class="absolute top-[33px] w-[13px] h-[13px] rounded-[50%] bg-[#ff0000]"></div>
-            <div class="absolute top-[33px] w-[13px] h-[13px] rounded-[50%] bg-[#ff0000]"></div>
-            <div class="absolute top-[33px] w-[13px] h-[13px] rounded-[50%] bg-[#ff0000]"></div>
-        </div>
-    </div>
-</div>
 <div id="app" class="h-full flex flex-col">
     <master-layout>
         <header class="w-[100%] fixed top-0 z-20 bg-[#fff] flex-[0_0_auto]">
@@ -72,14 +62,7 @@
         <scroll-to-top></scroll-to-top>
     </master-layout>
 </div>
-<script>
-    const preloader = document.querySelector('.loader');
-    document.addEventListener('DOMContentLoaded', () => {
-        preloader.classList.add('hidden');
-    });
-</script>
 @routes
-{{--<script defer type="module" src="{{ vite('resources/js/Pages/Public/app.js') }}"></script>--}}
 @vite('resources/js/Pages/Public/app.js')
 @if(env('APP_ENV') !== 'local')
     <script async>
