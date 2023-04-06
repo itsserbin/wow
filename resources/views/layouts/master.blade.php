@@ -36,7 +36,7 @@
             <header-component
                 lang="{{app()->getLocale()}}"
                 categories="{{$categories}}"
-                pages="{{json_encode($pages)}}"
+                pages="{{json_encode($pages,JSON_THROW_ON_ERROR)}}"
                 app-name="{{env('APP_NAME')}}"
                 app-phone="{{$options['phone']}}"
                 app-email="{{$options['email']}}"
@@ -48,7 +48,7 @@
             ></header-component>
         </header>
         <main class="main flex-[1_0_auto]">
-            <div class="max-w-7xl mx-auto pt-34 md:pt-40 px-3 h-full">
+            <div class="max-w-7xl mx-auto pt-36 md:pt-40 px-3 h-full">
                 @yield('content')
             </div>
         </main>
