@@ -30,7 +30,7 @@ class FacebookService
     {
         if (env('APP_ENV') !== 'local') {
             try {
-                if (!preg_match('/bot|crawler|spider|robot|crawling|Googlebot/i', $_SERVER['HTTP_USER_AGENT'])) {
+                if (isset($_SERVER['HTTP_USER_AGENT']) && !preg_match('/bot|crawler|spider|robot|crawling|Googlebot/i', $_SERVER['HTTP_USER_AGENT'])) {
                     $api = Api::init(null, null, $this->access_token);
                     $api->setLogger(new CurlLogger());
 
