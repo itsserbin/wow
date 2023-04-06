@@ -110,4 +110,6 @@ app.component('reviews-index', ReviewsIndex);
 app.component('page-index', PageIndex);
 app.component('support-index', SupportIndex);
 
+app.provide('$defaultLang', 'ua');
+
 app.mount('#app');

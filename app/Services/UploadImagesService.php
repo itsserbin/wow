@@ -114,28 +114,29 @@ class UploadImagesService
         return $filename;
     }
 
-    public function uploadBanners($data)
+    final public function uploadBanners(array $data): string
     {
-        $root = $_SERVER["DOCUMENT_ROOT"];
         $image = $data['banner'];
 
-        if ($data['type'] == 'mobile') {
+        if ($data['type'] === 'mobile') {
             $path = ImagesPath::MOBILE_BANNER;
-        } elseif ($data['type'] == 'table') {
+        } elseif ($data['type'] === 'table') {
             $path = ImagesPath::TABLE_BANNER;
         } else {
             $path = ImagesPath::DESKTOP_BANNER;
         }
 
-        $dir = $root . $path;
-        if (!file_exists($dir)) {
-            mkdir($dir, 0755, true);
-        }
-
         $filename = $image->getClientOriginalName();
         $filename = $this->createFilename($path . $filename, $filename);
 
-        Storage::disk('s3')->put($path . $filename, Image::make($image)->stream());
+        Storage::disk('s3')->put(
+            $path . $filename . '.jpeg',
+            $this->makeImage($image, false, null, 'jpeg', 100, true)
+        );
+        Storage::disk('s3')->put(
+            $path . $filename . '.webp',
+            $this->makeImage($image, false, null, 'webp', 100, true)
+        );
 
         return $filename;
     }
@@ -158,17 +159,28 @@ class UploadImagesService
         return false;
     }
 
-    final public function makeImage($image, bool $resize = false, int $width = null, string $encode = 'jpeg', int $quality = 100)
+    final public function makeImage(
+        $image,
+        bool $resize = false,
+        int $width = null,
+        string $encode = 'jpeg',
+        int $quality = 100,
+        bool $stream = false
+    )
     {
         $image = Image::make($image);
 
-        if (isset($resize)) {
+        if ($resize) {
             $image->resize($width, null, function ($constraint) {
                 $constraint->aspectRatio();
             });
         }
 
         $image->encode($encode, $quality);
+
+        if ($stream) {
+            $image->stream();
+        }
 
         return $image;
     }
@@ -181,14 +193,15 @@ class UploadImagesService
         }
     }
 
-    public function createFilename($path, $filename)
+    final public function createFilename(string $path, string $filename): string
     {
         if (Storage::disk('s3')->exists($path)) {
-            $type = array_slice(explode('.', $filename), -1)[0];
             $url = explode('.', $filename);
             array_pop($url);
             $originalName = implode('.', $url);
-            $filename = $originalName . '_' . preg_replace('/[^0-9]/', '', Carbon::now()->format('dmYH:i')) . '.' . $type;
+            $filename = $originalName . '_' . preg_replace('/[^0-9]/', '', Carbon::now()->format('dmYH:i'));
+        } else {
+            $filename = implode('.', explode('.', $filename));
         }
         return $filename;
     }

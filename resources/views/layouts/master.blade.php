@@ -48,7 +48,7 @@
             ></header-component>
         </header>
         <main class="main flex-[1_0_auto]">
-            <div class="max-w-7xl mx-auto pt-32 md:pt-40 px-3 h-full">
+            <div class="max-w-7xl mx-auto pt-34 md:pt-40 px-3 h-full">
                 @yield('content')
             </div>
         </main>
