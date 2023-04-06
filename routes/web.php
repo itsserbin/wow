@@ -64,33 +64,6 @@ Route::group(['prefix' => App\Http\Middleware\LocaleMiddleware::getLocale()], fu
 });
 
 
-Route::get('test', function () {
-    $data = [
-        'support_ukraine_ru_1900',
-        'support_ukraine_ua_1900',
-        'support_ukraine_ru_1000',
-        'support_ukraine_ua_1000',
-        'support_ukraine_ru_768',
-        'support_ukraine_ua_768',
-    ];
-
-    foreach ($data as $item) {
-        $image = Storage::disk('public')->get('banners/' . $item . '.png');
-
-        Storage::disk('public')->put(
-            'banners/' . $item . '.webp',
-            \Intervention\Image\Facades\Image::make($image)->encode('webp', 100)
-        );
-
-        Storage::disk('public')->put(
-            'banners/' . $item . '.webp',
-            \Intervention\Image\Facades\Image::make($image)->encode('webp', 100)
-        );
-    }
-
-});
-
-
 Route::post('sms-new-order', [SmsController::class, 'newOrder'])
     ->name('sms.new.order');
 
