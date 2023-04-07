@@ -21,9 +21,11 @@ class ShoppingCartService
     private $cookie;
     private $uuid;
     private $facebookService;
+    private $productsRepository;
 
     public function __construct()
     {
+        $this->productsRepository = app(ProductsRepository::class);
         $this->cartRepository = app(CartRepository::class);
         $this->cartItemsRepository = app(CartItemsRepository::class);
         $this->promoCodesRepository = app(PromoCodesRepository::class);
@@ -37,9 +39,90 @@ class ShoppingCartService
      *
      * @return array
      */
-    public function cartList()
+//    public function cartList()
+//    {
+//        $list = [];
+//        $total_price = 0;
+//        $total_quantity = 0;
+//        $price_without_discount = 0;
+//
+//        if (!$this->cookie) {
+//            return [
+//                'list' => [],
+//                'totalCount' => 0,
+//                'totalPrice' => 0,
+//            ];
+//        }
+//
+//        /* @var $cart Cart */
+//        $cart = $this->cartRepository->find($this->cookie);
+//
+//        if (!$cart) {
+//            return [
+//                'list' => [],
+//                'totalCount' => 0,
+//                'totalPrice' => 0,
+//            ];
+//        }
+//
+//        if (!$cart->items) {
+//            return [
+//                'list' => [],
+//                'totalCount' => 0,
+//                'totalPrice' => 0,
+//            ];
+//        }
+//
+//
+//        foreach ($cart->items as $item) {
+//            if ($item->product) {
+//                $total_price += ($item->product->discount_price ?: $item->product->price) * $item->count;
+//                $total_quantity += $item->count;
+//
+//                if ($item->product->discount_price) {
+//                    $price_without_discount += $item->product->price * $item->count;
+//                }
+//
+//                $list[] = [
+//                    'id' => $item->product->id,
+//                    'alias' => route('product', ['alias' => $item->product->alias, 'id' => $item->product->id]),
+//                    'name' => $item->product->h1,
+//                    'image' => $item->product->preview,
+//                    'count' => $item->count,
+//                    'size' => $item->size,
+//                    'color' => $item->color,
+//                    'price' => $item->product->price * $item->count,
+//                    'discount_price' => $item->product->discount_price * $item->count,
+//                    'maxcount' => 50,
+//                    'category' => count($item->product->categories) ? $item->product->categories[0]->title : 'Без категорії'
+//                ];
+//            }
+//
+//        }
+//
+//        if ($cart->promo_code) {
+//            $discount = $this->promoCodesRepository->getDiscount($cart->promo_code);
+//            if ($discount) {
+//                if ($discount->discount_in_hryvnia) {
+//                    $total_price -= $discount->discount_in_hryvnia;
+//                } elseif ($discount->percent_discount) {
+//                    $total_price = $total_price * (100 - $discount->percent_discount) / 100;
+//                }
+//            }
+//        }
+//
+//        return [
+//            'list' => $list,
+//            'promo_code' => $cart->promo_code,
+//            'price_without_discount' => $price_without_discount,
+//            'totalCount' => $total_quantity,
+//            'totalPrice' => number_format($total_price, 2, '.', ''),
+//        ];
+//    }
+    final public function cartList()
     {
-        $list = [];
+        $list = collect([]);
+
         $total_price = 0;
         $total_quantity = 0;
         $price_without_discount = 0;
@@ -52,7 +135,6 @@ class ShoppingCartService
             ];
         }
 
-        /* @var $cart Cart */
         $cart = $this->cartRepository->find($this->cookie);
 
         if (!$cart) {
@@ -63,49 +145,36 @@ class ShoppingCartService
             ];
         }
 
-        if (!$cart->items) {
-            return [
-                'list' => [],
-                'totalCount' => 0,
-                'totalPrice' => 0,
-            ];
-        }
-
+        $product_ids = $cart->items->pluck('product_id')->toArray();
+        $products = $this->productsRepository->getByIds($product_ids)->keyBy('id');
 
         foreach ($cart->items as $item) {
-            if ($item->product) {
-                $total_price += ($item->product->discount_price ?: $item->product->price) * $item->count;
-                $total_quantity += $item->count;
+            $product = $products->get($item->product_id);
 
-                if ($item->product->discount_price) {
-                    $price_without_discount += $item->product->price * $item->count;
+            if ($product) {
+                $total_quantity += $item->count;
+                $product_price = $product->price;
+                $product_discount_price = $product->discount_price;
+
+                if ($product_discount_price) {
+                    $price_without_discount += $product_price * $item->count;
                 }
 
-                $list[] = [
-                    'id' => $item->product->id,
-                    'alias' => route('product', ['alias' => $item->product->alias, 'id' => $item->product->id]),
-                    'name' => $item->product->h1,
-                    'image' => $item->product->preview,
+                $list->push([
+                    'id' => $product->id,
+                    'alias' => $product->alias_route,
+                    'name' => $product->h1,
+                    'image' => $product->preview,
                     'count' => $item->count,
                     'size' => $item->size,
                     'color' => $item->color,
-                    'price' => $item->product->price * $item->count,
-                    'discount_price' => $item->product->discount_price * $item->count,
+                    'price' => $product_price * $item->count,
+                    'discount_price' => $product_discount_price * $item->count,
                     'maxcount' => 50,
-                    'category' => count($item->product->categories) ? $item->product->categories[0]->title : 'Без категорії'
-                ];
-            }
+                    'category' => count($product->categories) ? $product->categories[0]->title : 'Без категорії'
+                ]);
 
-        }
-
-        if ($cart->promo_code) {
-            $discount = $this->promoCodesRepository->getDiscount($cart->promo_code);
-            if ($discount) {
-                if ($discount->discount_in_hryvnia) {
-                    $total_price -= $discount->discount_in_hryvnia;
-                } elseif ($discount->percent_discount) {
-                    $total_price = $total_price * (100 - $discount->percent_discount) / 100;
-                }
+                $total_price += $product_discount_price ? $product_discount_price * $item->count : $product_price * $item->count;
             }
         }
 
@@ -117,6 +186,7 @@ class ShoppingCartService
             'totalPrice' => number_format($total_price, 2, '.', ''),
         ];
     }
+
 
     /**
      * Add new product to cart or update
@@ -148,7 +218,7 @@ class ShoppingCartService
             $cartItem = $this->cartItemsRepository->create($data, $cart->id);
         }
 
-        $this->facebookService->addToCard($cartItem,$data['src'],$data['event_id']);
+        $this->facebookService->addToCard($cartItem, $data['src'], $data['event_id']);
 
         return false;
     }

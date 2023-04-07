@@ -44,7 +44,7 @@
 import {isLoading} from "@/Pages/Public/load";
 import {onMounted, ref} from "vue";
 import AllProducts from './AllProducts.vue';
-import Content from './Content.vue';
+import Content from '../Components/Content.vue';
 import BestSelling from './BestSelling.vue';
 import NewProducts from './NewProducts.vue';
 import Advantages from './../Components/Advantages.vue';
@@ -98,13 +98,13 @@ const stateBestSellingProducts = ref({
 onMounted(async () => {
     banners.value = JSON.parse(props.banners);
     categories.value = JSON.parse(props.categories);
-    await fetchAllProducts();
     await fetchBestSellingProducts();
+    isLoading.value = false;
     await fetchNewProducts();
+    await fetchAllProducts();
     advantages.value = JSON.parse(props.advantages);
     reviews.value = JSON.parse(props.reviews);
     faqs.value = JSON.parse(props.faqs);
-    isLoading.value = false;
 })
 
 const fetchAllProducts = async () => {

@@ -15,9 +15,6 @@
             </Button>
         </div>
     </div>
-    <div v-else class="col-span-9 font-bold text-black text-center text-2xl">
-        Результати відсутні
-    </div>
 </template>
 
 <script setup>

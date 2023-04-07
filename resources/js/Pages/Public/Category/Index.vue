@@ -1,6 +1,6 @@
 <template>
     <div class="grid grid-cols-1 gap-4">
-        <Banners :lang="lang" :data="banners"/>
+        <Banners v-if="banners.length" :lang="lang" :data="banners"/>
 
         <div class="flex justify-between md:justify-end items-center">
             <div class="block md:hidden mr-2">
@@ -14,7 +14,8 @@
             <div :class="{'!block fixed h-full w-full z-50 overflow-y-scroll top-0 right-0' : state.isShowFilter}"
                  class="filter hidden md:col-span-3 md:block"
             >
-                <Filter :characteristics="characteristics"
+                <Filter v-if="Object.keys(characteristics).length"
+                        :characteristics="characteristics"
                         :lang="lang"
                         @fetch="filter"
                         @close="toggleFilter"
@@ -28,16 +29,18 @@
                           :isLoadingMore="state.isLoadingMore"
                           :isShowLoadMore="state.isShowLoadMore"
                           @fetch="fetch"
+                          v-if="state.products.length"
                 />
             </div>
         </div>
 
-        <div class="content" v-if="text" v-html="text"></div>
+        <Content v-if="text" v-html="text"/>
     </div>
 </template>
 
 <script setup>
 import {isLoading} from "@/Pages/Public/load";
+import Content from '../Components/Content.vue';
 import Banners from '../Components/Banners.vue';
 import Products from './Products.vue';
 import Sort from './Sort.vue';
@@ -54,8 +57,8 @@ const props = defineProps([
     'text',
 ]);
 
-const banners = props.banners ? JSON.parse(props.banners) : null;
-const characteristics = props.characteristics ? JSON.parse(props.characteristics) : null;
+const banners = ref([]);
+const characteristics = ref([]);
 
 const state = ref({
     products: [],
@@ -81,7 +84,9 @@ const getParams = computed(() => {
 });
 
 onMounted(async () => {
+    banners.value = JSON.parse(props.banners);
     await fetch();
+    characteristics.value = JSON.parse(props.characteristics);
     isLoading.value = false;
 })
 
@@ -108,7 +113,6 @@ const fetch = async () => {
         if (data.success) {
             params.value.currentPage = data.result.current_page;
             state.value.products = state.value.products.concat(data.result.data);
-            console.log(state.value.products);
             state.value.isShowLoadMore = (data.result.to !== data.result.total);
         }
     } catch (e) {

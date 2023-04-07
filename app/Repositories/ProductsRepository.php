@@ -17,6 +17,11 @@ class ProductsRepository extends CoreRepository
         return Model::class;
     }
 
+    final public function getByIds(array $ids)
+    {
+        return $this->model::whereIn('id', $ids)->get();
+    }
+
     /**
      * Retrieve a model by its id, including related models for colors, categories, images, sizes, and preview.
      *

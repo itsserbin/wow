@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Cart as Model;
+use Illuminate\Support\Facades\Cache;
 
 class CartRepository extends CoreRepository
 {
@@ -11,7 +12,7 @@ class CartRepository extends CoreRepository
         return Model::class;
     }
 
-    public function find($uuid)
+    final public function find(string $uuid)
     {
         return $this->model::where('hash', $uuid)->first();
     }
