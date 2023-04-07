@@ -45,40 +45,74 @@ class ProductsRepository extends CoreRepository
     }
 
 
-    public function getByIdToPublic($id)
+//    public function getByIdToPublic($id)
+//    {
+//        return $this->model
+//            ->select([
+//                'id',
+//                'status',
+//                'published',
+//                'h1',
+//                'title',
+//                'description',
+//                'content',
+//                'price',
+//                'discount_price',
+//                'characteristics',
+//                'youtube',
+//                'vendor_code',
+//                'preview_id',
+//                'size_table',
+//            ])
+//            ->where(function ($q) use ($id) {
+//                $q->where('id', $id);
+//                $q->where('published', 1);
+//            })
+//            ->with([
+//                'reviews' => function ($q) {
+//                    $q->where('published', 1);
+//                },
+//                'colors:id,hex,name',
+//                'categories:id,title',
+//                'images:id,src,webp_src',
+//                'sizes:id,title',
+//                'preview:id,src,webp_src',
+//            ])->first();
+//    }
+    final public function getByIdToPublic($id)
     {
-        return $this->model
-            ->select(
-                'id',
-                'status',
-                'published',
-                'h1',
-                'title',
-                'description',
-                'content',
-                'price',
-                'discount_price',
-                'characteristics',
-                'youtube',
-                'vendor_code',
-                'preview_id',
-                'size_table',
-            )
-            ->where(function ($q) use ($id) {
-                $q->where('id', $id);
-                $q->where('published', 1);
-            })
-            ->with([
-                'reviews' => function ($q) {
+        $cacheKey = 'product_' . $id;
+
+        return Cache::remember($cacheKey, now()->addMinutes(60), function () use ($id) {
+            return $this->model::select([
+                    'id',
+                    'status',
+                    'published',
+                    'h1',
+                    'title',
+                    'description',
+                    'content',
+                    'price',
+                    'discount_price',
+                    'youtube',
+                    'vendor_code',
+                    'preview_id',
+                    'size_table',
+                ])
+                ->where(function ($q) use ($id) {
+                    $q->where('id', $id);
                     $q->where('published', 1);
-                },
-                'colors',
-                'categories',
-                'images',
-                'sizes',
-                'preview',
-            ])->first();
+                })
+                ->with([
+                    'colors:id,hex,name',
+                    'categories:id,title',
+                    'images:id,src,webp_src',
+                    'sizes:id,title',
+                    'preview:id,src,webp_src',
+                ])->first();
+        });
     }
+
 
     public function getCharacteristicsForPublic($id): array
     {
