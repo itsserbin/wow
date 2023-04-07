@@ -12,8 +12,11 @@ class CartRepository extends CoreRepository
         return Model::class;
     }
 
-    final public function find(string $uuid)
+    final public function find(string $uuid = null): \Illuminate\Database\Eloquent\Model|bool
     {
+        if (!$uuid) {
+            return false;
+        }
         return $this->model::where('hash', $uuid)->first();
     }
 
