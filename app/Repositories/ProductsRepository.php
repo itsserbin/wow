@@ -105,7 +105,7 @@ class ProductsRepository extends CoreRepository
                 })
                 ->with([
                     'colors:id,hex,name',
-                    'categories:id,title',
+                    'categories:id,title,slug',
                     'images:id,src,webp_src',
                     'sizes:id,title',
                     'preview:id,src,webp_src',
