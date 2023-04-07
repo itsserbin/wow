@@ -19,11 +19,9 @@
     <category-index lang="{{app()->getLocale()}}"
                     banners="{{json_encode($banners,JSON_THROW_ON_ERROR)}}"
                     characteristics="{{json_encode($characteristics,JSON_THROW_ON_ERROR)}}"
+                    products="{{json_encode($products,JSON_THROW_ON_ERROR)}}"
+                    consultation="{{json_encode($options['consultation_status'] === 'on',JSON_THROW_ON_ERROR)}}"
                     title="{{$category->title[app()->getLocale()]}}"
                     text="{{$category->seo_text[app()->getLocale()]}}"
     ></category-index>
-
-    @if($options['consultation_status'] == 'on')
-        <consultation></consultation>
-    @endif
 @endsection

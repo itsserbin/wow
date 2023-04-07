@@ -18,6 +18,9 @@
                     advantages="{{json_encode($advantages, JSON_THROW_ON_ERROR)}}"
                     reviews="{{json_encode($reviews, JSON_THROW_ON_ERROR)}}"
                     faqs="{{json_encode($faqs, JSON_THROW_ON_ERROR)}}"
+                    best-selling-products="{{json_encode($best_selling_products, JSON_THROW_ON_ERROR)}}"
+                    new-products="{{json_encode($new_products, JSON_THROW_ON_ERROR)}}"
+                    all-products="{{json_encode($all_products, JSON_THROW_ON_ERROR)}}"
                     text="{{json_encode(['ua' => $options['text_home_page_ua'], 'ru' => $options['text_home_page_ru']], JSON_THROW_ON_ERROR)}}"
         ></home-index>
     </div>

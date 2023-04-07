@@ -34,12 +34,17 @@
             </div>
         </div>
 
-        <Content v-if="text" v-html="text"/>
+        <Content v-if="text" :data="text"/>
+
+        <Consultation v-if="consultation"/>
+        <Support v-if="!isLoading"/>
     </div>
 </template>
 
 <script setup>
 import {isLoading} from "@/Pages/Public/load";
+import Support from '../Components/Support.vue';
+import Consultation from '../Components/Consultation.vue';
 import Content from '../Components/Content.vue';
 import Banners from '../Components/Banners.vue';
 import Products from './Products.vue';
@@ -55,10 +60,13 @@ const props = defineProps([
     'title',
     'characteristics',
     'text',
+    'consultation',
+    'products'
 ]);
 
 const banners = ref([]);
 const characteristics = ref([]);
+const consultation = ref(false);
 
 const state = ref({
     products: [],
@@ -68,7 +76,7 @@ const state = ref({
 });
 
 const params = ref({
-    currentPage: 0,
+    currentPage: 1,
     sort: null,
     filter: null,
 });
@@ -85,8 +93,9 @@ const getParams = computed(() => {
 
 onMounted(async () => {
     banners.value = JSON.parse(props.banners);
-    await fetch();
+    state.value.products = JSON.parse(props.products).data;
     characteristics.value = JSON.parse(props.characteristics);
+    characteristics.consultation = JSON.parse(props.consultation);
     isLoading.value = false;
 })
 

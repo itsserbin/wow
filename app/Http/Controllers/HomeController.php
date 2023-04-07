@@ -19,6 +19,7 @@ use App\Services\ShoppingCartService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -68,11 +69,14 @@ class HomeController extends Controller
             'advantages' => $this->advantagesRepository->getAllToPublic(),
             'reviews' => $this->productReviewsRepository->carouselList(10),
             'faqs' => $this->faqsRepository->getAllToPublic(),
+            'best_selling_products' => $this->productRepository->getProductsForPublicWithPaginate('total_sales', 'desc'),
+            'new_products' => $this->productRepository->getProductsForPublicWithPaginate('id', 'desc'),
+            'all_products' => $this->productRepository->getProductsForPublicWithPaginate('sort', 'desc'),
             'event_id_page_view' => $this->event_id_page_view
         ]);
     }
 
-    final public function category(string $slug)
+    final public function category(string $slug, Request $request)
     {
         $result = $this->categoriesRepository->findBySlug($slug);
 
@@ -85,6 +89,7 @@ class HomeController extends Controller
                 'colors' => $this->colorsRepository->getListForPublic($slug)
             ];
             return view('pages.category', [
+                'products' => $this->productRepository->getByCategorySlugToPublic($slug, $request->all()),
                 'banners' => $this->bannersRepository->getForPublic($slug),
                 'category' => $result,
                 'categories' => $this->getCategories(),

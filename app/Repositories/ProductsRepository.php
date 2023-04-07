@@ -212,7 +212,7 @@ class ProductsRepository extends CoreRepository
 
     final public function getByCategorySlugToPublic(string $slug, array $data, int $perPage = 16): LengthAwarePaginator
     {
-        $cacheKey = 'products_by_slug' . $slug . '_' . implode('_', $data) . '_' . $perPage;
+        $cacheKey = 'products_by_slug_' . $slug . '_' . implode('_', $data) . '_' . $perPage;
         $cachedProducts = Cache::get($cacheKey);
 
         if ($cachedProducts) {

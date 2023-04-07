@@ -61,6 +61,9 @@ const props = defineProps([
     'reviews',
     'text',
     'faqs',
+    'bestSellingProducts',
+    'newProducts',
+    'allProducts',
     'advantages'
 ]);
 
@@ -75,7 +78,7 @@ const stateNewProducts = ref({
     data: [],
     isLoadMore: false,
     isShowLoadMore: false,
-    currentPage: 0,
+    currentPage: 1,
     endpoint: '/api/v1/product/new-products?page='
 });
 
@@ -83,7 +86,7 @@ const stateAllProducts = ref({
     data: [],
     isLoadMore: false,
     isShowLoadMore: false,
-    currentPage: 0,
+    currentPage: 1,
     endpoint: '/api/v1/product?page='
 });
 
@@ -91,17 +94,43 @@ const stateBestSellingProducts = ref({
     data: [],
     isLoadMore: false,
     isShowLoadMore: false,
-    currentPage: 0,
+    currentPage: 1,
     endpoint: '/api/v1/product/best-selling?page='
 });
 
 onMounted(async () => {
     banners.value = JSON.parse(props.banners);
     categories.value = JSON.parse(props.categories);
-    await fetchBestSellingProducts();
+
+    let bestSellingProducts = JSON.parse(props.bestSellingProducts);
+    if (bestSellingProducts) {
+        stateBestSellingProducts.value.data = bestSellingProducts.data;
+        if (bestSellingProducts.current_page !== bestSellingProducts.per_page) {
+            stateBestSellingProducts.value.isShowLoadMore = true;
+        }
+    }
+
+    let newProducts = JSON.parse(props.newProducts);
+    if (newProducts) {
+        stateNewProducts.value.data = newProducts.data;
+        if (newProducts.current_page !== newProducts.per_page) {
+            stateNewProducts.value.isShowLoadMore = true;
+        }
+    }
+
+    let allProducts = JSON.parse(props.allProducts);
+
+    if (allProducts) {
+        stateAllProducts.value.data = allProducts.data;
+        if (allProducts.current_page !== allProducts.per_page) {
+            stateAllProducts.value.isShowLoadMore = true;
+        }
+    }
+
+    // await fetchBestSellingProducts();
     isLoading.value = false;
-    await fetchNewProducts();
-    await fetchAllProducts();
+    // await fetchNewProducts();
+    // await fetchAllProducts();
     advantages.value = JSON.parse(props.advantages);
     reviews.value = JSON.parse(props.reviews);
     faqs.value = JSON.parse(props.faqs);
