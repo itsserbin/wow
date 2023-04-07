@@ -85,20 +85,20 @@ class ProductsRepository extends CoreRepository
 
         return Cache::remember($cacheKey, now()->addMinutes(60), function () use ($id) {
             return $this->model::select([
-                    'id',
-                    'status',
-                    'published',
-                    'h1',
-                    'title',
-                    'description',
-                    'content',
-                    'price',
-                    'discount_price',
-                    'youtube',
-                    'vendor_code',
-                    'preview_id',
-                    'size_table',
-                ])
+                'id',
+                'status',
+                'published',
+                'h1',
+                'title',
+                'description',
+                'content',
+                'price',
+                'discount_price',
+                'youtube',
+                'vendor_code',
+                'preview_id',
+                'size_table',
+            ])
                 ->where(function ($q) use ($id) {
                     $q->where('id', $id);
                     $q->where('published', 1);
@@ -246,7 +246,7 @@ class ProductsRepository extends CoreRepository
 
     final public function getByCategorySlugToPublic(string $slug, array $data, int $perPage = 16): LengthAwarePaginator
     {
-        $cacheKey = 'products_by_slug_' . $slug . '_' . implode('_', $data) . '_' . $perPage;
+        $cacheKey = 'products_by_slug_' . $slug . '_' . implode('_', isset($data['sort']) ? implode('_', $data['sort']) : null) . '_' . $perPage;
         $cachedProducts = Cache::get($cacheKey);
 
         if ($cachedProducts) {
