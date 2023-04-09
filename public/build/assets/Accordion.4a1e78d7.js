@@ -1,0 +1,1 @@
+import{_ as r}from"./_plugin-vue_export-helper.cdc0426e.js";import{q as t,B as e,A as c}from"./index.e4375aa7.js";const n={props:{},data(){return{Accordion:{count:0,active:null}}},provide(){return{Accordion:this.Accordion}}},s={class:"rounded-lg"};function a(o,d,i,p,l,u){return c(),t("div",s,[e(o.$slots,"default")])}const m=r(n,[["render",a]]);export{m as default};
