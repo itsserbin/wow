@@ -159,7 +159,7 @@ function addToCart() {
                 state.value.isAddToCart = true;
                 if (import.meta.env.MODE === 'production') {
                     try {
-                        $fbq('track',
+                        $fbq(
                             'AddToCart',
                             {
                                 "value": props.product.discount_price ? props.product.discount_price : props.product.price,

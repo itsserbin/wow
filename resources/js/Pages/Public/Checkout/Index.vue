@@ -96,7 +96,7 @@ onMounted(() => {
             })
         });
         try {
-            $fbq('track',
+            $fbq(
                 'InitiateCheckout',
                 {
                     "value": store.state.totalPrice,
@@ -239,7 +239,7 @@ function sendOrder() {
         .then(({data}) => {
             if (import.meta.env.MODE === 'production') {
                 try {
-                    $fbq('track',
+                    $fbq(
                         'Purchase',
                         {
                             "value": store.state.totalPrice,

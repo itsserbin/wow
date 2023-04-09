@@ -109,7 +109,7 @@ onMounted(async () => {
     isLoading.value = false;
     if (import.meta.env.MODE === 'production') {
         try {
-            $fbq('track', 'ViewContent', {
+            $fbq('ViewContent', {
                     "value": props.product.discount_price ? props.product.discount_price : props.product.price,
                     "currency": "UAH",
                     "content_type": "product",

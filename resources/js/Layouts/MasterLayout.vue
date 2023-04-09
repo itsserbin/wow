@@ -42,7 +42,7 @@ const props = defineProps([
 
 onMounted(() => {
     if (import.meta.env.MODE === 'production') {
-        $fbq('track', 'PageView', {}, {
+        $fbq('PageView', {}, {
             event_id: props.eventIdPageView
         });
     }

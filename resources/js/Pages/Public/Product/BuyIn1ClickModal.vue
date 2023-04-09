@@ -84,7 +84,7 @@ async function sendForm() {
                 props.isAddToCart = true;
                 if (import.meta.env.MODE === 'production') {
                     try {
-                        $fbq('track',
+                        $fbq(
                             'AddToCart',
                             {
                                 "value": props.product.discount_price ? props.product.discount_price : props.product.price,
@@ -124,7 +124,7 @@ async function createOrder() {
                         })
                     });
 
-                    $fbq('track',
+                    $fbq(
                         'Purchase',
                         {
                             "value": store.state.totalPrice,
