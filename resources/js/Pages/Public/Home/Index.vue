@@ -65,6 +65,7 @@ import Categories from './../Components/Categories.vue';
 import MainBanners from './../Components/Banners.vue';
 import useEventTracking from '@/Includes/eventTracking.js'
 
+const { setEventIdPageView } = useEventTracking().expose()
 
 const {appContext} = getCurrentInstance()
 const {$fbq} = appContext.config.globalProperties
@@ -112,9 +113,7 @@ const stateBestSellingProducts = ref({
 onMounted(async () => {
     if (import.meta.env.MODE === 'production') {
         try {
-            useEventTracking({
-                eventIdPageView: props.eventIdPageView
-            })
+            setEventIdPageView(props.eventIdPageView)
         } catch (e) {
             console.error(e);
         }
