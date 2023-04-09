@@ -22,7 +22,11 @@ export default {
             "https://connect.facebook.net/en_US/fbevents.js"
         );
         window.fbq("init", options.pixelId);
-        // window.fbq("track", "PageView");
-        app.config.globalProperties.$fbq = window.fbq;
+        // app.config.globalProperties.$fbq = window.fbq;
+
+        app.config.globalProperties.$fbq = function(eventName, eventData) {
+            window.fbq('track', eventName, eventData);
+        };
+
     },
 };
