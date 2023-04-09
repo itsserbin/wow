@@ -52,7 +52,7 @@
 <script setup>
 import MasterLayout from '@/Layouts/MasterLayout.vue'
 import {isLoading} from "@/Pages/Public/load";
-import {getCurrentInstance, onMounted, ref,watch} from "vue";
+import {getCurrentInstance, onMounted, ref, watch} from "vue";
 import AllProducts from './AllProducts.vue';
 import BestSelling from './BestSelling.vue';
 import NewProducts from './NewProducts.vue';
@@ -113,22 +113,22 @@ const stateBestSellingProducts = ref({
 
 const eventIdPageView = ref(props.eventIdPageView)
 
-watch(eventIdPageView, (newValue) => {
+watch(eventIdPageView, (newValue, oldValue) => {
+    console.log(newValue)
     $fbq('PageView', {}, newValue)
-})
+}, {immediate: true})
 
 
 onMounted(() => {
-    console.log(eventIdPageView.value);
-    $fbq('PageView', {}, eventIdPageView.value);
+    // $fbq('PageView', {}, eventIdPageView.value);
 
-    if (import.meta.env.MODE === 'production') {
-        try {
-            useEventTracking(props.eventIdPageView)
-        } catch (e) {
-            console.error(e);
-        }
-    }
+    // if (import.meta.env.MODE === 'production') {
+    //     try {
+    //         useEventTracking(props.eventIdPageView)
+    //     } catch (e) {
+    //         console.error(e);
+    //     }
+    // }
     if (props.bestSellingProducts) {
         stateBestSellingProducts.value.data = props.bestSellingProducts.data;
         if (props.bestSellingProducts.current_page !== props.bestSellingProducts.per_page) {
