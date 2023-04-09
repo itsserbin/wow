@@ -52,7 +52,7 @@
 <script setup>
 import MasterLayout from '@/Layouts/MasterLayout.vue'
 import {isLoading} from "@/Pages/Public/load";
-import {getCurrentInstance, onMounted, ref, watch} from "vue";
+import {getCurrentInstance, onMounted, ref, watch,reactive} from "vue";
 import AllProducts from './AllProducts.vue';
 import BestSelling from './BestSelling.vue';
 import NewProducts from './NewProducts.vue';
@@ -111,13 +111,14 @@ const stateBestSellingProducts = ref({
 });
 
 
-const eventIdPageView = ref(props.eventIdPageView)
-
-watch(eventIdPageView, (newValue, oldValue) => {
-    console.log(newValue)
-    console.log(oldValue)
-    $fbq('PageView', {}, newValue)
+const state = reactive({
+    eventIdPageView: props.eventIdPageView
 })
+
+watch(() => state.eventIdPageView, (newValue, oldValue) => {
+    console.log(newValue)
+    $fbq('PageView', {}, newValue)
+}, { immediate: true })
 
 
 onMounted(() => {
