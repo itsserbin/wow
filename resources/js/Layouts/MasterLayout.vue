@@ -9,23 +9,12 @@
         </div>
     </main>
     <Footer :options="options" :lang="lang" :pages="pages"/>
-    <!--    <div v-if="isLoading" class="loader">-->
-    <!--        <div class="fixed inset-0 z-50 flex items-center justify-center backdrop-filter backdrop-blur-md">-->
-    <!--            <div class="lds-ellipsis inline-block relative w-[80px] h-[80px]">-->
-    <!--                <div class="absolute top-[33px] w-[13px] h-[13px] rounded-[50%] bg-[#ff0000]"></div>-->
-    <!--                <div class="absolute top-[33px] w-[13px] h-[13px] rounded-[50%] bg-[#ff0000]"></div>-->
-    <!--                <div class="absolute top-[33px] w-[13px] h-[13px] rounded-[50%] bg-[#ff0000]"></div>-->
-    <!--                <div class="absolute top-[33px] w-[13px] h-[13px] rounded-[50%] bg-[#ff0000]"></div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
 
 </template>
 <script setup>
 import Header from '@/Pages/Public/Components/Header/Header.vue'
 import Footer from '@/Pages/Public/Components/Footer.vue'
 import FixedBanner from '@/Pages/Public/Components/FixedBanner.vue'
-import {isLoading} from "@/Pages/Public/load";
 
 import {getCurrentInstance, onMounted} from "vue";
 
@@ -40,15 +29,19 @@ const props = defineProps([
     'eventIdPageView'
 ]);
 
-onMounted(() => {
+window.onload = function() {
     if (import.meta.env.MODE === 'production') {
         $fbq('PageView', {}, {
             event_id: props.eventIdPageView
         });
     }
-})
+};
 
-document.addEventListener('DOMContentLoaded', () => {
-    isLoading.value = false;
-});
+// onMounted(() => {
+//     if (import.meta.env.MODE === 'production') {
+//         $fbq('PageView', {}, {
+//             event_id: props.eventIdPageView
+//         });
+//     }
+// })
 </script>
