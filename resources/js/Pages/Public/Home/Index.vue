@@ -52,7 +52,7 @@
 <script setup>
 import MasterLayout from '@/Layouts/MasterLayout.vue'
 import {isLoading} from "@/Pages/Public/load";
-import {getCurrentInstance, onMounted, ref} from "vue";
+import {getCurrentInstance, onMounted, ref,watch} from "vue";
 import AllProducts from './AllProducts.vue';
 import BestSelling from './BestSelling.vue';
 import NewProducts from './NewProducts.vue';
@@ -110,8 +110,17 @@ const stateBestSellingProducts = ref({
     endpoint: '/api/v1/product/best-selling?page='
 });
 
-onMounted(async () => {
-    useEventTracking(props.eventIdPageView)
+
+const eventIdPageView = ref(props.eventIdPageView)
+
+watch(eventIdPageView, (newValue) => {
+    $fbq('PageView', {}, newValue)
+})
+
+
+onMounted(() => {
+    console.log(eventIdPageView.value);
+    $fbq('PageView', {}, eventIdPageView.value);
 
     if (import.meta.env.MODE === 'production') {
         try {

@@ -11,7 +11,6 @@ import {createApp, h} from 'vue';
 import {createInertiaApp} from '@inertiajs/inertia-vue3'
 import {resolvePageComponent} from "laravel-vite-plugin/inertia-helpers";
 import {InertiaProgress} from "@inertiajs/progress";
-import eventTracking from '@/Includes/eventTracking.js'
 
 
 const i18n = createI18n({})
@@ -37,7 +36,6 @@ createInertiaApp({
         }
 
         store.commit('loadCart');
-        app.mixin(eventTracking)
         app.use(i18n)
         app.use(store);
         app.use(ZiggyVue, Ziggy);
@@ -57,9 +55,9 @@ createInertiaApp({
 
         app.provide('$defaultLang', 'ua');
 
-        if (import.meta.env.MODE === 'production') {
-            app.use(FacebookPixel, {pixelId: import.meta.env.VITE_FB_PIXEL_ID})
-        }
+        // if (import.meta.env.MODE === 'production') {
+        app.use(FacebookPixel, {pixelId: import.meta.env.VITE_FB_PIXEL_ID})
+        // }
 
         app.mount(el)
     },
