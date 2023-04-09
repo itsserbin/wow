@@ -1,1 +1,0 @@
-import o from"./Breadcrumbs.ebc3090a.js";import{C as n,A as a}from"./index.e4375aa7.js";const i={__name:"Breadcrumbs",props:["options","parent","parentUrl","title"],setup(r){const t=r,e=[{title:t.options.brand,url:"/"},{title:t.parent,url:t.parentUrl},{title:t.title,url:route().current}];return(s,p)=>(a(),n(o,{breadcrumbs:e}))}};export{i as default};
