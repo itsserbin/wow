@@ -4,26 +4,30 @@
     </div>
     <form class="grid grid-cols-1 gap-4" @submit.prevent="$emit('submitForm')">
         <div class="block">
-            <label-component :required="true">Номер телефону</label-component>
-            <input-component type="tel"
-                             v-model="item.phone"
-                             placeholder="+38 (0"
-                             v-maska="'+38 (0##) ###-##-##'"
+            <Label :required="true">Номер телефону</Label>
+            <Input type="tel"
+                   v-model="item.phone"
+                   placeholder="+38 (0"
+                   v-maska="'+38 (0##) ###-##-##'"
             />
         </div>
         <div class="block">
-            <label-component :required="true">ID замовлення</label-component>
-            <input-component type="text"
-                             v-model="item.order_id"
+            <Label :required="true">ID замовлення</Label>
+            <Input type="text"
+                   v-model="item.order_id"
             />
         </div>
         <div class="text-center">
-            <button-component type="submit">Перевірити</button-component>
+            <Button type="submit">Перевірити</Button>
         </div>
     </form>
 </template>
 
 <script setup>
+import Label from '@/Pages/Public/Components/Label.vue';
+import Input from '@/Pages/Public/Components/Input.vue';
+import Button from '@/Pages/Public/Components/Button.vue';
+
 defineProps(['item']);
 defineEmits(['submitForm']);
 </script>

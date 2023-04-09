@@ -17,17 +17,17 @@
         </div>
         <div class="grid gap-4">
             <div class="block">
-                <label-component>Місто</label-component>
-                <input-component type="text"
-                                 placeholder="Вкажіть місто"
-                                 v-model="order.city"
+                <Label>Місто</Label>
+                <Input type="text"
+                       placeholder="Вкажіть місто"
+                       v-model="order.city"
                 />
             </div>
             <div class="block">
-                <label-component>Відділення Нова Пошта</label-component>
-                <input-component type="text"
-                                 placeholder="Вкажіть відділення НП"
-                                 v-model="order.postal_office"
+                <Label>Відділення Нова Пошта</Label>
+                <Input type="text"
+                       placeholder="Вкажіть відділення НП"
+                       v-model="order.postal_office"
                 />
             </div>
         </div>
@@ -35,6 +35,9 @@
 </template>
 
 <script setup>
+import Label from '@/Pages/Public/Components/Label.vue'
+import Input from '@/Pages/Public/Components/Input.vue'
+
 import {ref} from 'vue';
 
 defineProps(['order']);

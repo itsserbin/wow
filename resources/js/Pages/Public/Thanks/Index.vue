@@ -1,33 +1,39 @@
 <template>
-    <section class="grid gap-4 grid-cols-1">
-        <div class="grid grid-cols-1 gap-4">
-            <h1 class="font-bold text-black text-center text-2xl font-heading">
-                {{ textThanksPageTitle }}
-            </h1>
+    <MasterLayout :categories="categories"
+                  :options="options"
+                  :lang="lang"
+                  :pages="pages"
+    >
+        <section class="grid gap-4 grid-cols-1">
+            <div class="grid grid-cols-1 gap-4">
+                <h1 class="font-bold text-black text-center text-2xl font-heading">
+                    {{ textThanksPageTitle }}
+                </h1>
 
-            <div class="text-center text-xl font-subheading">
-                <p>{{ textThanksPageDescription }}</p>
+                <div class="text-center text-xl font-subheading">
+                    <p>{{ textThanksPageDescription }}</p>
+                </div>
+
+                <div class="text-center text-xl font-subheading" v-if="state.orderId">
+                    {{ textThanksPageOrderId }} {{ state.orderId }}
+                </div>
             </div>
 
-            <div class="text-center text-xl font-subheading" v-if="state.orderId">
-                {{ textThanksPageOrderId }} {{ state.orderId }}
+            <div v-if="state.activeSpecialOffer" class="grid gap-4 mt-5">
+                <div class="font-bold text-black text-center text-2xl font-subheading">
+                    {{ textThanksPageSpecials }}
+                </div>
+                <Timer :timer="timer"/>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <ProductCard v-for="product in state.products" :product="product" @addItemToOrder="addItemToOrder"
+                                 :lang="lang"/>
+                </div>
             </div>
-        </div>
-
-        <div v-if="state.activeSpecialOffer" class="grid gap-4 mt-5">
-            <div class="font-bold text-black text-center text-2xl font-subheading">
-                {{ textThanksPageSpecials }}
+            <div v-else class="order-page__text my-5">
+                <p>{{ textThanksPageSpecialsEnds }}</p>
             </div>
-            <Timer :timer="timer"/>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <ProductCard v-for="product in state.products" :product="product" @addItemToOrder="addItemToOrder"
-                             :lang="lang"/>
-            </div>
-        </div>
-        <div v-else class="order-page__text my-5">
-            <p>{{ textThanksPageSpecialsEnds }}</p>
-        </div>
-    </section>
+        </section>
+    </MasterLayout>
 </template>
 
 <script setup>
@@ -35,8 +41,12 @@ import {inject, onMounted, ref} from "vue";
 import Timer from '@/Pages/Public/Thanks/Timer.vue'
 import ProductCard from '@/Pages/Public/Thanks/ProductCard.vue'
 import {isLoading} from "@/Pages/Public/load";
+import MasterLayout from '@/Layouts/MasterLayout.vue'
 
 defineProps({
+    categories: Array,
+    options: Object,
+    pages: Array,
     lang: String,
     textThanksPageTitle: {
         type: String,

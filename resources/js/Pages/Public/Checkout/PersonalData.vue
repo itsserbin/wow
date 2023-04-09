@@ -17,44 +17,48 @@
         </div>
         <div class="grid gap-4">
             <div class="block">
-                <label-component :required="true">Ім`я</label-component>
-                <input-component placeholder="Введіть ваше ім'я"
+                <Label :required="true">Ім`я</Label>
+                <Input placeholder="Введіть ваше ім'я"
                                  type="text"
                                  v-model="order.name"
                 />
-                <input-error v-if="errors.name" v-for="error in errors.name" :message="error"/>
+                <InputError v-if="errors.name" v-for="error in errors.name" :message="error"/>
             </div>
 
             <div class="block">
-                <label-component :required="true">Прізвище</label-component>
-                <input-component placeholder="Введіть прізвище"
+                <Label :required="true">Прізвище</Label>
+                <Input placeholder="Введіть прізвище"
                                  type="text"
                                  v-model="order.last_name"
                 />
-                <input-error v-if="errors.last_name" v-for="error in errors.last_name" :message="error"/>
+                <InputError v-if="errors.last_name" v-for="error in errors.last_name" :message="error"/>
             </div>
 
             <div class="block">
-                <label-component>По батькові</label-component>
-                <input-component placeholder="Введіть по батькові"
+                <Label>По батькові</Label>
+                <Input placeholder="Введіть по батькові"
                                  type="text"
                                  v-model="order.middle_name"
                 />
             </div>
 
             <div class="block">
-                <label-component :required="true">Номер телефону</label-component>
-                <input-component placeholder="+38 (0"
+                <Label :required="true">Номер телефону</Label>
+                <Input placeholder="+38 (0"
                                  type="tel"
                                  v-maska="'+38 (0##) ###-##-##'"
                                  v-model="order.phone"
                 />
-                <input-error v-if="errors.phone" v-for="error in errors.phone" :message="error"/>
+                <InputError v-if="errors.phone" v-for="error in errors.phone" :message="error"/>
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
+import Label from '@/Pages/Public/Components/Label.vue'
+import Input from '@/Pages/Public/Components/Input.vue'
+import InputError from '@/Components/Form/InputError.vue'
+
 defineProps(['order', 'errors'])
 </script>

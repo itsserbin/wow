@@ -17,8 +17,9 @@
         <div class="w-full mx-auto h-56 md:h-72">
             <a :href="route('product',product.id)">
                 <picture class=" w-full ">
-                    <source v-lazy :data-src="route('images.350',product.preview.webp_src)" type="image/webp">
-                    <img v-lazy :data-src="route('images.350',product.preview.src)" class="w-full h-full object-cover ">
+                    <source :srcset="route('images.350',product.preview.webp_src)" type="image/webp">
+                    <img :data-src="route('images.350',product.preview.src)" class="w-full h-full object-cover "
+                         :alt="product.h1[lang]">
                 </picture>
             </a>
         </div>
@@ -47,7 +48,7 @@
                             font-subheading
                         "
                 >
-                    {{ lang === 'ru' ? product.h1.ru : (lang === 'ua' ? product.h1.ua : null) }}
+                    {{ product.h1[lang] }}
                 </h5>
 
             </a>
@@ -107,9 +108,11 @@
                             transition-all
 
                     ">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="text-white" viewBox="0 0 16 16">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor"
+                         class="text-white" viewBox="0 0 16 16">
                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                        <path
+                            d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                     </svg>
                 </a>
             </div>

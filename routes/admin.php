@@ -166,4 +166,5 @@ Route::prefix('admin')
         });
 
         Route::post('notify-waybill', [SmsController::class, 'notifyWaybill'])->name('notify.waybill');
+
     });

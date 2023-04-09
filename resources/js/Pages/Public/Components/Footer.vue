@@ -65,7 +65,4 @@ const props = defineProps([
     'pages',
     'options'
 ]);
-
-const pages = props.pages ? JSON.parse(props.pages) : null;
-const options = props.options ? JSON.parse(props.options) : null;
 </script>

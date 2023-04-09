@@ -1,6 +1,12 @@
 <template>
-    <div>
+    <MasterLayout :categories="categories"
+                  :options="options"
+                  :lang="lang"
+                  :pages="pages"
+    >
         <div v-if="!state.isLoading">
+            <Breadcrumbs :options="options" :lang="lang" title="Статус замовлення"/>
+
             <div class="max-w-xl mx-auto">
                 <Form :item="state.item"
                       @submitForm="checkStatus"
@@ -13,16 +19,24 @@
                 />
             </div>
         </div>
-    </div>
+    </MasterLayout>
 </template>
 
 <script setup>
+import Breadcrumbs from './Breadcrumbs.vue'
+import MasterLayout from '@/Layouts/MasterLayout.vue'
 import {inject, onMounted, ref} from "vue";
 import Form from '@/Pages/Public/Status/Form.vue';
 import Status from '@/Pages/Public/Status/Status.vue';
 import {isLoading} from "@/Pages/Public/load";
 
-const props = defineProps(['statuses']);
+const props = defineProps([
+    'statuses',
+    'categories',
+    'options',
+    'lang',
+    'pages',
+]);
 
 const swal = inject('$swal');
 const state = ref({
@@ -41,7 +55,6 @@ onMounted(async () => {
         state.value.item.order_id = route().params.order_id;
         await checkStatus();
     }
-    state.value.statuses = JSON.parse(props.statuses);
     isLoading.value = false;
 })
 

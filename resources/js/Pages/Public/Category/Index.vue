@@ -1,48 +1,59 @@
 <template>
-    <div class="grid grid-cols-1 gap-4">
-        <Banners v-if="banners.length" :lang="lang" :data="banners"/>
+    <MasterLayout :categories="categories"
+                  :options="options"
+                  :lang="lang"
+                  :pages="pages"
+    >
+        <Breadcrumbs :options="options" :lang="lang" :title="category.title[lang]"/>
 
-        <div class="flex justify-between md:justify-end items-center">
-            <div class="block md:hidden mr-2">
-                <Button type="button" @click="toggleFilter">Фільтрувати</Button>
+        <div class="grid grid-cols-1 gap-4">
+
+            <Banners v-if="banners.length" :lang="lang" :data="banners"/>
+
+            <div class="flex justify-between md:justify-end items-center">
+                <div class="block md:hidden mr-2">
+                    <Button type="button" @click="toggleFilter">Фільтрувати</Button>
+                </div>
+
+                <Sort v-model="params.sort" @sort="onSort"/>
             </div>
 
-            <Sort v-model="params.sort" @sort="onSort"/>
+            <div class="grid grid-cols-12 gap-4">
+                <div :class="{'!block fixed h-full w-full z-50 overflow-y-scroll top-0 right-0' : state.isShowFilter}"
+                     class="filter hidden md:col-span-3 md:block"
+                >
+                    <Filter v-if="Object.keys(characteristics).length"
+                            :characteristics="characteristics"
+                            :lang="lang"
+                            @fetch="filter"
+                            @close="toggleFilter"
+                            :isShow="state.isShowFilter"
+                    />
+                </div>
+                <div class="products col-span-12 md:col-span-9">
+                    <Products :lang="lang"
+                              :title="title"
+                              :data="state.products"
+                              :isLoadingMore="state.isLoadingMore"
+                              :isShowLoadMore="state.isShowLoadMore"
+                              @fetch="fetch"
+                              v-if="state.products.length"
+                    />
+                </div>
+            </div>
+
+            <Content v-if="text" :data="text"/>
+
+            <Consultation v-if="consultation"/>
+            <Support v-if="!isLoading"/>
         </div>
-
-        <div class="grid grid-cols-12 gap-4">
-            <div :class="{'!block fixed h-full w-full z-50 overflow-y-scroll top-0 right-0' : state.isShowFilter}"
-                 class="filter hidden md:col-span-3 md:block"
-            >
-                <Filter v-if="Object.keys(characteristics).length"
-                        :characteristics="characteristics"
-                        :lang="lang"
-                        @fetch="filter"
-                        @close="toggleFilter"
-                        :isShow="state.isShowFilter"
-                />
-            </div>
-            <div class="products col-span-12 md:col-span-9">
-                <Products :lang="lang"
-                          :title="title"
-                          :data="state.products"
-                          :isLoadingMore="state.isLoadingMore"
-                          :isShowLoadMore="state.isShowLoadMore"
-                          @fetch="fetch"
-                          v-if="state.products.length"
-                />
-            </div>
-        </div>
-
-        <Content v-if="text" :data="text"/>
-
-        <Consultation v-if="consultation"/>
-        <Support v-if="!isLoading"/>
-    </div>
+    </MasterLayout>
 </template>
 
 <script setup>
 import {isLoading} from "@/Pages/Public/load";
+import {computed, onMounted, ref} from "vue";
+
 import Support from '../Components/Support.vue';
 import Consultation from '../Components/Consultation.vue';
 import Content from '../Components/Content.vue';
@@ -50,9 +61,10 @@ import Banners from '../Components/Banners.vue';
 import Products from './Products.vue';
 import Sort from './Sort.vue';
 import Filter from './Filter.vue';
-import {computed, onMounted, ref} from "vue";
 import ProductsRepository from "@/Repositories/ProductsRepository";
 import Button from '@/Pages/Public/Components/Button.vue'
+import MasterLayout from '@/Layouts/MasterLayout.vue'
+import Breadcrumbs from './Breadcrumbs.vue'
 
 const props = defineProps([
     'banners',
@@ -61,12 +73,12 @@ const props = defineProps([
     'characteristics',
     'text',
     'consultation',
-    'products'
+    'products',
+    'categories',
+    'category',
+    'options',
+    'pages',
 ]);
-
-const banners = ref([]);
-const characteristics = ref([]);
-const consultation = ref(false);
 
 const state = ref({
     products: [],
@@ -92,10 +104,7 @@ const getParams = computed(() => {
 });
 
 onMounted(async () => {
-    banners.value = JSON.parse(props.banners);
-    state.value.products = JSON.parse(props.products).data;
-    characteristics.value = JSON.parse(props.characteristics);
-    characteristics.consultation = JSON.parse(props.consultation);
+    state.value.products = props.products.data;
     isLoading.value = false;
 })
 

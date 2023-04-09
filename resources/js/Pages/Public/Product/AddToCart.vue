@@ -16,12 +16,12 @@
                 </div>
             </div>
             <div class="grid gap-4">
-                <button-component @click="addToCart" type="button">
+                <Button @click="addToCart" type="button">
                     До кошика
-                </button-component>
-                <button-component @click="showBuyIn1ClickModal" type="button">
+                </Button>
+                <Button @click="showBuyIn1ClickModal" type="button">
                     Купити в 1 клік
-                </button-component>
+                </Button>
             </div>
         </div>
         <hr class="mt-4">
@@ -107,14 +107,17 @@
 </template>
 
 <script setup>
-import {inject, onMounted, ref} from "vue";
+import {getCurrentInstance, inject, ref} from "vue";
 import {useStore} from "vuex";
 import BuyIn1Click from '@/Pages/Public/Product/BuyIn1ClickModal.vue';
 import {useGtm} from "@gtm-support/vue-gtm";
+import Button from '@/Pages/Public/Components/Button.vue'
 
 const swal = inject('$swal');
 const gtm = useGtm();
 const store = useStore();
+const {appContext} = getCurrentInstance()
+const {$fbq} = appContext.config.globalProperties
 
 const props = defineProps([
     'product',
@@ -156,7 +159,7 @@ function addToCart() {
                 state.value.isAddToCart = true;
                 if (import.meta.env.MODE === 'production') {
                     try {
-                        fbq('track',
+                        $fbq('track',
                             'AddToCart',
                             {
                                 "value": props.product.discount_price ? props.product.discount_price : props.product.price,

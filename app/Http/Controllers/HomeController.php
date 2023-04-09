@@ -20,6 +20,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class HomeController extends Controller
 {
@@ -57,180 +58,318 @@ class HomeController extends Controller
         $this->event_id_page_view = uniqid(null, true) . '_PageView' . '_' . time();
     }
 
-    final public function home(): View|Factory|Application
+    final public function home()
     {
-        $this->facebookService->view($this->event_id_page_view);
+//        $this->facebookService->view($this->event_id_page_view);
+//
+//        return view('pages.home', [
+//            'options' => $this->getOptions(),
+//            'pages' => $this->getPagesList(),
+//            'categories' => $this->getCategories(),
+//            'banners' => $this->bannersRepository->getForPublic(),
+//            'advantages' => $this->advantagesRepository->getAllToPublic(),
+//            'reviews' => $this->productReviewsRepository->carouselList(10),
+//            'faqs' => $this->faqsRepository->getAllToPublic(),
+//            'best_selling_products' => $this->productRepository->getProductsForPublicWithPaginate('total_sales', 'desc'),
+//            'new_products' => $this->productRepository->getProductsForPublicWithPaginate('id', 'desc'),
+//            'all_products' => $this->productRepository->getProductsForPublicWithPaginate('sort', 'desc'),
+//            'event_id_page_view' => $this->event_id_page_view
+//        ]);
 
-        return view('pages.home', [
-            'options' => $this->getOptions(),
-            'pages' => $this->getPagesList(),
+        return Inertia::render('Home/Index', [
+            'lang' => app()->getLocale(),
             'categories' => $this->getCategories(),
+            'pages' => $this->getPagesList(),
+            'options' => $this->getOptions(),
             'banners' => $this->bannersRepository->getForPublic(),
+            'bestSellingProducts' => $this->productRepository->getProductsForPublicWithPaginate('total_sales', 'desc'),
+            'newProducts' => $this->productRepository->getProductsForPublicWithPaginate('id', 'desc'),
+            'allProducts' => $this->productRepository->getProductsForPublicWithPaginate('sort', 'desc'),
             'advantages' => $this->advantagesRepository->getAllToPublic(),
             'reviews' => $this->productReviewsRepository->carouselList(10),
             'faqs' => $this->faqsRepository->getAllToPublic(),
-            'best_selling_products' => $this->productRepository->getProductsForPublicWithPaginate('total_sales', 'desc'),
-            'new_products' => $this->productRepository->getProductsForPublicWithPaginate('id', 'desc'),
-            'all_products' => $this->productRepository->getProductsForPublicWithPaginate('sort', 'desc'),
-            'event_id_page_view' => $this->event_id_page_view
-        ]);
+            'eventIdPageView' => $this->event_id_page_view
+        ])->rootView('layouts/master');
     }
 
     final public function category(string $slug, Request $request)
     {
         $result = $this->categoriesRepository->findBySlug($slug);
 
-        if ($result) {
-            $this->facebookService->view($this->event_id_page_view);
-            $characteristics = [
-                'list' => $this->characteristicsRepository->getForPublic($slug),
-                'price' => $this->productRepository->getMinMaxProductPrice($slug),
-                'sizes' => $this->sizesRepository->getListForPublic($slug),
-                'colors' => $this->colorsRepository->getListForPublic($slug)
-            ];
-            return view('pages.category', [
-                'products' => $this->productRepository->getByCategorySlugToPublic($slug, $request->all()),
-                'banners' => $this->bannersRepository->getForPublic($slug),
-                'category' => $result,
-                'categories' => $this->getCategories(),
-                'options' => $this->getOptions(),
-                'pages' => $this->getPagesList(),
-                'characteristics' => $characteristics,
-                'event_id_page_view' => $this->event_id_page_view
-            ]);
-        } else {
+        if (!$result) {
             return abort(404);
         }
+
+        $characteristics = [
+            'list' => $this->characteristicsRepository->getForPublic($slug),
+            'price' => $this->productRepository->getMinMaxProductPrice($slug),
+            'sizes' => $this->sizesRepository->getListForPublic($slug),
+            'colors' => $this->colorsRepository->getListForPublic($slug)
+        ];
+
+        return Inertia::render('Category/Index', [
+            'lang' => app()->getLocale(),
+            'products' => $this->productRepository->getByCategorySlugToPublic($slug, $request->all()),
+            'banners' => $this->bannersRepository->getForPublic($slug),
+            'category' => $result,
+            'categories' => $this->getCategories(),
+            'options' => $this->getOptions(),
+            'pages' => $this->getPagesList(),
+            'characteristics' => $characteristics,
+            'eventIdPageView' => $this->event_id_page_view
+        ])->rootView('layouts/master');
+//        if ($result) {
+//
+//            $this->facebookService->view($this->event_id_page_view);
+//            $characteristics = [
+//                'list' => $this->characteristicsRepository->getForPublic($slug),
+//                'price' => $this->productRepository->getMinMaxProductPrice($slug),
+//                'sizes' => $this->sizesRepository->getListForPublic($slug),
+//                'colors' => $this->colorsRepository->getListForPublic($slug)
+//            ];
+//            return view('pages.category', [
+//                'products' => $this->productRepository->getByCategorySlugToPublic($slug, $request->all()),
+//                'banners' => $this->bannersRepository->getForPublic($slug),
+//                'category' => $result,
+//                'categories' => $this->getCategories(),
+//                'options' => $this->getOptions(),
+//                'pages' => $this->getPagesList(),
+//                'characteristics' => $characteristics,
+//                'event_id_page_view' => $this->event_id_page_view
+//            ]);
+//        } else {
+//            return abort(404);
+//        }
     }
 
-    final public function product($id)
+    final public function product(int $id)
     {
         $result = $this->productRepository->getByIdToPublic($id);
 
-        if ($result) {
-            $this->facebookService->view($this->event_id_page_view);
-
-            $event_id_content = uniqid(null, true) . '_viewContent' . '_' . time();
-            $event_id_addToCard = uniqid(null, true) . '_AddToCart' . '_' . time();
-            $event_id_purchase_in_1_click = uniqid(null, true) . '_Purchase_in_1_click' . '_' . time();
-            $event_id_add_to_cart_in_1_click = uniqid(null, true) . '_AddToCard_in_1_click' . '_' . time();
-
-            $this->facebookService->viewContent($result, $event_id_content);
-            $this->productRepository->updateProductViewed($id);
-
-            return view('pages.product', [
-                'characteristics' => $this->productRepository->getCharacteristicsForPublic($id),
-                'options' => $this->getOptions(),
-                'product' => $result,
-                'pages' => $this->getPagesList(),
-                'advantages' => $this->getAdvantages(),
-                'categories' => $this->getCategories(),
-                'reviews' => $this->productReviewsRepository->carouselList(10),
-                'recommend_products' => $this->productRepository->getRecommendProductsForPublicWithLimit($id, 'total_sales'),
-                'new_products' => $this->productRepository->getRecommendProductsForPublicWithLimit($id, 'id'),
-                'best_products' => $this->productRepository->getRecommendProductsForPublicWithLimit(null, 'total_sales'),
-                'faqs' => $this->faqsRepository->getAllToPublic(),
-                'event_id_content' => $event_id_content,
-                'event_id_addToCard' => $event_id_addToCard,
-                'event_id_purchase_in_1_click' => $event_id_purchase_in_1_click,
-                'event_id_add_to_cart_in_1_click' => $event_id_add_to_cart_in_1_click,
-                'event_id_page_view' => $this->event_id_page_view
-            ]);
-        } else {
+        if (!$result) {
             return abort(404);
         }
+
+        $event_id_content = uniqid(null, true) . '_viewContent' . '_' . time();
+        $event_id_addToCard = uniqid(null, true) . '_AddToCart' . '_' . time();
+        $event_id_purchase_in_1_click = uniqid(null, true) . '_Purchase_in_1_click' . '_' . time();
+        $event_id_add_to_cart_in_1_click = uniqid(null, true) . '_AddToCard_in_1_click' . '_' . time();
+
+        $this->facebookService->viewContent($result, $event_id_content);
+        $this->productRepository->updateProductViewed($id);
+
+        return Inertia::render('Product/Index', [
+            'lang' => app()->getLocale(),
+            'characteristics' => $this->productRepository->getCharacteristicsForPublic($id),
+            'options' => $this->getOptions(),
+            'product' => $result,
+            'pages' => $this->getPagesList(),
+            'advantages' => $this->getAdvantages(),
+            'categories' => $this->getCategories(),
+            'reviews' => $this->productReviewsRepository->carouselList(10),
+            'recommendProducts' => $this->productRepository->getRecommendProductsForPublicWithLimit($id, 'total_sales'),
+            'newProducts' => $this->productRepository->getRecommendProductsForPublicWithLimit($id, 'id'),
+            'bestProducts' => $this->productRepository->getRecommendProductsForPublicWithLimit(null, 'total_sales'),
+            'faqs' => $this->faqsRepository->getAllToPublic(),
+            'eventIdContent' => $event_id_content,
+            'eventIdAddToCard' => $event_id_addToCard,
+            'eventIdPurchaseIn1Click' => $event_id_purchase_in_1_click,
+            'eventIdAddToCartIn1Click' => $event_id_add_to_cart_in_1_click,
+            'eventIdPageView' => $this->event_id_page_view
+        ])->rootView('layouts/master');
+//        if ($result) {
+//            $this->facebookService->view($this->event_id_page_view);
+//
+//            $event_id_content = uniqid(null, true) . '_viewContent' . '_' . time();
+//            $event_id_addToCard = uniqid(null, true) . '_AddToCart' . '_' . time();
+//            $event_id_purchase_in_1_click = uniqid(null, true) . '_Purchase_in_1_click' . '_' . time();
+//            $event_id_add_to_cart_in_1_click = uniqid(null, true) . '_AddToCard_in_1_click' . '_' . time();
+//
+//            $this->facebookService->viewContent($result, $event_id_content);
+//            $this->productRepository->updateProductViewed($id);
+//
+//            return view('pages.product', [
+//                'characteristics' => $this->productRepository->getCharacteristicsForPublic($id),
+//                'options' => $this->getOptions(),
+//                'product' => $result,
+//                'pages' => $this->getPagesList(),
+//                'advantages' => $this->getAdvantages(),
+//                'categories' => $this->getCategories(),
+//                'reviews' => $this->productReviewsRepository->carouselList(10),
+//                'recommend_products' => $this->productRepository->getRecommendProductsForPublicWithLimit($id, 'total_sales'),
+//                'new_products' => $this->productRepository->getRecommendProductsForPublicWithLimit($id, 'id'),
+//                'best_products' => $this->productRepository->getRecommendProductsForPublicWithLimit(null, 'total_sales'),
+//                'faqs' => $this->faqsRepository->getAllToPublic(),
+//                'event_id_content' => $event_id_content,
+//                'event_id_addToCard' => $event_id_addToCard,
+//                'event_id_purchase_in_1_click' => $event_id_purchase_in_1_click,
+//                'event_id_add_to_cart_in_1_click' => $event_id_add_to_cart_in_1_click,
+//                'event_id_page_view' => $this->event_id_page_view
+//            ]);
+//        } else {
+//            return abort(404);
+//        }
     }
 
 
-    public function cart(): Factory|View|Application
+    public function cart()
     {
         $this->facebookService->view($this->event_id_page_view);
 
-        return view('pages.cart', [
+        return Inertia::render('Cart/Index', [
+            'lang' => app()->getLocale(),
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
             'categories' => $this->getCategories(),
-            'recommend_products' => $this->productRepository->getRecommendProductsForPublicCart(),
-            'event_id_page_view' => $this->event_id_page_view
-        ]);
+            'recommendProducts' => $this->productRepository->getRecommendProductsForPublicCart(),
+            'eventIdPageView' => $this->event_id_page_view
+        ])->rootView('layouts/master');
+//        return view('pages.cart', [
+//            'options' => $this->getOptions(),
+//            'pages' => $this->getPagesList(),
+//            'categories' => $this->getCategories(),
+//            'recommend_products' => $this->productRepository->getRecommendProductsForPublicCart(),
+//            'event_id_page_view' => $this->event_id_page_view
+//        ]);
     }
 
-    public function checkout(): Factory|View|Application
+    public function checkout()
     {
         $event_id_initiateCheckout = uniqid(null, true) . '_initiateCheckout' . '_' . time();
         $this->facebookService->view($this->event_id_page_view);
         $this->facebookService->InitiateCheckout($this->shoppingCartService->cartList(), $event_id_initiateCheckout);
-        return view('pages.checkout', [
+
+        return Inertia::render('Checkout/Index', [
+            'lang' => app()->getLocale(),
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
             'categories' => $this->getCategories(),
-            'event_id_initiateCheckout' => $event_id_initiateCheckout,
-            'event_id_purchase' => uniqid(null, true) . '_purchase' . '_' . time(),
-            'event_id_page_view' => $this->event_id_page_view
-        ]);
+            'eventIdInitiateCheckout' => $event_id_initiateCheckout,
+            'eventIdPurchase' => uniqid(null, true) . '_purchase' . '_' . time(),
+            'evenIdPageView' => $this->event_id_page_view
+        ])->rootView('layouts/master');
+//        return view('pages.checkout', [
+//            'options' => $this->getOptions(),
+//            'pages' => $this->getPagesList(),
+//            'categories' => $this->getCategories(),
+//            'event_id_initiateCheckout' => $event_id_initiateCheckout,
+//            'event_id_purchase' => uniqid(null, true) . '_purchase' . '_' . time(),
+//            'event_id_page_view' => $this->event_id_page_view
+//        ]);
     }
 
     public function page($slug)
     {
         $result = $this->pagesRepository->getBySlug($slug);
-        if ($result) {
-            $this->facebookService->view($this->event_id_page_view);
-            return view('pages.page', [
-                'page' => $result,
-                'options' => $this->getOptions(),
-                'pages' => $this->getPagesList(),
-                'categories' => $this->getCategories(),
-                'event_id_page_view' => $this->event_id_page_view
-            ]);
-        } else {
+
+        if (!$result) {
             return abort(404);
         }
 
-    }
-
-    public function reviews(): View|Factory|Application
-    {
-        $this->facebookService->view($this->event_id_page_view);
-        return view('pages.reviews', [
+        return Inertia::render('Page/Index', [
+            'lang' => app()->getLocale(),
+            'page' => $result,
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
             'categories' => $this->getCategories(),
-            'event_id_page_view' => $this->event_id_page_view
-        ]);
+            'evenIdPageView' => $this->event_id_page_view
+        ])->rootView('layouts/master');
+
+//        if ($result) {
+//            $this->facebookService->view($this->event_id_page_view);
+//            return view('pages.page', [
+//                'page' => $result,
+//                'options' => $this->getOptions(),
+//                'pages' => $this->getPagesList(),
+//                'categories' => $this->getCategories(),
+//                'event_id_page_view' => $this->event_id_page_view
+//            ]);
+//        } else {
+//            return abort(404);
+//        }
+
     }
 
-    public function thanks(): View|Factory|Application
+    public function reviews()
     {
         $this->facebookService->view($this->event_id_page_view);
-        return view('pages.thanks', [
+
+        return Inertia::render('Reviews/Index', [
+            'lang' => app()->getLocale(),
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
             'categories' => $this->getCategories(),
-            'event_id_page_view' => $this->event_id_page_view
-        ]);
+            'evenIdPageView' => $this->event_id_page_view
+        ])->rootView('layouts/master');
+
+//        return view('pages.reviews', [
+//            'options' => $this->getOptions(),
+//            'pages' => $this->getPagesList(),
+//            'categories' => $this->getCategories(),
+//            'event_id_page_view' => $this->event_id_page_view
+//        ]);
     }
 
-    public function status(): View|Factory|Application
+    public function thanks()
     {
         $this->facebookService->view($this->event_id_page_view);
-        return view('pages.status', [
+
+        return Inertia::render('Thanks/Index', [
+            'lang' => app()->getLocale(),
+            'options' => $this->getOptions(),
+            'pages' => $this->getPagesList(),
+            'categories' => $this->getCategories(),
+            'evenIdPageView' => $this->event_id_page_view
+        ])->rootView('layouts/master');
+
+//        return view('pages.thanks', [
+//            'options' => $this->getOptions(),
+//            'pages' => $this->getPagesList(),
+//            'categories' => $this->getCategories(),
+//            'event_id_page_view' => $this->event_id_page_view
+//        ]);
+    }
+
+    public function status()
+    {
+        $this->facebookService->view($this->event_id_page_view);
+
+        return Inertia::render('Status/Index', [
+            'lang' => app()->getLocale(),
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
             'categories' => $this->getCategories(),
             'statuses' => OrderStatus::state,
-            'event_id_page_view' => $this->event_id_page_view
-        ]);
+            'evenIdPageView' => $this->event_id_page_view
+        ])->rootView('layouts/master');
+
+//        return view('pages.status', [
+//            'options' => $this->getOptions(),
+//            'pages' => $this->getPagesList(),
+//            'categories' => $this->getCategories(),
+//            'statuses' => OrderStatus::state,
+//            'event_id_page_view' => $this->event_id_page_view
+//        ]);
     }
 
-    public function support(): View|Factory|Application
+    public function support()
     {
         $this->facebookService->view($this->event_id_page_view);
-        return view('pages.support', [
+
+        return Inertia::render('Support/Index', [
+            'lang' => app()->getLocale(),
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
             'categories' => $this->getCategories(),
-            'event_id_page_view' => $this->event_id_page_view
-        ]);
+            'evenIdPageView' => $this->event_id_page_view
+        ])->rootView('layouts/master');
+
+//        return view('pages.support', [
+//            'options' => $this->getOptions(),
+//            'pages' => $this->getPagesList(),
+//            'categories' => $this->getCategories(),
+//            'event_id_page_view' => $this->event_id_page_view
+//        ]);
     }
 
     public function getOptions()

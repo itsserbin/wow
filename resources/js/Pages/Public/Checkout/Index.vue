@@ -1,28 +1,34 @@
 <template>
-    <form @submit.prevent="sendOrder">
-        <div class="grid grid-cols-1 md:grid-cols-2 relative gap-4">
-            <div>
-                <PersonalData :order="state.order" :errors="state.errors"/>
-                <Delivery :order="state.order"/>
-                <Payment :order="state.order"/>
-                <Comment :order="state.order"/>
-            </div>
-            <div class="">
-                <div class="cart-item__right row mb-3">
-                    <h3 class="text-2xl font-heading mb-[1rem]">Замовлення</h3>
+    <MasterLayout :categories="categories"
+                  :options="options"
+                  :lang="lang"
+                  :pages="pages"
+    >
+        <form @submit.prevent="sendOrder">
+            <div class="grid grid-cols-1 md:grid-cols-2 relative gap-4">
+                <div>
+                    <PersonalData :order="state.order" :errors="state.errors"/>
+                    <Delivery :order="state.order"/>
+                    <Payment :order="state.order"/>
+                    <Comment :order="state.order"/>
+                </div>
+                <div class="">
+                    <div class="cart-item__right row mb-3">
+                        <h3 class="text-2xl font-heading mb-[1rem]">Замовлення</h3>
 
-                    <div class="grid gap-4">
-                        <OrderItem v-for="item in store.state.list"
-                                   :item="item"
-                                   @removeFromCart="removeFromCart"
-                        />
+                        <div class="grid gap-4">
+                            <OrderItem v-for="item in store.state.list"
+                                       :item="item"
+                                       @removeFromCart="removeFromCart"
+                            />
+                        </div>
+                        <Loader v-if="state.isLoading"/>
+                        <CheckoutTotal v-if="!state.isLoading"/>
                     </div>
-                    <Loader v-if="state.isLoading"/>
-                    <CheckoutTotal v-if="!state.isLoading"/>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </MasterLayout>
 </template>
 
 <script setup>
@@ -33,7 +39,12 @@ import Payment from '@/Pages/Public/Checkout/Payment.vue';
 import OrderItem from '@/Pages/Public/Checkout/OrderItem.vue';
 import Comment from '@/Pages/Public/Checkout/Comment.vue';
 import CheckoutTotal from '@/Pages/Public/Checkout/CheckoutTotal.vue';
-import {inject, ref, onMounted} from "vue";
+import MasterLayout from '@/Layouts/MasterLayout.vue'
+
+const {appContext} = getCurrentInstance()
+const {$fbq} = appContext.config.globalProperties
+
+import {inject, ref, onMounted, getCurrentInstance} from "vue";
 import {useStore} from "vuex";
 import {useGtm} from '@gtm-support/vue-gtm';
 import hmacMD5 from 'crypto-js/hmac-md5';
@@ -43,7 +54,14 @@ import {isLoading} from "@/Pages/Public/load";
 const store = useStore();
 const swal = inject('$swal');
 const gtm = useGtm();
-const props = defineProps(['eventIdInitiateCheckout', 'eventIdPurchase']);
+const props = defineProps([
+    'lang',
+    'eventIdInitiateCheckout',
+    'eventIdPurchase',
+    'categories',
+    'options',
+    'pages',
+]);
 
 const state = ref({
     order: {
@@ -76,7 +94,7 @@ onMounted(() => {
             })
         });
         try {
-            fbq('track',
+            $fbq('track',
                 'InitiateCheckout',
                 {
                     "value": store.state.totalPrice,
@@ -219,7 +237,7 @@ function sendOrder() {
         .then(({data}) => {
             if (import.meta.env.MODE === 'production') {
                 try {
-                    fbq('track',
+                    $fbq('track',
                         'Purchase',
                         {
                             "value": store.state.totalPrice,

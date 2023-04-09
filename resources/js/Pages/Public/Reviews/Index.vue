@@ -1,19 +1,29 @@
 <template>
-    <div v-if="state.reviews.length">
-        <h1 class="font-bold text-black text-center text-[24px] mb-[15px]">
-            Відгуки
-        </h1>
-        <Card v-for="item in state.reviews" :item="item"/>
-        <div class="text-center" v-if="state.showLoadMore">
-            <Loader v-if="state.isLoadingMore"></Loader>
-            <Button v-if="!state.isLoadingMore" @click="fetch" type="button">
-                {{ textLoadMore }}
-            </Button>
+    <MasterLayout :categories="categories"
+                  :options="options"
+                  :lang="lang"
+                  :pages="pages"
+    >
+        <div v-if="state.reviews.length">
+            <Breadcrumbs :options="options" :lang="lang" title="Відгуки"/>
+
+            <h1 class="font-bold text-black text-center text-[24px] mb-[15px]">
+                Відгуки
+            </h1>
+            <Card v-for="item in state.reviews" :item="item"/>
+            <div class="text-center" v-if="state.showLoadMore">
+                <Loader v-if="state.isLoadingMore"></Loader>
+                <Button v-if="!state.isLoadingMore" @click="fetch" type="button">
+                    {{ textLoadMore }}
+                </Button>
+            </div>
         </div>
-    </div>
+    </MasterLayout>
 </template>
 
 <script setup>
+import Breadcrumbs from './Breadcrumbs.vue'
+import MasterLayout from '@/Layouts/MasterLayout.vue'
 import Card from './Card.vue';
 import {onMounted, ref} from "vue";
 import Loader from '@/Pages/Public/Components/Loader.vue'
@@ -22,6 +32,9 @@ import {isLoading} from "@/Pages/Public/load";
 
 defineProps({
     lang: String,
+    categories: Array,
+    options: Object,
+    pages: Array,
     textLoadMore: {
         type: String,
         default: 'Завантажити ще'

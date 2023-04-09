@@ -1,5 +1,5 @@
 <template>
-    <modal size="small"
+    <Modal size="small"
            submit-button-text="Замовити"
            @submitForm="sendForm"
            @closeModal="$emit('closeModal')"
@@ -8,31 +8,35 @@
         <template #content>
             <div class="grid gap-4">
                 <div class="block">
-                    <label-component>Ім`я</label-component>
-                    <input-component type="text"
-                                     v-model="order.name"
-                                     placeholder="Введіть ваше ім'я"
+                    <Label>Ім`я</Label>
+                    <Input type="text"
+                           v-model="order.name"
+                           placeholder="Введіть ваше ім'я"
                     />
                 </div>
                 <div class="block">
-                    <label-component :required="true">Ваш телефон</label-component>
-                    <input-component type="tel"
-                                     v-maska="'+38 (0##) ###-##-##'"
-                                     v-model="order.phone"
-                                     placeholder="+38 (0"
-                                     class="phone"
+                    <Label :required="true">Ваш телефон</Label>
+                    <Input type="tel"
+                           v-maska="'+38 (0##) ###-##-##'"
+                           v-model="order.phone"
+                           placeholder="+38 (0"
+                           class="phone"
                     />
-                    <input-error v-if="state.errors.phone" v-for="error in state.errors.phone" :message="error"/>
+                    <InputError v-if="state.errors.phone" v-for="error in state.errors.phone" :message="error"/>
                 </div>
             </div>
         </template>
-    </modal>
+    </Modal>
 </template>
 
 <script setup>
-import {inject, ref} from "vue";
+import {getCurrentInstance, inject, ref} from "vue";
 import {useGtm} from "@gtm-support/vue-gtm";
 import {useStore} from "vuex";
+import Modal from '@/Pages/Public/Components/Modal.vue';
+import Input from '@/Pages/Public/Components/Input.vue';
+import InputError from '@/Components/Form/InputError.vue';
+import Label from '@/Pages/Public/Components/Label.vue';
 
 const emits = defineEmits(['closeModal', 'addToCard']);
 const props = defineProps([
@@ -42,8 +46,12 @@ const props = defineProps([
     'eventIdAddToCard',
     'isAddToCart'
 ]);
+
 const gtm = useGtm();
 const swal = inject('$swal');
+const {appContext} = getCurrentInstance()
+const {$fbq} = appContext.config.globalProperties
+
 const order = ref({
     name: '',
     last_name: '',
@@ -76,7 +84,7 @@ async function sendForm() {
                 props.isAddToCart = true;
                 if (import.meta.env.MODE === 'production') {
                     try {
-                        fbq('track',
+                        $fbq('track',
                             'AddToCart',
                             {
                                 "value": props.product.discount_price ? props.product.discount_price : props.product.price,
@@ -116,7 +124,7 @@ async function createOrder() {
                         })
                     });
 
-                    fbq('track',
+                    $fbq('track',
                         'Purchase',
                         {
                             "value": store.state.totalPrice,

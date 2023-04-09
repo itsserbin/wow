@@ -2,6 +2,9 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\HandleInertiaRequests;
+use App\Http\Middleware\HandleInertiaRequestsAdmin;
+use App\Http\Middleware\HandleInertiaRequestsPublic;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -39,7 +42,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            \App\Http\Middleware\HandleInertiaRequests::class,
+            HandleInertiaRequests::class,
         ],
 
         'api' => [

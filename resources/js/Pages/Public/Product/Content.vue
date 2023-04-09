@@ -49,6 +49,7 @@ const props = defineProps([
     'characteristics',
     'sizeTable',
     'youtube',
+    'options',
     'returnAndExchangeUa',
     'returnAndExchangeRu',
     'deliveryAndPaymentUa',
@@ -68,8 +69,8 @@ const items = [
         label: 'Доставка та оплата',
         key: 'deliveryAndPayment',
         value: {
-            ua: props.deliveryAndPaymentUa,
-            ru: props.deliveryAndPaymentRu
+            ua: props.options.text_delivery_and_payment_ua,
+            ru: props.options.text_delivery_and_payment_ru,
         },
         class: 'content'
     },
@@ -77,8 +78,8 @@ const items = [
         label: 'Повернення та обмін',
         key: 'returnAndExchange',
         value: {
-            ua: props.returnAndExchangeUa,
-            ru: props.returnAndExchangeRu
+            ua: props.options.text_return_and_exchange_ua,
+            ru: props.options.text_return_and_exchange_ru
         },
         class: 'content'
     },

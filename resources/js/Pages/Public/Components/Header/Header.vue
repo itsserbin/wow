@@ -3,7 +3,7 @@
         <div class="max-w-7xl mx-auto px-3">
             <div class="grid grid-cols-4 items-center">
                 <div>
-                    <Logo />
+                    <Logo/>
                 </div>
                 <div class="grid justify-end">
                     <CartIcon/>
@@ -12,13 +12,7 @@
                     <Langs :lang="lang"/>
                 </div>
                 <div class="grid justify-end">
-                    <Burger :app-email="appEmail"
-                            :app-facebook="appFacebook"
-                            :app-instagram="appInstagram"
-                            :app-phone="appPhone"
-                            :app-schedule="appSchedule"
-                            :app-telegram="appTelegram"
-                            :app-viber="appViber"
+                    <Burger :options="options"
                             :lang="lang"
                             :pages="pages"
                     />
@@ -26,37 +20,25 @@
             </div>
         </div>
         <div class="bg-main text-text font-subheading">
-            <HeaderCategories :categories="JSON.parse(categories)" :lang="lang"/>
+            <HeaderCategories :categories="categories" :lang="lang"/>
         </div>
     </div>
 </template>
 
 <script setup>
 import CartIcon from '@/Pages/Public/Components/CartIcon.vue';
-import Burger from '@/Pages/Public/Components/Header/Burger.vue';
 import Langs from '@/Pages/Public/Components/Header/Langs.vue';
 import Logo from '@/Pages/Public/Components/Header/Logo.vue';
 import HeaderCategories from '@/Pages/Public/Components/Header/HeaderCategories.vue';
-import {ref} from "vue";
+import {defineAsyncComponent, ref} from "vue";
+
+const Burger = defineAsyncComponent(() => import('@/Pages/Public/Components/Header/Burger.vue'));
 
 defineProps([
-    'indexRoute',
-    'exchangePolicyRoute',
-    'privacyPolicyRoute',
-    'logoApp',
-    'appName',
-    'appPhone',
-    'appEmail',
-    'appFacebook',
-    'appInstagram',
-    'appSchedule',
-    'appTelegram',
-    'appViber',
     'pages',
     'lang',
     'categories',
-    'textReviews',
-    'reviewsRoute',
+    'options'
 ]);
 
 const show = ref(false);

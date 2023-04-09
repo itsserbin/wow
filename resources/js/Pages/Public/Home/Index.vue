@@ -1,52 +1,62 @@
 <template>
-    <div class="grid grid-cols-1 gap-4">
-        <MainBanners :data="banners" :lang="lang"/>
+    <MasterLayout :categories="categories"
+                  :options="options"
+                  :lang="lang"
+                  :pages="pages"
+                  :eventIdPageView="eventIdPageView"
+    >
+        <div class="grid grid-cols-1 gap-4">
+            <MainBanners :data="banners" :lang="lang"/>
 
-        <Categories v-if="categories.length" :data="categories" :lang="lang"/>
+            <Categories v-if="categories.length" :data="categories" :lang="lang"/>
 
-        <BestSelling :lang="lang"
-                     :data="stateBestSellingProducts.data"
-                     :isLoadMore="stateBestSellingProducts.isLoadMore"
-                     :isShowLoadMore="stateBestSellingProducts.isShowLoadMore"
-                     @fetch="fetchBestSellingProducts"
-                     v-if="stateBestSellingProducts.data.length"
-        />
+            <BestSelling :lang="lang"
+                         :data="stateBestSellingProducts.data"
+                         :isLoadMore="stateBestSellingProducts.isLoadMore"
+                         :isShowLoadMore="stateBestSellingProducts.isShowLoadMore"
+                         @fetch="fetchBestSellingProducts"
+                         v-if="stateBestSellingProducts.data.length"
+            />
 
-        <NewProducts :lang="lang"
-                     :data="stateNewProducts.data"
-                     :isLoadMore="stateNewProducts.isLoadMore"
-                     :isShowLoadMore="stateNewProducts.isShowLoadMore"
-                     @fetch="fetchNewProducts"
-                     v-if="stateNewProducts.data.length"
-        />
+            <NewProducts :lang="lang"
+                         :data="stateNewProducts.data"
+                         :isLoadMore="stateNewProducts.isLoadMore"
+                         :isShowLoadMore="stateNewProducts.isShowLoadMore"
+                         @fetch="fetchNewProducts"
+                         v-if="stateNewProducts.data.length"
+            />
 
-        <AllProducts :lang="lang"
-                     :data="stateAllProducts.data"
-                     :isLoadMore="stateAllProducts.isLoadMore"
-                     :isShowLoadMore="stateAllProducts.isShowLoadMore"
-                     @fetch="fetchAllProducts"
-                     v-if="stateAllProducts.data.length"
-        />
+            <AllProducts :lang="lang"
+                         :data="stateAllProducts.data"
+                         :isLoadMore="stateAllProducts.isLoadMore"
+                         :isShowLoadMore="stateAllProducts.isShowLoadMore"
+                         @fetch="fetchAllProducts"
+                         v-if="stateAllProducts.data.length"
+            />
 
-        <Advantages v-if="advantages.length" :lang="lang" :data="advantages"/>
+            <Advantages v-if="advantages.length" :lang="lang" :data="advantages"/>
 
-        <AllReviewsCarousel v-if="reviews.length" :data="reviews"/>
+            <AllReviewsCarousel v-if="reviews.length" :data="reviews"/>
 
-        <Content v-if="text" :data="text[lang]"/>
+            <Content v-if="options.text_home_page_ua || options.text_home_page_ru"
+                     :data="lang === 'ua' ? options.text_home_page_ua : options.text_home_page_ru"
+            />
 
-        <FaqComponent v-if="faqs.length" :lang="lang" :data="faqs"/>
+            <FaqComponent v-if="faqs.length" :lang="lang" :data="faqs"/>
 
-        <Support v-if="!isLoading"/>
-    </div>
+            <Support v-if="!isLoading"/>
+        </div>
+    </MasterLayout>
 </template>
 
 <script setup>
+import MasterLayout from '@/Layouts/MasterLayout.vue'
 import {isLoading} from "@/Pages/Public/load";
-import {onMounted, ref} from "vue";
+import {getCurrentInstance, onMounted, ref} from "vue";
 import AllProducts from './AllProducts.vue';
-import Content from '../Components/Content.vue';
 import BestSelling from './BestSelling.vue';
 import NewProducts from './NewProducts.vue';
+import Content from '../Components/Content.vue';
 import Advantages from './../Components/Advantages.vue';
 import AllReviewsCarousel from './../Components/AllReviewsCarousel.vue';
 import FaqComponent from './../Components/FaqComponent.vue';
@@ -56,23 +66,19 @@ import MainBanners from './../Components/Banners.vue';
 
 const props = defineProps([
     'lang',
-    'banners',
     'categories',
-    'reviews',
-    'text',
-    'faqs',
+    'options',
+    'banners',
     'bestSellingProducts',
     'newProducts',
     'allProducts',
-    'advantages'
+    'pages',
+    'reviews',
+    'text',
+    'faqs',
+    'advantages',
+    'eventIdPageView'
 ]);
-
-const banners = ref([]);
-const categories = ref([]);
-const advantages = ref([]);
-const reviews = ref([]);
-const text = ref([]);
-const faqs = ref([]);
 
 const stateNewProducts = ref({
     data: [],
@@ -99,41 +105,26 @@ const stateBestSellingProducts = ref({
 });
 
 onMounted(async () => {
-    banners.value = JSON.parse(props.banners);
-    categories.value = JSON.parse(props.categories);
-
-    let bestSellingProducts = JSON.parse(props.bestSellingProducts);
-    if (bestSellingProducts) {
-        stateBestSellingProducts.value.data = bestSellingProducts.data;
-        if (bestSellingProducts.current_page !== bestSellingProducts.per_page) {
+    if (props.bestSellingProducts) {
+        stateBestSellingProducts.value.data = props.bestSellingProducts.data;
+        if (props.bestSellingProducts.current_page !== props.bestSellingProducts.per_page) {
             stateBestSellingProducts.value.isShowLoadMore = true;
         }
     }
-
-    let newProducts = JSON.parse(props.newProducts);
-    if (newProducts) {
-        stateNewProducts.value.data = newProducts.data;
-        if (newProducts.current_page !== newProducts.per_page) {
-            stateNewProducts.value.isShowLoadMore = true;
+    if (props.newProducts) {
+        stateNewProducts.value.data = props.newProducts.data;
+        if (props.newProducts.current_page !== props.newProducts.per_page) {
+            stateBestSellingProducts.value.isShowLoadMore = true;
         }
     }
-
-    let allProducts = JSON.parse(props.allProducts);
-
-    if (allProducts) {
-        stateAllProducts.value.data = allProducts.data;
-        if (allProducts.current_page !== allProducts.per_page) {
+    if (props.allProducts) {
+        stateAllProducts.value.data = props.allProducts.data;
+        if (props.allProducts.current_page !== props.allProducts.per_page) {
             stateAllProducts.value.isShowLoadMore = true;
         }
     }
 
-    // await fetchBestSellingProducts();
     isLoading.value = false;
-    // await fetchNewProducts();
-    // await fetchAllProducts();
-    advantages.value = JSON.parse(props.advantages);
-    reviews.value = JSON.parse(props.reviews);
-    faqs.value = JSON.parse(props.faqs);
 })
 
 const fetchAllProducts = async () => {

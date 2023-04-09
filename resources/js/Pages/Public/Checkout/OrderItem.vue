@@ -10,8 +10,8 @@
         </div>
         <div class="col-span-2">
             <picture class=" w-full ">
-                <source v-lazy :data-src="route('images.350',item.image.webp_src)" type="image/webp">
-                <img v-lazy :data-src="route('images.350',item.image.src)" class="w-full h-full p-3 object-cover">
+                <source :srcset="route('images.350',item.image.webp_src)" type="image/webp">
+                <img :src="route('images.350',item.image.src)" class="w-full h-full p-3 object-cover">
             </picture>
         </div>
         <div class="col-span-6 p-[20px] flex items-center">

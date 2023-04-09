@@ -24,13 +24,15 @@ use Illuminate\Support\Facades\Storage;
 |
 */
 
-Route::group(['prefix' => App\Http\Middleware\LocaleMiddleware::getLocale()], function () {
+Route::group([
+    'prefix' => App\Http\Middleware\LocaleMiddleware::getLocale(),
+], static function () {
     Route::get('category/penyuary i pizhamy', function () {
         return redirect(route('category', 'penyuary-i-pizhamy'), 301);
     });
 
     Route::get('/', [HomeController::class, 'home'])
-        ->name('home');;
+        ->name('home');
 
     Route::get('category/{slug?}', [HomeController::class, 'category'])
         ->name('category');
@@ -66,6 +68,7 @@ Route::group(['prefix' => App\Http\Middleware\LocaleMiddleware::getLocale()], fu
 
 Route::post('sms-new-order', [SmsController::class, 'newOrder'])
     ->name('sms.new.order');
+
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/admin.php';
