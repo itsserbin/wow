@@ -1,1 +1,0 @@
-import{q as t,v as n,A as a}from"./index.e4375aa7.js";const o=["innerHTML"],d={__name:"Content",props:["data"],setup(e){return(c,r)=>e.data?(a(),t("div",{key:0,class:"content",innerHTML:e.data},null,8,o)):n("",!0)}};export{d as default};
