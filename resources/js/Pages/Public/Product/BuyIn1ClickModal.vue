@@ -93,9 +93,7 @@ async function sendForm() {
                                 "content_ids": [props.item.item_id],
                                 "content_name": props.product.h1
                             },
-                            {
-                                event_id: props.eventIdAddToCard
-                            }
+                            props.eventIdAddToCard
                         );
                     } catch (e) {
                         console.error(e);
@@ -133,9 +131,7 @@ async function createOrder() {
                             "num_items": store.state.totalCount,
                             "content_ids": state.value.contentIds
                         },
-                        {
-                            event_id: props.eventIdPurchaseIn1Click
-                        }
+                        props.eventIdPurchaseIn1Click
                     );
 
                     gtm.trackEvent({

@@ -29,19 +29,9 @@ const props = defineProps([
     'eventIdPageView'
 ]);
 
-window.onload = function() {
+onMounted(() => {
     if (import.meta.env.MODE === 'production') {
-        $fbq('PageView', {}, {
-            event_id: props.eventIdPageView
-        });
+        $fbq('PageView', {}, props.eventIdPageView);
     }
-};
-
-// onMounted(() => {
-//     if (import.meta.env.MODE === 'production') {
-//         $fbq('PageView', {}, {
-//             event_id: props.eventIdPageView
-//         });
-//     }
-// })
+})
 </script>

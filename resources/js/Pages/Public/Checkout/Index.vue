@@ -105,9 +105,7 @@ onMounted(() => {
                     "content_ids": state.value.contentIds,
                     "content_type": "product"
                 },
-                {
-                    event_id: props.eventIdInitiateCheckout
-                }
+                props.eventIdInitiateCheckout
             );
             gtm.trackEvent({
                 event: 'start_checkout',
@@ -248,9 +246,7 @@ function sendOrder() {
                             "num_items": store.state.totalCount,
                             "content_ids": state.value.contentIds
                         },
-                        {
-                            event_id: props.eventIdPurchase
-                        }
+                        props.eventIdPurchase
                     );
 
                     gtm.trackEvent({

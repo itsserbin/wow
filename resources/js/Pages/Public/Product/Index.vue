@@ -116,9 +116,7 @@ onMounted(async () => {
                     "content_ids": [props.product.id],
                     "content_name": props.product.h1
                 },
-                {
-                    event_id: props.eventIdContent
-                }
+                props.eventIdContent
             );
 
             gtm.trackEvent({

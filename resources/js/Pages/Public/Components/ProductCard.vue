@@ -248,9 +248,7 @@ function addToCard(id) {
                             "content_ids": [item.value.item_id],
                             "content_name": props.product.h1
                         },
-                        {
-                            event_id: item.value.event_id
-                        }
+                        item.value.event_id
                     );
 
                     gtm.trackEvent({

@@ -24,8 +24,10 @@ export default {
         window.fbq("init", options.pixelId);
         // app.config.globalProperties.$fbq = window.fbq;
 
-        app.config.globalProperties.$fbq = function (eventName, eventData, eventParams) {
-            window.fbq('track', eventName, eventData, eventParams);
+        app.config.globalProperties.$fbq = function (eventName, eventData, event_id) {
+            window.fbq('track', eventName, eventData, {
+                event_id: event_id
+            });
         };
 
     },
