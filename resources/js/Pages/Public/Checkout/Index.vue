@@ -3,6 +3,7 @@
                   :options="options"
                   :lang="lang"
                   :pages="pages"
+                  :eventIdPageView="eventIdPageView"
     >
         <form @submit.prevent="sendOrder">
             <div class="grid grid-cols-1 md:grid-cols-2 relative gap-4">
@@ -61,6 +62,7 @@ const props = defineProps([
     'categories',
     'options',
     'pages',
+    'eventIdPageView',
 ]);
 
 const state = ref({

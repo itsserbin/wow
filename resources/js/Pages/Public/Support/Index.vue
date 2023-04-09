@@ -1,16 +1,32 @@
 <template>
-    <div class="max-w-xl mx-auto">
-        <Form :item="state.item"
-              @submitForm="submitForm"
-              :errors="state.errors"
-        />
-    </div>
+    <MasterLayout :categories="categories"
+                  :options="options"
+                  :lang="lang"
+                  :pages="pages"
+                  :eventIdPageView="eventIdPageView"
+    >
+        <div class="max-w-xl mx-auto">
+            <Form :item="state.item"
+                  @submitForm="submitForm"
+                  :errors="state.errors"
+            />
+        </div>
+    </MasterLayout>
 </template>
 
 <script setup>
+import MasterLayout from '@/Layouts/MasterLayout.vue'
 import {inject, onMounted, ref} from "vue";
 import Form from '@/Pages/Public/Support/Form.vue';
 import {isLoading} from "@/Pages/Public/load";
+
+defineProps([
+    'eventIdPageView',
+    'categories',
+    'options',
+    'lang',
+    'pages',
+])
 
 const swal = inject('$swal');
 

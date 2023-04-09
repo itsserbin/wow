@@ -3,6 +3,7 @@
                   :options="options"
                   :lang="lang"
                   :pages="pages"
+                  :eventIdPageView="eventIdPageView"
     >
         <div v-if="page">
             <Breadcrumbs :options="options" :lang="lang" :title="page.h1[lang]"/>
@@ -27,6 +28,7 @@ const props = defineProps([
     'categories',
     'options',
     'pages',
+    'eventIdPageView',
 ])
 
 onMounted(() => {

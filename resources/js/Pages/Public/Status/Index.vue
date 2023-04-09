@@ -3,6 +3,7 @@
                   :options="options"
                   :lang="lang"
                   :pages="pages"
+                  :eventIdPageView="eventIdPageView"
     >
         <div v-if="!state.isLoading">
             <Breadcrumbs :options="options" :lang="lang" title="Статус замовлення"/>
@@ -36,6 +37,7 @@ const props = defineProps([
     'options',
     'lang',
     'pages',
+    'eventIdPageView',
 ]);
 
 const swal = inject('$swal');

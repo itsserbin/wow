@@ -32,7 +32,7 @@ import {getCurrentInstance, onMounted} from "vue";
 const {appContext} = getCurrentInstance()
 const {$fbq} = appContext.config.globalProperties
 
-defineProps([
+const props = defineProps([
     'lang',
     'categories',
     'options',

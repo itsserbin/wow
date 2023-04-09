@@ -3,6 +3,7 @@
                   :options="options"
                   :lang="lang"
                   :pages="pages"
+                  :eventIdPageView="eventIdPageView"
     >
         <section class="grid gap-4 grid-cols-1">
             <div class="grid grid-cols-1 gap-4">
@@ -48,6 +49,7 @@ defineProps({
     options: Object,
     pages: Array,
     lang: String,
+    eventIdPageView: String,
     textThanksPageTitle: {
         type: String,
         default: 'Дякую за ваше замовлення :)'

@@ -3,6 +3,7 @@
                   :options="options"
                   :lang="lang"
                   :pages="pages"
+                  :eventIdPageView="eventIdPageView"
     >
         <div v-if="state.reviews.length">
             <Breadcrumbs :options="options" :lang="lang" title="Відгуки"/>
@@ -39,6 +40,7 @@ defineProps({
         type: String,
         default: 'Завантажити ще'
     },
+    eventIdPageView: String
 })
 
 const state = ref({

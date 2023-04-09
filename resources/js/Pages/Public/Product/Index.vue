@@ -3,6 +3,7 @@
                   :options="options"
                   :lang="lang"
                   :pages="pages"
+                  :eventIdPageView="eventIdPageView"
     >
         <Breadcrumbs :options="options"
                      :parent-url="route('category',product.categories[0].slug)"
@@ -97,6 +98,7 @@ const props = defineProps([
     'product',
     'faqs',
     'authUser',
+    'eventIdPageView',
     'eventIdContent',
     'eventIdAddToCard',
     'eventIdPurchaseIn1Click',

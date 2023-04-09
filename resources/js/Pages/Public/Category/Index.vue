@@ -3,6 +3,7 @@
                   :options="options"
                   :lang="lang"
                   :pages="pages"
+                  :eventIdPageView="eventIdPageView"
     >
         <Breadcrumbs :options="options" :lang="lang" :title="category.title[lang]"/>
 
@@ -78,6 +79,7 @@ const props = defineProps([
     'category',
     'options',
     'pages',
+    'eventIdPageView',
 ]);
 
 const state = ref({
