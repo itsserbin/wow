@@ -39,7 +39,7 @@ class HomeController extends Controller
     private mixed $faqsRepository;
     private $event_id_page_view;
 
-    public function __construct()
+    final public function __construct()
     {
         parent::__construct();
         $this->productRepository = app(ProductsRepository::class);
@@ -60,21 +60,7 @@ class HomeController extends Controller
 
     final public function home()
     {
-//        $this->facebookService->view($this->event_id_page_view);
-//
-//        return view('pages.home', [
-//            'options' => $this->getOptions(),
-//            'pages' => $this->getPagesList(),
-//            'categories' => $this->getCategories(),
-//            'banners' => $this->bannersRepository->getForPublic(),
-//            'advantages' => $this->advantagesRepository->getAllToPublic(),
-//            'reviews' => $this->productReviewsRepository->carouselList(10),
-//            'faqs' => $this->faqsRepository->getAllToPublic(),
-//            'best_selling_products' => $this->productRepository->getProductsForPublicWithPaginate('total_sales', 'desc'),
-//            'new_products' => $this->productRepository->getProductsForPublicWithPaginate('id', 'desc'),
-//            'all_products' => $this->productRepository->getProductsForPublicWithPaginate('sort', 'desc'),
-//            'event_id_page_view' => $this->event_id_page_view
-//        ]);
+        $this->facebookService->view($this->event_id_page_view);
 
         return Inertia::render('Home/Index', [
             'lang' => app()->getLocale(),
@@ -100,6 +86,8 @@ class HomeController extends Controller
             return abort(404);
         }
 
+        $this->facebookService->view($this->event_id_page_view);
+
         $characteristics = [
             'list' => $this->characteristicsRepository->getForPublic($slug),
             'price' => $this->productRepository->getMinMaxProductPrice($slug),
@@ -118,28 +106,6 @@ class HomeController extends Controller
             'characteristics' => $characteristics,
             'eventIdPageView' => $this->event_id_page_view
         ])->rootView('layouts/master');
-//        if ($result) {
-//
-//            $this->facebookService->view($this->event_id_page_view);
-//            $characteristics = [
-//                'list' => $this->characteristicsRepository->getForPublic($slug),
-//                'price' => $this->productRepository->getMinMaxProductPrice($slug),
-//                'sizes' => $this->sizesRepository->getListForPublic($slug),
-//                'colors' => $this->colorsRepository->getListForPublic($slug)
-//            ];
-//            return view('pages.category', [
-//                'products' => $this->productRepository->getByCategorySlugToPublic($slug, $request->all()),
-//                'banners' => $this->bannersRepository->getForPublic($slug),
-//                'category' => $result,
-//                'categories' => $this->getCategories(),
-//                'options' => $this->getOptions(),
-//                'pages' => $this->getPagesList(),
-//                'characteristics' => $characteristics,
-//                'event_id_page_view' => $this->event_id_page_view
-//            ]);
-//        } else {
-//            return abort(404);
-//        }
     }
 
     final public function product(int $id)
@@ -155,6 +121,7 @@ class HomeController extends Controller
         $event_id_purchase_in_1_click = uniqid(null, true) . '_Purchase_in_1_click' . '_' . time();
         $event_id_add_to_cart_in_1_click = uniqid(null, true) . '_AddToCard_in_1_click' . '_' . time();
 
+        $this->facebookService->view($this->event_id_page_view);
         $this->facebookService->viewContent($result, $event_id_content);
         $this->productRepository->updateProductViewed($id);
 
@@ -177,42 +144,10 @@ class HomeController extends Controller
             'eventIdAddToCartIn1Click' => $event_id_add_to_cart_in_1_click,
             'eventIdPageView' => $this->event_id_page_view
         ])->rootView('layouts/master');
-//        if ($result) {
-//            $this->facebookService->view($this->event_id_page_view);
-//
-//            $event_id_content = uniqid(null, true) . '_viewContent' . '_' . time();
-//            $event_id_addToCard = uniqid(null, true) . '_AddToCart' . '_' . time();
-//            $event_id_purchase_in_1_click = uniqid(null, true) . '_Purchase_in_1_click' . '_' . time();
-//            $event_id_add_to_cart_in_1_click = uniqid(null, true) . '_AddToCard_in_1_click' . '_' . time();
-//
-//            $this->facebookService->viewContent($result, $event_id_content);
-//            $this->productRepository->updateProductViewed($id);
-//
-//            return view('pages.product', [
-//                'characteristics' => $this->productRepository->getCharacteristicsForPublic($id),
-//                'options' => $this->getOptions(),
-//                'product' => $result,
-//                'pages' => $this->getPagesList(),
-//                'advantages' => $this->getAdvantages(),
-//                'categories' => $this->getCategories(),
-//                'reviews' => $this->productReviewsRepository->carouselList(10),
-//                'recommend_products' => $this->productRepository->getRecommendProductsForPublicWithLimit($id, 'total_sales'),
-//                'new_products' => $this->productRepository->getRecommendProductsForPublicWithLimit($id, 'id'),
-//                'best_products' => $this->productRepository->getRecommendProductsForPublicWithLimit(null, 'total_sales'),
-//                'faqs' => $this->faqsRepository->getAllToPublic(),
-//                'event_id_content' => $event_id_content,
-//                'event_id_addToCard' => $event_id_addToCard,
-//                'event_id_purchase_in_1_click' => $event_id_purchase_in_1_click,
-//                'event_id_add_to_cart_in_1_click' => $event_id_add_to_cart_in_1_click,
-//                'event_id_page_view' => $this->event_id_page_view
-//            ]);
-//        } else {
-//            return abort(404);
-//        }
     }
 
 
-    public function cart()
+    final public function cart()
     {
         $this->facebookService->view($this->event_id_page_view);
 
@@ -224,16 +159,9 @@ class HomeController extends Controller
             'recommendProducts' => $this->productRepository->getRecommendProductsForPublicCart(),
             'eventIdPageView' => $this->event_id_page_view
         ])->rootView('layouts/master');
-//        return view('pages.cart', [
-//            'options' => $this->getOptions(),
-//            'pages' => $this->getPagesList(),
-//            'categories' => $this->getCategories(),
-//            'recommend_products' => $this->productRepository->getRecommendProductsForPublicCart(),
-//            'event_id_page_view' => $this->event_id_page_view
-//        ]);
     }
 
-    public function checkout()
+    final public function checkout()
     {
         $event_id_initiateCheckout = uniqid(null, true) . '_initiateCheckout' . '_' . time();
         $this->facebookService->view($this->event_id_page_view);
@@ -248,17 +176,9 @@ class HomeController extends Controller
             'eventIdPurchase' => uniqid(null, true) . '_purchase' . '_' . time(),
             'evenIdPageView' => $this->event_id_page_view
         ])->rootView('layouts/master');
-//        return view('pages.checkout', [
-//            'options' => $this->getOptions(),
-//            'pages' => $this->getPagesList(),
-//            'categories' => $this->getCategories(),
-//            'event_id_initiateCheckout' => $event_id_initiateCheckout,
-//            'event_id_purchase' => uniqid(null, true) . '_purchase' . '_' . time(),
-//            'event_id_page_view' => $this->event_id_page_view
-//        ]);
     }
 
-    public function page($slug)
+    final public function page($slug)
     {
         $result = $this->pagesRepository->getBySlug($slug);
 
@@ -274,23 +194,9 @@ class HomeController extends Controller
             'categories' => $this->getCategories(),
             'evenIdPageView' => $this->event_id_page_view
         ])->rootView('layouts/master');
-
-//        if ($result) {
-//            $this->facebookService->view($this->event_id_page_view);
-//            return view('pages.page', [
-//                'page' => $result,
-//                'options' => $this->getOptions(),
-//                'pages' => $this->getPagesList(),
-//                'categories' => $this->getCategories(),
-//                'event_id_page_view' => $this->event_id_page_view
-//            ]);
-//        } else {
-//            return abort(404);
-//        }
-
     }
 
-    public function reviews()
+    final public function reviews()
     {
         $this->facebookService->view($this->event_id_page_view);
 
@@ -301,16 +207,9 @@ class HomeController extends Controller
             'categories' => $this->getCategories(),
             'evenIdPageView' => $this->event_id_page_view
         ])->rootView('layouts/master');
-
-//        return view('pages.reviews', [
-//            'options' => $this->getOptions(),
-//            'pages' => $this->getPagesList(),
-//            'categories' => $this->getCategories(),
-//            'event_id_page_view' => $this->event_id_page_view
-//        ]);
     }
 
-    public function thanks()
+    final public function thanks()
     {
         $this->facebookService->view($this->event_id_page_view);
 
@@ -321,16 +220,9 @@ class HomeController extends Controller
             'categories' => $this->getCategories(),
             'evenIdPageView' => $this->event_id_page_view
         ])->rootView('layouts/master');
-
-//        return view('pages.thanks', [
-//            'options' => $this->getOptions(),
-//            'pages' => $this->getPagesList(),
-//            'categories' => $this->getCategories(),
-//            'event_id_page_view' => $this->event_id_page_view
-//        ]);
     }
 
-    public function status()
+    final public function status()
     {
         $this->facebookService->view($this->event_id_page_view);
 
@@ -342,17 +234,9 @@ class HomeController extends Controller
             'statuses' => OrderStatus::state,
             'evenIdPageView' => $this->event_id_page_view
         ])->rootView('layouts/master');
-
-//        return view('pages.status', [
-//            'options' => $this->getOptions(),
-//            'pages' => $this->getPagesList(),
-//            'categories' => $this->getCategories(),
-//            'statuses' => OrderStatus::state,
-//            'event_id_page_view' => $this->event_id_page_view
-//        ]);
     }
 
-    public function support()
+    final public function support()
     {
         $this->facebookService->view($this->event_id_page_view);
 
@@ -364,30 +248,24 @@ class HomeController extends Controller
             'evenIdPageView' => $this->event_id_page_view
         ])->rootView('layouts/master');
 
-//        return view('pages.support', [
-//            'options' => $this->getOptions(),
-//            'pages' => $this->getPagesList(),
-//            'categories' => $this->getCategories(),
-//            'event_id_page_view' => $this->event_id_page_view
-//        ]);
     }
 
-    public function getOptions()
+    final public function getOptions()
     {
         return $this->optionsRepository->getToProd();
     }
 
-    public function getPagesList()
+    final public function getPagesList()
     {
         return $this->pagesRepository->getPagesListToPublic();
     }
 
-    public function getAdvantages()
+    final public function getAdvantages()
     {
         return $this->advantagesRepository->getAllToPublic();
     }
 
-    public function getCategories()
+    final public function getCategories()
     {
         return $this->categoriesRepository->listPublic();
     }
