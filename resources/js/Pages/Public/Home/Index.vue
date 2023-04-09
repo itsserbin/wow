@@ -64,6 +64,9 @@ import Support from './../Components/Support.vue';
 import Categories from './../Components/Categories.vue';
 import MainBanners from './../Components/Banners.vue';
 
+const {appContext} = getCurrentInstance()
+const {$fbq} = appContext.config.globalProperties
+
 const props = defineProps([
     'lang',
     'categories',
@@ -105,6 +108,13 @@ const stateBestSellingProducts = ref({
 });
 
 onMounted(async () => {
+    if (import.meta.env.MODE === 'production') {
+        try {
+            $fbq('PageView', {}, props.eventIdPageView);
+        } catch (e) {
+            console.error(e);
+        }
+    }
     if (props.bestSellingProducts) {
         stateBestSellingProducts.value.data = props.bestSellingProducts.data;
         if (props.bestSellingProducts.current_page !== props.bestSellingProducts.per_page) {

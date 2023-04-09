@@ -16,9 +16,12 @@
 
 <script setup>
 import MasterLayout from '@/Layouts/MasterLayout.vue'
-import {inject, onMounted, ref} from "vue";
+import {getCurrentInstance, inject, onMounted, ref} from "vue";
 import Form from '@/Pages/Public/Support/Form.vue';
 import {isLoading} from "@/Pages/Public/load";
+
+const {appContext} = getCurrentInstance()
+const {$fbq} = appContext.config.globalProperties
 
 defineProps([
     'eventIdPageView',
@@ -43,6 +46,13 @@ const state = ref({
 
 onMounted(() => {
     isLoading.value = false;
+    if (import.meta.env.MODE === 'production') {
+        try {
+            $fbq('PageView', {}, props.eventIdPageView);
+        } catch (e) {
+            console.error(e);
+        }
+    }
 })
 
 const submitForm = async () => {

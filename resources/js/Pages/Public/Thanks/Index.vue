@@ -38,11 +38,14 @@
 </template>
 
 <script setup>
-import {inject, onMounted, ref} from "vue";
+import {getCurrentInstance, inject, onMounted, ref} from "vue";
 import Timer from '@/Pages/Public/Thanks/Timer.vue'
 import ProductCard from '@/Pages/Public/Thanks/ProductCard.vue'
 import {isLoading} from "@/Pages/Public/load";
 import MasterLayout from '@/Layouts/MasterLayout.vue'
+
+const {appContext} = getCurrentInstance()
+const {$fbq} = appContext.config.globalProperties
 
 defineProps({
     categories: Array,
@@ -115,6 +118,14 @@ onMounted(async () => {
         })
 
     isLoading.value = false;
+
+    if (import.meta.env.MODE === 'production') {
+        try {
+            $fbq('PageView', {}, props.eventIdPageView);
+        } catch (e) {
+            console.error(e);
+        }
+    }
 });
 
 function addItemToOrder(id, price) {

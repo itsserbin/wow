@@ -19,8 +19,12 @@
 <script setup>
 import MasterLayout from '@/Layouts/MasterLayout.vue'
 import Breadcrumbs from './Breadcrumbs.vue'
+
 import {isLoading} from "@/Pages/Public/load";
-import {onMounted} from "vue";
+import {getCurrentInstance, onMounted} from "vue";
+
+const {appContext} = getCurrentInstance()
+const {$fbq} = appContext.config.globalProperties
 
 const props = defineProps([
     'page',
@@ -33,5 +37,12 @@ const props = defineProps([
 
 onMounted(() => {
     isLoading.value = false;
+    if (import.meta.env.MODE === 'production') {
+        try {
+            $fbq('PageView', {}, props.eventIdPageView);
+        } catch (e) {
+            console.error(e);
+        }
+    }
 })
 </script>

@@ -16,11 +16,6 @@ import Header from '@/Pages/Public/Components/Header/Header.vue'
 import Footer from '@/Pages/Public/Components/Footer.vue'
 import FixedBanner from '@/Pages/Public/Components/FixedBanner.vue'
 
-import {getCurrentInstance, onMounted} from "vue";
-
-const {appContext} = getCurrentInstance()
-const {$fbq} = appContext.config.globalProperties
-
 const props = defineProps([
     'lang',
     'categories',
@@ -28,10 +23,4 @@ const props = defineProps([
     'pages',
     'eventIdPageView'
 ]);
-
-onMounted(() => {
-    if (import.meta.env.MODE === 'production') {
-        $fbq('PageView', {}, props.eventIdPageView);
-    }
-})
 </script>

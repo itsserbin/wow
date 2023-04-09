@@ -30,8 +30,11 @@ import CartTotal from '@/Pages/Public/Cart/CartTotal.vue'
 import MasterLayout from '@/Layouts/MasterLayout.vue'
 
 import {useStore} from "vuex";
-import {onMounted, ref} from "vue";
+import {getCurrentInstance, onMounted, ref} from "vue";
 import {isLoading} from "@/Pages/Public/load";
+
+const {appContext} = getCurrentInstance()
+const {$fbq} = appContext.config.globalProperties
 
 const props = defineProps([
     'recommendProducts',
@@ -48,6 +51,13 @@ const cart = ref({});
 onMounted(async () => {
     cart.value = store.state;
     isLoading.value = false;
+    if (import.meta.env.MODE === 'production') {
+        try {
+            $fbq('PageView', {}, props.eventIdPageView);
+        } catch (e) {
+            console.error(e);
+        }
+    }
 });
 const goToCheckout = () => {
     window.location.href = route('checkout');

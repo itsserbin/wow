@@ -53,7 +53,10 @@
 
 <script setup>
 import {isLoading} from "@/Pages/Public/load";
-import {computed, onMounted, ref} from "vue";
+import {computed, getCurrentInstance, onMounted, ref} from "vue";
+
+const {appContext} = getCurrentInstance()
+const {$fbq} = appContext.config.globalProperties
 
 import Support from '../Components/Support.vue';
 import Consultation from '../Components/Consultation.vue';
@@ -108,6 +111,13 @@ const getParams = computed(() => {
 onMounted(async () => {
     state.value.products = props.products.data;
     isLoading.value = false;
+    if (import.meta.env.MODE === 'production') {
+        try {
+            $fbq('PageView', {}, props.eventIdPageView);
+        } catch (e) {
+            console.error(e);
+        }
+    }
 })
 
 const onSort = async () => {

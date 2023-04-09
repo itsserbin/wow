@@ -96,6 +96,7 @@ onMounted(() => {
             })
         });
         try {
+            $fbq('PageView', {}, props.eventIdPageView);
             $fbq(
                 'InitiateCheckout',
                 {

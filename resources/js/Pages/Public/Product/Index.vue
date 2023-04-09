@@ -109,6 +109,7 @@ onMounted(async () => {
     isLoading.value = false;
     if (import.meta.env.MODE === 'production') {
         try {
+            $fbq('PageView', {}, props.eventIdPageView);
             $fbq('ViewContent', {
                     "value": props.product.discount_price ? props.product.discount_price : props.product.price,
                     "currency": "UAH",
