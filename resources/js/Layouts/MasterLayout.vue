@@ -41,6 +41,7 @@ const props = defineProps([
 ]);
 
 onMounted(() => {
+    console.log(props.eventIdPageView);
     if (import.meta.env.MODE === 'production') {
         $fbq('track', 'PageView', {}, {
             event_id: props.eventIdPageView
