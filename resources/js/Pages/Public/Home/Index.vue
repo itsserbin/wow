@@ -115,6 +115,7 @@ const eventIdPageView = ref(props.eventIdPageView)
 
 watch(eventIdPageView, (newValue, oldValue) => {
     console.log(newValue)
+    console.log(oldValue)
     $fbq('PageView', {}, newValue)
 })
 
