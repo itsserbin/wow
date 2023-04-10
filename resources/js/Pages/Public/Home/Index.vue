@@ -110,19 +110,8 @@ const stateBestSellingProducts = ref({
     endpoint: '/api/v1/product/best-selling?page='
 });
 
-
-const state = reactive({
-    eventIdPageView: props.eventIdPageView
-})
-
-watch(() => state.eventIdPageView, (newValue, oldValue) => {
-    console.log(newValue)
-    $fbq('PageView', {}, newValue)
-}, { immediate: true })
-
-
 onMounted(() => {
-    // $fbq('PageView', {}, eventIdPageView.value);
+    $fbq('PageView', {}, eventIdPageView.value);
 
     // if (import.meta.env.MODE === 'production') {
     //     try {

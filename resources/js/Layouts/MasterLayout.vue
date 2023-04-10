@@ -16,6 +16,16 @@ import Header from '@/Pages/Public/Components/Header/Header.vue'
 import Footer from '@/Pages/Public/Components/Footer.vue'
 import FixedBanner from '@/Pages/Public/Components/FixedBanner.vue'
 
+import { v4 as uuidv4 } from 'uuid';
+import {getCurrentInstance} from "vue";
+
+const {appContext} = getCurrentInstance()
+const {$fbq} = appContext.config.globalProperties
+const event_id_page_view = uuidv4() + '_PageView_' + Date.now();
+
+
+$fbq('PageView', {}, event_id_page_view);
+
 const props = defineProps([
     'lang',
     'categories',

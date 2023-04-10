@@ -62,4 +62,5 @@ createInertiaApp({
         app.mount(el)
     },
 })
+
 InertiaProgress.init({color: 'rgb(51 51 51)'});
