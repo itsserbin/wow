@@ -9,13 +9,13 @@
         </div>
     </main>
     <Footer :options="options" :lang="lang" :pages="pages"/>
-
+    <ScrollToTop/>
 </template>
 <script setup>
 import Header from '@/Pages/Public/Components/Header/Header.vue'
 import Footer from '@/Pages/Public/Components/Footer.vue'
 import FixedBanner from '@/Pages/Public/Components/FixedBanner.vue'
-
+import ScrollToTop from '@/Pages/Public/Components/ScrollToTop.vue'
 import {getCurrentInstance, onMounted} from "vue";
 
 const {appContext} = getCurrentInstance()
@@ -37,5 +37,7 @@ onMounted(() => {
             console.error(e);
         }
     }
+
+    document.querySelector('.loader').classList.add('hidden');
 })
 </script>

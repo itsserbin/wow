@@ -56,22 +56,14 @@
 </template>
 
 <script setup>
-// import MasterLayout from '@/Layouts/MasterLayout.vue'
-// import MainBanners from './../Components/Banners.vue';
+import MasterLayout from '@/Layouts/MasterLayout.vue'
+import MainBanners from './../Components/Banners.vue';
 import ProductsList from './ProductsList.vue';
 import Categories from './../Components/Categories.vue';
-// import Content from '../Components/Content.vue';
-// import Advantages from './../Components/Advantages.vue';
-// import AllReviewsCarousel from './../Components/AllReviewsCarousel.vue';
-// import FaqComponent from './../Components/FaqComponent.vue';
-// import Support from './../Components/Support.vue';
+
 import {isLoading} from "@/Pages/Public/load";
 import {defineAsyncComponent, onMounted, ref} from "vue";
 
-const MasterLayout = defineAsyncComponent(() => import('@/Layouts/MasterLayout.vue'));
-const MainBanners = defineAsyncComponent(() => import('../Components/Banners.vue'));
-// const Categories = defineAsyncComponent(() => import('../Components/Categories.vue'));
-// const ProductsList = defineAsyncComponent(() => import('./ProductsList.vue'));
 const Content = defineAsyncComponent(() => import('../Components/Content.vue'));
 const Advantages = defineAsyncComponent(() => import('../Components/Advantages.vue'));
 const AllReviewsCarousel = defineAsyncComponent(() => import('../Components/AllReviewsCarousel.vue'));

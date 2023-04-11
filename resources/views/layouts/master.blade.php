@@ -30,6 +30,16 @@
 </head>
 <body class="h-full">
 {{--{!! $options['after_body_scripts'] !!}--}}
+<div class="loader">
+    <div class="fixed inset-0 z-50 flex items-center justify-center backdrop-filter backdrop-blur-md">
+        <div class="lds-ellipsis inline-block relative w-[80px] h-[80px]">
+            <div class="absolute top-[33px] w-[13px] h-[13px] rounded-[50%] bg-[#ff0000]"></div>
+            <div class="absolute top-[33px] w-[13px] h-[13px] rounded-[50%] bg-[#ff0000]"></div>
+            <div class="absolute top-[33px] w-[13px] h-[13px] rounded-[50%] bg-[#ff0000]"></div>
+            <div class="absolute top-[33px] w-[13px] h-[13px] rounded-[50%] bg-[#ff0000]"></div>
+        </div>
+    </div>
+</div>
 <div class="h-full flex flex-col">
     @inertia
     {{--    <master-layout>--}}
@@ -49,11 +59,11 @@
     {{--                app-viber="{{$options['viber']}}"--}}
     {{--            ></header-component>--}}
     {{--        </header>--}}
-{{--            <main class="main flex-[1_0_auto]">--}}
-{{--                <div class="max-w-7xl mx-auto pt-36 md:pt-40 px-3 h-full">--}}
-{{--                    @yield('content')--}}
-{{--                </div>--}}
-{{--            </main>--}}
+    {{--            <main class="main flex-[1_0_auto]">--}}
+    {{--                <div class="max-w-7xl mx-auto pt-36 md:pt-40 px-3 h-full">--}}
+    {{--                    @yield('content')--}}
+    {{--                </div>--}}
+    {{--            </main>--}}
     {{--        <footer-component lang="{{app()->getLocale()}}"--}}
     {{--                          options="{{json_encode($options,JSON_THROW_ON_ERROR)}}"--}}
     {{--                          pages="{{json_encode($pages,JSON_THROW_ON_ERROR)}}"--}}
@@ -64,6 +74,14 @@
     {{--        <scroll-to-top></scroll-to-top>--}}
     {{--    </master-layout>--}}
 </div>
+{{--<script>--}}
+{{--    const loader = document.querySelector('.loader');--}}
+
+{{--    window.addEventListener("DOMContentLoaded", () => {--}}
+{{--        loader.classList.add('hidden');--}}
+{{--    });--}}
+
+{{--</script>--}}
 @routes
 @vite('resources/js/Pages/Public/app.js')
 {{--@if(env('APP_ENV') !== 'local')--}}
