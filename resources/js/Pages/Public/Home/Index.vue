@@ -6,32 +6,38 @@
                   :eventIdPageView="eventIdPageView"
     >
         <div class="grid grid-cols-1 gap-4">
-            <MainBanners :data="banners" :lang="lang"/>
+            <MainBanners v-if="banners.length" :data="banners" :lang="lang"/>
 
             <Categories v-if="categories.length" :data="categories" :lang="lang"/>
 
-            <BestSelling :lang="lang"
-                         :data="stateBestSellingProducts.data"
-                         :isLoadMore="stateBestSellingProducts.isLoadMore"
-                         :isShowLoadMore="stateBestSellingProducts.isShowLoadMore"
-                         @fetch="fetchBestSellingProducts"
-                         v-if="stateBestSellingProducts.data.length"
+            <ProductsList :slider="true"
+                          :lang="lang"
+                          :data="stateBestSellingProducts.data"
+                          :isLoadMore="stateBestSellingProducts.isLoadMore"
+                          :isShowLoadMore="stateBestSellingProducts.isShowLoadMore"
+                          @fetch="fetchBestSellingProducts"
+                          v-if="stateBestSellingProducts.data.length"
+                          heading="Найпопулярніші"
             />
 
-            <NewProducts :lang="lang"
-                         :data="stateNewProducts.data"
-                         :isLoadMore="stateNewProducts.isLoadMore"
-                         :isShowLoadMore="stateNewProducts.isShowLoadMore"
-                         @fetch="fetchNewProducts"
-                         v-if="stateNewProducts.data.length"
+            <ProductsList :slider="true"
+                          :lang="lang"
+                          :data="stateNewProducts.data"
+                          :isLoadMore="stateNewProducts.isLoadMore"
+                          :isShowLoadMore="stateNewProducts.isShowLoadMore"
+                          @fetch="fetchNewProducts"
+                          v-if="stateNewProducts.data.length"
+                          heading="Останні надходження"
             />
 
-            <AllProducts :lang="lang"
-                         :data="stateAllProducts.data"
-                         :isLoadMore="stateAllProducts.isLoadMore"
-                         :isShowLoadMore="stateAllProducts.isShowLoadMore"
-                         @fetch="fetchAllProducts"
-                         v-if="stateAllProducts.data.length"
+            <ProductsList :slider="true"
+                          :lang="lang"
+                          :data="stateAllProducts.data"
+                          :isLoadMore="stateAllProducts.isLoadMore"
+                          :isShowLoadMore="stateAllProducts.isShowLoadMore"
+                          @fetch="fetchAllProducts"
+                          v-if="stateAllProducts.data.length"
+                          heading="Усі товари"
             />
 
             <Advantages v-if="advantages.length" :lang="lang" :data="advantages"/>
@@ -50,25 +56,27 @@
 </template>
 
 <script setup>
-import MasterLayout from '@/Layouts/MasterLayout.vue'
-import {isLoading} from "@/Pages/Public/load";
-import {getCurrentInstance, onMounted, ref, watch,reactive} from "vue";
-import AllProducts from './AllProducts.vue';
-import BestSelling from './BestSelling.vue';
-import NewProducts from './NewProducts.vue';
-import Content from '../Components/Content.vue';
-import Advantages from './../Components/Advantages.vue';
-import AllReviewsCarousel from './../Components/AllReviewsCarousel.vue';
-import FaqComponent from './../Components/FaqComponent.vue';
-import Support from './../Components/Support.vue';
+// import MasterLayout from '@/Layouts/MasterLayout.vue'
+// import MainBanners from './../Components/Banners.vue';
+import ProductsList from './ProductsList.vue';
 import Categories from './../Components/Categories.vue';
-import MainBanners from './../Components/Banners.vue';
-import useEventTracking from '@/Includes/eventTracking.js'
+// import Content from '../Components/Content.vue';
+// import Advantages from './../Components/Advantages.vue';
+// import AllReviewsCarousel from './../Components/AllReviewsCarousel.vue';
+// import FaqComponent from './../Components/FaqComponent.vue';
+// import Support from './../Components/Support.vue';
+import {isLoading} from "@/Pages/Public/load";
+import {defineAsyncComponent, onMounted, ref} from "vue";
 
-// const {setEventIdPageView} = useEventTracking()
-
-const {appContext} = getCurrentInstance()
-const {$fbq} = appContext.config.globalProperties
+const MasterLayout = defineAsyncComponent(() => import('@/Layouts/MasterLayout.vue'));
+const MainBanners = defineAsyncComponent(() => import('../Components/Banners.vue'));
+// const Categories = defineAsyncComponent(() => import('../Components/Categories.vue'));
+// const ProductsList = defineAsyncComponent(() => import('./ProductsList.vue'));
+const Content = defineAsyncComponent(() => import('../Components/Content.vue'));
+const Advantages = defineAsyncComponent(() => import('../Components/Advantages.vue'));
+const AllReviewsCarousel = defineAsyncComponent(() => import('../Components/AllReviewsCarousel.vue'));
+const FaqComponent = defineAsyncComponent(() => import('../Components/FaqComponent.vue'));
+const Support = defineAsyncComponent(() => import('../Components/Support.vue'));
 
 const props = defineProps([
     'lang',

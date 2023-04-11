@@ -33,12 +33,10 @@
                 <div v-if="!slider">
                     <a :href="route('product',product.id)">
                         <picture>
-                            <source v-lazy
-                                    :data-src="route('images.350',product.preview.webp_src)"
+                            <source :srcset="route('images.350',product.preview.webp_src)"
                                     v-if="route('images.350',product.preview.webp_src)"
                                     type="image/webp">
-                            <img v-lazy
-                                 :data-src="route('images.350',product.preview.src)"
+                            <img :src="route('images.350',product.preview.src)"
                                  :alt="lang === 'ru' ? product.h1.ru : (lang === 'ua' ? product.h1.ua : null)"
                                  class="h-full object-cover w-full rounded-t-lg  h-56 md:h-72 "
                             >
@@ -175,13 +173,12 @@
 </template>
 
 <script setup>
-import {computed, getCurrentInstance, inject, ref} from "vue";
+import {computed, getCurrentInstance, defineAsyncComponent, ref} from "vue";
 import {useStore} from "vuex";
 import {useGtm} from "@gtm-support/vue-gtm";
-import vLazy from '@/Includes/lazyload.js'
 import {Swiper, SwiperSlide} from 'swiper/vue';
 import {Lazy, Navigation} from "swiper";
-import {Link} from "@inertiajs/inertia-vue3";
+import {swal} from '@/Includes/swal';
 
 const {appContext} = getCurrentInstance()
 const {$fbq} = appContext.config.globalProperties
@@ -212,7 +209,7 @@ const settings = {
 };
 
 const store = useStore();
-const swal = inject('$swal');
+// const swal = inject('$swal');
 const gtm = useGtm();
 const item = ref({
     count: 1,
@@ -231,11 +228,11 @@ function uuidv4() {
     );
 }
 
-function addToCard(id) {
+const addToCard = async (id) => {
     item.value.item_id = id;
     item.value.event_id = uuidv4() + '_AddToCard' + '_' + new Date().getTime();
-    axios.post(route('api.v1.cart.add', item.value))
-        .then(() => {
+    await axios.post(route('api.v1.cart.add', item.value))
+        .then(async () => {
             store.commit('loadCart');
             if (import.meta.env.MODE === 'production') {
                 try {
@@ -266,7 +263,7 @@ function addToCard(id) {
                     console.log(e);
                 }
             }
-            swal({
+            await swal({
                 icon: 'success',
                 title: 'Товар додано до вашого кошика!',
                 text: 'Ви можете оформити замовлення або продовжити покупки :)',
@@ -281,8 +278,8 @@ function addToCard(id) {
             })
 
         })
-        .catch(() => {
-            swal({
+        .catch(async () => {
+            await swal({
                 icon: 'error',
                 title: 'Виникла помилка',
                 text: 'Перевірте корректність данних'

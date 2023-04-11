@@ -37,6 +37,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class Banner extends Model
 {
+    protected $fillable = [
+        'title',
+        'link',
+        'image_mobile',
+        'image_table',
+        'image_desktop',
+        'published',
+    ];
+
     protected $casts = [
         'title' => 'array',
         'link' => 'array',
@@ -45,7 +54,7 @@ class Banner extends Model
         'image_desktop' => 'array',
     ];
 
-    public function categories(): BelongsToMany
+    final public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class, 'category_banners', 'banner_id', 'category_id');
     }

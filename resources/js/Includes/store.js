@@ -10,8 +10,8 @@ let store = createStore({
         price_without_discount: 0,
     },
     mutations: {
-        loadCart(state) {
-            axios.get('/api/v1/cart/list')
+        async loadCart(state) {
+            await axios.get('/api/v1/cart/list')
                 .then(function ({data}) {
                     state.list = data.result.list;
                     state.totalCount = data.result.totalCount;

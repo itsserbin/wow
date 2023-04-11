@@ -5,6 +5,8 @@
                   :pages="pages"
                   :eventIdPageView="eventIdPageView"
     >
+        <Breadcrumbs :options="options" :lang="lang" title="Підтримка"/>
+
         <div class="max-w-xl mx-auto">
             <Form :item="state.item"
                   @submitForm="submitForm"
@@ -16,9 +18,12 @@
 
 <script setup>
 import MasterLayout from '@/Layouts/MasterLayout.vue'
-import {getCurrentInstance, inject, onMounted, ref} from "vue";
 import Form from '@/Pages/Public/Support/Form.vue';
+import Breadcrumbs from '@/Pages/Public/Support/Breadcrumbs.vue';
+
+import {getCurrentInstance, onMounted, ref} from "vue";
 import {isLoading} from "@/Pages/Public/load";
+import {swal} from '@/Includes/swal';
 
 const {appContext} = getCurrentInstance()
 const {$fbq} = appContext.config.globalProperties
@@ -30,8 +35,6 @@ defineProps([
     'lang',
     'pages',
 ])
-
-const swal = inject('$swal');
 
 const state = ref({
     isLoading: false,

@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Banner as Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
+use Psr\SimpleCache\InvalidArgumentException;
 
 class BannersRepository extends CoreRepository
 {
@@ -39,9 +40,9 @@ class BannersRepository extends CoreRepository
     /**
      * @return mixed
      */
-    public function getForPublic(string $slug = null)
+    final public function getForPublic(string $slug = null)
     {
-        $cacheKey = 'banners_paginate_' . $slug;
+        $cacheKey = 'banners_public_' . $slug;
         return Cache::remember($cacheKey, 60 * 60, function () use ($slug) {
             $columns = [
                 'id',
@@ -66,27 +67,6 @@ class BannersRepository extends CoreRepository
         });
     }
 
-//    final public function getForPublicByCategory(string $slug)
-//    {
-//        $columns = [
-//            'id',
-//            'title',
-//            'image_mobile',
-//            'image_table',
-//            'image_desktop',
-//            'sort',
-//            'link'
-//        ];
-//
-//        return $this
-//            ->model::select($columns)
-//            ->whereHas('categories', function ($q) use ($slug) {
-//                $q->where('slug', $slug);
-//            })
-//            ->where('published', 1)
-//            ->orderBy('sort', 'desc')
-//            ->get();
-//    }
     final public function getForPublicByCategory(string $slug): array
     {
         $cacheKey = 'banners_by_category_' . $slug;
@@ -116,22 +96,23 @@ class BannersRepository extends CoreRepository
      * @param array $data
      * @return mixed
      */
-    public function create(array $data)
+    final public function create(array $data): \Illuminate\Database\Eloquent\Model
     {
         $model = new $this->model;
-        $model->title = $data['title'];
-        $model->link = $data['link'];
-        $model->image_mobile = $data['image_mobile'];
-        $model->image_table = $data['image_table'];
-        $model->image_desktop = $data['image_desktop'];
-        $model->published = $data['published'];
+        $model->fill($data);
         $model->save();
 
-        $categories = [];
-        foreach ($data['categories'] as $category) {
-            array_push($categories, $category['id']);
-        }
+        $categories = array_column($data['categories'], 'id');
         $model->categories()->sync($categories);
+
+
+        if (count($data['categories'])) {
+            foreach ($data['categories'] as $category) {
+                Cache::forget('banners_public_' . $category['slug']);
+            }
+        }
+        Cache::forget('banners_public_');
+
         return $model;
     }
 
@@ -142,7 +123,7 @@ class BannersRepository extends CoreRepository
      * @param array $data
      * @return mixed
      */
-    public function update(int $id, array $data)
+    final public function update(int $id, array $data): \Illuminate\Database\Eloquent\Model
     {
         $model = $this->getById($id);
         $model->title = $data['title'];
@@ -153,20 +134,36 @@ class BannersRepository extends CoreRepository
         $model->published = $data['published'];
         $model->update();
 
-        $categories = [];
-        foreach ($data['categories'] as $category) {
-            array_push($categories, $category['id']);
-        }
+        $categories = array_column($data['categories'], 'id');
         $model->categories()->sync($categories);
+
+        if (!empty($model->categories)) {
+            foreach ($model->categories as $category) {
+                Cache::forget('banners_public_' . $category['slug']);
+            }
+        }
+
+        Cache::forget('banners_public_');
+
         return $model;
     }
 
     /**
      * @param int $id
-     * @return int
+     * @return bool
      */
-    public function destroy(int $id)
+    final public function destroy(int $id): bool
     {
+        $model = $this->model::where('id', $id)->first();
+
+        if (!empty($model->categories)) {
+            foreach ($model->categories as $category) {
+                Cache::forget('banners_public_' . $category['slug']);
+            }
+        }
+
+        Cache::forget('banners_public_');
+
         return $this->model::destroy($id);
     }
 

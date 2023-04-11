@@ -3,8 +3,7 @@
         <a :href="cardLink">
             <picture>
                 <source :srcset="imageRoute(image.webp_src)" type="image/webp">
-                <img v-lazy
-                     :data-src="imageRoute(image.src)"
+                <img :src="imageRoute(image.src)"
                      :alt="alt ? alt : null"
                      class="rounded-lg mx-auto  h-full object-cover"
                 >
@@ -24,7 +23,7 @@
 <script setup>
 import {computed} from "vue";
 import XCircle from '@/Components/Icons/XCircle.vue';
-import vLazy from "@/Includes/lazyload.js";
+// import vLazy from "@/Includes/lazyload.js";
 
 const props = defineProps([
     'image',

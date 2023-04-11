@@ -50,8 +50,7 @@
                         >
                             <picture>
                                 <source :srcset="route('images.350',image.webp_src)" type="image/webp">
-                                <img v-lazy
-                                     :data-src="route('images.350',image.src)"
+                                <img :src="route('images.350',image.src)"
                                      class="rounded-lg mx-auto  h-full object-cover"
                                 >
                             </picture>
@@ -78,7 +77,7 @@
 
 <script setup>
 import {onMounted, ref} from "vue";
-import vLazy from "@/Includes/lazyload.js";
+// import vLazy from "@/Includes/lazyload.js";
 import UploadImagesModal from '@/Components/UploadImagesModal.vue';
 
 const props = defineProps({
