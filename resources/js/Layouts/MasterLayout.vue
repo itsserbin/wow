@@ -32,7 +32,6 @@ const props = defineProps([
 onMounted(() => {
     if (import.meta.env.MODE === 'production') {
         try {
-            console.log(props.eventIdPageView);
             $fbq('PageView', {}, props.eventIdPageView);
         } catch (e) {
             console.error(e);
