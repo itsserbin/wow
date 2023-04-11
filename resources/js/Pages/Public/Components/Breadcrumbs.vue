@@ -3,7 +3,7 @@
         <ol class="inline-flex items-center overflow-x-scroll whitespace-nowrap w-full breadcrumbs font-subheading text-sm">
             <li v-for="(breadcrumb, index) in breadcrumbs" :key="index" :class="{ '!ml-0': index === 0 }">
                 <template v-if="breadcrumb.url && !isLastBreadcrumb(index)">
-                    <Link :href="breadcrumb.url"
+                    <a :href="breadcrumb.url"
                        class="
                                 inline-flex
                                 items-center
@@ -18,7 +18,7 @@
                                   d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                                   clip-rule="evenodd"></path>
                         </svg>
-                    </Link>
+                    </a>
                 </template>
                 <template v-else>
                     <div class="flex items-center">

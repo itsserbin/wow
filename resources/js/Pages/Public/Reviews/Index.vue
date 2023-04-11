@@ -34,7 +34,7 @@ import {isLoading} from "@/Pages/Public/load";
 const {appContext} = getCurrentInstance()
 const {$fbq} = appContext.config.globalProperties
 
-defineProps({
+const props = defineProps({
     lang: String,
     categories: Array,
     options: Object,

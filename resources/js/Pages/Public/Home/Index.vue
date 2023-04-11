@@ -111,15 +111,6 @@ const stateBestSellingProducts = ref({
 });
 
 onMounted(() => {
-    // $fbq('PageView', {}, eventIdPageView.value);
-
-    // if (import.meta.env.MODE === 'production') {
-    //     try {
-    //         useEventTracking(props.eventIdPageView)
-    //     } catch (e) {
-    //         console.error(e);
-    //     }
-    // }
     if (props.bestSellingProducts) {
         stateBestSellingProducts.value.data = props.bestSellingProducts.data;
         if (props.bestSellingProducts.current_page !== props.bestSellingProducts.per_page) {

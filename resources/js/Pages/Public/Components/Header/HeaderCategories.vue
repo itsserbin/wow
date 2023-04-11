@@ -3,9 +3,9 @@
         <Swiper class="header-categories" v-bind="settings" :modules="modules">
             <SwiperSlide v-for="category in categories">
                 <li class="text-center py-2">
-                    <Link :href="route('category',category.slug)" class="font-bold text-sm whitespace-nowrap">
+                    <a :href="route('category',category.slug)" class="font-bold text-sm whitespace-nowrap">
                         {{ title(category.title) }}
-                    </Link>
+                    </a>
                 </li>
             </SwiperSlide>
         </Swiper>

@@ -24,15 +24,14 @@ use Illuminate\Support\Facades\Storage;
 |
 */
 
-Route::group([
-    'prefix' => App\Http\Middleware\LocaleMiddleware::getLocale(),
-], static function () {
-    Route::get('category/penyuary i pizhamy', function () {
+Route::group(['prefix' => App\Http\Middleware\LocaleMiddleware::getLocale(),], static function () {
+
+    Route::get('category/penyuary i pizhamy', static function () {
         return redirect(route('category', 'penyuary-i-pizhamy'), 301);
     });
 
     Route::get('/', [HomeController::class, 'home'])
-        ->name('home')->middleware(\App\Http\Middleware\DisableInertiaCache::class);
+        ->name('home');
 
     Route::get('category/{slug?}', [HomeController::class, 'category'])
         ->name('category');
