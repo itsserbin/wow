@@ -111,7 +111,7 @@ const stateBestSellingProducts = ref({
 });
 
 onMounted(() => {
-    $fbq('PageView', {}, eventIdPageView.value);
+    // $fbq('PageView', {}, eventIdPageView.value);
 
     // if (import.meta.env.MODE === 'production') {
     //     try {

@@ -26,6 +26,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\LocaleMiddleware::class,
         \App\Http\Middleware\SecuredHttp::class,
+        \App\Http\Middleware\DisableInertiaCache::class,
 //        \App\Http\Middleware\RedirectToNonWwwMiddleware::class,
     ];
 

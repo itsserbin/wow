@@ -32,7 +32,7 @@ Route::group([
     });
 
     Route::get('/', [HomeController::class, 'home'])
-        ->name('home');
+        ->name('home')->middleware(\App\Http\Middleware\DisableInertiaCache::class);
 
     Route::get('category/{slug?}', [HomeController::class, 'category'])
         ->name('category');
