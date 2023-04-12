@@ -33,6 +33,8 @@
 import {getCurrentInstance, inject, ref} from "vue";
 import {useGtm} from "@gtm-support/vue-gtm";
 import {useStore} from "vuex";
+import {maska as vMaska} from 'maska'
+
 import Modal from '@/Pages/Public/Components/Modal.vue';
 import Input from '@/Pages/Public/Components/Input.vue';
 import InputError from '@/Components/Form/InputError.vue';

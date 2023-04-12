@@ -7,15 +7,15 @@ export default defineConfig({
     build: {
         rollupOptions: {
             output: {
-                manualChunks(id) {
-                    // Перевірте, чи файл містить певний паттерн, наприклад 'node_modules'
-                    if (id.includes('node_modules')) {
-                        // Розділіть всі модулі з папки 'node_modules' в окрему частину коду
-                        return 'vendors';
-                    }
-                }
-            }
-        }
+                manualChunks: {
+                    vendor: ['vue', 'lodash', 'moment'],
+                    chart: ['chart.js', 'vue-chartjs'],
+                    swiper: ['swiper'],
+                    bootstrap: ['bootstrap'],
+                    tailwindcss: ['tailwindcss'],
+                },
+            },
+        },
     },
     plugins: [
         chunkSplitPlugin(),
