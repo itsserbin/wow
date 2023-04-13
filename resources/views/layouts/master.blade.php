@@ -85,7 +85,7 @@
 @routes
 @vite('resources/js/Pages/Public/app.js')
 {{--@if(env('APP_ENV') !== 'local')--}}
-<script async>
+<script>
     !function (f, b, e, v, n, t, s) {
         if (f.fbq) return;
         n = f.fbq = function () {

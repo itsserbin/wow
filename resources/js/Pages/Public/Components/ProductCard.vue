@@ -179,7 +179,7 @@ import {useGtm} from "@gtm-support/vue-gtm";
 import {Swiper, SwiperSlide} from 'swiper/vue';
 import {Lazy, Navigation} from "swiper";
 import {swal} from '@/Includes/swal';
-
+import {Link} from "@inertiajs/inertia-vue3";
 // const {appContext} = getCurrentInstance()
 // const {$fbq} = appContext.config.globalProperties
 
