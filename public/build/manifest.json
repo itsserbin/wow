@@ -1,6 +1,6 @@
 {
   "resources/js/Pages/Public/app.js": {
-    "file": "assets/app.f46bc912.js",
+    "file": "assets/app.db1e50a4.js",
     "src": "resources/js/Pages/Public/app.js",
     "isEntry": true,
     "imports": [
@@ -3796,13 +3796,9 @@
     "file": "assets/app.78fb3e87.css",
     "src": "resources/js/Pages/Admin/app.css"
   },
-  "resources/js/Pages/Public/Category/Filter.css": {
-    "file": "assets/Filter.97dcd071.css",
-    "src": "resources/js/Pages/Public/Category/Filter.css"
-  },
-  "resources/js/Pages/Public/Product/Reviews.css": {
-    "file": "assets/Reviews.60cf9382.css",
-    "src": "resources/js/Pages/Public/Product/Reviews.css"
+  "resources/js/Pages/Public/Product/ImagesSlider.css": {
+    "file": "assets/ImagesSlider.5f299acb.css",
+    "src": "resources/js/Pages/Public/Product/ImagesSlider.css"
   },
   "resources/js/Pages/Public/Product/DeliveryAndPayment.css": {
     "file": "assets/DeliveryAndPayment.5d080064.css",
@@ -3812,21 +3808,25 @@
     "file": "assets/AllReviewsCarousel.f247a4ef.css",
     "src": "resources/js/Pages/Public/Components/AllReviewsCarousel.css"
   },
-  "resources/js/Pages/Public/Product/ImagesSlider.css": {
-    "file": "assets/ImagesSlider.5f299acb.css",
-    "src": "resources/js/Pages/Public/Product/ImagesSlider.css"
+  "resources/js/Pages/Public/Components/Header/HeaderCategories.css": {
+    "file": "assets/HeaderCategories.acefede3.css",
+    "src": "resources/js/Pages/Public/Components/Header/HeaderCategories.css"
   },
-  "resources/js/Pages/Public/Product/RelativeProducts.css": {
-    "file": "assets/RelativeProducts.be199d35.css",
-    "src": "resources/js/Pages/Public/Product/RelativeProducts.css"
+  "resources/js/Pages/Public/Category/Filter.css": {
+    "file": "assets/Filter.97dcd071.css",
+    "src": "resources/js/Pages/Public/Category/Filter.css"
   },
   "resources/js/Pages/Public/Components/ProductCard.css": {
     "file": "assets/ProductCard.bb145d2b.css",
     "src": "resources/js/Pages/Public/Components/ProductCard.css"
   },
-  "resources/js/Pages/Public/Components/Header/HeaderCategories.css": {
-    "file": "assets/HeaderCategories.acefede3.css",
-    "src": "resources/js/Pages/Public/Components/Header/HeaderCategories.css"
+  "resources/js/Pages/Public/Product/Reviews.css": {
+    "file": "assets/Reviews.60cf9382.css",
+    "src": "resources/js/Pages/Public/Product/Reviews.css"
+  },
+  "resources/js/Pages/Public/Product/RelativeProducts.css": {
+    "file": "assets/RelativeProducts.be199d35.css",
+    "src": "resources/js/Pages/Public/Product/RelativeProducts.css"
   },
   "resources/scss/app.scss": {
     "file": "assets/app.6ebd8619.css",

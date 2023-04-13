@@ -55,9 +55,9 @@ createInertiaApp({
 
         app.provide('$defaultLang', 'ua');
 
-        if (import.meta.env.MODE === 'production') {
-            app.use(FacebookPixel, {pixelId: import.meta.env.VITE_FB_PIXEL_ID})
-        }
+        // if (import.meta.env.MODE === 'production') {
+        //     app.use(FacebookPixel, {pixelId: import.meta.env.VITE_FB_PIXEL_ID})
+        // }
 
         app.mount(el)
     },
