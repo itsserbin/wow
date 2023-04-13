@@ -1,6 +1,6 @@
 {
   "resources/js/Pages/Public/app.js": {
-    "file": "assets/app.a189ba10.js",
+    "file": "assets/app.34a0795b.js",
     "src": "resources/js/Pages/Public/app.js",
     "isEntry": true,
     "imports": [
@@ -3792,17 +3792,17 @@
       "___commonjsHelpers__.488ed5c2.js"
     ]
   },
-  "resources/js/Pages/Admin/app.css": {
-    "file": "assets/app.78fb3e87.css",
-    "src": "resources/js/Pages/Admin/app.css"
+  "resources/js/Pages/Public/Product/RelativeProducts.css": {
+    "file": "assets/RelativeProducts.be199d35.css",
+    "src": "resources/js/Pages/Public/Product/RelativeProducts.css"
+  },
+  "resources/js/Pages/Public/Product/DeliveryAndPayment.css": {
+    "file": "assets/DeliveryAndPayment.5d080064.css",
+    "src": "resources/js/Pages/Public/Product/DeliveryAndPayment.css"
   },
   "resources/js/Pages/Public/Category/Filter.css": {
     "file": "assets/Filter.97dcd071.css",
     "src": "resources/js/Pages/Public/Category/Filter.css"
-  },
-  "resources/js/Pages/Public/Components/Header/HeaderCategories.css": {
-    "file": "assets/HeaderCategories.acefede3.css",
-    "src": "resources/js/Pages/Public/Components/Header/HeaderCategories.css"
   },
   "resources/js/Pages/Public/Components/AllReviewsCarousel.css": {
     "file": "assets/AllReviewsCarousel.f247a4ef.css",
@@ -3812,30 +3812,30 @@
     "file": "assets/ProductCard.bb145d2b.css",
     "src": "resources/js/Pages/Public/Components/ProductCard.css"
   },
+  "resources/js/Pages/Public/Components/Header/HeaderCategories.css": {
+    "file": "assets/HeaderCategories.acefede3.css",
+    "src": "resources/js/Pages/Public/Components/Header/HeaderCategories.css"
+  },
+  "resources/js/Pages/Admin/app.css": {
+    "file": "assets/app.78fb3e87.css",
+    "src": "resources/js/Pages/Admin/app.css"
+  },
   "resources/js/Pages/Public/Product/ImagesSlider.css": {
     "file": "assets/ImagesSlider.5f299acb.css",
     "src": "resources/js/Pages/Public/Product/ImagesSlider.css"
-  },
-  "resources/js/Pages/Public/Product/DeliveryAndPayment.css": {
-    "file": "assets/DeliveryAndPayment.5d080064.css",
-    "src": "resources/js/Pages/Public/Product/DeliveryAndPayment.css"
   },
   "resources/js/Pages/Public/Product/Reviews.css": {
     "file": "assets/Reviews.60cf9382.css",
     "src": "resources/js/Pages/Public/Product/Reviews.css"
   },
-  "resources/js/Pages/Public/Product/RelativeProducts.css": {
-    "file": "assets/RelativeProducts.be199d35.css",
-    "src": "resources/js/Pages/Public/Product/RelativeProducts.css"
+  "resources/scss/public.scss": {
+    "file": "assets/public.d23baf1e.css",
+    "src": "resources/scss/public.scss",
+    "isEntry": true
   },
   "resources/scss/app.scss": {
     "file": "assets/app.6ebd8619.css",
     "src": "resources/scss/app.scss",
-    "isEntry": true
-  },
-  "resources/scss/public.scss": {
-    "file": "assets/public.d23baf1e.css",
-    "src": "resources/scss/public.scss",
     "isEntry": true
   }
 }

@@ -23,7 +23,7 @@ class DisablePageCache
             $response->headers->set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
         }
 
-        if (strpos($request->url(), 'facebookb-pixel.js') !== false) {
+        if (strpos($request->url(), 'facebook-pixel.js') !== false) {
             $response->header('Cache-Control', 'no-cache, no-store, must-revalidate');
             $response->header('Pragma', 'no-cache');
             $response->header('Expires', '0');
