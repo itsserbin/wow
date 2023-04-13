@@ -56,10 +56,10 @@ class FacebookService
                         ->setActionSource(ActionSource::WEBSITE);
 
                     $events = array();
-                    array_push($events, $event);
+                    $events[] = $event;
 
                     $request = (new EventRequest($this->pixel_id))
-                        // ->setTestEventCode('TEST11911')
+                         ->setTestEventCode('TEST67602')
                         ->setEvents($events);
 
                     return $request->execute();
@@ -123,10 +123,10 @@ class FacebookService
                         ->setActionSource(ActionSource::WEBSITE);
 
                     $events = array();
-                    array_push($events, $event);
+                    $events[] = $event;
 
                     $request = (new EventRequest($this->pixel_id))
-                        // ->setTestEventCode('TEST11911')
+                         ->setTestEventCode('TEST67602')
                         ->setEvents($events);
 
                     return $request->execute();
@@ -189,10 +189,10 @@ class FacebookService
                         ->setActionSource(ActionSource::WEBSITE);
 
                     $events = array();
-                    array_push($events, $event);
+                    $events[] = $event;
 
                     $request = (new EventRequest($this->pixel_id))
-                        // ->setTestEventCode('TEST11911')
+                         ->setTestEventCode('TEST67602')
                         ->setEvents($events);
 
                     return $request->execute();
@@ -231,14 +231,14 @@ class FacebookService
 
 
                     foreach ($list['list'] as $listItem) {
-                        array_push($content, (new Content())
+                        $content[] = (new Content())
                             ->setProductId($listItem['id'])
                             ->setItemPrice($listItem['discount_price'] ?: $listItem['price'])
                             ->setTitle($listItem['name']['ua'] ?: $listItem['name']['ru'])
                             ->setCategory($listItem['category']['ua'] ?: $listItem['category']['ru'])
                             ->setBrand(env('APP_NAME'))
                             ->setQuantity(1)
-                            ->setDeliveryCategory(DeliveryCategory::HOME_DELIVERY));
+                            ->setDeliveryCategory(DeliveryCategory::HOME_DELIVERY);
                     }
 
                     $custom_data = (new CustomData())
@@ -260,10 +260,10 @@ class FacebookService
                         ->setActionSource(ActionSource::WEBSITE);
 
                     $events = array();
-                    array_push($events, $event);
+                    $events[] = $event;
 
                     $request = (new EventRequest($this->pixel_id))
-                        // ->setTestEventCode('TEST11911')
+                         ->setTestEventCode('TEST67602')
                         ->setEvents($events);
 
                     return $request->execute();
@@ -303,14 +303,14 @@ class FacebookService
                     $content = [];
 
                     foreach ($list as $listItem) {
-                        array_push($content, (new Content())
+                        $content[] = (new Content())
                             ->setProductId($listItem['product_id'])
                             ->setItemPrice($listItem->product->discount_price ?: $listItem->product->price)
                             ->setTitle($listItem->product->h1['ua'] ?: $listItem->product->h1['ru'])
                             ->setCategory(count($listItem->product->categories) ? $listItem->product->categories[0]->title['ua'] : 'Без категорії')
                             ->setBrand(env('APP_NAME'))
                             ->setQuantity($listItem->count)
-                            ->setDeliveryCategory(DeliveryCategory::HOME_DELIVERY));
+                            ->setDeliveryCategory(DeliveryCategory::HOME_DELIVERY);
                     }
 
                     $custom_data = (new CustomData())
@@ -332,10 +332,10 @@ class FacebookService
                         ->setActionSource(ActionSource::WEBSITE);
 
                     $events = array();
-                    array_push($events, $event);
+                    $events[] = $event;
 
                     $request = (new EventRequest($this->pixel_id))
-                        // ->setTestEventCode('TEST11911')
+                         ->setTestEventCode('TEST67602')
                         ->setEvents($events);
 
                     return $request->execute();
@@ -351,7 +351,7 @@ class FacebookService
     public function getIpData($ip)
     {
         $query = @unserialize(file_get_contents('http://ip-api.com/php/' . $ip));
-        if ($query && $query['status'] == 'success') {
+        if ($query && $query['status'] === 'success') {
             return [
                 'countryCode' => $query['countryCode'],
                 'city' => $query['city']
