@@ -45,8 +45,8 @@ import {isLoading} from "@/Pages/Public/load";
 import MasterLayout from '@/Layouts/MasterLayout.vue'
 import {swal} from '@/Includes/swal';
 
-const {appContext} = getCurrentInstance()
-const {$fbq} = appContext.config.globalProperties
+// const {appContext} = getCurrentInstance()
+// const {$fbq} = appContext.config.globalProperties
 
 const props = defineProps({
     categories: Array,
@@ -118,13 +118,13 @@ onMounted(async () => {
 
     isLoading.value = false;
 
-    if (import.meta.env.MODE === 'production') {
-        try {
-            $fbq('PageView', {}, props.eventIdPageView);
-        } catch (e) {
-            console.error(e);
-        }
-    }
+    // if (import.meta.env.MODE === 'production') {
+    //     try {
+    //         $fbq('PageView', {}, props.eventIdPageView);
+    //     } catch (e) {
+    //         console.error(e);
+    //     }
+    // }
 });
 
 function addItemToOrder(id, price) {

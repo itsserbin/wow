@@ -23,8 +23,8 @@ import Breadcrumbs from './Breadcrumbs.vue'
 import {isLoading} from "@/Pages/Public/load";
 import {getCurrentInstance, onMounted} from "vue";
 
-const {appContext} = getCurrentInstance()
-const {$fbq} = appContext.config.globalProperties
+// const {appContext} = getCurrentInstance()
+// const {$fbq} = appContext.config.globalProperties
 
 const props = defineProps([
     'page',
@@ -37,12 +37,12 @@ const props = defineProps([
 
 onMounted(() => {
     isLoading.value = false;
-    if (import.meta.env.MODE === 'production') {
-        try {
-            $fbq('PageView', {}, props.eventIdPageView);
-        } catch (e) {
-            console.error(e);
-        }
-    }
+    // if (import.meta.env.MODE === 'production') {
+    //     try {
+    //         $fbq('PageView', {}, props.eventIdPageView);
+    //     } catch (e) {
+    //         console.error(e);
+    //     }
+    // }
 })
 </script>

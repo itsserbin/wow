@@ -180,8 +180,8 @@ import {Swiper, SwiperSlide} from 'swiper/vue';
 import {Lazy, Navigation} from "swiper";
 import {swal} from '@/Includes/swal';
 
-const {appContext} = getCurrentInstance()
-const {$fbq} = appContext.config.globalProperties
+// const {appContext} = getCurrentInstance()
+// const {$fbq} = appContext.config.globalProperties
 
 const props = defineProps({
     product: Object,
@@ -236,7 +236,7 @@ const addToCard = async (id) => {
             store.commit('loadCart');
             if (import.meta.env.MODE === 'production') {
                 try {
-                    $fbq(
+                    fbq('track',
                         'AddToCart',
                         {
                             "value": props.product.discount_price ? props.product.discount_price : props.product.price,

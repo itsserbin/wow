@@ -55,8 +55,8 @@
 import {isLoading} from "@/Pages/Public/load";
 import {computed, getCurrentInstance, onMounted, ref} from "vue";
 
-const {appContext} = getCurrentInstance()
-const {$fbq} = appContext.config.globalProperties
+// const {appContext} = getCurrentInstance()
+// const {$fbq} = appContext.config.globalProperties
 
 import Support from '../Components/Support.vue';
 import Consultation from '../Components/Consultation.vue';
@@ -113,7 +113,7 @@ onMounted(async () => {
     isLoading.value = false;
     if (import.meta.env.MODE === 'production') {
         try {
-            $fbq('PageView', {}, props.eventIdPageView);
+            fbq('track','PageView', {}, props.eventIdPageView);
         } catch (e) {
             console.error(e);
         }

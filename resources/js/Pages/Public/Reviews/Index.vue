@@ -31,8 +31,8 @@ import Loader from '@/Pages/Public/Components/Loader.vue'
 import Button from '@/Pages/Public/Components/Button.vue'
 import {isLoading} from "@/Pages/Public/load";
 
-const {appContext} = getCurrentInstance()
-const {$fbq} = appContext.config.globalProperties
+// const {appContext} = getCurrentInstance()
+// const {$fbq} = appContext.config.globalProperties
 
 const props = defineProps({
     lang: String,
@@ -57,13 +57,13 @@ const state = ref({
 onMounted(async () => {
     await fetch();
     isLoading.value = false;
-    if (import.meta.env.MODE === 'production') {
-        try {
-            $fbq('PageView', {}, props.eventIdPageView);
-        } catch (e) {
-            console.error(e);
-        }
-    }
+    // if (import.meta.env.MODE === 'production') {
+    //     try {
+    //         $fbq('PageView', {}, props.eventIdPageView);
+    //     } catch (e) {
+    //         console.error(e);
+    //     }
+    // }
 })
 
 const fetch = async () => {

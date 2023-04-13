@@ -25,8 +25,8 @@ import {getCurrentInstance, onMounted, ref} from "vue";
 import {isLoading} from "@/Pages/Public/load";
 import {swal} from '@/Includes/swal';
 
-const {appContext} = getCurrentInstance()
-const {$fbq} = appContext.config.globalProperties
+// const {appContext} = getCurrentInstance()
+// const {$fbq} = appContext.config.globalProperties
 
 defineProps([
     'eventIdPageView',
@@ -49,13 +49,13 @@ const state = ref({
 
 onMounted(() => {
     isLoading.value = false;
-    if (import.meta.env.MODE === 'production') {
-        try {
-            $fbq('PageView', {}, props.eventIdPageView);
-        } catch (e) {
-            console.error(e);
-        }
-    }
+    // if (import.meta.env.MODE === 'production') {
+    //     try {
+    //         $fbq('PageView', {}, props.eventIdPageView);
+    //     } catch (e) {
+    //         console.error(e);
+    //     }
+    // }
 })
 
 const submitForm = async () => {

@@ -33,8 +33,8 @@ import {useStore} from "vuex";
 import {getCurrentInstance, onMounted, ref} from "vue";
 import {isLoading} from "@/Pages/Public/load";
 
-const {appContext} = getCurrentInstance()
-const {$fbq} = appContext.config.globalProperties
+// const {appContext} = getCurrentInstance()
+// const {$fbq} = appContext.config.globalProperties
 
 const props = defineProps([
     'recommendProducts',
@@ -53,7 +53,7 @@ onMounted(async () => {
     isLoading.value = false;
     if (import.meta.env.MODE === 'production') {
         try {
-            $fbq('PageView', {}, props.eventIdPageView);
+            fbq('track','PageView', {}, props.eventIdPageView);
         } catch (e) {
             console.error(e);
         }

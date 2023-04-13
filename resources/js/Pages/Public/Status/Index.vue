@@ -32,8 +32,8 @@ import Status from '@/Pages/Public/Status/Status.vue';
 import {isLoading} from "@/Pages/Public/load";
 import {swal} from '@/Includes/swal';
 
-const {appContext} = getCurrentInstance()
-const {$fbq} = appContext.config.globalProperties
+// const {appContext} = getCurrentInstance()
+// const {$fbq} = appContext.config.globalProperties
 
 const props = defineProps([
     'statuses',
@@ -60,13 +60,13 @@ onMounted(async () => {
         state.value.item.order_id = route().params.order_id;
         await checkStatus();
     }
-    if (import.meta.env.MODE === 'production') {
-        try {
-            $fbq('PageView', {}, props.eventIdPageView);
-        } catch (e) {
-            console.error(e);
-        }
-    }
+    // if (import.meta.env.MODE === 'production') {
+    //     try {
+    //         $fbq('PageView', {}, props.eventIdPageView);
+    //     } catch (e) {
+    //         console.error(e);
+    //     }
+    // }
     isLoading.value = false;
 })
 

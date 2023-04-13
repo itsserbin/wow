@@ -116,8 +116,8 @@ import {swal} from '@/Includes/swal';
 
 const gtm = useGtm();
 const store = useStore();
-const {appContext} = getCurrentInstance()
-const {$fbq} = appContext.config.globalProperties
+// const {appContext} = getCurrentInstance()
+// const {$fbq} = appContext.config.globalProperties
 
 const props = defineProps([
     'product',
@@ -159,7 +159,7 @@ function addToCart() {
                 state.value.isAddToCart = true;
                 if (import.meta.env.MODE === 'production') {
                     try {
-                        $fbq(
+                        fbq('track',
                             'AddToCart',
                             {
                                 "value": props.product.discount_price ? props.product.discount_price : props.product.price,

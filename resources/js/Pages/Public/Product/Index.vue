@@ -80,8 +80,8 @@ import {isLoading} from "@/Pages/Public/load";
 import {getCurrentInstance, onMounted} from "vue";
 import {useGtm} from "@gtm-support/vue-gtm";
 
-const {appContext} = getCurrentInstance()
-const {$fbq} = appContext.config.globalProperties
+// const {appContext} = getCurrentInstance()
+// const {$fbq} = appContext.config.globalProperties
 
 const gtm = useGtm();
 
@@ -109,8 +109,7 @@ onMounted(async () => {
     isLoading.value = false;
     if (import.meta.env.MODE === 'production') {
         try {
-            $fbq('PageView', {}, props.eventIdPageView);
-            $fbq('ViewContent', {
+            fbq('track', 'ViewContent', {
                     "value": props.product.discount_price ? props.product.discount_price : props.product.price,
                     "currency": "UAH",
                     "content_type": "product",

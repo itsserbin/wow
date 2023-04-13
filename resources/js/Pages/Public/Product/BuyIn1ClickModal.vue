@@ -50,8 +50,8 @@ const props = defineProps([
 ]);
 
 const gtm = useGtm();
-const {appContext} = getCurrentInstance()
-const {$fbq} = appContext.config.globalProperties
+// const {appContext} = getCurrentInstance()
+// const {$fbq} = appContext.config.globalProperties
 
 const order = ref({
     name: '',
@@ -85,7 +85,7 @@ async function sendForm() {
                 props.isAddToCart = true;
                 if (import.meta.env.MODE === 'production') {
                     try {
-                        $fbq(
+                        fbq('track',
                             'AddToCart',
                             {
                                 "value": props.product.discount_price ? props.product.discount_price : props.product.price,
@@ -123,7 +123,7 @@ async function createOrder() {
                         })
                     });
 
-                    $fbq(
+                    fbq('track',
                         'Purchase',
                         {
                             "value": store.state.totalPrice,

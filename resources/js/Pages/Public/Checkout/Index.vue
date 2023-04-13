@@ -43,8 +43,8 @@ import Comment from '@/Pages/Public/Checkout/Comment.vue';
 import CheckoutTotal from '@/Pages/Public/Checkout/CheckoutTotal.vue';
 import MasterLayout from '@/Layouts/MasterLayout.vue'
 
-const {appContext} = getCurrentInstance()
-const {$fbq} = appContext.config.globalProperties
+// const {appContext} = getCurrentInstance()
+// const {$fbq} = appContext.config.globalProperties
 
 import {ref, onMounted, getCurrentInstance} from "vue";
 import {useStore} from "vuex";
@@ -97,8 +97,7 @@ onMounted(() => {
             })
         });
         try {
-            $fbq('PageView', {}, props.eventIdPageView);
-            $fbq(
+            fbq('track',
                 'InitiateCheckout',
                 {
                     "value": store.state.totalPrice,
@@ -239,7 +238,7 @@ const sendOrder = async () => {
         .then(async ({data}) => {
             if (import.meta.env.MODE === 'production') {
                 try {
-                    $fbq(
+                    fbq('track',
                         'Purchase',
                         {
                             "value": store.state.totalPrice,
