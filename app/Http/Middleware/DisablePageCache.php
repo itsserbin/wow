@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class DisablePageCache
 {
@@ -16,6 +17,7 @@ class DisablePageCache
      */
     public function handle(Request $request, Closure $next)
     {
-        return $next($request)->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+        $response = $next($request);
+        return $response->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
     }
 }
