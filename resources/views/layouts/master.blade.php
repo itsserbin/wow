@@ -113,7 +113,7 @@
         />
     </noscript>
 {{--@endif--}}
-{!! $options['footer_scripts'] !!}
+{{--{!! $options['footer_scripts'] !!}--}}
 @yield('scripts')
 </body>
 </html>
