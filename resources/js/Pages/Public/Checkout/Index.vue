@@ -43,9 +43,6 @@ import Comment from '@/Pages/Public/Checkout/Comment.vue';
 import CheckoutTotal from '@/Pages/Public/Checkout/CheckoutTotal.vue';
 import MasterLayout from '@/Layouts/MasterLayout.vue'
 
-// const {appContext} = getCurrentInstance()
-// const {$fbq} = appContext.config.globalProperties
-
 import {ref, onMounted, getCurrentInstance} from "vue";
 import {useStore} from "vuex";
 import {useGtm} from '@gtm-support/vue-gtm';
@@ -53,6 +50,9 @@ import hmacMD5 from 'crypto-js/hmac-md5';
 import CryptoJS from 'crypto-js';
 import {isLoading} from "@/Pages/Public/load";
 import {swal} from '@/Includes/swal';
+
+const {appContext} = getCurrentInstance()
+const {$fbq} = appContext.config.globalProperties
 
 const store = useStore();
 const gtm = useGtm();
@@ -97,7 +97,7 @@ onMounted(() => {
             })
         });
         try {
-            fbq('track',
+            $fbq(
                 'InitiateCheckout',
                 {
                     "value": store.state.totalPrice,
@@ -238,7 +238,7 @@ const sendOrder = async () => {
         .then(async ({data}) => {
             if (import.meta.env.MODE === 'production') {
                 try {
-                    fbq('track',
+                    $fbq(
                         'Purchase',
                         {
                             "value": store.state.totalPrice,

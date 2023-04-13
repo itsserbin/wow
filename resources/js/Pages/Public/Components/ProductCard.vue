@@ -31,7 +31,7 @@
         <div>
             <div class="w-full mx-auto">
                 <div v-if="!slider">
-                    <Link :href="route('product',product.id)">
+                    <a :href="route('product',product.id)">
                         <picture>
                             <source :srcset="route('images.350',product.preview.webp_src)"
                                     v-if="route('images.350',product.preview.webp_src)"
@@ -41,12 +41,12 @@
                                  class="h-full object-cover w-full rounded-t-lg  h-56 md:h-72 "
                             >
                         </picture>
-                    </Link>
+                    </a>
                 </div>
                 <div v-if="slider">
                     <swiper v-bind="settings" :modules="modules" class="product-card-swiper">
                         <swiper-slide>
-                            <Link :href="route('product',product.id)">
+                            <a :href="route('product',product.id)">
                                 <picture>
                                     <source
                                         :srcset="product.preview ? route('images.350',product.preview.webp_src) : null"
@@ -56,17 +56,17 @@
                                          :alt="product.h1[lang]"
                                     >
                                 </picture>
-                            </Link>
+                            </a>
                         </swiper-slide>
                         <swiper-slide v-for="image in product.images">
-                            <Link :href="route('product',product.id)">
+                            <a :href="route('product',product.id)">
                                 <img :data-src="route('images.350',image.src) "
                                      :data-srcset="route('images.350',image.webp_src) "
                                      :alt="product.h1[lang]"
                                      class="h-full object-cover w-full rounded-t-lg  h-56 md:h-72 swiper-lazy"
                                 >
                                 <div class="swiper-lazy-preloader swiper-lazy-preloader-black"></div>
-                            </Link>
+                            </a>
                         </swiper-slide>
                     </swiper>
                 </div>
@@ -84,7 +84,7 @@
                         justify-between
                     "
         >
-            <Link :href="route('product',product.id)">
+            <a :href="route('product',product.id)">
 
                 <h5 class="
                             text-black
@@ -101,7 +101,7 @@
                     {{ lang === 'ru' ? product.h1.ru : (lang === 'ua' ? product.h1.ua : null) }}
                 </h5>
 
-            </Link>
+            </a>
             <div class="text-sm text-gray-500 font-text w-full mb-3">
                 <span v-for="size in product.sizes">
                     {{ size.title }}&nbsp;
@@ -179,9 +179,9 @@ import {useGtm} from "@gtm-support/vue-gtm";
 import {Swiper, SwiperSlide} from 'swiper/vue';
 import {Lazy, Navigation} from "swiper";
 import {swal} from '@/Includes/swal';
-import {Link} from "@inertiajs/inertia-vue3";
-// const {appContext} = getCurrentInstance()
-// const {$fbq} = appContext.config.globalProperties
+
+const {appContext} = getCurrentInstance()
+const {$fbq} = appContext.config.globalProperties
 
 const props = defineProps({
     product: Object,
@@ -209,7 +209,7 @@ const settings = {
 };
 
 const store = useStore();
-// const swal = inject('$swal');
+
 const gtm = useGtm();
 const item = ref({
     count: 1,
@@ -236,8 +236,7 @@ const addToCard = async (id) => {
             store.commit('loadCart');
             if (import.meta.env.MODE === 'production') {
                 try {
-                    fbq('track',
-                        'AddToCart',
+                    $fbq('AddToCart',
                         {
                             "value": props.product.discount_price ? props.product.discount_price : props.product.price,
                             "currency": "UAH",

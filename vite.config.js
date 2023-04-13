@@ -4,19 +4,6 @@ import vue from '@vitejs/plugin-vue';
 import { chunkSplitPlugin } from 'vite-plugin-chunk-split';
 
 export default defineConfig({
-    build: {
-        rollupOptions: {
-            output: {
-                manualChunks: {
-                    vendor: ['vue', 'lodash', 'moment'],
-                    chart: ['chart.js', 'vue-chartjs'],
-                    swiper: ['swiper'],
-                    bootstrap: ['bootstrap'],
-                    tailwindcss: ['tailwindcss'],
-                },
-            },
-        },
-    },
     plugins: [
         chunkSplitPlugin(),
         laravel({
