@@ -1,0 +1,1 @@
+import{L as r}from"./index.2e276325.js";import{ag as e,m as o,u as s,o as n}from"./vendor.baa499d2.js";import"./__commonjsHelpers__.488ed5c2.js";const h={__name:"Chart",props:["chartData"],setup(t){const a=e({responsive:!0,interaction:{intersect:!1}});return(c,i)=>(n(),o(s(r),{chartData:t.chartData,options:a},null,8,["chartData","options"]))}};export{h as default};
