@@ -58,14 +58,14 @@ class ImagesController extends Controller
 
     public function returnImage($path, $filename)
     {
-        if (env('APP_ENV') !== 'local') {
+//        if (env('APP_ENV') !== 'local') {
             try {
                 return Storage::disk('s3')->response($path . $filename);
             } catch (Throwable $e) {
                 abort(404);
             }
-        } else {
-            return Image::make('storage/no_image.png')->response();
-        }
+//        } else {
+//            return Image::make('storage/no_image.png')->response();
+//        }
     }
 }

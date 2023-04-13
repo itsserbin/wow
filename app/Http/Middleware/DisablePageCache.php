@@ -18,6 +18,11 @@ class DisablePageCache
     public function handle(Request $request, Closure $next)
     {
         $response = $next($request);
-        return $response->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+
+        if ($response->headers->get('Content-Type') === 'text/html; charset=UTF-8') {
+            $response->headers->set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+        }
+
+        return $response;
     }
 }
