@@ -46,7 +46,7 @@ import MasterLayout from '@/Layouts/MasterLayout.vue'
 const {appContext} = getCurrentInstance()
 const {$fbq} = appContext.config.globalProperties
 
-import {inject, ref, onMounted, getCurrentInstance} from "vue";
+import {ref, onMounted, getCurrentInstance} from "vue";
 import {useStore} from "vuex";
 import {useGtm} from '@gtm-support/vue-gtm';
 import hmacMD5 from 'crypto-js/hmac-md5';
@@ -235,7 +235,7 @@ function onSuccessPurchase(response, order) {
 const sendOrder = async () => {
     state.value.isLoading = true;
     state.value.errors = [];
-    await xios.post(route('api.v1.orders.create'), state.value.order)
+    await axios.post(route('api.v1.orders.create'), state.value.order)
         .then(async ({data}) => {
             if (import.meta.env.MODE === 'production') {
                 try {
