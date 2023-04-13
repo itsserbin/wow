@@ -5,6 +5,8 @@
                   :pages="pages"
                   :eventIdPageView="eventIdPageView"
     >
+        <Head title="Дякуємо за покупку!"/>
+
         <section class="grid gap-4 grid-cols-1">
             <div class="grid grid-cols-1 gap-4">
                 <h1 class="font-bold text-black text-center text-2xl font-heading">
@@ -26,8 +28,11 @@
                 </div>
                 <Timer :timer="timer"/>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <ProductCard v-for="product in state.products" :product="product" @addItemToOrder="addItemToOrder"
-                                 :lang="lang"/>
+                    <ProductCard v-for="product in state.products"
+                                 :product="product"
+                                 @addItemToOrder="addItemToOrder"
+                                 :lang="lang"
+                    />
                 </div>
             </div>
             <div v-else class="order-page__text my-5">
@@ -38,15 +43,13 @@
 </template>
 
 <script setup>
-import {getCurrentInstance, inject, onMounted, ref} from "vue";
 import Timer from '@/Pages/Public/Thanks/Timer.vue'
 import ProductCard from '@/Pages/Public/Thanks/ProductCard.vue'
-import {isLoading} from "@/Pages/Public/load";
 import MasterLayout from '@/Layouts/MasterLayout.vue'
-import {swal} from '@/Includes/swal';
+import Head from "@/Pages/Public/Components/Head.vue";
 
-// const {appContext} = getCurrentInstance()
-// const {$fbq} = appContext.config.globalProperties
+import {onMounted, ref} from "vue";
+import {swal} from '@/Includes/swal';
 
 const props = defineProps({
     categories: Array,
@@ -115,31 +118,21 @@ onMounted(async () => {
             }
 
         })
-
-    isLoading.value = false;
-
-    // if (import.meta.env.MODE === 'production') {
-    //     try {
-    //         $fbq('PageView', {}, props.eventIdPageView);
-    //     } catch (e) {
-    //         console.error(e);
-    //     }
-    // }
 });
 
-function addItemToOrder(id, price) {
-    axios.post('/api/v1/order/add-item/' + state.value.orderId, {
+const addItemToOrder = async (id, price) => {
+    await axios.post('/api/v1/order/add-item/' + state.value.orderId, {
         'id': id,
         'price': price,
     })
-        .then(() => swal({
+        .then(async () => await swal({
             icon: 'success',
             title: 'Додано!',
             text: 'Товар успішно додано до вашого замовлення',
         }))
-        .catch((response) => {
-            console.log(response);
-            swal({
+        .catch(async (response) => {
+            console.error(response);
+            await swal({
                 icon: 'error',
                 title: 'Виникла помилка',
                 text: 'Зверніться до адміністратора',

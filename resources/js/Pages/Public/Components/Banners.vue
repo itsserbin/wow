@@ -16,18 +16,19 @@
 </template>
 
 <script setup>
-import {Lazy, Autoplay, Pagination, EffectCreative} from "swiper";
+import {Autoplay, Pagination} from "swiper";
 import {Swiper, SwiperSlide} from 'swiper/vue';
 import {computed, inject} from "vue";
 
 const defaultLang = inject('$defaultLang');
+
 const src = computed(() => (banner) => {
     const mobile = banner.image_mobile[props.lang] || banner.image_mobile[defaultLang];
     const table = banner.image_table[props.lang] || banner.image_table[defaultLang];
     const desktop = banner.image_desktop[props.lang] || banner.image_desktop[defaultLang];
 
     return mobile
-        ? route('images.banners.mobile', mobile + '.jpeg')
+        ? ('images.banners.mobile', mobile + '.jpeg')
         : table
             ? route('images.banners.table', table + '.jpeg')
             : desktop

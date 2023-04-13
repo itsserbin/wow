@@ -32,8 +32,6 @@
 </template>
 
 <script setup>
-import {Link} from "@inertiajs/inertia-vue3";
-
 const props = defineProps(['breadcrumbs']);
 const isLastBreadcrumb = (index) => index === props.breadcrumbs.length - 1;
 </script>

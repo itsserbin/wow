@@ -33,6 +33,8 @@
 
 <script setup>
 function scrollToTop() {
-    window.scrollTo({scrollX, top: 0, behavior: 'smooth'});
+    if (typeof window !== 'undefined') {
+        window.scrollTo({scrollX, top: 0, behavior: 'smooth'});
+    }
 }
 </script>

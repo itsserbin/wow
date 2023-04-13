@@ -194,4 +194,3 @@ defineEmits(['closeModal', 'submitForm', 'clickCancel', 'declineForm'])
     opacity: 0;
 }
 </style>
-

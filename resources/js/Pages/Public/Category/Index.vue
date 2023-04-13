@@ -5,6 +5,8 @@
                   :pages="pages"
                   :eventIdPageView="eventIdPageView"
     >
+        <Head :category="category" :lang="lang"/>
+
         <Breadcrumbs :options="options" :lang="lang" :title="category.title[lang]"/>
 
         <div class="grid grid-cols-1 gap-4">
@@ -66,6 +68,7 @@ import ProductsRepository from "@/Repositories/ProductsRepository";
 import Button from '@/Pages/Public/Components/Button.vue'
 import MasterLayout from '@/Layouts/MasterLayout.vue'
 import Breadcrumbs from './Breadcrumbs.vue'
+import Head from './Head.vue';
 
 const props = defineProps([
     'banners',

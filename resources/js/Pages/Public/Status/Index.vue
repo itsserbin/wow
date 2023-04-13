@@ -5,6 +5,8 @@
                   :pages="pages"
                   :eventIdPageView="eventIdPageView"
     >
+        <Head title="Статус замовлення"/>
+
         <div v-if="!state.isLoading">
             <Breadcrumbs :options="options" :lang="lang" title="Статус замовлення"/>
 
@@ -26,14 +28,12 @@
 <script setup>
 import Breadcrumbs from './Breadcrumbs.vue'
 import MasterLayout from '@/Layouts/MasterLayout.vue'
-import {getCurrentInstance, onMounted, ref} from "vue";
 import Form from '@/Pages/Public/Status/Form.vue';
 import Status from '@/Pages/Public/Status/Status.vue';
-import {isLoading} from "@/Pages/Public/load";
-import {swal} from '@/Includes/swal';
+import Head from "@/Pages/Public/Components/Head.vue";
 
-// const {appContext} = getCurrentInstance()
-// const {$fbq} = appContext.config.globalProperties
+import {swal} from '@/Includes/swal';
+import {onMounted, ref} from "vue";
 
 const props = defineProps([
     'statuses',
@@ -60,14 +60,6 @@ onMounted(async () => {
         state.value.item.order_id = route().params.order_id;
         await checkStatus();
     }
-    // if (import.meta.env.MODE === 'production') {
-    //     try {
-    //         $fbq('PageView', {}, props.eventIdPageView);
-    //     } catch (e) {
-    //         console.error(e);
-    //     }
-    // }
-    isLoading.value = false;
 })
 
 const checkStatus = async () => {

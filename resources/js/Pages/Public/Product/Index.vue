@@ -5,6 +5,7 @@
                   :pages="pages"
                   :eventIdPageView="eventIdPageView"
     >
+        <Head :lang="lang" :product="product"/>
         <Breadcrumbs :options="options"
                      :parent-url="route('category',product.categories[0].slug)"
                      :parent="product.categories[0].title[lang]"
@@ -75,6 +76,7 @@ import Content from './Content.vue';
 import AddToCart from './AddToCart.vue';
 import MasterLayout from '@/Layouts/MasterLayout.vue'
 import Breadcrumbs from './Breadcrumbs.vue'
+import Head from "./Head.vue";
 
 import {isLoading} from "@/Pages/Public/load";
 import {getCurrentInstance, onMounted} from "vue";

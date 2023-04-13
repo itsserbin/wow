@@ -5,6 +5,8 @@
                   :pages="pages"
                   :eventIdPageView="eventIdPageView"
     >
+        <Head title="Відгуки"/>
+
         <div v-if="state.reviews.length">
             <Breadcrumbs :options="options" :lang="lang" title="Відгуки"/>
 
@@ -26,13 +28,11 @@
 import Breadcrumbs from './Breadcrumbs.vue'
 import MasterLayout from '@/Layouts/MasterLayout.vue'
 import Card from './Card.vue';
-import {getCurrentInstance, onMounted, ref} from "vue";
 import Loader from '@/Pages/Public/Components/Loader.vue'
 import Button from '@/Pages/Public/Components/Button.vue'
-import {isLoading} from "@/Pages/Public/load";
+import Head from "@/Pages/Public/Components/Head.vue";
 
-// const {appContext} = getCurrentInstance()
-// const {$fbq} = appContext.config.globalProperties
+import {onMounted, ref} from "vue";
 
 const props = defineProps({
     lang: String,
@@ -56,14 +56,6 @@ const state = ref({
 
 onMounted(async () => {
     await fetch();
-    isLoading.value = false;
-    // if (import.meta.env.MODE === 'production') {
-    //     try {
-    //         $fbq('PageView', {}, props.eventIdPageView);
-    //     } catch (e) {
-    //         console.error(e);
-    //     }
-    // }
 })
 
 const fetch = async () => {

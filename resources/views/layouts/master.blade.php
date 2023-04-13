@@ -26,7 +26,10 @@
     {{--    <link rel="alternate" href="{{setLinkToLang(request()->url(),'ru')}}" hreflang="ru-UA"/>--}}
     {{--    <link rel="alternate" href="{{setLinkToLang(request()->url(),'ua')}}" hreflang="uk-UA"/>--}}
     {{--    <link rel="alternate" href="{{setLinkToLang(request()->url(),'ua')}}" hreflang="x-default"/>--}}
+    @routes
+    @vite(['resources/js/Pages/Public/app.js', "resources/js/Pages/Public/{$page['component']}.vue"])
     @inertiaHead
+
 </head>
 <body class="h-full">
 {{--{!! $options['after_body_scripts'] !!}--}}
@@ -82,8 +85,7 @@
 {{--    });--}}
 
 {{--</script>--}}
-@routes
-@vite('resources/js/Pages/Public/app.js')
+{{--@vite('resources/js/Pages/Public/app.js')--}}
 {{--{!! $options['footer_scripts'] !!}--}}
 @yield('scripts')
 </body>

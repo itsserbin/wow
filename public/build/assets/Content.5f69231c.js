@@ -1,0 +1,1 @@
+import{i as t,k as n,o as a}from"./vendor.2c8aab53.js";import"./__commonjsHelpers__.4516dc8a.js";const o=["innerHTML"],m={__name:"Content",props:["data"],setup(e){return(r,c)=>e.data?(a(),t("div",{key:0,class:"content",innerHTML:e.data},null,8,o)):n("",!0)}};export{m as default};

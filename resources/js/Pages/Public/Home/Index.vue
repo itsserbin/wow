@@ -5,6 +5,7 @@
                   :pages="pages"
                   :eventIdPageView="eventIdPageView"
     >
+        <Head :title="meta.title" :description="meta.description"/>
         <div class="grid grid-cols-1 gap-4">
             <MainBanners v-if="banners.length" :data="banners" :lang="lang"/>
 
@@ -60,6 +61,7 @@ import MasterLayout from '@/Layouts/MasterLayout.vue'
 import MainBanners from './../Components/Banners.vue';
 import ProductsList from './ProductsList.vue';
 import Categories from './../Components/Categories.vue';
+import Head from "@/Pages/Public/Components/Head.vue";
 
 import {isLoading} from "@/Pages/Public/load";
 import {defineAsyncComponent, onMounted, ref} from "vue";
@@ -85,6 +87,11 @@ const props = defineProps([
     'advantages',
     'eventIdPageView'
 ]);
+
+const meta = {
+    title: props.lang === 'ua' ? props.options.meta_title_ua : props.options.meta_title_ru,
+    description: props.lang === 'ua' ? props.options.meta_description_ua : props.options.meta_description_ru,
+}
 
 const stateNewProducts = ref({
     data: [],

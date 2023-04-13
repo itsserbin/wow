@@ -16,13 +16,8 @@ use App\Repositories\ProductsRepository;
 use App\Repositories\SizesRepository;
 use App\Services\FacebookService;
 use App\Services\ShoppingCartService;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-
-//use Inertia\Response;
 
 class HomeController extends Controller
 {
@@ -63,25 +58,6 @@ class HomeController extends Controller
     final public function home()
     {
         $this->facebookService->view($this->event_id_page_view);
-
-//        $response = new Response('Home/Index', [
-//            'lang' => app()->getLocale(),
-//            'categories' => $this->getCategories(),
-//            'pages' => $this->getPagesList(),
-//            'options' => $this->getOptions(),
-//            'banners' => $this->bannersRepository->getForPublic(),
-//            'bestSellingProducts' => $this->productRepository->getProductsForPublicWithPaginate('total_sales', 'desc'),
-//            'newProducts' => $this->productRepository->getProductsForPublicWithPaginate('id', 'desc'),
-//            'allProducts' => $this->productRepository->getProductsForPublicWithPaginate('sort', 'desc'),
-//            'advantages' => $this->advantagesRepository->getAllToPublic(),
-//            'reviews' => $this->productReviewsRepository->carouselList(10),
-//            'faqs' => $this->faqsRepository->getAllToPublic(),
-//            'eventIdPageView' => $this->event_id_page_view
-//        ]);
-//
-//        $response->noCacheHeaders();
-//
-//        return $response;
 
         return Inertia::render('Home/Index', [
             'lang' => app()->getLocale(),

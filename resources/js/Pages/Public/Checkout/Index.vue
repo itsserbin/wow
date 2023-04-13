@@ -5,6 +5,8 @@
                   :pages="pages"
                   :eventIdPageView="eventIdPageView"
     >
+        <Head title="Оформлення замовлення"/>
+
         <form @submit.prevent="sendOrder">
             <div class="grid grid-cols-1 md:grid-cols-2 relative gap-4">
                 <div>
@@ -42,6 +44,7 @@ import OrderItem from '@/Pages/Public/Checkout/OrderItem.vue';
 import Comment from '@/Pages/Public/Checkout/Comment.vue';
 import CheckoutTotal from '@/Pages/Public/Checkout/CheckoutTotal.vue';
 import MasterLayout from '@/Layouts/MasterLayout.vue'
+import Head from "@/Pages/Public/Components/Head.vue";
 
 import {ref, onMounted, getCurrentInstance} from "vue";
 import {useStore} from "vuex";
@@ -149,7 +152,7 @@ function wfp(order) {
         // merchantAccount: 'test_merch_n1',
         merchantAccount: import.meta.env.VITE_WFP_MERCHANT_LOGIN,
         merchantDomainName: import.meta.env.VITE_DOMAIN,
-        orderReference: import.meta.env.MODE === 'production' ?  order.id : 'loc' + order.id,
+        orderReference: import.meta.env.MODE === 'production' ? order.id : 'loc' + order.id,
         orderDate: Math.floor(new Date(order.created_at).getTime() / 1000),
         // amount: 1,
         amount: data.amount,
@@ -274,7 +277,9 @@ const sendOrder = async () => {
             if (data.order.payment_method === 'minimum_prepayment' || data.order.payment_method === 'full_prepayment') {
                 wfp(data.order);
             } else {
-                window.location.href = route('thanks', data.order.id);
+                if (typeof window !== 'undefined') {
+                    window.location.href = route('thanks', data.order.id);
+                }
             }
             state.value.isLoading = false;
         })

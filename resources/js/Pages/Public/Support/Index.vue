@@ -5,6 +5,8 @@
                   :pages="pages"
                   :eventIdPageView="eventIdPageView"
     >
+        <Head title="Підтримка клієнтів"/>
+
         <Breadcrumbs :options="options" :lang="lang" title="Підтримка"/>
 
         <div class="max-w-xl mx-auto">
@@ -20,13 +22,10 @@
 import MasterLayout from '@/Layouts/MasterLayout.vue'
 import Form from '@/Pages/Public/Support/Form.vue';
 import Breadcrumbs from '@/Pages/Public/Support/Breadcrumbs.vue';
+import Head from "@/Pages/Public/Components/Head.vue";
 
-import {getCurrentInstance, onMounted, ref} from "vue";
-import {isLoading} from "@/Pages/Public/load";
+import {ref} from "vue";
 import {swal} from '@/Includes/swal';
-
-// const {appContext} = getCurrentInstance()
-// const {$fbq} = appContext.config.globalProperties
 
 defineProps([
     'eventIdPageView',
@@ -37,7 +36,6 @@ defineProps([
 ])
 
 const state = ref({
-    isLoading: false,
     item: {
         name: null,
         phone: null,
@@ -45,17 +43,6 @@ const state = ref({
         comment: null,
     },
     errors: []
-})
-
-onMounted(() => {
-    isLoading.value = false;
-    // if (import.meta.env.MODE === 'production') {
-    //     try {
-    //         $fbq('PageView', {}, props.eventIdPageView);
-    //     } catch (e) {
-    //         console.error(e);
-    //     }
-    // }
 })
 
 const submitForm = async () => {
@@ -67,7 +54,9 @@ const submitForm = async () => {
                 text: 'Ваш запит передано на обробку, чекайте звʼязку з нашим менеджером найближчим часом'
             })
             setTimeout(() => {
-                window.location.href = route('home');
+                if (typeof window !== 'undefined') {
+                    window.location.href = route('home');
+                }
             }, 3000)
         })
         .catch(({response}) => {
