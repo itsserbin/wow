@@ -70,7 +70,8 @@
 </template>
 
 <script setup>
-import {inject, ref} from "vue";
+import {ref} from "vue";
+import {swal} from '@/Includes/swal';
 
 const props = defineProps({
     id: Number,
@@ -112,8 +113,6 @@ const state = ref({
     errors: [],
     isLoading: false,
 });
-
-const swal = inject('$swal');
 
 function showReviewModalFunction() {
     state.value.showReviewModal = !state.value.showReviewModal;

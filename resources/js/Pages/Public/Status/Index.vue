@@ -26,10 +26,11 @@
 <script setup>
 import Breadcrumbs from './Breadcrumbs.vue'
 import MasterLayout from '@/Layouts/MasterLayout.vue'
-import {getCurrentInstance, inject, onMounted, ref} from "vue";
+import {getCurrentInstance, onMounted, ref} from "vue";
 import Form from '@/Pages/Public/Status/Form.vue';
 import Status from '@/Pages/Public/Status/Status.vue';
 import {isLoading} from "@/Pages/Public/load";
+import {swal} from '@/Includes/swal';
 
 const {appContext} = getCurrentInstance()
 const {$fbq} = appContext.config.globalProperties
@@ -43,7 +44,6 @@ const props = defineProps([
     'eventIdPageView',
 ]);
 
-const swal = inject('$swal');
 const state = ref({
     item: {
         phone: null,

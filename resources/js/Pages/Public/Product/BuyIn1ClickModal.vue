@@ -30,7 +30,7 @@
 </template>
 
 <script setup>
-import {getCurrentInstance, inject, ref} from "vue";
+import {getCurrentInstance, ref} from "vue";
 import {useGtm} from "@gtm-support/vue-gtm";
 import {useStore} from "vuex";
 import {maska as vMaska} from 'maska'
@@ -50,7 +50,6 @@ const props = defineProps([
 ]);
 
 const gtm = useGtm();
-const swal = inject('$swal');
 const {appContext} = getCurrentInstance()
 const {$fbq} = appContext.config.globalProperties
 

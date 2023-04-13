@@ -57,11 +57,10 @@
 
 <script setup>
 import {useStore} from "vuex";
-import {inject} from "vue";
+import {swal} from '@/Includes/swal';
 
 const props = defineProps(['item', 'lang']);
 const store = useStore();
-const swal = inject('$swal');
 
 function addToCart() {
     axios.post(route('api.v1.cart.add', {

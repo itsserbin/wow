@@ -50,10 +50,10 @@ import {inject, ref} from "vue";
 import {useStore} from "vuex";
 import Button from '@/Pages/Public/Components/Button.vue'
 import Input from '@/Pages/Public/Components/Input.vue'
+import {swal} from '@/Includes/swal';
 
 const promo_code = ref(null);
 
-const swal = inject('$swal');
 const store = useStore();
 
 function activateCode() {

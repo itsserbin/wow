@@ -112,8 +112,8 @@ import {useStore} from "vuex";
 import BuyIn1Click from '@/Pages/Public/Product/BuyIn1ClickModal.vue';
 import {useGtm} from "@gtm-support/vue-gtm";
 import Button from '@/Pages/Public/Components/Button.vue'
+import {swal} from '@/Includes/swal';
 
-const swal = inject('$swal');
 const gtm = useGtm();
 const store = useStore();
 const {appContext} = getCurrentInstance()

@@ -51,9 +51,9 @@ import {useGtm} from '@gtm-support/vue-gtm';
 import hmacMD5 from 'crypto-js/hmac-md5';
 import CryptoJS from 'crypto-js';
 import {isLoading} from "@/Pages/Public/load";
+import {swal} from '@/Includes/swal';
 
 const store = useStore();
-const swal = inject('$swal');
 const gtm = useGtm();
 const props = defineProps([
     'lang',

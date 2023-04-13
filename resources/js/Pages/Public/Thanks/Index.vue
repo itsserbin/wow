@@ -43,6 +43,7 @@ import Timer from '@/Pages/Public/Thanks/Timer.vue'
 import ProductCard from '@/Pages/Public/Thanks/ProductCard.vue'
 import {isLoading} from "@/Pages/Public/load";
 import MasterLayout from '@/Layouts/MasterLayout.vue'
+import {swal} from '@/Includes/swal';
 
 const {appContext} = getCurrentInstance()
 const {$fbq} = appContext.config.globalProperties
@@ -87,8 +88,6 @@ const state = ref({
     products: [],
     activeSpecialOffer: false,
 });
-
-const swal = inject('$swal');
 
 onMounted(async () => {
     state.value.orderId = route().params.id;

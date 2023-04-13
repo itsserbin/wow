@@ -25,9 +25,8 @@
 </template>
 
 <script setup>
-import {inject, ref} from "vue";
-
-const swal = inject('$swal');
+import {ref} from "vue";
+import {swal} from '@/Includes/swal';
 
 const state = ref({
     show: false,
