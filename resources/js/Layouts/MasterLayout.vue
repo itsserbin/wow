@@ -18,8 +18,8 @@ import FixedBanner from '@/Pages/Public/Components/FixedBanner.vue'
 import ScrollToTop from '@/Pages/Public/Components/ScrollToTop.vue'
 import {getCurrentInstance, onMounted} from "vue";
 
-// const {appContext} = getCurrentInstance()
-// const {$fbq} = appContext.config.globalProperties
+const {appContext} = getCurrentInstance()
+const {$fbq} = appContext.config.globalProperties
 
 const props = defineProps([
     'lang',
@@ -30,13 +30,13 @@ const props = defineProps([
 ]);
 
 onMounted(() => {
-    // if (import.meta.env.MODE === 'production') {
-    //     try {
-    //         $fbq('PageView', {}, props.eventIdPageView);
-    //     } catch (e) {
-    //         console.error(e);
-    //     }
-    // }
+    if (import.meta.env.MODE === 'production') {
+        try {
+            $fbq('PageView', {}, props.eventIdPageView);
+        } catch (e) {
+            console.error(e);
+        }
+    }
 
     document.querySelector('.loader').classList.add('hidden');
 })
