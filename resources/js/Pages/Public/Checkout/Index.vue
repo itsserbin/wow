@@ -149,7 +149,7 @@ function wfp(order) {
         // merchantAccount: 'test_merch_n1',
         merchantAccount: import.meta.env.VITE_WFP_MERCHANT_LOGIN,
         merchantDomainName: import.meta.env.VITE_DOMAIN,
-        orderReference: import.meta.env.MODE === 'production' ? 'loc' + order.id : order.id,
+        orderReference: import.meta.env.MODE === 'production' ?  order.id : 'loc' + order.id,
         orderDate: Math.floor(new Date(order.created_at).getTime() / 1000),
         // amount: 1,
         amount: data.amount,
