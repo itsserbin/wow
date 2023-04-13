@@ -37,9 +37,9 @@ onMounted(() => {
     // console.log(event_id.value);
     // if (import.meta.env.MODE === 'production') {
     //     try {
-    console.log(props.eventIdPageView)
-    console.log(fbq('track', 'PageView', {}, {event_id: props.eventIdPageView}))
-    fbq('track', 'PageView', {}, {event_id: props.eventIdPageView});
+    // console.log(props.eventIdPageView)
+    // console.log(fbq('track', 'PageView', {}, {event_id: props.eventIdPageView}))
+    // fbq('track', 'PageView', {}, {event_id: props.eventIdPageView});
     //     } catch (e) {
     //         console.error(e);
     //     }

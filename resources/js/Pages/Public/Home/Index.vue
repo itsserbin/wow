@@ -111,6 +111,8 @@ const stateBestSellingProducts = ref({
 });
 
 onMounted(() => {
+    fbq('track', 'PageView', {}, {event_id: props.eventIdPageView});
+
     if (props.bestSellingProducts) {
         stateBestSellingProducts.value.data = props.bestSellingProducts.data;
         if (props.bestSellingProducts.current_page !== props.bestSellingProducts.per_page) {

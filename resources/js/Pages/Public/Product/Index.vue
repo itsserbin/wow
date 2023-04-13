@@ -107,8 +107,11 @@ const props = defineProps([
 
 onMounted(async () => {
     isLoading.value = false;
+    fbq('track', 'PageView', {}, {event_id: props.eventIdPageView});
+
     if (import.meta.env.MODE === 'production') {
         try {
+
             $fbq(
                 'ViewContent', {
                     "value": props.product.discount_price ? props.product.discount_price : props.product.price,
