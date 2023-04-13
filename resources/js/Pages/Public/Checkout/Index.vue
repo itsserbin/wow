@@ -33,6 +33,7 @@
 </template>
 
 <script setup>
+import Wayforpay from '@/Includes/WfpPayWidget';
 import Loader from '@/Pages/Public/Components/Loader.vue';
 import PersonalData from '@/Pages/Public/Checkout/PersonalData.vue';
 import Delivery from '@/Pages/Public/Checkout/Delivery.vue';
@@ -149,7 +150,7 @@ function wfp(order) {
         // merchantAccount: 'test_merch_n1',
         merchantAccount: import.meta.env.VITE_WFP_MERCHANT_LOGIN,
         merchantDomainName: import.meta.env.VITE_DOMAIN,
-        orderReference: order.id,
+        orderReference: import.meta.env.MODE === 'production' ? 'loc' + order.id : order.id,
         orderDate: Math.floor(new Date(order.created_at).getTime() / 1000),
         // amount: 1,
         amount: data.amount,
@@ -231,11 +232,11 @@ function onSuccessPurchase(response, order) {
 
 }
 
-function sendOrder() {
+const sendOrder = async () => {
     state.value.isLoading = true;
     state.value.errors = [];
-    axios.post(route('api.v1.orders.create'), state.value.order)
-        .then(({data}) => {
+    await xios.post(route('api.v1.orders.create'), state.value.order)
+        .then(async ({data}) => {
             if (import.meta.env.MODE === 'production') {
                 try {
                     $fbq(
@@ -265,21 +266,17 @@ function sendOrder() {
 
             }
 
-            axios.post(route('sms.new.order'), {
-                order_id: data.order.id,
-                phone: data.order.client.phone,
-            })
-                .then()
-                .catch((response) => console.log(response))
-                .then(() => {
-                    if (data.order.payment_method === 'minimum_prepayment' || data.order.payment_method === 'full_prepayment') {
-                        wfp(data.order);
-                    } else {
-                        window.location.href = route('thanks', data.order.id);
-                    }
+            if (import.meta.env.MODE === 'production') {
+                await axios.post(route('sms.new.order'), {
+                    order_id: data.order.id,
+                    phone: data.order.client.phone,
                 })
-
-
+            }
+            if (data.order.payment_method === 'minimum_prepayment' || data.order.payment_method === 'full_prepayment') {
+                wfp(data.order);
+            } else {
+                window.location.href = route('thanks', data.order.id);
+            }
             state.value.isLoading = false;
         })
         .catch(({response}) => {
