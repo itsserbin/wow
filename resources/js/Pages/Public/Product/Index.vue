@@ -109,15 +109,15 @@ onMounted(async () => {
     isLoading.value = false;
     if (import.meta.env.MODE === 'production') {
         try {
-            fbq('track', 'ViewContent', {
-                    "value": props.product.discount_price ? props.product.discount_price : props.product.price,
-                    "currency": "UAH",
-                    "content_type": "product",
-                    "content_ids": [props.product.id],
-                    "content_name": props.product.h1
-                },
-                props.eventIdContent
-            );
+            // fbq('track', 'ViewContent', {
+            //         "value": props.product.discount_price ? props.product.discount_price : props.product.price,
+            //         "currency": "UAH",
+            //         "content_type": "product",
+            //         "content_ids": [props.product.id],
+            //         "content_name": props.product.h1
+            //     },
+            //     props.eventIdContent
+            // );
 
             gtm.trackEvent({
                 event: 'view_product',

@@ -85,34 +85,47 @@
 @routes
 @vite('resources/js/Pages/Public/app.js')
 {{--@if(env('APP_ENV') !== 'local')--}}
-    <script async>
-        !function (f, b, e, v, n, t, s) {
-            if (f.fbq) return;
-            n = f.fbq = function () {
-                n.callMethod ?
-                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
-            };
-            if (!f._fbq) f._fbq = n;
-            n.push = n;
-            n.loaded = !0;
-            n.version = '2.0';
-            n.queue = [];
-            t = b.createElement(e);
-            t.async = !0;
-            t.src = v;
-            s = b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t, s)
-        }(window, document, 'script',
-            'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', {{env('FB_PIXEL_ID')}});
-        fbq('track', 'PageView', {}, {'event_id': '{{$page['props']['eventIdPageView']}}'});
-    </script>
-    <noscript>
-        <img height="1" width="1" style="display:none"
-             src="'https://www.facebook.com/tr?id={{env('FB_PIXEL_ID')}}&ev=PageView&eid={{$page['props']['eventIdPageView']}}&noscript=1'"
-        />
-    </noscript>
+<script async>
+    !function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+            n.callMethod ?
+                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = '2.0';
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', {{env('FB_PIXEL_ID')}});
+    fbq('track', 'PageView', {}, {'event_id': '{{$page['props']['eventIdPageView']}}'});
+</script>
+<noscript>
+    <img height="1" width="1" style="display:none"
+         src="'https://www.facebook.com/tr?id={{env('FB_PIXEL_ID')}}&ev=PageView&eid={{$page['props']['eventIdPageView']}}&noscript=1'"
+    />
+</noscript>
 {{--@endif--}}
+@if(Route::is('product'))
+    <script>
+        fbq('track', 'ViewContent', {
+            "value": {{$page['props']['product']['discount_price'] ?: $page['props']['product']['price']}},
+            "currency": "UAH",
+            "content_type": "product",
+            "content_ids": [{{$page['props']['product']['id']}}],
+            "content_name": "{{$page['props']['product']['h1'][app()->getLocale()]}}"
+        }, {
+            event_id: '{{$page['props']['eventIdContent']}}'
+        });
+    </script>
+@endif
 {{--{!! $options['footer_scripts'] !!}--}}
 @yield('scripts')
 </body>

@@ -59,7 +59,7 @@ class FacebookService
                     $events[] = $event;
 
                     $request = (new EventRequest($this->pixel_id))
-                         ->setTestEventCode('TEST67602')
+                        ->setTestEventCode('TEST67602')
                         ->setEvents($events);
 
                     return $request->execute();
@@ -126,7 +126,7 @@ class FacebookService
                     $events[] = $event;
 
                     $request = (new EventRequest($this->pixel_id))
-                         ->setTestEventCode('TEST67602')
+                        ->setTestEventCode('TEST67602')
                         ->setEvents($events);
 
                     return $request->execute();
@@ -192,7 +192,7 @@ class FacebookService
                     $events[] = $event;
 
                     $request = (new EventRequest($this->pixel_id))
-                         ->setTestEventCode('TEST67602')
+                        ->setTestEventCode('TEST67602')
                         ->setEvents($events);
 
                     return $request->execute();
@@ -263,7 +263,7 @@ class FacebookService
                     $events[] = $event;
 
                     $request = (new EventRequest($this->pixel_id))
-                         ->setTestEventCode('TEST67602')
+                        ->setTestEventCode('TEST67602')
                         ->setEvents($events);
 
                     return $request->execute();
@@ -335,7 +335,7 @@ class FacebookService
                     $events[] = $event;
 
                     $request = (new EventRequest($this->pixel_id))
-                         ->setTestEventCode('TEST67602')
+                        ->setTestEventCode('TEST67602')
                         ->setEvents($events);
 
                     return $request->execute();

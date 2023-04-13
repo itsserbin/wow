@@ -31,7 +31,7 @@
         <div>
             <div class="w-full mx-auto">
                 <div v-if="!slider">
-                    <a :href="route('product',product.id)">
+                    <Link :href="route('product',product.id)">
                         <picture>
                             <source :srcset="route('images.350',product.preview.webp_src)"
                                     v-if="route('images.350',product.preview.webp_src)"
@@ -41,12 +41,12 @@
                                  class="h-full object-cover w-full rounded-t-lg  h-56 md:h-72 "
                             >
                         </picture>
-                    </a>
+                    </Link>
                 </div>
                 <div v-if="slider">
                     <swiper v-bind="settings" :modules="modules" class="product-card-swiper">
                         <swiper-slide>
-                            <a :href="route('product',product.id)">
+                            <Link :href="route('product',product.id)">
                                 <picture>
                                     <source
                                         :srcset="product.preview ? route('images.350',product.preview.webp_src) : null"
@@ -56,17 +56,17 @@
                                          :alt="product.h1[lang]"
                                     >
                                 </picture>
-                            </a>
+                            </Link>
                         </swiper-slide>
                         <swiper-slide v-for="image in product.images">
-                            <a :href="route('product',product.id)">
+                            <Link :href="route('product',product.id)">
                                 <img :data-src="route('images.350',image.src) "
                                      :data-srcset="route('images.350',image.webp_src) "
                                      :alt="product.h1[lang]"
                                      class="h-full object-cover w-full rounded-t-lg  h-56 md:h-72 swiper-lazy"
                                 >
                                 <div class="swiper-lazy-preloader swiper-lazy-preloader-black"></div>
-                            </a>
+                            </Link>
                         </swiper-slide>
                     </swiper>
                 </div>
@@ -84,7 +84,7 @@
                         justify-between
                     "
         >
-            <a :href="route('product',product.id)">
+            <Link :href="route('product',product.id)">
 
                 <h5 class="
                             text-black
@@ -101,7 +101,7 @@
                     {{ lang === 'ru' ? product.h1.ru : (lang === 'ua' ? product.h1.ua : null) }}
                 </h5>
 
-            </a>
+            </Link>
             <div class="text-sm text-gray-500 font-text w-full mb-3">
                 <span v-for="size in product.sizes">
                     {{ size.title }}&nbsp;
