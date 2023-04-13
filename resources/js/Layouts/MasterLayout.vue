@@ -32,27 +32,16 @@ const props = defineProps([
 
 const event_id = ref(null);
 
-watch(() => props.eventIdPageView, (newValue, oldValue) => {
-    event_id.value = newValue;
-    if (import.meta.env.MODE === 'production') {
-        try {
-            $fbq('PageView', {}, event_id.value);
-        } catch (e) {
-            console.error(e);
-        }
-    }
-});
-
 onMounted(() => {
-    event_id.value = props.eventIdPageView;
-    console.log(event_id.value);
-    if (import.meta.env.MODE === 'production') {
-        try {
-            $fbq('PageView', {}, event_id.value);
-        } catch (e) {
-            console.error(e);
-        }
-    }
+    // event_id.value = props.eventIdPageView;
+    // console.log(event_id.value);
+    // if (import.meta.env.MODE === 'production') {
+    //     try {
+    fbq('track', 'PageView', {}, {event_id: props.eventIdPageView});
+    //     } catch (e) {
+    //         console.error(e);
+    //     }
+    // }
 
     document.querySelector('.loader').classList.add('hidden');
 })

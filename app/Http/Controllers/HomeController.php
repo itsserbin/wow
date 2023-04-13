@@ -21,6 +21,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+
 //use Inertia\Response;
 
 class HomeController extends Controller
@@ -144,6 +145,7 @@ class HomeController extends Controller
         $this->facebookService->view($this->event_id_page_view);
         $this->facebookService->viewContent($result, $event_id_content);
         $this->productRepository->updateProductViewed($id);
+
 
         return Inertia::render('Product/Index', [
             'lang' => app()->getLocale(),

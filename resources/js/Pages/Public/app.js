@@ -32,9 +32,9 @@ createInertiaApp({
                 })
             );
         }
-        if (import.meta.env.MODE === 'production') {
-            app.use(FacebookPixel, {pixelId: import.meta.env.VITE_FB_PIXEL_ID})
-        }
+        // if (import.meta.env.MODE === 'production') {
+        //     app.use(FacebookPixel, {pixelId: import.meta.env.VITE_FB_PIXEL_ID})
+        // }
 
         store.commit('loadCart');
 
