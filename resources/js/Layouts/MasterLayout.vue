@@ -16,7 +16,7 @@ import Header from '@/Pages/Public/Components/Header/Header.vue'
 import Footer from '@/Pages/Public/Components/Footer.vue'
 import FixedBanner from '@/Pages/Public/Components/FixedBanner.vue'
 import ScrollToTop from '@/Pages/Public/Components/ScrollToTop.vue'
-import {getCurrentInstance, onMounted} from "vue";
+import {getCurrentInstance, onMounted, ref} from "vue";
 
 const {appContext} = getCurrentInstance()
 const {$fbq} = appContext.config.globalProperties
@@ -29,10 +29,14 @@ const props = defineProps([
     'eventIdPageView'
 ]);
 
+const event_id = ref(null);
+
 onMounted(() => {
+    event_id.value = props.eventIdPageView
+    console.log(event_id.value);
     if (import.meta.env.MODE === 'production') {
         try {
-            $fbq('PageView', {}, props.eventIdPageView);
+            $fbq('PageView', {}, event_id.value);
         } catch (e) {
             console.error(e);
         }
