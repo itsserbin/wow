@@ -27,6 +27,7 @@
 import Label from '@/Pages/Public/Components/Label.vue';
 import Input from '@/Pages/Public/Components/Input.vue';
 import Button from '@/Pages/Public/Components/Button.vue';
+import {maska as vMaska} from 'maska'
 
 defineProps(['item']);
 defineEmits(['submitForm']);

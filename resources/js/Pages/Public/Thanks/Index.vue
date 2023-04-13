@@ -48,7 +48,7 @@ import {swal} from '@/Includes/swal';
 const {appContext} = getCurrentInstance()
 const {$fbq} = appContext.config.globalProperties
 
-defineProps({
+const props = defineProps({
     categories: Array,
     options: Object,
     pages: Array,
