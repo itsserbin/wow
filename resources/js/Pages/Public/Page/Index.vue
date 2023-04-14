@@ -1,26 +1,21 @@
 <template>
-    <MasterLayout :categories="categories"
-                  :options="options"
-                  :lang="lang"
-                  :pages="pages"
-                  :eventIdPageView="eventIdPageView"
-    >
-        <Head :title="page.meta_title[lang]"/>
-        <div v-if="page">
-            <Breadcrumbs :options="options" :lang="lang" :title="page.h1[lang]"/>
-            <h1 class="font-bold text-black text-center text-2xl font-heading mb-[15px]">
-                {{ page.h1[lang] }}
-            </h1>
-            <div class="content" v-html="page.content[lang]">
-            </div>
+    <Head :title="page.meta_title[lang]"/>
+    <div v-if="page">
+        <Breadcrumbs :options="options" :lang="lang" :title="page.h1[lang]"/>
+        <h1 class="font-bold text-black text-center text-2xl font-heading mb-[15px]">
+            {{ page.h1[lang] }}
+        </h1>
+        <div class="content" v-html="page.content[lang]">
         </div>
-    </MasterLayout>
+    </div>
 </template>
 
 <script setup>
 import MasterLayout from '@/Layouts/MasterLayout.vue'
 import Breadcrumbs from './Breadcrumbs.vue'
 import Head from "@/Pages/Public/Components/Head.vue";
+
+defineOptions({layout: MasterLayout})
 
 defineProps([
     'page',

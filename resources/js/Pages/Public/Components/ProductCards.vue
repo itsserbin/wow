@@ -15,7 +15,7 @@
 <script setup>
 import ProductCard from '@/Pages/Public/Components/ProductCard.vue'
 
-const props = defineProps({
+defineProps({
     products: Array,
     lang: {
         type: String,

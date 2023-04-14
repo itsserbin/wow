@@ -28,11 +28,11 @@ const src = computed(() => (banner) => {
     const desktop = banner.image_desktop[props.lang] || banner.image_desktop[defaultLang];
 
     return mobile
-        ? ('images.banners.mobile', mobile + '.jpeg')
+        ? '/storage/banners/mobile/' + mobile + '.jpeg'
         : table
-            ? route('images.banners.table', table + '.jpeg')
+            ? '/storage/banners/table/' + table + '.jpeg'
             : desktop
-                ? route('images.banners.desktop', desktop + '.jpeg')
+                ? '/storage/banners/desktop/' + desktop + '.jpeg'
                 : null;
 });
 
@@ -42,16 +42,17 @@ const srcset = computed(() => (banner) => {
     const desktop = banner.image_desktop[props.lang] || banner.image_desktop[defaultLang];
 
     const mobileSrc = mobile
-        ? route('images.banners.mobile', mobile + '.webp') + ' 568w,'
-        : route('images.banners.mobile', banner.image_mobile[defaultLang] + '.webp') + ' 568w,';
+        ? '/storage/banners/mobile/' + mobile + '.webp 568w'
+        : '/storage/banners/mobile/' + banner.image_mobile[defaultLang] + '.webp 568w'
 
     const tableSrc = table
-        ? route('images.banners.table', table + '.webp') + ' 991w,'
-        : route('images.banners.table', banner.image_table[defaultLang] + '.webp') + ' 991w,';
+        ? '/storage/banners/table/' + table + '.webp 568w'
+        : '/storage/banners/table/' + banner.image_table[defaultLang] + '.webp 991w'
+
 
     const desktopSrc = desktop
-        ? route('images.banners.desktop', desktop + '.webp')
-        : route('images.banners.desktop', banner.image_desktop[defaultLang] + '.webp');
+        ? '/storage/banners/desktop/' + desktop + '.webp 568w'
+        : '/storage/banners/desktop/' + banner.image_desktop[defaultLang] + '.webp'
 
     return mobileSrc + tableSrc + desktopSrc;
 });

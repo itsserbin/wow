@@ -131,9 +131,11 @@ const item = ref({
     size: [],
     color: [],
     item_id: props.product.id,
-    src: route(route().current(), route().params),
+    // src: route(route().current(), route().params),
+    src: typeof window !== 'undefined' ? window.location.href : null,
     event_id: props.eventIdAddToCard
 });
+
 
 const state = ref({
     product: {
@@ -195,7 +197,7 @@ function addToCart() {
                     cancelButtonText: 'Продовжити покупки',
 
                 }).then((result) => {
-                    if (result.isConfirmed) {
+                    if (result.isConfirmed && typeof window !== 'undefined') {
                         window.location.href = route('checkout');
                     }
                 })

@@ -1,10 +1,4 @@
 <template>
-    <MasterLayout :categories="categories"
-                  :options="options"
-                  :lang="lang"
-                  :pages="pages"
-                  :eventIdPageView="eventIdPageView"
-    >
         <Head title="Відгуки"/>
 
         <div v-if="state.reviews.length">
@@ -21,18 +15,19 @@
                 </Button>
             </div>
         </div>
-    </MasterLayout>
 </template>
 
 <script setup>
 import Breadcrumbs from './Breadcrumbs.vue'
-import MasterLayout from '@/Layouts/MasterLayout.vue'
 import Card from './Card.vue';
 import Loader from '@/Pages/Public/Components/Loader.vue'
 import Button from '@/Pages/Public/Components/Button.vue'
 import Head from "@/Pages/Public/Components/Head.vue";
+import MasterLayout from "@/Layouts/MasterLayout.vue";
 
 import {onMounted, ref} from "vue";
+
+defineOptions({layout: MasterLayout})
 
 const props = defineProps({
     lang: String,

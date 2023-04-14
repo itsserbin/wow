@@ -13,7 +13,8 @@
             <Input type="tel"
                    v-model="item.phone"
                    placeholder="+38 (0"
-                   v-maska="'+38 (0##) ###-##-##'"
+                   v-maska
+                   data-maska="+38 (0##) ###-##-##"
             />
             <InputError v-if="errors.phone" v-for="error in errors.phone" :message="error"/>
         </div>
@@ -42,7 +43,7 @@ import Input from '@/Pages/Public/Components/Input.vue';
 import InputError from '@/Components/Form/InputError.vue';
 import Button from '@/Pages/Public/Components/Button.vue';
 import Textarea from '@/Pages/Public/Components/Textarea.vue';
-import {maska as vMaska} from 'maska'
+import { vMaska } from "@/Includes/maska"
 
 defineProps(['item', 'errors']);
 defineEmits(['submitForm']);

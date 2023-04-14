@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title inertia>{{ config('app.name', 'Laravel') }}</title>
-    <meta name="robots" content="noindex, nofollow" />
+    <meta name="robots" content="noindex, nofollow"/>
 
     @vite('resources/scss/app.scss')
     <!-- Fonts -->
@@ -13,10 +13,11 @@
 
     <!-- Scripts -->
     @routes
+    @vite('resources/js/Pages/Admin/app.js')
+{{--    @vite(['resources/js/Pages/Admin/app.js', "resources/js/Pages/Admin/{$page['component']}.vue"])--}}
     @inertiaHead
 </head>
 <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900">
 @inertia
 </body>
-@vite('resources/js/Pages/Admin/app.js')
 </html>

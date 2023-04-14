@@ -1,10 +1,4 @@
 <template>
-    <MasterLayout :categories="categories"
-                  :options="options"
-                  :lang="lang"
-                  :pages="pages"
-                  :eventIdPageView="eventIdPageView"
-    >
         <Head title="Статус замовлення"/>
 
         <div v-if="!state.isLoading">
@@ -22,7 +16,6 @@
                 />
             </div>
         </div>
-    </MasterLayout>
 </template>
 
 <script setup>
@@ -34,6 +27,7 @@ import Head from "@/Pages/Public/Components/Head.vue";
 
 import {swal} from '@/Includes/swal';
 import {onMounted, ref} from "vue";
+defineOptions({layout: MasterLayout})
 
 const props = defineProps([
     'statuses',

@@ -1,10 +1,4 @@
 <template>
-    <MasterLayout :categories="categories"
-                  :options="options"
-                  :lang="lang"
-                  :pages="pages"
-                  :eventIdPageView="eventIdPageView"
-    >
         <Head title="Підтримка клієнтів"/>
 
         <Breadcrumbs :options="options" :lang="lang" title="Підтримка"/>
@@ -15,7 +9,6 @@
                   :errors="state.errors"
             />
         </div>
-    </MasterLayout>
 </template>
 
 <script setup>
@@ -26,6 +19,7 @@ import Head from "@/Pages/Public/Components/Head.vue";
 
 import {ref} from "vue";
 import {swal} from '@/Includes/swal';
+defineOptions({layout: MasterLayout})
 
 defineProps([
     'eventIdPageView',

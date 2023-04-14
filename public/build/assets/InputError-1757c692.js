@@ -1,0 +1,1 @@
+import{G as s,N as t,y as a,m as r,p as o,v as c}from"./index-bc3c132c.js";const n={class:"text-sm text-red-600"},l={__name:"InputError",props:["message"],setup(e){return(m,i)=>s((a(),r("div",null,[o("p",n,c(e.message),1)],512)),[[t,e.message]])}};export{l as _};

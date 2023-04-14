@@ -17,7 +17,8 @@
                 <div class="block">
                     <Label :required="true">Ваш телефон</Label>
                     <Input type="tel"
-                           v-maska="'+38 (0##) ###-##-##'"
+                           v-maska
+                           data-maska="+38 (0##) ###-##-##"
                            v-model="order.phone"
                            placeholder="+38 (0"
                            class="phone"
@@ -33,7 +34,7 @@
 import {getCurrentInstance, ref} from "vue";
 import {useGtm} from "@gtm-support/vue-gtm";
 import {useStore} from "vuex";
-import {maska as vMaska} from 'maska'
+import { vMaska } from "@/Includes/maska"
 
 import Modal from '@/Pages/Public/Components/Modal.vue';
 import Input from '@/Pages/Public/Components/Input.vue';

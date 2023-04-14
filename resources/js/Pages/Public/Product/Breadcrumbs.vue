@@ -9,13 +9,14 @@ const props = defineProps([
     'options',
     'parent',
     'parentUrl',
-    'title'
+    'title',
+    'currentUrl'
 ]);
 
 const items = [
     {title: props.options.brand, url: '/'},
     {title: props.parent, url: props.parentUrl},
-    {title: props.title, url: route().current},
+    {title: props.title, url: props.currentUrl},
 ];
 
 </script>

@@ -1,11 +1,11 @@
 import {defineConfig} from 'vite';
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
-import { chunkSplitPlugin } from 'vite-plugin-chunk-split';
+import DefineOptions from 'unplugin-vue-define-options/vite'
 
 export default defineConfig({
     plugins: [
-        chunkSplitPlugin(),
+        DefineOptions(),
         laravel({
             input: [
                 'resources/js/Pages/Public/app.js',
@@ -13,6 +13,7 @@ export default defineConfig({
                 'resources/scss/app.scss',
                 'resources/scss/public.scss'
             ],
+            ssr: 'resources/js/Pages/Public/ssr.js',
             refresh: true,
         }),
         vue({

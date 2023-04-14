@@ -8,7 +8,8 @@
             <Input type="tel"
                    v-model="item.phone"
                    placeholder="+38 (0"
-                   v-maska="'+38 (0##) ###-##-##'"
+                   v-maska
+                   data-maska="+38 (0##) ###-##-##"
             />
         </div>
         <div class="block">
@@ -27,7 +28,7 @@
 import Label from '@/Pages/Public/Components/Label.vue';
 import Input from '@/Pages/Public/Components/Input.vue';
 import Button from '@/Pages/Public/Components/Button.vue';
-import {maska as vMaska} from 'maska'
+import { vMaska } from "@/Includes/maska"
 
 defineProps(['item']);
 defineEmits(['submitForm']);

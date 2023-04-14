@@ -1,67 +1,61 @@
 <template>
-    <MasterLayout :categories="categories"
-                  :options="options"
-                  :lang="lang"
-                  :pages="pages"
-                  :eventIdPageView="eventIdPageView"
-    >
-        <Head :lang="lang" :product="product"/>
-        <Breadcrumbs :options="options"
-                     :parent-url="route('category',product.categories[0].slug)"
-                     :parent="product.categories[0].title[lang]"
-                     :title="product.h1[lang]"/>
+    <Head :lang="lang" :product="product"/>
+    <Breadcrumbs :options="options"
+                 :parent-url="route('category',product.categories[0].slug)"
+                 :currentUrl-url="route().current"
+                 :parent="product.categories[0].title[lang]"
+                 :title="product.h1[lang]"/>
 
-        <div class="grid grid-cols-1 gap-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="slider">
-                    <ImagesSlider :images="product.images" :preview="product.preview"/>
-                </div>
-                <div>
-                    <h2 class="text-3xl font-heading text-text font-bold">
-                        {{ product.h1[lang] }}
-                    </h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 font-subheading">
-                        <div class="d-flex text-[10px]">
-                            <div>Код: {{ product.id }}</div>
-                            <div v-if="authUser">Артикул: {{ product.vendor_code }}</div>
-                        </div>
-                        <span v-if="product.status === 'in stock'"
-                              class="text-[#38af44] text-[14px] font-medium text-end">
+    <div class="grid grid-cols-1 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="slider">
+                <ImagesSlider :images="product.images" :preview="product.preview"/>
+            </div>
+            <div>
+                <h2 class="text-3xl font-heading text-text font-bold">
+                    {{ product.h1[lang] }}
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 font-subheading">
+                    <div class="d-flex text-[10px]">
+                        <div>Код: {{ product.id }}</div>
+                        <div v-if="authUser">Артикул: {{ product.vendor_code }}</div>
+                    </div>
+                    <span v-if="product.status === 'in stock'"
+                          class="text-[#38af44] text-[14px] font-medium text-end">
                         В наявності
                     </span>
-                        <span v-else-if="product.status === 'ends'"
-                              class="text-[#FFC300] text-[14px] font-medium text-end">
+                    <span v-else-if="product.status === 'ends'"
+                          class="text-[#FFC300] text-[14px] font-medium text-end">
                         Закінчується
                     </span>
-                        <span v-else class="text-[#C70039] text-[14px] font-medium text-end">
+                    <span v-else class="text-[#C70039] text-[14px] font-medium text-end">
                         Нема в наявності
                     </span>
-                    </div>
-                    <AddToCart :product="product"
-                               :eventIdAddToCard="eventIdAddToCard"
-                               :eventIdPurchaseIn1Click="eventIdPurchaseIn1Click"
-                    />
-                    <div class="content" v-html="product.content[lang]"></div>
                 </div>
+                <AddToCart :product="product"
+                           :eventIdAddToCard="eventIdAddToCard"
+                           :eventIdPurchaseIn1Click="eventIdPurchaseIn1Click"
+                />
+                <div class="content" v-html="product.content[lang]"></div>
             </div>
-            <Content :lang="lang"
-                     :characteristics="characteristics"
-                     :sizeTable="product.size_table"
-                     :youtube="product.youtube"
-                     :options="options"
-            />
-            <AllReviewsCarousel :data="reviews"/>
-
-            <div class="grid grid-cols-1 gap-5">
-                <RelativeProducts :lang="lang" :products="recommendProducts"/>
-                <BestSellingProducts :lang="lang" :products="bestProducts"/>
-                <NewProducts :lang="lang" :products="newProducts"/>
-            </div>
-
-            <FaqComponent :data="faqs" :lang="lang"/>
-            <Support/>
         </div>
-    </MasterLayout>
+        <Content :lang="lang"
+                 :characteristics="characteristics"
+                 :sizeTable="product.size_table"
+                 :youtube="product.youtube"
+                 :options="options"
+        />
+        <AllReviewsCarousel :data="reviews"/>
+
+        <div class="grid grid-cols-1 gap-5">
+            <RelativeProducts :lang="lang" :products="recommendProducts"/>
+            <BestSellingProducts :lang="lang" :products="bestProducts"/>
+            <NewProducts :lang="lang" :products="newProducts"/>
+        </div>
+
+        <FaqComponent :data="faqs" :lang="lang"/>
+        <Support/>
+    </div>
 </template>
 
 <script setup>
@@ -81,6 +75,8 @@ import Head from "./Head.vue";
 import {isLoading} from "@/Pages/Public/load";
 import {getCurrentInstance, onMounted} from "vue";
 import {useGtm} from "@gtm-support/vue-gtm";
+
+defineOptions({layout: MasterLayout})
 
 const {appContext} = getCurrentInstance()
 const {$fbq} = appContext.config.globalProperties

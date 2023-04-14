@@ -1,10 +1,4 @@
 <template>
-    <MasterLayout :categories="categories"
-                  :options="options"
-                  :lang="lang"
-                  :pages="pages"
-                  :eventIdPageView="eventIdPageView"
-    >
         <Head :category="category" :lang="lang"/>
 
         <Breadcrumbs :options="options" :lang="lang" :title="category.title[lang]"/>
@@ -50,7 +44,6 @@
             <Consultation v-if="consultation"/>
             <Support v-if="!isLoading"/>
         </div>
-    </MasterLayout>
 </template>
 
 <script setup>
@@ -69,6 +62,8 @@ import Button from '@/Pages/Public/Components/Button.vue'
 import MasterLayout from '@/Layouts/MasterLayout.vue'
 import Breadcrumbs from './Breadcrumbs.vue'
 import Head from './Head.vue';
+
+defineOptions({layout: MasterLayout})
 
 const props = defineProps([
     'banners',

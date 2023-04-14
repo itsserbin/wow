@@ -173,7 +173,7 @@
 </template>
 
 <script setup>
-import {computed, getCurrentInstance, defineAsyncComponent, ref} from "vue";
+import {computed, getCurrentInstance, ref} from "vue";
 import {useStore} from "vuex";
 import {useGtm} from "@gtm-support/vue-gtm";
 import {Swiper, SwiperSlide} from 'swiper/vue';
@@ -216,7 +216,8 @@ const item = ref({
     size: [],
     color: [],
     item_id: null,
-    src: route(route().current(), route().params),
+    src: typeof window !== 'undefined' ? window.location.href : null,
+    // src: route(route().current(), route().params),
     event_id: ''
 });
 
@@ -271,7 +272,7 @@ const addToCard = async (id) => {
                 cancelButtonText: 'Продовжити покупки',
 
             }).then((result) => {
-                if (result.isConfirmed) {
+                if (result.isConfirmed && typeof window !== 'undefined') {
                     window.location.href = route('checkout');
                 }
             })

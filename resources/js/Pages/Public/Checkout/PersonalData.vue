@@ -47,8 +47,8 @@
                 <Input placeholder="+38 (0"
                        type="tel"
                        v-model="order.phone"
-                       ref="phone"
-                       v-maska="'+38 (0##) ###-##-##'"
+                       v-maska
+                       data-maska="+38 (0##) ###-##-##"
                 />
                 <InputError v-if="errors.phone" v-for="error in errors.phone" :message="error"/>
             </div>
@@ -60,7 +60,7 @@
 import Label from '@/Pages/Public/Components/Label.vue'
 import Input from '@/Pages/Public/Components/Input.vue'
 import InputError from '@/Components/Form/InputError.vue'
-import {maska as vMaska} from 'maska'
+import { vMaska } from "@/Includes/maska"
 
 defineProps(['order', 'errors'])
 </script>

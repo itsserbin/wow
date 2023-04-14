@@ -1,10 +1,4 @@
 <template>
-    <MasterLayout :categories="categories"
-                  :options="options"
-                  :lang="lang"
-                  :pages="pages"
-                  :eventIdPageView="eventIdPageView"
-    >
         <Head title="Дякуємо за покупку!"/>
 
         <section class="grid gap-4 grid-cols-1">
@@ -39,7 +33,6 @@
                 <p>{{ textThanksPageSpecialsEnds }}</p>
             </div>
         </section>
-    </MasterLayout>
 </template>
 
 <script setup>
@@ -50,6 +43,7 @@ import Head from "@/Pages/Public/Components/Head.vue";
 
 import {onMounted, ref} from "vue";
 import {swal} from '@/Includes/swal';
+defineOptions({layout: MasterLayout})
 
 const props = defineProps({
     categories: Array,

@@ -1,71 +1,66 @@
 <template>
-    <MasterLayout :categories="categories"
-                  :options="options"
-                  :lang="lang"
-                  :pages="pages"
-                  :eventIdPageView="eventIdPageView"
-    >
-        <Head :title="meta.title" :description="meta.description"/>
-        <div class="grid grid-cols-1 gap-4">
-            <MainBanners v-if="banners.length" :data="banners" :lang="lang"/>
+    <Head :title="meta.title" :description="meta.description"/>
+    <div class="grid grid-cols-1 gap-4">
+        <MainBanners v-if="banners.length" :data="banners" :lang="lang"/>
 
-            <Categories v-if="categories.length" :data="categories" :lang="lang"/>
+        <Categories v-if="categories.length" :data="categories" :lang="lang"/>
 
-            <ProductsList :slider="true"
-                          :lang="lang"
-                          :data="stateBestSellingProducts.data"
-                          :isLoadMore="stateBestSellingProducts.isLoadMore"
-                          :isShowLoadMore="stateBestSellingProducts.isShowLoadMore"
-                          @fetch="fetchBestSellingProducts"
-                          v-if="stateBestSellingProducts.data.length"
-                          heading="Найпопулярніші"
-            />
+        <ProductsList :slider="true"
+                      :lang="lang"
+                      :data="stateBestSellingProducts.data"
+                      :isLoadMore="stateBestSellingProducts.isLoadMore"
+                      :isShowLoadMore="stateBestSellingProducts.isShowLoadMore"
+                      @fetch="fetchBestSellingProducts"
+                      heading="Найпопулярніші"
+        />
 
-            <ProductsList :slider="true"
-                          :lang="lang"
-                          :data="stateNewProducts.data"
-                          :isLoadMore="stateNewProducts.isLoadMore"
-                          :isShowLoadMore="stateNewProducts.isShowLoadMore"
-                          @fetch="fetchNewProducts"
-                          v-if="stateNewProducts.data.length"
-                          heading="Останні надходження"
-            />
+        <ProductsList :slider="true"
+                      :lang="lang"
+                      :data="stateNewProducts.data"
+                      :isLoadMore="stateNewProducts.isLoadMore"
+                      :isShowLoadMore="stateNewProducts.isShowLoadMore"
+                      @fetch="fetchNewProducts"
+                      heading="Останні надходження"
+        />
 
-            <ProductsList :slider="true"
-                          :lang="lang"
-                          :data="stateAllProducts.data"
-                          :isLoadMore="stateAllProducts.isLoadMore"
-                          :isShowLoadMore="stateAllProducts.isShowLoadMore"
-                          @fetch="fetchAllProducts"
-                          v-if="stateAllProducts.data.length"
-                          heading="Усі товари"
-            />
+        <ProductsList :slider="true"
+                      :lang="lang"
+                      :data="stateAllProducts.data"
+                      :isLoadMore="stateAllProducts.isLoadMore"
+                      :isShowLoadMore="stateAllProducts.isShowLoadMore"
+                      @fetch="fetchAllProducts"
+                      heading="Усі товари"
+        />
 
-            <Advantages v-if="advantages.length" :lang="lang" :data="advantages"/>
+        <Advantages v-if="advantages.length" :lang="lang" :data="advantages"/>
 
-            <AllReviewsCarousel v-if="reviews.length" :data="reviews"/>
+        <AllReviewsCarousel v-if="reviews.length" :data="reviews"/>
 
-            <Content v-if="options.text_home_page_ua || options.text_home_page_ru"
-                     :data="lang === 'ua' ? options.text_home_page_ua : options.text_home_page_ru"
-            />
+        <Content v-if="options.text_home_page_ua || options.text_home_page_ru"
+                 :data="lang === 'ua' ? options.text_home_page_ua : options.text_home_page_ru"
+        />
 
-            <FaqComponent v-if="faqs.length" :lang="lang" :data="faqs"/>
+        <FaqComponent v-if="faqs.length" :lang="lang" :data="faqs"/>
 
-            <Support v-if="!isLoading"/>
-        </div>
-    </MasterLayout>
+        <Support v-if="!isLoading"/>
+    </div>
 </template>
 
 <script setup>
 import MasterLayout from '@/Layouts/MasterLayout.vue'
-import MainBanners from './../Components/Banners.vue';
-import ProductsList from './ProductsList.vue';
-import Categories from './../Components/Categories.vue';
+// import MainBanners from './../Components/Banners.vue';
+// import ProductsList from './ProductsList.vue';
+// import Categories from './../Components/Categories.vue';
 import Head from "@/Pages/Public/Components/Head.vue";
+
+defineOptions({layout: MasterLayout})
 
 import {isLoading} from "@/Pages/Public/load";
 import {defineAsyncComponent, onMounted, ref} from "vue";
 
+const MainBanners = defineAsyncComponent(() => import('../Components/Banners.vue'));
+const Categories = defineAsyncComponent(() => import('../Components/Categories.vue'));
+const ProductsList = defineAsyncComponent(() => import('./ProductsList.vue'));
 const Content = defineAsyncComponent(() => import('../Components/Content.vue'));
 const Advantages = defineAsyncComponent(() => import('../Components/Advantages.vue'));
 const AllReviewsCarousel = defineAsyncComponent(() => import('../Components/AllReviewsCarousel.vue'));
@@ -118,27 +113,25 @@ const stateBestSellingProducts = ref({
 });
 
 onMounted(() => {
-    if (props.bestSellingProducts) {
-        stateBestSellingProducts.value.data = props.bestSellingProducts.data;
-        if (props.bestSellingProducts.current_page !== props.bestSellingProducts.per_page) {
-            stateBestSellingProducts.value.isShowLoadMore = true;
-        }
-    }
-    if (props.newProducts) {
-        stateNewProducts.value.data = props.newProducts.data;
-        if (props.newProducts.current_page !== props.newProducts.per_page) {
-            stateBestSellingProducts.value.isShowLoadMore = true;
-        }
-    }
-    if (props.allProducts) {
-        stateAllProducts.value.data = props.allProducts.data;
-        if (props.allProducts.current_page !== props.allProducts.per_page) {
-            stateAllProducts.value.isShowLoadMore = true;
-        }
-    }
+    console.log(props.bestSellingProducts);
+    stateBestSellingProducts.value.data = props.bestSellingProducts.data;
+    stateNewProducts.value.data = props.newProducts.data;
+    stateAllProducts.value.data = props.allProducts.data;
 
-    isLoading.value = false;
+    if (props.bestSellingProducts.current_page !== props.bestSellingProducts.per_page) {
+        setShowLoadMore(stateBestSellingProducts.value);
+    }
+    if (props.newProducts.current_page !== props.newProducts.per_page) {
+        setShowLoadMore(stateNewProducts.value);
+    }
+    if (props.allProducts.current_page !== props.allProducts.per_page) {
+        setShowLoadMore(stateAllProducts.value);
+    }
 })
+
+const setShowLoadMore = (product) => {
+    product.isShowLoadMore = true;
+}
 
 const fetchAllProducts = async () => {
     stateAllProducts.value.isLoadMore = true;

@@ -1,10 +1,4 @@
 <template>
-    <MasterLayout :categories="categories"
-                  :options="options"
-                  :lang="lang"
-                  :pages="pages"
-                  :eventIdPageView="eventIdPageView"
-    >
         <Head title="Кошик"/>
 
         <form @submit.prevent="goToCheckout">
@@ -21,7 +15,6 @@
                 </div>
             </div>
         </form>
-    </MasterLayout>
 </template>
 
 <script setup>
@@ -35,6 +28,8 @@ import Head from "@/Pages/Public/Components/Head.vue";
 import {useStore} from "vuex";
 import {onMounted, ref} from "vue";
 import {isLoading} from "@/Pages/Public/load";
+
+defineOptions({layout: MasterLayout})
 
 const props = defineProps([
     'recommendProducts',
