@@ -1,5 +1,6 @@
 <template>
-    <div class="rounded-[15px] bg-[#fff] border-[0.5px] border-gray-300 shadow-lg box-border mb-[1.5rem] p-[1rem] font-subheading">
+    <div
+        class="rounded-[15px] bg-[#fff] border-[0.5px] border-gray-300 shadow-lg box-border mb-[1.5rem] p-[1rem] font-subheading">
         <div class="pb-[0.625rem]">
             <div class="items-center flex justify-between">
                 <div class="text-text font-[500] uppercase">Товарів</div>
@@ -34,9 +35,11 @@
             </div>
         </div>
         <div class="items-center flex flex-col">
-            <Button type="submit" class="w-full">
-                Оформити замовлення
-            </Button>
+            <Link :href="route('checkout')" class="w-full">
+                <Button type="submit" class="w-full">
+                    Оформити замовлення
+                </Button>
+            </Link>
         </div>
     </div>
 </template>
@@ -44,6 +47,7 @@
 <script setup>
 import {useStore} from "vuex";
 import Button from '@/Pages/Public/Components/Button.vue';
+import {Link} from "@inertiajs/inertia-vue3";
 
 const store = useStore();
 </script>

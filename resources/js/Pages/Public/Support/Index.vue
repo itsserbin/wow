@@ -1,14 +1,14 @@
 <template>
-        <Head title="Підтримка клієнтів"/>
+    <Head title="Підтримка клієнтів"/>
 
-        <Breadcrumbs :currentUrl="route().current" :options="options" :lang="lang" title="Підтримка"/>
+    <Breadcrumbs :currentUrl="route().current" :options="options" :lang="lang" title="Підтримка"/>
 
-        <div class="max-w-xl mx-auto">
-            <Form :item="state.item"
-                  @submitForm="submitForm"
-                  :errors="state.errors"
-            />
-        </div>
+    <div class="max-w-xl mx-auto">
+        <Form :item="state.item"
+              @submitForm="submitForm"
+              :errors="state.errors"
+        />
+    </div>
 </template>
 
 <script setup>
@@ -17,9 +17,8 @@ import Form from '@/Pages/Public/Support/Form.vue';
 import Breadcrumbs from '@/Pages/Public/Support/Breadcrumbs.vue';
 import Head from "@/Pages/Public/Components/Head.vue";
 
-import {onMounted, ref} from "vue";
+import {ref} from "vue";
 import {swal} from '@/Includes/swal';
-import eventTracking from "@/Includes/eventTracking";
 
 defineOptions({layout: MasterLayout})
 
@@ -39,10 +38,6 @@ const state = ref({
         comment: null,
     },
     errors: []
-})
-
-onMounted(async () => {
-    eventTracking('PageView', {}, props.eventIdPageView);
 })
 
 const submitForm = async () => {

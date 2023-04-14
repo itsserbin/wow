@@ -43,7 +43,6 @@ import Head from "@/Pages/Public/Components/Head.vue";
 
 import {onMounted, ref} from "vue";
 import {swal} from '@/Includes/swal';
-import eventTracking from "@/Includes/eventTracking";
 
 defineOptions({layout: MasterLayout})
 
@@ -114,8 +113,6 @@ onMounted(async () => {
             }
 
         })
-
-    eventTracking('PageView', {}, props.eventIdPageView);
 });
 
 const addItemToOrder = async (id, price) => {

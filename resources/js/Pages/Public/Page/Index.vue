@@ -1,12 +1,17 @@
 <template>
-    <Head :title="page.meta_title[lang]"/>
-    <div v-if="page">
-        <Breadcrumbs :current-url="route().current" :options="options" :lang="lang" :title="page.h1[lang]"/>
+    <Head :title="$page.props.page.meta_title[$page.props.lang]"/>
+    <div v-if="$page.props.page">
+        <Breadcrumbs :current-url="route().current"
+                     :options="$page.props.options"
+                     :lang="$page.props.lang"
+                     :title="$page.props.page.h1[$page.props.lang]"
+        />
         <h1 class="font-bold text-black text-center text-2xl font-heading mb-[15px]">
-            {{ page.h1[lang] }}
+            {{ $page.props.page.h1[$page.props.lang] }}
         </h1>
-        <div class="content" v-html="page.content[lang]">
-        </div>
+        <div class="content"
+             v-html="$page.props.page.content[$page.props.lang]"
+        ></div>
     </div>
 </template>
 
@@ -14,21 +19,6 @@
 import MasterLayout from '@/Layouts/MasterLayout.vue'
 import Breadcrumbs from './Breadcrumbs.vue'
 import Head from "@/Pages/Public/Components/Head.vue";
-import eventTracking from "@/Includes/eventTracking";
-import {onMounted} from "vue";
 
 defineOptions({layout: MasterLayout})
-
-defineProps([
-    'page',
-    'lang',
-    'categories',
-    'options',
-    'pages',
-    'eventIdPageView',
-]);
-
-onMounted(() => {
-    eventTracking('PageView', {}, props.eventIdPageView);
-})
 </script>

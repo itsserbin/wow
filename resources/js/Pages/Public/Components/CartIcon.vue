@@ -1,6 +1,6 @@
 <template>
-    <a :href="cartLink"
-       class="
+    <Link :href="cartLink"
+          class="
                 relative
                 w-[37px]
                 h-[38px]
@@ -43,12 +43,13 @@
             >
                 {{ cart.totalCount }}</span>
         </div>
-    </a>
+    </Link>
 </template>
 
 <script setup>
 import {computed, ref} from "vue";
 import {useStore} from "vuex";
+import {Link} from "@inertiajs/inertia-vue3";
 
 const store = useStore();
 const cart = ref(store.state);

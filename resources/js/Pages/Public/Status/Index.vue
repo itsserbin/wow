@@ -27,7 +27,6 @@ import Head from "@/Pages/Public/Components/Head.vue";
 
 import {swal} from '@/Includes/swal';
 import {onMounted, ref} from "vue";
-import eventTracking from "@/Includes/eventTracking";
 
 defineOptions({layout: MasterLayout})
 
@@ -56,7 +55,6 @@ onMounted(async () => {
         state.value.item.order_id = route().params.order_id;
         await checkStatus();
     }
-    eventTracking('PageView', {}, props.eventIdPageView);
 })
 
 const checkStatus = async () => {

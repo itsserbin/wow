@@ -8,6 +8,7 @@ import {createI18n} from 'vue-i18n/dist/vue-i18n.esm-bundler.js'
 import {createApp, h} from 'vue';
 import {createInertiaApp} from '@inertiajs/inertia-vue3'
 import {resolvePageComponent} from "laravel-vite-plugin/inertia-helpers";
+import {InertiaProgress} from "@inertiajs/progress";
 
 const i18n = createI18n({})
 
@@ -42,6 +43,7 @@ export function mountPublic() {
             app.provide('$defaultLang', 'ua');
 
             app.mount(el)
-        },
+        }
     })
+    InertiaProgress.init({color: '#EC7063'});
 }

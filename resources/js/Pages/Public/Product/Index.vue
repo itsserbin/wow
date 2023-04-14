@@ -106,7 +106,6 @@ onMounted(async () => {
 
     if (import.meta.env.MODE === 'production') {
         try {
-            eventTracking('PageView', {}, props.eventIdPageView);
             eventTracking('ViewContent', {
                     "value": props.product.discount_price ? props.product.discount_price : props.product.price,
                     "currency": "UAH",

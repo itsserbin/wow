@@ -1,7 +1,7 @@
 <template>
     <Head title="Кошик"/>
 
-    <form @submit.prevent="goToCheckout">
+    <form>
         <div class="grid grid-cols-1 md:grid-cols-2 relative gap-4">
             <div class="">
                 <CartItem v-for="item in cart.list" :item="item"/>
@@ -24,11 +24,9 @@ import PromoCode from '@/Pages/Public/Cart/PromoCode.vue'
 import CartTotal from '@/Pages/Public/Cart/CartTotal.vue'
 import MasterLayout from '@/Layouts/MasterLayout.vue'
 import Head from "@/Pages/Public/Components/Head.vue";
-import eventTracking from "@/Includes/eventTracking";
 
 import {useStore} from "vuex";
 import {onMounted, ref} from "vue";
-import {isLoading} from "@/Pages/Public/load";
 
 defineOptions({layout: MasterLayout})
 
@@ -46,10 +44,5 @@ const cart = ref({});
 
 onMounted(async () => {
     cart.value = store.state;
-    eventTracking('PageView', {}, props.eventIdPageView);
-    isLoading.value = false;
 });
-const goToCheckout = () => {
-    window.location.href = route('checkout');
-}
 </script>
