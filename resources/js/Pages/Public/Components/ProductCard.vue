@@ -38,7 +38,7 @@
 
                         <img :src="route('images.350',product.preview.src)"
                              :alt="product.h1[lang]"
-                             class="h-full object-cover w-full rounded-t-lg  h-56 md:h-72 "
+                             class="object-cover w-full rounded-t-lg h-56 md:h-72 "
                         >
                     </picture>
                 </a>
