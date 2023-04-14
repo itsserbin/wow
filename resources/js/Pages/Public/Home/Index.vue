@@ -57,7 +57,7 @@ defineOptions({layout: MasterLayout})
 
 import {isLoading} from "@/Pages/Public/load";
 import {defineAsyncComponent, onMounted, ref} from "vue";
-import {PageView} from "@/Includes/eventTracking";
+import eventTracking from "@/Includes/eventTracking";
 
 const Content = defineAsyncComponent(() => import('../Components/Content.vue'));
 const Advantages = defineAsyncComponent(() => import('../Components/Advantages.vue'));
@@ -111,7 +111,7 @@ const stateBestSellingProducts = ref({
 });
 
 onMounted(() => {
-    PageView({}, props.eventIdPageView);
+    eventTracking('PageView', {}, props.eventIdPageView);
     stateBestSellingProducts.value.data = props.bestSellingProducts.data;
     stateNewProducts.value.data = props.newProducts.data;
     stateAllProducts.value.data = props.allProducts.data;

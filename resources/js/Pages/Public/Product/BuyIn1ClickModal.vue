@@ -35,7 +35,7 @@ import {ref} from "vue";
 import {useGtm} from "@gtm-support/vue-gtm";
 import {useStore} from "vuex";
 import {vMaska} from "@/Includes/maska"
-import {addToCart, purchase} from "@/Includes/eventTracking";
+import eventTracking from "@/Includes/eventTracking";
 
 import Modal from '@/Pages/Public/Components/Modal.vue';
 import Input from '@/Pages/Public/Components/Input.vue';
@@ -85,7 +85,9 @@ async function sendForm() {
                 props.isAddToCart = true;
                 if (import.meta.env.MODE === 'production') {
                     try {
-                        addToCart({
+                        eventTracking(
+                            'AddToCart',
+                            {
                                 "value": props.product.discount_price ? props.product.discount_price : props.product.price,
                                 "currency": "UAH",
                                 "content_type": "product",
@@ -121,7 +123,9 @@ async function createOrder() {
                         })
                     });
 
-                    purchase({
+                    eventTracking(
+                        'Purchase',
+                        {
                             "value": store.state.totalPrice,
                             "currency": "UAH",
                             "content_type": "product",

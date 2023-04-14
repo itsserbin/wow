@@ -1,0 +1,1 @@
+import{g as t,l as a,j as n,p as o}from"./app-dd6fef3b.js";const s={key:0,class:"font-bold text-black text-center text-2xl font-subheading mb-[15px]"},d={__name:"Heading",props:["heading"],setup(e){return(c,r)=>e.heading?(o(),t("div",s,a(e.heading),1)):n("",!0)}};export{d as default};

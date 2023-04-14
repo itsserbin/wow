@@ -107,18 +107,16 @@
 </template>
 
 <script setup>
-import {getCurrentInstance, inject, ref} from "vue";
+import {ref} from "vue";
 import {useStore} from "vuex";
 import BuyIn1Click from '@/Pages/Public/Product/BuyIn1ClickModal.vue';
 import {useGtm} from "@gtm-support/vue-gtm";
 import Button from '@/Pages/Public/Components/Button.vue'
 import {swal} from '@/Includes/swal';
-import {addToCart as eAddToCart} from "@/Includes/eventTracking";
+import eventTracking from "@/Includes/eventTracking";
 
 const gtm = useGtm();
 const store = useStore();
-const {appContext} = getCurrentInstance()
-const {$fbq} = appContext.config.globalProperties
 
 const props = defineProps([
     'product',
@@ -162,7 +160,9 @@ function addToCart() {
                 state.value.isAddToCart = true;
                 if (import.meta.env.MODE === 'production') {
                     try {
-                        eAddToCart({
+                        eventTracking(
+                            'AddToCart',
+                            {
                                 "value": props.product.discount_price ? props.product.discount_price : props.product.price,
                                 "currency": "UAH",
                                 "content_type": "product",

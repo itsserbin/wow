@@ -49,7 +49,7 @@
 <script setup>
 import {isLoading} from "@/Pages/Public/load";
 import {computed, onMounted, ref} from "vue";
-import {PageView} from "@/Includes/eventTracking";
+import eventTracking from "@/Includes/eventTracking";
 
 import Support from '../Components/Support.vue';
 import Consultation from '../Components/Consultation.vue';
@@ -106,7 +106,7 @@ const getParams = computed(() => {
 
 onMounted(async () => {
     state.value.products = props.products.data;
-    PageView({}, props.eventIdPageView);
+    eventTracking('PageView', {}, props.eventIdPageView);
     isLoading.value = false;
 })
 

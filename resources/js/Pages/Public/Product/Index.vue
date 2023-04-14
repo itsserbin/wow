@@ -71,7 +71,7 @@ import AddToCart from './AddToCart.vue';
 import MasterLayout from '@/Layouts/MasterLayout.vue'
 import Breadcrumbs from './Breadcrumbs.vue'
 import Head from "./Head.vue";
-import {PageView, ViewContent} from "@/Includes/eventTracking";
+import eventTracking from "@/Includes/eventTracking";
 
 import {isLoading} from "@/Pages/Public/load";
 import {onMounted} from "vue";
@@ -106,8 +106,8 @@ onMounted(async () => {
 
     if (import.meta.env.MODE === 'production') {
         try {
-            PageView({}, props.eventIdPageView)
-            ViewContent({
+            eventTracking('PageView', {}, props.eventIdPageView);
+            eventTracking('ViewContent', {
                     "value": props.product.discount_price ? props.product.discount_price : props.product.price,
                     "currency": "UAH",
                     "content_type": "product",

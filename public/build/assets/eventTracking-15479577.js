@@ -1,1 +1,0 @@
-import{ac as o}from"./app-c2ee199e.js";const{appContext:n}=o(),e=n.config.globalProperties.$fbq,c=(t={},a)=>{e("PageView",t,a)},r=(t={},a)=>{e("ViewContent",t,a)},i=(t={},a)=>{e("AddToCart",t,a)},p=(t={},a)=>{e("Purchase",t,a)};export{c as P,r as V,i as a,p};
