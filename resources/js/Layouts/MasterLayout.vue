@@ -18,22 +18,7 @@ import FixedBanner from '@/Pages/Public/Components/FixedBanner.vue'
 import ScrollToTop from '@/Pages/Public/Components/ScrollToTop.vue'
 import {getCurrentInstance, onMounted} from "vue";
 
-const {appContext} = getCurrentInstance()
-const {$fbq} = appContext.config.globalProperties
-
-const props = defineProps([
-    'eventIdPageView'
-]);
-
 onMounted(() => {
-    if (import.meta.env.MODE === 'production') {
-        try {
-            $fbq('PageView', {}, props.eventIdPageView);
-        } catch (e) {
-            console.error(e);
-        }
-    }
-
     const loader = document.querySelector('.loader');
     if (loader) {
         loader.classList.add('hidden');

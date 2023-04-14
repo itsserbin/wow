@@ -17,8 +17,10 @@ import Form from '@/Pages/Public/Support/Form.vue';
 import Breadcrumbs from '@/Pages/Public/Support/Breadcrumbs.vue';
 import Head from "@/Pages/Public/Components/Head.vue";
 
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import {swal} from '@/Includes/swal';
+import eventTracking from "@/Includes/eventTracking";
+
 defineOptions({layout: MasterLayout})
 
 defineProps([
@@ -37,6 +39,10 @@ const state = ref({
         comment: null,
     },
     errors: []
+})
+
+onMounted(async () => {
+    eventTracking('PageView', {}, props.eventIdPageView);
 })
 
 const submitForm = async () => {

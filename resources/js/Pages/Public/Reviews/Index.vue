@@ -25,6 +25,7 @@ import Button from '@/Pages/Public/Components/Button.vue'
 import Head from "@/Pages/Public/Components/Head.vue";
 import MasterLayout from "@/Layouts/MasterLayout.vue";
 
+import eventTracking from "@/Includes/eventTracking";
 import {onMounted, ref} from "vue";
 
 defineOptions({layout: MasterLayout})
@@ -51,6 +52,7 @@ const state = ref({
 
 onMounted(async () => {
     await fetch();
+    eventTracking('PageView', {}, props.eventIdPageView);
 })
 
 const fetch = async () => {

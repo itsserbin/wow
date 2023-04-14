@@ -1,38 +1,38 @@
 <template>
-        <Head title="Дякуємо за покупку!"/>
+    <Head title="Дякуємо за покупку!"/>
 
-        <section class="grid gap-4 grid-cols-1">
-            <div class="grid grid-cols-1 gap-4">
-                <h1 class="font-bold text-black text-center text-2xl font-heading">
-                    {{ textThanksPageTitle }}
-                </h1>
+    <section class="grid gap-4 grid-cols-1">
+        <div class="grid grid-cols-1 gap-4">
+            <h1 class="font-bold text-black text-center text-2xl font-heading">
+                {{ textThanksPageTitle }}
+            </h1>
 
-                <div class="text-center text-xl font-subheading">
-                    <p>{{ textThanksPageDescription }}</p>
-                </div>
-
-                <div class="text-center text-xl font-subheading" v-if="state.orderId">
-                    {{ textThanksPageOrderId }} {{ state.orderId }}
-                </div>
+            <div class="text-center text-xl font-subheading">
+                <p>{{ textThanksPageDescription }}</p>
             </div>
 
-            <div v-if="state.activeSpecialOffer" class="grid gap-4 mt-5">
-                <div class="font-bold text-black text-center text-2xl font-subheading">
-                    {{ textThanksPageSpecials }}
-                </div>
-                <Timer :timer="timer"/>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <ProductCard v-for="product in state.products"
-                                 :product="product"
-                                 @addItemToOrder="addItemToOrder"
-                                 :lang="lang"
-                    />
-                </div>
+            <div class="text-center text-xl font-subheading" v-if="state.orderId">
+                {{ textThanksPageOrderId }} {{ state.orderId }}
             </div>
-            <div v-else class="order-page__text my-5">
-                <p>{{ textThanksPageSpecialsEnds }}</p>
+        </div>
+
+        <div v-if="state.activeSpecialOffer" class="grid gap-4 mt-5">
+            <div class="font-bold text-black text-center text-2xl font-subheading">
+                {{ textThanksPageSpecials }}
             </div>
-        </section>
+            <Timer :timer="timer"/>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <ProductCard v-for="product in state.products"
+                             :product="product"
+                             @addItemToOrder="addItemToOrder"
+                             :lang="lang"
+                />
+            </div>
+        </div>
+        <div v-else class="order-page__text my-5">
+            <p>{{ textThanksPageSpecialsEnds }}</p>
+        </div>
+    </section>
 </template>
 
 <script setup>
@@ -43,6 +43,8 @@ import Head from "@/Pages/Public/Components/Head.vue";
 
 import {onMounted, ref} from "vue";
 import {swal} from '@/Includes/swal';
+import eventTracking from "@/Includes/eventTracking";
+
 defineOptions({layout: MasterLayout})
 
 const props = defineProps({
@@ -112,6 +114,8 @@ onMounted(async () => {
             }
 
         })
+
+    eventTracking('PageView', {}, props.eventIdPageView);
 });
 
 const addItemToOrder = async (id, price) => {

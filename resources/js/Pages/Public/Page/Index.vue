@@ -14,6 +14,8 @@
 import MasterLayout from '@/Layouts/MasterLayout.vue'
 import Breadcrumbs from './Breadcrumbs.vue'
 import Head from "@/Pages/Public/Components/Head.vue";
+import eventTracking from "@/Includes/eventTracking";
+import {onMounted} from "vue";
 
 defineOptions({layout: MasterLayout})
 
@@ -24,5 +26,9 @@ defineProps([
     'options',
     'pages',
     'eventIdPageView',
-])
+]);
+
+onMounted(() => {
+    eventTracking('PageView', {}, props.eventIdPageView);
+})
 </script>
