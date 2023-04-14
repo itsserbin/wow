@@ -126,9 +126,9 @@ class UploadImagesService
             $path = ImagesPath::DESKTOP_BANNER;
         }
 
-        $filename = $image->getClientOriginalName();
-        $filename = $this->createFilename($path . $filename . '.jpeg', $filename . '.jpeg');
-        $filename_webp = $this->createFilename($path . $filename . '.webp', $filename . '.webp');
+        $filenameOrigin = $image->getClientOriginalName();
+        $filename = preg_replace('"\.(jpg|jpeg|png|webp)$"', '.jpeg', $this->createFilename($path . $filenameOrigin, $filenameOrigin));
+        $filename_webp = preg_replace('"\.(jpg|jpeg|png|webp)$"', '.webp', $filenameOrigin);
 
         Storage::disk('s3')->put(
             $path . $filename,
