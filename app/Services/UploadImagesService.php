@@ -139,7 +139,8 @@ class UploadImagesService
             $this->makeImage($image, false, null, 'webp', 100, true)
         );
 
-        return $filename;
+        $basename = basename($filename);
+        return pathinfo($basename, PATHINFO_FILENAME);
     }
 
     final public function uploadLogo(array $data): string|bool
