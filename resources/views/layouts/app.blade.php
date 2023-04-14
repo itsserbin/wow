@@ -13,7 +13,7 @@
 
     <!-- Scripts -->
     @routes
-    @vite('resources/js/Pages/Admin/app.js')
+    @vite('resources/js/Pages/app.js')
 {{--    @vite(['resources/js/Pages/Admin/app.js', "resources/js/Pages/Admin/{$page['component']}.vue"])--}}
     @inertiaHead
 </head>

@@ -14,7 +14,7 @@ Route::prefix('admin')
     ->group(function () {
 
         Route::get('/', function () {
-            return Inertia::render('Dashboard');
+            return Inertia::render('Admin/Dashboard');
         })->name('admin.dashboard');
 
         Route::prefix('content')->group(function () {

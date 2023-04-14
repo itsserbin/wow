@@ -2,7 +2,7 @@
         <Head title="Статус замовлення"/>
 
         <div v-if="!state.isLoading">
-            <Breadcrumbs :options="options" :lang="lang" title="Статус замовлення"/>
+            <Breadcrumbs :current-url="route().current" :options="options" :lang="lang" title="Статус замовлення"/>
 
             <div class="max-w-xl mx-auto">
                 <Form :item="state.item"

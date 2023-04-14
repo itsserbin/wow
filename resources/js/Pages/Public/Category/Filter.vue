@@ -12,24 +12,24 @@
             </svg>
         </button>
         <div class="grid grid-cols-1 gap-4">
-            <div class="block">
-                <label class="block mb-2 text-sm font-medium text-gray-900">
-                    Ціна
-                </label>
-                <div class="flex items-center">
-                    <Input type="nubmer" v-model="state.price[0]" placeholder="Від" class="mt-0"/>
-                    <p class="text-2xl px-3">-</p>
-                    <Input type="nubmer" v-model="state.price[1]" placeholder="До" class="mt-0"/>
-                </div>
-              <div class="py-6">
-                  <Slider v-model="state.price"
-                          tooltipPosition="bottom"
-                          :min="characteristics.price.min"
-                          :max="characteristics.price.max"
-                          class="slider-red"
-                  />
-              </div>
-            </div>
+<!--            <div class="block">-->
+<!--                <label class="block mb-2 text-sm font-medium text-gray-900">-->
+<!--                    Ціна-->
+<!--                </label>-->
+<!--                <div class="flex items-center">-->
+<!--                    <Input type="nubmer" v-model="state.price[0]" placeholder="Від" class="mt-0"/>-->
+<!--                    <p class="text-2xl px-3">-</p>-->
+<!--                    <Input type="nubmer" v-model="state.price[1]" placeholder="До" class="mt-0"/>-->
+<!--                </div>-->
+<!--              <div class="py-6">-->
+<!--                  <Slider v-model="state.price"-->
+<!--                          tooltipPosition="bottom"-->
+<!--                          :min="characteristics.price.min"-->
+<!--                          :max="characteristics.price.max"-->
+<!--                          class="slider-red"-->
+<!--                  />-->
+<!--              </div>-->
+<!--            </div>-->
             <div class="block">
                 <label class="block mb-2 text-sm font-medium text-gray-900">
                     Розміри
@@ -115,7 +115,7 @@ import Input from '@/Pages/Public/Components/Input.vue'
 import Button from '@/Pages/Public/Components/Button.vue'
 import Accordion from "@/Pages/Public/Components/Accordion/Accordion.vue";
 import AccordionItem from "@/Pages/Public/Components/Accordion/AccordionItem.vue";
-import Slider from '@vueform/slider'
+// import Slider from '@vueform/slider/dist/slider'
 
 const props = defineProps(['characteristics', 'lang','isShow']);
 const emits = defineEmits(['fetch','close']);

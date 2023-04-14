@@ -59,7 +59,7 @@ class HomeController extends Controller
     {
         $this->facebookService->view($this->event_id_page_view);
 
-        return Inertia::render('Home/Index', [
+        return Inertia::render('Public/Home/Index', [
             'lang' => app()->getLocale(),
             'categories' => $this->getCategories(),
             'pages' => $this->getPagesList(),
@@ -92,7 +92,7 @@ class HomeController extends Controller
             'colors' => $this->colorsRepository->getListForPublic($slug)
         ];
 
-        return Inertia::render('Category/Index', [
+        return Inertia::render('Public/Category/Index', [
             'lang' => app()->getLocale(),
             'products' => $this->productRepository->getByCategorySlugToPublic($slug, $request->all()),
             'banners' => $this->bannersRepository->getForPublic($slug),
@@ -123,7 +123,7 @@ class HomeController extends Controller
         $this->productRepository->updateProductViewed($id);
 
 
-        return Inertia::render('Product/Index', [
+        return Inertia::render('Public/Product/Index', [
             'lang' => app()->getLocale(),
             'characteristics' => $this->productRepository->getCharacteristicsForPublic($id),
             'options' => $this->getOptions(),
@@ -149,7 +149,7 @@ class HomeController extends Controller
     {
         $this->facebookService->view($this->event_id_page_view);
 
-        return Inertia::render('Cart/Index', [
+        return Inertia::render('Public/Cart/Index', [
             'lang' => app()->getLocale(),
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
@@ -165,7 +165,7 @@ class HomeController extends Controller
         $this->facebookService->view($this->event_id_page_view);
         $this->facebookService->InitiateCheckout($this->shoppingCartService->cartList(), $event_id_initiateCheckout);
 
-        return Inertia::render('Checkout/Index', [
+        return Inertia::render('Public/Checkout/Index', [
             'lang' => app()->getLocale(),
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
@@ -184,7 +184,7 @@ class HomeController extends Controller
             return abort(404);
         }
 
-        return Inertia::render('Page/Index', [
+        return Inertia::render('Public/Page/Index', [
             'lang' => app()->getLocale(),
             'page' => $result,
             'options' => $this->getOptions(),
@@ -198,7 +198,7 @@ class HomeController extends Controller
     {
         $this->facebookService->view($this->event_id_page_view);
 
-        return Inertia::render('Reviews/Index', [
+        return Inertia::render('Public/Reviews/Index', [
             'lang' => app()->getLocale(),
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
@@ -211,7 +211,7 @@ class HomeController extends Controller
     {
         $this->facebookService->view($this->event_id_page_view);
 
-        return Inertia::render('Thanks/Index', [
+        return Inertia::render('Public/Thanks/Index', [
             'lang' => app()->getLocale(),
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
@@ -224,7 +224,7 @@ class HomeController extends Controller
     {
         $this->facebookService->view($this->event_id_page_view);
 
-        return Inertia::render('Status/Index', [
+        return Inertia::render('Public/Status/Index', [
             'lang' => app()->getLocale(),
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
@@ -238,7 +238,7 @@ class HomeController extends Controller
     {
         $this->facebookService->view($this->event_id_page_view);
 
-        return Inertia::render('Support/Index', [
+        return Inertia::render('Public/Support/Index', [
             'lang' => app()->getLocale(),
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),

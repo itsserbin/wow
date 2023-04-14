@@ -1,1 +1,0 @@
-import{m as t,v as a,q as n,y as o}from"./index-bc3c132c.js";const s={key:0,class:"font-bold text-black text-center text-2xl font-subheading mb-[15px]"},d={__name:"Heading",props:["heading"],setup(e){return(c,r)=>e.heading?(o(),t("div",s,a(e.heading),1)):n("",!0)}};export{d as default};

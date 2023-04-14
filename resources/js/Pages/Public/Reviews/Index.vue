@@ -2,7 +2,7 @@
         <Head title="Відгуки"/>
 
         <div v-if="state.reviews.length">
-            <Breadcrumbs :options="options" :lang="lang" title="Відгуки"/>
+            <Breadcrumbs :current-url="route().current" :options="options" :lang="lang" title="Відгуки"/>
 
             <h1 class="font-bold text-black text-center text-[24px] mb-[15px]">
                 Відгуки

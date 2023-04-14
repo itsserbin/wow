@@ -1,34 +1,5 @@
-import VueSweetalert2 from 'vue-sweetalert2';
-import moment from "moment";
-import numeral from "numeral";
-import Editor from '@tinymce/tinymce-vue';
 import i18n from "@/Includes/i18n";
 
-import Card from '@/Components/Card.vue';
-import Sidebar from '@/Components/Sidebar/Sidebar.vue';
-import SidebarItem from '@/Components/Sidebar/SidebarItem.vue';
-import LangTabs from '@/Components/LangTabs.vue';
-import Table from '@/Components/Table.vue';
-import Loader from '@/Components/Loader.vue';
-import Modal from '@/Components/Modal.vue';
-import ImageCard from '@/Components/ImageCard.vue';
-import Button from '@/Components/Button.vue';
-import Label from '@/Components/Form/Label.vue';
-import Checkbox from '@/Components/Form/Checkbox.vue';
-import Input from '@/Components/Form/Input.vue';
-import UploadInput from '@/Components/Form/UploadImagesInput.vue';
-import Textarea from '@/Components/Form/Textarea.vue';
-import Select from '@/Components/Form/Select.vue';
-import XCircle from '@/Components/Icons/XCircle.vue';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import Multiselect from '@/Components/Multiselect/Multiselect.vue';
-import Paginate from '@/Components/Paginate.vue';
-import Search from '@/Components/Search.vue';
-import Datepicker from '@vuepic/vue-datepicker';
-import user from '@/Includes/user.js';
-import {Chart, registerables} from 'chart.js';
-
-Chart.register(...registerables);
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
 import {createSSRApp, h} from 'vue';
@@ -43,7 +14,7 @@ createServer((page) =>
         page,
         render: renderToString,
         title: (title) => `${title} - ${appName}`,
-        resolve: (name) => resolvePageComponent(`./${name}.vue`, import.meta.glob('./**/*.vue')),
+        resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
         setup({App, props, plugin}) {
             return createSSRApp({render: () => h(App, props)})
                 .use(plugin)
@@ -52,8 +23,7 @@ createServer((page) =>
                     location: new URL(page.props.ziggy.location),
                 })
                 .use(i18n)
-                .provide('$defaultLang', 'ua')
-                .use(store);
+                .provide('$defaultLang', 'ua');
 
             // app.use(VueSweetalert2);
             // app.use(user);

@@ -1,7 +1,7 @@
 <template>
         <Head :category="category" :lang="lang"/>
 
-        <Breadcrumbs :options="options" :lang="lang" :title="category.title[lang]"/>
+        <Breadcrumbs :currentUrl="route().current" :options="options" :lang="lang" :title="category.title[lang]"/>
 
         <div class="grid grid-cols-1 gap-4">
 

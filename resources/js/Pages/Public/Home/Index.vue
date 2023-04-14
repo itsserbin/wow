@@ -47,10 +47,15 @@
 </template>
 
 <script setup>
+import ProductsList from './ProductsList.vue';
 import MasterLayout from '@/Layouts/MasterLayout.vue'
-// import MainBanners from './../Components/Banners.vue';
-// import ProductsList from './ProductsList.vue';
-// import Categories from './../Components/Categories.vue';
+import MainBanners from './../Components/Banners.vue';
+import Categories from './../Components/Categories.vue';
+// import Content from './../Components/Content.vue';
+// import Advantages from './../Components/Advantages.vue';
+// import AllReviewsCarousel from './../Components/AllReviewsCarousel.vue';
+// import FaqComponent from './../Components/FaqComponent.vue';
+// import Support from './../Components/Support.vue';
 import Head from "@/Pages/Public/Components/Head.vue";
 
 defineOptions({layout: MasterLayout})
@@ -58,9 +63,6 @@ defineOptions({layout: MasterLayout})
 import {isLoading} from "@/Pages/Public/load";
 import {defineAsyncComponent, onMounted, ref} from "vue";
 
-const MainBanners = defineAsyncComponent(() => import('../Components/Banners.vue'));
-const Categories = defineAsyncComponent(() => import('../Components/Categories.vue'));
-const ProductsList = defineAsyncComponent(() => import('./ProductsList.vue'));
 const Content = defineAsyncComponent(() => import('../Components/Content.vue'));
 const Advantages = defineAsyncComponent(() => import('../Components/Advantages.vue'));
 const AllReviewsCarousel = defineAsyncComponent(() => import('../Components/AllReviewsCarousel.vue'));
@@ -113,7 +115,6 @@ const stateBestSellingProducts = ref({
 });
 
 onMounted(() => {
-    console.log(props.bestSellingProducts);
     stateBestSellingProducts.value.data = props.bestSellingProducts.data;
     stateNewProducts.value.data = props.newProducts.data;
     stateAllProducts.value.data = props.allProducts.data;
@@ -127,6 +128,8 @@ onMounted(() => {
     if (props.allProducts.current_page !== props.allProducts.per_page) {
         setShowLoadMore(stateAllProducts.value);
     }
+    console.log(props.bestSellingProducts);
+
 })
 
 const setShowLoadMore = (product) => {

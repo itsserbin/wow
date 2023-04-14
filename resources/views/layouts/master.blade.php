@@ -27,7 +27,7 @@
     {{--    <link rel="alternate" href="{{setLinkToLang(request()->url(),'ua')}}" hreflang="uk-UA"/>--}}
     {{--    <link rel="alternate" href="{{setLinkToLang(request()->url(),'ua')}}" hreflang="x-default"/>--}}
     @routes
-    @vite('resources/js/Pages/Public/app.js')
+    @vite('resources/js/Pages/app.js')
 {{--    @vite(['resources/js/Pages/Public/app.js', "resources/js/Pages/Public/{$page['component']}.vue"])--}}
     @inertiaHead
 

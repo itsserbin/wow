@@ -1,7 +1,7 @@
 <template>
     <Head :title="page.meta_title[lang]"/>
     <div v-if="page">
-        <Breadcrumbs :options="options" :lang="lang" :title="page.h1[lang]"/>
+        <Breadcrumbs :current-url="route().current" :options="options" :lang="lang" :title="page.h1[lang]"/>
         <h1 class="font-bold text-black text-center text-2xl font-heading mb-[15px]">
             {{ page.h1[lang] }}
         </h1>

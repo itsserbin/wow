@@ -34,6 +34,9 @@ onMounted(() => {
         }
     }
 
-    document.querySelector('.loader').classList.add('hidden');
+    const loader = document.querySelector('.loader');
+    if (loader) {
+        loader.classList.add('hidden');
+    }
 })
 </script>

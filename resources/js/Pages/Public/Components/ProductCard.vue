@@ -30,47 +30,18 @@
         </div>
         <div>
             <div class="w-full mx-auto">
-                <div v-if="!slider">
-                    <a :href="route('product',product.id)">
-                        <picture>
-                            <source :srcset="route('images.350',product.preview.webp_src)"
-                                    v-if="route('images.350',product.preview.webp_src)"
-                                    type="image/webp">
-                            <img :src="route('images.350',product.preview.src)"
-                                 :alt="lang === 'ru' ? product.h1.ru : (lang === 'ua' ? product.h1.ua : null)"
-                                 class="h-full object-cover w-full rounded-t-lg  h-56 md:h-72 "
-                            >
-                        </picture>
-                    </a>
-                </div>
-                <div v-if="slider">
-                    <swiper v-bind="settings" :modules="modules" class="product-card-swiper">
-                        <swiper-slide>
-                            <a :href="route('product',product.id)">
-                                <picture>
-                                    <source
-                                        :srcset="product.preview ? route('images.350',product.preview.webp_src) : null"
-                                        type="image/webp">
-                                    <img :src="product.preview ? route('images.350',product.preview.src) : null"
-                                         class="h-full object-cover w-full rounded-t-lg  h-56 md:h-72 swiper-lazy"
-                                         :alt="product.h1[lang]"
-                                    >
-                                </picture>
-                            </a>
-                        </swiper-slide>
-                        <swiper-slide v-for="image in product.images">
-                            <a :href="route('product',product.id)">
-                                <img :data-src="route('images.350',image.src) "
-                                     :data-srcset="route('images.350',image.webp_src) "
-                                     :alt="product.h1[lang]"
-                                     class="h-full object-cover w-full rounded-t-lg  h-56 md:h-72 swiper-lazy"
-                                >
-                                <div class="swiper-lazy-preloader swiper-lazy-preloader-black"></div>
-                            </a>
-                        </swiper-slide>
-                    </swiper>
-                </div>
+                <a :href="route('product',product.id)">
+                    <picture v-if="product.preview">
+                        <source :srcset="route('images.350',product.preview.webp_src)"
+                                v-if="product.preview.webp_src"
+                                type="image/webp">
 
+                        <img :src="route('images.350',product.preview.src)"
+                             :alt="product.h1[lang]"
+                             class="h-full object-cover w-full rounded-t-lg  h-56 md:h-72 "
+                        >
+                    </picture>
+                </a>
             </div>
         </div>
 
@@ -98,7 +69,7 @@
                             text-base
                         "
                 >
-                    {{ lang === 'ru' ? product.h1.ru : (lang === 'ua' ? product.h1.ua : null) }}
+                    {{ product.h1[$page.props.lang] }}
                 </h5>
 
             </a>
@@ -176,8 +147,6 @@
 import {computed, getCurrentInstance, ref} from "vue";
 import {useStore} from "vuex";
 import {useGtm} from "@gtm-support/vue-gtm";
-import {Swiper, SwiperSlide} from 'swiper/vue';
-import {Lazy, Navigation} from "swiper";
 import {swal} from '@/Includes/swal';
 
 const {appContext} = getCurrentInstance()
@@ -196,18 +165,6 @@ const props = defineProps({
     }
 });
 
-const modules = [Lazy, Navigation];
-const settings = {
-    slidesPerView: 1,
-    lazy: true,
-    navigation: true,
-    loop: true,
-    style: {
-        '--swiper-navigation-color': 'rgba(255, 255, 255, 0.3)',
-        '--swiper-pagination-color': 'rgba(255, 255, 255, 0.3)',
-    }
-};
-
 const store = useStore();
 
 const gtm = useGtm();
@@ -217,13 +174,12 @@ const item = ref({
     color: [],
     item_id: null,
     src: typeof window !== 'undefined' ? window.location.href : null,
-    // src: route(route().current(), route().params),
     event_id: ''
 });
 
 const discountPercentage = computed(() => (price, discount_price) => `- ${(((price - discount_price) * 100) / price).toFixed()}%`);
 
-function uuidv4() {
+const uuidv4 = () => {
     return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
         (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
     );

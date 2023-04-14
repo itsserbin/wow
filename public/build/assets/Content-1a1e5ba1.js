@@ -1,1 +1,0 @@
-import{m as t,q as n,y as a}from"./index-bc3c132c.js";const o=["innerHTML"],m={__name:"Content",props:["data"],setup(e){return(c,r)=>e.data?(a(),t("div",{key:0,class:"content",innerHTML:e.data},null,8,o)):n("",!0)}};export{m as default};

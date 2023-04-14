@@ -1,7 +1,7 @@
 <template>
         <Head title="Підтримка клієнтів"/>
 
-        <Breadcrumbs :options="options" :lang="lang" title="Підтримка"/>
+        <Breadcrumbs :currentUrl="route().current" :options="options" :lang="lang" title="Підтримка"/>
 
         <div class="max-w-xl mx-auto">
             <Form :item="state.item"

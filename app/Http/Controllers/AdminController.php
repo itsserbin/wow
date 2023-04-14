@@ -34,69 +34,69 @@ class AdminController extends Controller
 
     final public function content(): Response
     {
-        return Inertia::render('Content/Index', [
+        return Inertia::render('Admin/Content/Index', [
             'logo' => $this->getLogo()
         ]);
     }
 
     final public function users(): Response
     {
-        return Inertia::render('Options/Users/Index');
+        return Inertia::render('Admin/Options/Users/Index');
     }
 
     final public function crm(): Response
     {
-        return Inertia::render('Crm/Index');
+        return Inertia::render('Admin/Crm/Index');
     }
 
     final public function images(): Response
     {
-        return Inertia::render('Content/Images/Index');
+        return Inertia::render('Admin/Content/Images/Index');
     }
 
     final public function productReviews(): Response
     {
-        return Inertia::render('Content/Reviews/Products/Index');
+        return Inertia::render('Admin/Content/Reviews/Products/Index');
     }
 
     final public function socialReviews(): Response
     {
-        return Inertia::render('Content/Reviews/Socials/Index');
+        return Inertia::render('Admin/Content/Reviews/Socials/Index');
     }
 
     final public function products(): Response
     {
-        return Inertia::render('Content/Products/Index');
+        return Inertia::render('Admin/Content/Products/Index');
     }
 
     final public function pages(): Response
     {
-        return Inertia::render('Content/Pages/Index');
+        return Inertia::render('Admin/Content/Pages/Index');
     }
 
     final public function categories(): Response
     {
-        return Inertia::render('Content/Categories/Index');
+        return Inertia::render('Admin/Content/Categories/Index');
     }
 
     final public function providers(): Response
     {
-        return Inertia::render('Options/Providers/Index');
+        return Inertia::render('Admin/Options/Providers/Index');
     }
 
     final public function roles(): Response
     {
-        return Inertia::render('Options/Roles/Index');
+        return Inertia::render('Admin/Options/Roles/Index');
     }
 
     final public function permissions(): Response
     {
-        return Inertia::render('Options/Permissions/Index');
+        return Inertia::render('Admin/Options/Permissions/Index');
     }
 
     final public function orders(): Response
     {
-        return Inertia::render('Crm/Orders/Index', [
+        return Inertia::render('Admin/Crm/Orders/Index', [
             'statuses' => OrderStatus::state,
             'clientStatuses' => ClientStatus::state,
             'payment_methods' => PaymentMethod::state,
@@ -106,7 +106,7 @@ class AdminController extends Controller
 
     final public function clients(): Response
     {
-        return Inertia::render('Crm/Clients/Index', [
+        return Inertia::render('Admin/Crm/Clients/Index', [
             'orderStatuses' => OrderStatus::state,
             'statuses' => ClientStatus::state,
             'subStatuses' => ClientSubStatus::state
@@ -115,127 +115,127 @@ class AdminController extends Controller
 
     final public function callbacks(): Response
     {
-        return Inertia::render('Crm/Callbacks/Index', [
+        return Inertia::render('Admin/Crm/Callbacks/Index', [
             'statuses' => CallbackStatus::state
         ]);
     }
 
     final public function supports(): Response
     {
-        return Inertia::render('Crm/Supports/Index', [
+        return Inertia::render('Admin/Crm/Supports/Index', [
             'statuses' => SupportStatus::state
         ]);
     }
 
     final public function invoices(): Response
     {
-        return Inertia::render('Crm/Invoices/Index', [
+        return Inertia::render('Admin/Crm/Invoices/Index', [
             'statuses' => InvoicesStatus::state
         ]);
     }
 
     final public function options(): Response
     {
-        return Inertia::render('Options/Index');
+        return Inertia::render('Admin/Options/Index');
     }
 
     final public function optionsMain(): Response
     {
-        return Inertia::render('Options/Main/Index');
+        return Inertia::render('Admin/Options/Main/Index');
     }
 
     final public function optionsScripts(): Response
     {
-        return Inertia::render('Options/Scripts/Index');
+        return Inertia::render('Admin/Options/Scripts/Index');
     }
 
     final public function optionsBanners(): Response
     {
-        return Inertia::render('Options/Banners/Index');
+        return Inertia::render('Admin/Options/Banners/Index');
     }
 
     final public function optionsFaqs(): Response
     {
-        return Inertia::render('Options/Faqs/Index');
+        return Inertia::render('Admin/Options/Faqs/Index');
     }
 
     final public function optionsAdvantages(): Response
     {
-        return Inertia::render('Options/Advantages/Index');
+        return Inertia::render('Admin/Options/Advantages/Index');
     }
 
     final public function optionsPromoCodes(): Response
     {
-        return Inertia::render('Options/PromoCodes/Index');
+        return Inertia::render('Admin/Options/PromoCodes/Index');
     }
 
     final public function optionsXmls(): Response
     {
-        return Inertia::render('Options/Xmls/Index');
+        return Inertia::render('Admin/Options/Xmls/Index');
     }
 
     final public function optionsLogo(): Response
     {
-        return Inertia::render('Options/Main/Logo');
+        return Inertia::render('Admin/Options/Main/Logo');
     }
 
     final public function colors(): Response
     {
-        return Inertia::render('Options/Colors/Index');
+        return Inertia::render('Admin/Options/Colors/Index');
     }
 
     final public function characteristics(): Response
     {
-        return Inertia::render('Options/Characteristics/Index');
+        return Inertia::render('Admin/Options/Characteristics/Index');
     }
 
     final public function sizes(): Response
     {
-        return Inertia::render('Options/Sizes/Index');
+        return Inertia::render('Admin/Options/Sizes/Index');
     }
 
     final public function statistics(): Response
     {
-        return Inertia::render('Statistics/Index');
+        return Inertia::render('Admin/Statistics/Index');
     }
 
     final public function statisticCosts(): Response
     {
-        return Inertia::render('Statistics/Costs/Index');
+        return Inertia::render('Admin/Statistics/Costs/Index');
     }
 
     final public function statisticRefunds(): Response
     {
-        return Inertia::render('Statistics/Refunds/Index');
+        return Inertia::render('Admin/Statistics/Refunds/Index');
     }
 
     final public function statisticCostCategories(): Response
     {
-        return Inertia::render('Statistics/CostCategories/Index');
+        return Inertia::render('Admin/Statistics/CostCategories/Index');
     }
 
     final public function statisticProfits(): Response
     {
-        return Inertia::render('Statistics/Profits/Index');
+        return Inertia::render('Admin/Statistics/Profits/Index');
     }
 
     final public function statisticOrders(): Response
     {
-        return Inertia::render('Statistics/Orders/Index');
+        return Inertia::render('Admin/Statistics/Orders/Index');
     }
 
     final public function statisticMarketing(): Response
     {
-        return Inertia::render('Statistics/Marketing/Index');
+        return Inertia::render('Admin/Statistics/Marketing/Index');
     }
 
     final public function statisticManagers(): Response
     {
-        return Inertia::render('Statistics/Managers/Index');
+        return Inertia::render('Admin/Statistics/Managers/Index');
     }
 
     final public function statisticProducts(): Response
     {
-        return Inertia::render('Statistics/Products/Index');
+        return Inertia::render('Admin/Statistics/Products/Index');
     }
 }

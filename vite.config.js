@@ -8,12 +8,13 @@ export default defineConfig({
         DefineOptions(),
         laravel({
             input: [
-                'resources/js/Pages/Public/app.js',
-                'resources/js/Pages/Admin/app.js',
+                'resources/js/Pages/app.js',
+                // 'resources/js/Pages/Public/app.js',
+                // 'resources/js/Pages/Admin/app.js',
                 'resources/scss/app.scss',
                 'resources/scss/public.scss'
             ],
-            ssr: 'resources/js/Pages/Public/ssr.js',
+            ssr: 'resources/js/Pages/ssr.js',
             refresh: true,
         }),
         vue({
