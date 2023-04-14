@@ -1,12 +1,12 @@
 <template>
     <div class="max-w-7xl mx-auto">
-        <Swiper class="header-categories" v-bind="settings" :modules="modules">
-            <SwiperSlide v-for="category in categories">
-                <Link class="text-center py-2">
-                    <a :href="route('category',category.slug)" class="font-bold text-sm whitespace-nowrap">
-                        {{ title(category.title) }}
-                    </a>
-                </Link>
+        <Swiper class="header-categories" v-bind="$page.props.settings" :modules="modules">
+            <SwiperSlide v-for="category in $page.props.categories">
+                <li class="text-center py-2">
+                    <Link :href="route('category',category.slug)" class="font-bold text-sm whitespace-nowrap">
+                        {{ category.title[$page.props.lang] }}
+                    </Link>
+                </li>
             </SwiperSlide>
         </Swiper>
     </div>
@@ -14,15 +14,10 @@
 
 <script setup>
 import {Lazy, Autoplay, Pagination} from "swiper";
-import {computed} from "vue";
 import {Swiper, SwiperSlide} from "swiper/vue";
 import {Link} from "@inertiajs/inertia-vue3";
 
-const props = defineProps(['categories', 'lang']);
-
 const modules = [Lazy, Autoplay, Pagination];
-
-const title = computed(() => (val) => props.lang === 'ua' ? val.ua : (props.lang === 'ru' ? val.ru : null))
 
 const settings = {
     spaceBetween: 10,
