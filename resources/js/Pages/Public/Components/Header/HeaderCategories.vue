@@ -1,12 +1,11 @@
 <template>
     <div class="max-w-7xl mx-auto">
-        <Swiper class="header-categories" v-bind="$page.props.settings" :modules="modules">
-            <SwiperSlide v-for="category in $page.props.categories">
-                <li class="text-center py-2">
-                    <Link :href="route('category',category.slug)" class="font-bold text-sm whitespace-nowrap">
-                        {{ category.title[$page.props.lang] }}
-                    </Link>
-                </li>
+        <Swiper class="header-categories" v-bind="settings" :modules="modules">
+            <SwiperSlide v-for="category in $page.props.categories" class="text-center py-2">
+                <Link :href="route('category',category.slug)"
+                      class="font-bold text-sm whitespace-nowrap">
+                    {{ category.title[$page.props.lang] }}
+                </Link>
             </SwiperSlide>
         </Swiper>
     </div>
