@@ -3,7 +3,7 @@
         <div class="grid gap-4 grid-cols-2 md:grid-cols-8" v-if="data.length">
             <div class="border-[1px] border-secondary hover:scale-105 transition-all duration-300 rounded-lg"
                  v-for="item in data">
-                <a :href="route('category',item.slug)">
+                <Link :href="route('category',item.slug)">
                     <div class="h-52">
                         <picture class="w-full">
                             <source :srcset="item.preview ? route('images.350',item.preview.webp_src) : null"
@@ -18,12 +18,14 @@
                     <div class="font-bold text-center p-5 font-subheading">
                         {{ item.title[lang] }}
                     </div>
-                </a>
+                </Link>
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
+import {Link} from "@inertiajs/vue3";
+
 defineProps(['lang', 'data'])
 </script>
