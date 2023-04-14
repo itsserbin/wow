@@ -17,17 +17,8 @@ import Footer from '@/Pages/Public/Components/Footer.vue'
 import FixedBanner from '@/Pages/Public/Components/FixedBanner.vue'
 import ScrollToTop from '@/Pages/Public/Components/ScrollToTop.vue'
 import {onMounted} from "vue";
-import eventTracking from "@/Includes/eventTracking";
 
 onMounted(() => {
-    if (import.meta.env.MODE === 'production') {
-        try {
-            eventTracking('PageView');
-        } catch (e) {
-            console.error(e);
-        }
-    }
-
     const loader = document.querySelector('.loader');
     if (loader) {
         loader.classList.add('hidden');

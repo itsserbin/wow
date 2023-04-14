@@ -1,6 +1,5 @@
 import '@/Includes/bootstrap';
 import store from '@/Includes/store.js';
-import FacebookPixel from '@/Includes/facebook-pixel.js';
 
 import {createGtm} from '@gtm-support/vue-gtm';
 import {ZiggyVue} from '../../../../vendor/tightenco/ziggy/dist/vue.m';
@@ -33,9 +32,6 @@ export function mountPublic() {
                         trackOnNextTick: false,
                     })
                 );
-            }
-            if (import.meta.env.MODE === 'production') {
-                app.use(FacebookPixel, {pixelId: import.meta.env.VITE_FB_PIXEL_ID})
             }
 
             store.commit('loadCart');
