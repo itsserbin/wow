@@ -2,11 +2,11 @@
     <div class="max-w-7xl mx-auto">
         <Swiper class="header-categories" v-bind="settings" :modules="modules">
             <SwiperSlide v-for="category in categories">
-                <li class="text-center py-2">
+                <Link class="text-center py-2">
                     <a :href="route('category',category.slug)" class="font-bold text-sm whitespace-nowrap">
                         {{ title(category.title) }}
                     </a>
-                </li>
+                </Link>
             </SwiperSlide>
         </Swiper>
     </div>
@@ -16,6 +16,7 @@
 import {Lazy, Autoplay, Pagination} from "swiper";
 import {computed} from "vue";
 import {Swiper, SwiperSlide} from "swiper/vue";
+import {Link} from "@inertiajs/inertia-vue3";
 
 const props = defineProps(['categories', 'lang']);
 

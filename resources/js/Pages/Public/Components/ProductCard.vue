@@ -30,7 +30,7 @@
         </div>
         <div>
             <div class="w-full mx-auto">
-                <a :href="route('product',product.id)">
+                <Link :href="route('product',product.id)">
                     <picture v-if="product.preview">
                         <source :srcset="route('images.350',product.preview.webp_src)"
                                 v-if="product.preview.webp_src"
@@ -41,7 +41,7 @@
                              class="object-cover w-full rounded-t-lg h-56 md:h-72 "
                         >
                     </picture>
-                </a>
+                </Link>
             </div>
         </div>
 
@@ -55,7 +55,7 @@
                         justify-between
                     "
         >
-            <a :href="route('product',product.id)">
+            <Link :href="route('product',product.id)">
 
                 <h5 class="
                             text-black
@@ -72,7 +72,7 @@
                     {{ product.h1[$page.props.lang] }}
                 </h5>
 
-            </a>
+            </Link>
             <div class="text-sm text-gray-500 font-text w-full mb-3">
                 <span v-for="size in product.sizes">
                     {{ size.title }}&nbsp;
@@ -144,13 +144,12 @@
 </template>
 
 <script setup>
-import {computed, getCurrentInstance, ref} from "vue";
+import {computed,ref} from "vue";
 import {useStore} from "vuex";
 import {useGtm} from "@gtm-support/vue-gtm";
 import {swal} from '@/Includes/swal';
-
-const {appContext} = getCurrentInstance()
-const {$fbq} = appContext.config.globalProperties
+import {Link} from "@inertiajs/inertia-vue3";
+import eventTracking from "@/Includes/eventTracking";
 
 const props = defineProps({
     product: Object,
@@ -193,7 +192,8 @@ const addToCard = async (id) => {
             store.commit('loadCart');
             if (import.meta.env.MODE === 'production') {
                 try {
-                    $fbq('AddToCart',
+                    eventTracking(
+                        'AddToCart',
                         {
                             "value": props.product.discount_price ? props.product.discount_price : props.product.price,
                             "currency": "UAH",
