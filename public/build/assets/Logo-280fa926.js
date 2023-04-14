@@ -1,0 +1,1 @@
+import{p as s,g as a,i as e,u as r}from"./app-d56afded.js";const c=["href"],l=e("source",{srcset:"/storage/logo.webp",type:"image/webp"},null,-1),n=["alt"],i={__name:"Logo",setup(p){const o="Laravel";return(t,_)=>(s(),a("a",{href:t.route("home")},[e("picture",null,[l,e("img",{src:"/storage/logo.jpeg",alt:r(o),width:"55",height:"55"},null,8,n)])],8,c))}};export{i as default};

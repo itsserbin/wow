@@ -28,11 +28,11 @@ const src = computed(() => (banner) => {
     const desktop = banner.image_desktop[props.lang] || banner.image_desktop[defaultLang];
 
     return mobile
-        ? '/storage/banners/mobile/' + mobile + '.jpeg'
+        ? '/images/banners/mobile/' + mobile + '.jpeg'
         : table
-            ? '/storage/banners/table/' + table + '.jpeg'
+            ? '/images/banners/table/' + table + '.jpeg'
             : desktop
-                ? '/storage/banners/desktop/' + desktop + '.jpeg'
+                ? '/images/banners/desktop/' + desktop + '.jpeg'
                 : null;
 });
 
@@ -42,17 +42,17 @@ const srcset = computed(() => (banner) => {
     const desktop = banner.image_desktop[props.lang] || banner.image_desktop[defaultLang];
 
     const mobileSrc = mobile
-        ? '/storage/banners/mobile/' + mobile + '.webp 568w'
-        : '/storage/banners/mobile/' + banner.image_mobile[defaultLang] + '.webp 568w'
+        ? '/images/banners/mobile/' + mobile + '.webp 568w'
+        : '/images/banners/mobile/' + banner.image_mobile[defaultLang] + '.webp 568w'
 
     const tableSrc = table
-        ? '/storage/banners/table/' + table + '.webp 568w'
-        : '/storage/banners/table/' + banner.image_table[defaultLang] + '.webp 991w'
+        ? '/images/banners/table/' + table + '.webp 568w'
+        : '/images/banners/table/' + banner.image_table[defaultLang] + '.webp 991w'
 
 
     const desktopSrc = desktop
-        ? '/storage/banners/desktop/' + desktop + '.webp 568w'
-        : '/storage/banners/desktop/' + banner.image_desktop[defaultLang] + '.webp'
+        ? '/images/banners/desktop/' + desktop + '.webp 568w'
+        : '/images/banners/desktop/' + banner.image_desktop[defaultLang] + '.webp'
 
     return mobileSrc + tableSrc + desktopSrc;
 });
