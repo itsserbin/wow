@@ -71,15 +71,13 @@ import AddToCart from './AddToCart.vue';
 import MasterLayout from '@/Layouts/MasterLayout.vue'
 import Breadcrumbs from './Breadcrumbs.vue'
 import Head from "./Head.vue";
+import {PageView, ViewContent} from "@/Includes/eventTracking";
 
 import {isLoading} from "@/Pages/Public/load";
-import {getCurrentInstance, onMounted} from "vue";
+import {onMounted} from "vue";
 import {useGtm} from "@gtm-support/vue-gtm";
 
 defineOptions({layout: MasterLayout})
-
-const {appContext} = getCurrentInstance()
-const {$fbq} = appContext.config.globalProperties
 
 const gtm = useGtm();
 
@@ -108,9 +106,8 @@ onMounted(async () => {
 
     if (import.meta.env.MODE === 'production') {
         try {
-
-            $fbq(
-                'ViewContent', {
+            PageView({}, props.eventIdPageView)
+            ViewContent({
                     "value": props.product.discount_price ? props.product.discount_price : props.product.price,
                     "currency": "UAH",
                     "content_type": "product",
@@ -119,7 +116,6 @@ onMounted(async () => {
                 },
                 props.eventIdContent
             );
-
             gtm.trackEvent({
                 event: 'view_product',
                 ecommerce: {

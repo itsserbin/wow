@@ -51,17 +51,13 @@ import ProductsList from './ProductsList.vue';
 import MasterLayout from '@/Layouts/MasterLayout.vue'
 import MainBanners from './../Components/Banners.vue';
 import Categories from './../Components/Categories.vue';
-// import Content from './../Components/Content.vue';
-// import Advantages from './../Components/Advantages.vue';
-// import AllReviewsCarousel from './../Components/AllReviewsCarousel.vue';
-// import FaqComponent from './../Components/FaqComponent.vue';
-// import Support from './../Components/Support.vue';
 import Head from "@/Pages/Public/Components/Head.vue";
 
 defineOptions({layout: MasterLayout})
 
 import {isLoading} from "@/Pages/Public/load";
 import {defineAsyncComponent, onMounted, ref} from "vue";
+import {PageView} from "@/Includes/eventTracking";
 
 const Content = defineAsyncComponent(() => import('../Components/Content.vue'));
 const Advantages = defineAsyncComponent(() => import('../Components/Advantages.vue'));
@@ -115,6 +111,7 @@ const stateBestSellingProducts = ref({
 });
 
 onMounted(() => {
+    PageView({}, props.eventIdPageView);
     stateBestSellingProducts.value.data = props.bestSellingProducts.data;
     stateNewProducts.value.data = props.newProducts.data;
     stateAllProducts.value.data = props.allProducts.data;

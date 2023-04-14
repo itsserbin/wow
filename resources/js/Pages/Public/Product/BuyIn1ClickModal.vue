@@ -31,10 +31,11 @@
 </template>
 
 <script setup>
-import {getCurrentInstance, ref} from "vue";
+import {ref} from "vue";
 import {useGtm} from "@gtm-support/vue-gtm";
 import {useStore} from "vuex";
-import { vMaska } from "@/Includes/maska"
+import {vMaska} from "@/Includes/maska"
+import {addToCart, purchase} from "@/Includes/eventTracking";
 
 import Modal from '@/Pages/Public/Components/Modal.vue';
 import Input from '@/Pages/Public/Components/Input.vue';
@@ -51,8 +52,6 @@ const props = defineProps([
 ]);
 
 const gtm = useGtm();
-const {appContext} = getCurrentInstance()
-const {$fbq} = appContext.config.globalProperties
 
 const order = ref({
     name: '',
@@ -86,9 +85,7 @@ async function sendForm() {
                 props.isAddToCart = true;
                 if (import.meta.env.MODE === 'production') {
                     try {
-                        $fbq(
-                            'AddToCart',
-                            {
+                        addToCart({
                                 "value": props.product.discount_price ? props.product.discount_price : props.product.price,
                                 "currency": "UAH",
                                 "content_type": "product",
@@ -96,7 +93,7 @@ async function sendForm() {
                                 "content_name": props.product.h1
                             },
                             props.eventIdAddToCard
-                        );
+                        )
                     } catch (e) {
                         console.error(e);
                     }
@@ -124,9 +121,7 @@ async function createOrder() {
                         })
                     });
 
-                    $fbq(
-                        'Purchase',
-                        {
+                    purchase({
                             "value": store.state.totalPrice,
                             "currency": "UAH",
                             "content_type": "product",
@@ -134,7 +129,7 @@ async function createOrder() {
                             "content_ids": state.value.contentIds
                         },
                         props.eventIdPurchaseIn1Click
-                    );
+                    )
 
                     gtm.trackEvent({
                         event: 'send_order',
@@ -154,7 +149,9 @@ async function createOrder() {
                 phone: data.order.client.phone,
             })
             state.value.isLoading = false;
-            window.location.href = route('thanks', data.order.id);
+            if (typeof window !== "undefined") {
+                window.location.href = route('thanks', data.order.id);
+            }
         })
         .catch(({response}) => {
             state.value.errors = response.data;

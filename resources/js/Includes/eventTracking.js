@@ -1,11 +1,20 @@
-import {getCurrentInstance, onMounted, ref} from 'vue'
+import {getCurrentInstance} from 'vue'
 
-export default function useEventTracking(eventIdPageView) {
-    const {appContext} = getCurrentInstance()
-    const $fbq = appContext.config.globalProperties.$fbq
-    const eventIdPageViewRef = ref(eventIdPageView)
+const {appContext} = getCurrentInstance()
+const $fbq = appContext.config.globalProperties.$fbq;
 
-    onMounted(() => {
-        $fbq('PageView', {}, eventIdPageViewRef.value)
-    })
+export const PageView = (params = {}, event_id) => {
+    $fbq('PageView', params, event_id)
+}
+
+export const ViewContent = (params = {}, event_id) => {
+    $fbq('ViewContent', params, event_id)
+}
+
+export const addToCart = (params = {}, event_id) => {
+    $fbq('AddToCart', params, event_id)
+}
+
+export const purchase = (params = {}, event_id) => {
+    $fbq('Purchase', params, event_id)
 }
