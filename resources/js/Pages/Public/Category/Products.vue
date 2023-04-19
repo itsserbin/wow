@@ -1,22 +1,3 @@
-<template>
-    <div v-if="data.length">
-        <div class="font-bold text-black text-center text-[24px] mb-[15px]">{{ title }}</div>
-        <ProductCards :products="data"
-                      :lang="lang"
-                      :text-go-to-product-card="textGoToProductCard"
-                      :slider="true"
-        ></ProductCards>
-        <div v-if="isShowLoadMore" class="text-center mt-5">
-            <Loader v-if="isLoadingMore"/>
-            <Button v-if="!isLoadingMore"
-                    @click="$emit('fetch')"
-                    type="button"
-            >Завантажити ще
-            </Button>
-        </div>
-    </div>
-</template>
-
 <script setup>
 import Loader from '@/Pages/Public/Components/Loader.vue'
 import ProductCards from '@/Pages/Public/Components/ProductCards.vue'
@@ -42,3 +23,22 @@ defineProps({
     },
 });
 </script>
+
+<template>
+    <div v-if="data.length">
+        <div class="font-bold text-black text-center text-[24px] mb-[15px]">{{ title }}</div>
+        <ProductCards :products="data"
+                      :lang="lang"
+                      :text-go-to-product-card="textGoToProductCard"
+                      :slider="true"
+        ></ProductCards>
+        <div v-if="isShowLoadMore" class="text-center mt-5">
+            <Loader v-if="isLoadingMore"/>
+            <Button v-if="!isLoadingMore"
+                    @click="$emit('fetch')"
+                    type="button"
+            >Завантажити ще
+            </Button>
+        </div>
+    </div>
+</template>

@@ -1,3 +1,11 @@
+<script setup>
+defineProps({
+    rows: String,
+    placeholder: String,
+    modelValue: String,
+})
+</script>
+
 <template>
     <textarea :rows="rows"
               class="
@@ -24,11 +32,3 @@
               :value="modelValue"
     ></textarea>
 </template>
-
-<script setup>
-defineProps({
-    rows: String,
-    placeholder: String,
-    modelValue: String,
-})
-</script>

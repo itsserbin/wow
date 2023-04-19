@@ -1,3 +1,15 @@
+<script setup>
+import {ref} from "vue";
+
+defineProps(['lang'])
+
+const show = ref(false);
+
+function showFunction() {
+    show.value = !show.value;
+}
+</script>
+
 <template>
     <div class="relative whitespace-nowrap left-[0.4rem]">
         <button @click="showFunction"
@@ -31,15 +43,3 @@
         </transition>
     </div>
 </template>
-
-<script setup>
-import {ref} from "vue";
-
-defineProps(['lang'])
-
-const show = ref(false);
-
-function showFunction() {
-    show.value = !show.value;
-}
-</script>

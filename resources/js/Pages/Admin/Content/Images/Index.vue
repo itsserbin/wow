@@ -1,46 +1,3 @@
-<template>
-    <ContentLayout :title="$t('images.page_title')">
-        <template #header>{{ $t('images.page_title') }}</template>
-
-        <Loader v-if="state.isLoading"/>
-
-        <div v-if="!state.isLoading && can('show-images')" class="grid grid-cols-1 gap-4">
-            <div>
-                <Button type="btn" @click.prevent="modalUploadImagesFunction"
-                        v-if="can('create-images')">
-                    {{ $t('add') }}
-                </Button>
-            </div>
-
-            <List :images="state.imagesList"
-                  @clickImage="openImageModal"
-                  @fetch="fetch"
-                  @destroyImage="destroyImage"
-            />
-
-            <div class="text-center">
-                <Paginate :pagination="state.imagesList"
-                          :click-handler="fetch"
-                          v-model="state.currentPage"
-                />
-            </div>
-        </div>
-
-        <component :is="imageModal"
-                   @closeModal="modalImagesFunction"
-                   @submitForm="updateImage"
-                   @declineForm="destroyImageFromModal"
-                   :image="state.imageModal"
-                   size="large"
-        ></component>
-
-        <component :is="imagesUploadModal"
-                   @closeModal="modalUploadImagesFunction"
-                   @onUpload="fetch"
-        ></component>
-    </ContentLayout>
-</template>
-
 <script setup>
 import Loader from '@/Components/Loader.vue';
 import Button from '@/Components/Button.vue';
@@ -49,12 +6,12 @@ import UploadImagesModal from '@/Components/UploadImagesModal.vue';
 import List from '@/Pages/Admin/Content/Images/List.vue';
 import ImageModal from '@/Pages/Admin/Content/Images/Modal.vue';
 import ContentLayout from '@/Pages/Admin/Content/ContentLayout.vue'
+import {swal} from "@/Includes/swal";
 
 import {onMounted, inject, ref, computed} from "vue";
 import ImagesRepository from "@/Repositories/ImagesRepository";
 import {useI18n} from 'vue-i18n'
 
-const swal = inject('$swal')
 const can = inject('$can');
 const {t} = useI18n();
 
@@ -75,7 +32,7 @@ const state = ref({
 const imagesUploadModal = computed(() => state.value.isActiveUploadModal ? UploadImagesModal : null);
 const imageModal = computed(() => state.value.isActiveImageModal ? ImageModal : null);
 
-onMounted(() => fetch());
+onMounted(async() => await fetch());
 
 const modalUploadImagesFunction = () => {
     state.value.isActiveUploadModal = !state.value.isActiveUploadModal;
@@ -141,3 +98,46 @@ const fetch = async (page) => {
     state.value.isLoading = false;
 }
 </script>
+
+<template>
+    <ContentLayout :title="$t('images.page_title')">
+        <template #header>{{ $t('images.page_title') }}</template>
+
+        <Loader v-if="state.isLoading"/>
+
+        <div v-if="!state.isLoading && can('show-images')" class="grid grid-cols-1 gap-4">
+            <div>
+                <Button type="btn" @click.prevent="modalUploadImagesFunction"
+                        v-if="can('create-images')">
+                    {{ $t('add') }}
+                </Button>
+            </div>
+
+            <List :images="state.imagesList"
+                  @clickImage="openImageModal"
+                  @fetch="fetch"
+                  @destroyImage="destroyImage"
+            />
+
+            <div class="text-center">
+                <Paginate :pagination="state.imagesList"
+                          :click-handler="fetch"
+                          v-model="state.currentPage"
+                />
+            </div>
+        </div>
+
+        <component :is="imageModal"
+                   @closeModal="modalImagesFunction"
+                   @submitForm="updateImage"
+                   @declineForm="destroyImageFromModal"
+                   :image="state.imageModal"
+                   size="large"
+        ></component>
+
+        <component :is="imagesUploadModal"
+                   @closeModal="modalUploadImagesFunction"
+                   @onUpload="fetch"
+        ></component>
+    </ContentLayout>
+</template>

@@ -1,11 +1,3 @@
-<template>
-    <Tabs :data="tabsData"
-          :activeItem="activeItem ? activeItem : defaultLang"
-          @clickTab="clickTab"
-          classes="justify-center"
-    />
-</template>
-
 <script setup>
 import Tabs from '@/Components/Tabs.vue';
 import {inject, ref} from "vue";
@@ -31,3 +23,11 @@ function clickTab(val) {
     emits('clickLang', val);
 }
 </script>
+
+<template>
+    <Tabs :data="tabsData"
+          :activeItem="activeItem ? activeItem : defaultLang"
+          @clickTab="clickTab"
+          classes="justify-center"
+    />
+</template>

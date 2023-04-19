@@ -1,3 +1,24 @@
+<script setup>
+import Modal from '@/Components/Modal.vue';
+import Form from '@/Pages/Admin/Crm/Clients/Form.vue';
+
+defineProps([
+    'size',
+    'item',
+    'statuses',
+    'subStatuses',
+    'orderStatuses',
+    'canDestroy'
+]);
+
+defineEmits([
+    'closeModal',
+    'submitForm',
+    'declineForm',
+    'submitItemForm'
+]);
+</script>
+
 <template>
     <Modal @closeModal="$emit('closeModal')"
            :decline-button="canDestroy"
@@ -19,24 +40,3 @@
         </template>
     </Modal>
 </template>
-
-<script setup>
-import Modal from '@/Components/Modal.vue';
-import Form from '@/Pages/Admin/Crm/Clients/Form.vue';
-
-defineProps([
-    'size',
-    'item',
-    'statuses',
-    'subStatuses',
-    'orderStatuses',
-    'canDestroy'
-]);
-
-defineEmits([
-    'closeModal',
-    'submitForm',
-    'declineForm',
-    'submitItemForm'
-]);
-</script>

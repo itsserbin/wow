@@ -1,16 +1,3 @@
-<template>
-    <Head title="Підтримка клієнтів"/>
-
-    <Breadcrumbs :currentUrl="route().current" :options="options" :lang="lang" title="Підтримка"/>
-
-    <div class="max-w-xl mx-auto">
-        <Form :item="state.item"
-              @submitForm="submitForm"
-              :errors="state.errors"
-        />
-    </div>
-</template>
-
 <script setup>
 import MasterLayout from '@/Layouts/MasterLayout.vue'
 import Form from '@/Pages/Public/Support/Form.vue';
@@ -64,3 +51,16 @@ const submitForm = async () => {
         })
 }
 </script>
+
+<template>
+    <Head title="Підтримка клієнтів"/>
+
+    <Breadcrumbs :currentUrl="route().current" :options="options" :lang="lang" title="Підтримка"/>
+
+    <div class="max-w-xl mx-auto">
+        <Form :item="state.item"
+              @submitForm="submitForm"
+              :errors="state.errors"
+        />
+    </div>
+</template>

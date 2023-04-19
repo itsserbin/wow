@@ -1,52 +1,13 @@
-<template>
-    <ReviewsLayout title="Відгуки про товар">
-        <template #header>
-            Відгуки про товар
-        </template>
-
-        <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading && can('show-reviews')">
-            <div>
-                <button-component type="btn"
-                                  @click="create"
-                                  v-if="can('create-reviews')"
-                                  class="mb-5"
-                >
-                    Додати
-                </button-component>
-            </div>
-
-            <Table :data="state.reviews.data"
-                   class="mb-5"
-                   @onEdit="onEdit"
-                   @onDestroy="onDestroy"
-                   @publishReview="publishReview"
-                   :canDestroy="can('destroy-reviews')"
-            />
-            <div class="text-center">
-                <pagination :pagination="state.reviews"
-                            :click-handler="fetch"
-                            v-model="state.currentPage"
-                />
-            </div>
-        </div>
-        <component :is="activeModal"
-                   :item="state.item"
-                   @closeModal="modalFunction"
-                   @submitForm="submitForm"
-                   @declineForm="onDestroy"
-                   :canDestroy="can('destroy-reviews')"
-        ></component>
-    </ReviewsLayout>
-</template>
-
 <script setup>
 import {reactive, onMounted, inject, ref, computed} from "vue";
+import {swal} from "@/Includes/swal";
+import Loader from '@/Components/Loader.vue';
+import Button from '@/Components/Button.vue';
+import Paginate from '@/Components/Paginate.vue';
 import ProductReviewModal from '@/Pages/Admin/Content/Reviews/Products/Modal.vue';
 import Table from '@/Pages/Admin/Content/Reviews/Products/Table.vue';
 import ReviewsLayout from '@/Pages/Admin/Content/Reviews/ReviewsLayout.vue';
 
-const swal = inject('$swal')
 const can = inject('$can');
 
 const item = reactive({
@@ -215,3 +176,45 @@ function publishReview(id) {
         })
 }
 </script>
+
+<template>
+    <ReviewsLayout title="Відгуки про товар">
+        <template #header>
+            Відгуки про товар
+        </template>
+
+        <Loader v-if="state.isLoading"/>
+        <div v-if="!state.isLoading && can('show-reviews')">
+            <div>
+                <Button type="btn"
+                        @click="create"
+                        v-if="can('create-reviews')"
+                        class="mb-5"
+                >
+                    Додати
+                </Button>
+            </div>
+
+            <Table :data="state.reviews.data"
+                   class="mb-5"
+                   @onEdit="onEdit"
+                   @onDestroy="onDestroy"
+                   @publishReview="publishReview"
+                   :canDestroy="can('destroy-reviews')"
+            />
+            <div class="text-center">
+                <Paginate :pagination="state.reviews"
+                          :click-handler="fetch"
+                          v-model="state.currentPage"
+                />
+            </div>
+        </div>
+        <component :is="activeModal"
+                   :item="state.item"
+                   @closeModal="modalFunction"
+                   @submitForm="submitForm"
+                   @declineForm="onDestroy"
+                   :canDestroy="can('destroy-reviews')"
+        ></component>
+    </ReviewsLayout>
+</template>

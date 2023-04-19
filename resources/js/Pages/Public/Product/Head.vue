@@ -1,3 +1,9 @@
+<script setup>
+import Head from "@/Pages/Public/Components/Head.vue";
+
+defineProps(['product', 'lang']);
+</script>
+
 <template>
     <Head :title="product.title[lang]" :description="product.description[lang]">
         <meta v-if="product.preview"
@@ -18,9 +24,3 @@
         />
     </Head>
 </template>
-
-<script setup>
-import Head from "@/Pages/Public/Components/Head.vue";
-
-defineProps(['product', 'lang']);
-</script>

@@ -1,3 +1,13 @@
+<script setup>
+import Label from '@/Pages/Public/Components/Label.vue';
+import Input from '@/Pages/Public/Components/Input.vue';
+import Button from '@/Pages/Public/Components/Button.vue';
+import { vMaska } from "@/Includes/maska"
+
+defineProps(['item']);
+defineEmits(['submitForm']);
+</script>
+
 <template>
     <div class="font-bold text-black text-center text-2xl font-heading mb-[15px]">
         Перевірити статус замовлення
@@ -23,13 +33,3 @@
         </div>
     </form>
 </template>
-
-<script setup>
-import Label from '@/Pages/Public/Components/Label.vue';
-import Input from '@/Pages/Public/Components/Input.vue';
-import Button from '@/Pages/Public/Components/Button.vue';
-import { vMaska } from "@/Includes/maska"
-
-defineProps(['item']);
-defineEmits(['submitForm']);
-</script>

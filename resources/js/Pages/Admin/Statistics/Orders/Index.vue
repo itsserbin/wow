@@ -1,45 +1,16 @@
-<template>
-    <StatisticLayout title="Статистика заявок">
-        <template #header>
-            Статистика заявок
-        </template>
-
-        <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading && can('show-bookkeeping-orders')" class="grid grid-cols-1 gap-4">
-
-            <div class="block">
-                <label-component value="Фільтр по даті"/>
-                <DatepickerComponent v-model="params.date"
-                                     @update:modelValue="fetch"
-                />
-            </div>
-
-            <Chart v-if="state.chart" :chart-data="state.chart"/>
-
-            <Indicators :data="state.indicators"/>
-
-            <Table :data="state.orders.result.data"/>
-
-            <div class="text-center">
-                <pagination :pagination="state.orders.result"
-                            :click-handler="fetch"
-                            v-model="params.currentPage"
-                />
-            </div>
-        </div>
-    </StatisticLayout>
-</template>
-
 <script setup>
 import {onMounted, inject, ref, computed} from "vue";
-import Chart from '@/Pages/Admin/Statistics/Orders/Chart.vue';
+import {endOfMonth, startOfMonth} from "date-fns";
+
+import Loader from '@/Components/Loader.vue';
+import Label from '@/Components/Form/Label.vue';
+import Paginate from '@/Components/Paginate.vue';
+import Chart from '@/Pages/Admin/Statistics/Chart.vue';
 import Table from '@/Pages/Admin/Statistics/Orders/Table.vue';
 import Indicators from '@/Pages/Admin/Statistics/Orders/Indicators.vue';
 import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
 import DatepickerComponent from '@/Pages/Admin/Statistics/Datepicker.vue'
-import {endOfMonth, startOfMonth} from "date-fns";
 
-const swal = inject('$swal')
 const can = inject('$can');
 
 const state = ref({
@@ -104,3 +75,35 @@ function fetch() {
 
 }
 </script>
+
+<template>
+    <StatisticLayout title="Статистика заявок">
+        <template #header>
+            Статистика заявок
+        </template>
+
+        <Loader v-if="state.isLoading"/>
+        <div v-if="!state.isLoading && can('show-bookkeeping-orders')" class="grid grid-cols-1 gap-4">
+
+            <div class="block">
+                <Label value="Фільтр по даті"/>
+                <DatepickerComponent v-model="params.date"
+                                     @update:modelValue="fetch"
+                />
+            </div>
+
+            <Chart v-if="state.chart" :chart-data="state.chart"/>
+
+            <Indicators :data="state.indicators"/>
+
+            <Table :data="state.orders.result.data"/>
+
+            <div class="text-center">
+                <Paginate :pagination="state.orders.result"
+                          :click-handler="fetch"
+                          v-model="params.currentPage"
+                />
+            </div>
+        </div>
+    </StatisticLayout>
+</template>

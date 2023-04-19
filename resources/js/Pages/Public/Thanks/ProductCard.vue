@@ -1,3 +1,17 @@
+<script setup>
+
+defineProps({
+    product: Object,
+    lang: String,
+    textGoToProductCard: {
+        type: String,
+        default: 'Докладніше'
+    },
+});
+
+defineEmits(['addItemToOrder']);
+</script>
+
 <template>
     <div class="
                     items-stretch
@@ -119,17 +133,3 @@
         </div>
     </div>
 </template>
-
-<script setup>
-
-defineProps({
-    product: Object,
-    lang: String,
-    textGoToProductCard: {
-        type: String,
-        default: 'Докладніше'
-    },
-});
-
-defineEmits(['addItemToOrder']);
-</script>

@@ -1,19 +1,7 @@
-<template>
-    <Datepicker v-model="value"
-                class="w-100"
-                locale="ru"
-                placeholder="Оберіть дату"
-                autoApply
-                :monthChangeOnScroll="false"
-                :enableTimePicker="false"
-                range
-                :presetRanges="presetRanges"
-    ></Datepicker>
-</template>
-
 <script setup>
+import Datepicker from '@vuepic/vue-datepicker';
 import {endOfMonth, endOfYear, startOfMonth, startOfYear, subMonths} from 'date-fns';
-import {ref,computed} from "vue";
+import {ref, computed} from "vue";
 
 const props = defineProps(['modelValue']);
 const emits = defineEmits(['update:modelValue']);
@@ -65,3 +53,16 @@ const presetRanges = ref([
     },
 ]);
 </script>
+
+<template>
+    <Datepicker v-model="value"
+                class="w-100"
+                locale="ru"
+                placeholder="Оберіть дату"
+                autoApply
+                :monthChangeOnScroll="false"
+                :enableTimePicker="false"
+                range
+                :presetRanges="presetRanges"
+    ></Datepicker>
+</template>

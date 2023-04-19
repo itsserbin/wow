@@ -1,20 +1,3 @@
-<template>
-    <section class="relative product-list" v-if="products.length">
-        <div class="font-bold text-black text-center text-2xl font-heading mb-[15px]">
-            {{ textBestSelling }}
-        </div>
-        <div class="relative-slider">
-            <Swiper :modules="modules" v-bind="settings">
-                <Swiper-slide v-for="(product,i) in products" :key="i">
-                    <ProductCard :product="product"
-                                 :lang="lang"
-                    ></ProductCard>
-                </Swiper-slide>
-            </Swiper>
-        </div>
-    </section>
-</template>
-
 <script setup>
 import {Swiper, SwiperSlide} from 'swiper/vue';
 import ProductCard from '@/Pages/Public/Components/ProductCard.vue'
@@ -59,3 +42,20 @@ const settings = {
     }
 }
 </script>
+
+<template>
+    <section class="relative product-list" v-if="products.length">
+        <div class="font-bold text-black text-center text-2xl font-heading mb-[15px]">
+            {{ textBestSelling }}
+        </div>
+        <div class="relative-slider">
+            <Swiper :modules="modules" v-bind="settings">
+                <Swiper-slide v-for="(product,i) in products" :key="i">
+                    <ProductCard :product="product"
+                                 :lang="lang"
+                    ></ProductCard>
+                </Swiper-slide>
+            </Swiper>
+        </div>
+    </section>
+</template>

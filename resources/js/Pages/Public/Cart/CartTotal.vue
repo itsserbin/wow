@@ -1,3 +1,11 @@
+<script setup>
+import {useStore} from "vuex";
+import Button from '@/Pages/Public/Components/Button.vue';
+import {Link} from "@inertiajs/inertia-vue3";
+
+const store = useStore();
+</script>
+
 <template>
     <div
         class="rounded-[15px] bg-[#fff] border-[0.5px] border-gray-300 shadow-lg box-border mb-[1.5rem] p-[1rem] font-subheading">
@@ -43,11 +51,3 @@
         </div>
     </div>
 </template>
-
-<script setup>
-import {useStore} from "vuex";
-import Button from '@/Pages/Public/Components/Button.vue';
-import {Link} from "@inertiajs/inertia-vue3";
-
-const store = useStore();
-</script>

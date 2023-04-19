@@ -1,34 +1,3 @@
-<template>
-    <AuthenticatedLayout :title="title">
-        <template #header>
-            <slot name="header"></slot>
-        </template>
-
-        <div class="grid grid-cols-1 md:grid-cols-5 gap-4" v-if="can('show-bookkeeping')">
-            <div class="md:col-span-1">
-                <Sidebar class="mb-5">
-                    <SidebarItem v-for="item in items"
-                                 :item="item"
-                                 :active="route(route().current()) === item.href"
-                    />
-                </Sidebar>
-
-                <Sidebar>
-                    <SidebarItem v-for="item in costItems"
-                                 :item="item"
-                                 :active="route(route().current()) === item.href"
-                    />
-                </Sidebar>
-            </div>
-            <div class="w-full md:col-span-4">
-                <slot></slot>
-            </div>
-        </div>
-
-    </AuthenticatedLayout>
-
-</template>
-
 <script setup>
 import {inject} from "vue";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
@@ -80,3 +49,33 @@ const costItems = [
     },
 ];
 </script>
+
+<template>
+    <AuthenticatedLayout :title="title">
+        <template #header>
+            <slot name="header"></slot>
+        </template>
+
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-4" v-if="can('show-bookkeeping')">
+            <div class="md:col-span-1">
+                <Sidebar class="mb-5">
+                    <SidebarItem v-for="item in items"
+                                 :item="item"
+                                 :active="route(route().current()) === item.href"
+                    />
+                </Sidebar>
+
+                <Sidebar>
+                    <SidebarItem v-for="item in costItems"
+                                 :item="item"
+                                 :active="route(route().current()) === item.href"
+                    />
+                </Sidebar>
+            </div>
+            <div class="w-full md:col-span-4">
+                <slot></slot>
+            </div>
+        </div>
+
+    </AuthenticatedLayout>
+</template>

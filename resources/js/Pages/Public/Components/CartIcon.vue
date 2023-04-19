@@ -1,3 +1,20 @@
+<script setup>
+import {computed, ref} from "vue";
+import {useStore} from "vuex";
+import {Link} from "@inertiajs/inertia-vue3";
+
+const store = useStore();
+const cart = ref(store.state);
+
+const cartLink = computed(() => {
+    if (cart.value.list.length) {
+        return route('cart');
+    } else {
+        return 'javascript:';
+    }
+});
+</script>
+
 <template>
     <Link :href="cartLink"
           class="
@@ -45,20 +62,3 @@
         </div>
     </Link>
 </template>
-
-<script setup>
-import {computed, ref} from "vue";
-import {useStore} from "vuex";
-import {Link} from "@inertiajs/inertia-vue3";
-
-const store = useStore();
-const cart = ref(store.state);
-
-const cartLink = computed(() => {
-    if (cart.value.list.length) {
-        return route('cart');
-    } else {
-        return 'javascript:';
-    }
-});
-</script>

@@ -1,32 +1,11 @@
-<template>
-    <modal @closeModal="showModal"
-           v-if="state.show"
-           size="medium"
-           submit-button-text="Відправити"
-           @submitForm="sendForm"
-           @clickCancel="showModal"
-           :is-loading="state.isLoading"
-    >
-        <template #content>
-            <div class="text-[24px] text-[#000] font-bold mb-5 text-center">Потрібна консультація?</div>
-            <div class="text-[20px] text-[#000] mb-5 text-center">
-                Залиште свій номер телефону, і наш консультант вам зателефонує
-            </div>
-            <div class="block">
-                <input-component v-maska="'+38 (0##) ###-##-##'"
-                                 placeholder="+380"
-                                 v-model="state.item.phone"
-                                 type="tel"
-                ></input-component>
-                <input-error v-if="state.errors.phone" v-for="error in state.errors.phone" :message="error"/>
-            </div>
-        </template>
-    </modal>
-</template>
-
 <script setup>
+import Modal from '@/Pages/Public/Components/Modal.vue';
+import Input from '@/Pages/Public/Components/Input.vue';
+import InputError from '@/Components/Form/InputError.vue';
+
 import {ref} from "vue";
 import {swal} from '@/Includes/swal';
+import {vMaska} from "@/Includes/maska"
 
 const state = ref({
     show: false,
@@ -76,3 +55,30 @@ async function sendForm() {
         })
 }
 </script>
+
+<template>
+    <Modal @closeModal="showModal"
+           v-if="state.show"
+           size="medium"
+           submit-button-text="Відправити"
+           @submitForm="sendForm"
+           @clickCancel="showModal"
+           :is-loading="state.isLoading"
+    >
+        <template #content>
+            <div class="text-[24px] text-[#000] font-bold mb-5 text-center">Потрібна консультація?</div>
+            <div class="text-[20px] text-[#000] mb-5 text-center">
+                Залиште свій номер телефону, і наш консультант вам зателефонує
+            </div>
+            <div class="block">
+                <Input v-maska
+                       data-maska="+38 (0##) ###-##-##"
+                       placeholder="+380"
+                       v-model="state.item.phone"
+                       type="tel"
+                ></Input>
+                <InputError v-if="state.errors.phone" v-for="error in state.errors.phone" :message="error"/>
+            </div>
+        </template>
+    </Modal>
+</template>

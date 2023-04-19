@@ -1,3 +1,132 @@
+<script setup>
+import {inject, onMounted, ref} from "vue";
+import Images from '@/Pages/Admin/Content/Products/Images.vue';
+import ImagesSelectModal from '@/Components/ImagesSelectModal.vue';
+import Button from '@/Components/Button.vue';
+import Label from '@/Components/Form/Label.vue';
+import Textarea from '@/Components/Form/Textarea.vue';
+import Input from '@/Components/Form/Input.vue';
+import Select from '@/Components/Form/Select.vue';
+import ImageCard from '@/Components/ImageCard.vue';
+import LangTabs from '@/Components/LangTabs.vue';
+import {CharacteristicsRepository} from "@/Repositories/CharacteristicsRepository";
+import Multiselect from '@/Components/Multiselect/Multiselect.vue';
+import Editor from '@tinymce/tinymce-vue';
+
+const emits = defineEmits(['submit', 'setProductImages', 'destroyImage'])
+const props = defineProps(['product'])
+const defaultLang = inject('$defaultLang');
+const tiny = inject('$tiny');
+const publishedStatuses = inject('$publishedStatuses');
+const state = ref({
+    isActiveSelectedImagesModal: false,
+    isActiveSelectedPreviewModal: false,
+    activeLang: defaultLang,
+    statusOptions: [
+        {
+            key: 'in stock',
+            value: 'В наявності'
+        },
+        {
+            key: 'ends',
+            value: 'Закінчується'
+        },
+        {
+            key: 'out of stock',
+            value: 'Нема в наявності'
+        }
+    ],
+    categories: [],
+    providers: [],
+    colors: [],
+    sizes: [],
+    characteristics: []
+})
+
+onMounted(async () => {
+    await getCharacteristicsList();
+
+    await axios.get(route('api.categories.list'))
+        .then(({data}) => state.value.categories = data.result)
+        .catch((response) => console.log(response));
+
+    await axios.get(route('api.providers.list'))
+        .then(({data}) => {
+            data.result.forEach((item) => {
+                state.value.providers.push({
+                    key: item.id,
+                    value: item.name
+                })
+            })
+        })
+        .catch((response) => console.log(response));
+
+    await axios.get(route('api.colors.list'))
+        .then(({data}) => state.value.colors = data.result)
+        .catch((response) => console.log(response));
+
+    await axios.get(route('api.sizes.list'))
+        .then(({data}) => state.value.sizes = data.result)
+        .catch((response) => console.log(response));
+});
+
+const customCharacteristicLabel = ({title}) => {
+    if (title) {
+        return title[state.value.activeLang];
+    }
+}
+
+const getCharacteristicsList = async () => {
+    try {
+        const {result, success} = await CharacteristicsRepository().list();
+        if (success) {
+            state.value.characteristics = result;
+        }
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+const changeLang = (val) => {
+    state.value.activeLang = val;
+}
+
+const h1AndCodeAndId = ({h1, id}) => {
+    if (h1 && id) {
+        return `${state.value.activeLang === 'ua' ? h1.ua : (state.value.activeLang === 'ru' ? h1.ru : '-')} -${id}`;
+    } else {
+        return `${id}`;
+    }
+}
+
+const imagesModalFunction = () => {
+    state.value.isActiveSelectedImagesModal = !state.value.isActiveSelectedImagesModal;
+}
+
+const previewModalFunction = () => {
+    state.value.isActiveSelectedPreviewModal = !state.value.isActiveSelectedPreviewModal;
+}
+
+const destroyPreview = () => {
+    props.product.preview_id = null;
+}
+
+const setProductImages = (images) => {
+    imagesModalFunction();
+    emits('setProductImages', images);
+}
+
+const setProductPreview = (image) => {
+    props.product.preview_id = image.id;
+    props.product.preview.src = image.src;
+    previewModalFunction();
+}
+
+const destroyImage = (image) => {
+    emits('destroyImage', image);
+}
+</script>
+
 <template>
     <form @submit.prevent="$emit('submit',product)" class="grid grid-cols-1 gap-4">
         <div class="grid grid-cols-3 gap-4 mb-5">
@@ -185,130 +314,3 @@
         </div>
     </form>
 </template>
-
-<script setup>
-import {inject, onMounted, ref} from "vue";
-import Images from '@/Pages/Admin/Content/Products/Images.vue';
-import ImagesSelectModal from '@/Components/ImagesSelectModal.vue';
-import Button from '@/Components/Button.vue';
-import Label from '@/Components/Form/Label.vue';
-import Textarea from '@/Components/Form/Textarea.vue';
-import Input from '@/Components/Form/Input.vue';
-import Select from '@/Components/Form/Select.vue';
-import ImageCard from '@/Components/ImageCard.vue';
-import LangTabs from '@/Components/LangTabs.vue';
-import {CharacteristicsRepository} from "@/Repositories/CharacteristicsRepository";
-
-const emits = defineEmits(['submit', 'setProductImages', 'destroyImage'])
-const props = defineProps(['product'])
-const defaultLang = inject('$defaultLang');
-const tiny = inject('$tiny');
-const publishedStatuses = inject('$publishedStatuses');
-const state = ref({
-    isActiveSelectedImagesModal: false,
-    isActiveSelectedPreviewModal: false,
-    activeLang: defaultLang,
-    statusOptions: [
-        {
-            key: 'in stock',
-            value: 'В наявності'
-        },
-        {
-            key: 'ends',
-            value: 'Закінчується'
-        },
-        {
-            key: 'out of stock',
-            value: 'Нема в наявності'
-        }
-    ],
-    categories: [],
-    providers: [],
-    colors: [],
-    sizes: [],
-    characteristics: []
-})
-
-onMounted(() => {
-    getCharacteristicsList();
-
-    axios.get(route('api.categories.list'))
-        .then(({data}) => state.value.categories = data.result)
-        .catch((response) => console.log(response));
-
-    axios.get(route('api.providers.list'))
-        .then(({data}) => {
-            data.result.forEach((item) => {
-                state.value.providers.push({
-                    key: item.id,
-                    value: item.name
-                })
-            })
-        })
-        .catch((response) => console.log(response));
-
-    axios.get(route('api.colors.list'))
-        .then(({data}) => state.value.colors = data.result)
-        .catch((response) => console.log(response));
-
-    axios.get(route('api.sizes.list'))
-        .then(({data}) => state.value.sizes = data.result)
-        .catch((response) => console.log(response));
-});
-
-function customCharacteristicLabel({title}) {
-    if (title) {
-        return title[state.value.activeLang];
-    }
-}
-
-async function getCharacteristicsList() {
-    try {
-        const {result, success} = await CharacteristicsRepository().list();
-        if (success) {
-            state.value.characteristics = result;
-        }
-    } catch (e) {
-        console.error(e);
-    }
-}
-
-function changeLang(val) {
-    state.value.activeLang = val;
-}
-
-function h1AndCodeAndId({h1, id}) {
-    if (h1 && id) {
-        return `${state.value.activeLang === 'ua' ? h1.ua : (state.value.activeLang === 'ru' ? h1.ru : '-')} -${id}`;
-    } else {
-        return `${id}`;
-    }
-}
-
-function imagesModalFunction() {
-    state.value.isActiveSelectedImagesModal = !state.value.isActiveSelectedImagesModal;
-}
-
-function previewModalFunction() {
-    state.value.isActiveSelectedPreviewModal = !state.value.isActiveSelectedPreviewModal;
-}
-
-function destroyPreview() {
-    props.product.preview_id = null;
-}
-
-function setProductImages(images) {
-    imagesModalFunction();
-    emits('setProductImages', images);
-}
-
-function setProductPreview(image) {
-    props.product.preview_id = image.id;
-    props.product.preview.src = image.src;
-    previewModalFunction();
-}
-
-function destroyImage(image) {
-    emits('destroyImage', image);
-}
-</script>

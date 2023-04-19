@@ -1,220 +1,7 @@
-<template>
-    <form class="grid gap-4">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div class="block">
-                <Label :value="$t('clients.status')"/>
-                <Input :value="clientStatuses[order.client.status]" type="text" disabled/>
-            </div>
-            <div class="block">
-                <Label :value="$t('clients.full_name')"/>
-                <Input :value="fullName"
-                       type="text"
-                       disabled
-                />
-            </div>
-            <div class="block">
-                <Label :value="$t('clients.phone')"/>
-                <div class="flex items-center gap-x-2">
-                    <a :href="'tel:+' + order.client.phone" class="border-lg rounded-lg border p-3">
-                        <Telephone/>
-                    </a>
-                    <Input v-model="order.client.phone"
-                           type="text"
-                           disabled
-                    />
-                    <a :href="'javascript:'" @click="copyPhone" class="border-lg rounded-lg border p-3">
-                        <Copy/>
-                    </a>
-                </div>
-
-            </div>
-            <div class="block">
-                <Label value="&nbsp;"/>
-                <Button class="w-full" type="button" @click="$emit('onEditClient')">
-                    {{ $t('orders.client_card') }}
-                </Button>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-
-        </div>
-        <ClientOrders v-if="order.client.orders.length > 1"
-                      :data="order.client.orders"
-                      :statuses="statuses"
-        />
-        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-500">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div class="block">
-                <Label :value="$t('orders.status')"/>
-                <Select v-model="order.status" :options="state.statuses"/>
-            </div>
-            <div class="block">
-                <Label :value="$t('orders.manager_id')"/>
-                <Select v-model="order.manager_id" :options="state.managers"/>
-            </div>
-            <div class="block">
-                <Label :value="$t('orders.payment_method')"/>
-                <Select v-model="order.payment_method" :options="state.paymentMethods"/>
-            </div>
-            <div class="block">
-                <Label :value="$t('orders.parcel_reminder')"/>
-                <div class="block">
-                    <div class="flex gap-x-2 items-center w-full">
-                        <Checkbox v-model="order.parcel_reminder"/>
-                        <Label :value="order.parcel_reminder ? 'Так' : 'Ні'"/>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-500">
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="grid grid-cols-1 gap-4">
-                <div class="block">
-                    <Label :value="$t('orders.city')"/>
-                    <Input v-model="order.city"
-                           type="text"
-                           :placeholder="$t('orders.enter_city')"
-                    />
-                </div>
-                <div class="block">
-                    <Label :value="$t('orders.postal_office')"/>
-                    <Input v-model="order.postal_office"
-                           type="text"
-                           :placeholder="$t('orders.enter_postal_office')"
-                    />
-                </div>
-                <div class="block">
-                    <Label :value="$t('orders.waybill')"/>
-                    <Input v-model="order.waybill"
-                           type="text"
-                           :placeholder="$t('orders.enter_waybill')"
-                    />
-                    <div v-if="!order.sms_waybill_status && order.waybill">
-                        <a
-                            href="javascript:"
-                            @click.prevent="sendWaybill(order.client.phone,order.waybill)"
-                        >{{ $t('orders.send_waybill_for_client') }}</a>
-                    </div>
-                    <div v-if="order.sms_waybill_status">
-                        {{ $t('orders.waybill_sent') }}
-                        (<a href="javascript:"
-                            @click.prevent="sendWaybill(order.client.phone,order.waybill)"
-                    >{{ $t('orders.waybill_resent') }}</a>)
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-x-2" v-if="order.status === 'return'">
-                    <div class="flex gap-x-2">
-                        <Checkbox v-model="order.refund_other_waybill" @change="test"/>
-                        <Label :value="$t('orders.refund_other_waybill')"/>
-                    </div>
-                    <Input v-if="order.refund_other_waybill"
-                           v-model="order.other_waybill"
-                           type="text"
-                           :placeholder="$t('orders.enter_refund_other_waybill')"
-                    />
-                </div>
-            </div>
-            <div class="block">
-                <Label :value="$t('orders.comment')"/>
-                <Textarea rows="12"
-                          v-model="order.comment"
-                          :placeholder="$t('orders.enter_comment')"
-                />
-            </div>
-        </div>
-        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-500">
-        <div class="grid grid-cols-1 gap-y-4">
-            <div class="block">
-                <Label :value="$t('orders.sale_of_air')"/>
-                <Input v-model="order.sale_of_air_price"
-                       type="number"
-                       :placeholder="$t('orders.enter_sale_of_air_price')"
-                />
-            </div>
-
-            <div class="block">
-                <Label :value="$t('orders.discount')"/>
-                <Input v-model="order.discount_sum"
-                       type="number"
-                       :placeholder="$t('orders.enter_discount_sum')"
-                />
-            </div>
-
-            <div class="block">
-                <Label value="Загальна сума передоплати (грн.)"/>
-                <Input v-model="order.prepayment_sum" type="number" disabled/>
-            </div>
-        </div>
-
-        <div class="block mb-5">
-            <Button type="button" @click="addProductToOrder">Додати товар</Button>
-            <component :is="itemsModal"
-                       :item="state.item"
-                       size="medium"
-                       @closeModal="itemsModalFunction"
-                       @submitItemForm="submitItemForm"
-            ></component>
-        </div>
-
-        <ItemsTable :data="order.items"
-                    @editOrderItem="editOrderItem"
-                    @destroyOrderItem="destroyOrderItem"
-        />
-
-        <div class="grid grid-cols-2 md:grid-cols-4 mt-5">
-            <Card title="Кількість товарів"
-                  :description="order.total_count"
-                  class="text-center"
-            />
-
-            <Card title="Загальна ціна"
-                  :description="$filters.formatMoney(order.total_price)"
-                  class="text-center"
-            />
-
-            <Card title="Ціна на посилку"
-                  :description="$filters.formatMoney(priceForWaybill)"
-                  class="text-center"
-            />
-
-            <Card title="Промо-код"
-                  :description="order.promo_code ? order.promo_code : 'Відсутній'"
-                  class="text-center"
-            />
-        </div>
-
-        <div class="block" v-if="can('show-invoices')">
-            <Button type="button"
-                    @click="addInvoice"
-                    class="my-4"
-                    v-if="can('create-invoices')"
-            >
-                Додати рахунок
-            </Button>
-            <InvoicesTable :data="order.invoices"
-                           :statuses="invoiceStatuses"
-                           :can-destroy="can('destroy-invoices')"
-                           @onDestroy="onDestroyInvoice"
-                           v-if="order.invoices.length"
-                           @onSendInvoiceSms="onSendInvoiceSms"
-            />
-            <component :is="invoiceModal"
-                       :item="state.invoiceItem"
-                       @closeModal="invoiceModalFunction"
-                       @submitForm="onAddInvoice"
-                       @declineForm="invoiceModalFunction"
-            />
-        </div>
-    </form>
-</template>
-
 <script setup>
 import {computed, onMounted, reactive, ref, inject} from "vue";
 import {useI18n} from 'vue-i18n';
+import {swal} from "@/Includes/swal";
 
 import Telephone from '@/Components/Icons/Telephone.vue'
 import Copy from '@/Components/Icons/Copy.vue'
@@ -238,7 +25,6 @@ const emits = defineEmits([
     'onEditClient'
 ])
 
-const swal = inject('$swal');
 const can = inject('$can');
 
 const props = defineProps([
@@ -518,3 +304,217 @@ function onSendInvoiceSms() {
     emits('submitItemForm');
 }
 </script>
+
+<template>
+    <form class="grid gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="block">
+                <Label :value="$t('clients.status')"/>
+                <Input :value="clientStatuses[order.client.status]" type="text" disabled/>
+            </div>
+            <div class="block">
+                <Label :value="$t('clients.full_name')"/>
+                <Input :value="fullName"
+                       type="text"
+                       disabled
+                />
+            </div>
+            <div class="block">
+                <Label :value="$t('clients.phone')"/>
+                <div class="flex items-center gap-x-2">
+                    <a :href="'tel:+' + order.client.phone" class="border-lg rounded-lg border p-3">
+                        <Telephone/>
+                    </a>
+                    <Input v-model="order.client.phone"
+                           type="text"
+                           disabled
+                    />
+                    <a :href="'javascript:'" @click="copyPhone" class="border-lg rounded-lg border p-3">
+                        <Copy/>
+                    </a>
+                </div>
+
+            </div>
+            <div class="block">
+                <Label value="&nbsp;"/>
+                <Button class="w-full" type="button" @click="$emit('onEditClient')">
+                    {{ $t('orders.client_card') }}
+                </Button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+
+        </div>
+        <ClientOrders v-if="order.client.orders.length > 1"
+                      :data="order.client.orders"
+                      :statuses="statuses"
+        />
+        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-500">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="block">
+                <Label :value="$t('orders.status')"/>
+                <Select v-model="order.status" :options="state.statuses"/>
+            </div>
+            <div class="block">
+                <Label :value="$t('orders.manager_id')"/>
+                <Select v-model="order.manager_id" :options="state.managers"/>
+            </div>
+            <div class="block">
+                <Label :value="$t('orders.payment_method')"/>
+                <Select v-model="order.payment_method" :options="state.paymentMethods"/>
+            </div>
+            <div class="block">
+                <Label :value="$t('orders.parcel_reminder')"/>
+                <div class="block">
+                    <div class="flex gap-x-2 items-center w-full">
+                        <Checkbox v-model="order.parcel_reminder"/>
+                        <Label :value="order.parcel_reminder ? 'Так' : 'Ні'"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-500">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 gap-4">
+                <div class="block">
+                    <Label :value="$t('orders.city')"/>
+                    <Input v-model="order.city"
+                           type="text"
+                           :placeholder="$t('orders.enter_city')"
+                    />
+                </div>
+                <div class="block">
+                    <Label :value="$t('orders.postal_office')"/>
+                    <Input v-model="order.postal_office"
+                           type="text"
+                           :placeholder="$t('orders.enter_postal_office')"
+                    />
+                </div>
+                <div class="block">
+                    <Label :value="$t('orders.waybill')"/>
+                    <Input v-model="order.waybill"
+                           type="text"
+                           :placeholder="$t('orders.enter_waybill')"
+                    />
+                    <div v-if="!order.sms_waybill_status && order.waybill">
+                        <a
+                            href="javascript:"
+                            @click.prevent="sendWaybill(order.client.phone,order.waybill)"
+                        >{{ $t('orders.send_waybill_for_client') }}</a>
+                    </div>
+                    <div v-if="order.sms_waybill_status">
+                        {{ $t('orders.waybill_sent') }}
+                        (<a href="javascript:"
+                            @click.prevent="sendWaybill(order.client.phone,order.waybill)"
+                    >{{ $t('orders.waybill_resent') }}</a>)
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-x-2" v-if="order.status === 'return'">
+                    <div class="flex gap-x-2">
+                        <Checkbox v-model="order.refund_other_waybill" @change="test"/>
+                        <Label :value="$t('orders.refund_other_waybill')"/>
+                    </div>
+                    <Input v-if="order.refund_other_waybill"
+                           v-model="order.other_waybill"
+                           type="text"
+                           :placeholder="$t('orders.enter_refund_other_waybill')"
+                    />
+                </div>
+            </div>
+            <div class="block">
+                <Label :value="$t('orders.comment')"/>
+                <Textarea rows="12"
+                          v-model="order.comment"
+                          :placeholder="$t('orders.enter_comment')"
+                />
+            </div>
+        </div>
+        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-500">
+        <div class="grid grid-cols-1 gap-y-4">
+            <div class="block">
+                <Label :value="$t('orders.sale_of_air')"/>
+                <Input v-model="order.sale_of_air_price"
+                       type="number"
+                       :placeholder="$t('orders.enter_sale_of_air_price')"
+                />
+            </div>
+
+            <div class="block">
+                <Label :value="$t('orders.discount')"/>
+                <Input v-model="order.discount_sum"
+                       type="number"
+                       :placeholder="$t('orders.enter_discount_sum')"
+                />
+            </div>
+
+            <div class="block">
+                <Label value="Загальна сума передоплати (грн.)"/>
+                <Input v-model="order.prepayment_sum" type="number" disabled/>
+            </div>
+        </div>
+
+        <div class="block mb-5">
+            <Button type="button" @click="addProductToOrder">Додати товар</Button>
+            <component :is="itemsModal"
+                       :item="state.item"
+                       size="medium"
+                       @closeModal="itemsModalFunction"
+                       @submitItemForm="submitItemForm"
+            ></component>
+        </div>
+
+        <ItemsTable :data="order.items"
+                    @editOrderItem="editOrderItem"
+                    @destroyOrderItem="destroyOrderItem"
+        />
+
+        <div class="grid grid-cols-2 md:grid-cols-4 mt-5">
+            <Card title="Кількість товарів"
+                  :description="order.total_count"
+                  class="text-center"
+            />
+
+            <Card title="Загальна ціна"
+                  :description="$filters.formatMoney(order.total_price)"
+                  class="text-center"
+            />
+
+            <Card title="Ціна на посилку"
+                  :description="$filters.formatMoney(priceForWaybill)"
+                  class="text-center"
+            />
+
+            <Card title="Промо-код"
+                  :description="order.promo_code ? order.promo_code : 'Відсутній'"
+                  class="text-center"
+            />
+        </div>
+
+        <div class="block" v-if="can('show-invoices')">
+            <Button type="button"
+                    @click="addInvoice"
+                    class="my-4"
+                    v-if="can('create-invoices')"
+            >
+                Додати рахунок
+            </Button>
+            <InvoicesTable :data="order.invoices"
+                           :statuses="invoiceStatuses"
+                           :can-destroy="can('destroy-invoices')"
+                           @onDestroy="onDestroyInvoice"
+                           v-if="order.invoices.length"
+                           @onSendInvoiceSms="onSendInvoiceSms"
+            />
+            <component :is="invoiceModal"
+                       :item="state.invoiceItem"
+                       @closeModal="invoiceModalFunction"
+                       @submitForm="onAddInvoice"
+                       @declineForm="invoiceModalFunction"
+            />
+        </div>
+    </form>
+</template>

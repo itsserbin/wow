@@ -1,31 +1,10 @@
-<template>
-    <form class="grid gap-4">
-        <div class="block">
-            <label-component value="Статус публікації"/>
-            <select-component v-model="item.published" :options="publishedStatuses"/>
-        </div>
-
-        <div>
-            <lang-tabs @clickLang="changeLang"/>
-
-            <div class="grid gap-4">
-                <div class="block">
-                    <label-component value="Питання"/>
-                    <input-component v-model="item.question.ru" v-if="state.activeLang === 'ru'" type="text"/>
-                    <input-component v-model="item.question.ua" v-if="state.activeLang === 'ua'" type="text"/>
-                </div>
-
-                <div class="block">
-                    <label-component value="Відповідь"/>
-                    <textarea-component v-model="item.answer.ru" v-if="state.activeLang === 'ru'" rows="4"/>
-                    <textarea-component v-model="item.answer.ua" v-if="state.activeLang === 'ua'" rows="4"/>
-                </div>
-            </div>
-        </div>
-    </form>
-</template>
-
 <script setup>
+import LangTabs from '@/Components/LangTabs.vue';
+import Label from '@/Components/Form/Label.vue';
+import Input from '@/Components/Form/Input.vue';
+import Select from '@/Components/Form/Select.vue';
+import Textarea from '@/Components/Form/Textarea.vue';
+
 import {inject, ref} from "vue";
 
 defineProps(['item'])
@@ -41,3 +20,28 @@ function changeLang(val) {
     state.value.activeLang = val;
 }
 </script>
+
+<template>
+    <form class="grid gap-4">
+        <div class="block">
+            <Label value="Статус публікації"/>
+            <Select v-model="item.published" :options="publishedStatuses"/>
+        </div>
+
+        <div>
+            <LangTabs @clickLang="changeLang"/>
+
+            <div class="grid gap-4">
+                <div class="block">
+                    <Label value="Питання"/>
+                    <Input v-model="item.question[state.activeLang]" type="text"/>
+                </div>
+
+                <div class="block">
+                    <Label value="Відповідь"/>
+                    <Textarea v-model="item.answer[state.activeLang]" rows="4"/>
+                </div>
+            </div>
+        </div>
+    </form>
+</template>

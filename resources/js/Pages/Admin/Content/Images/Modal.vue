@@ -1,5 +1,25 @@
+<script setup>
+import Form from '@/Pages/Admin/Content/Images/Form.vue';
+import Modal from '@/Components/Modal.vue';
+
+const props = defineProps([
+    'image'
+]);
+
+const emits = defineEmits([
+    'closeModal',
+    'submitForm',
+    'declineForm'
+]);
+
+function declineForm() {
+    emits('declineForm', props.image.id);
+}
+
+</script>
+
 <template>
-    <modal-component
+    <Modal
         @closeModal="$emit('closeModal')"
         submit-button-text="Save"
         cancel-button-text="Cancel"
@@ -11,19 +31,5 @@
         <template #content>
             <Form :image="props.image"/>
         </template>
-    </modal-component>
+    </Modal>
 </template>
-
-<script setup>
-import Form from '@/Pages/Admin/Content/Images/Form.vue';
-
-const props = defineProps([
-    'image'
-])
-
-function declineForm() {
-    emits('declineForm', props.image.id);
-}
-
-const emits = defineEmits(['closeModal', 'submitForm', 'declineForm'])
-</script>

@@ -1,3 +1,11 @@
+<script setup>
+const props = defineProps([
+    'lang',
+    'pages',
+    'options'
+]);
+</script>
+
 <template>
     <footer class="bg-[#161616] mt-5 flex-[0_0_auto]">
         <div class="box-content mx-auto max-w-7xl py-10">
@@ -58,11 +66,3 @@
         </div>
     </footer>
 </template>
-
-<script setup>
-const props = defineProps([
-    'lang',
-    'pages',
-    'options'
-]);
-</script>

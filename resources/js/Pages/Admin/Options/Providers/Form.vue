@@ -1,73 +1,10 @@
-<template>
-    <form @submit.prevent="$emit('submit',item)" class="flex flex-col">
-        <div class="mb-5">
-            <div class="grid grid-cols-2 gap-4 mb-5">
-                <div class="block">
-                    <label-component value="Назва"/>
-                    <input-component v-model="item.name" type="text"/>
-                </div>
-
-                <div class="block">
-                    <label-component value="Час відправлення"/>
-                    <input-component v-model="item.time_of_dispatch" type="text"/>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4 mb-5">
-                <div class="block">
-                    <label-component value="Каталог"/>
-                    <input-component v-model="item.catalog" type="text"/>
-                </div>
-
-                <div class="block">
-                    <label-component value="Наявність"/>
-                    <input-component v-model="item.availability" type="text"/>
-                </div>
-            </div>
-        </div>
-
-        <div class="mb-5">
-            <div class="grid grid-cols-2 gap-4 mb-5">
-                <div class="block">
-                    <label-component value="Передоплата"/>
-                    <select-component v-model="item.prepayment" :options="selectYesOrNo"/>
-                </div>
-
-                <div class="block">
-                    <label-component value="Сума передоплати"/>
-                    <input-component v-model="item.prepayment_sum" type="number"/>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4 mb-5">
-                <div class="block">
-                    <label-component value="Оплата повернення"/>
-                    <select-component v-model="item.refunds" :options="selectYesOrNo"/>
-                </div>
-
-                <div class="block">
-                    <label-component value="Сума повернення"/>
-                    <input-component v-model="item.refunds_sum" type="number"/>
-                </div>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-4 mb-5">
-            <div class="block">
-                <label-component value="Контакти"/>
-                <textarea-component v-model="item.contacts" rows="4"/>
-            </div>
-
-            <div class="block">
-                <label-component value="Коментар"/>
-                <textarea-component v-model="item.comment" rows="4"/>
-            </div>
-        </div>
-    </form>
-</template>
-
 <script setup>
 import {inject, onMounted, ref} from "vue";
+
+import Label from '@/Components/Form/Label.vue';
+import Input from '@/Components/Form/Input.vue';
+import Textarea from '@/Components/Form/Textarea.vue';
+import Select from '@/Components/Form/Select.vue';
 
 const emits = defineEmits(['submit'])
 
@@ -123,3 +60,71 @@ function uploadImagesFunction() {
     console.log('uploadImagesFunction')
 }
 </script>
+
+<template>
+    <form @submit.prevent="$emit('submit',item)" class="flex flex-col">
+        <div class="mb-5">
+            <div class="grid grid-cols-2 gap-4 mb-5">
+                <div class="block">
+                    <Label value="Назва"/>
+                    <Input v-model="item.name" type="text"/>
+                </div>
+
+                <div class="block">
+                    <Label value="Час відправлення"/>
+                    <Input v-model="item.time_of_dispatch" type="text"/>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-5">
+                <div class="block">
+                    <Label value="Каталог"/>
+                    <Input v-model="item.catalog" type="text"/>
+                </div>
+
+                <div class="block">
+                    <Label value="Наявність"/>
+                    <Input v-model="item.availability" type="text"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-5">
+            <div class="grid grid-cols-2 gap-4 mb-5">
+                <div class="block">
+                    <Label value="Передоплата"/>
+                    <Select v-model="item.prepayment" :options="selectYesOrNo"/>
+                </div>
+
+                <div class="block">
+                    <Label value="Сума передоплати"/>
+                    <Input v-model="item.prepayment_sum" type="number"/>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-5">
+                <div class="block">
+                    <Label value="Оплата повернення"/>
+                    <Select v-model="item.refunds" :options="selectYesOrNo"/>
+                </div>
+
+                <div class="block">
+                    <Label value="Сума повернення"/>
+                    <Input v-model="item.refunds_sum" type="number"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mb-5">
+            <div class="block">
+                <Label value="Контакти"/>
+                <Textarea v-model="item.contacts" rows="4"/>
+            </div>
+
+            <div class="block">
+                <Label value="Коментар"/>
+                <Textarea v-model="item.comment" rows="4"/>
+            </div>
+        </div>
+    </form>
+</template>

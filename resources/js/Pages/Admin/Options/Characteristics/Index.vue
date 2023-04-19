@@ -1,51 +1,15 @@
-<template>
-    <OptionsLayout title="Характеристики товарів">
-        <template #header>
-            Характеристики товарів
-        </template>
-
-        <Loader v-if="state.isLoading"/>
-        <div v-if="!state.isLoading && can('show-characteristics')" class="grid grid-cols-1 gap-4">
-            <div>
-                <Button type="btn" @click="create" v-if="can('create-characteristics')">
-                    Додати
-                </Button>
-            </div>
-
-            <Table :data="state.data.data"
-                   @onEdit="onEdit"
-                   @onDestroy="onDestroy"
-                   :canDestroy="can('destroy-characteristics')"
-            />
-
-            <div class="text-center">
-                <Paginate :pagination="state.data"
-                          :click-handler="fetch"
-                          v-model="params.currentPage"
-                />
-            </div>
-        </div>
-        <component :is="activeModal"
-                   :item="state.item"
-                   @closeModal="modalFunction"
-                   @submitForm="submitForm"
-                   @declineForm="onDestroy"
-                   :canDestroy="can('destroy-characteristics')"
-        ></component>
-    </OptionsLayout>
-</template>
-
 <script setup>
-import {reactive, onMounted, inject, ref, computed} from "vue";
+import {onMounted, inject, ref, computed} from "vue";
+import {CharacteristicsRepository} from "@/Repositories/CharacteristicsRepository.js";
+import {swal} from "@/Includes/swal";
+
 import Button from '@/Components/Button.vue';
 import Loader from '@/Components/Loader.vue';
 import Paginate from '@/Components/Paginate.vue';
 import Modal from '@/Pages/Admin/Options/Characteristics/Modal.vue';
 import OptionsLayout from '@/Pages/Admin/Options/OptionsLayout.vue'
 import Table from '@/Pages/Admin/Options/Characteristics/Table.vue'
-import {CharacteristicsRepository} from "@/Repositories/CharacteristicsRepository.js";
 
-const swal = inject('$swal')
 const can = inject('$can');
 
 const params = ref({
@@ -109,7 +73,7 @@ async function onDestroy(id) {
                 if (state.value.isActiveModal) {
                     modalFunction();
                 }
-                swal({
+                await swal({
                     title: 'Success!',
                     icon: 'success'
                 });
@@ -117,7 +81,7 @@ async function onDestroy(id) {
         }
     } catch (errors) {
         console.error(errors);
-        swal({
+        await swal({
             title: 'Error!',
             icon: 'error',
             text: errors.response.data.message || 'An error occurred, please try again later'
@@ -142,7 +106,7 @@ async function onEdit(id, i) {
     } catch (error) {
         state.value.isLoading = false;
         console.error(error);
-        swal({
+        await swal({
             title: 'Error!',
             icon: 'error',
             text: error.response.data.message || 'An error occurred, please try again later'
@@ -157,7 +121,7 @@ async function onUpdate() {
             if (success) {
                 modalFunction();
                 await fetch();
-                swal({
+                await swal({
                     title: 'Success!',
                     icon: 'success'
                 })
@@ -166,7 +130,7 @@ async function onUpdate() {
     } catch (error) {
         state.value.isLoading = false;
         console.error(error);
-        swal({
+        await swal({
             title: 'Error!',
             icon: 'error',
             text: error.response.data.message || 'An error occurred, please try again later'
@@ -182,7 +146,7 @@ async function onCreate() {
                 state.value.item = {};
                 modalFunction();
                 await fetch();
-                swal({
+                await swal({
                     title: 'Success!',
                     icon: 'success'
                 })
@@ -191,7 +155,7 @@ async function onCreate() {
     } catch (error) {
         state.value.isLoading = false;
         console.error(error);
-        swal({
+        await swal({
             title: 'Error!',
             icon: 'error',
             text: error || 'An error occurred, please try again later'
@@ -215,3 +179,40 @@ function create() {
     }
 }
 </script>
+
+<template>
+    <OptionsLayout title="Характеристики товарів">
+        <template #header>
+            Характеристики товарів
+        </template>
+
+        <Loader v-if="state.isLoading"/>
+        <div v-if="!state.isLoading && can('show-characteristics')" class="grid grid-cols-1 gap-4">
+            <div>
+                <Button type="btn" @click="create" v-if="can('create-characteristics')">
+                    Додати
+                </Button>
+            </div>
+
+            <Table :data="state.data.data"
+                   @onEdit="onEdit"
+                   @onDestroy="onDestroy"
+                   :canDestroy="can('destroy-characteristics')"
+            />
+
+            <div class="text-center">
+                <Paginate :pagination="state.data"
+                          :click-handler="fetch"
+                          v-model="params.currentPage"
+                />
+            </div>
+        </div>
+        <component :is="activeModal"
+                   :item="state.item"
+                   @closeModal="modalFunction"
+                   @submitForm="submitForm"
+                   @declineForm="onDestroy"
+                   :canDestroy="can('destroy-characteristics')"
+        ></component>
+    </OptionsLayout>
+</template>

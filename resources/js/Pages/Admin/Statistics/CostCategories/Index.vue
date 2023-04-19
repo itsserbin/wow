@@ -1,59 +1,15 @@
-<template>
-    <StatisticLayout title="Категорії витрат">
-        <template #header>
-            Категорії витрат
-        </template>
-
-        <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading && can('show-bookkeeping-costs')">
-            <button-component type="btn" @click="create">
-                Додати
-            </button-component>
-
-            <table-component :headings="headings"
-                             :rows="state.categories.data"
-                             :isSlotMode="true"
-            >
-                <template v-slot:id="{data}">
-                    <a href="javascript:" @click="onEdit(data.row.id,data.i)">
-                        {{ data.row.id }}
-                    </a>
-                </template>
-
-                <template v-slot:timestamps="{data}">
-                    {{ $filters.dateFormat(data.row.updated_at) }}
-                    <hr class="my-1">
-                    {{ $filters.dateFormat(data.row.created_at) }}
-                </template>
-
-                <template v-slot:actions="{data}">
-                    <a href="javascript:" @click="onDestroy(data.row.id)">
-                        <xcircle-component/>
-                    </a>
-                </template>
-            </table-component>
-
-            <pagination :pagination="state.categories"
-                      :click-handler="fetch"
-                      v-model="state.currentPage"
-            />
-
-            <component :is="activeModal"
-                       :item="state.item"
-                       @closeModal="modalFunction"
-                       @submitForm="submitForm"
-                       @declineForm="onDestroy"
-            ></component>
-        </div>
-    </StatisticLayout>
-</template>
-
 <script setup>
 import {reactive, onMounted, inject, ref, computed} from "vue";
+import {swal} from "@/Includes/swal";
+
+import Paginate from '@/Components/Paginate.vue';
+import Loader from '@/Components/Loader.vue';
+import Button from '@/Components/Button.vue';
+import Table from '@/Components/Table.vue';
+import XCircle from '@/Components/Icons/XCircle.vue';
 import CostCategoryModal from '@/Pages/Admin/Statistics/CostCategories/Modal.vue';
 import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
 
-const swal = inject('$swal')
 const can = inject('$can');
 
 const item = ({
@@ -72,7 +28,7 @@ const state = ref({
 
 });
 
-onMounted(() => fetch());
+onMounted(async () => await fetch());
 
 const activeModal = computed(() => state.value.isActiveModal ? CostCategoryModal : null)
 
@@ -103,22 +59,23 @@ const headings = reactive([
     }
 ]);
 
-function fetch(page) {
+const fetch = async (page) => {
     state.value.isLoading = true;
     if (page) {
         state.value.currentPage = page;
     }
-    axios.get(route('api.statistics.costs.categories.index', {
+    await axios.get(route('api.statistics.costs.categories.index', {
         page: state.value.currentPage
     }))
-        .then(response => {
-            Object.assign(state.value.categories, response.data.result);
+        .then(({data}) => {
+            state.value.categories = data.result
             state.value.isLoading = false;
         })
-        .catch(errors => {
-            console.log(errors);
+        .catch((response) => {
+            console.log(response);
             state.value.isLoading = false;
         })
+
 }
 
 function onDestroy(id) {
@@ -221,3 +178,53 @@ function create() {
     modalFunction();
 }
 </script>
+
+<template>
+    <StatisticLayout title="Категорії витрат">
+        <template #header>
+            Категорії витрат
+        </template>
+
+        <Loader v-if="state.isLoading"/>
+        <div v-if="!state.isLoading && can('show-bookkeeping-costs')">
+            <Button type="btn" @click="create">
+                Додати
+            </Button>
+
+            <Table :headings="headings"
+                   :rows="state.categories.data"
+                   :isSlotMode="true"
+            >
+                <template #id="{data}">
+                    <a href="javascript:" @click="onEdit(data.row.id,data.i)">
+                        {{ data.row.id }}
+                    </a>
+                </template>
+
+                <template #timestamps="{data}">
+                    {{ $filters.dateFormat(data.row.updated_at) }}
+                    <hr class="my-1">
+                    {{ $filters.dateFormat(data.row.created_at) }}
+                </template>
+
+                <template #actions="{data}">
+                    <a href="javascript:" @click="onDestroy(data.row.id)">
+                        <XCircle/>
+                    </a>
+                </template>
+            </Table>
+
+            <Paginate :pagination="state.categories"
+                      :click-handler="fetch"
+                      v-model="state.currentPage"
+            />
+
+            <component :is="activeModal"
+                       :item="state.item"
+                       @closeModal="modalFunction"
+                       @submitForm="submitForm"
+                       @declineForm="onDestroy"
+            ></component>
+        </div>
+    </StatisticLayout>
+</template>

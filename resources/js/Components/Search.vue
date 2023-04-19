@@ -1,3 +1,18 @@
+<script setup>
+import {ref} from "vue";
+import XCircle from '@/Components/Icons/XCircle.vue'
+
+const query = ref(null);
+
+defineProps(['clear', 'placeholder']);
+const emits = defineEmits(['search', 'onClear']);
+
+function onClear() {
+    query.value = null;
+    emits('onClear');
+}
+</script>
+
 <template>
     <form class="flex items-center" @submit.prevent="$emit('search', encodeURIComponent(query))">
         <label for="search" class="sr-only">Пошук</label>
@@ -18,7 +33,7 @@
                     v-if="clear"
                     @click="onClear"
             >
-                <xcircle-component class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"/>
+                <XCircle class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"/>
             </button>
         </div>
         <button type="submit"
@@ -32,17 +47,3 @@
         </button>
     </form>
 </template>
-
-<script setup>
-import {ref} from "vue";
-
-const query = ref(null);
-
-defineProps(['clear', 'placeholder']);
-const emits = defineEmits(['search', 'onClear']);
-
-function onClear() {
-    query.value = null;
-    emits('onClear');
-}
-</script>

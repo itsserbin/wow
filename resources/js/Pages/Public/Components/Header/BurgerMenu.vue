@@ -1,3 +1,16 @@
+<script setup>
+import {defineAsyncComponent} from "vue";
+
+defineProps(['options', 'lang'])
+
+const ViberIcon = defineAsyncComponent(() => import('@/Components/Icons/ViberIcon.vue'));
+const TelegramIcon = defineAsyncComponent(() => import('@/Components/Icons/TelegramIcon.vue'));
+const InstagramIcon = defineAsyncComponent(() => import('@/Components/Icons/InstagramIcon.vue'));
+const FacebookIcon = defineAsyncComponent(() => import('@/Components/Icons/FacebookIcon.vue'));
+const BurgerMenuLink = defineAsyncComponent(() => import('@/Pages/Public/Components/Header/BurgerMenuLink.vue'));
+
+</script>
+
 <template>
     <div
         class="
@@ -76,16 +89,3 @@
 
     </div>
 </template>
-
-<script setup>
-import {defineAsyncComponent} from "vue";
-
-defineProps(['options', 'lang'])
-
-const ViberIcon = defineAsyncComponent(() => import('@/Components/Icons/ViberIcon.vue'));
-const TelegramIcon = defineAsyncComponent(() => import('@/Components/Icons/TelegramIcon.vue'));
-const InstagramIcon = defineAsyncComponent(() => import('@/Components/Icons/InstagramIcon.vue'));
-const FacebookIcon = defineAsyncComponent(() => import('@/Components/Icons/FacebookIcon.vue'));
-const BurgerMenuLink = defineAsyncComponent(() => import('@/Pages/Public/Components/Header/BurgerMenuLink.vue'));
-
-</script>

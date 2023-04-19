@@ -1,3 +1,51 @@
+<script setup>
+import {computed, ref} from "vue";
+import Input from '@/Pages/Public/Components/Input.vue'
+import Button from '@/Pages/Public/Components/Button.vue'
+import Accordion from "@/Pages/Public/Components/Accordion/Accordion.vue";
+import AccordionItem from "@/Pages/Public/Components/Accordion/AccordionItem.vue";
+// import Slider from '@vueform/slider/dist/slider'
+
+const props = defineProps(['characteristics', 'lang','isShow']);
+const emits = defineEmits(['fetch','close']);
+
+const state = ref({
+    price: [
+        props.characteristics.price.min,
+        props.characteristics.price.max
+    ],
+    characteristics: {},
+    sizes: [],
+    colors: []
+});
+
+props.characteristics.list.forEach((item) => {
+    state.value.characteristics[item.id] = [];
+});
+
+const params = computed(() => {
+    let characteristics = [];
+    props.characteristics.list.forEach((item) => {
+        if (state.value.characteristics[item.id].length) {
+            state.value.characteristics[item.id].forEach((val) => {
+                characteristics.push(val);
+            })
+        }
+    });
+    return {
+        characteristics: characteristics,
+        price: state.value.price,
+        colors: state.value.colors,
+        sizes: state.value.sizes
+    }
+})
+
+
+function filter() {
+    emits('fetch', params.value);
+}
+</script>
+
 <template>
     <div class="bg-secondary rounded-lg shadow-sm p-7">
         <button @click="$emit('close')" type="button"
@@ -108,54 +156,6 @@
         </div>
     </div>
 </template>
-
-<script setup>
-import {computed, ref} from "vue";
-import Input from '@/Pages/Public/Components/Input.vue'
-import Button from '@/Pages/Public/Components/Button.vue'
-import Accordion from "@/Pages/Public/Components/Accordion/Accordion.vue";
-import AccordionItem from "@/Pages/Public/Components/Accordion/AccordionItem.vue";
-// import Slider from '@vueform/slider/dist/slider'
-
-const props = defineProps(['characteristics', 'lang','isShow']);
-const emits = defineEmits(['fetch','close']);
-
-const state = ref({
-    price: [
-        props.characteristics.price.min,
-        props.characteristics.price.max
-    ],
-    characteristics: {},
-    sizes: [],
-    colors: []
-});
-
-props.characteristics.list.forEach((item) => {
-    state.value.characteristics[item.id] = [];
-});
-
-const params = computed(() => {
-    let characteristics = [];
-    props.characteristics.list.forEach((item) => {
-        if (state.value.characteristics[item.id].length) {
-            state.value.characteristics[item.id].forEach((val) => {
-                characteristics.push(val);
-            })
-        }
-    });
-    return {
-        characteristics: characteristics,
-        price: state.value.price,
-        colors: state.value.colors,
-        sizes: state.value.sizes
-    }
-})
-
-
-function filter() {
-    emits('fetch', params.value);
-}
-</script>
 
 <style>
 .slider-red {

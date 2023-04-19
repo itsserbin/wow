@@ -1,3 +1,28 @@
+<script setup>
+import {onMounted, ref} from "vue";
+import Label from '@/Components/Form/Label.vue'
+import Input from '@/Components/Form/Input.vue'
+import Multiselect from '@/Components/Multiselect/Multiselect.vue';
+
+const props = defineProps(['item'])
+
+const products = ref([])
+
+onMounted(async () => {
+    await axios.get(route('api.products.list'))
+        .then(({data}) => products.value = data.result)
+        .catch((response) => console.log(response));
+})
+
+const h1AndCodeAndId = ({h1, id, vendor_code}) => {
+    const title = h1 ? (h1.ua ? h1.ua : h1.ru) : '';
+    const separator = title && id ? ' - ' : '';
+    const code = vendor_code ? `${vendor_code}/` : '';
+
+    return `${title}${separator}${code}${id}`;
+}
+</script>
+
 <template>
     <div class="block mb-5 ">
         <Label value="Товар"/>
@@ -41,29 +66,4 @@
         <Label value="Сума знижки (грн.)"/>
         <Input v-model="item.discount" type="number"/>
     </div>
-
 </template>
-
-<script setup>
-import {onMounted, ref} from "vue";
-import Label from '@/Components/Form/Label.vue'
-import Input from '@/Components/Form/Input.vue'
-
-const props = defineProps(['item'])
-
-const products = ref([])
-
-onMounted(() => {
-    axios.get(route('api.products.list'))
-        .then(({data}) => products.value = data.result)
-        .catch((response) => console.log(response));
-})
-
-const h1AndCodeAndId = ({h1, id, vendor_code}) => {
-    const title = h1 ? (h1.ua ? h1.ua : h1.ru) : '';
-    const separator = title && id ? ' - ' : '';
-    const code = vendor_code ? `${vendor_code}/` : '';
-
-    return `${title}${separator}${code}${id}`;
-}
-</script>

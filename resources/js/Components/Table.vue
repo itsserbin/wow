@@ -1,3 +1,27 @@
+<script setup>
+import ArrowUp from '@/Components/Icons/ArrowUp.vue';
+import ArrowDown from '@/Components/Icons/ArrowDown.vue';
+
+defineEmits(['fetch', 'sort']);
+
+defineProps({
+    headings: Array,
+    rows: Array,
+    isSlotMode: {
+        type: Boolean,
+        default: false,
+    },
+    nowrap: {
+        type: Boolean,
+        default: true,
+    },
+    responsive: {
+        type: Boolean,
+        default: true,
+    },
+})
+</script>
+
 <template>
     <div class="
                     not-prose
@@ -84,27 +108,3 @@
         ></div>
     </div>
 </template>
-
-<script setup>
-import ArrowUp from '@/Components/Icons/ArrowUp.vue';
-import ArrowDown from '@/Components/Icons/ArrowDown.vue';
-
-defineEmits(['fetch', 'sort']);
-
-defineProps({
-    headings: Array,
-    rows: Array,
-    isSlotMode: {
-        type: Boolean,
-        default: false,
-    },
-    nowrap: {
-        type: Boolean,
-        default: true,
-    },
-    responsive: {
-        type: Boolean,
-        default: true,
-    },
-})
-</script>

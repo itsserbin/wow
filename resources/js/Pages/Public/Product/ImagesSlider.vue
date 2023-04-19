@@ -1,3 +1,43 @@
+<script setup>
+import {Zoom, FreeMode, Navigation, Thumbs, Lazy} from 'swiper';
+import {onMounted, ref} from 'vue';
+import {Swiper, SwiperSlide} from 'swiper/vue';
+
+const props = defineProps(['images', 'preview']);
+
+const thumbsSwiper = ref(null);
+
+const setThumbsSwiper = (swiper) => {
+    thumbsSwiper.value = swiper;
+};
+
+const modules = [Zoom, Lazy, Thumbs, FreeMode, Navigation];
+
+const state = ref({
+    imagesLarge: [],
+    images: [],
+    preview: {},
+    index: null,
+    currentId: null,
+});
+
+onMounted(() => {
+    state.value.preview = {
+        'webp_src': route('images', props.preview.webp_src),
+        'webp_thumbnail': route('images.55', props.preview.webp_src),
+        'src': route('images', props.preview.src),
+        'thumbnail': route('images.55', props.preview.src),
+    }
+    const images = [...props.images].map(item => ({
+        'webp_src': route('images', item.webp_src),
+        'webp_thumbnail': route('images.55', item.webp_src),
+        'src': route('images', item.src),
+        'thumbnail': route('images.55', item.src),
+    }))
+    state.value.images.push(...images);
+});
+</script>
+
 <template>
     <div class="block w-full">
         <swiper
@@ -72,46 +112,6 @@
         </swiper>
     </div>
 </template>
-
-<script setup>
-import {Zoom, FreeMode, Navigation, Thumbs, Lazy} from 'swiper';
-import {onMounted, ref} from 'vue';
-import {Swiper, SwiperSlide} from 'swiper/vue';
-
-const props = defineProps(['images', 'preview']);
-
-const thumbsSwiper = ref(null);
-
-const setThumbsSwiper = (swiper) => {
-    thumbsSwiper.value = swiper;
-};
-
-const modules = [Zoom, Lazy, Thumbs, FreeMode, Navigation];
-
-const state = ref({
-    imagesLarge: [],
-    images: [],
-    preview: {},
-    index: null,
-    currentId: null,
-});
-
-onMounted(() => {
-    state.value.preview = {
-        'webp_src': route('images', props.preview.webp_src),
-        'webp_thumbnail': route('images.55', props.preview.webp_src),
-        'src': route('images', props.preview.src),
-        'thumbnail': route('images.55', props.preview.src),
-    }
-    const images = [...props.images].map(item => ({
-        'webp_src': route('images', item.webp_src),
-        'webp_thumbnail': route('images.55', item.webp_src),
-        'src': route('images', item.src),
-        'thumbnail': route('images.55', item.src),
-    }))
-    state.value.images.push(...images);
-});
-</script>
 
 <style>
 

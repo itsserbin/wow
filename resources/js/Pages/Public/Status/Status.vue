@@ -1,3 +1,16 @@
+<script setup>
+import {computed} from "vue";
+import OrderItem from '@/Pages/Public/Status/OrderItem.vue';
+
+const props = defineProps(['order', 'statuses']);
+
+const name = computed(() => {
+    const {name, last_name, middle_name} = props.order.client;
+    return `${name ? name : ''} ${last_name ? last_name : ''} ${middle_name ? middle_name : ''}`;
+})
+
+</script>
+
 <template>
     <div>
         <div class="grid grid-cols-1 gap-4">
@@ -48,16 +61,3 @@
         </div>
     </div>
 </template>
-
-<script setup>
-import {computed} from "vue";
-import OrderItem from '@/Pages/Public/Status/OrderItem.vue';
-
-const props = defineProps(['order', 'statuses']);
-
-const name = computed(() => {
-    const {name, last_name, middle_name} = props.order.client;
-    return `${name ? name : ''} ${last_name ? last_name : ''} ${middle_name ? middle_name : ''}`;
-})
-
-</script>

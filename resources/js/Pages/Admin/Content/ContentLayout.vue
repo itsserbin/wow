@@ -1,5 +1,5 @@
 <template>
-    <auth-layout :title="title">
+    <AuthenticatedLayout :title="title">
         <template #header>
             <slot name="header"></slot>
         </template>
@@ -50,11 +50,12 @@
             </nav>
             <slot></slot>
         </div>
-    </auth-layout>
+    </AuthenticatedLayout>
 </template>
 
 <script setup>
 import NavLink from '@/Components/NavLink.vue';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import {inject} from "vue";
 
 const can = inject('$can');

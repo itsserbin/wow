@@ -1,32 +1,3 @@
-<template>
-    <div class="mb-3">
-        <div class="ml-auto">
-            <div class="
-                        rounded-[10px]
-                        border-red-600
-                        border-[3px]
-                        flex justify-center
-                        max-w-[230px]
-                        relative
-                        m-0
-                        p-2
-                    "
-            >
-                <button class="grid gap-4 grid-cols-4" type="button" @click="showModal">
-                    <span class="before:content-['\f0ce'] col-span-1"></span>
-                    <span class="col-span-3">{{ textSizesTable }}</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <modal @closeModal="showModal" v-if="show" size="medium">
-        <template #content>
-            <div class="sizes-table" v-html="sizeTable"></div>
-        </template>
-    </modal>
-</template>
-
 <script setup>
 
 import {ref} from "vue";
@@ -79,3 +50,32 @@ defineProps({
     },
 })
 </script>
+
+<template>
+    <div class="mb-3">
+        <div class="ml-auto">
+            <div class="
+                        rounded-[10px]
+                        border-red-600
+                        border-[3px]
+                        flex justify-center
+                        max-w-[230px]
+                        relative
+                        m-0
+                        p-2
+                    "
+            >
+                <button class="grid gap-4 grid-cols-4" type="button" @click="showModal">
+                    <span class="before:content-['\f0ce'] col-span-1"></span>
+                    <span class="col-span-3">{{ textSizesTable }}</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <modal @closeModal="showModal" v-if="show" size="medium">
+        <template #content>
+            <div class="sizes-table" v-html="sizeTable"></div>
+        </template>
+    </modal>
+</template>

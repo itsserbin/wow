@@ -1,47 +1,14 @@
-<template>
-    <OptionsLayout title="Права">
-        <template #header>
-            Права
-        </template>
-
-        <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading && can('show-permissions')" class="grid grid-cols-1 gap-4">
-            <div>
-                <button-component type="btn" @click="create" v-if="can('create-permissions')">
-                    Додати
-                </button-component>
-            </div>
-
-            <Table :data="state.data.data"
-                   @onEdit="onEdit"
-                   @onDestroy="onDestroy"
-                   :canDestroy="can('destroy-permissions')"
-            />
-
-            <div class="text-center">
-                <pagination :pagination="state.data"
-                            :click-handler="fetch"
-                            v-model="state.currentPage"
-                />
-            </div>
-        </div>
-        <component :is="activeModal"
-                   :item="state.item"
-                   @closeModal="modalFunction"
-                   @submitForm="submitForm"
-                   @declineForm="onDestroy"
-                   :canDestroy="can('destroy-permissions')"
-        ></component>
-    </OptionsLayout>
-</template>
-
 <script setup>
-import {reactive, onMounted, inject, ref, computed} from "vue";
-import PermissionsModal from '@/Pages/Admin/Options/Permissions/Modal.vue';
-import OptionsLayout from '@/Pages/Admin/Options/OptionsLayout.vue'
-import Table from '@/Pages/Admin/Options/Permissions/Table.vue'
+import {onMounted, inject, ref, computed} from "vue";
+import {swal} from "@/Includes/swal";
 
-const swal = inject('$swal')
+import Loader from '@/Components/Loader.vue';
+import Button from '@/Components/Button.vue';
+import Paginate from '@/Components/Paginate.vue';
+import PermissionsModal from '@/Pages/Admin/Options/Permissions/Modal.vue';
+import OptionsLayout from '@/Pages/Admin/Options/OptionsLayout.vue';
+import Table from '@/Pages/Admin/Options/Permissions/Table.vue';
+
 const can = inject('$can');
 
 const item = ({
@@ -189,3 +156,40 @@ function create() {
     }
 }
 </script>
+
+<template>
+    <OptionsLayout title="Права">
+        <template #header>
+            Права
+        </template>
+
+        <Loader v-if="state.isLoading"/>
+        <div v-if="!state.isLoading && can('show-permissions')" class="grid grid-cols-1 gap-4">
+            <div>
+                <Button type="btn" @click="create" v-if="can('create-permissions')">
+                    Додати
+                </Button>
+            </div>
+
+            <Table :data="state.data.data"
+                   @onEdit="onEdit"
+                   @onDestroy="onDestroy"
+                   :canDestroy="can('destroy-permissions')"
+            />
+
+            <div class="text-center">
+                <Paginate :pagination="state.data"
+                          :click-handler="fetch"
+                          v-model="state.currentPage"
+                />
+            </div>
+        </div>
+        <component :is="activeModal"
+                   :item="state.item"
+                   @closeModal="modalFunction"
+                   @submitForm="submitForm"
+                   @declineForm="onDestroy"
+                   :canDestroy="can('destroy-permissions')"
+        ></component>
+    </OptionsLayout>
+</template>

@@ -1,18 +1,5 @@
-<template>
-    <auth-layout>
-        <div class="grid grid-cols-1">
-            <div class="grid grid-cols-2 md:grid-cols-2 gap-4">
-                <Link v-for="item in items" :href="item.href" v-show="can(item.permission)">
-                    <div class="p-5 bg-gray-50 rounded dark:bg-gray-800 text-gray-900 dark:text-white">
-                        {{ item.title }}
-                    </div>
-                </Link>
-            </div>
-        </div>
-    </auth-layout>
-</template>
-
 <script setup>
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import {Link} from "@inertiajs/inertia-vue3";
 import {inject} from "vue";
 
@@ -45,3 +32,17 @@ const items = [
     }
 ];
 </script>
+
+<template>
+    <AuthenticatedLayout>
+        <div class="grid grid-cols-1">
+            <div class="grid grid-cols-2 md:grid-cols-2 gap-4">
+                <Link v-for="item in items" :href="item.href" v-show="can(item.permission)">
+                    <div class="p-5 bg-gray-50 rounded dark:bg-gray-800 text-gray-900 dark:text-white">
+                        {{ item.title }}
+                    </div>
+                </Link>
+            </div>
+        </div>
+    </AuthenticatedLayout>
+</template>

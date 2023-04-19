@@ -1,21 +1,3 @@
-<template>
-    <swiper
-        :slides-per-view="8"
-        :space-between="20"
-        :modules="modules"
-        navigation
-    >
-        <swiper-slide v-for="image in images">
-            <ImageCard :image="image"
-                       :id="image.id"
-                       size="350"
-                       :destroyIcon="true"
-                       @destroyImage="destroyImage"
-            />
-        </swiper-slide>
-    </swiper>
-</template>
-
 <script setup>
 import ImageCard from '@/Components/ImageCard.vue';
 import {Swiper, SwiperSlide} from 'swiper/vue';
@@ -31,3 +13,16 @@ const destroyImage = (image) => {
     emits('destroyImage', image)
 }
 </script>
+
+<template>
+    <Swiper :slides-per-view="8" :space-between="20" :modules="modules" navigation>
+        <SwiperSlide v-for="image in images">
+            <ImageCard :image="image"
+                       :id="image.id"
+                       size="350"
+                       :destroyIcon="true"
+                       @destroyImage="destroyImage"
+            />
+        </SwiperSlide>
+    </Swiper>
+</template>

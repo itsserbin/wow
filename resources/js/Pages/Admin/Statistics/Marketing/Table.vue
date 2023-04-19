@@ -1,19 +1,6 @@
-<template>
-    <table-component :headings="headings"
-                     :rows="data"
-                     :isSlotMode="true"
-    >
-        <template v-slot:date="{data}">
-            {{ $filters.dateFormat(data.row.date) }}
-        </template>
-
-        <template v-slot:costs="{data}">
-            {{ $filters.formatMoney(data.row.costs) }}
-        </template>
-    </table-component>
-</template>
-
 <script setup>
+import Table from '@/Components/Table.vue';
+
 defineProps(['data']);
 
 const headings = [
@@ -47,3 +34,15 @@ const headings = [
     },
 ];
 </script>
+
+<template>
+    <Table :headings="headings" :rows="data" :isSlotMode="true">
+        <template #date="{data}">
+            {{ $filters.dateFormat(data.row.date) }}
+        </template>
+
+        <template #costs="{data}">
+            {{ $filters.formatMoney(data.row.costs) }}
+        </template>
+    </Table>
+</template>

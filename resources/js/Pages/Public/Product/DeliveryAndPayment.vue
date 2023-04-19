@@ -1,3 +1,8 @@
+<script setup>
+import Accordion from "@/Pages/Public/Components/Accordion/Accordion.vue";
+import AccordionItem from "@/Pages/Public/Components/Accordion/AccordionItem.vue";
+</script>
+
 <template>
     <Accordion>
         <AccordionItem>
@@ -37,12 +42,6 @@
         </AccordionItem>
     </Accordion>
 </template>
-
-<script setup>
-import Accordion from "@/Pages/Public/Components/Accordion/Accordion.vue";
-import AccordionItem from "@/Pages/Public/Components/Accordion/AccordionItem.vue";
-</script>
-
 
 <style>
 .accordion-enter-active, .accordion-leave-active {

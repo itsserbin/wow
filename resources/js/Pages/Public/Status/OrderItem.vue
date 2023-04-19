@@ -1,3 +1,7 @@
+<script setup>
+defineProps(['item']);
+</script>
+
 <template>
     <div class="mb-3">
         <div class="grid grid-cols-8 border-[1px] border-gray-300 rounded-[10px]">
@@ -54,7 +58,3 @@
         </div>
     </div>
 </template>
-
-<script setup>
-defineProps(['item']);
-</script>

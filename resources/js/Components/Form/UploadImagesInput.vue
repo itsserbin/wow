@@ -1,44 +1,15 @@
-<template>
-    <loader-component v-if="isLoading"/>
-    <div class="w-full" v-if="!isLoading">
-        <label v-if="label"
-               class="
-                        block
-                        mb-2
-                        text-sm
-                        font-medium
-                        text-gray-900
-                        dark:text-gray-300
-               "
-        >{{ label }}</label>
-        <input class="
-                        block
-                        w-full
-                        text-sm
-                        text-gray-900
-                        bg-gray-50
-                        rounded-lg
-                        border
-                        border-gray-300
-                        cursor-pointer
-                        dark:text-gray-400
-                        focus:outline-none
-                        dark:bg-gray-700
-                        dark:border-gray-600
-                        dark:placeholder-gray-400
-               "
-               type="file"
-               multiple
-               @change="uploadImage($event.target.files)"
-        >
-    </div>
-</template>
-
 <script setup>
+import Loader from '@/Components/Loader.vue';
+import Label from '@/Components/Form/Label.vue';
+
 import {ref} from "vue";
 
 defineProps(['label']);
-const emits = defineEmits(['onUpload', 'onDestroyImage']);
+
+const emits = defineEmits([
+    'onUpload',
+    'onDestroyImage'
+]);
 
 const isLoading = ref(false);
 
@@ -64,3 +35,30 @@ function uploadImage(images) {
     })
 }
 </script>
+
+<template>
+    <Loader v-if="isLoading"/>
+    <div class="w-full" v-if="!isLoading">
+        <Label v-if="label">{{ label }}</Label>
+        <input class="
+                        block
+                        w-full
+                        text-sm
+                        text-gray-900
+                        bg-gray-50
+                        rounded-lg
+                        border
+                        border-gray-300
+                        cursor-pointer
+                        dark:text-gray-400
+                        focus:outline-none
+                        dark:bg-gray-700
+                        dark:border-gray-600
+                        dark:placeholder-gray-400
+               "
+               type="file"
+               multiple
+               @change="uploadImage($event.target.files)"
+        >
+    </div>
+</template>

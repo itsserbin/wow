@@ -1,52 +1,7 @@
-<template>
-    <table-component :headings="headings"
-                     :isSlotMode="true"
-                     :rows="data"
-    >
-        <template v-slot:id="{data}">
-            <a href="javascript:" @click="$emit('onEdit',data.row.id,data.i)">
-                {{ data.row.id }}
-            </a>
-        </template>
-
-        <template v-slot:product_id="{data}">
-            {{ data.row.product.h1.ua ? data.row.product.h1.ua : data.row.product.h1.ru }}
-        </template>
-
-        <template v-slot:comment="{data}">
-            <div class="whitespace-normal">
-                {{ data.row.comment }}
-            </div>
-        </template>
-
-        <template v-slot:published="{data}">
-            {{ $filters.publishedStatus(data.row.published) }}
-            <div v-if="!data.row.published">
-                <hr class="my-1">
-                <a @click="$emit('publishReview',data.row.id)"
-                   href="javascript:"
-                   class="text-blue-600"
-                >
-                    Опублікувати
-                </a>
-            </div>
-        </template>
-
-        <template v-slot:timestamps="{data}">
-            {{ $filters.dateFormat(data.row.updated_at) }}
-            <hr class="my-1">
-            {{ $filters.dateFormat(data.row.created_at) }}
-        </template>
-
-        <template v-slot:actions="{data}">
-            <a href="javascript:" @click="$emit('onDestroy',data.row.id)" v-if="canDestroy">
-                <xcircle-component/>
-            </a>
-        </template>
-    </table-component>
-</template>
-
 <script setup>
+import Table from '@/Components/Table.vue';
+import XCircle from '@/Components/Icons/XCircle.vue';
+
 defineProps(['data', 'canDestroy']);
 defineEmits(['onDestroy', 'publishReview', 'onEdit'])
 
@@ -86,3 +41,48 @@ const headings = ([
 ]);
 
 </script>
+
+<template>
+    <Table :headings="headings" :isSlotMode="true" :rows="data">
+        <template #id="{data}">
+            <a href="javascript:" @click="$emit('onEdit',data.row.id,data.i)">
+                {{ data.row.id }}
+            </a>
+        </template>
+
+        <template #product_id="{data}">
+            {{ data.row.product.h1.ua ? data.row.product.h1.ua : data.row.product.h1.ru }}
+        </template>
+
+        <template #comment="{data}">
+            <div class="whitespace-normal">
+                {{ data.row.comment }}
+            </div>
+        </template>
+
+        <template #published="{data}">
+            {{ $filters.publishedStatus(data.row.published) }}
+            <div v-if="!data.row.published">
+                <hr class="my-1">
+                <a @click="$emit('publishReview',data.row.id)"
+                   href="javascript:"
+                   class="text-blue-600"
+                >
+                    Опублікувати
+                </a>
+            </div>
+        </template>
+
+        <template #timestamps="{data}">
+            {{ $filters.dateFormat(data.row.updated_at) }}
+            <hr class="my-1">
+            {{ $filters.dateFormat(data.row.created_at) }}
+        </template>
+
+        <template #actions="{data}">
+            <a href="javascript:" @click="$emit('onDestroy',data.row.id)" v-if="canDestroy">
+                <XCircle/>
+            </a>
+        </template>
+    </Table>
+</template>

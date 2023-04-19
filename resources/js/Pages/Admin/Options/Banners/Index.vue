@@ -1,44 +1,14 @@
-<template>
-    <OptionsLayout title="Банера">
-        <template #header>
-            Банера
-        </template>
-
-        <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading && can('show-banners')">
-            <button-component type="btn" @click="create" v-if="can('create-banners')">
-                Додати
-            </button-component>
-
-            <Table :data="state.data.data"
-                   @onEdit="onEdit"
-                   @onDestroy="onDestroy"
-                   :canDestroy="can('destroy-banners')"
-            />
-
-            <pagination :pagination="state.data"
-                        :click-handler="fetch"
-                        v-model="state.currentPage"
-            />
-            <component :is="activeModal"
-                       :item="state.item"
-                       @closeModal="modalFunction"
-                       @submitForm="submitForm"
-                       @declineForm="onDestroy"
-                       @onUploadImage="uploadImage"
-                       :canDestroy="can('destroy-banners')"
-            ></component>
-        </div>
-    </OptionsLayout>
-</template>
-
 <script setup>
 import {reactive, onMounted, inject, ref, computed} from "vue";
+import {swal} from "@/Includes/swal";
+
+import Loader from '@/Components/Loader.vue';
+import Paginate from '@/Components/Paginate.vue';
+import Button from '@/Components/Button.vue';
 import BannersModal from '@/Pages/Admin/Options/Banners/Modal.vue';
 import OptionsLayout from '@/Pages/Admin/Options/OptionsLayout.vue'
 import Table from '@/Pages/Admin/Options/Banners/Table.vue';
 
-const swal = inject('$swal')
 const can = inject('$can');
 
 const item = reactive({
@@ -245,3 +215,38 @@ function uploadImage(image, device, lang) {
         .catch((response) => console.log(response));
 }
 </script>
+
+<template>
+    <OptionsLayout title="Банера">
+        <template #header>
+            Банера
+        </template>
+
+        <Loader v-if="state.isLoading"/>
+        <div v-if="!state.isLoading && can('show-banners')">
+            <Button type="btn" @click="create" v-if="can('create-banners')">
+                Додати
+            </Button>
+
+            <Table :data="state.data.data"
+                   @onEdit="onEdit"
+                   @onDestroy="onDestroy"
+                   :canDestroy="can('destroy-banners')"
+            />
+
+            <Paginate :pagination="state.data"
+                      :click-handler="fetch"
+                      v-model="state.currentPage"
+            />
+
+            <component :is="activeModal"
+                       :item="state.item"
+                       @closeModal="modalFunction"
+                       @submitForm="submitForm"
+                       @declineForm="onDestroy"
+                       @onUploadImage="uploadImage"
+                       :canDestroy="can('destroy-banners')"
+            ></component>
+        </div>
+    </OptionsLayout>
+</template>

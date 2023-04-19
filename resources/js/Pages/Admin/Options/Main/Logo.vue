@@ -1,30 +1,10 @@
-<template>
-    <div class="mb-4">
-        <Label :value="$t('options.text_label_logo')"/>
-        <div class="mt-2">
-            <div v-if="image">
-                <picture>
-                    <source :srcset="'/storage/' + image + '.webp'" type="image/webp">
-                    <img :src="'/storage/' + image + '.jpeg'" :alt="$t('options.text_label_logo')">
-                </picture>
-                <button type="button" class="text-sm font-medium text-red-500 hover:text-red-700" @click="destroyImage">
-                    {{ $t('options.text_destroyLabel') }}
-                </button>
-            </div>
-            <div v-else>
-                <Input type="file" @change="onFileChange($event.target.files[0])"/>
-                <p class="mt-2 text-sm text-gray-500">{{ $t('options.instructions') }}</p>
-            </div>
-        </div>
-    </div>
-</template>
 <script setup>
 import Input from '@/Components/Form/Input.vue';
 import Label from '@/Components/Form/Label.vue';
 import {useI18n} from 'vue-i18n';
-import {ref, inject} from 'vue';
+import {ref} from 'vue';
+import {swal} from "@/Includes/swal";
 
-const swal = inject('$swal');
 const image = ref(null);
 const {t} = useI18n();
 
@@ -78,3 +58,24 @@ const destroyImage = async () => {
         });
 };
 </script>
+
+<template>
+    <div class="mb-4">
+        <Label :value="$t('options.text_label_logo')"/>
+        <div class="mt-2">
+            <div v-if="image">
+                <picture>
+                    <source :srcset="'/storage/' + image + '.webp'" type="image/webp">
+                    <img :src="'/storage/' + image + '.jpeg'" :alt="$t('options.text_label_logo')">
+                </picture>
+                <button type="button" class="text-sm font-medium text-red-500 hover:text-red-700" @click="destroyImage">
+                    {{ $t('options.text_destroyLabel') }}
+                </button>
+            </div>
+            <div v-else>
+                <Input type="file" @change="onFileChange($event.target.files[0])"/>
+                <p class="mt-2 text-sm text-gray-500">{{ $t('options.instructions') }}</p>
+            </div>
+        </div>
+    </div>
+</template>

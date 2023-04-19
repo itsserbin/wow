@@ -13,11 +13,11 @@
 
     <!-- Scripts -->
     @routes
-    @vite('resources/js/Pages/app.js')
-{{--    @vite(['resources/js/Pages/Admin/app.js', "resources/js/Pages/Admin/{$page['component']}.vue"])--}}
+    {{--    @vite(['resources/js/Pages/Admin/app.js', "resources/js/Pages/Admin/{$page['component']}.vue"])--}}
     @inertiaHead
 </head>
 <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900">
 @inertia
+@vite('resources/js/Pages/app.js')
 </body>
 </html>

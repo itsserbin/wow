@@ -1,3 +1,38 @@
+<script setup>
+import {inject, ref} from "vue";
+import Label from '@/Components/Form/Label.vue'
+import Input from '@/Components/Form/Input.vue'
+import Button from '@/Components/Button.vue'
+import LangTabs from '@/Components/LangTabs.vue'
+
+const props = defineProps(['item'])
+const defaultLang = inject('$defaultLang');
+
+const state = ref({
+    activeLang: defaultLang
+});
+
+function changeLang(val) {
+    state.value.activeLang = val;
+}
+
+function addInput() {
+    props.item.values.push(
+        {
+            title: {
+                ua: null,
+                ru: null,
+            }
+        }
+    )
+}
+
+function removeValue(i) {
+    props.item.values.splice(i, 1);
+}
+
+</script>
+
 <template>
     <form class="flex flex-col">
         <LangTabs @clickLang="changeLang"/>
@@ -34,38 +69,3 @@
         </div>
     </form>
 </template>
-
-<script setup>
-import {inject, ref} from "vue";
-import Label from '@/Components/Form/Label.vue'
-import Input from '@/Components/Form/Input.vue'
-import Button from '@/Components/Button.vue'
-import LangTabs from '@/Components/LangTabs.vue'
-
-const props = defineProps(['item'])
-const defaultLang = inject('$defaultLang');
-
-const state = ref({
-    activeLang: defaultLang
-});
-
-function changeLang(val) {
-    state.value.activeLang = val;
-}
-
-function addInput() {
-    props.item.values.push(
-        {
-            title: {
-                ua: null,
-                ru: null,
-            }
-        }
-    )
-}
-
-function removeValue(i) {
-    props.item.values.splice(i, 1);
-}
-
-</script>

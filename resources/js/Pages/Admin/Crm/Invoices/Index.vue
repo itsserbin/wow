@@ -1,69 +1,17 @@
-<template>
-    <CrmLayout title="Рахунки">
-        <template #header>Рахунки</template>
-
-        <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading && can('show-invoices')">
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-
-                <div class="md:col-span-1">
-                    <sidebar-component>
-                        <sidebar-item v-if="sidebar.length"
-                                      v-for="item in sidebar"
-                                      @click="sortByStatus(item.key)"
-                                      :active="state.sidebarActive === item.key"
-                        >
-                            {{ item.title }}
-                        </sidebar-item>
-                    </sidebar-component>
-                </div>
-
-                <div class="w-full md:col-span-4 grid gap-4 grid-cols-1">
-                    <div>
-                        <button-component type="btn" @click="create" v-if="can('create-invoices')">
-                            Додати
-                        </button-component>
-                    </div>
-
-                    <Table :data="state.data.data"
-                           :statuses="statuses"
-                           @onEdit="onEdit"
-                           @onDestroy="onDestroy"
-                           :can-destroy="can('destroy-invoices')"
-                           @onSendInvoiceSms="onSendInvoiceSms"
-                    />
-
-                    <div class="text-center">
-                        <pagination :pagination="state.data"
-                                    :click-handler="fetch"
-                                    v-model="params.currentPage"
-                        />
-                    </div>
-                </div>
-            </div>
-
-            <component :is="activeModal"
-                       :item="state.item"
-                       @closeModal="modalFunction"
-                       @submitForm="submitForm"
-                       @declineForm="onDestroy"
-                       :statuses="statuses"
-                       :can-destroy="can('destroy-invoices')"
-            ></component>
-        </div>
-    </CrmLayout>
-</template>
-
 <script setup>
 import {reactive, onMounted, inject, ref, computed} from "vue";
+import {swal} from "@/Includes/swal";
+
+import Paginate from '@/Components/Paginate.vue';
+import Button from '@/Components/Button.vue';
+import Loader from '@/Components/Loader.vue';
+import Sidebar from '@/Components/Sidebar/Sidebar.vue';
+import SidebarItem from '@/Components/Sidebar/SidebarItem.vue';
 import Modal from '@/Pages/Admin/Crm/Invoices/Modal.vue';
 import Table from '@/Pages/Admin/Crm/Invoices/Table.vue';
 import CrmLayout from '@/Pages/Admin/Crm/CrmLayout.vue';
-import CryptoJS from "crypto-js";
-import hmacMD5 from "crypto-js/hmac-md5";
 
 const props = defineProps(['statuses']);
-const swal = inject('$swal')
 const can = inject('$can');
 
 const item = reactive({
@@ -259,3 +207,59 @@ function onSendInvoiceSms() {
     fetch();
 }
 </script>
+
+<template>
+    <CrmLayout title="Рахунки">
+        <template #header>Рахунки</template>
+
+        <Loader v-if="state.isLoading"/>
+        <div v-if="!state.isLoading && can('show-invoices')">
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+
+                <div class="md:col-span-1">
+                    <Sidebar>
+                        <SidebarItem v-if="sidebar.length"
+                                     v-for="item in sidebar"
+                                     @click="sortByStatus(item.key)"
+                                     :active="state.sidebarActive === item.key"
+                        >
+                            {{ item.title }}
+                        </SidebarItem>
+                    </Sidebar>
+                </div>
+
+                <div class="w-full md:col-span-4 grid gap-4 grid-cols-1">
+                    <div>
+                        <Button type="btn" @click="create" v-if="can('create-invoices')">
+                            Додати
+                        </Button>
+                    </div>
+
+                    <Table :data="state.data.data"
+                           :statuses="statuses"
+                           @onEdit="onEdit"
+                           @onDestroy="onDestroy"
+                           :can-destroy="can('destroy-invoices')"
+                           @onSendInvoiceSms="onSendInvoiceSms"
+                    />
+
+                    <div class="text-center">
+                        <Paginate :pagination="state.data"
+                                  :click-handler="fetch"
+                                  v-model="params.currentPage"
+                        />
+                    </div>
+                </div>
+            </div>
+
+            <component :is="activeModal"
+                       :item="state.item"
+                       @closeModal="modalFunction"
+                       @submitForm="submitForm"
+                       @declineForm="onDestroy"
+                       :statuses="statuses"
+                       :can-destroy="can('destroy-invoices')"
+            ></component>
+        </div>
+    </CrmLayout>
+</template>

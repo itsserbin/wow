@@ -1,20 +1,3 @@
-<template>
-    <section class="banners mb-5" v-if="data.length">
-        <Swiper :modules="modules" v-bind="settings" class="main-banners-slider">
-            <SwiperSlide v-for="(banner,i) in data" :key="i" class="shadow-sm">
-                <a :href="banner.link ? banner.link[lang] : 'javascript:'">
-
-                    <img :src="src(banner)"
-                         :srcset="srcset(banner)"
-                         :alt="banner.title[lang]"
-                         class="w-full"
-                    >
-                </a>
-            </SwiperSlide>
-        </Swiper>
-    </section>
-</template>
-
 <script setup>
 import {Autoplay, Pagination} from "swiper";
 import {Swiper, SwiperSlide} from 'swiper/vue';
@@ -75,3 +58,20 @@ const settings = {
     },
 };
 </script>
+
+<template>
+    <section class="banners mb-5" v-if="data.length">
+        <Swiper :modules="modules" v-bind="settings" class="main-banners-slider">
+            <SwiperSlide v-for="(banner,i) in data" :key="i" class="shadow-sm">
+                <a :href="banner.link ? banner.link[lang] : 'javascript:'">
+
+                    <img :src="src(banner)"
+                         :srcset="srcset(banner)"
+                         :alt="banner.title[lang]"
+                         class="w-full"
+                    >
+                </a>
+            </SwiperSlide>
+        </Swiper>
+    </section>
+</template>

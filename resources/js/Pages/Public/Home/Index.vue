@@ -1,51 +1,3 @@
-<template>
-    <Head :title="meta.title" :description="meta.description"/>
-    <div class="grid grid-cols-1 gap-4">
-        <MainBanners v-if="banners.length" :data="banners" :lang="lang"/>
-
-        <Categories v-if="categories.length" :data="categories" :lang="lang"/>
-
-        <ProductsList :slider="true"
-                      :lang="lang"
-                      :data="stateBestSellingProducts.data"
-                      :isLoadMore="stateBestSellingProducts.isLoadMore"
-                      :isShowLoadMore="stateBestSellingProducts.isShowLoadMore"
-                      @fetch="fetchBestSellingProducts"
-                      heading="Найпопулярніші"
-        />
-
-        <ProductsList :slider="true"
-                      :lang="lang"
-                      :data="stateNewProducts.data"
-                      :isLoadMore="stateNewProducts.isLoadMore"
-                      :isShowLoadMore="stateNewProducts.isShowLoadMore"
-                      @fetch="fetchNewProducts"
-                      heading="Останні надходження"
-        />
-
-        <ProductsList :slider="true"
-                      :lang="lang"
-                      :data="stateAllProducts.data"
-                      :isLoadMore="stateAllProducts.isLoadMore"
-                      :isShowLoadMore="stateAllProducts.isShowLoadMore"
-                      @fetch="fetchAllProducts"
-                      heading="Усі товари"
-        />
-
-        <Advantages v-if="advantages.length" :lang="lang" :data="advantages"/>
-
-        <AllReviewsCarousel v-if="reviews.length" :data="reviews"/>
-
-        <Content v-if="options.text_home_page_ua || options.text_home_page_ru"
-                 :data="lang === 'ua' ? options.text_home_page_ua : options.text_home_page_ru"
-        />
-
-        <FaqComponent v-if="faqs.length" :lang="lang" :data="faqs"/>
-
-        <Support v-if="!isLoading"/>
-    </div>
-</template>
-
 <script setup>
 import ProductsList from './ProductsList.vue';
 import MasterLayout from '@/Layouts/MasterLayout.vue'
@@ -122,8 +74,6 @@ onMounted(() => {
     if (props.allProducts.current_page !== props.allProducts.per_page) {
         setShowLoadMore(stateAllProducts.value);
     }
-    console.log(props.bestSellingProducts);
-
 })
 
 const setShowLoadMore = (product) => {
@@ -158,3 +108,51 @@ const onSuccessFetch = (variable, data) => {
     variable.isLoadMore = false;
 }
 </script>
+
+<template>
+    <Head :title="meta.title" :description="meta.description"/>
+    <div class="grid grid-cols-1 gap-4">
+        <MainBanners v-if="banners.length" :data="banners" :lang="lang"/>
+
+        <Categories v-if="categories.length" :data="categories" :lang="lang"/>
+
+        <ProductsList :slider="true"
+                      :lang="lang"
+                      :data="stateBestSellingProducts.data"
+                      :isLoadMore="stateBestSellingProducts.isLoadMore"
+                      :isShowLoadMore="stateBestSellingProducts.isShowLoadMore"
+                      @fetch="fetchBestSellingProducts"
+                      heading="Найпопулярніші"
+        />
+
+        <ProductsList :slider="true"
+                      :lang="lang"
+                      :data="stateNewProducts.data"
+                      :isLoadMore="stateNewProducts.isLoadMore"
+                      :isShowLoadMore="stateNewProducts.isShowLoadMore"
+                      @fetch="fetchNewProducts"
+                      heading="Останні надходження"
+        />
+
+        <ProductsList :slider="true"
+                      :lang="lang"
+                      :data="stateAllProducts.data"
+                      :isLoadMore="stateAllProducts.isLoadMore"
+                      :isShowLoadMore="stateAllProducts.isShowLoadMore"
+                      @fetch="fetchAllProducts"
+                      heading="Усі товари"
+        />
+
+        <Advantages v-if="advantages.length" :lang="lang" :data="advantages"/>
+
+        <AllReviewsCarousel v-if="reviews.length" :data="reviews"/>
+
+        <Content v-if="options.text_home_page_ua || options.text_home_page_ru"
+                 :data="lang === 'ua' ? options.text_home_page_ua : options.text_home_page_ru"
+        />
+
+        <FaqComponent v-if="faqs.length" :lang="lang" :data="faqs"/>
+
+        <Support v-if="!isLoading"/>
+    </div>
+</template>

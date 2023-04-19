@@ -1,3 +1,35 @@
+<script setup>
+import {useStore} from "vuex";
+import {swal} from '@/Includes/swal';
+
+const props = defineProps(['item', 'lang']);
+const store = useStore();
+
+function addToCart() {
+    axios.post(route('api.v1.cart.add', {
+        item_id: props.item.id,
+        count: 1,
+        size: null,
+        color: null,
+    }))
+        .then(() => {
+            store.commit('loadCart');
+            swal({
+                icon: 'success',
+                title: 'Додано!',
+                text: 'Товар успішно додано до вашого замовлення',
+            });
+        })
+        .catch(() => {
+            swal({
+                icon: 'error',
+                title: 'Виникла помилка',
+                text: 'Зверніться до адміністратора',
+            });
+        });
+}
+</script>
+
 <template>
     <div class="grid grid-cols-8 border-[1px] border-gray-300 rounded-[10px] relative">
         <div class="col-span-2">
@@ -54,35 +86,3 @@
         </div>
     </div>
 </template>
-
-<script setup>
-import {useStore} from "vuex";
-import {swal} from '@/Includes/swal';
-
-const props = defineProps(['item', 'lang']);
-const store = useStore();
-
-function addToCart() {
-    axios.post(route('api.v1.cart.add', {
-        item_id: props.item.id,
-        count: 1,
-        size: null,
-        color: null,
-    }))
-        .then(() => {
-            store.commit('loadCart');
-            swal({
-                icon: 'success',
-                title: 'Додано!',
-                text: 'Товар успішно додано до вашого замовлення',
-            });
-        })
-        .catch(() => {
-            swal({
-                icon: 'error',
-                title: 'Виникла помилка',
-                text: 'Зверніться до адміністратора',
-            });
-        });
-}
-</script>

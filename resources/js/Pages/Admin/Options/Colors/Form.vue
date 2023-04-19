@@ -1,21 +1,24 @@
+<script setup>
+import Label from '@/Components/Form/Label.vue';
+import Input from '@/Components/Form/Input.vue';
+
+defineProps(['item'])
+</script>
+
 <template>
     <form class="flex flex-col">
         <div class="grid grid-cols-1 mb-5">
             <div class="block mr-2">
-                <label-component value="Назва"/>
-                <input-component v-model="item.name" type="text"/>
+                <Label value="Назва"/>
+                <Input v-model="item.name" type="text"/>
             </div>
         </div>
 
         <div class="grid grid-cols-1">
             <div class="block mr-2">
-                <label-component value="HEX"/>
-                <input-component v-model="item.hex" type="text"/>
+                <Label value="HEX"/>
+                <Input v-model="item.hex" type="text"/>
             </div>
         </div>
     </form>
 </template>
-
-<script setup>
-defineProps(['item'])
-</script>

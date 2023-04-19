@@ -1,29 +1,23 @@
 <script setup>
-import { ref, onMounted, inject } from 'vue';
+import {ref, inject} from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link, Head } from '@inertiajs/inertia-vue3';
-import { useStore } from "vuex";
+import {Link, Head} from '@inertiajs/inertia-vue3';
 
 const showingNavigationDropdown = ref(false);
 
-const user = useStore();
 const can = inject('$can');
 
 defineProps(['title', 'logo']);
-
-onMounted(() => {
-    user.commit('load');
-})
 </script>
 
 <template>
     <div>
 
-        <Head :title="title" />
+        <Head :title="title"/>
 
         <div class="min-h-screen">
             <nav class="bg-white border-b border-gray-100 dark:bg-gray-800 dark:border-gray-700">
@@ -34,7 +28,7 @@ onMounted(() => {
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
                                 <Link :href="route('admin.dashboard')">
-                                    <ApplicationLogo class="block h-9 w-auto" />
+                                    <ApplicationLogo class="block h-9 w-auto"/>
                                 </Link>
                             </div>
 
@@ -80,7 +74,7 @@ onMounted(() => {
                                                      viewBox="0 0 20 20" fill="currentColor">
                                                     <path fill-rule="evenodd"
                                                           d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                          clip-rule="evenodd" />
+                                                          clip-rule="evenodd"/>
                                                 </svg>
                                             </button>
                                         </span>
@@ -103,11 +97,11 @@ onMounted(() => {
                                     <path
                                         :class="{ 'hidden': showingNavigationDropdown, 'inline-flex': !showingNavigationDropdown }"
                                         stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M4 6h16M4 12h16M4 18h16" />
+                                        d="M4 6h16M4 12h16M4 18h16"/>
                                     <path
                                         :class="{ 'hidden': !showingNavigationDropdown, 'inline-flex': showingNavigationDropdown }"
                                         stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M6 18L18 6M6 6l12 12" />
+                                        d="M6 18L18 6M6 6l12 12"/>
                                 </svg>
                             </button>
                         </div>
@@ -115,9 +109,11 @@ onMounted(() => {
                 </div>
 
                 <!-- Responsive Navigation Menu -->
-                <div :class="{ 'block': showingNavigationDropdown, 'hidden': !showingNavigationDropdown }" class="xl:hidden">
+                <div :class="{ 'block': showingNavigationDropdown, 'hidden': !showingNavigationDropdown }"
+                     class="xl:hidden">
                     <div class="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink :href="route('admin.dashboard')" :active="route().current('admin.dashboard')">
+                        <ResponsiveNavLink :href="route('admin.dashboard')"
+                                           :active="route().current('admin.dashboard')">
                             Головна
                         </ResponsiveNavLink>
 
@@ -162,7 +158,7 @@ onMounted(() => {
             <header class="bg-white shadow dark:bg-gray-700 " v-if="$slots.header">
                 <div class="container mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     <h2 class="font-semibold text-xl text-gray-800 leading-tight dark:text-gray-300">
-                        <slot name="header" />
+                        <slot name="header"/>
                     </h2>
                 </div>
             </header>
@@ -173,7 +169,7 @@ onMounted(() => {
                     <div class="container mx-auto">
                         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                             <div class="p-6 bg-white border-gray-200 dark:bg-gray-600">
-                                <slot />
+                                <slot/>
                             </div>
                         </div>
                     </div>

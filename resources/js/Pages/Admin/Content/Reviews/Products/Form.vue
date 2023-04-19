@@ -1,5 +1,10 @@
 <script setup>
 import {inject, onMounted, ref} from "vue";
+import Label from '@/Components/Form/Label.vue';
+import Select from '@/Components/Form/Select.vue';
+import Input from '@/Components/Form/Input.vue';
+import Textarea from '@/Components/Form/Textarea.vue';
+import Multiselect from '@/Components/Multiselect/Multiselect.vue';
 
 defineProps(['item'])
 
@@ -21,13 +26,13 @@ function titleProduct({h1}) {
 <template>
     <form class="flex flex-col">
         <div class="block mb-5">
-            <label-component value="Статус публікації"/>
-            <select-component v-model="item.published" :options="publishedStatuses"/>
+            <Label value="Статус публікації"/>
+            <Select v-model="item.published" :options="publishedStatuses"/>
         </div>
 
         <div class="block mb-5">
-            <label-component value="Товар"/>
-            <multiselect
+            <Label value="Товар"/>
+            <Multiselect
                 :options="products"
                 v-model="item.product"
                 :custom-label="titleProduct"
@@ -39,18 +44,18 @@ function titleProduct({h1}) {
         </div>
 
         <div class="block mb-5">
-            <label-component value="Імʼя"/>
-            <input-component v-model="item.name" type="text"/>
+            <Label value="Імʼя"/>
+            <Input v-model="item.name" type="text"/>
         </div>
 
         <div class="block mb-5">
-            <label-component value="Телефон"/>
-            <input-component v-model="item.phone" type="text"/>
+            <Label value="Телефон"/>
+            <Input v-model="item.phone" type="text"/>
         </div>
 
         <div class="block mb-5">
-            <label-component value="Текст відгука"/>
-            <textarea-component v-model="item.comment" rows="4"/>
+            <Label value="Текст відгука"/>
+            <Textarea v-model="item.comment" rows="4"/>
         </div>
     </form>
 </template>

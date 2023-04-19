@@ -1,30 +1,3 @@
-<template>
-    <Table
-        :isSlotMode="true"
-        :rows="data"
-        :headings="headings"
-    >
-        <template #id="{data}">
-            <a :href="route('admin.crm.orders', {id: data.row.id})" target="_blank">
-                {{ data.row.id }}
-            </a>
-        </template>
-
-        <template #status="{data}">
-            {{ orderStatuses[data.row.status] }}
-        </template>
-        <template #total_price="{data}">
-            {{ $filters.formatMoney(data.row.total_price) }}
-        </template>
-
-        <template #timestamps="{data}">
-            {{ $filters.dateTimeFormat(data.row.updated_at) }}
-            <hr class="my-1 max-w-[40%] mx-auto">
-            {{ $filters.dateTimeFormat(data.row.created_at) }}
-        </template>
-    </Table>
-</template>
-
 <script setup>
 import Table from '@/Components/Table.vue';
 
@@ -63,3 +36,28 @@ const orderPage = (id) => {
     window.location.href = route('admin.crm.orders', {id: id});
 }
 </script>
+
+<template>
+    <Table :isSlotMode="true" :rows="data" :headings="headings">
+        <template #id="{data}">
+            <a :href="route('admin.crm.orders', {id: data.row.id})" target="_blank">
+                {{ data.row.id }}
+            </a>
+        </template>
+
+        <template #status="{data}">
+            {{ orderStatuses[data.row.status] }}
+        </template>
+
+        <template #total_price="{data}">
+            {{ $filters.formatMoney(data.row.total_price) }}
+        </template>
+
+        <template #timestamps="{data}">
+            {{ $filters.dateTimeFormat(data.row.updated_at) }}
+            <hr class="my-1 max-w-[40%] mx-auto">
+            {{ $filters.dateTimeFormat(data.row.created_at) }}
+        </template>
+
+    </Table>
+</template>

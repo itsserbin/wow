@@ -1,63 +1,17 @@
-<template>
-    <CrmLayout title="Зворотній звʼязок">
-        <template #header>
-            Зворотній звʼязок
-        </template>
-
-        <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading && can('show-callbacks')">
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-
-                <div class="md:col-span-1">
-                    <sidebar-component>
-                        <sidebar-item v-if="sidebar.length"
-                                      v-for="item in sidebar"
-                                      @click="sortByStatus(item.key)"
-                                      :active="state.sidebarActive === item.key"
-                        >
-                            {{ item.title }}
-                        </sidebar-item>
-                    </sidebar-component>
-                </div>
-                <div class="w-full md:col-span-4 grid gap-4 grid-cols-1">
-                    <Table :data="state.data.data"
-                           :statuses="statuses"
-                           @onEdit="onEdit"
-                           @onDestroy="onDestroy"
-                           :can-destroy="can('destroy-callbacks')"
-                    />
-
-                    <div class="text-center">
-                        <pagination :pagination="state.data"
-                                    :click-handler="fetch"
-                                    v-model="params.currentPage"
-                        />
-                    </div>
-                </div>
-
-            </div>
-
-            <component :is="activeModal"
-                       :item="state.item"
-                       @closeModal="modalFunction"
-                       @submitForm="submitForm"
-                       @declineForm="onDestroy"
-                       :statuses="statuses"
-                       :can-destroy="can('destroy-callbacks')"
-            ></component>
-        </div>
-    </CrmLayout>
-</template>
-
 <script setup>
 import {reactive, onMounted, inject, ref, computed} from "vue";
+import {swal} from "@/Includes/swal";
+
+import Paginate from '@/Components/Paginate.vue';
+import Loader from '@/Components/Loader.vue';
+import Sidebar from '@/Components/Sidebar/Sidebar.vue';
+import SidebarItem from '@/Components/Sidebar/SidebarItem.vue';
 import Modal from '@/Pages/Admin/Crm/Callbacks/Modal.vue';
 import Table from '@/Pages/Admin/Crm/Callbacks/Table.vue';
 import CrmLayout from '@/Pages/Admin/Crm/CrmLayout.vue';
 
 const props = defineProps(['statuses']);
 
-const swal = inject('$swal')
 const can = inject('$can');
 
 const item = reactive({
@@ -240,3 +194,54 @@ function create() {
     }
 }
 </script>
+
+<template>
+    <CrmLayout title="Зворотній звʼязок">
+        <template #header>
+            Зворотній звʼязок
+        </template>
+
+        <Loader v-if="state.isLoading"/>
+        <div v-if="!state.isLoading && can('show-callbacks')">
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+
+                <div class="md:col-span-1">
+                    <Sidebar>
+                        <SidebarItem v-if="sidebar.length"
+                                     v-for="item in sidebar"
+                                     @click="sortByStatus(item.key)"
+                                     :active="state.sidebarActive === item.key"
+                        >
+                            {{ item.title }}
+                        </SidebarItem>
+                    </Sidebar>
+                </div>
+                <div class="w-full md:col-span-4 grid gap-4 grid-cols-1">
+                    <Table :data="state.data.data"
+                           :statuses="statuses"
+                           @onEdit="onEdit"
+                           @onDestroy="onDestroy"
+                           :can-destroy="can('destroy-callbacks')"
+                    />
+
+                    <div class="text-center">
+                        <Paginate :pagination="state.data"
+                                  :click-handler="fetch"
+                                  v-model="params.currentPage"
+                        />
+                    </div>
+                </div>
+
+            </div>
+
+            <component :is="activeModal"
+                       :item="state.item"
+                       @closeModal="modalFunction"
+                       @submitForm="submitForm"
+                       @declineForm="onDestroy"
+                       :statuses="statuses"
+                       :can-destroy="can('destroy-callbacks')"
+            ></component>
+        </div>
+    </CrmLayout>
+</template>

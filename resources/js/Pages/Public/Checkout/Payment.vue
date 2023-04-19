@@ -1,3 +1,7 @@
+<script setup>
+defineProps(['order'])
+</script>
+
 <template>
     <div class="
                 bg-[#fff]
@@ -75,7 +79,3 @@
         </div>
     </div>
 </template>
-
-<script setup>
-defineProps(['order'])
-</script>

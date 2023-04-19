@@ -1,44 +1,14 @@
-<template>
-    <OptionsLayout title="XML">
-        <template #header>
-            XML
-        </template>
-
-        <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading && can('show-xml')">
-            <button-component type="btn" @click="create" v-if="can('create-xml')">
-                Додати
-            </button-component>
-
-            <Table :data="state.data.data"
-                   @onEdit="onEdit"
-                   @onDestroy="onDestroy"
-                   :canDestroy="can('destroy-xml')"
-            />
-
-            <pagination :pagination="state.data"
-                        :click-handler="fetch"
-                        v-model="state.currentPage"
-            />
-            <component :is="activeModal"
-                       :item="state.item"
-                       @closeModal="modalFunction"
-                       @submitForm="submitForm"
-                       @declineForm="onDestroy"
-                       :canDestroy="can('destroy-xml')"
-            ></component>
-        </div>
-    </OptionsLayout>
-</template>
-
 <script setup>
 import {reactive, onMounted, inject, ref, computed} from "vue";
+import {swal} from "@/Includes/swal";
+
 import Modal from '@/Pages/Admin/Options/Xmls/Modal.vue';
 import OptionsLayout from '@/Pages/Admin/Options/OptionsLayout.vue';
 import Table from '@/Pages/Admin/Options/Xmls/Table.vue'
+import Loader from '@/Components/Loader.vue';
+import Button from '@/Components/Button.vue';
+import Paginate from '@/Components/Paginate.vue';
 
-
-const swal = inject('$swal')
 const can = inject('$can');
 
 const item = reactive({
@@ -189,3 +159,36 @@ function create() {
 }
 
 </script>
+
+<template>
+    <OptionsLayout title="XML">
+        <template #header>
+            XML
+        </template>
+
+        <Loader v-if="state.isLoading"/>
+        <div v-if="!state.isLoading && can('show-xml')">
+            <Button type="btn" @click="create" v-if="can('create-xml')">
+                Додати
+            </Button>
+
+            <Table :data="state.data.data"
+                   @onEdit="onEdit"
+                   @onDestroy="onDestroy"
+                   :canDestroy="can('destroy-xml')"
+            />
+
+            <Paginate :pagination="state.data"
+                      :click-handler="fetch"
+                      v-model="state.currentPage"
+            />
+            <component :is="activeModal"
+                       :item="state.item"
+                       @closeModal="modalFunction"
+                       @submitForm="submitForm"
+                       @declineForm="onDestroy"
+                       :canDestroy="can('destroy-xml')"
+            ></component>
+        </div>
+    </OptionsLayout>
+</template>

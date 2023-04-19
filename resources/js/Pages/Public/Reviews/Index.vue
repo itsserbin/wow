@@ -1,22 +1,3 @@
-<template>
-        <Head title="Відгуки"/>
-
-        <div v-if="state.reviews.length">
-            <Breadcrumbs :current-url="route().current" :options="options" :lang="lang" title="Відгуки"/>
-
-            <h1 class="font-bold text-black text-center text-[24px] mb-[15px]">
-                Відгуки
-            </h1>
-            <Card v-for="item in state.reviews" :item="item"/>
-            <div class="text-center" v-if="state.showLoadMore">
-                <Loader v-if="state.isLoadingMore"></Loader>
-                <Button v-if="!state.isLoadingMore" @click="fetch" type="button">
-                    {{ textLoadMore }}
-                </Button>
-            </div>
-        </div>
-</template>
-
 <script setup>
 import Breadcrumbs from './Breadcrumbs.vue'
 import Card from './Card.vue';
@@ -63,3 +44,22 @@ const fetch = async () => {
         });
 }
 </script>
+
+<template>
+        <Head title="Відгуки"/>
+
+        <div v-if="state.reviews.length">
+            <Breadcrumbs :current-url="route().current" :options="options" :lang="lang" title="Відгуки"/>
+
+            <h1 class="font-bold text-black text-center text-[24px] mb-[15px]">
+                Відгуки
+            </h1>
+            <Card v-for="item in state.reviews" :item="item"/>
+            <div class="text-center" v-if="state.showLoadMore">
+                <Loader v-if="state.isLoadingMore"></Loader>
+                <Button v-if="!state.isLoadingMore" @click="fetch" type="button">
+                    {{ textLoadMore }}
+                </Button>
+            </div>
+        </div>
+</template>

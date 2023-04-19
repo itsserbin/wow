@@ -1,3 +1,9 @@
+<script setup>
+import moment from "moment";
+
+defineProps(['item', 'lang']);
+</script>
+
 <template>
     <div class="bg-secondary rounded p-7 mb-5">
         <div class="grid grid-cols-1 md:grid-cols-3">
@@ -19,9 +25,3 @@
         </div>
     </div>
 </template>
-
-<script setup>
-import moment from "moment";
-
-defineProps(['item', 'lang']);
-</script>

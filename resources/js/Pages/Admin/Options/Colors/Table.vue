@@ -1,25 +1,8 @@
-<template>
-    <table-component :headings="headings"
-                     :isSlotMode="true"
-                     :rows="data"
-    >
-        <template v-slot:id="{data}">
-            <a href="javascript:" @click="$emit('onEdit', data.row.id,data.i)">
-                {{ data.row.id }}
-            </a>
-        </template>
-
-        <template v-slot:actions="{data}">
-            <a href="javascript:" @click="$emit('onDestroy',data.row.id)" v-if="canDestroy">
-                <xcircle-component/>
-            </a>
-        </template>
-    </table-component>
-</template>
-
-
 <script setup>
-defineProps(['data','canDestroy']);
+import Table from '@/Components/Table.vue';
+import XCircle from '@/Components/Icons/XCircle.vue';
+
+defineProps(['data', 'canDestroy']);
 defineEmits(['onDestroy', 'onEdit'])
 
 const headings = [
@@ -49,3 +32,19 @@ const headings = [
     }
 ];
 </script>
+
+<template>
+    <Table :headings="headings" :isSlotMode="true" :rows="data">
+        <template #id="{data}">
+            <a href="javascript:" @click="$emit('onEdit', data.row.id,data.i)">
+                {{ data.row.id }}
+            </a>
+        </template>
+
+        <template #actions="{data}">
+            <a href="javascript:" @click="$emit('onDestroy',data.row.id)" v-if="canDestroy">
+                <XCircle/>
+            </a>
+        </template>
+    </Table>
+</template>

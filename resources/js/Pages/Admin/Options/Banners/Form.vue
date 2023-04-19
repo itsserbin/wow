@@ -1,92 +1,11 @@
-<template>
-    <form>
-        <div class="grid gap-4">
-            <div class="block">
-                <label-component value="Статус публікації"/>
-                <select-component v-model="item.published" :options="publishedStatuses"/>
-            </div>
-
-            <div class="block">
-                <label-component value="Категорії"/>
-                <multiselect
-                    :options="state.categories"
-                    v-model="item.categories"
-                    :custom-label="h1AndCodeAndId"
-                    placeholder="Оберіть категорії"
-                    track-by="id"
-                    :close-on-select="true"
-                    :searchable="true"
-                    :multiple="true"
-                />
-            </div>
-
-            <lang-tabs @clickLang="changeLang"/>
-
-            <div class="block">
-                <label-component value="Назва"/>
-                <input-component v-model="item.title.ru" v-if="state.activeLang === 'ru'" type="text"/>
-                <input-component v-model="item.title.ua" v-if="state.activeLang === 'ua'" type="text"/>
-            </div>
-
-            <div class="block">
-                <label-component value="Посилання"/>
-                <input-component v-model="item.link.ru" v-if="state.activeLang === 'ru'" type="text"/>
-                <input-component v-model="item.link.ua" v-if="state.activeLang === 'ua'" type="text"/>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4">
-                <div class="block">
-                    <UploadBannersInput label="Зображення для мобільних"
-                                        @upload="uploadImageMobileUa"
-                                        v-if="state.activeLang === 'ua'"
-                                        :image="item.image_mobile.ua ? route('images.banners.mobile',{filename:item.image_mobile.ua + '.jpeg'}) : null"
-                                        @onDestroyImage="destroyImage('mobile','ua')"
-                    />
-                    <UploadBannersInput label="Зображення для мобільних"
-                                        @upload="uploadImageMobileRu"
-                                        v-if="state.activeLang === 'ru'"
-                                        :image="item.image_mobile.ru ? route('images.banners.mobile',{filename:item.image_mobile.ru + '.jpeg'}) : null"
-                                        @onDestroyImage="destroyImage('mobile','ru')"
-                    />
-                </div>
-
-                <div class="block">
-                    <UploadBannersInput @upload="uploadImageTableRu"
-                                        :image="item.image_table.ru ? route('images.banners.mobile',{filename:item.image_table.ru + '.jpeg'}) : null"
-                                        @onDestroyImage="destroyImage('table','ru')"
-                                        v-if="state.activeLang === 'ru'"
-                    />
-
-                    <UploadBannersInput label="Зображення для планшетів"
-                                        @upload="uploadImageTableUa"
-                                        :image="item.image_table.ua ? route('images.banners.mobile',{filename:item.image_table.ua + '.jpeg'}) : null"
-                                        @onDestroyImage="destroyImage('table','ua')"
-                                        v-if="state.activeLang === 'ua'"
-                    />
-                </div>
-            </div>
-            <div class="block">
-                <UploadBannersInput label="Зображення для компʼютерів"
-                                    @upload="uploadImageDesktopRu"
-                                    :image="item.image_desktop.ru ? route('images.banners.mobile',{filename:item.image_desktop.ru + '.jpeg'}) : null"
-                                    @onDestroyImage="destroyImage('desktop','ru')"
-                                    v-if="state.activeLang === 'ru'"
-                />
-
-                <UploadBannersInput label="Зображення для компʼютерів"
-                                    @upload="uploadImageDesktopUa"
-                                    :image="item.image_desktop.ua ? route('images.banners.mobile',{filename:item.image_desktop.ua + '.jpeg'}) : null"
-                                    @onDestroyImage="destroyImage('desktop','ua')"
-                                    v-if="state.activeLang === 'ua'"
-                />
-            </div>
-        </div>
-    </form>
-</template>
-
 <script setup>
 import {inject, ref, onMounted} from "vue";
 import UploadBannersInput from './UploadBannersInput.vue';
+import Input from '@/Components/Form/Input.vue';
+import Label from '@/Components/Form/Label.vue';
+import Select from '@/Components/Form/Select.vue';
+import LangTabs from '@/Components/LangTabs.vue';
+import Multiselect from '@/Components/Multiselect/Multiselect.vue';
 
 const props = defineProps(['item'])
 
@@ -172,3 +91,87 @@ function destroyImage(device, lang) {
     }
 }
 </script>
+
+<template>
+    <form>
+        <div class="grid gap-4">
+            <div class="block">
+                <Label value="Статус публікації"/>
+                <Select v-model="item.published" :options="publishedStatuses"/>
+            </div>
+
+            <div class="block">
+                <Label value="Категорії"/>
+                <Multiselect
+                    :options="state.categories"
+                    v-model="item.categories"
+                    :custom-label="h1AndCodeAndId"
+                    placeholder="Оберіть категорії"
+                    track-by="id"
+                    :close-on-select="true"
+                    :searchable="true"
+                    :multiple="true"
+                />
+            </div>
+
+            <LangTabs @clickLang="changeLang"/>
+
+            <div class="block">
+                <Label value="Назва"/>
+                <Input v-model="item.title[state.activeLang]" type="text"/>
+            </div>
+
+            <div class="block">
+                <Label value="Посилання"/>
+                <Input v-model="item.link[state.activeLang]" type="text"/>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div class="block">
+                    <UploadBannersInput label="Зображення для мобільних"
+                                        @upload="uploadImageMobileUa"
+                                        v-if="state.activeLang === 'ua'"
+                                        :image="item.image_mobile.ua ? route('images.banners.mobile',{filename:item.image_mobile.ua + '.jpeg'}) : null"
+                                        @onDestroyImage="destroyImage('mobile','ua')"
+                    />
+                    <UploadBannersInput label="Зображення для мобільних"
+                                        @upload="uploadImageMobileRu"
+                                        v-if="state.activeLang === 'ru'"
+                                        :image="item.image_mobile.ru ? route('images.banners.mobile',{filename:item.image_mobile.ru + '.jpeg'}) : null"
+                                        @onDestroyImage="destroyImage('mobile','ru')"
+                    />
+                </div>
+
+                <div class="block">
+                    <UploadBannersInput @upload="uploadImageTableRu"
+                                        :image="item.image_table.ru ? route('images.banners.mobile',{filename:item.image_table.ru + '.jpeg'}) : null"
+                                        @onDestroyImage="destroyImage('table','ru')"
+                                        v-if="state.activeLang === 'ru'"
+                    />
+
+                    <UploadBannersInput label="Зображення для планшетів"
+                                        @upload="uploadImageTableUa"
+                                        :image="item.image_table.ua ? route('images.banners.mobile',{filename:item.image_table.ua + '.jpeg'}) : null"
+                                        @onDestroyImage="destroyImage('table','ua')"
+                                        v-if="state.activeLang === 'ua'"
+                    />
+                </div>
+            </div>
+            <div class="block">
+                <UploadBannersInput label="Зображення для компʼютерів"
+                                    @upload="uploadImageDesktopRu"
+                                    :image="item.image_desktop.ru ? route('images.banners.mobile',{filename:item.image_desktop.ru + '.jpeg'}) : null"
+                                    @onDestroyImage="destroyImage('desktop','ru')"
+                                    v-if="state.activeLang === 'ru'"
+                />
+
+                <UploadBannersInput label="Зображення для компʼютерів"
+                                    @upload="uploadImageDesktopUa"
+                                    :image="item.image_desktop.ua ? route('images.banners.mobile',{filename:item.image_desktop.ua + '.jpeg'}) : null"
+                                    @onDestroyImage="destroyImage('desktop','ua')"
+                                    v-if="state.activeLang === 'ua'"
+                />
+            </div>
+        </div>
+    </form>
+</template>

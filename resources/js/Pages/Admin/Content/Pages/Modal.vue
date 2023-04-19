@@ -1,18 +1,3 @@
-<template>
-    <Modal @closeModal="$emit('closeModal')"
-           :decline-button="canDestroy"
-           @declineForm="$emit('declineForm',item.id)"
-           @submitForm="$emit('submitForm')"
-           @clickCancel="$emit('closeModal')"
-           size="extralarge"
-    >
-        <template #title>{{ formHeading }}</template>
-        <template #content>
-            <Form :item="item"/>
-        </template>
-    </Modal>
-</template>
-
 <script setup>
 import Form from '@/Pages/Admin/Content/Pages/Form.vue';
 import Modal from '@/Components/Modal.vue';
@@ -41,3 +26,18 @@ const formHeading = computed(() => {
 });
 
 </script>
+
+<template>
+    <Modal @closeModal="$emit('closeModal')"
+           :decline-button="canDestroy"
+           @declineForm="$emit('declineForm',item.id)"
+           @submitForm="$emit('submitForm')"
+           @clickCancel="$emit('closeModal')"
+           size="extralarge"
+    >
+        <template #title>{{ formHeading }}</template>
+        <template #content>
+            <Form :item="item"/>
+        </template>
+    </Modal>
+</template>

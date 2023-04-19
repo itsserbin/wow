@@ -1,35 +1,3 @@
-<template>
-    <Modal size="small"
-           submit-button-text="Замовити"
-           @submitForm="sendForm"
-           @closeModal="$emit('closeModal')"
-           :is-loading="state.isLoading"
-    >
-        <template #content>
-            <div class="grid gap-4">
-                <div class="block">
-                    <Label>Ім`я</Label>
-                    <Input type="text"
-                           v-model="order.name"
-                           placeholder="Введіть ваше ім'я"
-                    />
-                </div>
-                <div class="block">
-                    <Label :required="true">Ваш телефон</Label>
-                    <Input type="tel"
-                           v-maska
-                           data-maska="+38 (0##) ###-##-##"
-                           v-model="order.phone"
-                           placeholder="+38 (0"
-                           class="phone"
-                    />
-                    <InputError v-if="state.errors.phone" v-for="error in state.errors.phone" :message="error"/>
-                </div>
-            </div>
-        </template>
-    </Modal>
-</template>
-
 <script setup>
 import {ref} from "vue";
 import {useGtm} from "@gtm-support/vue-gtm";
@@ -163,3 +131,35 @@ async function createOrder() {
         });
 }
 </script>
+
+<template>
+    <Modal size="small"
+           submit-button-text="Замовити"
+           @submitForm="sendForm"
+           @closeModal="$emit('closeModal')"
+           :is-loading="state.isLoading"
+    >
+        <template #content>
+            <div class="grid gap-4">
+                <div class="block">
+                    <Label>Ім`я</Label>
+                    <Input type="text"
+                           v-model="order.name"
+                           placeholder="Введіть ваше ім'я"
+                    />
+                </div>
+                <div class="block">
+                    <Label :required="true">Ваш телефон</Label>
+                    <Input type="tel"
+                           v-maska
+                           data-maska="+38 (0##) ###-##-##"
+                           v-model="order.phone"
+                           placeholder="+38 (0"
+                           class="phone"
+                    />
+                    <InputError v-if="state.errors.phone" v-for="error in state.errors.phone" :message="error"/>
+                </div>
+            </div>
+        </template>
+    </Modal>
+</template>

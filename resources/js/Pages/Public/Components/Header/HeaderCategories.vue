@@ -1,16 +1,3 @@
-<template>
-    <div class="max-w-7xl mx-auto">
-        <Swiper class="header-categories" v-bind="settings" :modules="modules">
-            <SwiperSlide v-for="category in $page.props.categories" class="text-center py-2">
-                <Link :href="route('category',category.slug)"
-                      class="font-bold text-sm whitespace-nowrap">
-                    {{ category.title[$page.props.lang] }}
-                </Link>
-            </SwiperSlide>
-        </Swiper>
-    </div>
-</template>
-
 <script setup>
 import {Lazy, Autoplay, Pagination} from "swiper";
 import {Swiper, SwiperSlide} from "swiper/vue";
@@ -45,6 +32,19 @@ const settings = {
     }
 }
 </script>
+
+<template>
+    <div class="max-w-7xl mx-auto">
+        <Swiper class="header-categories" v-bind="settings" :modules="modules">
+            <SwiperSlide v-for="category in $page.props.categories" class="text-center py-2">
+                <Link :href="route('category',category.slug)"
+                      class="font-bold text-sm whitespace-nowrap">
+                    {{ category.title[$page.props.lang] }}
+                </Link>
+            </SwiperSlide>
+        </Swiper>
+    </div>
+</template>
 
 <style>
 @media screen and (min-width: 1366px) {

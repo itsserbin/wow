@@ -1,3 +1,11 @@
+<script setup>
+function scrollToTop() {
+    if (typeof window !== 'undefined') {
+        window.scrollTo({scrollX, top: 0, behavior: 'smooth'});
+    }
+}
+</script>
+
 <template>
     <button @click="scrollToTop"
             id="scrollBtn"
@@ -30,11 +38,3 @@
         <!--    </span>-->
     </button>
 </template>
-
-<script setup>
-function scrollToTop() {
-    if (typeof window !== 'undefined') {
-        window.scrollTo({scrollX, top: 0, behavior: 'smooth'});
-    }
-}
-</script>

@@ -1,3 +1,17 @@
+<script setup>
+import {useStore} from "vuex";
+
+const props = defineProps(['item']);
+defineEmits(['removeFromCart']);
+const store = useStore();
+
+function removeFromCart() {
+    axios.delete(route('api.v1.cart.delete', props.item.id))
+        .then(() => store.commit('loadCart'))
+        .catch((response) => console.log(response));
+}
+</script>
+
 <template>
     <div class="grid grid-cols-8 border-[1px] relative border-gray-300 rounded-[10px]">
         <div class="absolute cursor-pointer top-1 right-1" @click="removeFromCart">
@@ -40,17 +54,3 @@
         </div>
     </div>
 </template>
-
-<script setup>
-import {useStore} from "vuex";
-
-const props = defineProps(['item']);
-defineEmits(['removeFromCart']);
-const store = useStore();
-
-function removeFromCart() {
-    axios.delete(route('api.v1.cart.delete', props.item.id))
-        .then(() => store.commit('loadCart'))
-        .catch((response) => console.log(response));
-}
-</script>

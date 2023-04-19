@@ -1,3 +1,38 @@
+<script setup>
+defineProps({
+    cancelButton: {
+        type: Boolean,
+        default: true,
+    },
+    declineButton: {
+        type: Boolean,
+        default: true,
+    },
+    submitButton: {
+        type: Boolean,
+        default: true,
+    },
+    cancelButtonText: {
+        type: String,
+        default: 'Скасувати'
+    },
+    declineButtonText: {
+        type: String,
+        default: 'Видалити'
+    },
+    submitButtonText: {
+        type: String,
+        default: 'Зберегти'
+    },
+    size: {
+        type: String,
+        default: 'medium'
+    }
+});
+
+defineEmits(['closeModal', 'submitForm', 'clickCancel', 'declineForm'])
+</script>
+
 <template>
     <div>
         <div class="
@@ -146,42 +181,6 @@
 
 
 </template>
-
-<script setup>
-defineProps({
-    cancelButton: {
-        type: Boolean,
-        default: true,
-    },
-    declineButton: {
-        type: Boolean,
-        default: true,
-    },
-    submitButton: {
-        type: Boolean,
-        default: true,
-    },
-    cancelButtonText: {
-        type: String,
-        default: 'Скасувати'
-    },
-    declineButtonText: {
-        type: String,
-        default: 'Видалити'
-    },
-    submitButtonText: {
-        type: String,
-        default: 'Зберегти'
-    },
-    size: {
-        type: String,
-        default: 'medium'
-    }
-});
-
-defineEmits(['closeModal', 'submitForm', 'clickCancel', 'declineForm'])
-</script>
-
 
 <style>
 .fade-enter-active,

@@ -1,23 +1,3 @@
-<template>
-        <Head title="Статус замовлення"/>
-
-        <div v-if="!state.isLoading">
-            <Breadcrumbs :current-url="route().current" :options="options" :lang="lang" title="Статус замовлення"/>
-
-            <div class="max-w-xl mx-auto">
-                <Form :item="state.item"
-                      @submitForm="checkStatus"
-                      v-if="!state.order"
-                />
-
-                <Status :order="state.order"
-                        v-if="state.order"
-                        :statuses="state.statuses"
-                />
-            </div>
-        </div>
-</template>
-
 <script setup>
 import Breadcrumbs from './Breadcrumbs.vue'
 import MasterLayout from '@/Layouts/MasterLayout.vue'
@@ -72,3 +52,23 @@ const checkStatus = async () => {
         })
 }
 </script>
+
+<template>
+        <Head title="Статус замовлення"/>
+
+        <div v-if="!state.isLoading">
+            <Breadcrumbs :current-url="route().current" :options="options" :lang="lang" title="Статус замовлення"/>
+
+            <div class="max-w-xl mx-auto">
+                <Form :item="state.item"
+                      @submitForm="checkStatus"
+                      v-if="!state.order"
+                />
+
+                <Status :order="state.order"
+                        v-if="state.order"
+                        :statuses="state.statuses"
+                />
+            </div>
+        </div>
+</template>

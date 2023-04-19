@@ -1,5 +1,20 @@
-<template>
+<script setup>
+import Loader from '@/Pages/Public/Components/Loader.vue'
 
+defineProps([
+    'cancelButtonText',
+    'declineButtonText',
+    'submitButtonText',
+    'size',
+    'isLoading'
+])
+
+defineEmits(['closeModal', 'submitForm', 'clickCancel', 'declineForm'])
+
+
+</script>
+
+<template>
     <div>
         <transition name="fadeSecond">
             <div class="
@@ -120,22 +135,3 @@
     </div>
 
 </template>
-
-<script setup>
-import Loader from '@/Pages/Public/Components/Loader.vue'
-
-defineProps([
-    'cancelButtonText',
-    'declineButtonText',
-    'submitButtonText',
-    'size',
-    'isLoading'
-])
-
-defineEmits(['closeModal', 'submitForm', 'clickCancel', 'declineForm'])
-
-
-</script>
-
-
-

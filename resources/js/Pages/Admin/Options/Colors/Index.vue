@@ -1,43 +1,14 @@
-<template>
-    <OptionsLayout title="Кольори">
-        <template #header>
-            Кольори
-        </template>
-
-        <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading && can('show-colors')">
-            <button-component type="btn" @click="create" v-if="can('create-providers')">
-                Додати
-            </button-component>
-
-            <Table :data="state.colors.data"
-                   @onEdit="onEdit"
-                   @onDestroy="onDestroy"
-                   :canDestroy="can('destroy-colors')"
-            />
-
-            <pagination :pagination="state.colors"
-                        :click-handler="fetch"
-                        v-model="state.currentPage"
-            />
-            <component :is="activeModal"
-                       :item="state.item"
-                       @closeModal="modalFunction"
-                       @submitForm="submitForm"
-                       @declineForm="onDestroy"
-                       :canDestroy="can('destroy-colors')"
-            ></component>
-        </div>
-    </OptionsLayout>
-</template>
-
 <script setup>
 import {reactive, onMounted, inject, ref, computed} from "vue";
+import {swal} from "@/Includes/swal";
+
+import Loader from '@/Components/Loader.vue';
+import Button from '@/Components/Button.vue';
+import Paginate from '@/Components/Paginate.vue';
 import ColorModal from '@/Pages/Admin/Options/Colors/Modal.vue';
 import OptionsLayout from '@/Pages/Admin/Options/OptionsLayout.vue'
 import Table from '@/Pages/Admin/Options/Colors/Table.vue'
 
-const swal = inject('$swal')
 const can = inject('$can');
 
 const item = reactive({
@@ -185,3 +156,37 @@ function create() {
     }
 }
 </script>
+
+<template>
+    <OptionsLayout title="Кольори">
+        <template #header>
+            Кольори
+        </template>
+
+        <Loader v-if="state.isLoading"/>
+        <div v-if="!state.isLoading && can('show-colors')">
+            <Button type="btn" @click="create" v-if="can('create-providers')">
+                Додати
+            </Button>
+
+            <Table :data="state.colors.data"
+                   @onEdit="onEdit"
+                   @onDestroy="onDestroy"
+                   :canDestroy="can('destroy-colors')"
+            />
+
+            <Paginate :pagination="state.colors"
+                      :click-handler="fetch"
+                      v-model="state.currentPage"
+            />
+
+            <component :is="activeModal"
+                       :item="state.item"
+                       @closeModal="modalFunction"
+                       @submitForm="submitForm"
+                       @declineForm="onDestroy"
+                       :canDestroy="can('destroy-colors')"
+            ></component>
+        </div>
+    </OptionsLayout>
+</template>

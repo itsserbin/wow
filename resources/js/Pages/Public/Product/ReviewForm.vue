@@ -1,74 +1,3 @@
-<template>
-    <div>
-        <div>
-            <div class="text-center">
-                <button-component
-                    type="button"
-                    @click="showReviewModalFunction"
-                >{{ textGiveReview }}
-                </button-component>
-            </div>
-
-            <modal v-if="state.showReviewModal"
-                   @clickCancel="showReviewModalFunction"
-                   @closeModal="showReviewModalFunction"
-                   @submitForm="sendReview"
-                   submit-button-text="Відправити"
-                   cancel-button-text="Відмінити"
-                   size="medium"
-            >
-                <template #heading>
-                    {{ textGiveReview }}
-                </template>
-
-                <template #content>
-                    <div class="grid gap-4">
-                        <div class="block">
-                            <label-component :required="true">{{ textName }}</label-component>
-                            <input-component type="text"
-                                             v-model="state.review.name"
-                                             :placeholder="textEnterName"
-                            />
-                        </div>
-
-                        <div class="block">
-                            <label-component :required="true">{{ textPhone }}</label-component>
-                            <input-component type="tel"
-                                             v-maska="'+38 (0##) ###-##-##'"
-                                             v-model="state.review.phone"
-                                             placeholder="+38 (0"
-                                             class="phone"
-                            />
-                        </div>
-                        <div class="block">
-                            <label-component :required="true">{{ textComment }}</label-component>
-                            <textarea placeholder="Введіть ваш коментар"
-                                      v-model="state.review.comment"
-                                      rows="4"
-                                      class="
-                                            border-[0.5px]
-                                            rounded-[10px]
-                                            box-border
-                                            font-[350]
-                                            h-[100]
-                                            mt-[0.75rem]
-                                            p-[1rem]
-                                            resize-none
-                                            w-[100%]
-                                            outline-none
-                                            border-red-600
-                                            focus:border-red-600
-                                            focus:ring-red-600
-                                        "
-                            ></textarea>
-                        </div>
-                    </div>
-                </template>
-            </modal>
-        </div>
-    </div>
-</template>
-
 <script setup>
 import {ref} from "vue";
 import {swal} from '@/Includes/swal';
@@ -149,3 +78,74 @@ function sendReview() {
         });
 }
 </script>
+
+<template>
+    <div>
+        <div>
+            <div class="text-center">
+                <button-component
+                    type="button"
+                    @click="showReviewModalFunction"
+                >{{ textGiveReview }}
+                </button-component>
+            </div>
+
+            <modal v-if="state.showReviewModal"
+                   @clickCancel="showReviewModalFunction"
+                   @closeModal="showReviewModalFunction"
+                   @submitForm="sendReview"
+                   submit-button-text="Відправити"
+                   cancel-button-text="Відмінити"
+                   size="medium"
+            >
+                <template #heading>
+                    {{ textGiveReview }}
+                </template>
+
+                <template #content>
+                    <div class="grid gap-4">
+                        <div class="block">
+                            <label-component :required="true">{{ textName }}</label-component>
+                            <input-component type="text"
+                                             v-model="state.review.name"
+                                             :placeholder="textEnterName"
+                            />
+                        </div>
+
+                        <div class="block">
+                            <label-component :required="true">{{ textPhone }}</label-component>
+                            <input-component type="tel"
+                                             v-maska="'+38 (0##) ###-##-##'"
+                                             v-model="state.review.phone"
+                                             placeholder="+38 (0"
+                                             class="phone"
+                            />
+                        </div>
+                        <div class="block">
+                            <label-component :required="true">{{ textComment }}</label-component>
+                            <textarea placeholder="Введіть ваш коментар"
+                                      v-model="state.review.comment"
+                                      rows="4"
+                                      class="
+                                            border-[0.5px]
+                                            rounded-[10px]
+                                            box-border
+                                            font-[350]
+                                            h-[100]
+                                            mt-[0.75rem]
+                                            p-[1rem]
+                                            resize-none
+                                            w-[100%]
+                                            outline-none
+                                            border-red-600
+                                            focus:border-red-600
+                                            focus:ring-red-600
+                                        "
+                            ></textarea>
+                        </div>
+                    </div>
+                </template>
+            </modal>
+        </div>
+    </div>
+</template>

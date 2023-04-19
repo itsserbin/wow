@@ -1,3 +1,52 @@
+<script setup>
+import {ref} from "vue";
+import {swal} from '@/Includes/swal';
+
+
+const state = ref({
+    show: false,
+    isLoading: false,
+    item: {
+        name: null,
+        phone: null,
+        comment: null,
+    },
+    errors: []
+});
+
+function showModal() {
+    state.value.show = !state.value.show;
+}
+
+function sendForm() {
+    state.value.isLoading = true;
+    axios.post(route('api.v1.callback.create'), state.value.item)
+        .then(() => {
+            swal({
+                icon: 'success',
+                title: 'Ваш запит надіслано!',
+                text: 'Наш оператор зателефонує Вам протягом 5 хвилин',
+            })
+            state.value.item = {
+                name: null,
+                phone: null,
+                comment: null
+            };
+            state.value.isLoading = false;
+            showModal();
+        })
+        .catch(({response}) => {
+            swal({
+                icon: 'error',
+                title: 'Виникла помилка',
+                text: 'Перевірте корректність данних',
+            })
+            state.value.errors = response.data;
+            state.value.isLoading = false;
+        })
+}
+</script>
+
 <template>
     <div>
         <div class="bottom-[5%] block fixed right-[2%] z-10" @click="showModal">
@@ -82,52 +131,3 @@
         </template>
     </modal>
 </template>
-
-<script setup>
-import {ref} from "vue";
-import {swal} from '@/Includes/swal';
-
-
-const state = ref({
-    show: false,
-    isLoading: false,
-    item: {
-        name: null,
-        phone: null,
-        comment: null,
-    },
-    errors: []
-});
-
-function showModal() {
-    state.value.show = !state.value.show;
-}
-
-function sendForm() {
-    state.value.isLoading = true;
-    axios.post(route('api.v1.callback.create'), state.value.item)
-        .then(() => {
-            swal({
-                icon: 'success',
-                title: 'Ваш запит надіслано!',
-                text: 'Наш оператор зателефонує Вам протягом 5 хвилин',
-            })
-            state.value.item = {
-                name: null,
-                phone: null,
-                comment: null
-            };
-            state.value.isLoading = false;
-            showModal();
-        })
-        .catch(({response}) => {
-            swal({
-                icon: 'error',
-                title: 'Виникла помилка',
-                text: 'Перевірте корректність данних',
-            })
-            state.value.errors = response.data;
-            state.value.isLoading = false;
-        })
-}
-</script>

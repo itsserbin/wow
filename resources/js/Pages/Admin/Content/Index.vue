@@ -1,5 +1,5 @@
 <template>
-    <auth-layout>
+    <AuthenticatedLayout>
         <div class="grid grid-cols-1">
             <div class="grid grid-cols-2 md:grid-cols-2 gap-4">
                 <Link v-for="item in items" :href="item.href" v-show="can(item.permission)">
@@ -9,15 +9,16 @@
                 </Link>
             </div>
         </div>
-    </auth-layout>
+    </AuthenticatedLayout>
 </template>
 
 <script setup>
-import {inject, reactive} from "vue";
+import {inject} from "vue";
 import {Link} from "@inertiajs/inertia-vue3";
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 
 const can = inject('$can');
-const items = reactive([
+const items = [
     {
         title: 'Товари',
         permission: 'show-products',
@@ -43,5 +44,5 @@ const items = reactive([
         permission: 'show-reviews',
         href: route('admin.content.reviews.product')
     },
-]);
+];
 </script>

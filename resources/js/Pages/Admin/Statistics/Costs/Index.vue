@@ -1,76 +1,20 @@
-<template>
-    <StatisticLayout title="Витрати">
-        <template #header>
-            Витрати
-        </template>
-
-        <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading && can('show-bookkeeping-costs')" class="grid grid-cols-1 gap-4">
-            <div>
-                <button-component type="btn" @click="create">
-                    Додати
-                </button-component>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
-                <div class="block">
-                    <label-component value="Фільтр по категорії"/>
-                    <select-component v-model="params.filter"
-                                      :options="costCategoriesOptions"
-                                      @change="fetch"
-                    />
-                </div>
-
-                <div class="block">
-                    <label-component value="Фільтр по даті"/>
-                    <DatepickerComponent v-model="params.date"
-                                         @update:modelValue="fetch"
-                    />
-                </div>
-
-            </div>
-
-            <CostChart v-if="state.chart" :chart-data="state.chart"/>
-
-            <div class="grid grid-cols-2 md:grid-cols-6">
-                <card-component v-for="(item,i) in state.data.generalStat"
-                                class="text-center"
-                                :title="i"
-                                :description="$filters.formatMoney(item)"
-                >
-                </card-component>
-            </div>
-
-            <Table :data="state.data.result.data" @onDestroy="onDestroy" @onEdit="onEdit"/>
-
-            <div class="text-center">
-                <pagination :pagination="state.data.result"
-                            :click-handler="fetch"
-                            v-model="params.page"
-                />
-            </div>
-
-            <component :is="activeModal"
-                       :item="state.item"
-                       :modalAction="state.modalAction"
-                       @closeModal="modalFunction"
-                       @submitForm="submitForm"
-                       @declineForm="onDestroy"
-            ></component>
-        </div>
-    </StatisticLayout>
-</template>
-
 <script setup>
 import {reactive, onMounted, inject, ref, computed} from "vue";
+import {endOfMonth, startOfMonth} from "date-fns";
+import {swal} from "@/Includes/swal";
+
+import Paginate from '@/Components/Paginate.vue';
+import Card from '@/Components/Card.vue';
+import Loader from '@/Components/Loader.vue';
+import Button from '@/Components/Button.vue';
+import Label from '@/Components/Form/Label.vue';
+import Select from '@/Components/Form/Select.vue';
 import ColorModal from '@/Pages/Admin/Statistics/Costs/Modal.vue';
-import CostChart from '@/Pages/Admin/Statistics/Costs/Chart.vue';
+import CostChart from '@/Pages/Admin/Statistics/Chart.vue';
 import Table from '@/Pages/Admin/Statistics/Costs/Table.vue';
 import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
 import DatepickerComponent from '@/Pages/Admin/Statistics/Datepicker.vue'
-import {endOfMonth, startOfMonth} from "date-fns";
 
-const swal = inject('$swal')
 const can = inject('$can');
 
 const item = reactive({
@@ -254,3 +198,64 @@ function create() {
     modalFunction();
 }
 </script>
+
+<template>
+    <StatisticLayout title="Витрати">
+        <template #header>
+            Витрати
+        </template>
+
+        <Loader v-if="state.isLoading"/>
+        <div v-if="!state.isLoading && can('show-bookkeeping-costs')" class="grid grid-cols-1 gap-4">
+            <div>
+                <Button type="btn" @click="create">
+                    Додати
+                </Button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
+                <div class="block">
+                    <Label value="Фільтр по категорії"/>
+                    <Select v-model="params.filter"
+                            :options="costCategoriesOptions"
+                            @change="fetch"
+                    />
+                </div>
+
+                <div class="block">
+                    <Label value="Фільтр по даті"/>
+                    <DatepickerComponent v-model="params.date" @update:modelValue="fetch"/>
+                </div>
+
+            </div>
+
+            <CostChart v-if="state.chart" :chart-data="state.chart"/>
+
+            <div class="grid grid-cols-2 md:grid-cols-6">
+                <Card v-for="(item,i) in state.data.generalStat"
+                      class="text-center"
+                      :title="i"
+                      :description="$filters.formatMoney(item)"
+                >
+                </Card>
+            </div>
+
+            <Table :data="state.data.result.data" @onDestroy="onDestroy" @onEdit="onEdit"/>
+
+            <div class="text-center">
+                <Paginate :pagination="state.data.result"
+                          :click-handler="fetch"
+                          v-model="params.page"
+                />
+            </div>
+
+            <component :is="activeModal"
+                       :item="state.item"
+                       :modalAction="state.modalAction"
+                       @closeModal="modalFunction"
+                       @submitForm="submitForm"
+                       @declineForm="onDestroy"
+            ></component>
+        </div>
+    </StatisticLayout>
+</template>

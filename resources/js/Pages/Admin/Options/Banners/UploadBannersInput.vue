@@ -1,5 +1,12 @@
+<script setup>
+import ImageCard from '@/Components/ImageCard.vue';
+
+defineProps(['label', 'image']);
+defineEmits(['upload', 'onDestroyImage']);
+</script>
+
 <template>
-    <image-card
+    <ImageCard
         v-if="image"
         :destroyIcon="true"
         :image="image"
@@ -37,12 +44,3 @@
         >
     </div>
 </template>
-
-<script setup>
-const props = defineProps({
-    label: String,
-    image: String,
-})
-
-defineEmits(['upload','onDestroyImage']);
-</script>

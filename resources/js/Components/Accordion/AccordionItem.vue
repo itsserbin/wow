@@ -1,62 +1,3 @@
-<template>
-    <div class="
-                first:rounded-t-lg
-                last:rounded-b-lg
-                border
-                border-gray-200
-                dark:border-gray-800
-                hover:bg-gray-100
-                dark:hover:bg-gray-800
-                transition-all
-            "
-         :class="{
-                    'dark:bg-gray-800' : visible,
-                    'dark:bg-gray-600' : !visible
-                }"
-    >
-        <button @click="open" type="button"
-                class="
-                        flex
-                        items-center
-                        justify-between
-                        w-full
-                        p-5
-                        font-medium
-                        text-left
-                        text-gray-500
-                        dark:text-gray-400
-                    ">
-            <span><slot name="accordion-trigger"></slot></span>
-            <ArrowUp v-if="!visible"/>
-            <ArrowDown v-if="visible"/>
-        </button>
-        <transition
-            name="staggered-fade"
-            tag="ul"
-            :css="false"
-            @before-enter="beforeEnter"
-            @enter="enter"
-            @leave="leave"
-        >
-            <div v-show="visible">
-                <div class="
-                            p-5
-                            font-light
-                            border
-                            border-b-0
-                            border-gray-200
-                            dark:border-gray-800
-                            dark:bg-gray-800
-                        ">
-                    <slot name="accordion-content"></slot>
-                </div>
-            </div>
-        </transition>
-    </div>
-
-</template>
-
-
 <script>
 import gsap from 'gsap'
 import ArrowUp from '@/Components/Icons/ArrowUp.vue';
@@ -117,3 +58,61 @@ export default {
     }
 };
 </script>
+
+<template>
+    <div class="
+                first:rounded-t-lg
+                last:rounded-b-lg
+                border
+                border-gray-200
+                dark:border-gray-800
+                hover:bg-gray-100
+                dark:hover:bg-gray-800
+                transition-all
+            "
+         :class="{
+                    'dark:bg-gray-800' : visible,
+                    'dark:bg-gray-600' : !visible
+                }"
+    >
+        <button @click="open" type="button"
+                class="
+                        flex
+                        items-center
+                        justify-between
+                        w-full
+                        p-5
+                        font-medium
+                        text-left
+                        text-gray-500
+                        dark:text-gray-400
+                    ">
+            <span><slot name="accordion-trigger"></slot></span>
+            <ArrowUp v-if="!visible"/>
+            <ArrowDown v-if="visible"/>
+        </button>
+        <transition
+            name="staggered-fade"
+            tag="ul"
+            :css="false"
+            @before-enter="beforeEnter"
+            @enter="enter"
+            @leave="leave"
+        >
+            <div v-show="visible">
+                <div class="
+                            p-5
+                            font-light
+                            border
+                            border-b-0
+                            border-gray-200
+                            dark:border-gray-800
+                            dark:bg-gray-800
+                        ">
+                    <slot name="accordion-content"></slot>
+                </div>
+            </div>
+        </transition>
+    </div>
+
+</template>

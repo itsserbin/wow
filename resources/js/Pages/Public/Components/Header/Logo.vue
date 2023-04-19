@@ -1,3 +1,9 @@
+<script setup>
+import {Link} from "@inertiajs/inertia-vue3";
+
+const appName = import.meta.env.VITE_APP_NAME;
+</script>
+
 <template>
     <Link :href="route('home')">
         <picture>
@@ -6,9 +12,3 @@
         </picture>
     </Link>
 </template>
-
-<script setup>
-import {Link} from "@inertiajs/inertia-vue3";
-
-const appName = import.meta.env.VITE_APP_NAME;
-</script>

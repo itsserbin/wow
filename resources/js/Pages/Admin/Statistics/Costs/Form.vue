@@ -1,8 +1,36 @@
+<script setup>
+import Label from '@/Components/Form/Label.vue';
+import Input from '@/Components/Form/Input.vue';
+import Textarea from '@/Components/Form/Textarea.vue';
+import Select from '@/Components/Form/Select.vue';
+import Datepicker from '@/Pages/Admin/Statistics/Datepicker.vue'
+
+import {computed, onMounted, ref} from "vue";
+
+const props = defineProps(['item', 'modalAction'])
+
+const categories = ref([]);
+
+onMounted(async () => {
+    await axios.get(route('api.statistics.costs.categories.list'))
+        .then(({data}) => {
+            data.result.forEach((item) => {
+                categories.value.push({
+                    key: item.id,
+                    value: item.title
+                })
+            })
+        })
+})
+
+const totalSum = computed(() => props.item.quantity * props.item.sum)
+</script>
+
 <template>
     <form class="grid grid-cols-1 gap-4">
         <div class="block">
-            <label-component value="Категорія витрат"/>
-            <select-component v-model="item.cost_category_id" :options="categories"/>
+            <Label value="Категорія витрат"/>
+            <Select v-model="item.cost_category_id" :options="categories"/>
         </div>
         <div class="block" v-if="modalAction === 'create'">
             <div class="grid grid-cols-2 gap-4">
@@ -67,46 +95,24 @@
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div class="block">
-                <label-component value="Кількість"/>
-                <input-component v-model="item.quantity" type="number"/>
+                <Label value="Кількість"/>
+                <Input v-model="item.quantity" type="number"/>
             </div>
 
             <div class="block">
-                <label-component value="Вартість"/>
-                <input-component v-model="item.sum" type="number"/>
+                <Label value="Вартість"/>
+                <Input v-model="item.sum" type="number"/>
             </div>
 
             <div class="block">
-                <label-component value="Загалом"/>
-                <input-component :value="totalSum" type="number" disabled/>
+                <Label value="Загалом"/>
+                <Input :value="totalSum" type="number" disabled/>
             </div>
         </div>
 
         <div class="grid grid-cols-1">
-            <label-component value="Коментар"/>
-            <textarea-component v-model="item.comment" rows="4"/>
+            <Label value="Коментар"/>
+            <Textarea v-model="item.comment" rows="4"/>
         </div>
     </form>
 </template>
-
-<script setup>
-import {computed, onMounted, ref} from "vue";
-
-const props = defineProps(['item','modalAction'])
-
-const categories = ref([]);
-
-onMounted(() => {
-    axios.get(route('api.statistics.costs.categories.list'))
-        .then(({data}) => {
-            data.result.forEach((item) => {
-                categories.value.push({
-                    key: item.id,
-                    value: item.title
-                })
-            })
-        })
-})
-
-const totalSum = computed(() => props.item.quantity * props.item.sum)
-</script>

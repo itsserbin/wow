@@ -1,48 +1,11 @@
-<template>
-    <form class="grid gap-4">
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="block">
-                <label-component value="Назва"/>
-                <input-component v-model="item.title" type="text"/>
-            </div>
-
-            <div class="block">
-                <label-component value="Slug"/>
-                <input-component v-model="item.slug" type="text"/>
-            </div>
-        </div>
-
-        <div class="block">
-            <label-component value="Опис"/>
-            <textarea-component v-model="item.description"/>
-        </div>
-
-        <div class="block">
-            <label-component value="Категорія"/>
-            <select-component v-model="item.category" :options="state.xmlCategories"/>
-        </div>
-
-        <div class="block">
-            <label-component value="Товари"/>
-            <multiselect
-                :options="state.products"
-                v-model="item.products"
-                :custom-label="h1AndCodeAndId"
-                placeholder="Оберіть товари"
-                track-by="id"
-                :close-on-select="false"
-                :searchable="true"
-                :multiple="true"
-            />
-        </div>
-
-
-    </form>
-</template>
-
 <script setup>
 import {inject, onMounted, ref} from "vue";
+
+import Label from '@/Components/Form/Label.vue';
+import Input from '@/Components/Form/Input.vue';
+import Textarea from '@/Components/Form/Textarea.vue';
+import Select from '@/Components/Form/Select.vue';
+import Multiselect from '@/Components/Multiselect/Multiselect.vue';
 
 defineProps(['item'])
 
@@ -77,3 +40,43 @@ function h1AndCodeAndId({h1, id}) {
     }
 }
 </script>
+
+<template>
+    <form class="grid gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="block">
+                <Label value="Назва"/>
+                <Input v-model="item.title" type="text"/>
+            </div>
+
+            <div class="block">
+                <Label value="Slug"/>
+                <Input v-model="item.slug" type="text"/>
+            </div>
+        </div>
+
+        <div class="block">
+            <Label value="Опис"/>
+            <Textarea v-model="item.description"/>
+        </div>
+
+        <div class="block">
+            <Label value="Категорія"/>
+            <Select v-model="item.category" :options="state.xmlCategories"/>
+        </div>
+
+        <div class="block">
+            <Label value="Товари"/>
+            <Multiselect
+                :options="state.products"
+                v-model="item.products"
+                :custom-label="h1AndCodeAndId"
+                placeholder="Оберіть товари"
+                track-by="id"
+                :close-on-select="false"
+                :searchable="true"
+                :multiple="true"
+            />
+        </div>
+    </form>
+</template>

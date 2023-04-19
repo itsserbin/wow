@@ -1,3 +1,68 @@
+<script setup>
+import ImagesSelectModal from '@/Components/ImagesSelectModal.vue';
+import ImageCard from '@/Components/ImageCard.vue';
+import InputError from '@/Components/Form/InputError.vue';
+import Label from '@/Components/Form/Label.vue';
+import Input from '@/Components/Form/Input.vue';
+import Textarea from '@/Components/Form/Textarea.vue';
+import Select from '@/Components/Form/Select.vue';
+import LangTabs from '@/Components/LangTabs.vue';
+import Button from '@/Components/Button.vue';
+import Editor from '@tinymce/tinymce-vue';
+
+import {inject, onMounted, ref} from "vue";
+import CategoriesRepository from "@/Repositories/CategoriesRepository";
+
+const props = defineProps(['item', 'errors'])
+const tiny = inject('$tiny');
+const defaultLang = inject('$defaultLang');
+const publishedStatuses = inject('$publishedStatuses');
+
+const state = ref({
+    categories: [],
+    categoryPreview: [],
+    isActiveSelectedPreviewModal: false,
+    activeLang: defaultLang
+});
+
+onMounted(async () => {
+    await getCategoriesList();
+});
+
+const previewModalFunction = () => {
+    state.value.isActiveSelectedPreviewModal = !state.value.isActiveSelectedPreviewModal;
+}
+
+const destroyPreview = () => {
+    props.item.preview_id = null;
+    props.item.preview = {};
+}
+
+const changeLang = (val) => {
+    state.value.activeLang = val;
+}
+
+const setPreview = (image) => {
+    props.item.preview_id = image.id;
+    props.item.preview.src = image.src;
+    previewModalFunction();
+}
+
+const getCategoriesList = async () => {
+    const data = await CategoriesRepository.list();
+    if (data.success) {
+        data.result.forEach((item) => {
+            state.value.categories.push(
+                {
+                    key: item.id,
+                    value: item.title.ua ? item.title.ua : item.title.ru
+                }
+            )
+        })
+    }
+}
+</script>
+
 <template>
     <form @submit.prevent="$emit('submit',item)" class="flex flex-col">
         <div class="grid grid-cols-3 mb-5 gap-4">
@@ -76,67 +141,3 @@
         </div>
     </form>
 </template>
-
-<script setup>
-import ImagesSelectModal from '@/Components/ImagesSelectModal.vue';
-import ImageCard from '@/Components/ImageCard.vue';
-import InputError from '@/Components/Form/InputError.vue';
-import Label from '@/Components/Form/Label.vue';
-import Input from '@/Components/Form/Input.vue';
-import Textarea from '@/Components/Form/Textarea.vue';
-import Select from '@/Components/Form/Select.vue';
-import LangTabs from '@/Components/LangTabs.vue';
-import Button from '@/Components/Button.vue';
-
-import {inject, onMounted, ref} from "vue";
-import CategoriesRepository from "@/Repositories/CategoriesRepository";
-
-const props = defineProps(['item', 'errors'])
-const tiny = inject('$tiny');
-const defaultLang = inject('$defaultLang');
-const publishedStatuses = inject('$publishedStatuses');
-
-const state = ref({
-    categories: [],
-    categoryPreview: [],
-    isActiveSelectedPreviewModal: false,
-    activeLang: defaultLang
-});
-
-onMounted(() => {
-    getCategoriesList();
-});
-
-const previewModalFunction = () => {
-    state.value.isActiveSelectedPreviewModal = !state.value.isActiveSelectedPreviewModal;
-}
-
-const destroyPreview = () => {
-    props.item.preview_id = null;
-    props.item.preview = {};
-}
-
-const changeLang = (val) => {
-    state.value.activeLang = val;
-}
-
-const setPreview = (image) => {
-    props.item.preview_id = image.id;
-    props.item.preview.src = image.src;
-    previewModalFunction();
-}
-
-const getCategoriesList = async () => {
-    const data = await CategoriesRepository.list();
-    if (data.success) {
-        data.result.forEach((item) => {
-            state.value.categories.push(
-                {
-                    key: item.id,
-                    value: item.title.ua ? item.title.ua : item.title.ru
-                }
-            )
-        })
-    }
-}
-</script>

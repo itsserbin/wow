@@ -1,3 +1,9 @@
+<script setup>
+import Head from "@/Pages/Public/Components/Head.vue";
+
+defineProps(['category', 'lang']);
+</script>
+
 <template>
     <Head :title="category.meta_title[lang]" :description="category.meta_description[lang]">
         <meta v-if="category.preview"
@@ -18,9 +24,3 @@
         />
     </Head>
 </template>
-
-<script setup>
-import Head from "@/Pages/Public/Components/Head.vue";
-
-defineProps(['category', 'lang']);
-</script>

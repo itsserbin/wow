@@ -1,48 +1,3 @@
-<template>
-    <ContentLayout :title="$t('products.page_title')">
-        <template #header>{{ $t('products.page_title') }}</template>
-
-        <Loader v-if="state.isLoading"/>
-        <div v-if="!state.isLoading && can('show-products')" class="grid gap-4 grid-cols-1">
-            <div>
-                <Button type="btn" @click="create" v-if="can('create-products')">
-                    {{ $t('add') }}
-                </Button>
-            </div>
-
-            <div class="grid grid-cols-1 gap-4">
-                <Search @search="search"
-                        :clear="true"
-                        :placeholder="$t('products.search_placeholder')"
-                        @onClear="fetch"
-                />
-                <Table :data="state.products.data"
-                       @onEdit="onEdit"
-                       @onDestroy="onDestroy"
-                       :canDestroy="can('destroy-products')"
-                       @onUpdateProductSort="onUpdateProductSort"
-                />
-            </div>
-
-            <div class="text-center">
-                <Paginate :pagination="state.products"
-                          :click-handler="fetch"
-                          v-model="state.currentPage"
-                />
-            </div>
-        </div>
-        <component :is="activeModal"
-                   :item="state.item"
-                   @closeModal="modalFunction"
-                   @submitForm="submitForm"
-                   @declineForm="onDestroy"
-                   @setProductImages="setProductImages"
-                   @destroyImage="destroyImage"
-                   :canDestroy="can('destroy-products')"
-        ></component>
-    </ContentLayout>
-</template>
-
 <script setup>
 import ProductModal from '@/Pages/Admin/Content/Products/Modal.vue';
 import Table from '@/Pages/Admin/Content/Products/Table.vue'
@@ -55,8 +10,8 @@ import ContentLayout from '@/Pages/Admin/Content/ContentLayout.vue'
 import {reactive, onMounted, inject, ref, computed} from "vue";
 import ProductsRepository from "@/Repositories/ProductsRepository";
 import {useI18n} from 'vue-i18n';
+import {swal} from "@/Includes/swal";
 
-const swal = inject('$swal')
 const can = inject('$can');
 const {t} = useI18n();
 
@@ -270,3 +225,48 @@ const onUpdateProductSort = async (product_id, sort) => {
     state.value.isLoading = false;
 }
 </script>
+
+<template>
+    <ContentLayout :title="$t('products.page_title')">
+        <template #header>{{ $t('products.page_title') }}</template>
+
+        <Loader v-if="state.isLoading"/>
+        <div v-if="!state.isLoading && can('show-products')" class="grid gap-4 grid-cols-1">
+            <div>
+                <Button type="btn" @click="create" v-if="can('create-products')">
+                    {{ $t('add') }}
+                </Button>
+            </div>
+
+            <div class="grid grid-cols-1 gap-4">
+                <Search @search="search"
+                        :clear="true"
+                        :placeholder="$t('products.search_placeholder')"
+                        @onClear="fetch"
+                />
+                <Table :data="state.products.data"
+                       @onEdit="onEdit"
+                       @onDestroy="onDestroy"
+                       :canDestroy="can('destroy-products')"
+                       @onUpdateProductSort="onUpdateProductSort"
+                />
+            </div>
+
+            <div class="text-center">
+                <Paginate :pagination="state.products"
+                          :click-handler="fetch"
+                          v-model="state.currentPage"
+                />
+            </div>
+        </div>
+        <component :is="activeModal"
+                   :item="state.item"
+                   @closeModal="modalFunction"
+                   @submitForm="submitForm"
+                   @declineForm="onDestroy"
+                   @setProductImages="setProductImages"
+                   @destroyImage="destroyImage"
+                   :canDestroy="can('destroy-products')"
+        ></component>
+    </ContentLayout>
+</template>

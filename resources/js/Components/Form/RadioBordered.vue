@@ -1,3 +1,13 @@
+<script setup>
+import {computed} from "vue";
+
+const props = defineProps(['label', 'value', 'name', 'modelValue'])
+const emits = defineEmits(['update:modelValue'])
+
+const emitUpdate = () => emits('update:modelValue', props.value)
+const isChecked = computed(() => props.modelValue === props.value)
+</script>
+
 <template>
     <div class="flex items-center pl-4 rounded border border-gray-200 dark:border-gray-700">
         <input :name="name"
@@ -25,13 +35,3 @@
         </label>
     </div>
 </template>
-
-<script setup>
-import {computed} from "vue";
-
-const props = defineProps(['label', 'value', 'name', 'modelValue'])
-const emits = defineEmits(['update:modelValue'])
-
-const emitUpdate = () => emits('update:modelValue', props.value)
-const isChecked = computed(() => props.modelValue === props.value)
-</script>

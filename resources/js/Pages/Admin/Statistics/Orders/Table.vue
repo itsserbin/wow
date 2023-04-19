@@ -1,33 +1,9 @@
-<template>
-    <table-component :headings="headings"
-                     :rows="data"
-                     :isSlotMode="true"
-    >
-        <template #date="{data}">
-            {{ $filters.dateFormat(data.row.date) }}
-        </template>
-
-        <template #completed="{data}">
-            {{ data.row.completed ? `${data.row.completed} (${data.row.received_parcel_ratio}%)` : data.row.completed}}
-        </template>
-
-        <template #refunds="{data}">
-            {{ data.row.refunds ? `${data.row.refunds} (${data.row.returned_orders_ratio}%)` : data.row.refunds}}
-        </template>
-
-        <template #cancel="{data}">
-            {{ data.row.cancel ? `${data.row.cancel} (${data.row.canceled_orders_rate}%)` : data.row.cancel}}
-        </template>
-    </table-component>
-</template>
-
 <script setup>
-import {reactive} from "vue";
+import Table from '@/Components/Table.vue';
 
 defineProps(['data']);
 
-
-const headings = reactive([
+const headings = [
     {
         label: 'Дата',
         key: 'date'
@@ -80,5 +56,25 @@ const headings = reactive([
         label: 'Нові',
         key: 'unprocessed'
     }
-]);
+];
 </script>
+
+<template>
+    <Table :headings="headings" :rows="data" :isSlotMode="true">
+        <template #date="{data}">
+            {{ $filters.dateFormat(data.row.date) }}
+        </template>
+
+        <template #completed="{data}">
+            {{ data.row.completed ? `${data.row.completed} (${data.row.received_parcel_ratio}%)` : data.row.completed }}
+        </template>
+
+        <template #refunds="{data}">
+            {{ data.row.refunds ? `${data.row.refunds} (${data.row.returned_orders_ratio}%)` : data.row.refunds }}
+        </template>
+
+        <template #cancel="{data}">
+            {{ data.row.cancel ? `${data.row.cancel} (${data.row.canceled_orders_rate}%)` : data.row.cancel }}
+        </template>
+    </Table>
+</template>

@@ -1,3 +1,12 @@
+<script setup>
+defineProps({
+    text: {
+        type: String,
+        default: 'Завантажити ще'
+    },
+});
+</script>
+
 <template>
     <div class="flex justify-center">
         <button class="
@@ -15,12 +24,3 @@
         </button>
     </div>
 </template>
-
-<script setup>
-defineProps({
-    text: {
-        type: String,
-        default: 'Завантажити ще'
-    },
-});
-</script>

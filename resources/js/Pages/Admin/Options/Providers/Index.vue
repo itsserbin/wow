@@ -1,44 +1,14 @@
-<template>
-    <OptionsLayout title="Постачальники">
-        <template #header>
-            Постачальники
-        </template>
-
-        <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading && can('show-providers')">
-            <button-component type="btn" @click="create" v-if="can('create-providers')">
-                Додати
-            </button-component>
-
-            <Table :data="state.providers.data"
-                   @onEdit="onEdit"
-                   @onDestroy="onDestroy"
-                   :canDestroy="can('destroy-providers')"
-            />
-
-            <pagination :pagination="state.providers"
-                        :click-handler="fetch"
-                        v-model="state.currentPage"
-            />
-            <component :is="activeModal"
-                       :item="state.item"
-                       @closeModal="modalFunction"
-                       @submitForm="submitForm"
-                       @declineForm="onDestroy"
-                       :canDestroy="can('destroy-providers')"
-            ></component>
-        </div>
-    </OptionsLayout>
-</template>
-
 <script setup>
 import {reactive, onMounted, inject, ref, computed} from "vue";
+import {swal} from "@/Includes/swal";
+
 import ProviderModal from '@/Pages/Admin/Options/Providers/Modal.vue';
 import OptionsLayout from '@/Pages/Admin/Options/OptionsLayout.vue';
 import Table from '@/Pages/Admin/Options/Providers/Table.vue';
+import Loader from '@/Components/Loader.vue';
+import Button from '@/Components/Button.vue';
+import Paginate from '@/Components/Paginate.vue';
 
-
-const swal = inject('$swal')
 const can = inject('$can');
 
 const item = reactive({
@@ -68,7 +38,6 @@ onMounted(() => {
 })
 
 const activeModal = computed(() => state.value.isActiveModal ? ProviderModal : null)
-
 
 function fetch(page) {
     state.value.isLoading = true;
@@ -194,3 +163,36 @@ function create() {
     }
 }
 </script>
+
+<template>
+    <OptionsLayout title="Постачальники">
+        <template #header>
+            Постачальники
+        </template>
+
+        <Loader v-if="state.isLoading"/>
+        <div v-if="!state.isLoading && can('show-providers')">
+            <Button type="btn" @click="create" v-if="can('create-providers')">
+                Додати
+            </Button>
+
+            <Table :data="state.providers.data"
+                   @onEdit="onEdit"
+                   @onDestroy="onDestroy"
+                   :canDestroy="can('destroy-providers')"
+            />
+
+            <Paginate :pagination="state.providers"
+                      :click-handler="fetch"
+                      v-model="state.currentPage"
+            />
+            <component :is="activeModal"
+                       :item="state.item"
+                       @closeModal="modalFunction"
+                       @submitForm="submitForm"
+                       @declineForm="onDestroy"
+                       :canDestroy="can('destroy-providers')"
+            ></component>
+        </div>
+    </OptionsLayout>
+</template>

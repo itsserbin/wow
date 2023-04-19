@@ -1,48 +1,14 @@
-<template>
-    <OptionsLayout title="Ролі">
-        <template #header>
-            Ролі
-        </template>
-
-        <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading && can('show-roles')" class="grid grid-cols-1 gap-4">
-           <div>
-               <button-component type="btn" @click="create" v-if="can('create-roles')">
-                   Додати
-               </button-component>
-           </div>
-
-            <Table :data="state.data.data"
-                   @onEdit="onEdit"
-                   @onDestroy="onDestroy"
-                   :canDestroy="can('destroy-roles')"
-            />
-
-            <div class="text-center">
-                <pagination  :pagination="state.data"
-                             :click-handler="fetch"
-                             v-model="state.currentPage"
-                />
-            </div>
-        </div>
-        <component :is="activeModal"
-                   :item="state.item"
-                   @closeModal="modalFunction"
-                   @submitForm="submitForm"
-                   @declineForm="onDestroy"
-                   :canDestroy="can('destroy-roles')"
-        ></component>
-    </OptionsLayout>
-</template>
-
 <script setup>
-import {reactive, onMounted, inject, ref, computed} from "vue";
+import {onMounted, inject, ref, computed} from "vue";
+import {swal} from "@/Includes/swal";
+
 import RolesModal from '@/Pages/Admin/Options/Roles/Modal.vue';
 import OptionsLayout from '@/Pages/Admin/Options/OptionsLayout.vue'
 import Table from '@/Pages/Admin/Options/Roles/Table.vue'
+import Loader from '@/Components/Loader.vue';
+import Button from '@/Components/Button.vue';
+import Paginate from '@/Components/Paginate.vue';
 
-
-const swal = inject('$swal')
 const can = inject('$can');
 
 const item = ({
@@ -189,3 +155,40 @@ function create() {
     }
 }
 </script>
+
+<template>
+    <OptionsLayout title="Ролі">
+        <template #header>
+            Ролі
+        </template>
+
+        <Loader v-if="state.isLoading"/>
+        <div v-if="!state.isLoading && can('show-roles')" class="grid grid-cols-1 gap-4">
+            <div>
+                <Button type="btn" @click="create" v-if="can('create-roles')">
+                    Додати
+                </Button>
+            </div>
+
+            <Table :data="state.data.data"
+                   @onEdit="onEdit"
+                   @onDestroy="onDestroy"
+                   :canDestroy="can('destroy-roles')"
+            />
+
+            <div class="text-center">
+                <Paginate :pagination="state.data"
+                          :click-handler="fetch"
+                          v-model="state.currentPage"
+                />
+            </div>
+        </div>
+        <component :is="activeModal"
+                   :item="state.item"
+                   @closeModal="modalFunction"
+                   @submitForm="submitForm"
+                   @declineForm="onDestroy"
+                   :canDestroy="can('destroy-roles')"
+        ></component>
+    </OptionsLayout>
+</template>

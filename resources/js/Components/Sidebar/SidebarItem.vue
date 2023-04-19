@@ -1,3 +1,9 @@
+<script setup>
+import {Link} from "@inertiajs/inertia-vue3";
+
+defineProps(['item', 'active']);
+</script>
+
 <template>
     <li>
         <Link
@@ -41,9 +47,3 @@
         </a>
     </li>
 </template>
-
-<script setup>
-import {Link} from "@inertiajs/inertia-vue3";
-
-defineProps(['item', 'active']);
-</script>

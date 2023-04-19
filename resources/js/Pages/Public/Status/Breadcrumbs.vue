@@ -1,7 +1,3 @@
-<template>
-    <Breadcrumbs :breadcrumbs="items"/>
-</template>
-
 <script setup>
 import Breadcrumbs from '@/Pages/Public/Components/Breadcrumbs.vue';
 
@@ -18,3 +14,7 @@ const items = [
 ];
 
 </script>
+
+<template>
+    <Breadcrumbs :breadcrumbs="items"/>
+</template>

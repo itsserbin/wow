@@ -1,5 +1,19 @@
+<script setup>
+defineProps({
+    width: {
+        default: 32
+    },
+    height: {
+        default: 32
+    }
+})
+</script>
+
 <template>
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#fff"
+    <svg xmlns="http://www.w3.org/2000/svg"
+         :width="width"
+         :height="height"
+         fill="#fff"
          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
          viewBox="0 0 52.511 52.511" style="enable-background:new 0 0 52.511 52.511;"
          xml:space="preserve">
@@ -29,9 +43,3 @@
                                                         c0.531-0.15,0.841-0.703,0.691-1.234C39.887,14.753,34.613,9.467,27.991,7.582z"/>
                                                     </svg>
 </template>
-
-<script>
-export default {
-    name: 'ViberIcon'
-}
-</script>

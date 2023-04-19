@@ -1,3 +1,7 @@
+<script setup>
+defineProps(['timer']);
+</script>
+
 <template>
     <div class="text-center">
         <div class="grid grid-cols-3 gap-4 max-w-[320px]  mx-auto text-2xl font-bold ">
@@ -34,7 +38,3 @@
         </div>
     </div>
 </template>
-
-<script setup>
-defineProps(['timer']);
-</script>

@@ -1,42 +1,3 @@
-<template>
-    <Table :headings="headings"
-           :rows="data"
-           :isSlotMode="true"
-    >
-        <template #id="{data}">
-            <a href="javascript:" @click="$emit('onEdit',data.row.id,data.i)">
-                {{ data.row.id }}
-            </a>
-        </template>
-
-        <template #date="{data}">
-            {{ $filters.dateFormat(data.row.date) }}
-        </template>
-
-        <template #category="{data}">
-            {{ data.row.category.title }}
-        </template>
-
-        <template #sum="{data}">
-            {{ $filters.formatMoney(data.row.sum) }}
-        </template>
-
-        <template #total="{data}">
-            {{ $filters.formatMoney(data.row.total) }}
-        </template>
-
-        <template #user="{data}">
-            {{ data.row.user ? data.row.user.name : '-' }}
-        </template>
-
-        <template #actions="{data}">
-            <a href="javascript:" @click="$emit('onDestroy',data.row.id)">
-                <XCircle/>
-            </a>
-        </template>
-    </Table>
-</template>
-
 <script setup>
 import Table from '@/Components/Table.vue';
 import XCircle from '@/Components/Icons/XCircle.vue';
@@ -87,3 +48,42 @@ const headings = [
     }
 ];
 </script>
+
+<template>
+    <Table :headings="headings"
+           :rows="data"
+           :isSlotMode="true"
+    >
+        <template #id="{data}">
+            <a href="javascript:" @click="$emit('onEdit',data.row.id,data.i)">
+                {{ data.row.id }}
+            </a>
+        </template>
+
+        <template #date="{data}">
+            {{ $filters.dateFormat(data.row.date) }}
+        </template>
+
+        <template #category="{data}">
+            {{ data.row.category.title }}
+        </template>
+
+        <template #sum="{data}">
+            {{ $filters.formatMoney(data.row.sum) }}
+        </template>
+
+        <template #total="{data}">
+            {{ $filters.formatMoney(data.row.total) }}
+        </template>
+
+        <template #user="{data}">
+            {{ data.row.user ? data.row.user.name : '-' }}
+        </template>
+
+        <template #actions="{data}">
+            <a href="javascript:" @click="$emit('onDestroy',data.row.id)">
+                <XCircle/>
+            </a>
+        </template>
+    </Table>
+</template>

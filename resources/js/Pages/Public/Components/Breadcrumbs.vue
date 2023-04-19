@@ -1,3 +1,8 @@
+<script setup>
+const props = defineProps(['breadcrumbs']);
+const isLastBreadcrumb = (index) => index === props.breadcrumbs.length - 1;
+</script>
+
 <template>
     <div>
         <ol class="inline-flex items-center overflow-x-scroll whitespace-nowrap w-full breadcrumbs font-subheading text-sm">
@@ -30,8 +35,3 @@
         <hr class="mb-5">
     </div>
 </template>
-
-<script setup>
-const props = defineProps(['breadcrumbs']);
-const isLastBreadcrumb = (index) => index === props.breadcrumbs.length - 1;
-</script>

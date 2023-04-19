@@ -1,21 +1,3 @@
-<template>
-    <Modal @closeModal="$emit('closeModal')"
-           :decline-button="canDestroy"
-           @declineForm="$emit('declineForm',product.id)"
-           @submitForm="$emit('submitForm')"
-           @clickCancel="$emit('closeModal')"
-           size="extralarge"
-    >
-        <template #title>{{ formHeading }}</template>
-        <template #content>
-            <ProductForm :product="item"
-                         @setProductImages="setProductImages"
-                         @destroyImage="destroyImage"
-            />
-        </template>
-    </Modal>
-</template>
-
 <script setup>
 import Modal from '@/Components/Modal.vue';
 import ProductForm from '@/Pages/Admin/Content/Products/Form.vue';
@@ -54,3 +36,21 @@ const destroyImage = (image) => {
 }
 
 </script>
+
+<template>
+    <Modal @closeModal="$emit('closeModal')"
+           :decline-button="canDestroy"
+           @declineForm="$emit('declineForm',product.id)"
+           @submitForm="$emit('submitForm')"
+           @clickCancel="$emit('closeModal')"
+           size="extralarge"
+    >
+        <template #title>{{ formHeading }}</template>
+        <template #content>
+            <ProductForm :product="item"
+                         @setProductImages="setProductImages"
+                         @destroyImage="destroyImage"
+            />
+        </template>
+    </Modal>
+</template>

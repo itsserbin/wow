@@ -1,3 +1,9 @@
+<script setup>
+import {Link} from "@inertiajs/inertia-vue3";
+
+defineProps(['lang', 'data'])
+</script>
+
 <template>
     <div>
         <div class="grid gap-4 grid-cols-2 md:grid-cols-8" v-if="data.length">
@@ -23,9 +29,3 @@
         </div>
     </div>
 </template>
-
-<script setup>
-import {Link} from "@inertiajs/inertia-vue3";
-
-defineProps(['lang', 'data'])
-</script>

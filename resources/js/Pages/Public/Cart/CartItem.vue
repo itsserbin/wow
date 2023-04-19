@@ -1,3 +1,28 @@
+<script setup>
+import {useStore} from "vuex";
+
+const props = defineProps(['item', 'productRoute']);
+const store = useStore();
+
+function removeFromCart() {
+    axios.delete(route('api.v1.cart.delete', props.item.id))
+        .then(() => store.commit('loadCart'))
+        .catch((response) => console.log(response));
+}
+
+function decrement() {
+    axios.post(route('api.v1.cart.update.decrement', props.item.id))
+        .then(() => store.commit('loadCart'))
+        .catch((response) => console.log(response));
+}
+
+function increment() {
+    axios.post(route('api.v1.cart.update.increment', props.item.id))
+        .then(() => store.commit('loadCart'))
+        .catch((response) => console.log(response));
+}
+</script>
+
 <template>
     <div class="mb-3">
         <div class="grid grid-cols-8 border-[1px] border-gray-300 rounded-[10px] relative">
@@ -89,28 +114,3 @@
         </div>
     </div>
 </template>
-
-<script setup>
-import {useStore} from "vuex";
-
-const props = defineProps(['item', 'productRoute']);
-const store = useStore();
-
-function removeFromCart() {
-    axios.delete(route('api.v1.cart.delete', props.item.id))
-        .then(() => store.commit('loadCart'))
-        .catch((response) => console.log(response));
-}
-
-function decrement() {
-    axios.post(route('api.v1.cart.update.decrement', props.item.id))
-        .then(() => store.commit('loadCart'))
-        .catch((response) => console.log(response));
-}
-
-function increment() {
-    axios.post(route('api.v1.cart.update.increment', props.item.id))
-        .then(() => store.commit('loadCart'))
-        .catch((response) => console.log(response));
-}
-</script>

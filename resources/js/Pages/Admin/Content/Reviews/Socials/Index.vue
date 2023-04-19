@@ -1,44 +1,14 @@
-<template>
-    <ReviewsLayout title="Відгуки про товар">
-        <template #header>
-            Відгуки про товар
-        </template>
-
-        <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading && can('show-reviews')">
-            <button-component type="btn" @click="create" v-if="can('create-reviews')">
-                Додати
-            </button-component>
-
-            <Table :data="state.reviews.data"
-                   @onEdit="onEdit"
-                   @onDestroy="onDestroy"
-                   :canDestroy="can('destroy-reviews')"
-            />
-
-            <pagination :pagination="state.reviews"
-                        :click-handler="fetch"
-                        v-model="state.currentPage"
-            />
-            <component :is="activeModal"
-                       :item="state.item"
-                       @closeModal="modalFunction"
-                       @submitForm="submitForm"
-                       @declineForm="onDestroy"
-                       :canDestroy="can('destroy-reviews')"
-            ></component>
-        </div>
-    </ReviewsLayout>
-</template>
-
 <script setup>
 import {reactive, onMounted, inject, ref, computed} from "vue";
+import {swal} from "@/Includes/swal";
+
+import Loader from '@/Components/Loader.vue';
+import Button from '@/Components/Button.vue';
+import Paginate from '@/Components/Paginate.vue';
 import SocialReviewModal from '@/Pages/Admin/Content/Reviews/Socials/Modal.vue';
 import ReviewsLayout from '@/Pages/Admin/Content/Reviews/ReviewsLayout.vue';
 import Table from '@/Pages/Admin/Content/Reviews/Socials/Table.vue'
 
-
-const swal = inject('$swal')
 const can = inject('$can');
 
 const item = reactive({
@@ -185,3 +155,36 @@ function create() {
     }
 }
 </script>
+
+<template>
+    <ReviewsLayout title="Відгуки про товар">
+        <template #header>
+            Відгуки про товар
+        </template>
+
+        <Loader v-if="state.isLoading"/>
+        <div v-if="!state.isLoading && can('show-reviews')">
+            <Button type="btn" @click="create" v-if="can('create-reviews')">
+                Додати
+            </Button>
+
+            <Table :data="state.reviews.data"
+                   @onEdit="onEdit"
+                   @onDestroy="onDestroy"
+                   :canDestroy="can('destroy-reviews')"
+            />
+
+            <Paginate :pagination="state.reviews"
+                      :click-handler="fetch"
+                      v-model="state.currentPage"
+            />
+            <component :is="activeModal"
+                       :item="state.item"
+                       @closeModal="modalFunction"
+                       @submitForm="submitForm"
+                       @declineForm="onDestroy"
+                       :canDestroy="can('destroy-reviews')"
+            ></component>
+        </div>
+    </ReviewsLayout>
+</template>

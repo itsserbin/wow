@@ -1,3 +1,8 @@
+<script setup>
+defineProps(['modelValue', 'placeholder', 'rows']);
+defineEmits(['update:modelValue']);
+</script>
+
 <template>
     <textarea :value="modelValue"
               @input="$emit('update:modelValue', $event.target.value)"
@@ -20,8 +25,3 @@
                 "
     ></textarea>
 </template>
-
-<script setup>
-defineProps(['modelValue', 'placeholder', 'rows']);
-defineEmits(['update:modelValue']);
-</script>

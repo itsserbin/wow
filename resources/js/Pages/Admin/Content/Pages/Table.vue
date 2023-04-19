@@ -1,43 +1,3 @@
-<template>
-    <LangTabs @clickLang="changeLang"/>
-
-    <Table :headings="headings"
-           :isSlotMode="true"
-           :rows="data"
-    >
-        <template #id="{data}">
-            <a href="javascript:" @click="$emit('onEdit', data.row.id,data.i)">
-                {{ data.row.id }}
-            </a>
-        </template>
-
-        <template #heading="{data}">
-            {{ data.row.heading[activeLang] }}
-        </template>
-
-        <template #h1="{data}">
-            {{ data.row.h1[activeLang] }}
-        </template>
-
-        <template #published="{data}">
-            {{ $filters.publishedStatus(data.row.published) }}
-        </template>
-
-        <template #timestamps="{data}">
-            {{ $filters.dateTimeFormat(data.row.updated_at) }}
-            <hr class="my-1">
-            {{ $filters.dateTimeFormat(data.row.created_at) }}
-        </template>
-
-        <template #actions="{data}">
-            <a href="javascript:" @click="$emit('onDestroy', data.row.id)" v-if="canDestroy">
-                <XCircle/>
-            </a>
-        </template>
-    </Table>
-</template>
-
-
 <script setup>
 import LangTabs from '@/Components/LangTabs.vue';
 import Table from '@/Components/Table.vue';
@@ -86,3 +46,42 @@ const changeLang = (val) => {
     activeLang.value = val;
 }
 </script>
+
+<template>
+    <LangTabs @clickLang="changeLang"/>
+
+    <Table :headings="headings"
+           :isSlotMode="true"
+           :rows="data"
+    >
+        <template #id="{data}">
+            <a href="javascript:" @click="$emit('onEdit', data.row.id,data.i)">
+                {{ data.row.id }}
+            </a>
+        </template>
+
+        <template #heading="{data}">
+            {{ data.row.heading[activeLang] }}
+        </template>
+
+        <template #h1="{data}">
+            {{ data.row.h1[activeLang] }}
+        </template>
+
+        <template #published="{data}">
+            {{ $filters.publishedStatus(data.row.published) }}
+        </template>
+
+        <template #timestamps="{data}">
+            {{ $filters.dateTimeFormat(data.row.updated_at) }}
+            <hr class="my-1">
+            {{ $filters.dateTimeFormat(data.row.created_at) }}
+        </template>
+
+        <template #actions="{data}">
+            <a href="javascript:" @click="$emit('onDestroy', data.row.id)" v-if="canDestroy">
+                <XCircle/>
+            </a>
+        </template>
+    </Table>
+</template>

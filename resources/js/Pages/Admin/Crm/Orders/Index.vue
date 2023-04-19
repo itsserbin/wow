@@ -1,86 +1,10 @@
-<template>
-    <CrmLayout title="Замовлення">
-        <template #header>
-            Замовлення
-        </template>
-
-        <Loader v-if="state.isLoading"/>
-
-        <div v-if="!state.isLoading && can('show-orders')">
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-                <div class="md:col-span-1 gap-4">
-                    <Sidebar class="mb-5">
-                        <SidebarItem v-if="sidebar.length"
-                                     v-for="item in sidebar"
-                                     @click="sortByStatus(item.key)"
-                                     :active="state.sidebarActive === item.key"
-                        >
-                            {{ item.title }}
-                        </SidebarItem>
-                    </Sidebar>
-
-                    <Sidebar v-if="can('export-orders')">
-                        <SidebarItem v-if="exportSidebar.length"
-                                     v-for="item in exportSidebar"
-                                     @click="exportFunction(item.key)"
-                        >
-                            {{ item.title }}
-                        </SidebarItem>
-                    </Sidebar>
-                </div>
-                <div class="w-full md:col-span-4 grid gap-4 grid-cols-1">
-                    <Search @search="search"
-                            :clear="true"
-                            placeholder="Імʼя, прізвище, телефон, накладка, коментар..."
-                    />
-                    <Table v-if="state.orders"
-                           :data="state.orders.data"
-                           @onEdit="onEdit"
-                           @onDestroy="destroy"
-                           @orderBy="orderBy"
-                           :statuses="statuses"
-                           :canDestroy="can('destroy-orders')"
-                    />
-                    <div class="text-center">
-                        <Paginate v-if="state.orders"
-                                  :pagination="state.orders"
-                                  :click-handler="paginate"
-                                  v-model="state.currentPage"
-                        />
-                    </div>
-                </div>
-            </div>
-
-
-            <component :is="editModal"
-                       :order="state.orderModal"
-                       :statuses="props.statuses"
-                       :invoiceStatuses="props.invoiceStatuses"
-                       :paymentMethods="props.payment_methods"
-                       :clientStatuses="props.clientStatuses"
-                       size="extralarge"
-                       @closeModal="editModalFunction"
-                       @declineForm="destroy"
-                       @submitForm="onUpdate"
-                       @submitItemForm="submitItemForm"
-                       :canDestroy="can('destroy-orders')"
-                       @onEditClient="onEditClient"
-            ></component>
-
-            <component :is="clientModal"
-                       :item="state.clientModal"
-                       :statuses="state.clientsStatuses"
-                       :sub-statuses="state.clientsSubStatuses"
-                       size="extralarge"
-                       @closeModal="modalClientFunction"
-                       @submitForm="onUpdateClient"
-            ></component>
-        </div>
-    </CrmLayout>
-</template>
-
 <script setup>
 import {computed, inject, onMounted, ref} from "vue";
+import {swal} from "@/Includes/swal";
+import {OrdersRepository} from '@/Repositories/OrdersRepository.js';
+import ClientsRepository from '@/Repositories/ClientsRepository.js';
+import _ from 'lodash';
+
 import Paginate from '@/Components/Paginate.vue';
 import Search from '@/Components/Search.vue';
 import Loader from '@/Components/Loader.vue';
@@ -90,9 +14,6 @@ import ClientModal from '@/Pages/Admin/Crm/Clients/Modal.vue';
 import OrderModal from '@/Pages/Admin/Crm/Orders/Modal.vue';
 import Table from '@/Pages/Admin/Crm/Orders/Table.vue';
 import CrmLayout from '@/Pages/Admin/Crm/CrmLayout.vue';
-import {OrdersRepository} from '@/Repositories/OrdersRepository.js';
-import ClientsRepository from '@/Repositories/ClientsRepository.js';
-import _ from 'lodash';
 
 const state = ref({
     orders: [],
@@ -121,7 +42,6 @@ const props = defineProps([
     'clientStatuses'
 ]);
 
-const swal = inject('$swal')
 const can = inject('$can');
 
 const params = ref({
@@ -362,3 +282,84 @@ const editModalFunction = () => {
     state.value.isActiveEditModal = !state.value.isActiveEditModal;
 }
 </script>
+
+<template>
+    <CrmLayout title="Замовлення">
+        <template #header>
+            Замовлення
+        </template>
+
+        <Loader v-if="state.isLoading"/>
+
+        <div v-if="!state.isLoading && can('show-orders')">
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                <div class="md:col-span-1 gap-4">
+                    <Sidebar class="mb-5">
+                        <SidebarItem v-if="sidebar.length"
+                                     v-for="item in sidebar"
+                                     @click="sortByStatus(item.key)"
+                                     :active="state.sidebarActive === item.key"
+                        >
+                            {{ item.title }}
+                        </SidebarItem>
+                    </Sidebar>
+
+                    <Sidebar v-if="can('export-orders')">
+                        <SidebarItem v-if="exportSidebar.length"
+                                     v-for="item in exportSidebar"
+                                     @click="exportFunction(item.key)"
+                        >
+                            {{ item.title }}
+                        </SidebarItem>
+                    </Sidebar>
+                </div>
+                <div class="w-full md:col-span-4 grid gap-4 grid-cols-1">
+                    <Search @search="search"
+                            :clear="true"
+                            placeholder="Імʼя, прізвище, телефон, накладка, коментар..."
+                    />
+                    <Table v-if="state.orders"
+                           :data="state.orders.data"
+                           @onEdit="onEdit"
+                           @onDestroy="destroy"
+                           @orderBy="orderBy"
+                           :statuses="statuses"
+                           :canDestroy="can('destroy-orders')"
+                    />
+                    <div class="text-center">
+                        <Paginate v-if="state.orders"
+                                  :pagination="state.orders"
+                                  :click-handler="paginate"
+                                  v-model="state.currentPage"
+                        />
+                    </div>
+                </div>
+            </div>
+
+
+            <component :is="editModal"
+                       :order="state.orderModal"
+                       :statuses="props.statuses"
+                       :invoiceStatuses="props.invoiceStatuses"
+                       :paymentMethods="props.payment_methods"
+                       :clientStatuses="props.clientStatuses"
+                       size="extralarge"
+                       @closeModal="editModalFunction"
+                       @declineForm="destroy"
+                       @submitForm="onUpdate"
+                       @submitItemForm="submitItemForm"
+                       :canDestroy="can('destroy-orders')"
+                       @onEditClient="onEditClient"
+            ></component>
+
+            <component :is="clientModal"
+                       :item="state.clientModal"
+                       :statuses="state.clientsStatuses"
+                       :sub-statuses="state.clientsSubStatuses"
+                       size="extralarge"
+                       @closeModal="modalClientFunction"
+                       @submitForm="onUpdateClient"
+            ></component>
+        </div>
+    </CrmLayout>
+</template>

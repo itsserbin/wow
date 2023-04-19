@@ -1,45 +1,14 @@
-<template>
-    <OptionsLayout title="Кольори">
-        <template #header>
-            Кольори
-        </template>
-
-        <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading && can('show-sizes')">
-            <button-component type="btn" @click="create" v-if="can('create-providers')">
-                Додати
-            </button-component>
-
-            <Table :data="state.sizes.data"
-                   @onEdit="onEdit"
-                   @onDestroy="onDestroy"
-                   :canDestroy="can('destroy-sizes')"
-            />
-
-
-            <pagination :pagination="state.sizes"
-                        :click-handler="fetch"
-                        v-model="state.currentPage"
-            />
-            <component :is="activeModal"
-                       :item="state.item"
-                       @closeModal="modalFunction"
-                       @submitForm="submitForm"
-                       @declineForm="onDestroy"
-                       :canDestroy="can('destroy-sizes')"
-            ></component>
-        </div>
-    </OptionsLayout>
-</template>
-
 <script setup>
-import {reactive, onMounted, inject, ref, computed} from "vue";
+import {onMounted, inject, ref, computed} from "vue";
+import {swal} from "@/Includes/swal";
+
 import ColorModal from '@/Pages/Admin/Options/Sizes/Modal.vue';
 import OptionsLayout from '@/Pages/Admin/Options/OptionsLayout.vue';
 import Table from '@/Pages/Admin/Options/Sizes/Table.vue';
+import Loader from '@/Components/Loader.vue';
+import Button from '@/Components/Button.vue';
+import Paginate from '@/Components/Paginate.vue';
 
-
-const swal = inject('$swal')
 const can = inject('$can');
 
 const item = ({
@@ -187,3 +156,37 @@ function create() {
     }
 }
 </script>
+
+<template>
+    <OptionsLayout title="Кольори">
+        <template #header>
+            Кольори
+        </template>
+
+        <Loader v-if="state.isLoading"/>
+        <div v-if="!state.isLoading && can('show-sizes')">
+            <Button type="btn" @click="create" v-if="can('create-providers')">
+                Додати
+            </Button>
+
+            <Table :data="state.sizes.data"
+                   @onEdit="onEdit"
+                   @onDestroy="onDestroy"
+                   :canDestroy="can('destroy-sizes')"
+            />
+
+
+            <Paginate :pagination="state.sizes"
+                      :click-handler="fetch"
+                      v-model="state.currentPage"
+            />
+            <component :is="activeModal"
+                       :item="state.item"
+                       @closeModal="modalFunction"
+                       @submitForm="submitForm"
+                       @declineForm="onDestroy"
+                       :canDestroy="can('destroy-sizes')"
+            ></component>
+        </div>
+    </OptionsLayout>
+</template>

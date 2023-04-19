@@ -1,3 +1,10 @@
+<script setup>
+import {useStore} from "vuex";
+import Button from '@/Pages/Public/Components/Button.vue';
+
+const store = useStore();
+</script>
+
 <template>
     <div class="
                 rounded-[15px]
@@ -45,10 +52,3 @@
         </div>
     </div>
 </template>
-
-<script setup>
-import {useStore} from "vuex";
-import Button from '@/Pages/Public/Components/Button.vue';
-
-const store = useStore();
-</script>

@@ -1,3 +1,22 @@
+<script setup>
+import Accordion from "@/Pages/Public/Components/Accordion/Accordion.vue";
+import AccordionItem from "@/Pages/Public/Components/Accordion/AccordionItem.vue";
+
+defineProps({
+    data: {
+        type: Array
+    },
+    lang: {
+        type: String,
+        default: 'ua'
+    },
+    textFaqHeading: {
+        type: String,
+        default: 'FAQ'
+    },
+});
+</script>
+
 <template>
     <div class="w-[100%]" v-if="data.length">
         <div class="flex flex-row justify-center mb-3">
@@ -17,22 +36,3 @@
         </div>
     </div>
 </template>
-
-<script setup>
-import Accordion from "@/Pages/Public/Components/Accordion/Accordion.vue";
-import AccordionItem from "@/Pages/Public/Components/Accordion/AccordionItem.vue";
-
-defineProps({
-    data: {
-        type: Array
-    },
-    lang: {
-        type: String,
-        default: 'ua'
-    },
-    textFaqHeading: {
-        type: String,
-        default: 'FAQ'
-    },
-});
-</script>

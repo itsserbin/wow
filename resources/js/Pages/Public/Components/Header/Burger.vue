@@ -1,3 +1,21 @@
+<script setup>
+import {defineAsyncComponent, ref} from "vue";
+
+const BurgerMenu = defineAsyncComponent(() => import('./BurgerMenu.vue'));
+
+defineProps([
+    'lang',
+    'pages',
+    'options'
+]);
+
+const show = ref(false);
+
+function showFunction() {
+    show.value = !show.value;
+}
+</script>
+
 <template>
     <div class="burger__sticks
                 justify-end
@@ -32,21 +50,3 @@
     </transition>
 
 </template>
-
-<script setup>
-import {defineAsyncComponent, ref} from "vue";
-
-const BurgerMenu = defineAsyncComponent(() => import('./BurgerMenu.vue'));
-
-defineProps([
-    'lang',
-    'pages',
-    'options'
-]);
-
-const show = ref(false);
-
-function showFunction() {
-    show.value = !show.value;
-}
-</script>

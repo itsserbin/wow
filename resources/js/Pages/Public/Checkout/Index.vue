@@ -1,32 +1,3 @@
-<template>
-    <Head title="Оформлення замовлення"/>
-
-    <form @submit.prevent="sendOrder">
-        <div class="grid grid-cols-1 md:grid-cols-2 relative gap-4">
-            <div>
-                <PersonalData :order="state.order" :errors="state.errors"/>
-                <Delivery :order="state.order"/>
-                <Payment :order="state.order"/>
-                <Comment :order="state.order"/>
-            </div>
-            <div class="">
-                <div class="cart-item__right row mb-3">
-                    <h3 class="text-2xl font-heading mb-[1rem]">Замовлення</h3>
-
-                    <div class="grid gap-4">
-                        <OrderItem v-for="item in store.state.list"
-                                   :item="item"
-                                   @removeFromCart="removeFromCart"
-                        />
-                    </div>
-                    <Loader v-if="state.isLoading"/>
-                    <CheckoutTotal v-if="!state.isLoading"/>
-                </div>
-            </div>
-        </div>
-    </form>
-</template>
-
 <script setup>
 import Wayforpay from '@/Includes/WfpPayWidget';
 import Loader from '@/Pages/Public/Components/Loader.vue';
@@ -292,3 +263,32 @@ function removeFromCart() {
 
 }
 </script>
+
+<template>
+    <Head title="Оформлення замовлення"/>
+
+    <form @submit.prevent="sendOrder">
+        <div class="grid grid-cols-1 md:grid-cols-2 relative gap-4">
+            <div>
+                <PersonalData :order="state.order" :errors="state.errors"/>
+                <Delivery :order="state.order"/>
+                <Payment :order="state.order"/>
+                <Comment :order="state.order"/>
+            </div>
+            <div class="">
+                <div class="cart-item__right row mb-3">
+                    <h3 class="text-2xl font-heading mb-[1rem]">Замовлення</h3>
+
+                    <div class="grid gap-4">
+                        <OrderItem v-for="item in store.state.list"
+                                   :item="item"
+                                   @removeFromCart="removeFromCart"
+                        />
+                    </div>
+                    <Loader v-if="state.isLoading"/>
+                    <CheckoutTotal v-if="!state.isLoading"/>
+                </div>
+            </div>
+        </div>
+    </form>
+</template>

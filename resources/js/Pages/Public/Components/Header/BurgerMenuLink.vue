@@ -1,3 +1,7 @@
+<script setup>
+defineProps(['href'])
+</script>
+
 <template>
     <a :href="href"
        class="
@@ -24,7 +28,3 @@
         <slot></slot>
     </a>
 </template>
-
-<script setup>
-defineProps(['href'])
-</script>

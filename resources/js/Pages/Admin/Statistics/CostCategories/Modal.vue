@@ -1,22 +1,7 @@
-<template>
-    <modal-component @closeModal="$emit('closeModal')"
-                     submit-button-text="Save"
-                     cancel-button-text="Cancel"
-                     decline-button-text="Destroy"
-                     @declineForm="declineForm"
-                     @submitForm="$emit('submitForm')"
-                     @clickCancel="$emit('closeModal')"
-                     size="medium"
-    >
-        <template #title>{{ formHeading }}</template>
-        <template #content>
-            <CostCategoryForm :item="item"/>
-        </template>
-    </modal-component>
-</template>
-
 <script setup>
+import Modal from '@/Components/Modal.vue';
 import CostCategoryForm from '@/Pages/Admin/Statistics/CostCategories/Form.vue';
+
 import {computed} from "vue";
 
 const props = defineProps([
@@ -37,3 +22,20 @@ function declineForm() {
     emits('declineForm', props.item.id);
 }
 </script>
+
+<template>
+    <Modal @closeModal="$emit('closeModal')"
+           submit-button-text="Save"
+           cancel-button-text="Cancel"
+           decline-button-text="Destroy"
+           @declineForm="declineForm"
+           @submitForm="$emit('submitForm')"
+           @clickCancel="$emit('closeModal')"
+           size="medium"
+    >
+        <template #title>{{ formHeading }}</template>
+        <template #content>
+            <CostCategoryForm :item="item"/>
+        </template>
+    </Modal>
+</template>

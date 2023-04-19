@@ -1,44 +1,3 @@
-<template>
-    <div class="grid grid-cols-1 gap-4">
-        <div class="border-b border-red-200 dark:border-red-700">
-            <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-main">
-                <li class="mr-2" v-for="item in items" @click="setActiveTab(item.key,item.value,item.class)">
-                    <a href="javascript:"
-                       class="
-                            inline-flex
-                            p-4
-                            border-b-2
-                            border-transparent
-                            rounded-t-lg
-                            hover:text-accent
-                            hover:border-accent
-                            group
-                            font-subheading
-                            text-base
-                        "
-                       :class="{'text-red-600 border-red-600' : state.active === item.key}"
-                    >
-                        {{ item.label }}
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-        <div v-html="state.content"
-             :class="state.class"
-             v-if="state.active !== 'characteristics' && state.active !== 'youtube'"
-        ></div>
-
-        <iframe width="100%"
-                height="500px"
-                :src="state.content"
-                v-if="state.active === 'youtube'"
-        ></iframe>
-
-        <component :is="isActiveCharacteristic" :items="characteristics" :lang="lang"></component>
-    </div>
-</template>
-
 <script setup>
 import {computed, ref} from "vue";
 import Characteristic from '@/Pages/Public/Product/Characteristics.vue'
@@ -144,3 +103,44 @@ const setActiveTab = (key, val, style) => {
     state.value.class = style;
 };
 </script>
+
+<template>
+    <div class="grid grid-cols-1 gap-4">
+        <div class="border-b border-red-200 dark:border-red-700">
+            <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-main">
+                <li class="mr-2" v-for="item in items" @click="setActiveTab(item.key,item.value,item.class)">
+                    <a href="javascript:"
+                       class="
+                            inline-flex
+                            p-4
+                            border-b-2
+                            border-transparent
+                            rounded-t-lg
+                            hover:text-accent
+                            hover:border-accent
+                            group
+                            font-subheading
+                            text-base
+                        "
+                       :class="{'text-red-600 border-red-600' : state.active === item.key}"
+                    >
+                        {{ item.label }}
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div v-html="state.content"
+             :class="state.class"
+             v-if="state.active !== 'characteristics' && state.active !== 'youtube'"
+        ></div>
+
+        <iframe width="100%"
+                height="500px"
+                :src="state.content"
+                v-if="state.active === 'youtube'"
+        ></iframe>
+
+        <component :is="isActiveCharacteristic" :items="characteristics" :lang="lang"></component>
+    </div>
+</template>

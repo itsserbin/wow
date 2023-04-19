@@ -1,3 +1,23 @@
+<script setup>
+import {onMounted, ref} from "vue";
+
+const props = defineProps(['data', 'activeItem', 'classes']);
+
+const active = ref(null);
+const emits = defineEmits(['clickTab']);
+
+onMounted(() => {
+    if (props.activeItem) {
+        active.value = props.activeItem;
+    }
+})
+
+function clickTab(val) {
+    active.value = val;
+    emits('clickTab', val)
+}
+</script>
+
 <template>
     <ul class="
                 flex
@@ -24,23 +44,3 @@
         </li>
     </ul>
 </template>
-
-<script setup>
-import {onMounted, ref} from "vue";
-
-const props = defineProps(['data', 'activeItem', 'classes']);
-
-const active = ref(null);
-const emits = defineEmits(['clickTab']);
-
-onMounted(() => {
-    if (props.activeItem) {
-        active.value = props.activeItem;
-    }
-})
-
-function clickTab(val) {
-    active.value = val;
-    emits('clickTab', val)
-}
-</script>

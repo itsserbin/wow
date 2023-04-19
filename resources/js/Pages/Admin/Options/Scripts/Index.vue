@@ -1,16 +1,10 @@
-<template>
-    <OptionsLayout>
-        <Form :options="state.options" @submitForm="onUpdate" v-if="can('show-scripts-options')"/>
-    </OptionsLayout>
-</template>
-
 <script setup>
 import OptionsLayout from '@/Pages/Admin/Options/OptionsLayout.vue'
 import Form from '@/Pages/Admin/Options/Scripts/Form.vue'
 import {inject, onMounted, ref} from "vue";
+import {swal} from "@/Includes/swal";
 
 const can = inject('$can');
-const swal = inject('$swal');
 
 const state = ref({
     options: {
@@ -43,3 +37,9 @@ function onUpdate() {
         });
 }
 </script>
+
+<template>
+    <OptionsLayout>
+        <Form :options="state.options" @submitForm="onUpdate" v-if="can('show-scripts-options')"/>
+    </OptionsLayout>
+</template>

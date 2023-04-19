@@ -1,40 +1,3 @@
-<template>
-    <ContentLayout :title="$t('pages.page_title')">
-        <template #header>{{ $t('pages.page_title') }}</template>
-
-        <Loader v-if="state.isLoading"/>
-        <div v-if="!state.isLoading && can('show-pages')" class="grid gap-4 grid-cols-1">
-            <div>
-                <Button type="btn" @click="create" v-if="can('create-pages')">
-                    {{ $t('add') }}
-                </Button>
-            </div>
-
-            <div>
-                <Table :data="state.data.data"
-                       @onEdit="onEdit"
-                       @onDestroy="onDestroy"
-                       :canDestroy="can('destroy-pages')"
-                />
-            </div>
-
-            <div class="text-center">
-                <Paginate :pagination="state.data"
-                          :click-handler="fetch"
-                          v-model="state.currentPage"
-                />
-            </div>
-        </div>
-        <component :is="activeModal"
-                   :item="state.item"
-                   @closeModal="modalFunction"
-                   @submitForm="submitForm"
-                   @declineForm="onDestroy"
-                   :canDestroy="can('destroy-pages')"
-        ></component>
-    </ContentLayout>
-</template>
-
 <script setup>
 import Loader from '@/Components/Loader.vue';
 import Button from '@/Components/Button.vue';
@@ -42,12 +5,12 @@ import Paginate from '@/Components/Paginate.vue';
 import Modal from '@/Pages/Admin/Content/Pages/Modal.vue';
 import Table from '@/Pages/Admin/Content/Pages/Table.vue'
 import ContentLayout from '@/Pages/Admin/Content/ContentLayout.vue'
+import {swal} from "@/Includes/swal";
 
 import {reactive, onMounted, inject, ref, computed} from "vue";
 import PagesRepository from "@/Repositories/PagesRepository";
 import {useI18n} from 'vue-i18n'
 
-const swal = inject('$swal')
 const can = inject('$can');
 const {t} = useI18n();
 
@@ -202,3 +165,40 @@ const create = () => {
     }
 }
 </script>
+
+<template>
+    <ContentLayout :title="$t('pages.page_title')">
+        <template #header>{{ $t('pages.page_title') }}</template>
+
+        <Loader v-if="state.isLoading"/>
+        <div v-if="!state.isLoading && can('show-pages')" class="grid gap-4 grid-cols-1">
+            <div>
+                <Button type="btn" @click="create" v-if="can('create-pages')">
+                    {{ $t('add') }}
+                </Button>
+            </div>
+
+            <div>
+                <Table :data="state.data.data"
+                       @onEdit="onEdit"
+                       @onDestroy="onDestroy"
+                       :canDestroy="can('destroy-pages')"
+                />
+            </div>
+
+            <div class="text-center">
+                <Paginate :pagination="state.data"
+                          :click-handler="fetch"
+                          v-model="state.currentPage"
+                />
+            </div>
+        </div>
+        <component :is="activeModal"
+                   :item="state.item"
+                   @closeModal="modalFunction"
+                   @submitForm="submitForm"
+                   @declineForm="onDestroy"
+                   :canDestroy="can('destroy-pages')"
+        ></component>
+    </ContentLayout>
+</template>

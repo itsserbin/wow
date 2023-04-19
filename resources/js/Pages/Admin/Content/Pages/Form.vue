@@ -1,3 +1,25 @@
+<script setup>
+import Label from '@/Components/Form/Label.vue';
+import Input from '@/Components/Form/Input.vue';
+import Textarea from '@/Components/Form/Textarea.vue';
+import Select from '@/Components/Form/Select.vue';
+import LangTabs from '@/Components/LangTabs.vue';
+import Editor from '@tinymce/tinymce-vue';
+
+import {inject, ref} from "vue";
+
+const props = defineProps(['item'])
+const tiny = inject('$tiny');
+const defaultLang = inject('$defaultLang');
+const publishedStatuses = inject('$publishedStatuses');
+
+const activeLang = ref(defaultLang);
+
+const changeLang = (val) => {
+    activeLang.value = val;
+}
+</script>
+
 <template>
     <form @submit.prevent="$emit('submit',item)" class="flex flex-col">
         <div class="grid grid-cols-3 mb-5 gap-4">
@@ -45,24 +67,3 @@
         </div>
     </form>
 </template>
-
-<script setup>
-import Label from '@/Components/Form/Label.vue';
-import Input from '@/Components/Form/Input.vue';
-import Textarea from '@/Components/Form/Textarea.vue';
-import Select from '@/Components/Form/Select.vue';
-import LangTabs from '@/Components/LangTabs.vue';
-
-import {inject, ref} from "vue";
-
-const props = defineProps(['item'])
-const tiny = inject('$tiny');
-const defaultLang = inject('$defaultLang');
-const publishedStatuses = inject('$publishedStatuses');
-
-const activeLang = ref(defaultLang);
-
-const changeLang = (val) => {
-    activeLang.value = val;
-}
-</script>

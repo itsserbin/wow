@@ -1,23 +1,3 @@
-<template>
-    <section class="my-5" v-if="data.length">
-        <div class="reviews__block-title font-bold text-2xl font-heading text-center text-black">
-            {{ textReviews }}
-        </div>
-        <Swiper :modules="modules" class="reviews-carousel" v-bind="settings">
-            <SwiperSlide v-for="review in data" class="text-center bg-red-100 rounded-xl p-5">
-                <div class="font-bold font-subheading">{{ review.name }}</div>
-                <hr class="bg-main shadow-lg rounded border-0 h-[1px] my-2">
-                <div class="text-base font-text">{{ review.comment }}</div>
-            </SwiperSlide>
-        </Swiper>
-        <div class="flex-row text-center">
-            <a :href="route('reviews')" target="_blank">
-                <Button type="button">{{ textSeeMore }}</Button>
-            </a>
-        </div>
-    </section>
-</template>
-
 <script setup>
 import {Pagination, Autoplay, EffectCoverflow} from "swiper";
 import {Swiper, SwiperSlide} from 'swiper/vue';
@@ -75,6 +55,26 @@ defineProps({
     }
 })
 </script>
+
+<template>
+    <section class="my-5" v-if="data.length">
+        <div class="reviews__block-title font-bold text-2xl font-heading text-center text-black">
+            {{ textReviews }}
+        </div>
+        <Swiper :modules="modules" class="reviews-carousel" v-bind="settings">
+            <SwiperSlide v-for="review in data" class="text-center bg-red-100 rounded-xl p-5">
+                <div class="font-bold font-subheading">{{ review.name }}</div>
+                <hr class="bg-main shadow-lg rounded border-0 h-[1px] my-2">
+                <div class="text-base font-text">{{ review.comment }}</div>
+            </SwiperSlide>
+        </Swiper>
+        <div class="flex-row text-center">
+            <a :href="route('reviews')" target="_blank">
+                <Button type="button">{{ textSeeMore }}</Button>
+            </a>
+        </div>
+    </section>
+</template>
 
 <style>
 .reviews-carousel .swiper-wrapper {

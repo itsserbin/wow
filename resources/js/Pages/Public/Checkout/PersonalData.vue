@@ -1,3 +1,12 @@
+<script setup>
+import Label from '@/Pages/Public/Components/Label.vue'
+import Input from '@/Pages/Public/Components/Input.vue'
+import InputError from '@/Components/Form/InputError.vue'
+import { vMaska } from "@/Includes/maska"
+
+defineProps(['order', 'errors'])
+</script>
+
 <template>
     <div class="
                 bg-[#fff]
@@ -55,12 +64,3 @@
         </div>
     </div>
 </template>
-
-<script setup>
-import Label from '@/Pages/Public/Components/Label.vue'
-import Input from '@/Pages/Public/Components/Input.vue'
-import InputError from '@/Components/Form/InputError.vue'
-import { vMaska } from "@/Includes/maska"
-
-defineProps(['order', 'errors'])
-</script>

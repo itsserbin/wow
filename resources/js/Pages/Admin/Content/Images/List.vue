@@ -1,3 +1,23 @@
+<script setup>
+import ImageCard from '@/Components/ImageCard.vue';
+
+const emits = defineEmits([
+    'fetch',
+    'clickImage',
+    'destroyImage'
+]);
+
+defineProps(['images'])
+
+const fetch = (data) => {
+    emits('fetch', data)
+}
+
+const destroyImage = (image) => {
+    emits('destroyImage', image);
+}
+</script>
+
 <template>
     <div class="grid grid-cols-2 md:grid-cols-6 gap-4 mt-3">
         <ImageCard
@@ -12,19 +32,3 @@
         />
     </div>
 </template>
-
-<script setup>
-import ImageCard from '@/Components/ImageCard.vue';
-
-const emits = defineEmits(['fetch', 'clickImage', 'destroyImage']);
-
-defineProps(['images'])
-
-const fetch = (data) => {
-    emits('fetch', data)
-}
-
-const destroyImage = (image) => {
-    emits('destroyImage', image);
-}
-</script>

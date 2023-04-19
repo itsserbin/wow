@@ -1,30 +1,6 @@
-<template>
-    <table-component
-        :isSlotMode="true"
-        :rows="data"
-        :headings="headings"
-    >
-        <template #id="{data}">
-            {{ data.row.id }}
-        </template>
-
-        <template #sum="{data}">
-            {{ $filters.formatMoney(data.row.sum) }}
-        </template>
-
-        <template #status="{data}">
-            {{ statuses[data.row.status] }}
-        </template>
-
-        <template #timestamp="{data}">
-            {{ $filters.dateFormat(data.row.created_at) }}
-            <br/>
-            {{ $filters.dateFormat(data.row.updated_at) }}
-        </template>
-    </table-component>
-</template>
-
 <script setup>
+import Table from '@/Components/Table.vue';
+
 defineProps(['data', 'statuses']);
 defineEmits(['editOrderItem', 'destroyOrderItem'])
 
@@ -52,3 +28,25 @@ const headings = [
 
 ];
 </script>
+
+<template>
+    <Table :isSlotMode="true" :rows="data" :headings="headings">
+        <template #id="{data}">
+            {{ data.row.id }}
+        </template>
+
+        <template #sum="{data}">
+            {{ $filters.formatMoney(data.row.sum) }}
+        </template>
+
+        <template #status="{data}">
+            {{ statuses[data.row.status] }}
+        </template>
+
+        <template #timestamp="{data}">
+            {{ $filters.dateFormat(data.row.created_at) }}
+            <br/>
+            {{ $filters.dateFormat(data.row.updated_at) }}
+        </template>
+    </Table>
+</template>

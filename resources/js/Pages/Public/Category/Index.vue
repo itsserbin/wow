@@ -1,51 +1,3 @@
-<template>
-    <Head :category="category" :lang="lang"/>
-
-    <Breadcrumbs :currentUrl="route().current" :options="options" :lang="lang" :title="category.title[lang]"/>
-
-    <div class="grid grid-cols-1 gap-4">
-
-        <Banners v-if="banners.length" :lang="lang" :data="banners"/>
-
-        <div class="flex justify-between md:justify-end items-center">
-            <div class="block md:hidden mr-2">
-                <Button type="button" @click="toggleFilter">Фільтрувати</Button>
-            </div>
-
-            <Sort v-model="params.sort" @sort="onSort"/>
-        </div>
-
-        <div class="grid grid-cols-12 gap-4">
-            <div :class="{'!block fixed h-full w-full z-50 overflow-y-scroll top-0 right-0' : state.isShowFilter}"
-                 class="filter hidden md:col-span-3 md:block"
-            >
-                <Filter v-if="Object.keys(characteristics).length"
-                        :characteristics="characteristics"
-                        :lang="lang"
-                        @fetch="filter"
-                        @close="toggleFilter"
-                        :isShow="state.isShowFilter"
-                />
-            </div>
-            <div class="products col-span-12 md:col-span-9">
-                <Products :lang="lang"
-                          :title="title"
-                          :data="state.products"
-                          :isLoadingMore="state.isLoadingMore"
-                          :isShowLoadMore="state.isShowLoadMore"
-                          @fetch="fetch"
-                          v-if="state.products.length"
-                />
-            </div>
-        </div>
-
-        <Content v-if="text" :data="text"/>
-
-        <Consultation v-if="consultation"/>
-        <Support v-if="!isLoading"/>
-    </div>
-</template>
-
 <script setup>
 import {isLoading} from "@/Pages/Public/load";
 import {computed, onMounted, ref} from "vue";
@@ -144,3 +96,51 @@ const toggleFilter = () => {
 }
 
 </script>
+
+<template>
+    <Head :category="category" :lang="lang"/>
+
+    <Breadcrumbs :currentUrl="route().current" :options="options" :lang="lang" :title="category.title[lang]"/>
+
+    <div class="grid grid-cols-1 gap-4">
+
+        <Banners v-if="banners.length" :lang="lang" :data="banners"/>
+
+        <div class="flex justify-between md:justify-end items-center">
+            <div class="block md:hidden mr-2">
+                <Button type="button" @click="toggleFilter">Фільтрувати</Button>
+            </div>
+
+            <Sort v-model="params.sort" @sort="onSort"/>
+        </div>
+
+        <div class="grid grid-cols-12 gap-4">
+            <div :class="{'!block fixed h-full w-full z-50 overflow-y-scroll top-0 right-0' : state.isShowFilter}"
+                 class="filter hidden md:col-span-3 md:block"
+            >
+                <Filter v-if="Object.keys(characteristics).length"
+                        :characteristics="characteristics"
+                        :lang="lang"
+                        @fetch="filter"
+                        @close="toggleFilter"
+                        :isShow="state.isShowFilter"
+                />
+            </div>
+            <div class="products col-span-12 md:col-span-9">
+                <Products :lang="lang"
+                          :title="title"
+                          :data="state.products"
+                          :isLoadingMore="state.isLoadingMore"
+                          :isShowLoadMore="state.isShowLoadMore"
+                          @fetch="fetch"
+                          v-if="state.products.length"
+                />
+            </div>
+        </div>
+
+        <Content v-if="text" :data="text"/>
+
+        <Consultation v-if="consultation"/>
+        <Support v-if="!isLoading"/>
+    </div>
+</template>

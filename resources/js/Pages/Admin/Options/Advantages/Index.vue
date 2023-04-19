@@ -1,45 +1,14 @@
-<template>
-    <OptionsLayout title="Переваги">
-        <template #header>
-            Переваги
-        </template>
-
-        <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading && can('show-advantages')">
-            <button-component type="btn" @click="create" v-if="can('create-advantages')">
-                Додати
-            </button-component>
-
-
-            <Table :data="state.data.data"
-                   @onEdit="onEdit"
-                   @onDestroy="onDestroy"
-                   :canDestroy="can('destroy-advantages')"
-            />
-
-            <pagination :pagination="state.data"
-                        :click-handler="fetch"
-                        v-model="state.currentPage"
-            />
-            <component :is="activeModal"
-                       :item="state.item"
-                       @closeModal="modalFunction"
-                       @submitForm="submitForm"
-                       @declineForm="onDestroy"
-                       :canDestroy="can('destroy-advantages')"
-            ></component>
-        </div>
-    </OptionsLayout>
-</template>
-
 <script setup>
 import {reactive, onMounted, inject, ref, computed} from "vue";
+import {swal} from "@/Includes/swal";
+
+import Button from '@/Components/Button.vue';
+import Loader from '@/Components/Loader.vue';
+import Paginate from '@/Components/Paginate.vue';
 import Modal from '@/Pages/Admin/Options/Advantages/Modal.vue';
 import OptionsLayout from '@/Pages/Admin/Options/OptionsLayout.vue'
 import Table from '@/Pages/Admin/Options/Advantages/Table.vue';
 
-
-const swal = inject('$swal')
 const can = inject('$can');
 
 const item = reactive({
@@ -191,3 +160,37 @@ function create() {
 }
 
 </script>
+
+<template>
+    <OptionsLayout title="Переваги">
+        <template #header>
+            Переваги
+        </template>
+
+        <Loader v-if="state.isLoading"/>
+        <div v-if="!state.isLoading && can('show-advantages')">
+            <Button type="btn" @click="create" v-if="can('create-advantages')">
+                Додати
+            </Button>
+
+
+            <Table :data="state.data.data"
+                   @onEdit="onEdit"
+                   @onDestroy="onDestroy"
+                   :canDestroy="can('destroy-advantages')"
+            />
+
+            <Paginate :pagination="state.data"
+                      :click-handler="fetch"
+                      v-model="state.currentPage"
+            />
+            <component :is="activeModal"
+                       :item="state.item"
+                       @closeModal="modalFunction"
+                       @submitForm="submitForm"
+                       @declineForm="onDestroy"
+                       :canDestroy="can('destroy-advantages')"
+            ></component>
+        </div>
+    </OptionsLayout>
+</template>

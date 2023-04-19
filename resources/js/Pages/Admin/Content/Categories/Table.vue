@@ -1,49 +1,3 @@
-<template>
-    <div>
-        <LangTabs @clickLang="changeLang"/>
-
-        <Table :headings="headings"
-               :isSlotMode="true"
-               :rows="data"
-        >
-            <template #id="{data}">
-                <a href="javascript:" @click="$emit('onEdit',data.row.id,data.i)">
-                    {{ data.row.id }}
-                </a>
-            </template>
-
-            <template #preview="{data}">
-                <img :src="data.row.preview_id ? route('images.55', data.row.preview.src) : null"
-                     :alt="data.row.title[activeLang]"
-                     class="mx-auto w-16"
-                >
-            </template>
-
-            <template #title="{data}">
-                <a href="javascript:">
-                    {{ data.row.title[activeLang] }}
-                </a>
-            </template>
-
-            <template #published="{data}">
-                {{ $filters.publishedStatus(data.row.published) }}
-            </template>
-
-            <template #timestamps="{data}">
-                {{ $filters.dateTimeFormat(data.row.updated_at) }}
-                <hr class="my-1">
-                {{ $filters.dateTimeFormat(data.row.created_at) }}
-            </template>
-
-            <template #actions="{data}">
-                <a href="javascript:" @click="$emit('onDestroy',data.row.id)" v-if="canDestroy">
-                    <XCircle/>
-                </a>
-            </template>
-        </Table>
-    </div>
-</template>
-
 <script setup>
 import LangTabs from '@/Components/LangTabs.vue';
 import Table from '@/Components/Table.vue';
@@ -98,3 +52,49 @@ const changeLang = (val) => {
     activeLang.value = val;
 }
 </script>
+
+<template>
+    <div>
+        <LangTabs @clickLang="changeLang"/>
+
+        <Table :headings="headings"
+               :isSlotMode="true"
+               :rows="data"
+        >
+            <template #id="{data}">
+                <a href="javascript:" @click="$emit('onEdit',data.row.id,data.i)">
+                    {{ data.row.id }}
+                </a>
+            </template>
+
+            <template #preview="{data}">
+                <img :src="data.row.preview_id ? route('images.55', data.row.preview.src) : null"
+                     :alt="data.row.title[activeLang]"
+                     class="mx-auto w-16"
+                >
+            </template>
+
+            <template #title="{data}">
+                <a href="javascript:">
+                    {{ data.row.title[activeLang] }}
+                </a>
+            </template>
+
+            <template #published="{data}">
+                {{ $filters.publishedStatus(data.row.published) }}
+            </template>
+
+            <template #timestamps="{data}">
+                {{ $filters.dateTimeFormat(data.row.updated_at) }}
+                <hr class="my-1">
+                {{ $filters.dateTimeFormat(data.row.created_at) }}
+            </template>
+
+            <template #actions="{data}">
+                <a href="javascript:" @click="$emit('onDestroy',data.row.id)" v-if="canDestroy">
+                    <XCircle/>
+                </a>
+            </template>
+        </Table>
+    </div>
+</template>

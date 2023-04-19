@@ -1,44 +1,14 @@
-<template>
-    <OptionsLayout title="Промо-коди">
-        <template #header>
-            Промо-коди
-        </template>
-
-        <loader-component v-if="state.isLoading"/>
-        <div v-if="!state.isLoading && can('show-promo-codes')">
-            <button-component type="btn" @click="create" v-if="can('create-promo-codes')">
-                Додати
-            </button-component>
-
-            <Table :data="state.data.data"
-                   @onEdit="onEdit"
-                   @onDestroy="onDestroy"
-                   :canDestroy="can('destroy-promo-codes')"
-            />
-
-            <pagination :pagination="state.data"
-                        :click-handler="fetch"
-                        v-model="state.currentPage"
-            />
-            <component :is="activeModal"
-                       :item="state.item"
-                       @closeModal="modalFunction"
-                       @submitForm="submitForm"
-                       @declineForm="onDestroy"
-                       :canDestroy="can('destroy-promo-codes')"
-            ></component>
-        </div>
-    </OptionsLayout>
-</template>
-
 <script setup>
 import {reactive, onMounted, inject, ref, computed} from "vue";
+import {swal} from "@/Includes/swal";
+
 import Modal from '@/Pages/Admin/Options/PromoCodes/Modal.vue';
 import OptionsLayout from '@/Pages/Admin/Options/OptionsLayout.vue'
 import Table from '@/Pages/Admin/Options/PromoCodes/Table.vue';
+import Loader from '@/Components/Loader.vue';
+import Button from '@/Components/Button.vue';
+import Paginate from '@/Components/Paginate.vue';
 
-
-const swal = inject('$swal')
 const can = inject('$can');
 
 const item = reactive({
@@ -189,3 +159,36 @@ function create() {
 }
 
 </script>
+
+<template>
+    <OptionsLayout title="Промо-коди">
+        <template #header>
+            Промо-коди
+        </template>
+
+        <Loader v-if="state.isLoading"/>
+        <div v-if="!state.isLoading && can('show-promo-codes')">
+            <Button type="btn" @click="create" v-if="can('create-promo-codes')">
+                Додати
+            </Button>
+
+            <Table :data="state.data.data"
+                   @onEdit="onEdit"
+                   @onDestroy="onDestroy"
+                   :canDestroy="can('destroy-promo-codes')"
+            />
+
+            <Paginate :pagination="state.data"
+                      :click-handler="fetch"
+                      v-model="state.currentPage"
+            />
+            <component :is="activeModal"
+                       :item="state.item"
+                       @closeModal="modalFunction"
+                       @submitForm="submitForm"
+                       @declineForm="onDestroy"
+                       :canDestroy="can('destroy-promo-codes')"
+            ></component>
+        </div>
+    </OptionsLayout>
+</template>

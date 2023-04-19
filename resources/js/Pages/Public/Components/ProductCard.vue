@@ -1,3 +1,104 @@
+<script setup>
+import {computed,ref} from "vue";
+import {useStore} from "vuex";
+import {useGtm} from "@gtm-support/vue-gtm";
+import {swal} from '@/Includes/swal';
+import {Link} from "@inertiajs/inertia-vue3";
+import eventTracking from "@/Includes/eventTracking";
+
+const props = defineProps({
+    product: Object,
+    lang: String,
+    textGoToProductCard: {
+        type: String,
+        default: 'Докладніше'
+    },
+    slider: {
+        type: Boolean,
+        default: false
+    }
+});
+
+const store = useStore();
+
+const gtm = useGtm();
+const item = ref({
+    count: 1,
+    size: [],
+    color: [],
+    item_id: null,
+    src: typeof window !== 'undefined' ? window.location.href : null,
+    event_id: ''
+});
+
+const discountPercentage = computed(() => (price, discount_price) => `- ${(((price - discount_price) * 100) / price).toFixed()}%`);
+
+const uuidv4 = () => {
+    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
+}
+
+const addToCard = async (id) => {
+    item.value.item_id = id;
+    item.value.event_id = uuidv4() + '_AddToCard' + '_' + new Date().getTime();
+    await axios.post(route('api.v1.cart.add', item.value))
+        .then(async () => {
+            store.commit('loadCart');
+            if (import.meta.env.MODE === 'production') {
+                try {
+                    eventTracking(
+                        'AddToCart',
+                        {
+                            "value": props.product.discount_price ? props.product.discount_price : props.product.price,
+                            "currency": "UAH",
+                            "content_type": "product",
+                            "content_ids": [item.value.item_id],
+                            "content_name": props.product.h1
+                        },
+                        item.value.event_id
+                    );
+
+                    gtm.trackEvent({
+                        event: 'add_product_to_cart',
+                        ecommerce: {
+                            items: [{
+                                item_name: props.product.h1,
+                                item_id: item.value.item_id,
+                                price: props.product.discount_price ? props.product.discount_price : props.product.price,
+                                quantity: 1
+                            }]
+                        }
+                    });
+                } catch (e) {
+                    console.log(e);
+                }
+            }
+            await swal({
+                icon: 'success',
+                title: 'Товар додано до вашого кошика!',
+                text: 'Ви можете оформити замовлення або продовжити покупки :)',
+                showCancelButton: true,
+                confirmButtonText: 'Оформити замовлення',
+                cancelButtonText: 'Продовжити покупки',
+
+            }).then((result) => {
+                if (result.isConfirmed && typeof window !== 'undefined') {
+                    window.location.href = route('checkout');
+                }
+            })
+
+        })
+        .catch(async () => {
+            await swal({
+                icon: 'error',
+                title: 'Виникла помилка',
+                text: 'Перевірте корректність данних'
+            })
+        });
+}
+</script>
+
 <template>
     <div class="
                     items-stretch
@@ -142,107 +243,6 @@
     </div>
 
 </template>
-
-<script setup>
-import {computed,ref} from "vue";
-import {useStore} from "vuex";
-import {useGtm} from "@gtm-support/vue-gtm";
-import {swal} from '@/Includes/swal';
-import {Link} from "@inertiajs/inertia-vue3";
-import eventTracking from "@/Includes/eventTracking";
-
-const props = defineProps({
-    product: Object,
-    lang: String,
-    textGoToProductCard: {
-        type: String,
-        default: 'Докладніше'
-    },
-    slider: {
-        type: Boolean,
-        default: false
-    }
-});
-
-const store = useStore();
-
-const gtm = useGtm();
-const item = ref({
-    count: 1,
-    size: [],
-    color: [],
-    item_id: null,
-    src: typeof window !== 'undefined' ? window.location.href : null,
-    event_id: ''
-});
-
-const discountPercentage = computed(() => (price, discount_price) => `- ${(((price - discount_price) * 100) / price).toFixed()}%`);
-
-const uuidv4 = () => {
-    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
-        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-    );
-}
-
-const addToCard = async (id) => {
-    item.value.item_id = id;
-    item.value.event_id = uuidv4() + '_AddToCard' + '_' + new Date().getTime();
-    await axios.post(route('api.v1.cart.add', item.value))
-        .then(async () => {
-            store.commit('loadCart');
-            if (import.meta.env.MODE === 'production') {
-                try {
-                    eventTracking(
-                        'AddToCart',
-                        {
-                            "value": props.product.discount_price ? props.product.discount_price : props.product.price,
-                            "currency": "UAH",
-                            "content_type": "product",
-                            "content_ids": [item.value.item_id],
-                            "content_name": props.product.h1
-                        },
-                        item.value.event_id
-                    );
-
-                    gtm.trackEvent({
-                        event: 'add_product_to_cart',
-                        ecommerce: {
-                            items: [{
-                                item_name: props.product.h1,
-                                item_id: item.value.item_id,
-                                price: props.product.discount_price ? props.product.discount_price : props.product.price,
-                                quantity: 1
-                            }]
-                        }
-                    });
-                } catch (e) {
-                    console.log(e);
-                }
-            }
-            await swal({
-                icon: 'success',
-                title: 'Товар додано до вашого кошика!',
-                text: 'Ви можете оформити замовлення або продовжити покупки :)',
-                showCancelButton: true,
-                confirmButtonText: 'Оформити замовлення',
-                cancelButtonText: 'Продовжити покупки',
-
-            }).then((result) => {
-                if (result.isConfirmed && typeof window !== 'undefined') {
-                    window.location.href = route('checkout');
-                }
-            })
-
-        })
-        .catch(async () => {
-            await swal({
-                icon: 'error',
-                title: 'Виникла помилка',
-                text: 'Перевірте корректність данних'
-            })
-        });
-}
-</script>
 
 <style>
 .product-card-swiper .swiper-button-prev {

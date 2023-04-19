@@ -1,9 +1,3 @@
-<template>
-    <div class="rounded-lg">
-        <slot></slot>
-    </div>
-</template>
-
 <script>
 export default {
     props: {},
@@ -20,3 +14,9 @@ export default {
     }
 };
 </script>
+
+<template>
+    <div class="rounded-lg">
+        <slot></slot>
+    </div>
+</template>

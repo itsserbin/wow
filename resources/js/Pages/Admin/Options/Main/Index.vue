@@ -1,22 +1,14 @@
-<template>
-    <OptionsLayout>
-        <Loader v-if="state.isLoading"/>
-        <Form :options="state.options" @submitForm="onUpdate"
-              v-if="can('show-main-options') && !state.isLoading"/>
-    </OptionsLayout>
-</template>
-
 <script setup>
-import OptionsLayout from '@/Pages/Admin/Options/OptionsLayout.vue'
-import Form from '@/Pages/Admin/Options/Main/Form.vue'
-import Loader from '@/Components/Loader.vue'
+import OptionsLayout from '@/Pages/Admin/Options/OptionsLayout.vue';
+import Form from '@/Pages/Admin/Options/Main/Form.vue';
+import Loader from '@/Components/Loader.vue';
 
 import {inject, onMounted, ref} from "vue";
 import OptionsRepository from "@/Repositories/OptionsRepository";
-import {useI18n} from 'vue-i18n'
+import {useI18n} from 'vue-i18n';
+import {swal} from "@/Includes/swal";
 
 const can = inject('$can');
-const swal = inject('$swal');
 const {t} = useI18n();
 
 const state = ref({
@@ -39,13 +31,13 @@ const onUpdate = async () => {
     state.value.isLoading = true;
     const data = await OptionsRepository.main().update(state.value.options);
     if (data.success) {
-        swal({
+        await swal({
             title: t('swal.updated'),
             icon: 'success'
         });
     } else {
         console.log(data);
-        swal({
+        await swal({
             title: t('swal.error'),
             icon: 'error',
         });
@@ -53,3 +45,11 @@ const onUpdate = async () => {
     state.value.isLoading = false;
 }
 </script>
+
+<template>
+    <OptionsLayout>
+        <Loader v-if="state.isLoading"/>
+        <Form :options="state.options" @submitForm="onUpdate"
+              v-if="can('show-main-options') && !state.isLoading"/>
+    </OptionsLayout>
+</template>

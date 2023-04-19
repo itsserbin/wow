@@ -1,42 +1,10 @@
-<template>
-    <auth-layout>
-        <div class="grid grid-cols-1 gap-14">
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                <Link v-for="item in items" :href="item.href" v-show="can(item.permission)">
-                <div class="p-5 bg-gray-50 rounded dark:bg-gray-800 text-gray-900 dark:text-white">
-                    {{ item.title }}
-                </div>
-                </Link>
-            </div>
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                <Link v-for="item in items2" :href="item.href" v-show="can(item.permission)">
-                <div class="p-5 bg-gray-50 rounded dark:bg-gray-800 text-gray-900 dark:text-white">
-                    {{ item.title }}
-                </div>
-                </Link>
-            </div>
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                <Link v-for="item in items3" :href="item.href" v-show="can(item.permission)">
-                <div class="p-5 bg-gray-50 rounded dark:bg-gray-800 text-gray-900 dark:text-white">
-                    {{ item.title }}
-                </div>
-                </Link>
-            </div>
-        </div>
-    </auth-layout>
-</template>
-
 <script setup>
-import { inject } from "vue";
-import { Link } from "@inertiajs/inertia-vue3";
+import {inject} from "vue";
+import {Link} from "@inertiajs/inertia-vue3";
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 
 const can = inject('$can');
 const items = [
-    {
-        title: 'Головна',
-        permission: 'show-options',
-        href: route('admin.options.index')
-    },
     {
         title: 'Основні',
         permission: 'show-main-options',
@@ -61,6 +29,11 @@ const items = [
         title: 'FAQ',
         permission: 'show-faq',
         href: route('admin.options.faqs.index')
+    },
+    {
+        title: 'XML фіди',
+        permission: 'show-xml',
+        href: route('admin.options.xmls.index')
     },
 ];
 
@@ -118,3 +91,31 @@ const items3 = [
 
 ];
 </script>
+
+<template>
+    <AuthenticatedLayout>
+        <div class="grid grid-cols-1 gap-14">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <Link v-for="item in items" :href="item.href" v-show="can(item.permission)">
+                    <div class="p-5 bg-gray-50 rounded dark:bg-gray-800 text-gray-900 dark:text-white">
+                        {{ item.title }}
+                    </div>
+                </Link>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <Link v-for="item in items2" :href="item.href" v-show="can(item.permission)">
+                    <div class="p-5 bg-gray-50 rounded dark:bg-gray-800 text-gray-900 dark:text-white">
+                        {{ item.title }}
+                    </div>
+                </Link>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <Link v-for="item in items3" :href="item.href" v-show="can(item.permission)">
+                    <div class="p-5 bg-gray-50 rounded dark:bg-gray-800 text-gray-900 dark:text-white">
+                        {{ item.title }}
+                    </div>
+                </Link>
+            </div>
+        </div>
+    </AuthenticatedLayout>
+</template>

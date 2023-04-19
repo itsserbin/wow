@@ -1,59 +1,6 @@
-<template>
-    <table-component :headings="headings"
-                     :rows="data"
-                     :isSlotMode="true"
-    >
-        <template #date="{data}">
-            {{ $filters.dateFormat(data.row.date) }}
-        </template>
-
-        <template #costs="{data}">
-            {{ $filters.formatMoney(data.row.costs) }}
-        </template>
-
-        <template #turnover="{data}">
-            {{ $filters.formatMoney(data.row.turnover) }}
-        </template>
-
-        <template #marginality="{data}">
-            {{ $filters.formatMoney(data.row.marginality) }}
-        </template>
-
-        <template #clear_profit="{data}">
-            {{ $filters.formatMoney(data.row.clear_profit) }}
-        </template>
-
-        <template #average_marginality="{data}">
-            {{ $filters.formatMoney(data.row.average_marginality) }}
-        </template>
-
-        <template #sale_of_air_sum="{data}">
-            {{ $filters.formatMoney(data.row.sale_of_air_sum) }}
-        </template>
-
-        <template #debt_supplier="{data}">
-            {{ $filters.formatMoney(data.row.debt_supplier) }}
-        </template>
-
-        <template #prepayment_sum="{data}">
-            {{ $filters.formatMoney(data.row.prepayment_sum) }}
-        </template>
-
-        <template #refunds_sum="{data}">
-            {{ $filters.formatMoney(data.row.refunds_sum) }}
-        </template>
-
-        <template #additional_sales_marginality_sum="{data}">
-            {{ $filters.formatMoney(data.row.additional_sales_marginality_sum) }}
-        </template>
-
-        <template #additional_sales_sum="{data}">
-            {{ $filters.formatMoney(data.row.additional_sales_sum) }}
-        </template>
-    </table-component>
-</template>
-
 <script setup>
+import Table from '@/Components/Table.vue';
+
 defineProps(['data']);
 
 const headings = [
@@ -115,3 +62,55 @@ const headings = [
     },
 ];
 </script>
+
+<template>
+    <Table :headings="headings" :rows="data" :isSlotMode="true">
+        <template #date="{data}">
+            {{ $filters.dateFormat(data.row.date) }}
+        </template>
+
+        <template #costs="{data}">
+            {{ $filters.formatMoney(data.row.costs) }}
+        </template>
+
+        <template #turnover="{data}">
+            {{ $filters.formatMoney(data.row.turnover) }}
+        </template>
+
+        <template #marginality="{data}">
+            {{ $filters.formatMoney(data.row.marginality) }}
+        </template>
+
+        <template #clear_profit="{data}">
+            {{ $filters.formatMoney(data.row.clear_profit) }}
+        </template>
+
+        <template #average_marginality="{data}">
+            {{ $filters.formatMoney(data.row.average_marginality) }}
+        </template>
+
+        <template #sale_of_air_sum="{data}">
+            {{ $filters.formatMoney(data.row.sale_of_air_sum) }}
+        </template>
+
+        <template #debt_supplier="{data}">
+            {{ $filters.formatMoney(data.row.debt_supplier) }}
+        </template>
+
+        <template #prepayment_sum="{data}">
+            {{ $filters.formatMoney(data.row.prepayment_sum) }}
+        </template>
+
+        <template #refunds_sum="{data}">
+            {{ $filters.formatMoney(data.row.refunds_sum) }}
+        </template>
+
+        <template #additional_sales_marginality_sum="{data}">
+            {{ $filters.formatMoney(data.row.additional_sales_marginality_sum) }}
+        </template>
+
+        <template #additional_sales_sum="{data}">
+            {{ $filters.formatMoney(data.row.additional_sales_sum) }}
+        </template>
+    </Table>
+</template>

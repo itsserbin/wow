@@ -1,3 +1,11 @@
+<script setup>
+import Modal from '@/Components/Modal.vue';
+import ItemsForm from '@/Pages/Admin/Crm/Orders/Items/Form.vue';
+
+defineProps(['item']);
+defineEmits(['closeModal', 'submitItemForm'])
+</script>
+
 <template>
     <Modal @closeModal="$emit('closeModal')"
            submit-button-text="Зберегти"
@@ -10,11 +18,3 @@
         </template>
     </Modal>
 </template>
-
-<script setup>
-import Modal from '@/Components/Modal.vue';
-import ItemsForm from '@/Pages/Admin/Crm/Orders/Items/Form.vue';
-
-defineProps(['item']);
-defineEmits(['closeModal', 'submitItemForm'])
-</script>

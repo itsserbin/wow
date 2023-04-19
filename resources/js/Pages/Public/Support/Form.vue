@@ -1,3 +1,15 @@
+<script setup>
+import Label from '@/Pages/Public/Components/Label.vue';
+import Input from '@/Pages/Public/Components/Input.vue';
+import InputError from '@/Components/Form/InputError.vue';
+import Button from '@/Pages/Public/Components/Button.vue';
+import Textarea from '@/Pages/Public/Components/Textarea.vue';
+import { vMaska } from "@/Includes/maska"
+
+defineProps(['item', 'errors']);
+defineEmits(['submitForm']);
+</script>
+
 <template>
     <form @submit.prevent="$emit('submitForm')" class="grid grid-cols-1 gap-4">
         <div class="block">
@@ -36,15 +48,3 @@
         </div>
     </form>
 </template>
-
-<script setup>
-import Label from '@/Pages/Public/Components/Label.vue';
-import Input from '@/Pages/Public/Components/Input.vue';
-import InputError from '@/Components/Form/InputError.vue';
-import Button from '@/Pages/Public/Components/Button.vue';
-import Textarea from '@/Pages/Public/Components/Textarea.vue';
-import { vMaska } from "@/Includes/maska"
-
-defineProps(['item', 'errors']);
-defineEmits(['submitForm']);
-</script>

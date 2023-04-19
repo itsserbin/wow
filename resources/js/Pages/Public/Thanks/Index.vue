@@ -1,40 +1,3 @@
-<template>
-    <Head title="Дякуємо за покупку!"/>
-
-    <section class="grid gap-4 grid-cols-1">
-        <div class="grid grid-cols-1 gap-4">
-            <h1 class="font-bold text-black text-center text-2xl font-heading">
-                {{ textThanksPageTitle }}
-            </h1>
-
-            <div class="text-center text-xl font-subheading">
-                <p>{{ textThanksPageDescription }}</p>
-            </div>
-
-            <div class="text-center text-xl font-subheading" v-if="state.orderId">
-                {{ textThanksPageOrderId }} {{ state.orderId }}
-            </div>
-        </div>
-
-        <div v-if="state.activeSpecialOffer" class="grid gap-4 mt-5">
-            <div class="font-bold text-black text-center text-2xl font-subheading">
-                {{ textThanksPageSpecials }}
-            </div>
-            <Timer :timer="timer"/>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <ProductCard v-for="product in state.products"
-                             :product="product"
-                             @addItemToOrder="addItemToOrder"
-                             :lang="lang"
-                />
-            </div>
-        </div>
-        <div v-else class="order-page__text my-5">
-            <p>{{ textThanksPageSpecialsEnds }}</p>
-        </div>
-    </section>
-</template>
-
 <script setup>
 import Timer from '@/Pages/Public/Thanks/Timer.vue'
 import ProductCard from '@/Pages/Public/Thanks/ProductCard.vue'
@@ -135,3 +98,40 @@ const addItemToOrder = async (id, price) => {
         })
 }
 </script>
+
+<template>
+    <Head title="Дякуємо за покупку!"/>
+
+    <section class="grid gap-4 grid-cols-1">
+        <div class="grid grid-cols-1 gap-4">
+            <h1 class="font-bold text-black text-center text-2xl font-heading">
+                {{ textThanksPageTitle }}
+            </h1>
+
+            <div class="text-center text-xl font-subheading">
+                <p>{{ textThanksPageDescription }}</p>
+            </div>
+
+            <div class="text-center text-xl font-subheading" v-if="state.orderId">
+                {{ textThanksPageOrderId }} {{ state.orderId }}
+            </div>
+        </div>
+
+        <div v-if="state.activeSpecialOffer" class="grid gap-4 mt-5">
+            <div class="font-bold text-black text-center text-2xl font-subheading">
+                {{ textThanksPageSpecials }}
+            </div>
+            <Timer :timer="timer"/>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <ProductCard v-for="product in state.products"
+                             :product="product"
+                             @addItemToOrder="addItemToOrder"
+                             :lang="lang"
+                />
+            </div>
+        </div>
+        <div v-else class="order-page__text my-5">
+            <p>{{ textThanksPageSpecialsEnds }}</p>
+        </div>
+    </section>
+</template>

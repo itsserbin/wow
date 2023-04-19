@@ -1,3 +1,53 @@
+<script setup>
+import ItemsTable from '@/Pages/Admin/Crm/Clients/ItemsTable.vue';
+import Label from '@/Components/Form/Label.vue';
+import Select from '@/Components/Form/Select.vue';
+import Input from '@/Components/Form/Input.vue';
+import Textarea from '@/Components/Form/Textarea.vue';
+import Accordion from '@/Components/Accordion/Accordion.vue';
+import AccordionItem from '@/Components/Accordion/AccordionItem.vue';
+
+import {onMounted, ref} from "vue";
+
+const props = defineProps([
+    'item',
+    'statuses',
+    'subStatuses',
+    'orderStatuses'
+])
+
+const state = ref({
+    itemsModalAction: '',
+    statuses: [],
+    subStatuses: {
+        experienced: [],
+        return: [],
+    },
+})
+
+onMounted(() => {
+        for (const [key, value] of Object.entries(props.subStatuses.experienced)) {
+            state.value.subStatuses.experienced.push({
+                value: value,
+                key: key,
+            })
+        }
+        for (const [key, value] of Object.entries(props.subStatuses.return)) {
+            state.value.subStatuses.return.push({
+                value: value,
+                key: key,
+            })
+        }
+        for (const [key, value] of Object.entries(props.statuses)) {
+            state.value.statuses.push({
+                value: value,
+                key: key,
+            })
+        }
+    }
+)
+</script>
+
 <template>
     <form class="grid gap-4">
 
@@ -87,48 +137,3 @@
         </div>
     </form>
 </template>
-
-<script setup>
-import ItemsTable from '@/Pages/Admin/Crm/Clients/ItemsTable.vue';
-import Label from '@/Components/Form/Label.vue';
-import Select from '@/Components/Form/Select.vue';
-import Input from '@/Components/Form/Input.vue';
-import Textarea from '@/Components/Form/Textarea.vue';
-import Accordion from '@/Components/Accordion/Accordion.vue';
-import AccordionItem from '@/Components/Accordion/AccordionItem.vue';
-
-import {onMounted, ref} from "vue";
-
-const props = defineProps(['item', 'statuses', 'subStatuses', 'orderStatuses'])
-
-const state = ref({
-    itemsModalAction: '',
-    statuses: [],
-    subStatuses: {
-        experienced: [],
-        return: [],
-    },
-})
-
-onMounted(() => {
-        for (const [key, value] of Object.entries(props.subStatuses.experienced)) {
-            state.value.subStatuses.experienced.push({
-                value: value,
-                key: key,
-            })
-        }
-        for (const [key, value] of Object.entries(props.subStatuses.return)) {
-            state.value.subStatuses.return.push({
-                value: value,
-                key: key,
-            })
-        }
-        for (const [key, value] of Object.entries(props.statuses)) {
-            state.value.statuses.push({
-                value: value,
-                key: key,
-            })
-        }
-    }
-)
-</script>

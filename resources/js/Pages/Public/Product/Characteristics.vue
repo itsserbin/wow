@@ -1,3 +1,7 @@
+<script setup>
+defineProps(['items']);
+</script>
+
 <template>
     <div class="characteristics-table">
         <table>
@@ -16,7 +20,3 @@
         </table>
     </div>
 </template>
-
-<script setup>
-defineProps(['items']);
-</script>

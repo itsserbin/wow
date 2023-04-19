@@ -1,3 +1,7 @@
+<script setup>
+defineProps(['modelValue', 'options'])
+</script>
+
 <template>
     <select @input="$emit('update:modelValue', $event.target.value)"
             :value="modelValue"
@@ -25,7 +29,3 @@
         <option v-for="option in options" :value="option.key">{{ option.value }}</option>
     </select>
 </template>
-
-<script setup>
-defineProps(['modelValue', 'options'])
-</script>
