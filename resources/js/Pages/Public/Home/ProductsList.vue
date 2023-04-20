@@ -35,21 +35,17 @@ defineProps({
 </script>
 
 <template>
-    <div v-if="data.length">
-        <Heading v-if="heading" :heading="heading"></Heading>
-        <div class="grid justify-items-center my-5">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 w-full">
-                <div v-for="(product,i) in data" :key="i">
-                    <ProductCard :product="product"
-                                 :lang="lang"
-                                 :slider="slider"
-                    ></ProductCard>
-                </div>
-            </div>
-        </div>
-        <div v-if="isShowLoadMore" class="text-center">
-            <Loader v-if="isLoadMore"></Loader>
-            <Button v-if="!isLoadMore" @click="$emit('fetch')" type="button">{{ textLoadMore }}</Button>
-        </div>
+    <Heading v-if="heading" :heading="heading"></Heading>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 w-full">
+        <ProductCard v-for="(product,i) in data"
+                     :key="i"
+                     :product="product"
+                     :lang="lang"
+                     :slider="slider"
+        ></ProductCard>
+    </div>
+    <div v-if="isShowLoadMore" class="text-center">
+        <Loader v-if="isLoadMore"></Loader>
+        <Button v-if="!isLoadMore" @click="$emit('fetch')" type="button">{{ textLoadMore }}</Button>
     </div>
 </template>

@@ -11,7 +11,7 @@ function showFunction() {
 </script>
 
 <template>
-    <div class="relative whitespace-nowrap left-[0.4rem]">
+    <div class="ml-auto relative whitespace-nowrap left-[0.4rem]">
         <button @click="showFunction"
                 class="text-red-500 mr-[-25px] bg-white hover:bg-white focus:outline-none  font-medium rounded-lg text-sm  py-2.5 text-center inline-flex items-center dark:bg-white  "
                 type="button">

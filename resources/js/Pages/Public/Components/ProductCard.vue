@@ -1,5 +1,5 @@
 <script setup>
-import {computed,ref} from "vue";
+import {computed, ref} from "vue";
 import {useStore} from "vuex";
 import {useGtm} from "@gtm-support/vue-gtm";
 import {swal} from '@/Includes/swal';
@@ -129,22 +129,18 @@ const addToCard = async (id) => {
         >
             {{ discountPercentage(product.price, product.discount_price) }}
         </div>
-        <div>
-            <div class="w-full mx-auto">
-                <Link :href="route('product',product.id)">
-                    <picture v-if="product.preview">
-                        <source :srcset="route('images.350',product.preview.webp_src)"
-                                v-if="product.preview.webp_src"
-                                type="image/webp">
+        <Link class="w-full mx-auto" :href="route('product',product.id)">
+            <picture v-if="product.preview">
+                <source :srcset="route('images.350',product.preview.webp_src)"
+                        v-if="product.preview.webp_src"
+                        type="image/webp">
 
-                        <img :src="route('images.350',product.preview.src)"
-                             :alt="product.h1[lang]"
-                             class="object-cover w-full rounded-t-lg h-56 md:h-72 "
-                        >
-                    </picture>
-                </Link>
-            </div>
-        </div>
+                <img :src="route('images.350',product.preview.src)"
+                     :alt="product.h1[lang]"
+                     class="object-cover w-full rounded-t-lg h-56 md:h-72 "
+                >
+            </picture>
+        </Link>
 
         <div class="
                         flex

@@ -25,27 +25,19 @@ const state = ref({
 
 <template>
     <div class="shadow-lg mt-2">
-        <div class="max-w-7xl mx-auto px-3">
-            <div class="grid grid-cols-4 items-center">
-                <div>
-                    <Logo/>
-                </div>
-                <div class="grid justify-end">
-                    <CartIcon/>
-                </div>
-                <div class="grid justify-end">
-                    <Langs :lang="lang"/>
-                </div>
-                <div class="grid justify-end">
-                    <Burger :options="options"
-                            :lang="lang"
-                            :pages="pages"
-                    />
-                </div>
+        <div class="max-w-7xl mx-auto px-3 grid grid-cols-4 items-center">
+            <Logo/>
+            <div class="grid justify-end">
+                <CartIcon/>
+            </div>
+            <Langs :lang="lang"/>
+            <div class="grid justify-end">
+                <Burger :options="options"
+                        :lang="lang"
+                        :pages="pages"
+                />
             </div>
         </div>
-        <div class="bg-main text-text font-subheading">
-            <HeaderCategories :categories="categories" :lang="lang"/>
-        </div>
+        <HeaderCategories :categories="categories" :lang="lang"/>
     </div>
 </template>
