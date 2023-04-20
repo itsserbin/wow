@@ -23,10 +23,10 @@ defineProps({
         <Accordion>
             <AccordionItem v-for="faq in data">
                 <template #accordion-trigger>
-                    {{ lang === 'ua' ? faq.question.ua : faq.question.ru }}
+                    {{ faq.question[lang] }}
                 </template>
                 <template #accordion-content>
-                    <div v-html="lang === 'ua' ? faq.answer.ua : faq.answer.ru"></div>
+                    <div v-html="faq.answer[lang]"></div>
                 </template>
             </AccordionItem>
         </Accordion>
