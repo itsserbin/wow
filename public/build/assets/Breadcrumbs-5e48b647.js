@@ -1,1 +1,0 @@
-import n from"./Breadcrumbs-f4355ac7.js";import{p as o,D as a}from"./app-f55448cf.js";const i={__name:"Breadcrumbs",props:["options","parent","parentUrl","title","currentUrl"],setup(t){const r=t,e=[{title:r.options.brand,url:"/"},{title:r.parent,url:r.parentUrl},{title:r.title,url:r.currentUrl}];return(p,s)=>(o(),a(n,{breadcrumbs:e}))}};export{i as default};

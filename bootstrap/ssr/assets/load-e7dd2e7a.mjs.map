@@ -1,1 +1,0 @@
-{"version":3,"file":"load-e7dd2e7a.mjs","sources":["../../../resources/js/Pages/Public/load.js"],"sourcesContent":["import {ref} from 'vue';\n\nexport const isLoading = ref(true);\n"],"names":[],"mappings":";AAEY,MAAC,YAAY,IAAI,IAAI;"}
