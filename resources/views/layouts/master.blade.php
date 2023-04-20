@@ -24,10 +24,9 @@
     {{--    <link rel="alternate" href="{{setLinkToLang(request()->url(),'ua')}}" hreflang="uk-UA"/>--}}
     {{--    <link rel="alternate" href="{{setLinkToLang(request()->url(),'ua')}}" hreflang="x-default"/>--}}
     @routes
-    @vite('resources/js/Pages/app.js')
     @if(env('APP_ENV' !== 'local'))
     <!-- Meta Pixel Code -->
-        <script async>
+        <script defer>
             !function (f, b, e, v, n, t, s) {
                 if (f.fbq) return;
                 n = f.fbq = function () {
@@ -56,6 +55,7 @@
             /></noscript>
         <!-- End Meta Pixel Code -->
     @endif
+    @vite('resources/js/Pages/app.js')
     {{--    @vite(['resources/js/Pages/Public/app.js', "resources/js/Pages/Public/{$page['component']}.vue"])--}}
     @inertiaHead
 </head>
