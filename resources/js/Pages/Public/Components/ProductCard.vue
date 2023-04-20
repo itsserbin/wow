@@ -5,7 +5,6 @@ import {useGtm} from "@gtm-support/vue-gtm";
 import {swal} from '@/Includes/swal';
 import {Link} from "@inertiajs/inertia-vue3";
 import eventTracking from "@/Includes/eventTracking";
-import {vLazy} from '@/Includes/lazyload'
 
 const props = defineProps({
     product: Object,
@@ -132,15 +131,14 @@ const addToCard = async (id) => {
         </div>
         <Link class="w-full mx-auto" :href="route('product',product.id)">
             <picture v-if="product.preview">
-                <source v-lazy
-                        :data-src="route('images.350',product.preview.webp_src)"
+                <source :srcset="route('images.350',product.preview.webp_src)"
                         v-if="product.preview.webp_src"
                         type="image/webp">
 
-                <img v-lazy
-                     :data-src="route('images.350',product.preview.src)"
+                <img :src="route('images.350',product.preview.src)"
                      :alt="product.h1[lang]"
                      class="object-cover w-full rounded-t-lg h-56 md:h-72 "
+                     loading="lazy"
                 >
             </picture>
         </Link>

@@ -16,6 +16,7 @@ defineProps(['lang', 'data'])
                         <img :src="item.preview ? route('images.350',item.preview.src) : null "
                              class="h-full object-cover w-full rounded-t-lg"
                              :alt="item.title[lang]"
+                             loading="lazy"
                         >
                     </picture>
                 </div>
