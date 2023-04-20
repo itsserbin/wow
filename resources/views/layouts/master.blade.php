@@ -24,7 +24,7 @@
     {{--    <link rel="alternate" href="{{setLinkToLang(request()->url(),'ua')}}" hreflang="uk-UA"/>--}}
     {{--    <link rel="alternate" href="{{setLinkToLang(request()->url(),'ua')}}" hreflang="x-default"/>--}}
     @routes
-    @if(env('APP_ENV' !== 'local'))
+    @if(env('APP_ENV') !== 'local')
     <!-- Meta Pixel Code -->
         <script defer>
             !function (f, b, e, v, n, t, s) {
