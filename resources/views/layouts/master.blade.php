@@ -59,52 +59,48 @@
     {{--    @vite(['resources/js/Pages/Public/app.js', "resources/js/Pages/Public/{$page['component']}.vue"])--}}
     @inertiaHead
 </head>
-<body class="h-full">
+<body class="h-full flex flex-col">
 {{--{!! $options['after_body_scripts'] !!}--}}
-<div class="loader">
-    <div class="fixed inset-0 z-50 flex items-center justify-center backdrop-filter backdrop-blur-md">
-        <div class="lds-ellipsis inline-block relative w-[80px] h-[80px]">
-            <div class="absolute top-[33px] w-[13px] h-[13px] rounded-[50%] bg-[#ff0000]"></div>
-            <div class="absolute top-[33px] w-[13px] h-[13px] rounded-[50%] bg-[#ff0000]"></div>
-            <div class="absolute top-[33px] w-[13px] h-[13px] rounded-[50%] bg-[#ff0000]"></div>
-            <div class="absolute top-[33px] w-[13px] h-[13px] rounded-[50%] bg-[#ff0000]"></div>
-        </div>
+<div class="loader fixed inset-0 z-50 flex items-center justify-center backdrop-filter backdrop-blur-md">
+    <div class="lds-ellipsis inline-block relative w-[80px] h-[80px]">
+        <div class="absolute top-[33px] w-[13px] h-[13px] rounded-[50%] bg-[#ff0000]"></div>
+        <div class="absolute top-[33px] w-[13px] h-[13px] rounded-[50%] bg-[#ff0000]"></div>
+        <div class="absolute top-[33px] w-[13px] h-[13px] rounded-[50%] bg-[#ff0000]"></div>
+        <div class="absolute top-[33px] w-[13px] h-[13px] rounded-[50%] bg-[#ff0000]"></div>
     </div>
 </div>
-<div class="h-full flex flex-col">
-    @inertia
-    {{--    <master-layout>--}}
-    {{--        <header class="w-[100%] fixed top-0 z-20 bg-[#fff] flex-[0_0_auto]">--}}
-    {{--            @include('components.fixed-banner')--}}
-    {{--            <header-component--}}
-    {{--                lang="{{app()->getLocale()}}"--}}
-    {{--                categories="{{json_encode($categories,JSON_THROW_ON_ERROR)}}"--}}
-    {{--                pages="{{json_encode($pages,JSON_THROW_ON_ERROR)}}"--}}
-    {{--                app-name="{{env('APP_NAME')}}"--}}
-    {{--                app-phone="{{$options['phone']}}"--}}
-    {{--                app-email="{{$options['email']}}"--}}
-    {{--                app-facebook="{{$options['facebook']}}"--}}
-    {{--                app-instagram="{{$options['instagram']}}"--}}
-    {{--                app-schedule="{!! $options['schedule'] !!}"--}}
-    {{--                app-telegram="{{$options['telegram']}}"--}}
-    {{--                app-viber="{{$options['viber']}}"--}}
-    {{--            ></header-component>--}}
-    {{--        </header>--}}
-    {{--            <main class="main flex-[1_0_auto]">--}}
-    {{--                <div class="max-w-7xl mx-auto pt-36 md:pt-40 px-3 h-full">--}}
-    {{--                    @yield('content')--}}
-    {{--                </div>--}}
-    {{--            </main>--}}
-    {{--        <footer-component lang="{{app()->getLocale()}}"--}}
-    {{--                          options="{{json_encode($options,JSON_THROW_ON_ERROR)}}"--}}
-    {{--                          pages="{{json_encode($pages,JSON_THROW_ON_ERROR)}}"--}}
-    {{--        ></footer-component>--}}
-    {{--        @if($options['callback_status'] === 'on')--}}
-    {{--            <callback></callback>--}}
-    {{--        @endif--}}
-    {{--        <scroll-to-top></scroll-to-top>--}}
-    {{--    </master-layout>--}}
-</div>
+@inertia
+{{--    <master-layout>--}}
+{{--        <header class="w-[100%] fixed top-0 z-20 bg-[#fff] flex-[0_0_auto]">--}}
+{{--            @include('components.fixed-banner')--}}
+{{--            <header-component--}}
+{{--                lang="{{app()->getLocale()}}"--}}
+{{--                categories="{{json_encode($categories,JSON_THROW_ON_ERROR)}}"--}}
+{{--                pages="{{json_encode($pages,JSON_THROW_ON_ERROR)}}"--}}
+{{--                app-name="{{env('APP_NAME')}}"--}}
+{{--                app-phone="{{$options['phone']}}"--}}
+{{--                app-email="{{$options['email']}}"--}}
+{{--                app-facebook="{{$options['facebook']}}"--}}
+{{--                app-instagram="{{$options['instagram']}}"--}}
+{{--                app-schedule="{!! $options['schedule'] !!}"--}}
+{{--                app-telegram="{{$options['telegram']}}"--}}
+{{--                app-viber="{{$options['viber']}}"--}}
+{{--            ></header-component>--}}
+{{--        </header>--}}
+{{--            <main class="main flex-[1_0_auto]">--}}
+{{--                <div class="max-w-7xl mx-auto pt-36 md:pt-40 px-3 h-full">--}}
+{{--                    @yield('content')--}}
+{{--                </div>--}}
+{{--            </main>--}}
+{{--        <footer-component lang="{{app()->getLocale()}}"--}}
+{{--                          options="{{json_encode($options,JSON_THROW_ON_ERROR)}}"--}}
+{{--                          pages="{{json_encode($pages,JSON_THROW_ON_ERROR)}}"--}}
+{{--        ></footer-component>--}}
+{{--        @if($options['callback_status'] === 'on')--}}
+{{--            <callback></callback>--}}
+{{--        @endif--}}
+{{--        <scroll-to-top></scroll-to-top>--}}
+{{--    </master-layout>--}}
 {{--<script>--}}
 {{--    const loader = document.querySelector('.loader');--}}
 
