@@ -1,6 +1,5 @@
 <script setup>
-import {isLoading} from "@/Pages/Public/load";
-import {computed, onMounted, ref} from "vue";
+import {computed, reactive} from "vue";
 
 import Support from '../Components/Support.vue';
 import Consultation from '../Components/Consultation.vue';
@@ -32,21 +31,21 @@ const props = defineProps([
     'eventIdPageView',
 ]);
 
-const state = ref({
-    products: [],
+const state = reactive({
+    products: props.products.data,
     isLoadingMore: false,
-    isShowLoadMore: true,
+    isShowLoadMore: props.products.to !== props.products.total,
     isShowFilter: false
 });
 
-const params = ref({
+const params = reactive({
     currentPage: 1,
     sort: null,
     filter: null,
 });
 
 const getParams = computed(() => {
-    const {currentPage, sort, filter} = params.value;
+    const {currentPage, sort, filter} = params;
     return {
         page: currentPage,
         sort: sort,
@@ -55,44 +54,39 @@ const getParams = computed(() => {
     };
 });
 
-onMounted(async () => {
-    state.value.products = props.products.data;
-    isLoading.value = false;
-})
-
 const onSort = async () => {
-    params.value.currentPage = 0;
-    state.value.products = [];
+    params.currentPage = 0;
+    state.products = [];
     await fetch();
 }
 
 const filter = async (val) => {
-    params.value.filter = val;
-    params.value.currentPage = 0;
-    state.value.products = [];
-    if (state.value.isShowFilter) {
+    params.filter = val;
+    params.currentPage = 0;
+    state.products = [];
+    if (state.isShowFilter) {
         toggleFilter();
     }
     await fetch();
 }
 
 const fetch = async () => {
-    params.value.currentPage += 1;
+    params.currentPage += 1;
     try {
         const data = await ProductsRepository.v1().category(getParams.value);
         if (data.success) {
-            params.value.currentPage = data.result.current_page;
-            state.value.products = state.value.products.concat(data.result.data);
-            state.value.isShowLoadMore = (data.result.to !== data.result.total);
+            params.currentPage = data.result.current_page;
+            state.products = state.products.concat(data.result.data);
+            state.isShowLoadMore = (data.result.to !== data.result.total);
         }
     } catch (e) {
         console.error(e);
-        state.value.isLoading = false;
+        state.isLoading = false;
     }
 }
 
 const toggleFilter = () => {
-    state.value.isShowFilter = !state.value.isShowFilter;
+    state.isShowFilter = !state.isShowFilter;
 }
 
 </script>
@@ -141,6 +135,6 @@ const toggleFilter = () => {
         <Content v-if="text" :data="text"/>
 
         <Consultation v-if="consultation"/>
-        <Support v-if="!isLoading"/>
+        <Support/>
     </div>
 </template>
