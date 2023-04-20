@@ -1,4 +1,4 @@
-const vLazy = (el) => {
+export const vLazy = (el) => {
     function loadImage() {
         if (el.tagName === 'img') {
             el.src = el.dataset.src
@@ -32,5 +32,3 @@ const vLazy = (el) => {
         createIntersectionObserver();
     }
 }
-
-export default vLazy;
