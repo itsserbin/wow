@@ -1,1 +1,0 @@
-{"version":3,"file":"load-76a4947f.js","sources":["../../../resources/js/Pages/Public/load.js"],"sourcesContent":["import {ref} from 'vue';\n\nexport const isLoading = ref(true);\n"],"names":["isLoading","ref"],"mappings":"iCAEY,MAACA,EAAYC,EAAI,EAAI"}

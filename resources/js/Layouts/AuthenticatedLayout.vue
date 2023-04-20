@@ -1,17 +1,23 @@
 <script setup>
-import {ref, inject} from 'vue';
+import {ref, inject, onMounted} from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import {Link, Head} from '@inertiajs/inertia-vue3';
+import {useStore} from "vuex";
 
 const showingNavigationDropdown = ref(false);
 
+const user = useStore();
 const can = inject('$can');
 
 defineProps(['title', 'logo']);
+
+onMounted(() => {
+    user.commit('load');
+})
 </script>
 
 <template>
