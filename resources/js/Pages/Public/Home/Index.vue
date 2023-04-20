@@ -7,8 +7,7 @@ import Head from "@/Pages/Public/Components/Head.vue";
 
 defineOptions({layout: MasterLayout})
 
-import {isLoading} from "@/Pages/Public/load";
-import {defineAsyncComponent, onMounted, ref} from "vue";
+import {defineAsyncComponent, reactive} from "vue";
 
 const Content = defineAsyncComponent(() => import('../Components/Content.vue'));
 const Advantages = defineAsyncComponent(() => import('../Components/Advantages.vue'));
@@ -34,69 +33,35 @@ const props = defineProps([
 const meta = {
     title: props.lang === 'ua' ? props.options.meta_title_ua : props.options.meta_title_ru,
     description: props.lang === 'ua' ? props.options.meta_description_ua : props.options.meta_description_ru,
-}
+};
 
-const stateNewProducts = ref({
-    data: [],
+const stateNewProducts = reactive({
+    data: props.newProducts.data,
     isLoadMore: false,
-    isShowLoadMore: false,
+    isShowLoadMore: props.newProducts.current_page !== props.newProducts.per_page,
     currentPage: 1,
     endpoint: '/api/v1/product/new-products?page='
 });
 
-const stateAllProducts = ref({
-    data: [],
+const stateAllProducts = reactive({
+    data: props.allProducts.data,
     isLoadMore: false,
-    isShowLoadMore: false,
+    isShowLoadMore: props.allProducts.current_page !== props.allProducts.per_page,
     currentPage: 1,
     endpoint: '/api/v1/product?page='
 });
 
-const stateBestSellingProducts = ref({
-    data: [],
+const stateBestSellingProducts = reactive({
+    data: props.bestSellingProducts.data,
     isLoadMore: false,
-    isShowLoadMore: false,
+    isShowLoadMore: props.bestSellingProducts.current_page !== props.bestSellingProducts.per_page,
     currentPage: 1,
     endpoint: '/api/v1/product/best-selling?page='
 });
 
-onMounted(() => {
-    stateBestSellingProducts.value.data = props.bestSellingProducts.data;
-    stateNewProducts.value.data = props.newProducts.data;
-    stateAllProducts.value.data = props.allProducts.data;
-
-    if (props.bestSellingProducts.current_page !== props.bestSellingProducts.per_page) {
-        setShowLoadMore(stateBestSellingProducts.value);
-    }
-    if (props.newProducts.current_page !== props.newProducts.per_page) {
-        setShowLoadMore(stateNewProducts.value);
-    }
-    if (props.allProducts.current_page !== props.allProducts.per_page) {
-        setShowLoadMore(stateAllProducts.value);
-    }
-})
-
-const setShowLoadMore = (product) => {
-    product.isShowLoadMore = true;
-}
-
-const fetchAllProducts = async () => {
-    stateAllProducts.value.isLoadMore = true;
-    await axios.get(stateAllProducts.value.endpoint + (stateAllProducts.value.currentPage + 1))
-        .then(({data}) => onSuccessFetch(stateAllProducts.value, data))
-        .catch((response) => console.error(response));
-}
-
-const fetchBestSellingProducts = async () => {
-    stateBestSellingProducts.value.isLoadMore = true;
-    await axios.get(stateBestSellingProducts.value.endpoint + (stateBestSellingProducts.value.currentPage + 1))
-        .then(({data}) => onSuccessFetch(stateBestSellingProducts.value, data))
-        .catch((response) => console.error(response));
-}
-
-const fetchNewProducts = async () => {
-    await axios.get(stateNewProducts.value.endpoint + (stateNewProducts.value.currentPage + 1))
-        .then(({data}) => onSuccessFetch(stateNewProducts.value, data))
+const fetch = async (val) => {
+    await axios.get(val.endpoint + (val.currentPage + 1))
+        .then(({data}) => onSuccessFetch(val, data))
         .catch((response) => console.error(response));
 }
 
@@ -116,30 +81,33 @@ const onSuccessFetch = (variable, data) => {
 
         <Categories v-if="categories.length" :data="categories" :lang="lang"/>
 
-        <ProductsList :slider="true"
+        <ProductsList v-if="stateBestSellingProducts.data.length"
+                      :slider="true"
                       :lang="lang"
                       :data="stateBestSellingProducts.data"
                       :isLoadMore="stateBestSellingProducts.isLoadMore"
                       :isShowLoadMore="stateBestSellingProducts.isShowLoadMore"
-                      @fetch="fetchBestSellingProducts"
+                      @fetch="fetch(stateBestSellingProducts)"
                       heading="Найпопулярніші"
         />
 
-        <ProductsList :slider="true"
+        <ProductsList v-if="stateNewProducts.data.length"
+                      :slider="true"
                       :lang="lang"
                       :data="stateNewProducts.data"
                       :isLoadMore="stateNewProducts.isLoadMore"
                       :isShowLoadMore="stateNewProducts.isShowLoadMore"
-                      @fetch="fetchNewProducts"
+                      @fetch="fetch(stateNewProducts)"
                       heading="Останні надходження"
         />
 
-        <ProductsList :slider="true"
+        <ProductsList v-if="stateAllProducts.data.length"
+                      :slider="true"
                       :lang="lang"
                       :data="stateAllProducts.data"
                       :isLoadMore="stateAllProducts.isLoadMore"
                       :isShowLoadMore="stateAllProducts.isShowLoadMore"
-                      @fetch="fetchAllProducts"
+                      @fetch="fetch(stateAllProducts)"
                       heading="Усі товари"
         />
 
@@ -153,6 +121,6 @@ const onSuccessFetch = (variable, data) => {
 
         <FaqComponent v-if="faqs.length" :lang="lang" :data="faqs"/>
 
-        <Support v-if="!isLoading"/>
+        <Support/>
     </div>
 </template>
