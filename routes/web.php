@@ -60,7 +60,7 @@ Route::post('sms-new-order', [SmsController::class, 'newOrder'])
     ->name('sms.new.order');
 
 Route::get('test48', function () {
-    dd($_SERVER);
+    Log::debug('server', $_SERVER);
 });
 
 require __DIR__ . '/auth.php';
