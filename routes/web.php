@@ -59,10 +59,6 @@ Route::group(['prefix' => App\Http\Middleware\LocaleMiddleware::getLocale(),], s
 Route::post('sms-new-order', [SmsController::class, 'newOrder'])
     ->name('sms.new.order');
 
-Route::get('test48', function (Illuminate\Http\Request $request) {
-    Log::info($request->ip());
-});
-
 require __DIR__ . '/auth.php';
 require __DIR__ . '/admin.php';
 require __DIR__ . '/images.php';
