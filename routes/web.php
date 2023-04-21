@@ -59,6 +59,9 @@ Route::group(['prefix' => App\Http\Middleware\LocaleMiddleware::getLocale(),], s
 Route::post('sms-new-order', [SmsController::class, 'newOrder'])
     ->name('sms.new.order');
 
+Route::get('test48', function () {
+    dd($_SERVER);
+});
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/admin.php';
