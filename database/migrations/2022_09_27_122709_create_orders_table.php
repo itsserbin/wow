@@ -52,6 +52,8 @@ return new class extends Migration {
             $table->string('np_city_id')->nullable();
             $table->string('np_post_office_id')->nullable();
 
+            $table->boolean('refund_other_waybill')->default(0);
+            $table->string('other_waybill')->nullable();
 
             $table->timestamps();
         });
