@@ -12,7 +12,7 @@ class CartRepository extends CoreRepository
         return Model::class;
     }
 
-    final public function find(string $uuid = null): \Illuminate\Database\Eloquent\Model|bool
+    final public function find(string $uuid = null): \Illuminate\Database\Eloquent\Model|bool|null
     {
         if (!$uuid) {
             return false;

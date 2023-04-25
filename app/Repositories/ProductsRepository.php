@@ -246,14 +246,6 @@ class ProductsRepository extends CoreRepository
 
     final public function getByCategorySlugToPublic(string $slug, array $data, int $perPage = 16): LengthAwarePaginator
     {
-        $cacheKey = 'products_by_slug_' . $slug . '_' . implode((array)'_', (isset($data['sort']) ? implode('_', $data['sort']) : null)) . '_' . $perPage;
-
-        $cachedProducts = Cache::get($cacheKey);
-
-        if ($cachedProducts) {
-            return $cachedProducts;
-        }
-
         $columns = [
             'id',
             'price',
@@ -278,11 +270,7 @@ class ProductsRepository extends CoreRepository
         $model = $this->applyFilters($model, $data);
         $model = $this->applySorting($model, $data);
 
-        $cachedProducts = $model->paginate($perPage);
-
-        Cache::put($cacheKey, $cachedProducts, now()->addMinutes(60)); // Кешувати на 60 хвилин
-
-        return $cachedProducts;
+        return $model->paginate($perPage);
 
     }
 
