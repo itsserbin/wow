@@ -8,25 +8,7 @@ defineProps({
 
 <template>
     <textarea :rows="rows"
-              class="
-                    block
-                    p-2.5
-                    w-full
-                    text-sm
-                    text-gray-900
-                    bg-gray-50
-                    rounded-lg
-                    border
-                    border-gray-300
-                    focus:ring-blue-500
-                    focus:border-blue-500
-                    dark:bg-gray-700
-                    dark:border-gray-600
-                    dark:placeholder-gray-400
-                    dark:text-white
-                    dark:focus:ring-blue-500
-                    dark:focus:border-blue-500
-                "
+              class="relative block w-full pl-3 pr-12 py-2.5 rounded-lg overflow-hidden border-solid text-sm text-vtd-secondary-700 placeholder-vtd-secondary-400 transition-colors bg-white border border-vtd-secondary-300 focus:border-vtd-primary-300 focus:ring focus:ring-vtd-primary-500 focus:ring-opacity-10 focus:outline-none dark:bg-vtd-secondary-800 dark:border-vtd-secondary-700 dark:text-vtd-secondary-100 dark:placeholder-vtd-secondary-500 dark:focus:border-vtd-primary-500 dark:focus:ring-opacity-20"
               :placeholder="placeholder"
               @input="$emit('update:modelValue', $event.target.value)"
               :value="modelValue"

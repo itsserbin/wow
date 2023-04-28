@@ -13,10 +13,6 @@ const items = [
         href: route('admin.statistics.index')
     },
     {
-        title: 'Повернення',
-        href: route('admin.statistics.refunds.index')
-    },
-    {
         title: 'Прибуток',
         href: route('admin.statistics.profits.index')
     },
@@ -36,17 +32,30 @@ const items = [
         title: 'Товари',
         href: route('admin.statistics.products.index')
     },
-];
-
-const costItems = [
     {
         title: 'Витрати',
         href: route('admin.statistics.costs.index')
     },
+];
+
+const costItems = [
     {
-        title: 'Категорії витрат',
+        title: 'Рух ро карті',
+        href: route('admin.statistics.bank-card-movements.index')
+    },
+    {
+        title: 'P&L',
+        href: route('admin.statistics.profit-and-loss.index')
+    },
+    {
+        title: 'Повернення',
+        href: route('admin.statistics.refunds.index')
+    },
+    {
+        title: 'Категорії витрат/прибутків',
         href: route('admin.statistics.costs.categories.index')
     },
+
 ];
 </script>
 
@@ -56,8 +65,8 @@ const costItems = [
             <slot name="header"></slot>
         </template>
 
-        <div class="grid grid-cols-1 md:grid-cols-5 gap-4" v-if="can('show-bookkeeping')">
-            <div class="md:col-span-1">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4" v-if="can('show-bookkeeping')">
+            <div class="md:col-span-2">
                 <Sidebar class="mb-5">
                     <SidebarItem v-for="item in items"
                                  :item="item"
@@ -72,7 +81,7 @@ const costItems = [
                     />
                 </Sidebar>
             </div>
-            <div class="w-full md:col-span-4">
+            <div class="w-full md:col-span-10">
                 <slot></slot>
             </div>
         </div>

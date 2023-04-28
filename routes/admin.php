@@ -85,6 +85,18 @@ Route::prefix('admin')
             Route::get('/', [AdminController::class, 'statistics'])
                 ->name('admin.statistics.index');
 
+            Route::prefix('bank-card-movements')->group(function () {
+                Route::get('/', [AdminController::class, 'statisticBankCardMovements'])
+                    ->name('admin.statistics.bank-card-movements.index');
+
+                Route::get('export', [ExportController::class, 'bankCardMovementsExport'])
+                    ->name('admin.statistics.bank-card-movements.export');
+            });
+
+
+            Route::get('profit-and-loss', [AdminController::class, 'statisticProfitAndLoss'])
+                ->name('admin.statistics.profit-and-loss.index');
+
             Route::get('refunds', [AdminController::class, 'statisticRefunds'])
                 ->name('admin.statistics.refunds.index');
 

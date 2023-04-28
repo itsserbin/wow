@@ -209,6 +209,17 @@ class AdminController extends Controller
         return Inertia::render('Admin/Statistics/Refunds/Index');
     }
 
+    final public function statisticBankCardMovements(): Response
+    {
+        return Inertia::render('Admin/Statistics/BankCardMovements/Index');
+    }
+
+
+    final public function statisticProfitAndLoss(): Response
+    {
+        return Inertia::render('Admin/Statistics/ProfitAndLoss/Index');
+    }
+
     final public function statisticCostCategories(): Response
     {
         return Inertia::render('Admin/Statistics/CostCategories/Index');

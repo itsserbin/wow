@@ -1,70 +1,87 @@
 <script setup>
-import {onMounted, inject, ref, computed} from "vue";
-import {endOfMonth, startOfMonth} from "date-fns";
+import {onMounted, inject, ref, computed, reactive} from "vue";
+import {endOfMonth, format, startOfMonth} from "date-fns";
 
 import Loader from '@/Components/Loader.vue';
 import Card from '@/Components/Card.vue';
 import Paginate from '@/Components/Paginate.vue';
 import Table from '@/Pages/Admin/Statistics/Refunds/Table.vue';
 import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
-import DatepickerComponent from '@/Pages/Admin/Statistics/Datepicker.vue'
+import Datepicker from 'vue-tailwind-datepicker'
+import PrimaryButton from '@/Components/Button/Primary.vue';
 
 const can = inject('$can');
 
-const state = ref({
+const state = reactive({
     data: [],
     indicators: [],
     chart: null,
     isLoading: true,
 });
 
-const params = ref({
-    date: [],
-    currentPage: 1,
-})
-
-const dateRange = computed(() => {
-    if (params.value.date.length === 2) {
-        return {
-            date_start: params.value.date[0].toLocaleDateString(),
-            date_end: params.value.date[1].toLocaleDateString()
-        }
-    }
+const params = reactive({
+    date: {
+        startDate: format(startOfMonth(new Date()), "yyyy-MM-dd HH:mm:ss"),
+        endDate: format(endOfMonth(new Date()), "yyyy-MM-dd HH:mm:ss")
+    },
+    page: 1,
 });
 
-const last = computed(() => params.value.last);
+const getParams = computed(() => {
+    const {date, page} = params;
 
-const getParams = computed(() => ({
-    ...dateRange.value,
-    last: last.value,
-    page: params.value.currentPage
-}));
+    return {
+        date_start: date.startDate,
+        date_end: date.endDate,
+        page
+    };
+});
 
-onMounted(() => {
-    params.value.date[0] = startOfMonth(new Date());
-    params.value.date[1] = endOfMonth(new Date());
-
-    fetch();
+onMounted(async () => {
+    await fetch();
 })
 
-const paginate = (page) => {
-    if (page) {
-        params.value.currentPage = page;
-    }
-    fetch();
+const fetch = async () => {
+    state.isLoading = true;
+    await axios.get(route('api.statistics.refunds.index', getParams.value))
+        .then(({data}) => {
+            state.indicators = data.result.indicators;
+            state.data = data.result.data;
+        })
+        .catch((response) => console.error(response));
+    state.isLoading = false;
 }
 
-const fetch = async () => {
-    state.value.isLoading = true;
-    axios.get(route('api.statistics.refunds.index', getParams.value))
-        .then(({data}) => {
-            state.value.data = data.result;
-            state.value.isLoading = false;
-        })
-        .catch((response) => {
-            console.log(response);
-            state.value.isLoading = false;
-        });
+
+const onSelectDate = async (val) => {
+    params.date = {
+        startDate: val.startDate,
+        endDate: val.endDate,
+    }
+    params.page = 1;
+    await fetch();
+}
+
+const getAllData = async () => {
+    params.date = {
+        startDate: null,
+        endDate: null,
+    }
+    params.page = 1;
+    await fetch();
+}
+
+const indicatorTitle = (val) => {
+    switch (val) {
+        case 'sum_provider_trade_price':
+            return 'Сума постачальника';
+        case 'sum_order_price':
+            return 'Сума замовлення';
+        case 'sum_provider_refund':
+            return 'Сума сплати постачальником';
+        case 'sum_client_refund':
+            return 'Сума сплати клієнту';
+    }
 }
 </script>
 
@@ -76,14 +93,23 @@ const fetch = async () => {
 
         <Loader v-if="state.isLoading"/>
         <div v-if="!state.isLoading && can('show-bookkeeping-refunds')" class="grid grid-cols-1 gap-4">
-            <DatepickerComponent v-model="params.date"
-                                 @update:modelValue="fetch"
-            />
+
+            <div class="grid grid-cols-12 gap-4">
+                <div class="col-span-12 md:col-span-2">
+                    <PrimaryButton type="button" @click="getAllData" class="w-full h-full justify-center">
+                        Показати все
+                    </PrimaryButton>
+                </div>
+
+                <div class="col-span-12 md:col-span-10">
+                    <Datepicker @update:modelValue="onSelectDate" v-model="params.date" :auto-apply="false" use-range/>
+                </div>
+            </div>
 
             <div class="grid grid-cols-2 md:grid-cols-4">
-                <Card v-for="(item,i) in state.indicatord"
+                <Card v-for="(item,i) in state.indicators"
                       class="text-center"
-                      :title="i"
+                      :title="indicatorTitle(i)"
                       :description="$filters.formatMoney(item)"
                 >
                 </Card>

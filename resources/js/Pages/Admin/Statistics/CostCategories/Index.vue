@@ -2,11 +2,10 @@
 import {reactive, onMounted, inject, ref, computed} from "vue";
 import {swal} from "@/Includes/swal";
 
+import Table from './Table.vue';
 import Paginate from '@/Components/Paginate.vue';
 import Loader from '@/Components/Loader.vue';
 import Button from '@/Components/Button.vue';
-import Table from '@/Components/Table.vue';
-import XCircle from '@/Components/Icons/XCircle.vue';
 import CostCategoryModal from '@/Pages/Admin/Statistics/CostCategories/Modal.vue';
 import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
 
@@ -15,10 +14,10 @@ const can = inject('$can');
 const item = ({
     title: null,
     slug: null,
-    code: null,
+    type: 0,
 })
 
-const state = ref({
+const state = reactive({
     categories: [],
     isLoading: true,
     isActiveModal: false,
@@ -30,50 +29,21 @@ const state = ref({
 
 onMounted(async () => await fetch());
 
-const activeModal = computed(() => state.value.isActiveModal ? CostCategoryModal : null)
-
-const headings = reactive([
-    {
-        label: 'ID',
-        key: 'id'
-    },
-    {
-        label: 'Код ',
-        key: 'code'
-    },
-    {
-        label: 'Назва',
-        key: 'title'
-    },
-    {
-        label: 'Slug',
-        key: 'slug'
-    },
-    {
-        label: "Оновлено<hr class='my-1'>Створено",
-        key: 'timestamps'
-    },
-    {
-        label: '#',
-        key: 'actions'
-    }
-]);
-
 const fetch = async (page) => {
-    state.value.isLoading = true;
+    state.isLoading = true;
     if (page) {
-        state.value.currentPage = page;
+        state.currentPage = page;
     }
     await axios.get(route('api.statistics.costs.categories.index', {
-        page: state.value.currentPage
+        page: state.currentPage
     }))
         .then(({data}) => {
-            state.value.categories = data.result
-            state.value.isLoading = false;
+            state.categories = data.result
+            state.isLoading = false;
         })
         .catch((response) => {
             console.log(response);
-            state.value.isLoading = false;
+            state.isLoading = false;
         })
 
 }
@@ -89,7 +59,7 @@ function onDestroy(id) {
                 axios.delete(route('api.statistics.costs.categories.destroy', id))
                     .then(() => {
                         fetch();
-                        if (state.value.isActiveModal) {
+                        if (state.isActiveModal) {
                             modalFunction();
                         }
                         swal({
@@ -111,22 +81,22 @@ function onDestroy(id) {
 }
 
 function modalFunction() {
-    state.value.isActiveModal = !state.value.isActiveModal;
+    state.isActiveModal = !state.isActiveModal;
 }
 
 function onEdit(id, i) {
     axios.get(route('api.statistics.costs.categories.edit', id))
         .then(({data}) => {
-            state.value.item = data.result;
-            state.value.modalAction = 'edit';
-            state.value.item.index = i;
+            state.item = data.result;
+            state.modalAction = 'edit';
+            state.item.index = i;
             modalFunction();
         })
         .catch((response) => console.log(response))
 }
 
 function onUpdate() {
-    axios.put(route('api.statistics.costs.categories.update', state.value.item.id), state.value.item)
+    axios.put(route('api.statistics.costs.categories.update', state.item.id), state.item)
         .then(() => {
             modalFunction();
             fetch();
@@ -145,10 +115,10 @@ function onUpdate() {
 }
 
 function onCreate() {
-    axios.post(route('api.statistics.costs.categories.create'), state.value.item)
+    axios.post(route('api.statistics.costs.categories.create'), state.item)
         .then(() => {
             modalFunction();
-            state.value.item = item;
+            state.item = item;
             fetch();
             swal({
                 title: 'Success!',
@@ -165,16 +135,16 @@ function onCreate() {
 }
 
 function submitForm() {
-    if (state.value.modalAction === 'edit') {
+    if (state.modalAction === 'edit') {
         onUpdate();
-    } else if (state.value.modalAction === 'create') {
+    } else if (state.modalAction === 'create') {
         onCreate();
     }
 }
 
 function create() {
-    Object.assign(state.value.item, item);
-    state.value.modalAction = 'create';
+    Object.assign(state.item, item);
+    state.modalAction = 'create';
     modalFunction();
 }
 </script>
@@ -182,49 +152,33 @@ function create() {
 <template>
     <StatisticLayout title="Категорії витрат">
         <template #header>
-            Категорії витрат
+            Категорії витрат та прибутків
         </template>
 
         <Loader v-if="state.isLoading"/>
-        <div v-if="!state.isLoading && can('show-bookkeeping-costs')">
-            <Button type="btn" @click="create">
-                Додати
-            </Button>
+        <div v-if="!state.isLoading && can('show-bookkeeping-costs')" class="grid grid-cols-1 gap-4">
+            <div>
+                <Button type="btn" @click="create">
+                    Додати
+                </Button>
+            </div>
 
-            <Table :headings="headings"
-                   :rows="state.categories.data"
-                   :isSlotMode="true"
-            >
-                <template #id="{data}">
-                    <a href="javascript:" @click="onEdit(data.row.id,data.i)">
-                        {{ data.row.id }}
-                    </a>
-                </template>
-
-                <template #timestamps="{data}">
-                    {{ $filters.dateFormat(data.row.updated_at) }}
-                    <hr class="my-1">
-                    {{ $filters.dateFormat(data.row.created_at) }}
-                </template>
-
-                <template #actions="{data}">
-                    <a href="javascript:" @click="onDestroy(data.row.id)">
-                        <XCircle/>
-                    </a>
-                </template>
-            </Table>
-
-            <Paginate :pagination="state.categories"
-                      :click-handler="fetch"
-                      v-model="state.currentPage"
+            <Table :data="state.categories.data"
+                   @onEdit="onEdit"
+                   @onDestroy="onDestroy"
             />
 
-            <component :is="activeModal"
-                       :item="state.item"
-                       @closeModal="modalFunction"
-                       @submitForm="submitForm"
-                       @declineForm="onDestroy"
-            ></component>
+            <div class="text-center">
+                <Paginate :pagination="state.categories"
+                          :click-handler="fetch"
+                          v-model="state.currentPage"
+                />
+            </div>
+            <CostCategoryModal :show="state.isActiveModal"
+                               :item="state.item"
+                               @close="modalFunction"
+                               @submit="submitForm"
+            ></CostCategoryModal>
         </div>
     </StatisticLayout>
 </template>

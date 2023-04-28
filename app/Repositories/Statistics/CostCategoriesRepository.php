@@ -7,7 +7,6 @@ use App\Repositories\CoreRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
-
 class CostCategoriesRepository extends CoreRepository
 {
     public function __construct()
@@ -44,7 +43,7 @@ class CostCategoriesRepository extends CoreRepository
     {
         $model = new $this->model;
         $model->title = $data['title'];
-        $model->code = $data['code'];
+        $model->type = $data['type'];
         $model->slug = $data['slug'];
         $model->save();
 
@@ -57,7 +56,7 @@ class CostCategoriesRepository extends CoreRepository
 
         if ($model) {
             $model->title = $data['title'];
-            $model->code = $data['code'];
+            $model->type = $data['type'];
             $model->slug = $data['slug'];
             $model->update();
         } else {
@@ -75,6 +74,6 @@ class CostCategoriesRepository extends CoreRepository
 
     final public function list(): Collection
     {
-        return $this->model::select(['id', 'title', 'slug'])->orderBy('id', 'desc')->get();
+        return $this->model::select(['id', 'title', 'slug', 'type'])->orderBy('id', 'desc')->get();
     }
 }

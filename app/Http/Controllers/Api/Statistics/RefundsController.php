@@ -20,10 +20,14 @@ class RefundsController extends BaseController
     final public function index(Request $request): JsonResponse
     {
         $result = $this->refundsRepository->getAllWithPaginate($request->all());
+        $indicators = $this->refundsRepository->getIndicators($request->all());
 
         return $this->returnResponse([
             'success' => true,
-            'result' => $result,
+            'result' => [
+                'data' => $result,
+                'indicators' => $indicators
+            ],
         ]);
     }
 }

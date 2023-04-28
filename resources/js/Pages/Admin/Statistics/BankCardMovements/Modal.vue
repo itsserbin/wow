@@ -1,18 +1,18 @@
 <script setup>
 import Modal from '@/Components/Modal/Modal.vue';
-import CostCategoryForm from '@/Pages/Admin/Statistics/CostCategories/Form.vue';
 import ButtonPrimary from '@/Components/Button/Primary.vue';
 import ButtonSecondary from '@/Components/Button/Secondary.vue';
+import Form from './Form.vue'
 
-defineProps(['item', 'show']);
-
+defineProps(['show', 'item', 'categories']);
 const emits = defineEmits(['close', 'submit']);
 </script>
 
 <template>
     <Modal :show="show" @close="emits('close')">
+        <template #head></template>
         <template #body>
-            <CostCategoryForm :item="item"/>
+            <Form :item="item" :categories="categories"/>
         </template>
         <template #footer>
             <div class="grid grid-cols-2 gap-x-6">

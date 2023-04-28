@@ -1,4 +1,5 @@
 <script setup>
+import Select from '@/Components/Form/Select.vue';
 import Label from '@/Components/Form/Label.vue';
 import Input from '@/Components/Form/Input.vue';
 
@@ -7,6 +8,17 @@ import {onMounted, ref} from "vue";
 const props = defineProps(['item'])
 
 const categories = ref([]);
+
+const options = [
+    {
+        key: 0,
+        value: 'Витрата',
+    },
+    {
+        key: 1,
+        value: 'Прибуток',
+    }
+];
 
 onMounted(async () => {
     await axios.get(route('api.statistics.costs.categories.list'))
@@ -30,13 +42,13 @@ onMounted(async () => {
             </div>
 
             <div class="block">
-                <Label value="Код транзації в банку"/>
-                <Input v-model="item.code" type="text"/>
+                <Label value="Slug"/>
+                <Input v-model="item.slug" type="text"/>
             </div>
 
             <div class="block">
-                <Label value="Slug"/>
-                <Input v-model="item.slug" type="text"/>
+                <Label value="Тип категорії"/>
+                <Select v-model="item.type" :options="options"/>
             </div>
         </div>
     </form>

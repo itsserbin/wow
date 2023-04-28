@@ -71,6 +71,9 @@ export function mountAdmin() {
                 dateTimeFormat(value) {
                     return moment(value).format('DD.MM.YY HH:mm');
                 },
+                timeFormat(value) {
+                    return moment(value).format('HH:mm');
+                },
                 publishedStatus(value) {
                     return value ? 'Опубліковано' : 'Не опубліковано';
                 },

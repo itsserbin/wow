@@ -43,12 +43,22 @@ class MonobankService
 
     final public function getExtract(): array
     {
+        $fromDateString = '01.04.2023';
+        $fromDate = \Carbon\Carbon::createFromFormat('d.m.Y', $fromDateString);
+        $from = $fromDate->timestamp;
+
+        $toDateString = '26.04.2023';
+        $toDate = \Carbon\Carbon::createFromFormat('d.m.Y', $toDateString);
+        $to = $toDate->timestamp;
+
         $url = 'https://api.monobank.ua/personal/statement/' .
             $this->getAccountNumber() .
             '/' .
-            \Carbon\Carbon::now()->subDays(7)->timestamp .
+            $from .
+//            \Carbon\Carbon::now()->subDays(30)->timestamp .
             '/' .
-            time();
+            $to;
+//            time();
 
         $headers = ['X-Token: ' . $this->token];
 

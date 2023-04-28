@@ -2,7 +2,6 @@
 
 namespace App\Models\Statistics;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -11,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property string $title
  * @property string $slug
+ * @property boolean $type
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $code
@@ -27,5 +27,4 @@ use Illuminate\Database\Eloquent\Model;
  */
 class CostCategory extends Model
 {
-    use HasFactory;
 }

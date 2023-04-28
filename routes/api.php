@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\PermissionsController;
 use App\Http\Controllers\Api\PromoCodesController;
 use App\Http\Controllers\Api\RolesController;
 use App\Http\Controllers\Api\SmsController;
+use App\Http\Controllers\Api\Statistics\BankCardMovementsController;
 use App\Http\Controllers\Api\Statistics\ManagerSalariesController;
 use App\Http\Controllers\Api\Statistics\MarketingStatisticController;
 use App\Http\Controllers\Api\Statistics\OrdersStatisticController;
@@ -530,6 +531,25 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::prefix('statistics')->group(function () {
+        Route::prefix('bank-card-movements')->group(function () {
+            Route::get('/', [BankCardMovementsController::class, 'index'])
+                ->name('api.statistics.bank-card-movements.index');
+
+            Route::get('edit/{id}', [BankCardMovementsController::class, 'edit'])
+                ->name('api.statistics.bank-card-movements.edit');
+
+            Route::put('update/{id}', [BankCardMovementsController::class, 'update'])
+                ->name('api.statistics.bank-card-movements.update');
+
+            Route::post('update-category', [BankCardMovementsController::class, 'updateCategory'])
+                ->name('api.statistics.bank-card-movements.category.update');
+
+            Route::post('create', [BankCardMovementsController::class, 'create'])
+                ->name('api.statistics.bank-card-movements.create');
+
+            Route::get('profit-and-loss', [BankCardMovementsController::class, 'getProfitAndLoss'])
+                ->name('api.statistics.bank-card-movements.profit-and-loss');
+        });
         Route::prefix('costs')->group(function () {
             Route::get('/', [CostsController::class, 'index'])
                 ->name('api.statistics.costs.index');
