@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->float('sum');
             $table->float('balance');
             $table->foreignId('category_id')->nullable();
-            $table->string('comment');
+            $table->string('comment')->nullable();
             $table->timestamps();
         });
     }
