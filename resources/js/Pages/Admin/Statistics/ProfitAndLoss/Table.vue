@@ -30,6 +30,10 @@ const state = reactive({
             'sum': props.data.receipts
         },
         {
+            'name': 'Залишок на початок період',
+            'sum': props.data.balance_at_the_beginning
+        },
+        {
             'name': 'Витрати',
             'sum': props.data.costs.total
         },

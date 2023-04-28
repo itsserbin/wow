@@ -104,7 +104,7 @@ class BankCardMovementsRepository extends CoreRepository
         }
     }
 
-    #[ArrayShape(['costs' => "int[]", 'receipts' => "mixed", 'profit' => "mixed"])]
+    #[ArrayShape(['costs' => "float[]", 'receipts' => "mixed", 'profit' => "mixed", 'balance_at_the_beginning' => 'float'])]
     final public function getProfitAndLossStatistic(array $data): array
     {
         $categoriesRepository = new CostCategoriesRepository();
@@ -156,10 +156,19 @@ class BankCardMovementsRepository extends CoreRepository
             $profitData = $this->model::where('sum', '>', 0)->sum('sum');
         }
 
+        if (isset($data['date_start'], $data['date_end'])) {
+            $balance_at_the_beginning = $this->model::whereBetween('date', [$data['date_start'], $data['date_end']])
+                ->orderBy('date', 'asc')->first();
+        } else {
+            $balance_at_the_beginning = $this->model::orderBy('date', 'asc')->first();
+        }
+
+
         return [
             'costs' => $costs,
             'receipts' => $profitData,
-            'profit' => $profitData + $costs['total']
+            'balance_at_the_beginning' => $balance_at_the_beginning->balance,
+            'profit' => $profitData + $balance_at_the_beginning->balance + $costs['total']
         ];
     }
 
