@@ -133,8 +133,19 @@ class BankCardMovementsRepository extends CoreRepository
             }
 
             $costs[$category->title] += $items;
-            $costs['total'] += $items;
         }
+
+        if (isset($data['date_start'], $data['date_end'])) {
+            $costs['total'] = $items = $this
+                ->model::where('sum', '<', 0)
+                ->whereBetween('date', [$data['date_start'], $data['date_end']])
+                ->sum('sum');
+        } else {
+            $costs['total'] = $items = $this
+                ->model::where('sum', '<', 0)
+                ->sum('sum');
+        }
+
 
         if (isset($data['date_start'], $data['date_end'])) {
             $profitData = $this
