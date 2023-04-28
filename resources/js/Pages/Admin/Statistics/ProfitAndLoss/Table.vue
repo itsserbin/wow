@@ -23,11 +23,11 @@ const state = reactive({
     data: [
         {
             'name': 'Прибуток',
-            'sum': props.data.receipts
+            'sum': props.data.profit
         },
         {
             'name': 'Надходження',
-            'sum': props.data.profit
+            'sum': props.data.receipts
         },
         {
             'name': 'Витрати',
