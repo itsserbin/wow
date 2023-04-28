@@ -100,7 +100,7 @@ const onSubmit = async () => {
         ? route('api.statistics.bank-card-movements.update', state.item.id)
         : route('api.statistics.bank-card-movements.create');
 
-    const method = state.item.movement_id ? 'put' : 'post';
+    const method = state.item.id ? 'put' : 'post';
 
     await onSubmitRequest(method, url, state.item);
 }
