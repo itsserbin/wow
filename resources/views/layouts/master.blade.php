@@ -6,7 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/scss/public.scss')
-    {{--    {!! $options['head_scripts'] !!}--}}
+        {!! $page['props']['options']['head_scripts'] !!}
     {{--    <meta property="og:title" content="@yield('meta_title')"/>--}}
     {{--    <meta property="og:type" content="website"/>--}}
     {{--    <meta property="og:url" content="{{url()->current()}}"/>--}}
@@ -29,7 +29,7 @@
     @inertiaHead
 </head>
 <body class="h-full flex flex-col">
-{{--{!! $options['after_body_scripts'] !!}--}}
+{!! $page['props']['options']['after_body_scripts'] !!}
 {{--<div class="loader fixed inset-0 z-50 flex items-center justify-center backdrop-filter backdrop-blur-md">--}}
 {{--    <div class="lds-ellipsis inline-block relative w-[80px] h-[80px]">--}}
 {{--        <div class="absolute top-[33px] w-[13px] h-[13px] rounded-[50%] bg-[#ff0000]"></div>--}}
@@ -79,7 +79,7 @@
 
 {{--</script>--}}
 {{--@vite('resources/js/Pages/Public/app.js')--}}
-{{--{!! $options['footer_scripts'] !!}--}}
+{!! $page['props']['options']['footer_scripts'] !!}
 @if(env('APP_ENV') !== 'local')
     <!-- Meta Pixel Code -->
     <script defer>
