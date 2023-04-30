@@ -39,9 +39,13 @@ const state = reactive({
 
 const params = reactive({
     date: {
-        startDate: format(startOfMonth(new Date()), "yyyy-MM-dd HH:mm:ss"),
-        endDate: format(endOfMonth(new Date()), "yyyy-MM-dd HH:mm:ss")
+        startDate: null,
+        endDate: null
     },
+    // date: {
+    //     startDate: format(startOfMonth(new Date()), "yyyy-MM-dd HH:mm:ss"),
+    //     endDate: format(endOfMonth(new Date()), "yyyy-MM-dd HH:mm:ss")
+    // },
     page: 1,
     get: '',
 });
