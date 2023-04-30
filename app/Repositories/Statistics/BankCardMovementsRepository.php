@@ -116,9 +116,9 @@ class BankCardMovementsRepository extends CoreRepository
         $model->fill($data);
         $model->save();
 
+        $this->calculateBalance($data['date']);
         $this->updateCashFlow($data['date']);
         $this->updateProfitAndLoss($data['date']);
-        $this->calculateBalance($data['date']);
         return $model;
     }
 
@@ -128,9 +128,9 @@ class BankCardMovementsRepository extends CoreRepository
         $model->fill($data);
         $model->update();
 
+        $this->calculateBalance($data['date']);
         $this->updateCashFlow($data['date']);
         $this->updateProfitAndLoss($data['date']);
-        $this->calculateBalance($data['date']);
         return $model;
     }
 

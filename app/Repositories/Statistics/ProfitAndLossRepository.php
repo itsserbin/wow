@@ -52,7 +52,7 @@ class ProfitAndLossRepository extends CoreRepository
 //            $model->orderBy('date', 'desc');
 //        }
 
-        return $model->orderBy('month','desc')->paginate(15);
+        return $model->orderBy('month', 'desc')->paginate(15);
     }
 
     final public function create(string $month)
@@ -62,32 +62,34 @@ class ProfitAndLossRepository extends CoreRepository
 
         $items = $this->bankCardMovementsRepository->getByMonth($month);
 
-        $model->purchase_cost = $this->ordersRepository->getTradeTotalPriceByMonth($month) ?? 0;
-        $model->total_revenues = $this->ordersRepository->getTotalPriceByMonth($month) ?? 0;
-        $model->costs = $items->isNotEmpty() ? $items->where('sum', '<', 0)->sum('sum') : 0;
-        $model->net_profit = $model->total_revenues + $model->costs - $model->purchase_cost;
-        $model->business_profitability = $model->total_revenues ? ($model->net_profit / $model->total_revenues) * 100 : 0;
-
-        $model->save();
-    }
-
-    final public function update(string $month)
-    {
-        $model = $this->getByMonth($month);
-
-        if (!$model) {
-            $this->create($month);
-        }
-
-        $items = $this->bankCardMovementsRepository->getByMonth($month);
-
         $model->purchase_cost = $this->ordersRepository->getTradeTotalPriceByMonth($month) ?: 0;
         $model->total_revenues = $this->ordersRepository->getTotalPriceByMonth($month) ?: 0;
         $model->costs = $items->isNotEmpty() ? $items->where('sum', '<', 0)->sum('sum') : 0;
         $model->net_profit = $model->total_revenues + $model->costs - $model->purchase_cost;
         $model->business_profitability = $model->total_revenues ? ($model->net_profit / $model->total_revenues) * 100 : 0;
+        $model->save();
 
+        return true;
+    }
+
+    final public function update(string $month)
+    {
+
+        $model = $this->getByMonth($month);
+
+        if (!$model) {
+            return $this->create($month);
+        }
+
+        $items = $this->bankCardMovementsRepository->getByMonth($month);
+        $model->purchase_cost = $this->ordersRepository->getTradeTotalPriceByMonth($month) ?: 0;
+        $model->total_revenues = $this->ordersRepository->getTotalPriceByMonth($month) ?: 0;
+        $model->costs = $items->isNotEmpty() ? $items->where('sum', '<', 0)->sum('sum') : 0;
+        $model->net_profit = $model->total_revenues + $model->costs - $model->purchase_cost;
+        $model->business_profitability = $model->total_revenues ? ($model->net_profit / $model->total_revenues) * 100 : 0;
         $model->update();
+
+        return true;
     }
 
 }
