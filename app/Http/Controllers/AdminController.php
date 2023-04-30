@@ -220,6 +220,11 @@ class AdminController extends Controller
         return Inertia::render('Admin/Statistics/ProfitAndLoss/Index');
     }
 
+    final public function statisticCashFlow(): Response
+    {
+        return Inertia::render('Admin/Statistics/CashFlow/Index');
+    }
+
     final public function statisticCostCategories(): Response
     {
         return Inertia::render('Admin/Statistics/CostCategories/Index');

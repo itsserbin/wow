@@ -94,6 +94,9 @@ Route::prefix('admin')
             });
 
 
+            Route::get('cash-flow', [AdminController::class, 'statisticCashFlow'])
+                ->name('admin.statistics.cash-flow.index');
+
             Route::get('profit-and-loss', [AdminController::class, 'statisticProfitAndLoss'])
                 ->name('admin.statistics.profit-and-loss.index');
 

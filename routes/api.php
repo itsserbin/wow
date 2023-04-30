@@ -20,12 +20,14 @@ use App\Http\Controllers\Api\PromoCodesController;
 use App\Http\Controllers\Api\RolesController;
 use App\Http\Controllers\Api\SmsController;
 use App\Http\Controllers\Api\Statistics\BankCardMovementsController;
+use App\Http\Controllers\Api\Statistics\CashFlowController;
 use App\Http\Controllers\Api\Statistics\ManagerSalariesController;
 use App\Http\Controllers\Api\Statistics\MarketingStatisticController;
 use App\Http\Controllers\Api\Statistics\OrdersStatisticController;
 use App\Http\Controllers\Api\ProductReviewsController;
 use App\Http\Controllers\Api\ProductsController;
 use App\Http\Controllers\Api\Statistics\ProductStatisticsController;
+use App\Http\Controllers\Api\Statistics\ProfitAndLossController;
 use App\Http\Controllers\Api\Statistics\ProfitsController;
 use App\Http\Controllers\Api\ProvidersController;
 use App\Http\Controllers\Api\SizesController;
@@ -546,10 +548,14 @@ Route::middleware('auth:sanctum')->group(function () {
 
             Route::post('create', [BankCardMovementsController::class, 'create'])
                 ->name('api.statistics.bank-card-movements.create');
-
-            Route::get('profit-and-loss', [BankCardMovementsController::class, 'getProfitAndLoss'])
-                ->name('api.statistics.bank-card-movements.profit-and-loss');
         });
+
+        Route::get('profit-and-loss', [ProfitAndLossController::class, 'index'])
+            ->name('api.statistics.profit-and-loss');
+
+        Route::get('cash-flow', [CashFlowController::class, 'getCashFlow'])
+            ->name('api.statistics.cash-flow');
+
         Route::prefix('costs')->group(function () {
             Route::get('/', [CostsController::class, 'index'])
                 ->name('api.statistics.costs.index');

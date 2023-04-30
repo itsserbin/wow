@@ -1,9 +1,10 @@
 <script setup>
 import Table from './Table.vue';
 import DownloadIcon from '@/Components/Icons/DownloadIcon.vue';
-import UploadIcon from '@/Components/Icons/UploadIcon.vue';
+import Card from '@/Components/Card.vue';
 import Paginate from '@/Components/Paginate.vue';
 import PrimaryButton from '@/Components/Button/Primary.vue';
+import SecondaryButton from '@/Components/Button/Secondary.vue';
 import DangerButton from '@/Components/Button/Danger.vue';
 import Loader from '@/Components/Loader.vue';
 import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
@@ -28,6 +29,7 @@ const item = {
 
 const state = reactive({
     data: [],
+    indicators: [],
     categories: [],
     isLoading: true,
     showModal: false,
@@ -41,15 +43,17 @@ const params = reactive({
         endDate: format(endOfMonth(new Date()), "yyyy-MM-dd HH:mm:ss")
     },
     page: 1,
+    get: '',
 });
 
 
 const getParams = computed(() => {
-    const {date, page} = params;
+    const {date, page, get} = params;
 
     return {
         date_start: date.startDate,
         date_end: date.endDate,
+        get: get,
         page
     };
 });
@@ -62,7 +66,10 @@ onMounted(async () => {
 const fetch = async () => {
     state.isLoading = true;
     await axios.get(route('api.statistics.bank-card-movements.index', getParams.value))
-        .then(({data}) => state.data = data.result)
+        .then(({data}) => {
+            state.data = data.result.data
+            state.indicators = data.result.indicators
+        })
         .catch((errors) => console.log(errors));
     state.isLoading = false;
 }
@@ -73,6 +80,7 @@ const onSelectDate = async (val) => {
         endDate: val.endDate,
     }
     params.page = 1;
+    params.get = '';
     await fetch();
 }
 
@@ -120,6 +128,7 @@ const getAllData = async () => {
         endDate: null,
     }
     params.page = 1;
+    params.get = '';
     await fetch();
 }
 
@@ -159,6 +168,26 @@ const toggleModal = () => {
 const exportData = () => {
     router.get(route('admin.statistics.bank-card-movements.export'));
 }
+
+const indicatorTitle = (val) => {
+    switch (val) {
+        case ('balance'):
+            return 'Баланс';
+        case ('profits'):
+            return 'Надходження';
+        case ('costs'):
+            return 'Витрати';
+    }
+}
+
+const getProfitsData = async () => {
+    params.get = 'profits';
+    await fetch();
+}
+const getCostsData = async () => {
+    params.get = 'costs';
+    await fetch();
+}
 </script>
 
 <template>
@@ -189,6 +218,42 @@ const exportData = () => {
                 </div>
 
             </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mx-auto">
+                    <Card v-for="(item,i) in state.indicators"
+                          class="text-center dark:bg-gray-800 rounded-xl shadow-md"
+                          :title="indicatorTitle(i)"
+                          :description="$filters.formatMoney(item)"
+                    >
+                    </Card>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                    <div class="md:col-span-1 flex items-end">
+                        <div class="block w-full">
+                            <PrimaryButton type="button" @click="getAllData" class="w-full justify-center">
+                                Все
+                            </PrimaryButton>
+                        </div>
+
+                    </div>
+                    <div class="md:col-span-2 flex items-end">
+                        <div class="block w-full">
+                            <SecondaryButton type="button" @click="getProfitsData" class="w-full justify-center">
+                                Надходження
+                            </SecondaryButton>
+                        </div>
+                    </div>
+                    <div class="md:col-span-2 flex items-end">
+                        <div class="block w-full">
+                            <SecondaryButton type="button" @click="getCostsData" class="w-full justify-center">
+                                Витрати
+                            </SecondaryButton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <Table :data="state.data.data"
                    @onDestroy="onDestroy"
                    @onEdit="onEdit"
@@ -197,7 +262,8 @@ const exportData = () => {
                    @getCategories="getCategories"
             />
             <div class="text-center">
-                <Paginate :pagination="state.data"
+                <Paginate v-if="state.data.last_page !== 1"
+                          :pagination="state.data"
                           :click-handler="fetch"
                           v-model="params.page"
                 />

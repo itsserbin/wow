@@ -10,7 +10,6 @@ const emits = defineEmits(['close', 'submit']);
 
 <template>
     <Modal :show="show" @close="emits('close')">
-        <template #head></template>
         <template #body>
             <Form :item="item" :categories="categories"/>
         </template>

@@ -48,6 +48,10 @@ const costItems = [
         href: route('admin.statistics.profit-and-loss.index')
     },
     {
+        title: 'CashFLow',
+        href: route('admin.statistics.cash-flow.index')
+    },
+    {
         title: 'Повернення',
         href: route('admin.statistics.refunds.index')
     },

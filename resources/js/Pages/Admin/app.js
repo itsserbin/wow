@@ -68,6 +68,9 @@ export function mountAdmin() {
                 dateFormat(value) {
                     return moment(value).format('DD.MM.YY');
                 },
+                monthFormat(value) {
+                    return moment(value).format('MM.YYYY');
+                },
                 dateTimeFormat(value) {
                     return moment(value).format('DD.MM.YY HH:mm');
                 },

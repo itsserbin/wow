@@ -19,15 +19,19 @@ class BankCardMovementsController extends BaseController
 
     final public function index(Request $request): JsonResponse
     {
-        $result = $this->bankCardMovementsRepository->getAllWithPaginate($request->all());
+        $data = $this->bankCardMovementsRepository->getAllWithPaginate($request->all());
+        $indicators = $this->bankCardMovementsRepository->indicators($request->all());
 
         return $this->returnResponse([
             'success' => true,
-            'result' => $result
+            'result' => [
+                'data' => $data,
+                'indicators' => $indicators
+            ]
         ]);
     }
 
-    final public function getProfitAndLoss(Request $request): JsonResponse
+    final public function getCashFlow(Request $request): JsonResponse
     {
         $result = $this->bankCardMovementsRepository->getProfitAndLossStatistic($request->all());
 

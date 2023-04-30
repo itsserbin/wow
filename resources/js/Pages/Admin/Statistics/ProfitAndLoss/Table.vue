@@ -10,96 +10,56 @@ const {t} = useI18n();
 
 const headings = [
     {
-        label: 'Назва',
-        key: 'name'
+        label: 'Місяць',
+        key: 'month'
     },
     {
-        label: 'Сума',
-        key: 'sum'
+        label: 'Загальна виручка',
+        key: 'total_revenues'
+    },
+    {
+        label: 'Витрати',
+        key: 'costs'
+    },
+    {
+        label: 'Ціна закупки',
+        key: 'purchase_cost'
+    },
+    {
+        label: 'Чистий прибуток',
+        key: 'net_profit'
+    },
+    {
+        label: 'Рентабельність бізнесу',
+        key: 'business_profitability'
     },
 ];
-
-const state = reactive({
-    data: [
-        {
-            'name': 'Прибуток',
-            'sum': props.data.profit
-        },
-        {
-            'name': 'Надходження',
-            'sum': props.data.receipts
-        },
-        {
-            'name': 'Залишок на початок період',
-            'sum': props.data.balance_at_the_beginning
-        },
-        {
-            'name': 'Витрати',
-            'sum': props.data.costs.total
-        },
-    ],
-    categories: [],
-    isCategoriseModal: false,
-    item: {
-        id: null,
-        category_id: null
-    },
-});
-
-
-onMounted(() => {
-    Object.keys(props.data.costs).forEach((key) => {
-        if (key !== 'total') {
-            state.data.push({
-                'name': '--- ' + key,
-                'sum': props.data.costs[key],
-            })
-        }
-    })
-});
-
-
-const toggleCategoriesModal = () => {
-    state.isCategoriseModal = !state.isCategoriseModal;
-}
-
-const setCategory = async () => {
-    try {
-        const {data} = await axios.post(route('api.statistics.bank-card-movements.category.update'), state.item);
-        if (data.success) {
-            state.item = {
-                id: null,
-                category_id: null
-            }
-            toggleCategoriesModal();
-            emits('onUpdate');
-            await swal({
-                icon: 'success',
-                title: t('swal.updated')
-            })
-        }
-
-    } catch (e) {
-        console.error(e);
-    }
-}
-
-const editCategory = (id) => {
-    toggleCategoriesModal();
-    state.item.id = id;
-}
 </script>
 
 <template>
-    <Table :headings="headings" :rows="state.data" :isSlotMode="true">
-        <template #sum="{data}">
-            {{ $filters.formatMoney(data.row.sum) }}
+    <Table :headings="headings" :rows="data" :isSlotMode="true">
+        <template #business_profitability="{data}">
+            {{ data.row.business_profitability }} %
         </template>
 
-        <template #name="{data}">
-            <div class="text-start">
-                {{ data.row.name }}
-            </div>
+        <template #total_revenues="{data}">
+            {{ $filters.formatMoney(data.row.total_revenues) }}
+        </template>
+
+        <template #purchase_cost="{data}">
+            {{ $filters.formatMoney(data.row.purchase_cost) }}
+        </template>
+
+        <template #net_profit="{data}">
+            {{ $filters.formatMoney(data.row.net_profit) }}
+        </template>
+
+        <template #costs="{data}">
+            {{ $filters.formatMoney(data.row.costs) }}
+        </template>
+
+        <template #month="{data}">
+            {{ $filters.monthFormat(data.row.month) }}
         </template>
     </Table>
 </template>

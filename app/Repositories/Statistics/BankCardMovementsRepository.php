@@ -4,6 +4,7 @@ namespace App\Repositories\Statistics;
 
 use App\Models\Statistics\BankCardMovement as Model;
 use App\Repositories\CoreRepository;
+use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 use JetBrains\PhpStorm\ArrayShape;
 
@@ -22,6 +23,14 @@ class BankCardMovementsRepository extends CoreRepository
     final public function getLastRowByDate()
     {
         return $this->model::orderBy('date', 'desc')->first();
+    }
+
+    final public function getByMonth(string $month)
+    {
+        return $this
+            ->model::where('date', 'like', $month . '%')
+            ->orderBy('date', 'asc')
+            ->get();
     }
 
     final public function getRowByMovementId($id)
@@ -45,6 +54,15 @@ class BankCardMovementsRepository extends CoreRepository
             'comment',
         ]);
 
+        if (isset($data['get'])) {
+            if ($data['get'] === 'profits') {
+                $model->where('sum', '>', 0);
+            }
+            if ($data['get'] === 'costs') {
+                $model->where('sum', '<', 0);
+            }
+        }
+
         if (isset($data['date_start'], $data['date_end'])) {
             $model->whereBetween('date', [$data['date_start'], $data['date_end']]);
         }
@@ -58,12 +76,48 @@ class BankCardMovementsRepository extends CoreRepository
         return $model->with(['category:id,title'])->paginate(15);
     }
 
+    final public function indicators(array $data): array
+    {
+        $model = $this->model::select([
+            'id',
+            'date',
+            'sum',
+            'balance',
+            'category_id',
+            'comment',
+        ]);
+
+        if (isset($data['get'])) {
+            if ($data['get'] === 'profits') {
+                $model->where('sum', '>', 0);
+            }
+            if ($data['get'] === 'costs') {
+                $model->where('sum', '<', 0);
+            }
+        }
+
+        if (isset($data['date_start'], $data['date_end'])) {
+            $model->whereBetween('date', [$data['date_start'], $data['date_end']]);
+        }
+
+        $collection = $model->orderBy('date', 'desc')->get();
+
+        $result = [];
+        $result['balance'] = $collection->first()?->balance ?: 0;
+        $result['costs'] = $collection->where('sum', '<', 0)->sum('sum');
+        $result['profits'] = $collection->where('sum', '>', 0)->sum('sum');
+
+        return $result;
+    }
+
     final public function create(array $data): \Illuminate\Database\Eloquent\Model
     {
         $model = new $this->model;
         $model->fill($data);
         $model->save();
 
+        $this->updateCashFlow($data['date']);
+        $this->updateProfitAndLoss($data['date']);
         $this->calculateBalance($data['date']);
         return $model;
     }
@@ -74,6 +128,8 @@ class BankCardMovementsRepository extends CoreRepository
         $model->fill($data);
         $model->update();
 
+        $this->updateCashFlow($data['date']);
+        $this->updateProfitAndLoss($data['date']);
         $this->calculateBalance($data['date']);
         return $model;
     }
@@ -87,7 +143,7 @@ class BankCardMovementsRepository extends CoreRepository
         return $model;
     }
 
-    final public function calculateBalance(string $date)
+    final public function calculateBalance(string $date): bool
     {
         $items = $this->model::where('date', '>=', $date)
             ->orderBy('date', 'asc')
@@ -102,74 +158,23 @@ class BankCardMovementsRepository extends CoreRepository
             $item->balance = $balance;
             $item->save();
         }
+        return true;
     }
 
-    #[ArrayShape(['costs' => "float[]", 'receipts' => "mixed", 'profit' => "mixed", 'balance_at_the_beginning' => 'float'])]
-    final public function getProfitAndLossStatistic(array $data): array
+    final public function updateProfitAndLoss(string $date): bool
     {
-        $categoriesRepository = new CostCategoriesRepository();
-        $categories = $categoriesRepository->list();
+        $month = Carbon::parse($date)->format('Y-m');
+        $repository = new ProfitAndLossRepository();
+        $repository->update($month);
+        return true;
+    }
 
-        $costs = [
-            'total' => 0,
-        ];
-
-        foreach ($categories as $category) {
-            $costs[$category->title] = 0;
-
-
-            if (isset($data['date_start'], $data['date_end'])) {
-                $items = $this
-                    ->model::where('category_id', $category->id)
-                    ->whereBetween('date', [$data['date_start'], $data['date_end']])
-                    ->where('sum', '<', 0)
-                    ->sum('sum');
-            } else {
-                $items = $this
-                    ->model::where('category_id', $category->id)
-                    ->where('sum', '<', 0)
-                    ->sum('sum');
-
-            }
-
-            $costs[$category->title] += $items;
-        }
-
-        if (isset($data['date_start'], $data['date_end'])) {
-            $costs['total'] = $items = $this
-                ->model::where('sum', '<', 0)
-                ->whereBetween('date', [$data['date_start'], $data['date_end']])
-                ->sum('sum');
-        } else {
-            $costs['total'] = $items = $this
-                ->model::where('sum', '<', 0)
-                ->sum('sum');
-        }
-
-
-        if (isset($data['date_start'], $data['date_end'])) {
-            $profitData = $this
-                ->model::whereBetween('date', [$data['date_start'], $data['date_end']])
-                ->where('sum', '>', 0)
-                ->sum('sum');
-        } else {
-            $profitData = $this->model::where('sum', '>', 0)->sum('sum');
-        }
-
-        if (isset($data['date_start'], $data['date_end'])) {
-            $balance_at_the_beginning = $this->model::whereBetween('date', [$data['date_start'], $data['date_end']])
-                ->orderBy('date', 'asc')->first();
-        } else {
-            $balance_at_the_beginning = $this->model::orderBy('date', 'asc')->first();
-        }
-
-
-        return [
-            'costs' => $costs,
-            'receipts' => $profitData,
-            'balance_at_the_beginning' => $balance_at_the_beginning->balance,
-            'profit' => $profitData + $balance_at_the_beginning->balance + $costs['total']
-        ];
+    final public function updateCashFlow(string $date): bool
+    {
+        $month = Carbon::parse($date)->format('Y-m');
+        $repository = new CashFlowRepository();
+        $repository->update($month);
+        return true;
     }
 
 }

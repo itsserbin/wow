@@ -836,4 +836,28 @@ class OrdersRepository extends CoreRepository
             ->with('items.product')
             ->get();
     }
+
+    final public function getTotalPriceByMonth(string $month): float
+    {
+        $startOfMonth = date('Y-m-01', strtotime($month));
+        $endOfMonth = date('Y-m-t', strtotime($month));
+        $orders = $this->model::where('status', OrderStatus::STATUS_DONE)
+            ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+            ->get();
+        return $orders->sum('total_price');
+    }
+
+    final public function getTradeTotalPriceByMonth(string $month): float
+    {
+        $startOfMonth = date('Y-m-01', strtotime($month));
+        $endOfMonth = date('Y-m-t', strtotime($month));
+        $orders = $this->model::where('status', OrderStatus::STATUS_DONE)
+            ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+            ->get();
+
+        $totalPrice = $orders->sum('total_price');
+        $clearPrice = $orders->sum('clear_total_price');
+        return $totalPrice - $clearPrice;
+    }
+
 }
