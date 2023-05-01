@@ -3,7 +3,7 @@ import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
 import Loader from '@/Components/Loader.vue';
 import Table from './Table.vue'
 import Chart from './Chart.vue'
-import {computed, getCurrentInstance, onMounted, reactive} from "vue";
+import {computed, onMounted, reactive} from "vue";
 
 const state = reactive({
     data: [],

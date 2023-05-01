@@ -8,17 +8,17 @@ const {$filters} = getCurrentInstance().appContext.config.globalProperties
 
 const state = reactive({
     lineChartOptions: {
-        legend: { position: 'bottom' },
         tooltip: {trigger: 'hover'},
+        legend: { position: 'bottom' },
         focusTarget: 'category',
     },
     chartData: [
-        ['Місяць', 'Витрати', 'Загальна виручка', 'Чистий прибуток']
+        ['Місяць', 'Надходження', 'Витрати', 'Грошовий потік']
     ],
     barChartOptions: {
+        tooltip: {trigger: 'hover'},
         legend: { position: 'bottom' },
         focusTarget: 'category',
-        tooltip: {trigger: 'hover'},
     }
 })
 
@@ -28,28 +28,28 @@ onMounted(() => {
     props.data.data.forEach((item) => {
         state.chartData.splice(1, 0, [
             $filters.monthFormat(item.month),
-            item.costs = -item.costs,
-            item.total_revenues,
-            item.net_profit
+            item.approved_income,
+            item.approved_consumption = -item.approved_consumption,
+            item.difference,
         ])
     })
+
+    console.log(state.chartData);
 })
 </script>
 
 <template>
-    <div class="grid grid-cols-1">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <GChart
-                type="ColumnChart"
-                :data="state.chartData"
-                :options="state.barChartOptions"
-            />
+    <div class="grid grid-cols-1 md:grid-cols-2">
+        <GChart
+            type="ColumnChart"
+            :data="state.chartData"
+            :options="state.barChartOptions"
+        />
 
-            <GChart
-                type="LineChart"
-                :data="state.chartData"
-                :options="state.lineChartOptions"
-            />
-        </div>
+        <GChart
+            type="LineChart"
+            :data="state.chartData"
+            :options="state.lineChartOptions"
+        />
     </div>
 </template>

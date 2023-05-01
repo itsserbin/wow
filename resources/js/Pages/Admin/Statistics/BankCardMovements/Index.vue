@@ -151,7 +151,6 @@ const onEdit = async (id) => {
 }
 
 const getCategories = async (val) => {
-    console.log(val);
     try {
         const {data} = await axios.get(route('api.statistics.costs.categories.list'));
         state.categories = [];

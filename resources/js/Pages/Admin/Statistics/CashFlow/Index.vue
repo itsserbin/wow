@@ -1,8 +1,7 @@
 <script setup>
-import PrimaryButton from '@/Components/Button/Primary.vue';
+import Chart from './Chart.vue'
 import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
 import Loader from '@/Components/Loader.vue';
-import Datepicker from 'vue-tailwind-datepicker'
 import Table from './Table.vue'
 import {computed, onMounted, reactive} from "vue";
 import {endOfMonth, format, startOfMonth} from "date-fns";
@@ -65,19 +64,12 @@ const getAllData = async () => {
 <template>
     <StatisticLayout>
         <template #header>
-            P&L
+            CashFlow
         </template>
 
         <Loader v-if="state.isLoading"/>
         <div v-if="!state.isLoading" class="grid grid-cols-1 gap-4">
-            <div class="grid grid-cols-12 gap-4">
-
-                <div class="grid grid-cols-1 md:grid-cols-2">
-<!--                    <apexchart :options="options" :series="series"/>-->
-<!--                    <apexchart :options="options2" :series="series"/>-->
-                </div>
-
-            </div>
+            <Chart :data="state.data"/>
             <Table :data="state.data.data"/>
         </div>
     </StatisticLayout>
