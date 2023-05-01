@@ -55,7 +55,7 @@ const headings = [
         </template>
 
         <template #costs="{data}">
-            {{ $filters.formatMoney(data.row.costs) }}
+                {{ $filters.formatMoney(data.row.costs) }}
         </template>
 
         <template #month="{data}">

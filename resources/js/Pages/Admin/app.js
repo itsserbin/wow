@@ -17,6 +17,7 @@ import user from '@/Includes/user.js';
 //
 // Chart.register(...registerables);
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
+import VueApexCharts from "vue3-apexcharts";
 
 export function mountAdmin() {
     createInertiaApp({
@@ -30,6 +31,7 @@ export function mountAdmin() {
             // app.use(VueSweetalert2);
             app.use(user);
             app.use(i18n);
+            app.use(VueApexCharts);
             user.commit('load');
             app.provide('$can', function (val) {
                 return user.state.permissions.includes(val);
@@ -64,6 +66,10 @@ export function mountAdmin() {
             app.config.globalProperties.$filters = {
                 formatMoney(value) {
                     return numeral(value).format('0,0[.]00') + ' грн.';
+                },
+
+                formatMoney1(value) {
+                    return numeral(value).format('0,0[.]00');
                 },
                 dateFormat(value) {
                     return moment(value).format('DD.MM.YY');
