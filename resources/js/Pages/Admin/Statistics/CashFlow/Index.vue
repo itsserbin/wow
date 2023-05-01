@@ -72,15 +72,10 @@ const getAllData = async () => {
         <div v-if="!state.isLoading" class="grid grid-cols-1 gap-4">
             <div class="grid grid-cols-12 gap-4">
 
-<!--                <div class="col-span-12 md:col-span-2">-->
-<!--                    <PrimaryButton type="button" @click="getAllData" class="w-full h-full justify-center">-->
-<!--                        Показати все-->
-<!--                    </PrimaryButton>-->
-<!--                </div>-->
-
-<!--                <div class="col-span-12 md:col-span-10">-->
-<!--                    <Datepicker @update:modelValue="onSelectDate" v-model="params.date" :auto-apply="false" use-range/>-->
-<!--                </div>-->
+                <div class="grid grid-cols-1 md:grid-cols-2">
+<!--                    <apexchart :options="options" :series="series"/>-->
+<!--                    <apexchart :options="options2" :series="series"/>-->
+                </div>
 
             </div>
             <Table :data="state.data.data"/>
