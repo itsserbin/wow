@@ -22,8 +22,8 @@ defineProps(['item', 'categories'])
         <div class="block">
             <Label value="Категорія"/>
             <Dropdown v-model="item.category_id"
-                      showClear
                       :options="categories"
+                      showClear
                       optionLabel="name"
                       placeholder="Оберіть категорію"
                       class="w-full"

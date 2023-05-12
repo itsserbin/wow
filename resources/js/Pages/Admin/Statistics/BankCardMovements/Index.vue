@@ -72,16 +72,6 @@ onMounted(async () => {
     await fetch();
 });
 
-const getParams = computed(() => {
-    const {date, page, get} = params;
-
-    return {
-        date_start: date.startDate,
-        date_end: date.endDate,
-        get: get,
-        page
-    };
-});
 
 const onSubmitRequest = async (method, url, data) => {
     try {
