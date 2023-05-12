@@ -122,7 +122,7 @@ const onCreate = async (val) => {
 const onEdit = async (id) => {
     await axios.get(route('api.statistics.bank-card-movements.edit', id))
         .then(async ({data}) => {
-            await getCategories(data.result.type);
+            await getCategories(data.result.sum < 0 ? 0 : 1);
             state.item = data.result;
             state.isLoading = false;
         })
@@ -132,13 +132,17 @@ const onEdit = async (id) => {
 
 const getCategories = async (val) => {
     try {
-        const {data} = await axios.get(route('api.statistics.costs.categories.list'));
-        state.categories = [];
-        data.result.forEach(({id, title, type}) => {
-            if (type === val) {
-                state.categories.push({code: id, name: title});
+        const {data} = await axios.get(route('api.statistics.costs.categories.list'), {
+            params: {
+                type: val
             }
         });
+        if (data.success) {
+            state.categories = data.result.map(item => ({
+                code: item.id,
+                name: item.title
+            }));
+        }
     } catch (error) {
         console.error(error);
     }

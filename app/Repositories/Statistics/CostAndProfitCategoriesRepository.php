@@ -72,8 +72,14 @@ class CostAndProfitCategoriesRepository extends CoreRepository
         return $this->model::destroy($id);
     }
 
-    final public function list(): Collection
+    final public function list(array $data = []): Collection
     {
-        return $this->model::select(['id', 'title', 'slug', 'type'])->orderBy('id', 'desc')->get();
+        $model = $this->model::select(['id', 'title', 'slug', 'type']);
+
+        if (isset($data['type'])) {
+            $model->where('type', $data['type']);
+        }
+
+        return $model->orderBy('id', 'desc')->get();
     }
 }

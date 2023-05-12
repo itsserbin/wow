@@ -74,9 +74,9 @@ class CostCategoriesController extends BaseController
         ]);
     }
 
-    public function list(): JsonResponse
+    final public function list(Request $request): JsonResponse
     {
-        $result = $this->costCategoriesRepository->list();
+        $result = $this->costCategoriesRepository->list($request->all());
 
         return $this->returnResponse([
             'success' => true,
