@@ -6,6 +6,7 @@ import Toolbar from 'primevue/toolbar';
 import Chip from 'primevue/chip';
 import ConfirmDialog from 'primevue/confirmdialog';
 import Toast from 'primevue/toast';
+// import Modal from '@/Components/Modal/Modal.vue';
 import Label from '@/Components/Form/Label.vue';
 import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
 import Form from './Form.vue'
@@ -21,7 +22,7 @@ import {computed, defineAsyncComponent, onMounted, reactive, ref} from "vue";
 const {t} = useI18n();
 const confirm = useConfirm();
 const toast = useToast();
-const Modal = defineAsyncComponent(() => import('./Modal.vue'));
+const Modal = defineAsyncComponent(() => import('@/Components/Modal/Modal.vue'));
 
 const dateNow = () => {
     const now = new Date();
@@ -451,32 +452,36 @@ const onDestroy = async (id) => {
         </div>
     </StatisticLayout>
 
-    <Dialog class="w-full max-w-md" v-model:visible="state.isCategoriseModal" modal header=" ">
-        <div class="grid gap-y-4">
-            <div class="block">
-                <Label value="Оберіть категорію"/>
-                <Dropdown v-model="state.item.category_id"
-                          showClear
-                          :options="state.categories"
-                          optionLabel="name"
-                          placeholder="Оберіть категорію"
-                          class="w-full"
-                />
+    <Modal :show="state.isCategoriseModal" @close="toggleCategoriesModal">
+        <template #body>
+            <div class="grid gap-y-4">
+                <div class="block">
+                    <Label value="Оберіть категорію"/>
+                    <Dropdown v-model="state.item.category_id"
+                              showClear
+                              :options="state.categories"
+                              optionLabel="name"
+                              placeholder="Оберіть категорію"
+                              class="w-full"
+                    />
+                </div>
             </div>
-        </div>
+        </template>
         <template #footer>
             <Button label="Скасувати" icon="pi pi-times" @click="toggleCategoriesModal" text/>
             <Button label="Зберегти" icon="pi pi-check" @click="setCategory" autofocus/>
         </template>
-    </Dialog>
+    </Modal>
 
-    <Dialog class="w-full max-w-xl" v-model:visible="state.showModal" modal header=" ">
-        <Form :item="state.item" :categories="state.categories"/>
+    <Modal :show="state.showModal" @close="toggleModal">
+        <template #body>
+            <Form :item="state.item" :categories="state.categories"/>
+        </template>
         <template #footer>
             <Button label="Скасувати" icon="pi pi-times" @click="toggleModal" text/>
             <Button label="Зберегти" icon="pi pi-check" @click="onSubmit" autofocus/>
         </template>
-    </Dialog>
+    </Modal>
 
     <ConfirmDialog/>
     <Toast/>
