@@ -19,6 +19,9 @@ $preferred-color-scheme: dark;
 
 @import "primevue/resources/themes/tailwind-light/theme.css";
 
+.p-button {
+    background: #4F46E5 !important;
+}
 //button, [type='button'], [type='reset'], [type='submit'] {
 //    background: #BA68C8;
 //}
