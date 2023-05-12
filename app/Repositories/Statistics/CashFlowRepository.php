@@ -60,8 +60,8 @@ class CashFlowRepository extends CoreRepository
 
         $items = $this->bankCardMovementsRepository->getByMonth($month);
 
-        $model->start_month_balance = $items->first()->balance ?: 0;
-        $model->end_month_balance = $items->last()->balance ?: 0;
+        $model->start_month_balance = $items->first()?->balance ?: 0;
+        $model->end_month_balance = $items->last()?->balance ?: 0;
         $model->approved_income = $items->isNotEmpty() ? $items->where('sum', '>', 0)->sum('sum') : 0;
         $model->approved_consumption = $items->isNotEmpty() ? $items->where('sum', '<', 0)->sum('sum') : 0;
         $model->difference = $model->approved_income + $model->approved_consumption;
@@ -80,8 +80,8 @@ class CashFlowRepository extends CoreRepository
 
         $items = $this->bankCardMovementsRepository->getByMonth($month);
 
-        $model->start_month_balance = $items->first()->balance ?: 0;
-        $model->end_month_balance = $items->last()->balance ?: 0;
+        $model->start_month_balance = $items->first()?->balance ?: 0;
+        $model->end_month_balance = $items->last()?->balance ?: 0;
         $model->approved_income = $items->isNotEmpty() ? $items->where('sum', '>', 0)->sum('sum') : 0;
         $model->approved_consumption = $items->isNotEmpty() ? $items->where('sum', '<', 0)->sum('sum') : 0;
         $model->difference = $model->approved_income + $model->approved_consumption;
