@@ -4,6 +4,7 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import {computed, onMounted, reactive, ref} from "vue";
 import Button from 'primevue/button';
+import MultiSelect from 'primevue/multiselect';
 
 const state = reactive({
     data: [],
@@ -18,6 +19,19 @@ const lazyParams = ref({
     sortField: null,
     sortOrder: null,
 });
+
+const columns = reactive([
+    {name: 'Місяць', code: 'month'},
+    {name: 'Залишок на початок місяця', code: 'start_month_balance'},
+    {name: 'Надходження', code: 'approved_income'},
+    {name: 'Списання', code: 'approved_consumption'},
+    {name: 'Залишок на кінець місяця', code: 'end_month_balance'},
+    {name: 'Чистий грошовий потік', code: 'difference'},
+]);
+
+const selectedColumns = ref(columns);
+const expandedRows = ref([]);
+const expandRowData = reactive({});
 
 const getParams = computed(() => {
     let sort = {};
@@ -52,6 +66,9 @@ const fetch = async () => {
     state.isLoading = false;
 }
 
+const isSelectedColumn = (val) => {
+    return selectedColumns.value.some(item => item.code === val);
+}
 
 const onPage = async (e) => {
     lazyParams.value = e;
@@ -81,9 +98,6 @@ const onSort = async (e) => {
 //     await fetch();
 // }
 
-const expandedRows = ref([]);
-const expandRowData = reactive({});
-
 const onRowExpand = async (event) => {
     state.isLoading = true;
     await axios.get(route('api.statistics.bank-card-movements.cost-and-profit', event.data.month))
@@ -105,6 +119,8 @@ const onRowExpand = async (event) => {
             <!--            <Table :data="state.data.data"/>-->
 
             <DataTable
+                resizableColumns
+                columnResizeMode="expand"
                 v-model:expandedRows="expandedRows"
                 @rowExpand="onRowExpand"
                 selectionMode="single"
@@ -122,9 +138,22 @@ const onRowExpand = async (event) => {
                 :rowsPerPageOptions="[15, 50, 100, 500]"
                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
             >
+                <template #header>
+                    <MultiSelect v-model="selectedColumns"
+                                 :options="columns"
+                                 optionLabel="name"
+                                 placeholder="Оберіть стовпці"
+                                 class="w-full md:w-20rem"
+                    />
+                </template>
+
                 <Column expander/>
 
-                <Column sortable field="month" header="Місяць">
+                <Column v-if="isSelectedColumn('month')"
+                        sortable
+                        field="month"
+                        header="Місяць"
+                >
                     <template #body="{data}">
                         <div class="text-center whitespace-nowrap">
                             {{ $filters.dateFormat(data.month) }}
@@ -132,7 +161,11 @@ const onRowExpand = async (event) => {
                     </template>
                 </Column>
 
-                <Column sortable field="start_month_balance" header="Залишок на початок місяця">
+                <Column v-if="isSelectedColumn('start_month_balance')"
+                        sortable
+                        field="start_month_balance"
+                        header="Залишок на початок місяця"
+                >
                     <template #body="{data}">
                         <div class="text-center whitespace-nowrap">
                             {{ $filters.formatMoney(data.start_month_balance) }}
@@ -140,7 +173,11 @@ const onRowExpand = async (event) => {
                     </template>
                 </Column>
 
-                <Column sortable field="approved_income" header="Надходження">
+                <Column v-if="isSelectedColumn('approved_income')"
+                        sortable
+                        field="approved_income"
+                        header="Надходження"
+                >
                     <template #body="{data}">
                         <div class="text-center whitespace-nowrap">
                             {{ $filters.formatMoney(data.approved_income) }}
@@ -148,7 +185,11 @@ const onRowExpand = async (event) => {
                     </template>
                 </Column>
 
-                <Column sortable field="approved_consumption" header="Списання">
+                <Column v-if="isSelectedColumn('approved_consumption')"
+                        sortable
+                        field="approved_consumption"
+                        header="Списання"
+                >
                     <template #body="{data}">
                         <div class="text-center whitespace-nowrap">
                             {{ $filters.formatMoney(data.approved_consumption) }}
@@ -156,7 +197,11 @@ const onRowExpand = async (event) => {
                     </template>
                 </Column>
 
-                <Column sortable field="end_month_balance" header="Залишок на кінець місяця">
+                <Column v-if="isSelectedColumn('end_month_balance')"
+                        sortable
+                        field="end_month_balance"
+                        header="Залишок на кінець місяця"
+                >
                     <template #body="{data}">
                         <div class="text-center whitespace-nowrap">
                             {{ $filters.formatMoney(data.end_month_balance) }}
@@ -164,7 +209,11 @@ const onRowExpand = async (event) => {
                     </template>
                 </Column>
 
-                <Column sortable field="difference" header="Чистий грошовий потік">
+                <Column v-if="isSelectedColumn('difference')"
+                        sortable
+                        field="difference"
+                        header="Чистий грошовий потік"
+                >
                     <template #body="{data}">
                         <div class="text-center whitespace-nowrap">
                             {{ $filters.formatMoney(data.difference) }}
@@ -194,18 +243,15 @@ const onRowExpand = async (event) => {
                                    :value="expandRowData[slotProps.data.id].costs"
                                    class="p-datatable cash-flow-profits-table"
                         >
-                            <template #header>
-                                Витрати
-                            </template>
-                            <Column field="" header="Назва">
+                            <Column header="Витрати">
                                 <template #body="{data}">
                                     {{ data.key }}
                                 </template>
                             </Column>
 
-                            <Column field="" header="Сума">
+                            <Column>
                                 <template #body="{data}">
-                                    {{ $filters.formatMoney(data.value) }}
+                                    {{ $filters.formatMoney(-data.value) }}
                                 </template>
                             </Column>
                         </DataTable>
@@ -214,16 +260,13 @@ const onRowExpand = async (event) => {
                                    :value="expandRowData[slotProps.data.id].profits"
                                    class="p-datatable cash-flow-profits-table"
                         >
-                            <template #header>
-                                Надходження
-                            </template>
-                            <Column field="" header="Назва">
+                            <Column header="Надходження">
                                 <template #body="{data}">
                                     {{ data.key }}
                                 </template>
                             </Column>
 
-                            <Column field="" header="Сума">
+                            <Column>
                                 <template #body="{data}">
                                     {{ $filters.formatMoney(data.value) }}
                                 </template>

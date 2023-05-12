@@ -331,6 +331,8 @@ const onDestroy = async (id) => {
             </Toolbar>
 
             <DataTable
+                resizableColumns
+                columnResizeMode="expand"
                 selectionMode="single"
                 @rowSelect="onRowSelect"
                 ref="dt"

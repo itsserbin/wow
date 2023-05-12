@@ -4,6 +4,7 @@ import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import {computed, onMounted, reactive, ref} from "vue";
 import Button from 'primevue/button';
+import MultiSelect from 'primevue/multiselect';
 
 const state = reactive({
     data: [],
@@ -18,6 +19,23 @@ const lazyParams = ref({
     sortField: null,
     sortOrder: null,
 });
+
+const columns = reactive([
+    {name: 'Місяць', code: 'month'},
+    {name: 'Загальна виручка', code: 'total_revenues'},
+    {name: 'Витрати', code: 'costs'},
+    {name: 'Інвестиції', code: 'investments'},
+    {name: 'Повернення інвестицій', code: 'returned_investments'},
+    {name: 'Дивіденди', code: 'dividends'},
+    {name: 'Ціна закупки', code: 'purchase_cost'},
+    {name: 'Чистий прибуток', code: 'net_profit'},
+    {name: 'Рентабельність', code: 'business_profitability'},
+]);
+
+const selectedColumns = ref(columns);
+
+const expandedRows = ref([]);
+const expandRowData = reactive({});
 
 const getParams = computed(() => {
     let sort = {};
@@ -45,6 +63,19 @@ onMounted(async () => {
 })
 
 
+const onRowExpand = async (event) => {
+    state.isLoading = true;
+    const {data} = await axios.get(route('api.statistics.bank-card-movements.cost-and-profit', event.data.month))
+    if (data.success) {
+        expandRowData[event.data.id] = data.result
+    }
+    state.isLoading = false;
+};
+
+const isSelectedColumn = (val) => {
+    return selectedColumns.value.some(item => item.code === val);
+}
+
 const fetch = async () => {
     state.isLoading = true;
     await axios.get(route('api.statistics.profit-and-loss', getParams.value))
@@ -63,17 +94,7 @@ const onSort = async (e) => {
     await fetch();
 }
 
-const expandedRows = ref([]);
-const expandRowData = reactive({});
 
-const onRowExpand = async (event) => {
-    state.isLoading = true;
-    await axios.get(route('api.statistics.bank-card-movements.cost-and-profit', event.data.month))
-        .then(({data}) => {
-            expandRowData[event.data.id] = data.result;
-            state.isLoading = false;
-        });
-};
 </script>
 
 <template>
@@ -84,6 +105,8 @@ const onRowExpand = async (event) => {
 
         <div class="grid grid-cols-1 gap-4">
             <DataTable
+                resizableColumns
+                columnResizeMode="expand"
                 v-model:expandedRows="expandedRows"
                 @rowExpand="onRowExpand"
                 selectionMode="single"
@@ -101,9 +124,22 @@ const onRowExpand = async (event) => {
                 :rowsPerPageOptions="[15, 50, 100, 500]"
                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
             >
+                <template #header>
+                    <MultiSelect v-model="selectedColumns"
+                                 :options="columns"
+                                 optionLabel="name"
+                                 placeholder="Оберіть стовпці"
+                                 class="w-full md:w-20rem"
+                    />
+                </template>
+
                 <Column expander/>
 
-                <Column sortable field="month" header="Місяць">
+                <Column v-if="isSelectedColumn('month')"
+                        sortable
+                        field="month"
+                        header="Місяць"
+                >
                     <template #body="{data}">
                         <div class="text-center whitespace-nowrap">
                             {{ $filters.monthFormat(data.month) }}
@@ -111,7 +147,11 @@ const onRowExpand = async (event) => {
                     </template>
                 </Column>
 
-                <Column sortable field="total_revenues" header="Загальна виручка">
+                <Column v-if="isSelectedColumn('total_revenues')"
+                        sortable
+                        field="total_revenues"
+                        header="Загальна виручка"
+                >
                     <template #body="{data}">
                         <div class="text-center whitespace-nowrap">
                             {{ $filters.formatMoney(data.total_revenues) }}
@@ -119,7 +159,11 @@ const onRowExpand = async (event) => {
                     </template>
                 </Column>
 
-                <Column sortable field="costs" header="Витрати">
+                <Column v-if="isSelectedColumn('costs')"
+                        sortable
+                        field="costs"
+                        header="Витрати"
+                >
                     <template #body="{data}">
                         <div class="text-center whitespace-nowrap">
                             {{ $filters.formatMoney(-data.costs) }}
@@ -127,7 +171,11 @@ const onRowExpand = async (event) => {
                     </template>
                 </Column>
 
-                <Column sortable field="investments" header="Інвестиції">
+                <Column v-if="isSelectedColumn('investments')"
+                        sortable
+                        field="investments"
+                        header="Інвестиції"
+                >
                     <template #body="{data}">
                         <div class="text-center whitespace-nowrap">
                             {{ $filters.formatMoney(data.investments) }}
@@ -135,7 +183,11 @@ const onRowExpand = async (event) => {
                     </template>
                 </Column>
 
-                <Column sortable field="returned_investments" header="Повернення інвестицій">
+                <Column v-if="isSelectedColumn('returned_investments')"
+                        sortable
+                        field="returned_investments"
+                        header="Повернення інвестицій"
+                >
                     <template #body="{data}">
                         <div class="text-center whitespace-nowrap">
                             {{ $filters.formatMoney(-data.returned_investments) }}
@@ -143,7 +195,11 @@ const onRowExpand = async (event) => {
                     </template>
                 </Column>
 
-                <Column sortable field="dividends" header="Дивіденди">
+                <Column v-if="isSelectedColumn('dividends')"
+                        sortable
+                        field="dividends"
+                        header="Дивіденди"
+                >
                     <template #body="{data}">
                         <div class="text-center whitespace-nowrap">
                             {{ $filters.formatMoney(-data.dividends) }}
@@ -151,7 +207,11 @@ const onRowExpand = async (event) => {
                     </template>
                 </Column>
 
-                <Column sortable field="purchase_cost" header="Ціна закупки">
+                <Column v-if="isSelectedColumn('purchase_cost')"
+                        sortable
+                        field="purchase_cost"
+                        header="Ціна закупки"
+                >
                     <template #body="{data}">
                         <div class="text-center whitespace-nowrap">
                             {{ $filters.formatMoney(data.purchase_cost) }}
@@ -159,7 +219,11 @@ const onRowExpand = async (event) => {
                     </template>
                 </Column>
 
-                <Column sortable field="net_profit" header="Чистий прибуток">
+                <Column v-if="isSelectedColumn('net_profit')"
+                        sortable
+                        field="net_profit"
+                        header="Чистий прибуток"
+                >
                     <template #body="{data}">
                         <div class="text-center whitespace-nowrap">
                             {{ $filters.formatMoney(data.net_profit) }}
@@ -167,7 +231,11 @@ const onRowExpand = async (event) => {
                     </template>
                 </Column>
 
-                <Column sortable field="business_profitability" header="Рентабельність бізнесу">
+                <Column v-if="isSelectedColumn('business_profitability')"
+                        sortable
+                        field="business_profitability"
+                        header="Рентабельність"
+                >
                     <template #body="{data}">
                         <div class="text-center whitespace-nowrap">
                             {{ data.business_profitability }} %
@@ -195,38 +263,32 @@ const onRowExpand = async (event) => {
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <DataTable v-if="expandRowData[slotProps.data.id]"
                                    :value="expandRowData[slotProps.data.id].costs"
-                                   class="p-datatable cash-flow-profits-table"
+                                   class="p-datatable profit-and-loss-inner-table"
                         >
-                            <template #header>
-                                Витрати
-                            </template>
-                            <Column field="" header="Назва">
+                            <Column header="Витрати">
                                 <template #body="{data}">
                                     {{ data.key }}
                                 </template>
                             </Column>
 
-                            <Column field="" header="Сума">
+                            <Column>
                                 <template #body="{data}">
-                                    {{ $filters.formatMoney(data.value) }}
+                                    {{ $filters.formatMoney(-data.value) }}
                                 </template>
                             </Column>
                         </DataTable>
 
                         <DataTable v-if="expandRowData[slotProps.data.id]"
                                    :value="expandRowData[slotProps.data.id].profits"
-                                   class="p-datatable cash-flow-profits-table"
+                                   class="p-datatable profit-and-loss-inner-table"
                         >
-                            <template #header>
-                                Надходження
-                            </template>
-                            <Column field="" header="Назва">
+                            <Column header="Надходження">
                                 <template #body="{data}">
                                     {{ data.key }}
                                 </template>
                             </Column>
 
-                            <Column field="" header="Сума">
+                            <Column>
                                 <template #body="{data}">
                                     {{ $filters.formatMoney(data.value) }}
                                 </template>
@@ -243,5 +305,9 @@ const onRowExpand = async (event) => {
 <style>
 .profit-and-loss-table.p-datatable .p-column-header-content {
     justify-content: center;
+}
+
+.profit-and-loss-inner-table.p-datatable .p-column-header-content {
+    justify-content: start;
 }
 </style>

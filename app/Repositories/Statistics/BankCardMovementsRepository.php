@@ -218,8 +218,33 @@ class BankCardMovementsRepository extends CoreRepository
         $costs = [];
         $profits = [];
 
+        [$year, $monthNum] = explode('-', $month);
+
+        $emptyCategoryCosts = $this->model::selectRaw('SUM(sum) as value')
+            ->whereDoesntHave('category')
+            ->whereYear('date', $year)
+            ->whereMonth('date', $monthNum)
+            ->where('sum', '<', 0)
+            ->sum('sum');
+
+        $emptyCategoryProfit = $this->model::selectRaw('SUM(sum) as value')
+            ->whereDoesntHave('category')
+            ->whereYear('date', $year)
+            ->whereMonth('date', $monthNum)
+            ->where('sum', '>', 0)
+            ->sum('sum');
+
+        $costs[] = [
+            'key' => 'Без категорії',
+            'value' => $emptyCategoryCosts
+        ];
+
+        $profits[] = [
+            'key' => 'Без категорії',
+            'value' => $emptyCategoryProfit
+        ];
+
         foreach ($items as $item) {
-            [$year, $monthNum] = explode('-', $month);
 
             $query = $this->model::selectRaw('SUM(sum) as value')
                 ->whereHas('category', function ($q) use ($item) {
