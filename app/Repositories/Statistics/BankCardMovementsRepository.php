@@ -155,11 +155,13 @@ class BankCardMovementsRepository extends CoreRepository
         $previous_model = $this->model::where('date', '<', $date)->orderBy('date', 'desc')->first();
         $previous_balance = $previous_model ? $previous_model->balance : 0;
 
-        foreach ($items as $item) {
-            $balance = $previous_balance + $item->sum;
-            $previous_balance = $balance;
-            $item->balance = $balance;
-            $item->save();
+        if (count($items)) {
+            foreach ($items as $item) {
+                $balance = $previous_balance + $item->sum;
+                $previous_balance = $balance;
+                $item->balance = $balance;
+                $item->save();
+            }
         }
         return true;
     }
