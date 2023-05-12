@@ -432,9 +432,9 @@ const onRowSelect = (event) => {
                     </template>
                 </Column>
 
-                <Column sortable field="balance" header="Залишок">
+                <Column sortable field="comment" header="Коментар" style="width:20px;">
                     <template #body="{data}">
-                        {{ $filters.formatMoney(data.balance) }}
+                        {{ data.comment ? data.comment.slice(0, 30) + "..." : null}}
                     </template>
                 </Column>
 

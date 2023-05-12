@@ -40,7 +40,7 @@ const items = [
 
 const costItems = [
     {
-        title: 'Рух ро карті',
+        title: 'Грошові рухи',
         href: route('admin.statistics.bank-card-movements.index'),
         icon: 'pi pi-arrow-right-arrow-left'
     },
