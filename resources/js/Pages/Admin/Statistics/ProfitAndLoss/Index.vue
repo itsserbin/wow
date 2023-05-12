@@ -5,6 +5,7 @@ import Column from 'primevue/column';
 import {computed, onMounted, reactive, ref} from "vue";
 import Button from 'primevue/button';
 import MultiSelect from 'primevue/multiselect';
+import Chart from './Chart.vue';
 
 const state = reactive({
     data: [],
@@ -104,6 +105,7 @@ const onSort = async (e) => {
         </template>
 
         <div class="grid grid-cols-1 gap-4">
+            <Chart v-if="state.data.data" :data="state.data.data"/>
             <DataTable
                 resizableColumns
                 columnResizeMode="expand"

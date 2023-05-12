@@ -1,55 +1,100 @@
 <script setup>
-import {getCurrentInstance, onMounted, reactive} from "vue";
-import {GChart} from 'vue-google-charts'
+import {ref, onMounted} from "vue";
+import Chart from 'primevue/chart';
+import Card from 'primevue/card';
+
+onMounted(() => {
+    chartData.value = setChartData();
+    chartOptions.value = setChartOptions();
+});
+
+const chartData = ref();
+const chartOptions = ref();
 
 const props = defineProps(['data']);
 
-const {$filters} = getCurrentInstance().appContext.config.globalProperties
+const data = JSON.parse(JSON.stringify(props.data));
 
-const state = reactive({
-    lineChartOptions: {
-        tooltip: {trigger: 'hover'},
-        legend: { position: 'bottom' },
-        focusTarget: 'category',
-    },
-    chartData: [
-        ['Місяць', 'Надходження', 'Витрати', 'Грошовий потік']
-    ],
-    barChartOptions: {
-        tooltip: {trigger: 'hover'},
-        legend: { position: 'bottom' },
-        focusTarget: 'category',
-    }
-})
+const setChartData = () => {
+    const documentStyle = getComputedStyle(document.documentElement);
 
-const series = reactive([])
+    return {
+        labels: data.reverse().map(item => item.month),
+        datasets: [
+            {
+                label: 'Надходження',
+                backgroundColor: documentStyle.getPropertyValue('--blue-500'),
+                borderColor: documentStyle.getPropertyValue('--blue-500'),
+                data: data.map(item => item.approved_income)
 
-onMounted(() => {
-    props.data.data.forEach((item) => {
-        state.chartData.splice(1, 0, [
-            $filters.monthFormat(item.month),
-            item.approved_income,
-            item.approved_consumption = -item.approved_consumption,
-            item.difference,
-        ])
-    })
+            },
+            {
+                label: 'Спасання',
+                backgroundColor: documentStyle.getPropertyValue('--pink-500'),
+                borderColor: documentStyle.getPropertyValue('--pink-500'),
+                data: data.map(item => -item.approved_consumption)
+            },
+            {
+                label: 'Чистий грошовий потік',
+                backgroundColor: documentStyle.getPropertyValue('--yellow-500'),
+                borderColor: documentStyle.getPropertyValue('--yellow-500'),
+                data: data.map(item => item.difference)
+            },
+        ]
+    };
+};
+const setChartOptions = () => {
+    const documentStyle = getComputedStyle(document.documentElement);
+    const textColor = documentStyle.getPropertyValue('--text-color');
+    const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
-    console.log(state.chartData);
-})
+    return {
+        height: 500,
+        maintainAspectRatio: false,
+        aspectRatio: 0.8,
+        plugins: {
+            tooltips: {
+                mode: 'index',
+                intersect: false
+            },
+            legend: {
+                labels: {
+                    fontColor: textColor
+                }
+            }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: textColorSecondary,
+                    font: {
+                        weight: 500
+                    }
+                },
+                grid: {
+                    display: false,
+                    drawBorder: false
+                }
+            },
+            y: {
+                ticks: {
+                    color: textColorSecondary
+                },
+                grid: {
+                    color: surfaceBorder,
+                    drawBorder: false
+                }
+            }
+        }
+    };
+}
 </script>
 
 <template>
-    <div class="grid grid-cols-1 md:grid-cols-2">
-        <GChart
-            type="ColumnChart"
-            :data="state.chartData"
-            :options="state.barChartOptions"
-        />
-
-        <GChart
-            type="LineChart"
-            :data="state.chartData"
-            :options="state.lineChartOptions"
-        />
-    </div>
+    <Card>
+        <template #content>
+            <Chart :height="300" type="bar" :data="chartData" :options="chartOptions" />
+        </template>
+    </Card>
 </template>
