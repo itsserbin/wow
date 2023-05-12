@@ -21,9 +21,7 @@ const item = reactive({
     name: null,
     date: null,
     sum: null,
-    quantity: 1,
     comment: null,
-    total: null,
     cost_category_id: null,
     cost_type: 'single',
 })

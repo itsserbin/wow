@@ -2,12 +2,12 @@
 
 namespace App\Repositories\Statistics;
 
-use App\Models\Statistics\CostCategory as Model;
+use App\Models\Statistics\CostAndProfitCategory as Model;
 use App\Repositories\CoreRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
-class CostCategoriesRepository extends CoreRepository
+class CostAndProfitCategoriesRepository extends CoreRepository
 {
     public function __construct()
     {

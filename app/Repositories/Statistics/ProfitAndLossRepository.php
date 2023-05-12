@@ -30,7 +30,7 @@ class ProfitAndLossRepository extends CoreRepository
         return $this->model::where('month', $month)->first();
     }
 
-    public function index()
+    final public function getAllWithPaginate(array $data): LengthAwarePaginator
     {
         $model = $this->model::select([
             'id',
@@ -46,13 +46,13 @@ class ProfitAndLossRepository extends CoreRepository
 //            $model->whereBetween('date', [$data['date_start'], $data['date_end']]);
 //        }
 //
-//        if (isset($data['sort'], $data['param'])) {
-//            $model->orderBy($data['sort'], $data['param']);
-//        } else {
-//            $model->orderBy('date', 'desc');
-//        }
+        if (isset($data['sort'], $data['param'])) {
+            $model->orderBy($data['sort'], $data['param']);
+        } else {
+            $model->orderBy('month', 'desc');
+        }
 
-        return $model->orderBy('month', 'desc')->paginate(15);
+        return $model->orderBy('month', 'desc')->paginate($data['perPage'] ?? 15);
     }
 
     final public function create(string $month)

@@ -15,9 +15,7 @@ return new class extends Migration {
         Schema::create('costs', function (Blueprint $table) {
             $table->id();
             $table->date('date')->nullable();
-            $table->text('quantity');
-            $table->text('sum');
-            $table->text('total');
+            $table->float('sum');
             $table->text('comment')->nullable();
 
             $table->foreignId('user_id')

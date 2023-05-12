@@ -58,7 +58,7 @@ class HomeController extends Controller
 
     final public function home()
     {
-        return Inertia::render('Public/Home/Index', [
+        return Inertia::render('Home/Index', [
             'lang' => app()->getLocale(),
             'categories' => $this->getCategories(),
             'pages' => $this->getPagesList(),
@@ -88,7 +88,7 @@ class HomeController extends Controller
             'colors' => $this->colorsRepository->getListForPublic($slug)
         ];
 
-        return Inertia::render('Public/Category/Index', [
+        return Inertia::render('Category/Index', [
             'lang' => app()->getLocale(),
             'products' => $this->productRepository->getByCategorySlugToPublic($slug, $request->all()),
             'banners' => $this->bannersRepository->getForPublic($slug),
@@ -117,7 +117,7 @@ class HomeController extends Controller
         $this->productRepository->updateProductViewed($id);
 
 
-        return Inertia::render('Public/Product/Index', [
+        return Inertia::render('Product/Index', [
             'lang' => app()->getLocale(),
             'characteristics' => $this->productRepository->getCharacteristicsForPublic($id),
             'options' => $this->getOptions(),
@@ -140,7 +140,7 @@ class HomeController extends Controller
 
     final public function cart()
     {
-        return Inertia::render('Public/Cart/Index', [
+        return Inertia::render('Cart/Index', [
             'lang' => app()->getLocale(),
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
@@ -154,7 +154,7 @@ class HomeController extends Controller
         $event_id_initiateCheckout = uniqid(null, true) . '_initiateCheckout' . '_' . time();
         $this->facebookService->InitiateCheckout($this->shoppingCartService->cartList(), $event_id_initiateCheckout);
 
-        return Inertia::render('Public/Checkout/Index', [
+        return Inertia::render('Checkout/Index', [
             'lang' => app()->getLocale(),
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
@@ -172,7 +172,7 @@ class HomeController extends Controller
             return abort(404);
         }
 
-        return Inertia::render('Public/Page/Index', [
+        return Inertia::render('Page/Index', [
             'lang' => app()->getLocale(),
             'page' => $result,
             'options' => $this->getOptions(),
@@ -183,7 +183,7 @@ class HomeController extends Controller
 
     final public function reviews()
     {
-        return Inertia::render('Public/Reviews/Index', [
+        return Inertia::render('Reviews/Index', [
             'lang' => app()->getLocale(),
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
@@ -193,7 +193,7 @@ class HomeController extends Controller
 
     final public function thanks()
     {
-        return Inertia::render('Public/Thanks/Index', [
+        return Inertia::render('Thanks/Index', [
             'lang' => app()->getLocale(),
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
@@ -203,7 +203,7 @@ class HomeController extends Controller
 
     final public function status()
     {
-        return Inertia::render('Public/Status/Index', [
+        return Inertia::render('Status/Index', [
             'lang' => app()->getLocale(),
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),
@@ -214,7 +214,7 @@ class HomeController extends Controller
 
     final public function support()
     {
-        return Inertia::render('Public/Support/Index', [
+        return Inertia::render('Support/Index', [
             'lang' => app()->getLocale(),
             'options' => $this->getOptions(),
             'pages' => $this->getPagesList(),

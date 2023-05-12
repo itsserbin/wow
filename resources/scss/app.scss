@@ -2,8 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-@import 'sweetalert2/dist/sweetalert2.css';
+
 @import 'swiper/css';
 @import 'swiper/css/bundle';
 @import '@vuepic/vue-datepicker/dist/main.css';
 @import 'animate.css';
+@import 'sweetalert2/dist/sweetalert2.css';
+@import "primevue/resources/primevue.min.css";
+@import 'primeicons/primeicons.css';
+
+$preferred-color-scheme: dark;
+
+@media (prefers-color-scheme: light) {
+    $preferred-color-scheme: light;
+}
+
+@if ($preferred-color-scheme == 'ligth') {
+    @import "primevue/resources/themes/tailwind-light/theme.css";
+} @else {
+    @import "primevue/resources/themes/vela-purple/theme.css";
+}
+
+//button, [type='button'], [type='reset'], [type='submit'] {
+//    background: #BA68C8;
+//}

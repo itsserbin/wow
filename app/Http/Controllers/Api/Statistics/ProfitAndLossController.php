@@ -19,7 +19,7 @@ class ProfitAndLossController extends BaseController
 
     final public function index(Request $request)
     {
-        $result = $this->profitAndLossRepository->index($request->all());
+        $result = $this->profitAndLossRepository->getAllWithPaginate($request->all());
 
         return $this->returnResponse([
             'success' => true,

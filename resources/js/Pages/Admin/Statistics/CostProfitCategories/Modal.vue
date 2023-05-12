@@ -1,6 +1,6 @@
 <script setup>
 import Modal from '@/Components/Modal/Modal.vue';
-import CostCategoryForm from '@/Pages/Admin/Statistics/CostCategories/Form.vue';
+import CostCategoryForm from '@/Pages/Admin/Statistics/CostProfitCategories/Form.vue';
 import ButtonPrimary from '@/Components/Button/Primary.vue';
 import ButtonSecondary from '@/Components/Button/Secondary.vue';
 

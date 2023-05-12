@@ -10,11 +10,12 @@
     @vite('resources/scss/app.scss')
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
+{{--    <link rel="stylesheet" href="https://unpkg.com/primeflex@^3/primeflex.css">--}}
+{{--    <link rel="stylesheet" href="https://unpkg.com/primeflex/themes/vela-blue.css">--}}
 
     <!-- Scripts -->
     @routes
-    @vite('resources/js/Pages/app.js')
-
+    @vite('resources/js/Pages/Admin/app.js')
     {{--    @vite(['resources/js/Pages/Admin/app.js', "resources/js/Pages/Admin/{$page['component']}.vue"])--}}
     @inertiaHead
 </head>

@@ -80,4 +80,14 @@ class BankCardMovementsController extends BaseController
             'result' => $result
         ]);
     }
+
+    final public function destroy(int $id): JsonResponse
+    {
+        $result = $this->bankCardMovementsRepository->destroy($id);
+
+        return $this->returnResponse([
+            'success' => true,
+            'result' => $result
+        ]);
+    }
 }

@@ -1,55 +1,76 @@
 <script setup>
-import Table from './Table.vue';
-import DownloadIcon from '@/Components/Icons/DownloadIcon.vue';
-import Card from '@/Components/Card.vue';
-import Paginate from '@/Components/Paginate.vue';
-import PrimaryButton from '@/Components/Button/Primary.vue';
-import SecondaryButton from '@/Components/Button/Secondary.vue';
-import DangerButton from '@/Components/Button/Danger.vue';
-import Loader from '@/Components/Loader.vue';
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
+import Button from 'primevue/button';
+import Toolbar from 'primevue/toolbar';
+import Chip from 'primevue/chip';
+import ConfirmDialog from 'primevue/confirmdialog';
+import Toast from 'primevue/toast';
+import Label from '@/Components/Form/Label.vue';
 import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
-import Datepicker from 'vue-tailwind-datepicker'
+import Form from './Form.vue'
+import Dialog from 'primevue/dialog';
+import Dropdown from 'primevue/dropdown';
+
 import {router} from '@inertiajs/vue3'
-
-const Modal = defineAsyncComponent(() => import('./Modal.vue'));
-
-import {computed, defineAsyncComponent, onMounted, reactive, ref} from "vue";
-import {format, endOfMonth, startOfMonth} from "date-fns";
-import {swal} from "@/Includes/swal";
+import {useConfirm} from "primevue/useconfirm";
+import {useToast} from 'primevue/usetoast';
 import {useI18n} from "vue-i18n";
+import {computed, defineAsyncComponent, onMounted, reactive, ref} from "vue";
 
 const {t} = useI18n();
+const confirm = useConfirm();
+const toast = useToast();
+const Modal = defineAsyncComponent(() => import('./Modal.vue'));
+
+const dateNow = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+    const day = now.getDate().toString().padStart(2, '0');
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+};
 
 const item = {
+    type: null,
     sum: null,
-    date: new Date(),
+    date: null,
     category_id: null,
     comment: null,
 }
+
+const lazyParams = ref({
+    date: null,
+    page: 0,
+    first: 0,
+    rows: 15,
+    sortField: null,
+    sortOrder: null,
+});
 
 const state = reactive({
     data: [],
     indicators: [],
     categories: [],
-    isLoading: true,
+    isLoading: false,
+    isCategoriseModal: false,
+    isLoadingAddProfit: false,
+    isLoadingAddCost: false,
     showModal: false,
-    item: null,
+    item: {
+        id: null,
+        category_id: null
+    },
     file: null,
 });
 
-const params = reactive({
-    date: {
-        startDate: null,
-        endDate: null
-    },
-    // date: {
-    //     startDate: format(startOfMonth(new Date()), "yyyy-MM-dd HH:mm:ss"),
-    //     endDate: format(endOfMonth(new Date()), "yyyy-MM-dd HH:mm:ss")
-    // },
-    page: 1,
-    get: '',
+onMounted(async () => {
+    await fetch();
 });
-
 
 const getParams = computed(() => {
     const {date, page, get} = params;
@@ -62,52 +83,31 @@ const getParams = computed(() => {
     };
 });
 
-onMounted(async () => {
-    await fetch();
-    await getCategories();
-})
-
-const fetch = async () => {
-    state.isLoading = true;
-    await axios.get(route('api.statistics.bank-card-movements.index', getParams.value))
-        .then(({data}) => {
-            state.data = data.result.data
-            state.indicators = data.result.indicators
-        })
-        .catch((errors) => console.log(errors));
-    state.isLoading = false;
-}
-
-const onSelectDate = async (val) => {
-    params.date = {
-        startDate: val.startDate,
-        endDate: val.endDate,
-    }
-    params.page = 1;
-    params.get = '';
-    await fetch();
-}
-
 const onSubmitRequest = async (method, url, data) => {
     try {
         await axios[method](url, data);
-        toggleModal();
         await fetch();
-        await swal({
-            title: t(`swal.${method === 'put' ? 'updated' : 'created'}`),
-            icon: 'success'
+        toggleModal();
+        toast.add({
+            severity: 'success',
+            summary: t(`swal.${method === 'put' ? 'updated' : 'created'}`),
+            life: 2000
         });
     } catch (e) {
         console.error(e);
-        await swal({
-            title: t('swal.error'),
-            text: t('swal.check_data'),
-            icon: 'error'
+        toast.add({
+            severity: 'error',
+            summary: t('swal.error'),
+            detail: t('swal.check_data'),
+            life: 2000
         });
     }
 }
 
 const onSubmit = async () => {
+    if (state.item.category_id !== null && typeof state.item.category_id === 'object') {
+        state.item.category_id = state.item.category_id.code;
+    }
     const url = state.item.id
         ? route('api.statistics.bank-card-movements.update', state.item.id)
         : route('api.statistics.bank-card-movements.create');
@@ -118,26 +118,14 @@ const onSubmit = async () => {
 }
 
 const onCreate = async (val) => {
+    state.isLoadingAddProfit = (val === 1);
+    state.isLoadingAddCost = (val === 0);
+
     await getCategories(val);
     state.item = JSON.parse(JSON.stringify(item));
-    if (val === 0) {
-        state.item.sum = '-';
-    }
+    state.item.type = val === 0 ? 0 : 1;
+    state.item.date = dateNow();
     toggleModal();
-}
-
-const getAllData = async () => {
-    params.date = {
-        startDate: null,
-        endDate: null,
-    }
-    params.page = 1;
-    params.get = '';
-    await fetch();
-}
-
-const onDestroy = async () => {
-
 }
 
 const onEdit = async (id) => {
@@ -145,6 +133,7 @@ const onEdit = async (id) => {
         .then(async ({data}) => {
             await getCategories(data.result.type);
             state.item = data.result;
+            state.isLoading = false;
         })
         .catch((errors) => console.log(errors));
     toggleModal();
@@ -156,7 +145,7 @@ const getCategories = async (val) => {
         state.categories = [];
         data.result.forEach(({id, title, type}) => {
             if (type === val) {
-                state.categories.push({key: id, value: title});
+                state.categories.push({code: id, name: title});
             }
         });
     } catch (error) {
@@ -166,10 +155,90 @@ const getCategories = async (val) => {
 
 const toggleModal = () => {
     state.showModal = !state.showModal;
+    state.isLoadingAddProfit = false;
+    state.isLoadingAddCost = false;
 }
 
 const exportData = () => {
     router.get(route('admin.statistics.bank-card-movements.export'));
+}
+
+const toggleCategoriesModal = () => {
+    state.isCategoriseModal = !state.isCategoriseModal;
+}
+
+const setCategory = async () => {
+    try {
+        if (state.item.category_id !== null && typeof state.item.category_id === 'object') {
+            state.item.category_id = state.item.category_id.code;
+        }
+        const {data} = await axios.post(route('api.statistics.bank-card-movements.category.update'), state.item);
+        if (data.success) {
+            state.item = {
+                id: null,
+                category_id: null
+            }
+            toggleCategoriesModal();
+            await fetch();
+            toast.add({
+                severity: 'success',
+                summary: t('swal.updated'),
+                life: 2000
+            });
+        }
+
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+const editCategory = (val) => {
+    getCategories(val.sum < 0 ? 0 : 1);
+    toggleCategoriesModal();
+    state.item.id = val.id;
+}
+
+const params = computed(() => {
+    let sort = {};
+
+    if (lazyParams.value.sortField) {
+        sort.sort = lazyParams.value.sortField;
+
+        if (lazyParams.value.sortOrder === 1) {
+            sort.param = 'asc';
+        } else if (lazyParams.value.sortOrder === -1) {
+            sort.param = 'desc';
+        }
+    }
+
+    return {
+        perPage: lazyParams.value.rows || 15,
+        sort: sort.sort && sort.param ? sort.sort : null,
+        param: sort.sort && sort.param ? sort.param : null,
+        page: (lazyParams.value.page || 0) + 1,
+        get: lazyParams.value.get || null
+    };
+});
+
+const fetch = async () => {
+    state.isLoading = true;
+    await axios.get(route('api.statistics.bank-card-movements.index', params.value))
+        .then(({data}) => {
+            state.data = data.result.data
+            state.indicators = data.result.indicators
+        })
+        .catch((errors) => console.log(errors));
+    state.isLoading = false;
+}
+
+const onPage = async (e) => {
+    lazyParams.value = e;
+    await fetch();
+}
+
+const onSort = async (e) => {
+    lazyParams.value = e;
+    await fetch();
 }
 
 const indicatorTitle = (val) => {
@@ -183,13 +252,58 @@ const indicatorTitle = (val) => {
     }
 }
 
+const getAllData = async () => {
+    params.date = {
+        startDate: null,
+        endDate: null,
+    }
+    lazyParams.value.page = 0;
+    lazyParams.value.get = '';
+    await fetch();
+}
+
 const getProfitsData = async () => {
-    params.get = 'profits';
+    lazyParams.value.get = 'profits';
+    lazyParams.value.page = 0;
     await fetch();
 }
 const getCostsData = async () => {
-    params.get = 'costs';
+    lazyParams.value.get = 'costs';
+    lazyParams.value.page = 0;
     await fetch();
+}
+
+const onRowSelect = (event) => {
+    state.isLoading = true;
+    onEdit(event.data.id);
+};
+
+const onDestroy = async (id) => {
+    confirm.require({
+        message: t('swal.confirm_destroy'),
+        header: t('swal.confirm_action'),
+        icon: 'pi pi-exclamation-triangle',
+        accept: async () => {
+            try {
+                const {data} = await axios.delete(route('api.statistics.bank-card-movements.destroy', id));
+                if (data.success) {
+                    await fetch();
+                    toast.add({
+                        severity: 'success',
+                        summary: t(`swal.destroyed`),
+                        life: 2000
+                    });
+                }
+            } catch (error) {
+                console.error(error);
+                toast.add({
+                    severity: 'error',
+                    summary: t('swal.error'),
+                    life: 2000
+                });
+            }
+        }
+    });
 }
 </script>
 
@@ -198,85 +312,192 @@ const getCostsData = async () => {
         <template #header>
             Рухи по картці
         </template>
-
-        <Loader v-if="state.isLoading"/>
-        <div v-if="!state.isLoading" class="grid grid-cols-1 gap-4">
-            <div class="flex gap-4 justify-center">
-                <PrimaryButton type="button" @click="onCreate(1)">Додати прибуток</PrimaryButton>
-                <DangerButton type="button" @click="onCreate(0)">Додати витрату</DangerButton>
-            </div>
-            <div class="grid grid-cols-12 gap-4">
-
-                <div class="col-span-12 md:col-span-2">
-                    <PrimaryButton type="button" @click="getAllData" class="w-full h-full justify-center">
-                        Показати все
-                    </PrimaryButton>
-                </div>
-
-                <div class="col-span-12 md:col-span-10 flex gap-4">
-                    <Datepicker @update:modelValue="onSelectDate" v-model="params.date" :auto-apply="false" use-range/>
-                    <PrimaryButton type="button" @click="exportData">
-                        <DownloadIcon/>
-                    </PrimaryButton>
-                </div>
-
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mx-auto">
-                    <Card v-for="(item,i) in state.indicators"
-                          class="text-center dark:bg-gray-800 rounded-xl shadow-md"
-                          :title="indicatorTitle(i)"
-                          :description="$filters.formatMoney(item)"
-                    >
-                    </Card>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-                    <div class="md:col-span-1 flex items-end">
-                        <div class="block w-full">
-                            <PrimaryButton type="button" @click="getAllData" class="w-full justify-center">
-                                Все
-                            </PrimaryButton>
-                        </div>
-
+        <div class="grid grid-cols-1 gap-4">
+            <Toolbar class="mb-4">
+                <template #center>
+                    <div class="flex gap-4 justify-center flex-col md:flex-row">
+                        <Button icon="pi pi-plus"
+                                type="button"
+                                @click="onCreate(1)"
+                                label="Додати прибуток"
+                                :loading="state.isLoadingAddProfit"
+                        />
+                        <Button icon="pi pi-minus"
+                                severity="danger"
+                                type="button"
+                                @click="onCreate(0)"
+                                label="Додати витрату"
+                                :loading="state.isLoadingAddCost"
+                        />
                     </div>
-                    <div class="md:col-span-2 flex items-end">
-                        <div class="block w-full">
-                            <SecondaryButton type="button" @click="getProfitsData" class="w-full justify-center">
-                                Надходження
-                            </SecondaryButton>
-                        </div>
-                    </div>
-                    <div class="md:col-span-2 flex items-end">
-                        <div class="block w-full">
-                            <SecondaryButton type="button" @click="getCostsData" class="w-full justify-center">
-                                Витрати
-                            </SecondaryButton>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                </template>
+            </Toolbar>
 
-            <Table :data="state.data.data"
-                   @onDestroy="onDestroy"
-                   @onEdit="onEdit"
-                   @onUpdate="fetch "
-                   :categories="state.categories"
-                   @getCategories="getCategories"
-            />
-            <div class="text-center">
-                <Paginate v-if="state.data.last_page !== 1"
-                          :pagination="state.data"
-                          :click-handler="fetch"
-                          v-model="params.page"
+            <DataTable
+                selectionMode="single"
+                @rowSelect="onRowSelect"
+                ref="dt"
+                dataKey="date"
+                :loading="state.isLoading"
+                :value="state.data.data"
+                class="p-datatable bank-card-movements-table"
+                lazy
+                paginator
+                :rows="state.data.per_page"
+                :totalRecords="state.data.total"
+                @page="onPage($event)"
+                @sort="onSort($event)"
+                :rowsPerPageOptions="[15, 50, 100, 500]"
+                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown CurrentPageReport"
+                currentPageReportTemplate="Показано з {first} по {last} із {totalRecords} записів"
+            >
+                <template #header>
+                    <div class="p-4">
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 ">
+                            <div class=" grid grid-cols-1 md:grid-cols-3 gap-2">
+                                <Chip class="pl-0 pr-3" v-for="(k,i) in state.indicators">
+                                    <div class="flex flex-col p-4">
+                                    <span
+                                        class="bg-primary border-circle w-2rem h-2rem flex align-items-center justify-content-center">
+                                    {{ indicatorTitle(i) }}
+                                </span>
+                                        <span class="ml-2 font-medium">{{ $filters.formatMoney(k) }}</span>
+                                    </div>
+                                </Chip>
+                            </div>
+                            <div class=" grid grid-cols-1">
+                                <div class="grid grid-cols-1 md:grid-cols-9 gap-4">
+                                    <div class="md:col-span-4 flex items-end">
+                                        <div class="block w-full">
+                                            <Button severity="secondary"
+                                                    type="button"
+                                                    @click="getProfitsData"
+                                                    class="w-full justify-center"
+                                                    label="Надходження"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="md:col-span-4 flex items-end">
+                                        <div class="block w-full">
+                                            <Button severity="secondary"
+                                                    type="button"
+                                                    @click="getCostsData"
+                                                    class="w-full justify-center"
+                                                    label="Витрати"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="md:col-span-1 flex items-end">
+                                        <div class="block w-full">
+                                            <Button icon="pi pi-refresh"
+                                                    type="button"
+                                                    @click="getAllData"
+                                                    class="w-full justify-center"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+
+                <Column sortable field="date" header="Дата">
+                    <template #body="{data}">
+                        {{ $filters.dateFormat(data.date) }}
+                        <br>
+                        <span class="text-[0.7rem]">
+                            {{ $filters.timeFormat(data.date) }}
+                        </span>
+                    </template>
+                </Column>
+
+                <Column field="category_id" header="Категорія">
+                    <template #body="{data}">
+                        <div v-if="data.category_id">
+                            <div v-if="data.category">
+                                {{ data.category.title }}
+                            </div>
+                            <div v-else>
+                                Категорія видалена
+                                <br/>
+                                <Button text rounded type="button" @click="editCategory(data)">
+                                    Обрати нову
+                                </Button>
+                            </div>
+                        </div>
+                        <div v-else>
+                            <Button text rounded type="button" @click="editCategory(data)">
+                                Обрати
+                            </Button>
+                        </div>
+                    </template>
+                </Column>
+
+                <Column sortable field="sum" header="Сума">
+                    <template #body="{data}">
+                        {{ $filters.formatMoney(data.sum) }}
+                    </template>
+                </Column>
+
+                <Column sortable field="balance" header="Залишок">
+                    <template #body="{data}">
+                        {{ $filters.formatMoney(data.balance) }}
+                    </template>
+                </Column>
+
+                <Column field="actions" header="">
+                    <template #body="{data}">
+                        <Button text
+                                rounded
+                                icon="pi pi-trash"
+                                type="button"
+                                @click="onDestroy(data.id)"
+                        />
+                    </template>
+                </Column>
+            </DataTable>
+        </div>
+    </StatisticLayout>
+
+    <Dialog class="w-full max-w-md" v-model:visible="state.isCategoriseModal" modal header=" ">
+        <div class="grid gap-y-4">
+            <div class="block">
+                <Label value="Оберіть категорію"/>
+                <Dropdown v-model="state.item.category_id"
+                          showClear
+                          :options="state.categories"
+                          optionLabel="name"
+                          placeholder="Оберіть категорію"
+                          class="w-full"
                 />
             </div>
         </div>
-        <Modal :show="state.showModal"
-               @close="toggleModal"
-               @submit="onSubmit"
-               :item="state.item"
-               :categories="state.categories"
-        />
-    </StatisticLayout>
+        <template #footer>
+            <Button label="Скасувати" icon="pi pi-times" @click="toggleCategoriesModal" text/>
+            <Button label="Зберегти" icon="pi pi-check" @click="setCategory" autofocus/>
+        </template>
+    </Dialog>
+
+    <Dialog class="w-full max-w-xl" v-model:visible="state.showModal" modal header=" ">
+        <Form :item="state.item" :categories="state.categories"/>
+        <template #footer>
+            <Button label="Скасувати" icon="pi pi-times" @click="toggleModal" text/>
+            <Button label="Зберегти" icon="pi pi-check" @click="onSubmit" autofocus/>
+        </template>
+    </Dialog>
+
+    <ConfirmDialog/>
+    <Toast/>
 </template>
+
+<style>
+.bank-card-movements-table.p-datatable .p-column-header-content {
+    justify-content: center;
+}
+
+.bank-card-movements-table.p-datatable .p-datatable-tbody > tr > td {
+    text-align: center !important;
+}
+</style>

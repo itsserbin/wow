@@ -6,7 +6,7 @@ import Table from './Table.vue';
 import Paginate from '@/Components/Paginate.vue';
 import Loader from '@/Components/Loader.vue';
 import Button from '@/Components/Button.vue';
-import CostCategoryModal from '@/Pages/Admin/Statistics/CostCategories/Modal.vue';
+import CostCategoryModal from '@/Pages/Admin/Statistics/CostProfitCategories/Modal.vue';
 import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
 
 const can = inject('$can');
@@ -14,7 +14,7 @@ const can = inject('$can');
 const item = ({
     title: null,
     slug: null,
-    type: 0,
+    type: null,
 })
 
 const state = reactive({
@@ -118,7 +118,7 @@ function onCreate() {
     axios.post(route('api.statistics.costs.categories.create'), state.item)
         .then(() => {
             modalFunction();
-            state.item = item;
+            state.item = JSON.parse(JSON.stringify(item));
             fetch();
             swal({
                 title: 'Success!',
@@ -143,7 +143,7 @@ function submitForm() {
 }
 
 function create() {
-    Object.assign(state.item, item);
+    state.item = JSON.parse(JSON.stringify(item));
     state.modalAction = 'create';
     modalFunction();
 }

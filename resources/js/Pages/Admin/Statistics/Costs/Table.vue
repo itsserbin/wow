@@ -19,16 +19,8 @@ const headings = [
         key: 'category'
     },
     {
-        label: 'Кількість',
-        key: 'quantity'
-    },
-    {
         label: 'Сума',
         key: 'sum'
-    },
-    {
-        label: 'Загалом',
-        key: 'total'
     },
     {
         label: 'Відповідальний',

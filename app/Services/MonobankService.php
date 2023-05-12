@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Repositories\Statistics\CostCategoriesRepository;
+use App\Repositories\Statistics\CostAndProfitCategoriesRepository;
 use App\Repositories\Statistics\CostsRepository;
 
 class MonobankService
@@ -16,7 +16,7 @@ class MonobankService
     {
         $this->apiService = app(ApiService::class);
         $this->token = env('MONOBANK_API');
-        $this->costCategoriesRepository = app(CostCategoriesRepository::class);
+        $this->costCategoriesRepository = app(CostAndProfitCategoriesRepository::class);
         $this->costsRepository = app(CostsRepository::class);
     }
 

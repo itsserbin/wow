@@ -16,7 +16,6 @@ import {useStore} from "vuex";
 import {useGtm} from '@gtm-support/vue-gtm';
 import hmacMD5 from 'crypto-js/hmac-md5';
 import CryptoJS from 'crypto-js';
-import {isLoading} from "@/Pages/Public/load";
 import {swal} from '@/Includes/swal';
 
 defineOptions({layout: MasterLayout})
@@ -85,118 +84,117 @@ onMounted(() => {
             console.log(e);
         }
     }
-    isLoading.value = false;
 })
 
-function wfp(order) {
-    const wayforpay = new Wayforpay();
-    const data = {
-        names: [],
-        prices: [],
-        counts: [],
-        amount: null,
-    }
-    order.items.forEach((item) => {
-        data.names.push(item.product.h1.ua ? item.product.h1.ua : item.product.h1.ru)
-        data.counts.push(item.count)
-    })
-    if (order.payment_method === 'minimum_prepayment') {
-        data.amount = order.total_price * 0.1;
-        order.items.forEach((item) => {
-            data.prices.push(item.sale_price * 0.1)
-        })
-    } else if (order.payment_method === 'full_prepayment') {
-        data.amount = order.total_price;
-        order.items.forEach((item) => {
-            data.prices.push(item.sale_price)
-        })
-    }
+// function wfp(order) {
+//     const wayforpay = new Wayforpay();
+//     const data = {
+//         names: [],
+//         prices: [],
+//         counts: [],
+//         amount: null,
+//     }
+//     order.items.forEach((item) => {
+//         data.names.push(item.product.h1.ua ? item.product.h1.ua : item.product.h1.ru)
+//         data.counts.push(item.count)
+//     })
+//     if (order.payment_method === 'minimum_prepayment') {
+//         data.amount = order.total_price * 0.1;
+//         order.items.forEach((item) => {
+//             data.prices.push(item.sale_price * 0.1)
+//         })
+//     } else if (order.payment_method === 'full_prepayment') {
+//         data.amount = order.total_price;
+//         order.items.forEach((item) => {
+//             data.prices.push(item.sale_price)
+//         })
+//     }
+//
+//     let params = {
+//         // merchantAccount: 'test_merch_n1',
+//         merchantAccount: import.meta.env.VITE_WFP_MERCHANT_LOGIN,
+//         merchantDomainName: import.meta.env.VITE_DOMAIN,
+//         orderReference: import.meta.env.MODE === 'production' ? order.id : 'loc' + order.id,
+//         orderDate: Math.floor(new Date(order.created_at).getTime() / 1000),
+//         // amount: 1,
+//         amount: data.amount,
+//         currency: "UAH",
+//         productName: data.names,
+//         // productPrice: [1],
+//         productPrice: data.prices,
+//         productCount: data.counts,
+//         clientFirstName: order.client.name,
+//         clientLastName: order.client.last_name,
+//         clientPhone: order.client.phone,
+//         language: "UA",
+//         deliveryList: 'nova',
+//         returnUrl: route('api.v1.orders.set-prepayment')
+//     };
+//     let string = (Object.values(
+//         {
+//             merchantAccount: params.merchantAccount,
+//             merchantDomainName: params.merchantDomainName,
+//             orderReference: params.orderReference,
+//             orderDate: params.orderDate,
+//             amount: params.amount,
+//             currency: params.currency,
+//             productName: params.productName.join(';'),
+//             productCount: params.productCount.join(';'),
+//             productPrice: params.productPrice.join(';'),
+//         }
+//     ).join(';'))
+//     let signature = CryptoJS.enc.Utf8.stringify(
+//         CryptoJS.enc.Utf8.parse(
+//             hmacMD5(
+//                 string,
+//                 // 'flk3409refn54t54t*FNJRET'
+//                 import.meta.env.VITE_WFP_MERCHANT_SECRET_KEY
+//             )
+//         )
+//     );
+//     wayforpay.run({
+//             merchantAccount: params.merchantAccount,
+//             merchantDomainName: params.merchantDomainName,
+//             authorizationType: "SimpleSignature",
+//             merchantSignature: signature,
+//             orderReference: params.orderReference,
+//             orderDate: params.orderDate,
+//             amount: params.amount,
+//             currency: params.currency,
+//             productName: params.productName,
+//             productPrice: params.productPrice,
+//             productCount: params.productCount,
+//             clientFirstName: params.clientFirstName,
+//             clientLastName: params.clientLastName,
+//             clientPhone: params.clientPhone,
+//             language: params.language,
+//             returnUrl: params.returnUrl,
+//             // deliveryList: params.deliveryList
+//         },
+//         function (response) {
+//             // on approved
+//             onSuccessPurchase(response, order);
+//         },
+//         function (response) {
+//             // on declined
+//         },
+//         function (response) {
+//             // on pending or in processing
+//         }
+//     );
+// }
 
-    let params = {
-        // merchantAccount: 'test_merch_n1',
-        merchantAccount: import.meta.env.VITE_WFP_MERCHANT_LOGIN,
-        merchantDomainName: import.meta.env.VITE_DOMAIN,
-        orderReference: import.meta.env.MODE === 'production' ? order.id : 'loc' + order.id,
-        orderDate: Math.floor(new Date(order.created_at).getTime() / 1000),
-        // amount: 1,
-        amount: data.amount,
-        currency: "UAH",
-        productName: data.names,
-        // productPrice: [1],
-        productPrice: data.prices,
-        productCount: data.counts,
-        clientFirstName: order.client.name,
-        clientLastName: order.client.last_name,
-        clientPhone: order.client.phone,
-        language: "UA",
-        deliveryList: 'nova',
-        returnUrl: route('api.v1.orders.set-prepayment')
-    };
-    let string = (Object.values(
-        {
-            merchantAccount: params.merchantAccount,
-            merchantDomainName: params.merchantDomainName,
-            orderReference: params.orderReference,
-            orderDate: params.orderDate,
-            amount: params.amount,
-            currency: params.currency,
-            productName: params.productName.join(';'),
-            productCount: params.productCount.join(';'),
-            productPrice: params.productPrice.join(';'),
-        }
-    ).join(';'))
-    let signature = CryptoJS.enc.Utf8.stringify(
-        CryptoJS.enc.Utf8.parse(
-            hmacMD5(
-                string,
-                // 'flk3409refn54t54t*FNJRET'
-                import.meta.env.VITE_WFP_MERCHANT_SECRET_KEY
-            )
-        )
-    );
-    wayforpay.run({
-            merchantAccount: params.merchantAccount,
-            merchantDomainName: params.merchantDomainName,
-            authorizationType: "SimpleSignature",
-            merchantSignature: signature,
-            orderReference: params.orderReference,
-            orderDate: params.orderDate,
-            amount: params.amount,
-            currency: params.currency,
-            productName: params.productName,
-            productPrice: params.productPrice,
-            productCount: params.productCount,
-            clientFirstName: params.clientFirstName,
-            clientLastName: params.clientLastName,
-            clientPhone: params.clientPhone,
-            language: params.language,
-            returnUrl: params.returnUrl,
-            // deliveryList: params.deliveryList
-        },
-        function (response) {
-            // on approved
-            onSuccessPurchase(response, order);
-        },
-        function (response) {
-            // on declined
-        },
-        function (response) {
-            // on pending or in processing
-        }
-    );
-}
-
-function onSuccessPurchase(response, order) {
-    window.addEventListener("message", function () {
-        if (event.data === 'WfpWidgetEventApproved') {
-            axios.post(route('api.v1.orders.set-prepayment', response))
-                .then(({data}) => {
-                    window.location.href = route('thanks', order.id);
-                })
-        }
-    }, false);
-
-}
+// function onSuccessPurchase(response, order) {
+//     window.addEventListener("message", function () {
+//         if (event.data === 'WfpWidgetEventApproved') {
+//             axios.post(route('api.v1.orders.set-prepayment', response))
+//                 .then(({data}) => {
+//                     window.location.href = route('thanks', order.id);
+//                 })
+//         }
+//     }, false);
+//
+// }
 
 const sendOrder = async () => {
     state.value.isLoading = true;
@@ -238,12 +236,15 @@ const sendOrder = async () => {
                     phone: data.order.client.phone,
                 })
             }
-            if (data.order.payment_method === 'minimum_prepayment' || data.order.payment_method === 'full_prepayment') {
-                wfp(data.order);
-            } else {
-                if (typeof window !== 'undefined') {
-                    window.location.href = route('thanks', data.order.id);
-                }
+            // if (data.order.payment_method === 'minimum_prepayment' || data.order.payment_method === 'full_prepayment') {
+            //     wfp(data.order);
+            // } else {
+            //     if (typeof window !== 'undefined') {
+            //         window.location.href = route('thanks', data.order.id);
+            //     }
+            // }
+            if (typeof window !== 'undefined') {
+                window.location.href = route('thanks', data.order.id);
             }
             state.value.isLoading = false;
         })

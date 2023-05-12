@@ -543,6 +543,9 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::put('update/{id}', [BankCardMovementsController::class, 'update'])
                 ->name('api.statistics.bank-card-movements.update');
 
+            Route::delete('destroy/{id}', [BankCardMovementsController::class, 'destroy'])
+                ->name('api.statistics.bank-card-movements.destroy');
+
             Route::post('update-category', [BankCardMovementsController::class, 'updateCategory'])
                 ->name('api.statistics.bank-card-movements.category.update');
 

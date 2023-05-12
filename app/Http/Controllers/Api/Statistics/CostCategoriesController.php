@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\Statistics;
 
 use App\Http\Controllers\Api\BaseController;
-use App\Repositories\Statistics\CostCategoriesRepository;
+use App\Repositories\Statistics\CostAndProfitCategoriesRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -14,7 +14,7 @@ class CostCategoriesController extends BaseController
     public function __construct()
     {
         parent::__construct();
-        $this->costCategoriesRepository = app(CostCategoriesRepository::class);
+        $this->costCategoriesRepository = app(CostAndProfitCategoriesRepository::class);
     }
 
     public function index(Request $request): JsonResponse

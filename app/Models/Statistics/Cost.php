@@ -22,7 +22,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $updated_at
  * @property Carbon|null $date
  * @property int|null $cost_category_id
- * @property-read CostCategory|null $category
+ * @property-read CostAndProfitCategory|null $category
  * @property-read User|null $user
  * @method static \Illuminate\Database\Eloquent\Builder|Cost newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Cost newQuery()
@@ -55,6 +55,6 @@ class Cost extends Model
 
     final public function category(): HasOne
     {
-        return $this->hasOne(CostCategory::class, 'id', 'cost_category_id');
+        return $this->hasOne(CostAndProfitCategory::class, 'id', 'cost_category_id');
     }
 }

@@ -28,7 +28,7 @@ class CashFlowRepository extends CoreRepository
         return $this->model::where('month', $month)->first();
     }
 
-    final public function getViewPage(array $data)
+    final public function getViewPage(array $data): LengthAwarePaginator
     {
         $model = $this->model::select([
             'id',
@@ -44,13 +44,13 @@ class CashFlowRepository extends CoreRepository
 //            $model->whereBetween('date', [$data['date_start'], $data['date_end']]);
 //        }
 //
-//        if (isset($data['sort'], $data['param'])) {
-//            $model->orderBy($data['sort'], $data['param']);
-//        } else {
-//            $model->orderBy('date', 'desc');
-//        }
+        if (isset($data['sort'], $data['param'])) {
+            $model->orderBy($data['sort'], $data['param']);
+        } else {
+            $model->orderBy('month', 'desc');
+        }
 
-        return $model->paginate(15);
+        return $model->paginate($data['perPage'] ?? 15);
     }
 
     final public function create(string $month): bool

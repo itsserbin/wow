@@ -11,35 +11,33 @@ import {InertiaProgress} from "@inertiajs/progress";
 
 const i18n = createI18n({})
 
-export function mountPublic() {
-    createInertiaApp({
-        resolve: (name) => resolvePageComponent(`./${name.substring(name.indexOf('/') + 1)}.vue`, import.meta.glob('./**/*.vue')),
-        setup({el, App, props, plugin}) {
-            const app = createSSRApp({render: () => h(App, props)})
-            app.use(plugin)
-            app.use(i18n)
-            app.use(ZiggyVue, Ziggy);
-            app.use(store);
-            if (import.meta.env.MODE === 'production' && import.meta.env.VITE_GTM) {
-                app.use(
-                    createGtm({
-                        id: import.meta.env.VITE_GTM,
-                        defer: false,
-                        compatibility: false,
-                        enabled: true,
-                        debug: false,
-                        loadScript: true,
-                        trackOnNextTick: false,
-                    })
-                );
-            }
-
-            store.commit('loadCart');
-
-            app.provide('$defaultLang', 'ua');
-
-            app.mount(el)
+createInertiaApp({
+    resolve: (name) => resolvePageComponent(`./${name}.vue`, import.meta.glob('./**/*.vue')),
+    setup({el, App, props, plugin}) {
+        const app = createSSRApp({render: () => h(App, props)})
+        app.use(plugin)
+        app.use(i18n)
+        app.use(ZiggyVue, Ziggy);
+        app.use(store);
+        if (import.meta.env.MODE === 'production' && import.meta.env.VITE_GTM) {
+            app.use(
+                createGtm({
+                    id: import.meta.env.VITE_GTM,
+                    defer: false,
+                    compatibility: false,
+                    enabled: true,
+                    debug: false,
+                    loadScript: true,
+                    trackOnNextTick: false,
+                })
+            );
         }
-    })
-    InertiaProgress.init({color: '#EC7063'});
-}
+
+        store.commit('loadCart');
+
+        app.provide('$defaultLang', 'ua');
+
+        app.mount(el)
+    }
+})
+InertiaProgress.init({color: '#EC7063'});

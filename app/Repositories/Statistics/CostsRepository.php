@@ -3,7 +3,7 @@
 namespace App\Repositories\Statistics;
 
 use App\Models\Statistics\Cost as Model;
-use App\Repositories\Statistics\CostCategoriesRepository;
+use App\Repositories\Statistics\CostAndProfitCategoriesRepository;
 use App\Repositories\CoreRepository;
 use Carbon\Carbon;
 use DateInterval;
@@ -83,7 +83,7 @@ class CostsRepository extends CoreRepository
 
     public function generalStatistic($data = null)
     {
-        $costCategoriesRepository = new CostCategoriesRepository();
+        $costCategoriesRepository = new CostAndProfitCategoriesRepository();
         $list = $costCategoriesRepository->list();
 
         $model = $this->model::select([
@@ -249,7 +249,7 @@ class CostsRepository extends CoreRepository
 
     final public function getManagerSalaryRowByDate(string $date): \Illuminate\Database\Eloquent\Model|null
     {
-        $costCategoriesRepository = new CostCategoriesRepository();
+        $costCategoriesRepository = new CostAndProfitCategoriesRepository();
         $costCategoriesItem = $costCategoriesRepository->getByCode('#CC');
 
         if ($costCategoriesItem) {
@@ -266,7 +266,7 @@ class CostsRepository extends CoreRepository
 
     final public function getAllManagerSalaryRows(): Collection|bool
     {
-        $costCategoriesRepository = new CostCategoriesRepository;
+        $costCategoriesRepository = new CostAndProfitCategoriesRepository;
         $costCategoriesItem = $costCategoriesRepository->getByCode('#CC');
 
         if ($costCategoriesItem) {

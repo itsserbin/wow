@@ -13,9 +13,8 @@ Route::prefix('admin')
     ->middleware(['auth', 'verified'])
     ->group(function () {
 
-        Route::get('/', function () {
-            return Inertia::render('Admin/Dashboard');
-        })->name('admin.dashboard');
+        Route::get('/', [AdminController::class, 'dashboard'])
+            ->name('admin.dashboard');
 
         Route::prefix('content')->group(function () {
             Route::get('/', [AdminController::class, 'content'])
@@ -118,15 +117,11 @@ Route::prefix('admin')
             Route::get('products', [AdminController::class, 'statisticProducts'])
                 ->name('admin.statistics.products.index');
 
-            Route::prefix('costs')->group(function () {
-                Route::get('/', [AdminController::class, 'statisticCosts'])
-                    ->name('admin.statistics.costs.index');
+            Route::get('costs-and-profit-categories', [AdminController::class, 'statisticCostProfitCategories'])
+                ->name('admin.statistics.costs-and-profit-categories.index');
 
-                Route::prefix('categories')->group(function () {
-                    Route::get('/', [AdminController::class, 'statisticCostCategories'])
-                        ->name('admin.statistics.costs.categories.index');
-                });
-            });
+            Route::get('costs', [AdminController::class, 'statisticCosts'])
+                ->name('admin.statistics.costs.index');
         });
 
         Route::prefix('options')->group(function () {

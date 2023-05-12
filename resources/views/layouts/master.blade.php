@@ -5,8 +5,9 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title inertia>{{ env('APP_NAME') }}</title>
     @vite('resources/scss/public.scss')
-        {!! $page['props']['options']['head_scripts'] !!}
+    {!! $page['props']['options']['head_scripts'] !!}
     {{--    <meta property="og:title" content="@yield('meta_title')"/>--}}
     {{--    <meta property="og:type" content="website"/>--}}
     {{--    <meta property="og:url" content="{{url()->current()}}"/>--}}
@@ -24,7 +25,7 @@
     {{--    <link rel="alternate" href="{{setLinkToLang(request()->url(),'ua')}}" hreflang="uk-UA"/>--}}
     {{--    <link rel="alternate" href="{{setLinkToLang(request()->url(),'ua')}}" hreflang="x-default"/>--}}
     @routes
-    @vite('resources/js/Pages/app.js')
+    @vite('resources/js/Pages/Public/app.js')
     {{--    @vite(['resources/js/Pages/Public/app.js', "resources/js/Pages/Public/{$page['component']}.vue"])--}}
     @inertiaHead
 </head>

@@ -10,10 +10,11 @@ const state = reactive({
     lineChartOptions: {
         legend: { position: 'bottom' },
         tooltip: {trigger: 'hover'},
+        is3D: true,
         focusTarget: 'category',
     },
     chartData: [
-        ['Місяць', 'Витрати', 'Загальна виручка', 'Чистий прибуток']
+        ['Місяць', 'Витрати', 'Загальна виручка', 'Чистий прибуток'],
     ],
     barChartOptions: {
         legend: { position: 'bottom' },

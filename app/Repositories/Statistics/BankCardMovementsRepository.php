@@ -73,7 +73,7 @@ class BankCardMovementsRepository extends CoreRepository
             $model->orderBy('date', 'desc');
         }
 
-        return $model->with(['category:id,title'])->paginate(15);
+        return $model->with(['category:id,title'])->paginate($data['perPage'] ?? 15);
     }
 
     final public function indicators(array $data): array
@@ -113,6 +113,9 @@ class BankCardMovementsRepository extends CoreRepository
     final public function create(array $data): \Illuminate\Database\Eloquent\Model
     {
         $model = new $this->model;
+        if ($data['type'] === 0) {
+            $data['sum'] = -$data['sum'];
+        }
         $model->fill($data);
         $model->save();
 
@@ -177,4 +180,21 @@ class BankCardMovementsRepository extends CoreRepository
         return true;
     }
 
+    final public function destroy(int $id): bool
+    {
+        $model = $this
+            ->model::select(['id', 'date'])
+            ->where('id', $id)
+            ->first();
+
+        if ($model) {
+            $this->model::where('id', $id)->delete();
+            $this->calculateBalance($model->date);
+            $this->updateCashFlow($model->date);
+            $this->updateProfitAndLoss($model->date);
+            return true;
+        }
+
+        return false;
+    }
 }

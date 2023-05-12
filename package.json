@@ -2,14 +2,13 @@
     "private": true,
     "scripts": {
         "dev": "vite",
-        "build": "vite build && vite build --ssr"
+        "build": "vite build"
     },
     "devDependencies": {
         "@inertiajs/inertia": "^0.11.0",
         "@inertiajs/inertia-vue3": "^0.6.0",
         "@inertiajs/progress": "^0.2.7",
         "@inertiajs/vue3": "^1.0.0",
-        "@rollup/plugin-replace": "^5.0.2",
         "@tailwindcss/forms": "^0.5.3",
         "@vitejs/plugin-vue": "^4.1.0",
         "@vue-macros/volar": "^0.9.5",
@@ -37,21 +36,22 @@
         "@vueform/slider": "^2.1.7",
         "@vuepic/vue-datepicker": "^3.4.8",
         "animate.css": "^4.1.1",
-        "apexcharts": "^3.39.0",
         "chart.js": "^3.9.1",
         "crypto-js": "^4.1.1",
         "date-fns": "^2.29.3",
         "gsap": "^3.11.4",
         "moment": "^2.29.4",
         "numeral": "^2.0.6",
-        "sweetalert2": "^11.7.3",
+        "primeflex": "^3.3.0",
+        "primeicons": "^6.0.1",
+        "primevue": "^3.28.0",
+        "sweetalert2": "^11.7.5",
         "swiper": "^8.4.2",
         "vue-chart-3": "^3.1.8",
         "vue-google-charts": "^1.1.0",
         "vue-i18n": "^9.2.2",
         "vue-sweetalert2": "^5.0.5",
         "vue-tailwind-datepicker": "^1.4.3",
-        "vue3-apexcharts": "^1.4.1",
         "vuex": "^4.0.2"
     }
 }

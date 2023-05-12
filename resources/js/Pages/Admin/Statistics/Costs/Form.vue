@@ -95,18 +95,8 @@ const totalSum = computed(() => props.item.quantity * props.item.sum)
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div class="block">
-                <Label value="Кількість"/>
-                <Input v-model="item.quantity" type="number"/>
-            </div>
-
-            <div class="block">
                 <Label value="Вартість"/>
                 <Input v-model="item.sum" type="number"/>
-            </div>
-
-            <div class="block">
-                <Label value="Загалом"/>
-                <Input :value="totalSum" type="number" disabled/>
             </div>
         </div>
 

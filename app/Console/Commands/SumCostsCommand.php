@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Repositories\Statistics\CostCategoriesRepository;
+use App\Repositories\Statistics\CostAndProfitCategoriesRepository;
 use App\Repositories\Statistics\CostsRepository;
 use App\Repositories\Statistics\ManagerSalariesRepository;
 use Carbon\Carbon;
@@ -38,7 +38,7 @@ class SumCostsCommand extends Command
         parent::__construct();
         $this->managersSalaryRepository = app(ManagerSalariesRepository::class);
         $this->costsRepository = app(CostsRepository::class);
-        $this->costCategoriesRepository = app(CostCategoriesRepository::class);
+        $this->costCategoriesRepository = app(CostAndProfitCategoriesRepository::class);
     }
 
     /**

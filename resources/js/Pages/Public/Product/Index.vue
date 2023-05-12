@@ -13,7 +13,6 @@ import Breadcrumbs from './Breadcrumbs.vue'
 import Head from "./Head.vue";
 import eventTracking from "@/Includes/eventTracking";
 
-import {isLoading} from "@/Pages/Public/load";
 import {onMounted} from "vue";
 import {useGtm} from "@gtm-support/vue-gtm";
 
@@ -42,8 +41,6 @@ const props = defineProps([
 
 
 onMounted(async () => {
-    isLoading.value = false;
-
     if (import.meta.env.MODE === 'production') {
         try {
             eventTracking('ViewContent', {

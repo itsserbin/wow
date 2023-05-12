@@ -19,6 +19,6 @@ class BankCardMovement extends Model
 
     final public function category(): HasOne
     {
-        return $this->hasOne(CostCategory::class, 'id', 'category_id');
+        return $this->hasOne(CostAndProfitCategory::class, 'id', 'category_id');
     }
 }

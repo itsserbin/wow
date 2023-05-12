@@ -57,7 +57,7 @@ const costItems = [
     },
     {
         title: 'Категорії витрат/прибутків',
-        href: route('admin.statistics.costs.categories.index')
+        href: route('admin.statistics.costs-and-profit-categories.index')
     },
 
 ];
