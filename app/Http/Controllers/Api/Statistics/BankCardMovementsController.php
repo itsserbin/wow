@@ -90,4 +90,14 @@ class BankCardMovementsController extends BaseController
             'result' => $result
         ]);
     }
+
+    final public function getCostAndProfit(string $month): JsonResponse
+    {
+        $result = $this->bankCardMovementsRepository->getCostAndProfit($month);
+
+        return $this->returnResponse([
+            'success' => true,
+            'result' => $result
+        ]);
+    }
 }

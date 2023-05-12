@@ -199,4 +199,39 @@ class BankCardMovementsRepository extends CoreRepository
 
         return false;
     }
+
+    #[ArrayShape(['costs' => "array", 'profits' => "array"])]
+    final public function getCostAndProfit(string $month): array
+    {
+        $costAndProfitCategories = new CostAndProfitCategoriesRepository();
+        $items = $costAndProfitCategories->list();
+
+        $costs = [];
+        $profits = [];
+
+        foreach ($items as $item) {
+            [$year, $monthNum] = explode('-', $month);
+
+            $query = $this->model::selectRaw('SUM(sum) as value')
+                ->whereHas('category', function ($q) use ($item) {
+                    $q->where('slug', $item['slug']);
+                })
+                ->whereYear('date', $year)
+                ->whereMonth('date', $monthNum);
+
+            $type = $item['type'];
+            $key = $item['title'];
+
+            $result = ['key' => $key, 'value' => $query->pluck('value')->first()];
+
+            if ($type) {
+                $profits[] = $result;
+            } else {
+                $costs[] = $result;
+            }
+        }
+
+        return ['costs' => $costs, 'profits' => $profits];
+    }
+
 }

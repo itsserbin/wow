@@ -551,6 +551,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
             Route::post('create', [BankCardMovementsController::class, 'create'])
                 ->name('api.statistics.bank-card-movements.create');
+
+            Route::get('cost-and-profit/{month}', [BankCardMovementsController::class, 'getCostAndProfit'])
+                ->name('api.statistics.bank-card-movements.cost-and-profit');
         });
 
         Route::get('profit-and-loss', [ProfitAndLossController::class, 'index'])

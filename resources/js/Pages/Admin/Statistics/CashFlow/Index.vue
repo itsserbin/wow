@@ -79,6 +79,18 @@ const onSort = async (e) => {
 //     params.page = 1;
 //     await fetch();
 // }
+
+const expandedRows = ref([]);
+const expandRowData = reactive({});
+
+const onRowExpand = async (event) => {
+    state.isLoading = true;
+    await axios.get(route('api.statistics.bank-card-movements.cost-and-profit', event.data.month))
+        .then(({data}) => {
+            expandRowData[event.data.id] = data.result;
+            state.isLoading = false;
+        });
+};
 </script>
 
 <template>
@@ -92,9 +104,11 @@ const onSort = async (e) => {
             <!--            <Table :data="state.data.data"/>-->
 
             <DataTable
+                v-model:expandedRows="expandedRows"
+                @rowExpand="onRowExpand"
                 selectionMode="single"
                 ref="dt"
-                dataKey="date"
+                dataKey="month"
                 :loading="state.isLoading"
                 :value="state.data.data"
                 class="p-datatable cash-flow-table"
@@ -108,6 +122,8 @@ const onSort = async (e) => {
                 paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown CurrentPageReport"
                 currentPageReportTemplate="Показано з {first} по {last} із {totalRecords} записів"
             >
+                <Column expander/>
+
                 <Column sortable field="month" header="Місяць">
                     <template #body="{data}">
                         <div class="text-center">
@@ -156,6 +172,49 @@ const onSort = async (e) => {
                     </template>
                 </Column>
 
+                <template #expansion="slotProps">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <DataTable v-if="expandRowData[slotProps.data.id]"
+                                   :value="expandRowData[slotProps.data.id].costs"
+                                   class="p-datatable cash-flow-profits-table"
+                        >
+                            <template #header>
+                                Витрати
+                            </template>
+                            <Column field="" header="Назва">
+                                <template #body="{data}">
+                                    {{ data.key }}
+                                </template>
+                            </Column>
+
+                            <Column field="" header="Сума">
+                                <template #body="{data}">
+                                    {{ $filters.formatMoney(data.value) }}
+                                </template>
+                            </Column>
+                        </DataTable>
+
+                        <DataTable v-if="expandRowData[slotProps.data.id]"
+                                   :value="expandRowData[slotProps.data.id].profits"
+                                   class="p-datatable cash-flow-profits-table"
+                        >
+                            <template #header>
+                                Надходження
+                            </template>
+                            <Column field="" header="Назва">
+                                <template #body="{data}">
+                                    {{ data.key }}
+                                </template>
+                            </Column>
+
+                            <Column field="" header="Сума">
+                                <template #body="{data}">
+                                    {{ $filters.formatMoney(data.value) }}
+                                </template>
+                            </Column>
+                        </DataTable>
+                    </div>
+                </template>
             </DataTable>
         </div>
     </StatisticLayout>
@@ -164,5 +223,9 @@ const onSort = async (e) => {
 <style>
 .cash-flow-table.p-datatable .p-column-header-content {
     justify-content: center;
+}
+
+.cash-flow-profits-table.p-datatable .p-column-header-content {
+    justify-content: start;
 }
 </style>
