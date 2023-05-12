@@ -474,6 +474,7 @@ const onDestroy = async (id) => {
     </Modal>
 
     <Modal :show="state.showModal" @close="toggleModal">
+        <template #head></template>
         <template #body>
             <Form :item="state.item" :categories="state.categories"/>
         </template>
