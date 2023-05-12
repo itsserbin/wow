@@ -128,7 +128,7 @@ const onRowExpand = async (event) => {
                 dataKey="month"
                 :loading="state.isLoading"
                 :value="state.data.data"
-                class="p-datatable cash-flow-table"
+                class="p-datatable-sm cash-flow-table"
                 lazy
                 paginator
                 :rows="state.data.per_page"
@@ -164,8 +164,10 @@ const onRowExpand = async (event) => {
                 <Column v-if="isSelectedColumn('start_month_balance')"
                         sortable
                         field="start_month_balance"
-                        header="Залишок на початок місяця"
                 >
+                    <template #header>
+                        Залишок<br>на початок місяця
+                    </template>
                     <template #body="{data}">
                         <div class="text-center whitespace-nowrap">
                             {{ $filters.formatMoney(data.start_month_balance) }}
@@ -200,8 +202,10 @@ const onRowExpand = async (event) => {
                 <Column v-if="isSelectedColumn('end_month_balance')"
                         sortable
                         field="end_month_balance"
-                        header="Залишок на кінець місяця"
                 >
+                    <template #header>
+                        Залишок<br>на кінець місяця
+                    </template>
                     <template #body="{data}">
                         <div class="text-center whitespace-nowrap">
                             {{ $filters.formatMoney(data.end_month_balance) }}
@@ -212,8 +216,10 @@ const onRowExpand = async (event) => {
                 <Column v-if="isSelectedColumn('difference')"
                         sortable
                         field="difference"
-                        header="Чистий грошовий потік"
                 >
+                    <template #header>
+                        Чистий<br>грошовий<br>потік
+                    </template>
                     <template #body="{data}">
                         <div class="text-center whitespace-nowrap">
                             {{ $filters.formatMoney(data.difference) }}
@@ -282,6 +288,7 @@ const onRowExpand = async (event) => {
 <style>
 .cash-flow-table.p-datatable .p-column-header-content {
     justify-content: center;
+    text-align: center;
 }
 
 .cash-flow-profits-table.p-datatable .p-column-header-content {

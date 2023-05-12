@@ -114,7 +114,7 @@ const onSort = async (e) => {
                 dataKey="month"
                 :loading="state.isLoading"
                 :value="state.data.data"
-                class="p-datatable profit-and-loss-table"
+                class="p-datatable-sm profit-and-loss-table"
                 lazy
                 paginator
                 :rows="state.data.per_page"
@@ -150,8 +150,10 @@ const onSort = async (e) => {
                 <Column v-if="isSelectedColumn('total_revenues')"
                         sortable
                         field="total_revenues"
-                        header="Загальна виручка"
                 >
+                    <template #header>
+                        Загальна<br/>виручка
+                    </template>
                     <template #body="{data}">
                         <div class="text-center whitespace-nowrap">
                             {{ $filters.formatMoney(data.total_revenues) }}
@@ -186,8 +188,10 @@ const onSort = async (e) => {
                 <Column v-if="isSelectedColumn('returned_investments')"
                         sortable
                         field="returned_investments"
-                        header="Повернення інвестицій"
                 >
+                    <template #header>
+                        Повернення<br/>інвестицій
+                    </template>
                     <template #body="{data}">
                         <div class="text-center whitespace-nowrap">
                             {{ $filters.formatMoney(-data.returned_investments) }}
@@ -210,8 +214,11 @@ const onSort = async (e) => {
                 <Column v-if="isSelectedColumn('purchase_cost')"
                         sortable
                         field="purchase_cost"
-                        header="Ціна закупки"
                 >
+                    <template #header>
+                        Ціна<br/>закупки
+                    </template>
+
                     <template #body="{data}">
                         <div class="text-center whitespace-nowrap">
                             {{ $filters.formatMoney(data.purchase_cost) }}
@@ -222,8 +229,10 @@ const onSort = async (e) => {
                 <Column v-if="isSelectedColumn('net_profit')"
                         sortable
                         field="net_profit"
-                        header="Чистий прибуток"
                 >
+                    <template #header>
+                        Чистий<br/>прибуток
+                    </template>
                     <template #body="{data}">
                         <div class="text-center whitespace-nowrap">
                             {{ $filters.formatMoney(data.net_profit) }}
@@ -305,6 +314,7 @@ const onSort = async (e) => {
 <style>
 .profit-and-loss-table.p-datatable .p-column-header-content {
     justify-content: center;
+    text-align: center;
 }
 
 .profit-and-loss-inner-table.p-datatable .p-column-header-content {
