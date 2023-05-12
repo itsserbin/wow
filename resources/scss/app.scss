@@ -17,11 +17,7 @@ $preferred-color-scheme: dark;
     $preferred-color-scheme: light;
 }
 
-@if ($preferred-color-scheme == 'ligth') {
-    @import "primevue/resources/themes/tailwind-light/theme.css";
-} @else {
-    @import "primevue/resources/themes/vela-purple/theme.css";
-}
+@import "primevue/resources/themes/tailwind-light/theme.css";
 
 //button, [type='button'], [type='reset'], [type='submit'] {
 //    background: #BA68C8;
