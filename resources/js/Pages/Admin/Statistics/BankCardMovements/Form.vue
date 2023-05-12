@@ -6,6 +6,10 @@ import Dropdown from 'primevue/dropdown';
 import Textarea from 'primevue/textarea';
 
 defineProps(['item', 'categories'])
+
+const isDarkTheme = () => {
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
 </script>
 
 <template>
@@ -39,6 +43,7 @@ defineProps(['item', 'categories'])
                         :monthChangeOnScroll="false"
                         :enableTimePicker="true"
                         enable-seconds
+                        :dark="isDarkTheme()"
             />
         </div>
 

@@ -1,3 +1,9 @@
+if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    import('primevue/resources/themes/vela-blue/theme.css');
+} else {
+    import('primevue/resources/themes/viva-light/theme.css');
+}
+
 import '@/Includes/bootstrap';
 
 import {createApp, h} from 'vue';

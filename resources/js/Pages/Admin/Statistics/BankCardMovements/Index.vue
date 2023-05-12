@@ -270,8 +270,7 @@ const onRowSelect = (event) => {
     state.isLoading = true;
     onEdit(event.data.id);
 };
-
-const onDestroy = async (id) => {
+    const onDestroy = async (id) => {
     confirm.require({
         message: t('swal.confirm_destroy'),
         header: t('swal.confirm_action'),

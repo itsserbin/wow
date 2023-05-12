@@ -41,23 +41,28 @@ const items = [
 const costItems = [
     {
         title: 'Рух ро карті',
-        href: route('admin.statistics.bank-card-movements.index')
+        href: route('admin.statistics.bank-card-movements.index'),
+        icon: 'pi pi-arrow-right-arrow-left'
     },
     {
         title: 'P&L',
-        href: route('admin.statistics.profit-and-loss.index')
+        href: route('admin.statistics.profit-and-loss.index'),
+        icon: 'pi pi-percentage'
     },
     {
         title: 'CashFLow',
-        href: route('admin.statistics.cash-flow.index')
+        href: route('admin.statistics.cash-flow.index'),
+        icon: 'pi pi-dollar'
     },
     {
         title: 'Повернення',
-        href: route('admin.statistics.refunds.index')
+        href: route('admin.statistics.refunds.index'),
+        icon: 'pi pi-reply'
     },
     {
         title: 'Категорії витрат/прибутків',
-        href: route('admin.statistics.costs-and-profit-categories.index')
+        href: route('admin.statistics.costs-and-profit-categories.index'),
+        icon: 'pi pi-list'
     },
 
 ];
