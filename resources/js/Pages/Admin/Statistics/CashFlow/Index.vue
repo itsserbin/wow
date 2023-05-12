@@ -3,6 +3,7 @@ import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import {computed, onMounted, reactive, ref} from "vue";
+import Button from 'primevue/button';
 
 const state = reactive({
     data: [],
@@ -119,14 +120,13 @@ const onRowExpand = async (event) => {
                 @page="onPage($event)"
                 @sort="onSort($event)"
                 :rowsPerPageOptions="[15, 50, 100, 500]"
-                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown CurrentPageReport"
-                currentPageReportTemplate="Показано з {first} по {last} із {totalRecords} записів"
+                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
             >
                 <Column expander/>
 
                 <Column sortable field="month" header="Місяць">
                     <template #body="{data}">
-                        <div class="text-center">
+                        <div class="text-center whitespace-nowrap">
                             {{ $filters.dateFormat(data.month) }}
                         </div>
                     </template>
@@ -134,7 +134,7 @@ const onRowExpand = async (event) => {
 
                 <Column sortable field="start_month_balance" header="Залишок на початок місяця">
                     <template #body="{data}">
-                        <div class="text-center">
+                        <div class="text-center whitespace-nowrap">
                             {{ $filters.formatMoney(data.start_month_balance) }}
                         </div>
                     </template>
@@ -142,7 +142,7 @@ const onRowExpand = async (event) => {
 
                 <Column sortable field="approved_income" header="Надходження">
                     <template #body="{data}">
-                        <div class="text-center">
+                        <div class="text-center whitespace-nowrap">
                             {{ $filters.formatMoney(data.approved_income) }}
                         </div>
                     </template>
@@ -150,7 +150,7 @@ const onRowExpand = async (event) => {
 
                 <Column sortable field="approved_consumption" header="Списання">
                     <template #body="{data}">
-                        <div class="text-center">
+                        <div class="text-center whitespace-nowrap">
                             {{ $filters.formatMoney(data.approved_consumption) }}
                         </div>
                     </template>
@@ -158,7 +158,7 @@ const onRowExpand = async (event) => {
 
                 <Column sortable field="end_month_balance" header="Залишок на кінець місяця">
                     <template #body="{data}">
-                        <div class="text-center">
+                        <div class="text-center whitespace-nowrap">
                             {{ $filters.formatMoney(data.end_month_balance) }}
                         </div>
                     </template>
@@ -166,11 +166,27 @@ const onRowExpand = async (event) => {
 
                 <Column sortable field="difference" header="Чистий грошовий потік">
                     <template #body="{data}">
-                        <div class="text-center">
+                        <div class="text-center whitespace-nowrap">
                             {{ $filters.formatMoney(data.difference) }}
                         </div>
                     </template>
                 </Column>
+
+                <template #footer>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="flex items-center">
+                            Показано з {{ state.data.from }} по {{ state.data.to }} із {{ state.data.total }} записів
+                        </div>
+                        <div class="flex justify-end">
+                            <Button icon="pi pi-file-export"
+                                    iconPos="right"
+                                    type="button"
+                                    label="Експортувати"
+                                    @click=""
+                            />
+                        </div>
+                    </div>
+                </template>
 
                 <template #expansion="slotProps">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

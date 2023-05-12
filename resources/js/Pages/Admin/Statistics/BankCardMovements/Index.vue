@@ -11,7 +11,6 @@ import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
 import Form from './Form.vue'
 import Dropdown from 'primevue/dropdown';
 
-import {router} from '@inertiajs/vue3'
 import {useConfirm} from "primevue/useconfirm";
 import {useToast} from 'primevue/usetoast';
 import {useI18n} from "vue-i18n";
@@ -59,6 +58,8 @@ const state = reactive({
     isCategoriseModal: false,
     isLoadingAddProfit: false,
     isLoadingAddCost: false,
+    isLoadingCategoriesModal: false,
+    isLoadingModal: false,
     showModal: false,
     item: {
         id: null,
@@ -94,6 +95,7 @@ const onSubmitRequest = async (method, url, data) => {
 }
 
 const onSubmit = async () => {
+    state.isLoadingModal = true;
     if (state.item.category_id !== null && typeof state.item.category_id === 'object') {
         state.item.category_id = state.item.category_id.code;
     }
@@ -104,6 +106,7 @@ const onSubmit = async () => {
     const method = state.item.id ? 'put' : 'post';
 
     await onSubmitRequest(method, url, state.item);
+    state.isLoadingModal = false;
 }
 
 const onCreate = async (val) => {
@@ -162,6 +165,7 @@ const toggleCategoriesModal = () => {
 
 const setCategory = async () => {
     try {
+        state.isLoadingCategoriesModal = true;
         if (state.item.category_id !== null && typeof state.item.category_id === 'object') {
             state.item.category_id = state.item.category_id.code;
         }
@@ -179,6 +183,7 @@ const setCategory = async () => {
                 life: 2000
             });
         }
+        state.isLoadingCategoriesModal = false;
 
     } catch (e) {
         console.error(e);
@@ -270,7 +275,7 @@ const onRowSelect = (event) => {
     state.isLoading = true;
     onEdit(event.data.id);
 };
-    const onDestroy = async (id) => {
+const onDestroy = async (id) => {
     confirm.require({
         message: t('swal.confirm_destroy'),
         header: t('swal.confirm_action'),
@@ -434,7 +439,9 @@ const onRowSelect = (event) => {
 
                 <Column sortable field="comment" header="Коментар" style="width:20px;">
                     <template #body="{data}">
-                        {{ data.comment && data.comment.length > 30 ? data.comment.slice(0, 30) + "..." : data.comment }}
+                        {{
+                            data.comment && data.comment.length > 30 ? data.comment.slice(0, 30) + "..." : data.comment
+                        }}
                     </template>
                 </Column>
 
@@ -485,8 +492,17 @@ const onRowSelect = (event) => {
             </div>
         </template>
         <template #footer>
-            <Button label="Скасувати" icon="pi pi-times" @click="toggleCategoriesModal" text/>
-            <Button label="Зберегти" icon="pi pi-check" @click="setCategory" autofocus/>
+            <Button label="Скасувати"
+                    icon="pi pi-times"
+                    @click="toggleCategoriesModal"
+                    text
+            />
+            <Button label="Зберегти"
+                    icon="pi pi-check"
+                    @click="setCategory"
+                    autofocus
+                    :loading="state.isLoadingCategoriesModal"
+            />
         </template>
     </Modal>
 
@@ -496,8 +512,17 @@ const onRowSelect = (event) => {
             <Form :item="state.item" :categories="state.categories"/>
         </template>
         <template #footer>
-            <Button label="Скасувати" icon="pi pi-times" @click="toggleModal" text/>
-            <Button label="Зберегти" icon="pi pi-check" @click="onSubmit" autofocus/>
+            <Button label="Скасувати"
+                    icon="pi pi-times"
+                    @click="toggleModal"
+                    text
+            />
+            <Button label="Зберегти"
+                    icon="pi pi-check"
+                    @click="onSubmit"
+                    autofocus
+                    :loading="state.isLoadingModal"
+            />
         </template>
     </Modal>
 
@@ -512,5 +537,6 @@ const onRowSelect = (event) => {
 
 .bank-card-movements-table.p-datatable .p-datatable-tbody > tr > td {
     text-align: center !important;
+    white-space: nowrap;
 }
 </style>

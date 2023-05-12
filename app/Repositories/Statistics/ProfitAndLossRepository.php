@@ -5,13 +5,12 @@ namespace App\Repositories\Statistics;
 use App\Models\Statistics\ProfitAndLoss as Model;
 use App\Repositories\CoreRepository;
 use App\Repositories\OrdersRepository;
-use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
-use JetBrains\PhpStorm\ArrayShape;
 
 class ProfitAndLossRepository extends CoreRepository
 {
     private mixed $bankCardMovementsRepository;
+    private mixed $ordersRepository;
 
     public function __construct()
     {
@@ -40,6 +39,9 @@ class ProfitAndLossRepository extends CoreRepository
             'total_revenues',
             'costs',
             'net_profit',
+            'investments',
+            'returned_investments',
+            'dividends',
         ]);
 
 //        if (isset($data['date_start'], $data['date_end'])) {
@@ -55,41 +57,53 @@ class ProfitAndLossRepository extends CoreRepository
         return $model->orderBy('month', 'desc')->paginate($data['perPage'] ?? 15);
     }
 
-    final public function create(string $month)
+    final public function create(string $month): bool
     {
         $model = new $this->model;
         $model->month = $month;
 
-        $items = $this->bankCardMovementsRepository->getByMonth($month);
-
-        $model->purchase_cost = $this->ordersRepository->getTradeTotalPriceByMonth($month) ?: 0;
-        $model->total_revenues = $this->ordersRepository->getTotalPriceByMonth($month) ?: 0;
-        $model->costs = $items->isNotEmpty() ? $items->where('sum', '<', 0)->sum('sum') : 0;
-        $model->net_profit = $model->total_revenues + $model->costs - $model->purchase_cost;
-        $model->business_profitability = $model->total_revenues ? ($model->net_profit / $model->total_revenues) * 100 : 0;
+        $model = $this->fillModel($model, $month);
         $model->save();
 
         return true;
     }
 
-    final public function update(string $month)
+    final public function update(string $month): bool
     {
-
         $model = $this->getByMonth($month);
 
         if (!$model) {
             return $this->create($month);
         }
 
-        $items = $this->bankCardMovementsRepository->getByMonth($month);
-        $model->purchase_cost = $this->ordersRepository->getTradeTotalPriceByMonth($month) ?: 0;
-        $model->total_revenues = $this->ordersRepository->getTotalPriceByMonth($month) ?: 0;
-        $model->costs = $items->isNotEmpty() ? $items->where('sum', '<', 0)->sum('sum') : 0;
-        $model->net_profit = $model->total_revenues + $model->costs - $model->purchase_cost;
-        $model->business_profitability = $model->total_revenues ? ($model->net_profit / $model->total_revenues) * 100 : 0;
+        $model = $this->fillModel($model, $month);
         $model->update();
 
         return true;
+    }
+
+    final public function fillModel(\Illuminate\Database\Eloquent\Model $model, string $month): \Illuminate\Database\Eloquent\Model
+    {
+        $items = $this->bankCardMovementsRepository->getByMonth($month);
+        $model->purchase_cost = $this->ordersRepository->getTradeTotalPriceByMonth($month) ?: 0;
+        $model->total_revenues = $this->ordersRepository->getTotalPriceByMonth($month) ?: 0;
+
+        $isNotEmptyItems = $items->isNotEmpty();
+
+        $model->costs = $isNotEmptyItems
+            ? $items->filter(function ($item) {
+                return ($item->category && !collect(['dividends', 'investments', 'return-investment'])->contains($item->category->slug) && $item->sum < 0)
+                    || (!$item->category && $item->sum < 0);
+            })->sum('sum')
+            : 0;
+
+        $model->net_profit = $model->total_revenues + $model->costs - $model->purchase_cost;
+        $model->business_profitability = ($model->total_revenues ? ($model->net_profit / $model->total_revenues) * 100 : 0) ?? 0;
+        $model->investments = $isNotEmptyItems ? $items->where('category.slug', 'investments')->where('sum', '>', 0)->sum('sum') : 0;
+        $model->returned_investments = $isNotEmptyItems ? $items->where('category.slug', 'return-investment')->where('sum', '<', 0)->sum('sum') : 0;
+        $model->dividends = $isNotEmptyItems ? $items->where('category.slug', 'dividends')->where('sum', '<', 0)->sum('sum') : 0;
+
+        return $model;
     }
 
 }

@@ -11,7 +11,7 @@ class CostAndProfitCategories
         ['title' => 'Маркетинг', 'slug' => 'marketing', 'type' => 0],
         ['title' => 'Дивіденди', 'slug' => 'dividends', 'type' => 0],
         ['title' => 'Податки', 'slug' => 'taxes', 'type' => 0],
-        ['title' => 'Повернення інвестицій', 'slug' => 'dividends', 'type' => 0],
+        ['title' => 'Повернення інвестицій', 'slug' => 'return-investment', 'type' => 0],
         ['title' => 'Інші витрати', 'slug' => 'other', 'type' => 0],
 
         ['title' => 'Інвестиції', 'slug' => 'investments', 'type' => 1],

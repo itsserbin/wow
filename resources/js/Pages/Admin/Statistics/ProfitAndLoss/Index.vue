@@ -3,6 +3,7 @@ import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import {computed, onMounted, reactive, ref} from "vue";
+import Button from 'primevue/button';
 
 const state = reactive({
     data: [],
@@ -98,22 +99,21 @@ const onRowExpand = async (event) => {
                 @page="onPage($event)"
                 @sort="onSort($event)"
                 :rowsPerPageOptions="[15, 50, 100, 500]"
-                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown CurrentPageReport"
-                currentPageReportTemplate="Показано з {first} по {last} із {totalRecords} записів"
+                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
             >
                 <Column expander/>
 
                 <Column sortable field="month" header="Місяць">
                     <template #body="{data}">
-                        <div class="text-center">
-                            {{ $filters.dateFormat(data.month) }}
+                        <div class="text-center whitespace-nowrap">
+                            {{ $filters.monthFormat(data.month) }}
                         </div>
                     </template>
                 </Column>
 
                 <Column sortable field="total_revenues" header="Загальна виручка">
                     <template #body="{data}">
-                        <div class="text-center">
+                        <div class="text-center whitespace-nowrap">
                             {{ $filters.formatMoney(data.total_revenues) }}
                         </div>
                     </template>
@@ -121,15 +121,39 @@ const onRowExpand = async (event) => {
 
                 <Column sortable field="costs" header="Витрати">
                     <template #body="{data}">
-                        <div class="text-center">
-                            {{ $filters.formatMoney(data.costs) }}
+                        <div class="text-center whitespace-nowrap">
+                            {{ $filters.formatMoney(-data.costs) }}
+                        </div>
+                    </template>
+                </Column>
+
+                <Column sortable field="investments" header="Інвестиції">
+                    <template #body="{data}">
+                        <div class="text-center whitespace-nowrap">
+                            {{ $filters.formatMoney(data.investments) }}
+                        </div>
+                    </template>
+                </Column>
+
+                <Column sortable field="returned_investments" header="Повернення інвестицій">
+                    <template #body="{data}">
+                        <div class="text-center whitespace-nowrap">
+                            {{ $filters.formatMoney(-data.returned_investments) }}
+                        </div>
+                    </template>
+                </Column>
+
+                <Column sortable field="dividends" header="Дивіденди">
+                    <template #body="{data}">
+                        <div class="text-center whitespace-nowrap">
+                            {{ $filters.formatMoney(-data.dividends) }}
                         </div>
                     </template>
                 </Column>
 
                 <Column sortable field="purchase_cost" header="Ціна закупки">
                     <template #body="{data}">
-                        <div class="text-center">
+                        <div class="text-center whitespace-nowrap">
                             {{ $filters.formatMoney(data.purchase_cost) }}
                         </div>
                     </template>
@@ -137,7 +161,7 @@ const onRowExpand = async (event) => {
 
                 <Column sortable field="net_profit" header="Чистий прибуток">
                     <template #body="{data}">
-                        <div class="text-center">
+                        <div class="text-center whitespace-nowrap">
                             {{ $filters.formatMoney(data.net_profit) }}
                         </div>
                     </template>
@@ -145,11 +169,27 @@ const onRowExpand = async (event) => {
 
                 <Column sortable field="business_profitability" header="Рентабельність бізнесу">
                     <template #body="{data}">
-                        <div class="text-center">
+                        <div class="text-center whitespace-nowrap">
                             {{ data.business_profitability }} %
                         </div>
                     </template>
                 </Column>
+
+                <template #footer>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="flex items-center">
+                            Показано з {{ state.data.from }} по {{ state.data.to }} із {{ state.data.total }} записів
+                        </div>
+                        <div class="flex justify-end">
+                            <Button icon="pi pi-file-export"
+                                    iconPos="right"
+                                    type="button"
+                                    label="Експортувати"
+                                    @click=""
+                            />
+                        </div>
+                    </div>
+                </template>
 
                 <template #expansion="slotProps">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

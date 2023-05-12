@@ -30,6 +30,7 @@ class BankCardMovementsRepository extends CoreRepository
         return $this
             ->model::where('date', 'like', $month . '%')
             ->orderBy('date', 'asc')
+            ->with('category')
             ->get();
     }
 
@@ -142,6 +143,14 @@ class BankCardMovementsRepository extends CoreRepository
         $model = $this->model::where('id', $data['id'])->first();
         $model->category_id = $data['category_id'];
         $model->update();
+
+        if ($model->category) {
+            if ($model->category->slug === 'return-investment' || $model->category->slug === 'dividends' || $model->category->slug === 'investments') {
+                $this->calculateBalance($model->date);
+                $this->updateCashFlow($model->date);
+                $this->updateProfitAndLoss($model->date);
+            }
+        }
 
         return $model;
     }
