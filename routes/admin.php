@@ -88,8 +88,8 @@ Route::prefix('admin')
                 Route::get('/', [AdminController::class, 'statisticBankCardMovements'])
                     ->name('admin.statistics.bank-card-movements.index');
 
-                Route::get('export', [ExportController::class, 'bankCardMovementsExport'])
-                    ->name('admin.statistics.bank-card-movements.export');
+//                Route::get('export', [ExportController::class, 'bankCardMovementsExport'])
+//                    ->name('admin.statistics.bank-card-movements.export');
             });
 
 
@@ -173,6 +173,11 @@ Route::prefix('admin')
 
             Route::get('providers', [AdminController::class, 'providers'])
                 ->name('admin.options.providers.index');
+        });
+
+        Route::prefix('export')->group(function () {
+            Route::get('bank-card-movements', [ExportController::class, 'bankCardMovementsExport'])
+                ->name('admin.export.bank-card-movements');
         });
 
         Route::post('notify-waybill', [SmsController::class, 'notifyWaybill'])->name('notify.waybill');

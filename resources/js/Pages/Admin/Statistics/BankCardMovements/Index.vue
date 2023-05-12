@@ -6,11 +6,9 @@ import Toolbar from 'primevue/toolbar';
 import Chip from 'primevue/chip';
 import ConfirmDialog from 'primevue/confirmdialog';
 import Toast from 'primevue/toast';
-// import Modal from '@/Components/Modal/Modal.vue';
 import Label from '@/Components/Form/Label.vue';
 import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
 import Form from './Form.vue'
-import Dialog from 'primevue/dialog';
 import Dropdown from 'primevue/dropdown';
 
 import {router} from '@inertiajs/vue3'
@@ -155,7 +153,7 @@ const toggleModal = () => {
 }
 
 const exportData = () => {
-    router.get(route('admin.statistics.bank-card-movements.export'));
+    document.location.href = route('admin.export.bank-card-movements');
 }
 
 const toggleCategoriesModal = () => {
@@ -343,8 +341,7 @@ const onDestroy = async (id) => {
                 @page="onPage($event)"
                 @sort="onSort($event)"
                 :rowsPerPageOptions="[15, 50, 100, 500]"
-                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown CurrentPageReport"
-                currentPageReportTemplate="Показано з {first} по {last} із {totalRecords} записів"
+                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
             >
                 <template #header>
                     <div class="p-4">
@@ -361,7 +358,7 @@ const onDestroy = async (id) => {
                                     </div>
                                 </Chip>
                             </div>
-                            <div class=" grid grid-cols-1">
+                            <div class="grid grid-cols-1">
                                 <div class="grid grid-cols-1 md:grid-cols-9 gap-4">
                                     <div class="md:col-span-4 flex items-end">
                                         <div class="block w-full">
@@ -452,6 +449,23 @@ const onDestroy = async (id) => {
                         />
                     </template>
                 </Column>
+
+                <template #footer>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="flex items-center">
+                            Показано з {{ state.data.from }} по {{ state.data.to }} із {{ state.data.total }} записів
+                        </div>
+                        <div class="flex justify-end">
+                            <Button icon="pi pi-file-export"
+                                    iconPos="right"
+                                    type="button"
+                                    label="Експортувати"
+                                    @click="exportData"
+                            />
+                        </div>
+                    </div>
+                </template>
+
             </DataTable>
         </div>
     </StatisticLayout>
