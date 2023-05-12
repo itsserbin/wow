@@ -434,7 +434,7 @@ const onRowSelect = (event) => {
 
                 <Column sortable field="comment" header="Коментар" style="width:20px;">
                     <template #body="{data}">
-                        {{ data.comment ? data.comment.slice(0, 30) + "..." : null}}
+                        {{ data.comment && data.comment.length > 30 ? data.comment.slice(0, 30) + "..." : data.comment }}
                     </template>
                 </Column>
 
