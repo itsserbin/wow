@@ -1,3 +1,53 @@
+<script setup>
+import {onMounted, ref} from 'vue';
+import Modal from '@/Components/Modal/Modal.vue';
+import Button from 'primevue/button';
+
+const props = defineProps({
+    showReject: {
+        type: Boolean,
+        default: true
+    },
+    showConfirm: {
+        type: Boolean,
+        default: true
+    },
+    textRejectButton: {
+        type: String,
+        default: 'Ні'
+    },
+    textConfirmButton: {
+        type: String,
+        default: 'Так'
+    },
+    message: String,
+    header: String,
+    icon: String,
+    accept: Function,
+    reject: Function,
+    resolve: Function,
+});
+
+const show = ref(false);
+
+onMounted(() => show.value = true);
+
+const handleClose = () => {
+    show.value = false;
+    if (typeof props.reject === 'function') {
+        props.reject();
+    }
+};
+
+const handleAccept = () => {
+    show.value = false;
+    if (typeof props.accept === 'function') {
+        props.accept();
+    }
+    props.resolve();
+};
+</script>
+
 <template>
     <Modal :show="show" maxWidth="sm" @close="handleClose">
         <template #head v-if="header">
@@ -27,51 +77,3 @@
         </template>
     </Modal>
 </template>
-
-<script setup>
-import {ref} from 'vue';
-import Modal from '@/Components/Modal/Modal.vue';
-import Button from 'primevue/button';
-
-const props = defineProps({
-    showReject: {
-        type: Boolean,
-        default: true
-    },
-    showConfirm: {
-        type: Boolean,
-        default: true
-    },
-    textRejectButton: {
-        type: String,
-        default: 'Ні'
-    },
-    textConfirmButton: {
-        type: String,
-        default: 'Так'
-    },
-    message: String,
-    header: String,
-    icon: String,
-    accept: Function,
-    reject: Function,
-    resolve: Function,
-});
-
-const show = ref(true);
-
-const handleClose = () => {
-    show.value = false;
-    if (typeof props.reject === 'function') {
-        props.reject();
-    }
-};
-
-const handleAccept = () => {
-    show.value = false;
-    if (typeof props.accept === 'function') {
-        props.accept();
-    }
-    props.resolve();
-};
-</script>
