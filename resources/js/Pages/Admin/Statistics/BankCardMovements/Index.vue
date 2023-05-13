@@ -5,20 +5,20 @@ import Button from 'primevue/button';
 import Toolbar from 'primevue/toolbar';
 import Chip from 'primevue/chip';
 import ConfirmDialog from 'primevue/confirmdialog';
-import Toast from 'primevue/toast';
 import Label from '@/Components/Form/Label.vue';
 import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
 import Form from './Form.vue'
 import Dropdown from 'primevue/dropdown';
 
 import {useConfirm} from "primevue/useconfirm";
-import {useToast} from 'primevue/usetoast';
 import {useI18n} from "vue-i18n";
 import {computed, defineAsyncComponent, onMounted, reactive, ref} from "vue";
+import {toast} from 'vue3-toastify';
+import isDark from '@/Includes/isDark.js';
+import 'vue3-toastify/dist/index.css';
 
 const {t} = useI18n();
 const confirm = useConfirm();
-const toast = useToast();
 const Modal = defineAsyncComponent(() => import('@/Components/Modal/Modal.vue'));
 
 const dateNow = () => {
@@ -78,18 +78,15 @@ const onSubmitRequest = async (method, url, data) => {
         await axios[method](url, data);
         await fetch();
         toggleModal();
-        toast.add({
-            severity: 'success',
-            summary: t(`swal.${method === 'put' ? 'updated' : 'created'}`),
-            life: 2000
+        toast.success(t(`swal.${method === 'put' ? 'updated' : 'created'}`), {
+            autoClose: 3000,
+            theme: isDark ? 'dark' : 'light'
         });
     } catch (e) {
         console.error(e);
-        toast.add({
-            severity: 'error',
-            summary: t('swal.error'),
-            detail: t('swal.check_data'),
-            life: 2000
+        toast.error(t('swal.error'), {
+            autoClose: 3000,
+            theme: isDark ? 'dark' : 'light'
         });
     }
 }
@@ -146,6 +143,10 @@ const getCategories = async (val) => {
         }
     } catch (error) {
         console.error(error);
+        toast.error(t('swal.error'), {
+            autoClose: 3000,
+            theme: isDark ? 'dark' : 'light'
+        });
     }
 }
 
@@ -177,16 +178,20 @@ const setCategory = async () => {
             }
             toggleCategoriesModal();
             await fetch();
-            toast.add({
-                severity: 'success',
-                summary: t('swal.updated'),
-                life: 2000
+            toast.success(t('swal.updated'), {
+                autoClose: 3000,
+                theme: isDark ? 'dark' : 'light'
             });
         }
         state.isLoadingCategoriesModal = false;
 
     } catch (e) {
+        state.isLoadingCategoriesModal = false;
         console.error(e);
+        toast.error(t('swal.error'), {
+            autoClose: 3000,
+            theme: isDark ? 'dark' : 'light'
+        });
     }
 }
 
@@ -285,18 +290,16 @@ const onDestroy = async (id) => {
                 const {data} = await axios.delete(route('api.statistics.bank-card-movements.destroy', id));
                 if (data.success) {
                     await fetch();
-                    toast.add({
-                        severity: 'success',
-                        summary: t(`swal.destroyed`),
-                        life: 2000
+                    toast.success(t(`swal.destroyed`), {
+                        autoClose: 3000,
+                        theme: isDark ? 'dark' : 'light'
                     });
                 }
             } catch (error) {
                 console.error(error);
-                toast.add({
-                    severity: 'error',
-                    summary: t('swal.error'),
-                    life: 2000
+                toast.error(t('swal.error'), {
+                    autoClose: 3000,
+                    theme: isDark ? 'dark' : 'light'
                 });
             }
         }
@@ -529,7 +532,6 @@ const onDestroy = async (id) => {
     </Modal>
 
     <ConfirmDialog/>
-    <Toast/>
 </template>
 
 <style>
