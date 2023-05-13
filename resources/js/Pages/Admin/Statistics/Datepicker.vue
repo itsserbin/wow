@@ -1,4 +1,5 @@
 <script setup>
+import isDark from "@/Includes/isDark";
 import Datepicker from '@vuepic/vue-datepicker';
 import {endOfMonth, endOfYear, startOfMonth, startOfYear, subMonths} from 'date-fns';
 import {ref, computed} from "vue";
@@ -57,12 +58,13 @@ const presetRanges = ref([
 <template>
     <Datepicker v-model="value"
                 class="w-100"
-                locale="ru"
+                locale="uk"
                 placeholder="Оберіть дату"
                 autoApply
                 :monthChangeOnScroll="false"
                 :enableTimePicker="false"
                 range
                 :presetRanges="presetRanges"
+                :dark="isDark"
     ></Datepicker>
 </template>

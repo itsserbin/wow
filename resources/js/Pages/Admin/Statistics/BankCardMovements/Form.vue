@@ -1,4 +1,5 @@
 <script setup>
+import isDark from "@/Includes/isDark";
 import Label from '@/Components/Form/Label.vue';
 import Datepicker from '@vuepic/vue-datepicker';
 import InputText from 'primevue/inputtext';
@@ -6,10 +7,6 @@ import Dropdown from 'primevue/dropdown';
 import Textarea from 'primevue/textarea';
 
 defineProps(['item', 'categories'])
-
-const isDarkTheme = () => {
-    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-}
 </script>
 
 <template>
@@ -43,7 +40,8 @@ const isDarkTheme = () => {
                         :monthChangeOnScroll="false"
                         :enableTimePicker="true"
                         enable-seconds
-                        :dark="isDarkTheme()"
+                        :dark="isDark"
+                        locale="uk"
             />
         </div>
 
