@@ -9,8 +9,7 @@
 
     @vite('resources/scss/app.scss')
     @routes
-{{--    @vite('resources/js/Pages/Admin/app.js')--}}
-    @vite(['resources/js/Pages/Admin/app.js', "resources/js/Pages/Admin/{$page['component']}.vue"])
+    @vite('resources/js/Pages/Admin/app.js')
     @inertiaHead
 </head>
 <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900">
