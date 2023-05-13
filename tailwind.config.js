@@ -14,7 +14,8 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+                sans: ['Poppins', ...defaultTheme.fontFamily.sans],
+                // sans: ['Nunito', ...defaultTheme.fontFamily.sans],
                 heading: 'Montserrat', ...defaultTheme.fontFamily.sans,
                 subheading: 'Nunito', ...defaultTheme.fontFamily.sans,
                 text: 'Roboto', ...defaultTheme.fontFamily.sans

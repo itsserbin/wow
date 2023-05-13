@@ -16,6 +16,7 @@ import {toast} from 'vue3-toastify';
 import isDark from '@/Includes/isDark.js';
 import {useConfirm} from "@/Components/ConfirmationModal/useConfirm";
 
+
 const {t} = useI18n();
 
 const Modal = defineAsyncComponent(() => import('@/Components/Modal/Modal.vue'));
@@ -403,7 +404,7 @@ const onDestroy = async (id) => {
                     </div>
                 </template>
 
-                <Column sortable field="date" header="Дата">
+                <Column sortable="" field="date" header="Дата">
                     <template #body="{data}">
                         {{ $filters.dateFormat(data.date) }}
                         <br>
@@ -435,13 +436,13 @@ const onDestroy = async (id) => {
                     </template>
                 </Column>
 
-                <Column sortable field="sum" header="Сума">
+                <Column sortable="" field="sum" header="Сума">
                     <template #body="{data}">
                         {{ $filters.formatMoney(data.sum) }}
                     </template>
                 </Column>
 
-                <Column sortable field="comment" header="Коментар" style="width:20px;">
+                <Column sortable="" field="comment" header="Коментар" style="width:20px;">
                     <template #body="{data}">
                         {{
                             data.comment && data.comment.length > 30 ? data.comment.slice(0, 30) + "..." : data.comment
