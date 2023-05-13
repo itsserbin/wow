@@ -50,14 +50,13 @@ const setChartOptions = () => {
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
     return {
-        height: 500,
         maintainAspectRatio: false,
         aspectRatio: 0.8,
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
         plugins: {
-            tooltips: {
-                mode: 'index',
-                intersect: false
-            },
             legend: {
                 labels: {
                     fontColor: textColor
@@ -92,9 +91,17 @@ const setChartOptions = () => {
 </script>
 
 <template>
-    <Card>
-        <template #content>
-            <Chart :height="300" type="bar" :data="chartData" :options="chartOptions" />
-        </template>
-    </Card>
+   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+       <Card>
+           <template #content>
+               <Chart :height="300" type="bar" :data="chartData" :options="chartOptions" />
+           </template>
+       </Card>
+
+       <Card>
+           <template #content>
+               <Chart :height="300" type="line" :data="chartData" :options="chartOptions" />
+           </template>
+       </Card>
+   </div>
 </template>

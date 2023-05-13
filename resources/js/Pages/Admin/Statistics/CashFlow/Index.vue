@@ -117,7 +117,6 @@ const onRowExpand = async (event) => {
 
         <div class="grid grid-cols-1 gap-4">
             <Chart v-if="state.data.data" :data="state.data.data"/>
-            <!--            <Table :data="state.data.data"/>-->
 
             <DataTable
                 resizableColumns
@@ -151,7 +150,7 @@ const onRowExpand = async (event) => {
                 <Column expander/>
 
                 <Column v-if="isSelectedColumn('month')"
-                        sortable
+                        sortable=""
                         field="month"
                         header="Місяць"
                 >
@@ -163,7 +162,7 @@ const onRowExpand = async (event) => {
                 </Column>
 
                 <Column v-if="isSelectedColumn('start_month_balance')"
-                        sortable
+                        sortable=""
                         field="start_month_balance"
                 >
                     <template #header>
@@ -177,7 +176,7 @@ const onRowExpand = async (event) => {
                 </Column>
 
                 <Column v-if="isSelectedColumn('approved_income')"
-                        sortable
+                        sortable=""
                         field="approved_income"
                         header="Надходження"
                 >
@@ -189,7 +188,7 @@ const onRowExpand = async (event) => {
                 </Column>
 
                 <Column v-if="isSelectedColumn('approved_consumption')"
-                        sortable
+                        sortable=""
                         field="approved_consumption"
                         header="Списання"
                 >
@@ -201,7 +200,7 @@ const onRowExpand = async (event) => {
                 </Column>
 
                 <Column v-if="isSelectedColumn('end_month_balance')"
-                        sortable
+                        sortable=""
                         field="end_month_balance"
                 >
                     <template #header>
@@ -215,7 +214,7 @@ const onRowExpand = async (event) => {
                 </Column>
 
                 <Column v-if="isSelectedColumn('difference')"
-                        sortable
+                        sortable=""
                         field="difference"
                 >
                     <template #header>
