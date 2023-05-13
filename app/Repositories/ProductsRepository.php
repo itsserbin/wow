@@ -7,7 +7,6 @@ use App\Models\Enums\ProductAvailability;
 use App\Models\Product as Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Cache;
 use JetBrains\PhpStorm\ArrayShape;
 
 class ProductsRepository extends CoreRepository
@@ -81,36 +80,32 @@ class ProductsRepository extends CoreRepository
 //    }
     final public function getByIdToPublic($id)
     {
-        $cacheKey = 'product_' . $id;
-
-        return Cache::remember($cacheKey, now()->addMinutes(60), function () use ($id) {
-            return $this->model::select([
-                'id',
-                'status',
-                'published',
-                'h1',
-                'title',
-                'description',
-                'content',
-                'price',
-                'discount_price',
-                'youtube',
-                'vendor_code',
-                'preview_id',
-                'size_table',
-            ])
-                ->where(function ($q) use ($id) {
-                    $q->where('id', $id);
-                    $q->where('published', 1);
-                })
-                ->with([
-                    'colors:id,hex,name',
-                    'categories:id,title,slug',
-                    'images:id,src,webp_src',
-                    'sizes:id,title',
-                    'preview:id,src,webp_src',
-                ])->first();
-        });
+        return $this->model::select([
+            'id',
+            'status',
+            'published',
+            'h1',
+            'title',
+            'description',
+            'content',
+            'price',
+            'discount_price',
+            'youtube',
+            'vendor_code',
+            'preview_id',
+            'size_table',
+        ])
+            ->where(function ($q) use ($id) {
+                $q->where('id', $id);
+                $q->where('published', 1);
+            })
+            ->with([
+                'colors:id,hex,name',
+                'categories:id,title,slug',
+                'images:id,src,webp_src',
+                'sizes:id,title',
+                'preview:id,src,webp_src',
+            ])->first();
     }
 
 
@@ -487,12 +482,6 @@ class ProductsRepository extends CoreRepository
 
     final public function getProductsForPublicWithPaginate(string $by = 'id', string $sort = 'desc', int $perPage = 8): LengthAwarePaginator
     {
-        $cacheKey = 'products_' . $by . '_' . $sort . '_' . $perPage;
-
-        if (Cache::has($cacheKey)) {
-            return Cache::get($cacheKey);
-        }
-
         $columns = [
             'id',
             'price',
@@ -514,8 +503,6 @@ class ProductsRepository extends CoreRepository
         ]);
 
         $result = $query->paginate($perPage);
-
-        Cache::put($cacheKey, $result, 60); // кешуємо на 1 хвилину
 
         return $result;
     }
@@ -683,16 +670,9 @@ class ProductsRepository extends CoreRepository
 //        return $result->paginate(8);
 //    }
 
+    #[ArrayShape(['min' => "mixed", 'max' => "mixed"])]
     final public function getMinMaxProductPrice(string $slug): array
     {
-        $cacheKey = 'product-price-min-max-' . $slug;
-
-        $cached = Cache::get($cacheKey);
-
-        if ($cached !== null) {
-            return $cached;
-        }
-
         $min = $this->model::select(['discount_price', 'price'])
             ->whereHas('categories', function ($q) use ($slug) {
                 $q->where('slug', $slug);
@@ -707,13 +687,9 @@ class ProductsRepository extends CoreRepository
             ->orderBy('discount_price', 'desc')
             ->first();
 
-        $result = [
+        return [
             'min' => $min->discount_price ?: $min->price,
             'max' => $max->discount_price ?: $max->price
         ];
-
-        Cache::put($cacheKey, $result, now()->addMinutes(60));
-
-        return $result;
     }
 }
