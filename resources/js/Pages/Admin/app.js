@@ -16,8 +16,6 @@ import numeral from "numeral";
 import i18n from "@/Includes/i18n";
 import user from '@/Includes/user.js';
 import PrimeVue from 'primevue/config';
-import ToastService from 'primevue/toastservice';
-import ConfirmationService from 'primevue/confirmationservice';
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
@@ -28,11 +26,11 @@ createInertiaApp({
         const app = createApp({render: () => h(App, props)})
             .use(plugin)
             .use(PrimeVue)
-            .use(ToastService)
-            .use(ConfirmationService)
             .use(user)
             .use(i18n)
             .use(ZiggyVue, Ziggy);
+
+        // app.config.globalProperties.confirm = createConfirm;
 
         app.provide('$can', function (val) {
             return user.state.permissions.includes(val);

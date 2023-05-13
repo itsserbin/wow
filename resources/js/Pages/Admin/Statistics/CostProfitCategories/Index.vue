@@ -1,24 +1,20 @@
 <script setup>
-import {reactive, onMounted, inject, ref, computed} from "vue";
-import {swal} from "@/Includes/swal";
-import {useConfirm} from "primevue/useconfirm";
-import {useToast} from 'primevue/usetoast';
-import {useI18n} from "vue-i18n";
-
 import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
 import CostCategoryForm from '@/Pages/Admin/Statistics/CostProfitCategories/Form.vue';
+import Modal from '@/Components/Modal/Modal.vue';
 
-import ConfirmDialog from 'primevue/confirmdialog';
-import Toast from 'primevue/toast';
-import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 
+import {reactive, onMounted, inject, ref, computed} from "vue";
+import {useI18n} from "vue-i18n";
+import {toast} from 'vue3-toastify';
+import isDark from '@/Includes/isDark.js';
+
+import {useConfirm} from "@/Components/ConfirmationModal/useConfirm";
 
 const {t} = useI18n();
-const confirm = useConfirm();
-const toast = useToast();
 const can = inject('$can');
 
 const item = ({
@@ -80,7 +76,7 @@ const fetch = async () => {
 
 function onDestroy(id) {
     if (can('show-bookkeeping-costs')) {
-        confirm.require({
+        useConfirm({
             message: t('swal.confirm_destroy'),
             header: t('swal.confirm_action'),
             icon: 'pi pi-exclamation-triangle',
@@ -89,54 +85,21 @@ function onDestroy(id) {
                     const {data} = await axios.delete(route('api.statistics.costs.categories.destroy', id));
                     if (data.success) {
                         await fetch();
-                        toast.add({
-                            severity: 'success',
-                            summary: t(`swal.destroyed`),
-                            life: 2000
+                        toast.success(t(`swal.destroyed`), {
+                            autoClose: 3000,
+                            theme: isDark ? 'dark' : 'light'
                         });
                     }
                 } catch (error) {
                     console.error(error);
-                    toast.add({
-                        severity: 'error',
-                        summary: t('swal.error'),
-                        life: 2000
+                    toast.error(t('swal.error'), {
+                        autoClose: 3000,
+                        theme: isDark ? 'dark' : 'light'
                     });
                 }
             }
         });
     }
-
-
-    // if (can('show-bookkeeping-costs')) {
-    //     swal({
-    //         title: 'Видалити?',
-    //         icon: 'warning',
-    //         showCancelButton: true,
-    //     }).then((result) => {
-    //         if (result.isConfirmed) {
-    //             axios.delete(route('api.statistics.costs.categories.destroy', id))
-    //                 .then(() => {
-    //                     fetch();
-    //                     if (state.isActiveModal) {
-    //                         modalFunction();
-    //                     }
-    //                     swal({
-    //                         icon: 'success',
-    //                         title: 'Destroyed!'
-    //                     })
-    //                 })
-    //                 .catch(errors => {
-    //                     console.log(errors);
-    //                     swal({
-    //                         icon: 'error',
-    //                         title: 'Error!'
-    //                     })
-    //                 })
-    //         }
-    //     })
-    //
-    // }
 }
 
 function modalFunction() {
@@ -163,19 +126,16 @@ function onUpdate() {
         .then(() => {
             modalFunction();
             fetch();
-            toast.add({
-                severity: 'success',
-                summary: t(`swal.updated`),
-                life: 2000
+            toast.success(t(`swal.updated`), {
+                autoClose: 3000,
+                theme: isDark ? 'dark' : 'light'
             });
         })
         .catch((response) => {
             console.log(response);
-            toast.add({
-                severity: 'error',
-                summary: t('swal.error'),
-                detail: t('swal.check_data'),
-                life: 2000
+            toast.error(t('swal.error'), {
+                autoClose: 3000,
+                theme: isDark ? 'dark' : 'light'
             });
         })
 }
@@ -189,19 +149,16 @@ function onCreate() {
             modalFunction();
             state.item = JSON.parse(JSON.stringify(item));
             fetch();
-            toast.add({
-                severity: 'success',
-                summary: t(`swal.created`),
-                life: 2000
+            toast.success(t(`swal.created`), {
+                autoClose: 3000,
+                theme: isDark ? 'dark' : 'light'
             });
         })
         .catch((response) => {
             console.log(response);
-            toast.add({
-                severity: 'error',
-                summary: t('swal.error'),
-                detail: t('swal.check_data'),
-                life: 2000
+            toast.error(t('swal.error'), {
+                autoClose: 3000,
+                theme: isDark ? 'dark' : 'light'
             });
         })
 }
@@ -305,31 +262,18 @@ const onRowSelect = (event) => {
                 </Column>
 
             </DataTable>
-
-            <!--            <Table :data="state.categories.data"-->
-            <!--                   @onEdit="onEdit"-->
-            <!--                   @onDestroy="onDestroy"-->
-            <!--            />-->
-
-            <!--            <div class="text-center">-->
-            <!--                <Paginate :pagination="state.categories"-->
-            <!--                          :click-handler="fetch"-->
-            <!--                          v-model="state.currentPage"-->
-            <!--                />-->
-            <!--            </div>-->
         </div>
     </StatisticLayout>
 
-    <Dialog class="w-full max-w-xl" v-model:visible="state.isActiveModal" modal header=" ">
-        <CostCategoryForm :item="state.item"/>
+    <Modal :show="state.isActiveModal" @close="modalFunction">
+        <template #body>
+            <CostCategoryForm :item="state.item"/>
+        </template>
         <template #footer>
             <Button label="Скасувати" icon="pi pi-times" @click="modalFunction" text/>
             <Button label="Зберегти" icon="pi pi-check" @click="submitForm" autofocus/>
         </template>
-    </Dialog>
-
-    <ConfirmDialog/>
-    <Toast/>
+    </Modal>
 </template>
 
 <style>

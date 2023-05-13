@@ -24,19 +24,19 @@ const emits = defineEmits(['close', 'submit']);
     </Dialog>
 
 
-    <!--    <Modal :show="show" @close="emits('close')">-->
-    <!--        <template #body>-->
-    <!--            <Form :item="item" :categories="categories"/>-->
-    <!--        </template>-->
-    <!--        <template #footer>-->
-    <!--            <div class="grid grid-cols-2 gap-x-6">-->
-    <!--                <ButtonSecondary @click="emits('close')" type="button" class="justify-center">-->
-    <!--                    Скасувати-->
-    <!--                </ButtonSecondary>-->
-    <!--                <ButtonPrimary @click="emits('submit')" type="button" class="justify-center">-->
-    <!--                    Зберегти-->
-    <!--                </ButtonPrimary>-->
-    <!--            </div>-->
-    <!--        </template>-->
-    <!--    </Modal>-->
+<!--        <Modal :show="show" @close="emits('close')">-->
+<!--            <template #body>-->
+<!--                <Form :item="item" :categories="categories"/>-->
+<!--            </template>-->
+<!--            <template #footer>-->
+<!--                <div class="grid grid-cols-2 gap-x-6">-->
+<!--                    <ButtonSecondary @click="emits('close')" type="button" class="justify-center">-->
+<!--                        Скасувати-->
+<!--                    </ButtonSecondary>-->
+<!--                    <ButtonPrimary @click="emits('submit')" type="button" class="justify-center">-->
+<!--                        Зберегти-->
+<!--                    </ButtonPrimary>-->
+<!--                </div>-->
+<!--            </template>-->
+<!--        </Modal>-->
 </template>

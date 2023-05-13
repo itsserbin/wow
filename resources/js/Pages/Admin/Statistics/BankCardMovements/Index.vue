@@ -10,15 +10,14 @@ import StatisticLayout from '@/Pages/Admin/Statistics/StatisticLayout.vue'
 import Form from './Form.vue'
 import Dropdown from 'primevue/dropdown';
 
-import {useConfirm} from "primevue/useconfirm";
 import {useI18n} from "vue-i18n";
 import {computed, defineAsyncComponent, onMounted, reactive, ref} from "vue";
 import {toast} from 'vue3-toastify';
 import isDark from '@/Includes/isDark.js';
-import 'vue3-toastify/dist/index.css';
+import {useConfirm} from "@/Components/ConfirmationModal/useConfirm";
 
 const {t} = useI18n();
-const confirm = useConfirm();
+
 const Modal = defineAsyncComponent(() => import('@/Components/Modal/Modal.vue'));
 
 const dateNow = () => {
@@ -281,7 +280,7 @@ const onRowSelect = (event) => {
     onEdit(event.data.id);
 };
 const onDestroy = async (id) => {
-    confirm.require({
+    await useConfirm({
         message: t('swal.confirm_destroy'),
         header: t('swal.confirm_action'),
         icon: 'pi pi-exclamation-triangle',
