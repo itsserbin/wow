@@ -1,4 +1,5 @@
 <script setup>
+import Consultation from './../Components/Consultation.vue';
 import ProductsList from './ProductsList.vue';
 import MasterLayout from '@/Layouts/MasterLayout.vue'
 import MainBanners from './../Components/Banners.vue';
@@ -122,5 +123,7 @@ const onSuccessFetch = (variable, data) => {
         <FaqComponent v-if="faqs.length" :lang="lang" :data="faqs"/>
 
         <Support/>
+
+        <Consultation v-if="options.consultation_status === 'on'"/>
     </div>
 </template>

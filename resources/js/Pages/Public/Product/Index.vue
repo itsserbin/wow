@@ -15,6 +15,7 @@ import eventTracking from "@/Includes/eventTracking";
 
 import {onMounted} from "vue";
 import {useGtm} from "@gtm-support/vue-gtm";
+import Consultation from '../Components/Consultation.vue';
 
 defineOptions({layout: MasterLayout})
 
@@ -127,5 +128,6 @@ onMounted(async () => {
 
         <FaqComponent :data="faqs" :lang="lang"/>
         <Support/>
+        <Consultation v-if="options.consultation_status === 'on'"/>
     </div>
 </template>

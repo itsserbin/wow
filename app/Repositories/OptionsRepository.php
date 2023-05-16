@@ -15,13 +15,11 @@ class OptionsRepository extends CoreRepository
 
     final public function getMainOptions(): array
     {
-        return Cache::remember('main_options', now()->addDay(), function () {
-            $options = [];
-            foreach (Options::state as $option) {
-                $options[$option] = $this->getOptionValue($option);
-            }
-            return $options;
-        });
+        $options = [];
+        foreach (Options::state as $option) {
+            $options[$option] = $this->getOptionValue($option);
+        }
+        return $options;
     }
 
     final public function getToProd(): array
@@ -31,10 +29,8 @@ class OptionsRepository extends CoreRepository
 
     final public function getOptionValue(string $name): ?string
     {
-        return Cache::remember("option_value_{$name}", now()->addDay(), function () use ($name) {
-            $option = $this->model::where('name', $name)->select('value')->first();
-            return $option?->value;
-        });
+        $option = $this->model::where('name', $name)->select('value')->first();
+        return $option?->value;
     }
 
 

@@ -20,22 +20,35 @@
     {{--        <meta property="og:image:alt" content="{{env('APP_NAME')}}"/>--}}
     {{--    @endif--}}
     {{--    @yield('head')--}}
-    {{--    @include('schema.organization')--}}
-    {{--    <link rel="alternate" href="{{setLinkToLang(request()->url(),'ru')}}" hreflang="ru-UA"/>--}}
-    {{--    <link rel="alternate" href="{{setLinkToLang(request()->url(),'ua')}}" hreflang="uk-UA"/>--}}
-    {{--    <link rel="alternate" href="{{setLinkToLang(request()->url(),'ua')}}" hreflang="x-default"/>--}}
+    @include('schema.organization')
+    @if(Route::is('product'))
+        @include('schema.product',['product' => $page['props']['product'],'reviews' => $page['props']['reviews']])
+        @include('schema.breadcrumbs',$breadcrumbs = Breadcrumbs::generate('home.categories.product',$page['props']['product']))
+        <meta property="og:image"
+              content="{{asset(route('images',$page['props']['product']['preview']['webp_src']))}}"/>
+        <meta property="og:image:secure_url"
+              content="{{asset(route('images',$page['props']['product']['preview']['webp_src']))}}"/>
+        <meta property="og:image:type" content="image/webp"/>
+        <meta property="og:image:alt" content="{{$page['props']['product']['h1'][app()->getLocale()]}}"/>
+    @endif
+    @if(Route::is('category'))
+        @if($page['props']['category']['preview_id'])
+            <meta property="og:image"
+                  content="{{asset(route('images',$page['props']['category']['preview']['webp_src']))}}"/>
+            <meta property="og:image:secure_url"
+                  content="{{asset(route('images',$page['props']['category']['preview']['webp_src']))}}"/>
+            <meta property="og:image:type" content="image/webp"/>
+        @endif
+        <meta property="og:image:alt" content="{{$page['props']['category']['title'][app()->getLocale()]}}"/>
+        @include('schema.breadcrumbs',$breadcrumbs = Breadcrumbs::generate('home.categories',$page['props']['category']))
+    @endif
+    <link rel="alternate" href="{{setLinkToLang(request()->url(),'ru')}}" hreflang="ru-UA"/>
+    <link rel="alternate" href="{{setLinkToLang(request()->url(),'ua')}}" hreflang="uk-UA"/>
+    <link rel="alternate" href="{{setLinkToLang(request()->url(),'ua')}}" hreflang="x-default"/>
 
 </head>
 <body class="h-full flex flex-col">
 {!! $page['props']['options']['after_body_scripts'] !!}
-{{--<div class="loader fixed inset-0 z-50 flex items-center justify-center backdrop-filter backdrop-blur-md">--}}
-{{--    <div class="lds-ellipsis inline-block relative w-[80px] h-[80px]">--}}
-{{--        <div class="absolute top-[33px] w-[13px] h-[13px] rounded-[50%] bg-[#ff0000]"></div>--}}
-{{--        <div class="absolute top-[33px] w-[13px] h-[13px] rounded-[50%] bg-[#ff0000]"></div>--}}
-{{--        <div class="absolute top-[33px] w-[13px] h-[13px] rounded-[50%] bg-[#ff0000]"></div>--}}
-{{--        <div class="absolute top-[33px] w-[13px] h-[13px] rounded-[50%] bg-[#ff0000]"></div>--}}
-{{--    </div>--}}
-{{--</div>--}}
 @inertia
 {{--    <master-layout>--}}
 {{--        <header class="w-[100%] fixed top-0 z-20 bg-[#fff] flex-[0_0_auto]">--}}

@@ -6,13 +6,13 @@
         "@type": "Brand",
         "name": "{{env('APP_NAME')}}"
       },
-      "sku": "{{$product->id}}",
-      "name": "{{$product->h1[app()->getLocale()]}}",
-      "description": "{{$product->description[app()->getLocale()]}}",
-      "image": "{{route('images',$product->preview->src)}}"
-      @if(count($product->reviews)),
+      "sku": "{{$product['id']}}",
+      "name": "{{$product['h1'][app()->getLocale()]}}",
+      "description": "{{$product['description'][app()->getLocale()]}}",
+      "image": "{{route('images',$product['preview']['src'])}}"
+      @if(count($reviews)),
           "review": [
-          @foreach($product->reviews as $review)
+          @foreach($reviews as $review)
                 {
                 "@type": "Review",
                 "reviewRating": {
@@ -21,7 +21,7 @@
                 },
                 "author": {
                   "@type": "Person",
-                  "name": "{{$review->name}}"
+                  "name": "{{$review['name']}}"
                 }
             @if($loop->last)
                 }
@@ -34,7 +34,7 @@
             "@type": "AggregateRating",
             "ratingValue": "5",
             "bestRating": "5",
-            "reviewCount": "{{count($product->reviews)}}"
+            "reviewCount": "{{count($reviews)}}"
           }
       @endif
     }

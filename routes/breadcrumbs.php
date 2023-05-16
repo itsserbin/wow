@@ -47,16 +47,16 @@ Breadcrumbs::for('home.pages', function (BreadcrumbTrail $trail, $page) {
     $trail->push(app()->getLocale() == 'ua' ? $page->heading['ua'] : $page->heading['ru'], route('pages', $page->slug));
 });
 
-Breadcrumbs::for('home.categories', function (BreadcrumbTrail $trail, $category) {
+Breadcrumbs::for('home.categories', static function (BreadcrumbTrail $trail, $category) {
     $trail->parent('home');
-    $trail->push(app()->getLocale() == 'ua' ? $category->title['ua'] ?? 'Без назви' : $category->title['ru'] ?? 'Без назви', route('category', $category->slug));
+    $trail->push($category['title'][app()->getLocale()] ?? 'Без назви', route('category', $category['slug']));
 });
 
-Breadcrumbs::for('home.categories.product', function (BreadcrumbTrail $trail, $product) {
-    if (count($product->categories)) {
-        $trail->parent('home.categories', $product->categories[0]);
+Breadcrumbs::for('home.categories.product', static function (BreadcrumbTrail $trail, $product) {
+    if (count($product['categories'])) {
+        $trail->parent('home.categories', $product['categories'][0]);
     } else {
         $trail->parent('home');
     }
-    $trail->push(app()->getLocale() == 'ua' ? $product->h1['ua'] : $product->h1['ru'], route('product', $product->id));
+    $trail->push($product['h1'][app()->getLocale()], route('product', $product['id']));
 });

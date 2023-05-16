@@ -26,12 +26,7 @@ class CategoriesRepository extends CoreRepository
 //    }
     final public function findBySlug(string $slug)
     {
-        $cacheKey = 'findCategoryBySlug_' . $slug;
-        $cacheTime = 60; // час життя кешу, в секундах
-
-        return Cache::remember($cacheKey, $cacheTime, function () use ($slug) {
-            return $this->model::where('slug', $slug)->first();
-        });
+        return $this->model::where('slug', $slug)->first();
     }
 
 
@@ -48,7 +43,7 @@ class CategoriesRepository extends CoreRepository
     {
         return $this
             ->model
-            ->select(
+            ->select([
                 'id',
                 'title',
                 'sort',
@@ -61,7 +56,7 @@ class CategoriesRepository extends CoreRepository
                 'created_at',
                 'updated_at',
                 'preview_id',
-            )
+            ])
             ->with('preview')
             ->orderBy($sort, $param)
             ->paginate($perPage);
@@ -75,13 +70,13 @@ class CategoriesRepository extends CoreRepository
     public function list()
     {
         return $this
-            ->model::select(
+            ->model::select([
                 'id',
                 'title',
                 'slug',
                 'preview_id',
                 'parent_id'
-            )->with('preview')->get();
+            ])->with('preview')->get();
     }
 
     /**
@@ -126,24 +121,19 @@ class CategoriesRepository extends CoreRepository
     #[ArrayShape(['id' => "int", 'title' => "string", 'slug' => "string", 'preview_id' => "int", 'preview' => "null|array"])]
     final public function listPublic(): array
     {
-        $cacheKey = 'listCategoriesPublic';
-        $cacheTime = now()->addMinutes(60);
+        $columns = [
+            'id',
+            'title',
+            'slug',
+            'preview_id'
+        ];
 
-        return Cache::remember($cacheKey, $cacheTime, function () {
-            $columns = [
-                'id',
-                'title',
-                'slug',
-                'preview_id'
-            ];
-
-            return $this->model::select($columns)
-                ->where('published', 1)
-                ->orderBy('sort', 'desc')
-                ->with('preview')
-                ->get()
-                ->toArray();
-        });
+        return $this->model::select($columns)
+            ->where('published', 1)
+            ->orderBy('sort', 'desc')
+            ->with('preview')
+            ->get()
+            ->toArray();
     }
 
 

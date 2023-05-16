@@ -133,8 +133,8 @@ const toggleFilter = () => {
         </div>
 
         <Content v-if="text" :data="text"/>
-
-        <Consultation v-if="consultation"/>
+        <Consultation v-if="options.consultation_status === 'on'"/>
         <Support/>
+
     </div>
 </template>
