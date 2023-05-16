@@ -1,4 +1,13 @@
-@if(Route::is('reviews'))
-    <title>Відгуки</title>
+@extends('layouts.master')
+
+@section('meta_title')Відгуки@endsection
+
+@section('head')
     @include('schema.breadcrumbs',$breadcrumbs = Breadcrumbs::generate('home.reviews'))
-@endif
+@endsection
+
+@section('content')
+    {{ Breadcrumbs::render('home.reviews') }}
+
+    <reviews-index lang="{{app()->getLocale()}}"></reviews-index>
+@endsection

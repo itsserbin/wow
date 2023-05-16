@@ -1,11 +1,13 @@
 <script setup>
 import MasterLayout from '@/Layouts/MasterLayout.vue'
 import Breadcrumbs from './Breadcrumbs.vue'
+import Head from "@/Pages/Public/Components/Head.vue";
 
 defineOptions({layout: MasterLayout})
 </script>
 
 <template>
+    <Head :title="$page.props.page.meta_title[$page.props.lang]"/>
     <div v-if="$page.props.page">
         <Breadcrumbs :current-url="route().current"
                      :options="$page.props.options"

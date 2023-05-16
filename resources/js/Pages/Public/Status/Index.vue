@@ -3,6 +3,7 @@ import Breadcrumbs from './Breadcrumbs.vue'
 import MasterLayout from '@/Layouts/MasterLayout.vue'
 import Form from '@/Pages/Public/Status/Form.vue';
 import Status from '@/Pages/Public/Status/Status.vue';
+import Head from "@/Pages/Public/Components/Head.vue";
 
 import {swal} from '@/Includes/swal';
 import {onMounted, ref} from "vue";
@@ -53,19 +54,21 @@ const checkStatus = async () => {
 </script>
 
 <template>
-    <div v-if="!state.isLoading">
-        <Breadcrumbs :current-url="route().current" :options="options" :lang="lang" title="Статус замовлення"/>
+        <Head title="Статус замовлення"/>
 
-        <div class="max-w-xl mx-auto">
-            <Form :item="state.item"
-                  @submitForm="checkStatus"
-                  v-if="!state.order"
-            />
+        <div v-if="!state.isLoading">
+            <Breadcrumbs :current-url="route().current" :options="options" :lang="lang" title="Статус замовлення"/>
 
-            <Status :order="state.order"
-                    v-if="state.order"
-                    :statuses="state.statuses"
-            />
+            <div class="max-w-xl mx-auto">
+                <Form :item="state.item"
+                      @submitForm="checkStatus"
+                      v-if="!state.order"
+                />
+
+                <Status :order="state.order"
+                        v-if="state.order"
+                        :statuses="state.statuses"
+                />
+            </div>
         </div>
-    </div>
 </template>

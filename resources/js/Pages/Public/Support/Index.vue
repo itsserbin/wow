@@ -2,6 +2,7 @@
 import MasterLayout from '@/Layouts/MasterLayout.vue'
 import Form from '@/Pages/Public/Support/Form.vue';
 import Breadcrumbs from '@/Pages/Public/Support/Breadcrumbs.vue';
+import Head from "@/Pages/Public/Components/Head.vue";
 
 import {ref} from "vue";
 import {swal} from '@/Includes/swal';
@@ -52,6 +53,8 @@ const submitForm = async () => {
 </script>
 
 <template>
+    <Head title="Підтримка клієнтів"/>
+
     <Breadcrumbs :currentUrl="route().current" :options="options" :lang="lang" title="Підтримка"/>
 
     <div class="max-w-xl mx-auto">

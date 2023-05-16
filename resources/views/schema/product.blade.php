@@ -8,9 +8,7 @@
       },
       "sku": "{{$product['id']}}",
       "name": "{{$product['h1'][app()->getLocale()]}}",
-      @if($product['description'])
       "description": "{{$product['description'][app()->getLocale()]}}",
-      @endif
       "image": "{{route('images',$product['preview']['src'])}}"
       @if(count($reviews)),
           "review": [

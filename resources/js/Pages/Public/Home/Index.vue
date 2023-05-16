@@ -4,6 +4,7 @@ import ProductsList from './ProductsList.vue';
 import MasterLayout from '@/Layouts/MasterLayout.vue'
 import MainBanners from './../Components/Banners.vue';
 import Categories from './../Components/Categories.vue';
+import Head from "@/Pages/Public/Components/Head.vue";
 
 defineOptions({layout: MasterLayout})
 
@@ -75,6 +76,7 @@ const onSuccessFetch = (variable, data) => {
 </script>
 
 <template>
+    <Head :title="meta.title" :description="meta.description"/>
     <div class="grid grid-cols-1 gap-4">
         <MainBanners v-if="banners.length" :data="banners" :lang="lang"/>
 

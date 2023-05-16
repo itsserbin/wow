@@ -1,4 +1,13 @@
-@if(Route::is('support'))
-    <title>Підтримка клієнтів</title>
+@extends('layouts.master')
+
+@section('meta_title','Підтримка клієнтів')
+
+@section('head')
     @include('schema.breadcrumbs',$breadcrumbs = Breadcrumbs::generate('home.support'))
-@endif
+@endsection
+
+@section('content')
+    {{ Breadcrumbs::render('home.support') }}
+
+    <support-index></support-index>
+@endsection
