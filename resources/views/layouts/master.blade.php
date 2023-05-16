@@ -50,46 +50,6 @@
 <body class="h-full flex flex-col">
 {!! $page['props']['options']['after_body_scripts'] !!}
 @inertia
-{{--    <master-layout>--}}
-{{--        <header class="w-[100%] fixed top-0 z-20 bg-[#fff] flex-[0_0_auto]">--}}
-{{--            @include('components.fixed-banner')--}}
-{{--            <header-component--}}
-{{--                lang="{{app()->getLocale()}}"--}}
-{{--                categories="{{json_encode($categories,JSON_THROW_ON_ERROR)}}"--}}
-{{--                pages="{{json_encode($pages,JSON_THROW_ON_ERROR)}}"--}}
-{{--                app-name="{{env('APP_NAME')}}"--}}
-{{--                app-phone="{{$options['phone']}}"--}}
-{{--                app-email="{{$options['email']}}"--}}
-{{--                app-facebook="{{$options['facebook']}}"--}}
-{{--                app-instagram="{{$options['instagram']}}"--}}
-{{--                app-schedule="{!! $options['schedule'] !!}"--}}
-{{--                app-telegram="{{$options['telegram']}}"--}}
-{{--                app-viber="{{$options['viber']}}"--}}
-{{--            ></header-component>--}}
-{{--        </header>--}}
-{{--            <main class="main flex-[1_0_auto]">--}}
-{{--                <div class="max-w-7xl mx-auto pt-36 md:pt-40 px-3 h-full">--}}
-{{--                    @yield('content')--}}
-{{--                </div>--}}
-{{--            </main>--}}
-{{--        <footer-component lang="{{app()->getLocale()}}"--}}
-{{--                          options="{{json_encode($options,JSON_THROW_ON_ERROR)}}"--}}
-{{--                          pages="{{json_encode($pages,JSON_THROW_ON_ERROR)}}"--}}
-{{--        ></footer-component>--}}
-{{--        @if($options['callback_status'] === 'on')--}}
-{{--            <callback></callback>--}}
-{{--        @endif--}}
-{{--        <scroll-to-top></scroll-to-top>--}}
-{{--    </master-layout>--}}
-{{--<script>--}}
-{{--    const loader = document.querySelector('.loader');--}}
-
-{{--    window.addEventListener("DOMContentLoaded", () => {--}}
-{{--        loader.classList.add('hidden');--}}
-{{--    });--}}
-
-{{--</script>--}}
-{{--@vite('resources/js/Pages/Public/app.js')--}}
 @routes
 @vite('resources/js/Pages/Public/app.js')
 {!! $page['props']['options']['footer_scripts'] !!}
