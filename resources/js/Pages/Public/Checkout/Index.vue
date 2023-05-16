@@ -8,7 +8,6 @@ import OrderItem from '@/Pages/Public/Checkout/OrderItem.vue';
 import Comment from '@/Pages/Public/Checkout/Comment.vue';
 import CheckoutTotal from '@/Pages/Public/Checkout/CheckoutTotal.vue';
 import MasterLayout from '@/Layouts/MasterLayout.vue'
-import Head from "@/Pages/Public/Components/Head.vue";
 
 import eventTracking from "@/Includes/eventTracking";
 import {ref, onMounted} from "vue";
@@ -266,8 +265,6 @@ function removeFromCart() {
 </script>
 
 <template>
-    <Head title="Оформлення замовлення"/>
-
     <form @submit.prevent="sendOrder">
         <div class="grid grid-cols-1 md:grid-cols-2 relative gap-4">
             <div>

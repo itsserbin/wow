@@ -2,7 +2,6 @@
 import Timer from '@/Pages/Public/Thanks/Timer.vue'
 import ProductCard from '@/Pages/Public/Thanks/ProductCard.vue'
 import MasterLayout from '@/Layouts/MasterLayout.vue'
-import Head from "@/Pages/Public/Components/Head.vue";
 
 import {onMounted, ref} from "vue";
 import {swal} from '@/Includes/swal';
@@ -100,8 +99,6 @@ const addItemToOrder = async (id, price) => {
 </script>
 
 <template>
-    <Head title="Дякуємо за покупку!"/>
-
     <section class="grid gap-4 grid-cols-1">
         <div class="grid grid-cols-1 gap-4">
             <h1 class="font-bold text-black text-center text-2xl font-heading">
