@@ -12,7 +12,6 @@ import ProductsRepository from "@/Repositories/ProductsRepository";
 import Button from '@/Pages/Public/Components/Button.vue'
 import MasterLayout from '@/Layouts/MasterLayout.vue'
 import Breadcrumbs from './Breadcrumbs.vue'
-import Head from './Head.vue';
 
 defineOptions({layout: MasterLayout})
 
@@ -92,7 +91,6 @@ const toggleFilter = () => {
 </script>
 
 <template>
-    <Head :category="category" :lang="lang"/>
 
     <Breadcrumbs :currentUrl="route().current" :options="options" :lang="lang" :title="category.title[lang]"/>
 

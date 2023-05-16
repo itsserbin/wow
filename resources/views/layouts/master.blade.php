@@ -5,7 +5,6 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title inertia>{{ env('APP_NAME') }}</title>
     @vite('resources/scss/public.scss')
     {!! $page['props']['options']['head_scripts'] !!}
     {{--    <meta property="og:title" content="@yield('meta_title')"/>--}}
@@ -21,27 +20,17 @@
     {{--    @endif--}}
     {{--    @yield('head')--}}
     @include('schema.organization')
-    @if(Route::is('product'))
-        @include('schema.product',['product' => $page['props']['product'],'reviews' => $page['props']['reviews']])
-        @include('schema.breadcrumbs',$breadcrumbs = Breadcrumbs::generate('home.categories.product',$page['props']['product']))
-        <meta property="og:image"
-              content="{{asset(route('images',$page['props']['product']['preview']['webp_src']))}}"/>
-        <meta property="og:image:secure_url"
-              content="{{asset(route('images',$page['props']['product']['preview']['webp_src']))}}"/>
-        <meta property="og:image:type" content="image/webp"/>
-        <meta property="og:image:alt" content="{{$page['props']['product']['h1'][app()->getLocale()]}}"/>
-    @endif
-    @if(Route::is('category'))
-        @if($page['props']['category']['preview_id'])
-            <meta property="og:image"
-                  content="{{asset(route('images',$page['props']['category']['preview']['webp_src']))}}"/>
-            <meta property="og:image:secure_url"
-                  content="{{asset(route('images',$page['props']['category']['preview']['webp_src']))}}"/>
-            <meta property="og:image:type" content="image/webp"/>
-        @endif
-        <meta property="og:image:alt" content="{{$page['props']['category']['title'][app()->getLocale()]}}"/>
-        @include('schema.breadcrumbs',$breadcrumbs = Breadcrumbs::generate('home.categories',$page['props']['category']))
-    @endif
+    @include('pages.home')
+    @include('pages.product')
+    @include('pages.category')
+    @include('pages.cart')
+    @include('pages.checkout')
+    @include('pages.page')
+    @include('pages.reviews')
+    @include('pages.status')
+    @include('pages.support')
+    @include('pages.thanks')
+
     <link rel="alternate" href="{{setLinkToLang(request()->url(),'ru')}}" hreflang="ru-UA"/>
     <link rel="alternate" href="{{setLinkToLang(request()->url(),'ua')}}" hreflang="uk-UA"/>
     <link rel="alternate" href="{{setLinkToLang(request()->url(),'ua')}}" hreflang="x-default"/>

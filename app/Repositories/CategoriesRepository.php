@@ -26,7 +26,7 @@ class CategoriesRepository extends CoreRepository
 //    }
     final public function findBySlug(string $slug)
     {
-        return $this->model::where('slug', $slug)->first();
+        return $this->model::where('slug', $slug)->with('preview:id,src,webp_src')->first();
     }
 
 
@@ -127,7 +127,6 @@ class CategoriesRepository extends CoreRepository
             'slug',
             'preview_id'
         ];
-
         return $this->model::select($columns)
             ->where('published', 1)
             ->orderBy('sort', 'desc')

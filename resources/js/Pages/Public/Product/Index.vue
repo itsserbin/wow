@@ -10,7 +10,6 @@ import Content from './Content.vue';
 import AddToCart from './AddToCart.vue';
 import MasterLayout from '@/Layouts/MasterLayout.vue'
 import Breadcrumbs from './Breadcrumbs.vue'
-import Head from "./Head.vue";
 import eventTracking from "@/Includes/eventTracking";
 
 import {onMounted} from "vue";
@@ -72,7 +71,6 @@ onMounted(async () => {
 </script>
 
 <template>
-    <Head :lang="lang" :product="product"/>
     <Breadcrumbs :options="options"
                  :parent-url="route('category',product.categories[0].slug)"
                  :currentUrl-url="route().current"

@@ -4,7 +4,6 @@ import CartItem from '@/Pages/Public/Cart/CartItem.vue'
 import PromoCode from '@/Pages/Public/Cart/PromoCode.vue'
 import CartTotal from '@/Pages/Public/Cart/CartTotal.vue'
 import MasterLayout from '@/Layouts/MasterLayout.vue'
-import Head from "@/Pages/Public/Components/Head.vue";
 
 import {useStore} from "vuex";
 import {onMounted, ref} from "vue";
@@ -29,8 +28,6 @@ onMounted(async () => {
 </script>
 
 <template>
-    <Head title="Кошик"/>
-
     <form>
         <div class="grid grid-cols-1 md:grid-cols-2 relative gap-4">
             <div class="">
