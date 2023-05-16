@@ -24,8 +24,7 @@
     {{--    <link rel="alternate" href="{{setLinkToLang(request()->url(),'ru')}}" hreflang="ru-UA"/>--}}
     {{--    <link rel="alternate" href="{{setLinkToLang(request()->url(),'ua')}}" hreflang="uk-UA"/>--}}
     {{--    <link rel="alternate" href="{{setLinkToLang(request()->url(),'ua')}}" hreflang="x-default"/>--}}
-    @routes
-    @vite('resources/js/Pages/Public/app.js')
+
 </head>
 <body class="h-full flex flex-col">
 {!! $page['props']['options']['after_body_scripts'] !!}
@@ -78,6 +77,8 @@
 
 {{--</script>--}}
 {{--@vite('resources/js/Pages/Public/app.js')--}}
+@routes
+@vite('resources/js/Pages/Public/app.js')
 {!! $page['props']['options']['footer_scripts'] !!}
 @if(env('APP_ENV') !== 'local')
     <!-- Meta Pixel Code -->
