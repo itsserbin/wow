@@ -44,9 +44,7 @@ class CostsRepository extends CoreRepository
             'id',
             'date',
             'cost_category_id',
-            'quantity',
             'sum',
-            'total',
             'comment',
             'user_id',
         ]);
@@ -181,7 +179,6 @@ class CostsRepository extends CoreRepository
 
             $params = [
                 'comment' => $data['comment'],
-                'quantity' => $data['quantity'],
                 'sum' => $sum,
                 'cost_category_id' => $data['cost_category_id'],
             ];
@@ -201,11 +198,9 @@ class CostsRepository extends CoreRepository
         if (isset($data['comment'])) {
             $model->comment = $data['comment'];
         }
-        $model->quantity = $data['quantity'];
         $model->sum = $data['sum'];
         $model->date = $data['date'];
         $model->user_id = Auth::id();
-        $model->total = $model->quantity * $model->sum;
         $model->cost_category_id = $data['cost_category_id'];
 
         return $model->save();
@@ -215,11 +210,9 @@ class CostsRepository extends CoreRepository
     {
         $model = $this->getById($id);
         $model->comment = $data['comment'];
-        $model->quantity = $data['quantity'];
         $model->sum = $data['sum'];
         $model->date = $data['date'];
         $model->user_id = Auth::id();
-        $model->total = $model->quantity * $model->sum;
         $model->cost_category_id = $data['cost_category_id'];
 
         return $model->update();
