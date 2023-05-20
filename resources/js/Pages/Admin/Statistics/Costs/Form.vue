@@ -67,6 +67,7 @@ const totalSum = computed(() => props.item.quantity * props.item.sum)
                         :monthChangeOnScroll="false"
                         :enableTimePicker="false"
                         utc
+                        :range="false"
             ></Datepicker>
             <Datepicker v-model="item.date"
                         v-if="item.cost_type === 'range'"
