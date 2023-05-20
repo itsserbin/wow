@@ -87,7 +87,7 @@ class CostsRepository extends CoreRepository
         $model = $this->model::select([
             'date',
             'cost_category_id',
-            'total'
+            'sum'
         ]);
 
         if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data) && array_key_exists('filter', $data)) {
@@ -108,12 +108,12 @@ class CostsRepository extends CoreRepository
 
         $model = $model->get();
         $result = [];
-        $result['Всего'] = $model->sum('total');
+        $result['Всего'] = $model->sum('sum');
 
         foreach ($model as $item) {
             foreach ($list as $listItem) {
                 if ($item->cost_category_id == $listItem->id) {
-                    $result[$listItem->title] = $model->where('cost_category_id', $listItem->id)->sum('total');
+                    $result[$listItem->title] = $model->where('cost_category_id', $listItem->id)->sum('sum');
                 }
             }
         }
@@ -124,7 +124,7 @@ class CostsRepository extends CoreRepository
     {
         $model = $this->model::select([
             'date',
-            'total'
+            'sum'
         ]);
 
         if (array_key_exists('date_start', $data) && array_key_exists('date_end', $data) && array_key_exists('filter', $data)) {
@@ -144,7 +144,7 @@ class CostsRepository extends CoreRepository
         $labels = [];
         $result = [];
         foreach ($model->orderBy('date', 'asc')->groupBy('date')->get() as $item) {
-            array_push($result, $this->model::whereDate('date', $item->date)->sum('total'));
+            array_push($result, $this->model::whereDate('date', $item->date)->sum('sum'));
             array_push($labels, $item->date->format('d.m.Y'));
         }
         return [
@@ -226,8 +226,8 @@ class CostsRepository extends CoreRepository
     public function sumCostsByDate($date)
     {
         return $this->model::whereDate('date', $date)
-            ->select('total')
-            ->sum('total');
+            ->select('sum')
+            ->sum('sum');
     }
 
     public function sumAdvertisingCostsByDate($date)
@@ -236,8 +236,8 @@ class CostsRepository extends CoreRepository
             $q->where('slug', 'facebook');
         })
             ->whereDate('date', $date)
-            ->select('total')
-            ->sum('total');
+            ->select('sum')
+            ->sum('sum');
     }
 
     final public function getManagerSalaryRowByDate(string $date): \Illuminate\Database\Eloquent\Model|null
