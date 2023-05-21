@@ -34,10 +34,12 @@ class AppServiceProvider extends ServiceProvider
 
         View::composer(['errors::*', 'errors.*'], function ($view) use ($pagesRepository, $categoriesRepository, $optionsRepository) {
             $view->with([
-                'options' => $optionsRepository->getToProd(),
-                'categories' => $categoriesRepository->listPublic(),
-                'pages' => $pagesRepository->getPagesListToPublic(),
-                'event_id_page_view' => uniqid(null, true) . '_PageView' . '_' . time()
+                'props' => [
+                    'options' => $optionsRepository->getToProd(),
+                    'categories' => $categoriesRepository->listPublic(),
+                    'pages' => $pagesRepository->getPagesListToPublic(),
+                    'event_id_page_view' => uniqid(null, true) . '_PageView' . '_' . time()
+                ]
             ]);
         });
 
