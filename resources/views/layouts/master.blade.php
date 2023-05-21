@@ -21,7 +21,7 @@
     {{--    @endif--}}
     {{--    @yield('head')--}}
     @include('schema.organization')
-    @if(Route::is('product'))
+    @if(Route::is('product') && isset($page['props']['product']))
         @include('schema.product',['product' => $page['props']['product'],'reviews' => $page['props']['reviews']])
         @include('schema.breadcrumbs',$breadcrumbs = Breadcrumbs::generate('home.categories.product',$page['props']['product']))
         <meta property="og:image"
@@ -31,7 +31,7 @@
         <meta property="og:image:type" content="image/webp"/>
         <meta property="og:image:alt" content="{{$page['props']['product']['h1'][app()->getLocale()]}}"/>
     @endif
-    @if(Route::is('category'))
+    @if(Route::is('category') && isset($page['props']['category']))
         @if($page['props']['category']['preview_id'])
             <meta property="og:image"
                   content="{{asset(route('images',$page['props']['category']['preview']['webp_src']))}}"/>
