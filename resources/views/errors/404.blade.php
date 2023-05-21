@@ -26,7 +26,7 @@
 
         <div class="text-center">
             <a href="{{asset(route('home'))}}">
-                <button-component type="button">Повернусь на головну</button-component>
+                <button class="bg-secondary p-4 rounded" type="button">Повернусь на головну</button>
             </a>
         </div>
     </div>
