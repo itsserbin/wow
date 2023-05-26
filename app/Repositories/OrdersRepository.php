@@ -607,7 +607,7 @@ class OrdersRepository extends CoreRepository
         if ($manager_id and $date) {
             return $this->model::whereDate('created_at', $date)
                 ->where([
-                    ['sale_of_air_price', '!=', null],
+                    ['sale_of_air_price', '>', 0],
                     ['manager_id', $manager_id]
                 ])
                 ->where(function ($query) {
@@ -621,7 +621,7 @@ class OrdersRepository extends CoreRepository
                 ->count();
         } elseif ($date) {
             return $this->model::whereDate('created_at', $date)
-                ->where('sale_of_air_price', '!=', null)
+                ->where('sale_of_air_price', '>', 0)
                 ->where(function ($query) {
                     $query->where('status', OrderStatus::STATUS_DONE);
                     $query->orWhere('status', OrderStatus::STATUS_TRANSFERRED_TO_SUPPLIER);
@@ -633,7 +633,7 @@ class OrdersRepository extends CoreRepository
                 ->count();
         } elseif ($manager_id) {
             return $this->model::where([
-                ['sale_of_air_price', '!=', null],
+                ['sale_of_air_price', '>', 0],
                 ['manager_id', $manager_id]
             ])
                 ->where(function ($query) {
