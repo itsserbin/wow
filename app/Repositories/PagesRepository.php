@@ -82,26 +82,9 @@ class PagesRepository extends CoreRepository
         )->first();
     }
 
-//    final public function getPagesListToPublic()
-//    {
-//        return $this->model::where('published', 1)
-//            ->select(
-//                'id',
-//                'slug',
-//                'heading',
-//            )->get();
-//    }
-
     final public function getPagesListToPublic(): array
     {
-        $cacheKey = 'pages_list_public';
-        $cachedPagesList = Cache::get($cacheKey);
-
-        if ($cachedPagesList) {
-            return $cachedPagesList;
-        }
-
-        $pagesList = $this->model::where('published', 1)
+        return $this->model::where('published', 1)
             ->select(
                 'id',
                 'slug',
@@ -109,10 +92,5 @@ class PagesRepository extends CoreRepository
             )
             ->get()
             ->toArray();
-
-        Cache::put($cacheKey, $pagesList, now()->addHours(12));
-
-        return $pagesList;
     }
-
 }
