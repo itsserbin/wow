@@ -88,7 +88,7 @@ class SumManagersSalary extends Command
 
             $item->count_sale_of_air = $this->ordersRepository->sumCountSalesOfAirMarginality($item->date, $item->manager_id);
             $item->price_sale_of_air = $this->ordersRepository->sumPriceSalesOfAirMarginality($item->date, $item->manager_id);
-            $item->total_sale_of_air = $item->count_sale_of_air * 0.2;
+            $item->total_sale_of_air = $item->price_sale_of_air * 0.2;
 
             $item->sum_additional_sales = $this->orderItemsRepository->sumAdditionalSalesMarginality($item->date, $item->manager_id);
             $item->count_prepayments = $this->ordersRepository->countPrepaymentsByDateAndManagerId($item->date, $item->manager_id);
