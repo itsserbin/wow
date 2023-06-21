@@ -12,13 +12,13 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('cost_and_profit_categories', static function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->string('slug')->unique();
-            $table->boolean('type');
-            $table->timestamps();
-        });
+//        Schema::create('cost_and_profit_categories', static function (Blueprint $table) {
+//            $table->id();
+//            $table->string('title');
+//            $table->string('slug')->unique();
+//            $table->boolean('type');
+//            $table->timestamps();
+//        });
     }
 
     /**
