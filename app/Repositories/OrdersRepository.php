@@ -612,9 +612,7 @@ class OrdersRepository extends CoreRepository
                 ])
                 ->where(function ($query) {
                     $query->where('status', OrderStatus::STATUS_DONE);
-                    $query->orWhere('status', OrderStatus::STATUS_TRANSFERRED_TO_SUPPLIER);
                     $query->orWhere('status', OrderStatus::STATUS_RETURN);
-                    $query->orWhere('status', OrderStatus::STATUS_AWAITING_DISPATCH);
                     $query->orWhere('status', OrderStatus::STATUS_ON_THE_ROAD);
                     $query->orWhere('status', OrderStatus::STATUS_AT_THE_POST_OFFICE);
                 })
@@ -624,9 +622,7 @@ class OrdersRepository extends CoreRepository
                 ->where('sale_of_air_price', '>', 0)
                 ->where(function ($query) {
                     $query->where('status', OrderStatus::STATUS_DONE);
-                    $query->orWhere('status', OrderStatus::STATUS_TRANSFERRED_TO_SUPPLIER);
                     $query->orWhere('status', OrderStatus::STATUS_RETURN);
-                    $query->orWhere('status', OrderStatus::STATUS_AWAITING_DISPATCH);
                     $query->orWhere('status', OrderStatus::STATUS_ON_THE_ROAD);
                     $query->orWhere('status', OrderStatus::STATUS_AT_THE_POST_OFFICE);
                 })
@@ -638,9 +634,7 @@ class OrdersRepository extends CoreRepository
             ])
                 ->where(function ($query) {
                     $query->where('status', OrderStatus::STATUS_DONE);
-                    $query->orWhere('status', OrderStatus::STATUS_TRANSFERRED_TO_SUPPLIER);
                     $query->orWhere('status', OrderStatus::STATUS_RETURN);
-                    $query->orWhere('status', OrderStatus::STATUS_AWAITING_DISPATCH);
                     $query->orWhere('status', OrderStatus::STATUS_ON_THE_ROAD);
                     $query->orWhere('status', OrderStatus::STATUS_AT_THE_POST_OFFICE);
                 })
@@ -649,9 +643,7 @@ class OrdersRepository extends CoreRepository
             return $this->model::where('sale_of_air_price', '!=', null)
                 ->where(function ($query) {
                     $query->where('status', OrderStatus::STATUS_DONE);
-                    $query->orWhere('status', OrderStatus::STATUS_TRANSFERRED_TO_SUPPLIER);
                     $query->orWhere('status', OrderStatus::STATUS_RETURN);
-                    $query->orWhere('status', OrderStatus::STATUS_AWAITING_DISPATCH);
                     $query->orWhere('status', OrderStatus::STATUS_ON_THE_ROAD);
                     $query->orWhere('status', OrderStatus::STATUS_AT_THE_POST_OFFICE);
                 })
@@ -665,7 +657,9 @@ class OrdersRepository extends CoreRepository
             return $this->model::whereDate('created_at', $date)
                 ->where(function ($query) {
                     $query->where('status', OrderStatus::STATUS_DONE);
-                })->where([
+                    $query->orWhere('status', OrderStatus::STATUS_RETURN);
+                    $query->orWhere('status', OrderStatus::STATUS_ON_THE_ROAD);
+                    $query->orWhere('status', OrderStatus::STATUS_AT_THE_POST_OFFICE);                })->where([
                     ['sale_of_air_price', '>', 80],
                     ['manager_id', $manager_id]
                 ])
@@ -674,6 +668,9 @@ class OrdersRepository extends CoreRepository
             return $this->model::whereDate('created_at', $date)
                 ->where(function ($query) {
                     $query->where('status', OrderStatus::STATUS_DONE);
+                    $query->orWhere('status', OrderStatus::STATUS_RETURN);
+                    $query->orWhere('status', OrderStatus::STATUS_ON_THE_ROAD);
+                    $query->orWhere('status', OrderStatus::STATUS_AT_THE_POST_OFFICE);
                 })->where([
                     ['sale_of_air_price', '>', 80]
                 ])
@@ -686,16 +683,16 @@ class OrdersRepository extends CoreRepository
                 ->where(function ($query) {
                     $query->where('status', OrderStatus::STATUS_DONE);
                     $query->orWhere('status', OrderStatus::STATUS_RETURN);
-                    $query->orWhere('status', OrderStatus::STATUS_AT_THE_POST_OFFICE);
                     $query->orWhere('status', OrderStatus::STATUS_ON_THE_ROAD);
+                    $query->orWhere('status', OrderStatus::STATUS_AT_THE_POST_OFFICE);
                 })
                 ->sum('sale_of_air_price');
         } else {
             return $this->model::where(function ($query) {
                 $query->where('status', OrderStatus::STATUS_DONE);
                 $query->orWhere('status', OrderStatus::STATUS_RETURN);
-                $query->orWhere('status', OrderStatus::STATUS_AT_THE_POST_OFFICE);
                 $query->orWhere('status', OrderStatus::STATUS_ON_THE_ROAD);
+                $query->orWhere('status', OrderStatus::STATUS_AT_THE_POST_OFFICE);
             })
                 ->where([
                     ['sale_of_air_price', '>', 80],

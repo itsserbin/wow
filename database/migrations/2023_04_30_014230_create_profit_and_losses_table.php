@@ -20,6 +20,9 @@ return new class extends Migration {
             $table->float('total_revenues');
             $table->float('net_profit');
             $table->float('costs');
+            $table->float('investments');
+            $table->float('returned_investments');
+            $table->float('dividends');
             $table->timestamps();
         });
     }
