@@ -25,11 +25,11 @@ const srcset = computed(() => (banner) => {
     const desktop = banner.image_desktop[props.lang] || banner.image_desktop[defaultLang];
 
     const mobileSrc = mobile
-        ? '/images/banners/mobile/' + mobile + '.webp 568w '
+        ? '/images/banners/mobile/' + mobile + '.webp 568w, '
         : '/images/banners/mobile/' + banner.image_mobile[defaultLang] + '.webp 568w '
 
     const tableSrc = table
-        ? '/images/banners/table/' + table + '.webp 568w '
+        ? '/images/banners/table/' + table + '.webp 568w, '
         : '/images/banners/table/' + banner.image_table[defaultLang] + '.webp 991w '
 
 
