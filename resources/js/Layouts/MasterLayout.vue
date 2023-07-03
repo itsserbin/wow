@@ -16,7 +16,6 @@ onMounted(() => {
 
 <template>
     <header class="w-[100%] fixed top-0 z-20 bg-[#fff] flex-[0_0_auto]">
-        <FixedBanner :lang="$page.props.lang"/>
         <Header :options="$page.props.options" :categories="$page.props.categories" :lang="$page.props.lang"/>
     </header>
     <main class="main flex-[1_0_auto]">
