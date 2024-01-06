@@ -16,9 +16,13 @@ class RedirectToNonWwwMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($this->performRedirect($request)) {
+
+        if ($request->header('host') !== 'dabango.com.ua') {
             return redirect()->away('https://dabango.com.ua', 301);
         }
+//        if ($this->performRedirect($request)) {
+//            return redirect()->away('https://dabango.com.ua', 301);
+//        }
 
         if (str_starts_with($request->header('host'), 'www.')) {
             $request->headers->set('host', env('SESSION_DOMAIN'));
