@@ -23,7 +23,6 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\LocaleMiddleware::class,
         \App\Http\Middleware\SecuredHttp::class,
-//        \App\Http\Middleware\RedirectToNonWwwMiddleware::class,
     ];
 
     /**
@@ -41,6 +40,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
+            \App\Http\Middleware\RedirectToNonWwwMiddleware::class,
         ],
 
         'api' => [
