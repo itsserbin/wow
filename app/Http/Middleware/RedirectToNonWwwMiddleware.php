@@ -20,15 +20,6 @@ class RedirectToNonWwwMiddleware
             return redirect()->away('https://dabango.com.ua' . ($request->path() ? '/' . $request->path() : null), 301);
         }
 
-//        if ($isGoogleBot && $request->header('host') === 'dabango.store') {
-//            return redirect()->away('https://dabango.com.ua/' . $request->path(), 301);
-//        }
-
-
-//        if (Request::isMethod('get') && Request::header('referer') && str_contains(Request::header('referer'), 'google.com')) {
-//
-//        }
-
         if (str_starts_with($request->header('host'), 'www.')) {
             $request->headers->set('host', env('SESSION_DOMAIN'));
             return redirect()->secure($request->path());
@@ -42,13 +33,13 @@ class RedirectToNonWwwMiddleware
         $isGoogleBot = $this->isBot($request->header('User-Agent'));
         $isGoogleReferer = $this->isGoogleReferer($request);
 
-        return ($isGoogleBot && $request->header('host') === 'dabango.store')
-            || ($isGoogleReferer && $request->header('host') === 'dabango.store');
+        return ($isGoogleBot && $request->header('host') !== 'dabango.com.ua')
+            || ($isGoogleReferer && $request->header('host') !== 'dabango.com.ua');
     }
 
     private function isGoogleReferer(Request $request): bool
     {
-        return $request->isMethod('get') && $request->header('referer') && str_contains($request->header('referer'), 'google.com');
+        return $request->isMethod('get') && $request->header('referer') && str_contains($request->header('referer'), 'google');
     }
 
     private function isBot(string $userAgent): bool
