@@ -17,9 +17,9 @@ class RedirectToNonWwwMiddleware
     public function handle(Request $request, Closure $next)
     {
 
-        if ($request->header('host') !== 'dabango.com.ua') {
-            return redirect()->away('https://dabango.com.ua', 301);
-        }
+        // if ($request->header('host') !== 'dabango.com.ua') {
+            // return redirect()->away('https://dabango.com.ua', 301);
+        // }
 //        if ($this->performRedirect($request)) {
 //            return redirect()->away('https://dabango.com.ua', 301);
 //        }
