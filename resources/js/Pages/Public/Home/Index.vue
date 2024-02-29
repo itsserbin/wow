@@ -78,7 +78,7 @@ const onSuccessFetch = (variable, data) => {
 <template>
     <Head :title="meta.title" :description="meta.description"/>
     <div class="grid grid-cols-1 gap-4">
-        <MainBanners v-if="banners.length" :data="banners" :lang="lang"/>
+       <!-- <MainBanners v-if="banners.length" :data="banners" :lang="lang"/> -->
 
         <Categories v-if="categories.length" :data="categories" :lang="lang"/>
 
