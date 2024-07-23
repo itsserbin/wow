@@ -63,10 +63,7 @@ class ImagesController extends Controller
     
         if (env('APP_ENV') !== 'local') {
             try {
-                // Перевірка наявності зображення на S3
-                if (Storage::disk('s3')->exists($path . $filename)) {
-                    return Storage::disk('s3')->response($path . $filename);
-                } elseif (file_exists($localImagePath)) {
+                    if (file_exists($localImagePath)) {
                     // Якщо зображення не знайдено на S3, перевіряємо локальне сховище
                     return response()->file($localImagePath);
                 } else {
