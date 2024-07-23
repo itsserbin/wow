@@ -58,14 +58,30 @@ class ImagesController extends Controller
 
     public function returnImage($path, $filename)
     {
+        $noImagePath = 'storage/no_image.png'; // Шлях до зображення "no_image"
+        $localImagePath = storage_path('app/public/' . $path . $filename); // Локальне сховище
+    
         if (env('APP_ENV') !== 'local') {
             try {
-                return Storage::disk('s3')->response($path . $filename);
+                // Перевірка наявності зображення на S3
+                if (Storage::disk('s3')->exists($path . $filename)) {
+                    return Storage::disk('s3')->response($path . $filename);
+                } elseif (file_exists($localImagePath)) {
+                    // Якщо зображення не знайдено на S3, перевіряємо локальне сховище
+                    return response()->file($localImagePath);
+                } else {
+                    // Якщо зображення не знайдено на S3 і в локальному сховищі, використовуємо "no_image"
+                    return Image::make($noImagePath)->response();
+                }
             } catch (Throwable $e) {
-                abort(404);
+                // Обробка будь-яких виключень
+                return Image::make($noImagePath)->response();
             }
         } else {
-            return Image::make('storage/no_image.png')->response();
+            // У середовищі розробки завжди використовуємо "no_image"
+            return Image::make($noImagePath)->response();
         }
     }
+}
+
 }
