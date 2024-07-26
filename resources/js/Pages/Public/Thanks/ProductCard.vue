@@ -31,8 +31,8 @@ defineEmits(['addItemToOrder']);
         <div class="w-full mx-auto h-56 md:h-72">
             <a :href="route('product',product.id)">
                 <picture class=" w-full ">
-                    <source :srcset="route('images.350',product.preview.webp_src)" type="image/webp">
-                    <img :data-src="route('images.350',product.preview.src)" class="w-full h-full object-cover "
+                    <source :srcset="`/storage/products/350/${product.preview.webp_src}`" type="image/webp">
+                    <img :data-src="`/storage/products/350/${product.preview.src}`" class="w-full h-full object-cover "
                          :alt="product.h1[lang]">
                 </picture>
             </a>

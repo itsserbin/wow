@@ -43,41 +43,6 @@ class ProductsRepository extends CoreRepository
             )->first();
     }
 
-
-//    public function getByIdToPublic($id)
-//    {
-//        return $this->model
-//            ->select([
-//                'id',
-//                'status',
-//                'published',
-//                'h1',
-//                'title',
-//                'description',
-//                'content',
-//                'price',
-//                'discount_price',
-//                'characteristics',
-//                'youtube',
-//                'vendor_code',
-//                'preview_id',
-//                'size_table',
-//            ])
-//            ->where(function ($q) use ($id) {
-//                $q->where('id', $id);
-//                $q->where('published', 1);
-//            })
-//            ->with([
-//                'reviews' => function ($q) {
-//                    $q->where('published', 1);
-//                },
-//                'colors:id,hex,name',
-//                'categories:id,title',
-//                'images:id,src,webp_src',
-//                'sizes:id,title',
-//                'preview:id,src,webp_src',
-//            ])->first();
-//    }
     final public function getByIdToPublic($id)
     {
         return $this->model::select([
@@ -157,6 +122,10 @@ class ProductsRepository extends CoreRepository
         return $this->model::select($columns)
             ->where('id', urldecode($query))
             ->orWhere('vendor_code', urldecode($query))
+            ->orWhereRaw('JSON_EXTRACT(h1, "$.ua") like ?', ['%' . $query . '%'])
+            ->orWhereRaw('JSON_EXTRACT(h1, "$.ru") like ?', ['%' . $query . '%'])
+            ->orWhereRaw('JSON_EXTRACT(description, "$.ru") like ?', ['%' . $query . '%'])
+            ->orWhereRaw('JSON_EXTRACT(description, "$.ua") like ?', ['%' . $query . '%'])
             ->with('preview')
             ->paginate(15);
     }

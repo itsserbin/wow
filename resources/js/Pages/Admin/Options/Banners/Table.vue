@@ -59,8 +59,8 @@ function changeLang(val) {
         </template>
 
         <template #image="{data}">
-            <img :src="data.row.image_mobile.ua ? route('images.banners.mobile',data.row.image_mobile.ua) :
-                        (data.row.image_mobile.ru ? route('images.banners.mobile',data.row.image_mobile.ru) : null)"
+            <img :src="data.row.image_mobile.ua ?'/storage/banners/mobile/' + data.row.image_mobile.ua :
+                        (data.row.image_mobile.ru ? '/storage/banners/mobile/' +data.row.image_mobile.ru : null)"
                  :alt="data.row.title[activeLang]"
                  class="w-1/4 mx-auto">
         </template>

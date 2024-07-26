@@ -68,7 +68,7 @@ const changeLang = (val) => {
             </template>
 
             <template #preview="{data}">
-                <img :src="data.row.preview_id ? route('images.55', data.row.preview.src) : null"
+                <img :src="data.row.preview_id ? '/storage/categories/55/' + data.row.preview.src : null"
                      :alt="data.row.title[activeLang]"
                      class="mx-auto w-16"
                 >
