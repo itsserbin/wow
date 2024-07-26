@@ -10,10 +10,10 @@ class ImagesPath
     const LOGO = '/storage/';
 
 
-    const PRODUCT_IMAGE = '/products2/';
-    const PRODUCT_IMAGE_350 = '/products2/350/';
-    const PRODUCT_IMAGE_55 = '/products2/55/';
-    const PRODUCT_IMAGE_500 = '/products2/500/';
+    const PRODUCT_IMAGE = '/products/';
+    const PRODUCT_IMAGE_350 = '/products/350/';
+    const PRODUCT_IMAGE_55 = '/products/55/';
+    const PRODUCT_IMAGE_500 = '/products/500/';
 
     const CATEGORY = '/categories/';
 }

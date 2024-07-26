@@ -13,22 +13,22 @@ class ImagesController extends Controller
 {
     final public function mobileBanner(string $filename)
     {
-        return Storage::disk('s3')->response(ImagesPath::MOBILE_BANNER . $filename);
-//        return $this->returnImage(ImagesPath::MOBILE_BANNER, $filename);
+//        return Storage::disk('s3')->response(ImagesPath::MOBILE_BANNER . $filename);
+        return $this->returnImage(ImagesPath::MOBILE_BANNER, $filename);
     }
 
     final public function tableBanner(string $filename)
     {
-        return Storage::disk('s3')->response(ImagesPath::TABLE_BANNER . $filename);
+//        return Storage::disk('s3')->response(ImagesPath::TABLE_BANNER . $filename);
 
-//        return $this->returnImage(ImagesPath::TABLE_BANNER, $filename);
+        return $this->returnImage(ImagesPath::TABLE_BANNER, $filename);
     }
 
     final public function desktopBanner(string $filename)
     {
-        return Storage::disk('s3')->response(ImagesPath::DESKTOP_BANNER . $filename);
+//        return Storage::disk('s3')->response(ImagesPath::DESKTOP_BANNER . $filename);
 
-//        return $this->returnImage(ImagesPath::DESKTOP_BANNER, $filename);
+        return $this->returnImage(ImagesPath::DESKTOP_BANNER, $filename);
     }
 
     public function products($filename)
@@ -58,25 +58,12 @@ class ImagesController extends Controller
 
     public function returnImage($path, $filename)
     {
-        $noImagePath = 'storage/no_image.png'; // Шлях до зображення "no_image"
-        $localImagePath = storage_path('app/public/' . $path . $filename); // Локальне сховище
-    
-        if (env('APP_ENV') !== 'local') {
-            try {
-                    if (file_exists($localImagePath)) {
-                    // Якщо зображення не знайдено на S3, перевіряємо локальне сховище
-                    return response()->file($localImagePath);
-                } else {
-                    // Якщо зображення не знайдено на S3 і в локальному сховищі, використовуємо "no_image"
-                    return Image::make($noImagePath)->response();
-                }
-            } catch (Throwable $e) {
-                // Обробка будь-яких виключень
-                return Image::make($noImagePath)->response();
-            }
-        } else {
-            // У середовищі розробки завжди використовуємо "no_image"
-            return Image::make($noImagePath)->response();
-        }
+        $noImagePath = 'images/no-image.jpg';
+
+        $path = Storage::disk('public')->exists($path . $filename)
+            ? $path . $filename
+            : $noImagePath;
+
+        return Storage::disk('public')->response($path);
     }
 }
