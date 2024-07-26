@@ -23,16 +23,16 @@ const state = ref({
 
 onMounted(() => {
     state.value.preview = {
-        'webp_src': route('images', props.preview.webp_src),
-        'webp_thumbnail': route('images.55', props.preview.webp_src),
-        'src': route('images', props.preview.src),
-        'thumbnail': route('images.55', props.preview.src),
+        'webp_src': '/storage/products/' + props.preview.webp_src,
+        'webp_thumbnail': '/storage/products/55/' + props.preview.webp_src,
+        'src': '/storage/products/' + props.preview.src,
+        'thumbnail': '/storage/products/55/' + props.preview.src,
     }
     const images = [...props.images].map(item => ({
-        'webp_src': route('images', item.webp_src),
-        'webp_thumbnail': route('images.55', item.webp_src),
-        'src': route('images', item.src),
-        'thumbnail': route('images.55', item.src),
+        'webp_src': '/storage/products/' + item.webp_src,
+        'webp_thumbnail': '/storage/products/55/' + item.webp_src,
+        'src': '/storage/products/' + item.src,
+        'thumbnail': '/storage/products/55' + item.src,
     }))
     state.value.images.push(...images);
 });

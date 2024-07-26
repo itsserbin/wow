@@ -9,7 +9,7 @@
       "sku": "{{$product['id']}}",
       "name": "{{$product['h1'][app()->getLocale()]}}",
       "description": "{{$product['description'][app()->getLocale()]}}",
-      "image": "{{route('images',$product['preview']['src'])}}"
+      "image": "/storage/products/{{$product['preview']['src']}}"
       @if(count($reviews)),
           "review": [
           @foreach($reviews as $review)

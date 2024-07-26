@@ -6,7 +6,7 @@
             <loc>{{route('product',$product->id)}}</loc>
             @foreach($product->images as $item)
                 <image:image>
-                    <image:loc>{{asset(route('images',$item->src))}}</image:loc>
+                    <image:loc>{{asset('/storage/products/' . $item->src)}}</image:loc>
                     <image:caption>{{$product->description[app()->getLocale()]}}</image:caption>
                     <image:title>{{$product->h1[app()->getLocale()]}}</image:title>
                 </image:image>

@@ -8,11 +8,11 @@ defineProps(['category', 'lang']);
     <Head :title="category.meta_title[lang]" :description="category.meta_description[lang]">
         <meta v-if="category.preview"
               property="og:image"
-              :content="route('images', category.preview.webp_src)"
+              :content="`/storage/categories/${category.preview.webp_src}`"
         />
         <meta v-if="category.preview"
               property="og:image:secure_url"
-              :content="route('images', category.preview.webp_src)"
+              :content="`/storage/categories/${category.preview.webp_src}`"
         />
         <meta v-if="category.preview"
               property="og:image:type"

@@ -27,18 +27,18 @@
                     <link>{{asset(route('product',$item->id))}}</link>
                     <image_link>
                         @if(\Illuminate\Support\Facades\Route::is('xml.fb.manual.3'))
-                            {{route('images',$item->images[0]->image)}}
+                            {{asset('/storage/products/' . $item->images[0]->image)}}
                         @else
                             @if($item->preview)
-                                {{route('images',$item->preview->src)}}
+                                {{asset('/storage/products/' . $item->preview->src)}}
                             @else
-                                {{route('images',$item->images[0]->image)}}
+                                {{asset('/storage/products/' . $item->images[0]->image)}}
                             @endif
                         @endif
                     </image_link>
                     <additional_image_link>
                         @foreach($item->images as $image)
-                            {{route('images',$image->src).','}}
+                            {{asset('/storage/products/' . $image->src)}}
                         @endforeach
                     </additional_image_link>
                     <gender>female</gender>

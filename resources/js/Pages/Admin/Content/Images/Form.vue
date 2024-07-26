@@ -7,13 +7,13 @@ import Input from '@/Components/Form/Input.vue';
 
 const imageSrc = computed(() => (value) => {
     if (activeSize.value === '55') {
-        return route('images.55', value);
+        return '/storage/products/55/' + value;
     } else if (activeSize.value === '350') {
-        return route('images.350', value);
+        return '/storage/products/350/' + value;
     } else if (activeSize.value === '500') {
-        return route('images.500', value);
+        return '/storage/products/500/' + value;
     } else {
-        return route('images', value);
+        return '/storage/products/' + value;
     }
 })
 

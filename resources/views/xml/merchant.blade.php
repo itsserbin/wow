@@ -13,14 +13,16 @@
                     <g:link>{{asset(route('product',$item->id))}}</g:link>
                     <g:image_link>
                         @if($item->preview)
-                            {{route('images',$item->preview->src)}}
+                            {{asset('/storage/products/' . $item->preview->src)}}
                         @else
-                            {{route('images',$item->images[0]->src)}}
+                            {{asset('/storage/products/' . $item->images[0]->src)}}
                         @endif
                     </g:image_link>
                     @if(count($item->images))
                         @foreach($item->images as $image)
-                            <g:additional_image_link>{{route('images',$image->src)}}</g:additional_image_link>
+                            <g:additional_image_link>
+                                {{asset('/storage/products/' . $image->src)}}
+                            </g:additional_image_link>
                         @endforeach
                     @endif
                     <g:condition>new</g:condition>
