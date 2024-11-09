@@ -3,8 +3,8 @@
 @section('meta_title'){{$product->title[app()->getLocale()]}}@endsection
 @section('meta_description'){{$product->description[app()->getLocale()]}}@endsection
 @section('head')
-    <meta property="og:image" content="/storage/products/{{$product->preview->webp_src}}"/>
-    <meta property="og:image:secure_url" content="/storage/products/{{$product->preview->webp_src}}"/>
+    <meta property="og:image" content="{{asset(route('images',$product->preview->webp_src))}}"/>
+    <meta property="og:image:secure_url" content="{{asset(route('images',$product->preview->webp_src))}}"/>
     <meta property="og:image:type" content="image/webp"/>
     <meta property="og:image:alt" content="{{$product->h1[app()->getLocale()]}}"/>
     @include('schema.product',$product)

@@ -34,8 +34,8 @@ function increment() {
                         "
                 ></div>
                 <picture class=" w-full ">
-                    <source :srcset="'/storage/products/350/' + item.image.webp_src" type="image/webp">
-                    <img :src="'/storage/products/350/' + item.image.src" class="w-full h-full p-3 object-cover">
+                    <source :srcset="route('images.350',item.image.webp_src)" type="image/webp">
+                    <img :src="route('images.350',item.image.src)" class="w-full h-full p-3 object-cover">
                 </picture>
             </div>
             <div class="absolute cursor-pointer right-3 top-3" @click="removeFromCart">

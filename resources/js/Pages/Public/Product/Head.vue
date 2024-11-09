@@ -8,11 +8,11 @@ defineProps(['product', 'lang']);
     <Head :title="product.title[lang]" :description="product.description[lang]">
         <meta v-if="product.preview"
               property="og:image"
-              :content="`/storage/products/${product.preview.webp_src}`"
+              :content="route('images', product.preview.webp_src)"
         />
         <meta v-if="product.preview"
               property="og:image:secure_url"
-              :content="`/storage/products/${product.preview.webp_src}`"
+              :content="route('images', product.preview.webp_src)"
         />
         <meta v-if="product.preview"
               property="og:image:type"

@@ -19,13 +19,13 @@ const cardLink = computed(() => props.link ? props.link : 'javascript:');
 const imageRoute = function (src) {
     if (src) {
         if (props.size === '55') {
-            return '/storage/products/55/' + src;
+            return route('images.55', src);
         } else if (props.size === '350') {
-            return '/storage/products/350/' + src;
+            return route('images.350', src);
         } else if (props.size === '500') {
-            return '/storage/products/500/' + src;
+            return route('images.500', src);
         } else {
-            return '/storage/products/' + src;
+            return route('images', src);
         }
     }
 }

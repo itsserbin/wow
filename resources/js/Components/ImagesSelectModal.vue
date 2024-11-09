@@ -106,8 +106,8 @@ function fetch(page) {
                             "
                         >
                             <picture>
-                                <source :srcset="`/storage/products/350/${image.webp_src}`" type="image/webp">
-                                <img :src="`/storage/products/350/${image.src}`"
+                                <source :srcset="route('images.350',image.webp_src)" type="image/webp">
+                                <img :src="route('images.350',image.src)"
                                      class="rounded-lg mx-auto  h-full object-cover"
                                      alt=""
                                 >

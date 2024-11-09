@@ -2,10 +2,6 @@
 import {Link} from "@inertiajs/inertia-vue3";
 
 defineProps(['lang', 'data'])
-
-const preview = (path) => {
-    return path ? '/storage/products/350/' + path : '/images/no-image.jpg';
-}
 </script>
 
 <template>
@@ -15,9 +11,9 @@ const preview = (path) => {
             <Link :href="route('category',item.slug)">
                 <div class="h-52">
                     <picture class="w-full">
-                        <source :srcset="preview(item.preview.webp_src)"
+                        <source :srcset="item.preview ? route('images.350',item.preview.webp_src) : null"
                                 type="image/webp">
-                        <img :src="preview(item.preview.src)"
+                        <img :src="item.preview ? route('images.350',item.preview.src) : null "
                              class="h-full object-cover w-full rounded-t-lg"
                              :alt="item.title[lang]"
                              loading="lazy"

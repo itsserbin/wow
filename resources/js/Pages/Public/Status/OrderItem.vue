@@ -16,7 +16,7 @@ defineProps(['item']);
                             mt-[29px]
                         "
                 ></div>
-                <img :src="'/storage/products' + item.product.preview.src"
+                <img :src="route('images.350',item.product.preview.src)"
                      :alt="item.product.h1.ua ? item.product.h1.ua : item.product.h1.ru"
                      class="p-[25px] pr-[1.25rem]">
             </div>

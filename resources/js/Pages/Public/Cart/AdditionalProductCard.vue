@@ -34,8 +34,8 @@ function addToCart() {
     <div class="grid grid-cols-8 border-[1px] border-gray-300 rounded-[10px] relative">
         <div class="col-span-2">
             <picture class="w-full ">
-                <source :srcset="'/storage/products/350/' + item.preview.webp_src" type="image/webp">
-                <img :src="'/storage/products/350/' + item.preview.src"
+                <source :srcset="route('images.350',item.preview.webp_src)" type="image/webp">
+                <img :src="route('images.350',item.preview.src)"
                      class="w-full h-full object-cover"
                      :alt="item.h1[lang]"
                 >

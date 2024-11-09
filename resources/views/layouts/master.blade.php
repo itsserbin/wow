@@ -24,21 +24,19 @@
     @if(Route::is('product') && isset($page['props']['product']))
         @include('schema.product',['product' => $page['props']['product'],'reviews' => $page['props']['reviews']])
         @include('schema.breadcrumbs',$breadcrumbs = Breadcrumbs::generate('home.categories.product',$page['props']['product']))
-
         <meta property="og:image"
-              content="/storage/products/{{$page['props']['product']['preview']['webp_src']}}"/>
+              content="{{asset(route('images',$page['props']['product']['preview']['webp_src']))}}"/>
         <meta property="og:image:secure_url"
-              content="/storage/products/{{$page['props']['product']['preview']['webp_src']}}"/>
+              content="{{asset(route('images',$page['props']['product']['preview']['webp_src']))}}"/>
         <meta property="og:image:type" content="image/webp"/>
         <meta property="og:image:alt" content="{{$page['props']['product']['h1'][app()->getLocale()]}}"/>
-
     @endif
     @if(Route::is('category') && isset($page['props']['category']))
         @if($page['props']['category']['preview_id'])
             <meta property="og:image"
-                  content="/storage/categories/{{$page['props']['category']['preview']['webp_src']}}"/>
+                  content="{{asset(route('images',$page['props']['category']['preview']['webp_src']))}}"/>
             <meta property="og:image:secure_url"
-                  content="/storage/categories/{{$page['props']['category']['preview']['webp_src']}}"/>
+                  content="{{asset(route('images',$page['props']['category']['preview']['webp_src']))}}"/>
             <meta property="og:image:type" content="image/webp"/>
         @endif
         <meta property="og:image:alt" content="{{$page['props']['category']['title'][app()->getLocale()]}}"/>

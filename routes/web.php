@@ -61,5 +61,5 @@ Route::post('sms-new-order', [SmsController::class, 'newOrder'])
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/admin.php';
-//require __DIR__ . '/images.php';
+require __DIR__ . '/images.php';
 require __DIR__ . '/lang.php';

@@ -98,7 +98,7 @@ const updateProductSort = (product_id, sort) => {
         </template>
 
         <template #preview="{data}">
-            <img :src="data.row.preview_id ? '/storage/products/55/' + data.row.preview.src : null"
+            <img :src="data.row.preview_id ? route('images.55',data.row.preview.src) : null"
                  :alt="data.row.h1[activeLang]"
                  class="mx-auto"
             >

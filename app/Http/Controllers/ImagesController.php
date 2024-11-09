@@ -13,22 +13,22 @@ class ImagesController extends Controller
 {
     final public function mobileBanner(string $filename)
     {
-//        return Storage::disk('s3')->response(ImagesPath::MOBILE_BANNER . $filename);
-        return $this->returnImage(ImagesPath::MOBILE_BANNER, $filename);
+        return Storage::disk('s3')->response(ImagesPath::MOBILE_BANNER . $filename);
+//        return $this->returnImage(ImagesPath::MOBILE_BANNER, $filename);
     }
 
     final public function tableBanner(string $filename)
     {
-//        return Storage::disk('s3')->response(ImagesPath::TABLE_BANNER . $filename);
+        return Storage::disk('s3')->response(ImagesPath::TABLE_BANNER . $filename);
 
-        return $this->returnImage(ImagesPath::TABLE_BANNER, $filename);
+//        return $this->returnImage(ImagesPath::TABLE_BANNER, $filename);
     }
 
     final public function desktopBanner(string $filename)
     {
-//        return Storage::disk('s3')->response(ImagesPath::DESKTOP_BANNER . $filename);
+        return Storage::disk('s3')->response(ImagesPath::DESKTOP_BANNER . $filename);
 
-        return $this->returnImage(ImagesPath::DESKTOP_BANNER, $filename);
+//        return $this->returnImage(ImagesPath::DESKTOP_BANNER, $filename);
     }
 
     public function products($filename)
@@ -58,12 +58,14 @@ class ImagesController extends Controller
 
     public function returnImage($path, $filename)
     {
-        $noImagePath = 'images/no-image.jpg';
-
-        $path = Storage::disk('public')->exists($path . $filename)
-            ? $path . $filename
-            : $noImagePath;
-
-        return Storage::disk('public')->response($path);
+//        if (env('APP_ENV') !== 'local') {
+            try {
+                return Storage::disk('s3')->response($path . $filename);
+            } catch (Throwable $e) {
+                abort(404);
+            }
+//        } else {
+//            return Image::make('images/no-image.jpg')->response();
+//        }
     }
 }

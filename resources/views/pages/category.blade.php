@@ -5,8 +5,8 @@
 
 @section('head')
     @if($category->preview)
-        <meta property="og:image" content="/storage/categories/{{$category->preview->webp_src}}"/>
-        <meta property="og:image:secure_url" content="/storage/categories/{{$category->preview->webp_src}}"/>
+        <meta property="og:image" content="{{asset(route('images',$category->preview->webp_src))}}"/>
+        <meta property="og:image:secure_url" content="{{asset(route('images',$category->preview->webp_src))}}"/>
         <meta property="og:image:type" content="image/webp"/>
     @endif
     <meta property="og:image:alt" content="{{$category->title[app()->getLocale()]}}"/>

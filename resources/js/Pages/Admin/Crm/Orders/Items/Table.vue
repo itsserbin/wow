@@ -70,10 +70,10 @@ const headings = [
         <template #preview="{data}">
             <picture v-if="data.row.product">
                 <source
-                    :srcset="data.row.product.preview ? '/storage/products/350/' +  data.row.product.preview.webp_src : null"
+                    :srcset="data.row.product.preview ? route('images.350', data.row.product.preview.webp_src) : null"
                     type="image/webp">
                 <img
-                    :src="data.row.product.preview ? '/storage/products/350/' +  data.row.product.preview.src : null"
+                    :src="data.row.product.preview ? route('images.350', data.row.product.preview.src) : null"
                     :alt="data.row.product.h1.ua ? data.row.product.h1.ua : data.row.product.h1.ru"
                     class="h-full object-cover w-full"
                 >

@@ -131,27 +131,27 @@ function destroyImage(device, lang) {
                     <UploadBannersInput label="Зображення для мобільних"
                                         @upload="uploadImageMobileUa"
                                         v-if="state.activeLang === 'ua'"
-                                        :image="item.image_mobile.ua ? '/storage/banners/mobile/' + item.image_mobile.ua + '.jpeg' : null"
+                                        :image="item.image_mobile.ua ? route('images.banners.mobile',{filename:item.image_mobile.ua + '.jpeg'}) : null"
                                         @onDestroyImage="destroyImage('mobile','ua')"
                     />
                     <UploadBannersInput label="Зображення для мобільних"
                                         @upload="uploadImageMobileRu"
                                         v-if="state.activeLang === 'ru'"
-                                        :image="item.image_mobile.ru ? '/storage/banners/mobile/' + item.image_mobile.ru + '.jpeg' : null"
+                                        :image="item.image_mobile.ru ? route('images.banners.mobile',{filename:item.image_mobile.ru + '.jpeg'}) : null"
                                         @onDestroyImage="destroyImage('mobile','ru')"
                     />
                 </div>
 
                 <div class="block">
                     <UploadBannersInput @upload="uploadImageTableRu"
-                                        :image="item.image_table.ru ? '/storage/banners/table/' + item.image_table.ru + '.jpeg' : null"
+                                        :image="item.image_table.ru ? route('images.banners.mobile',{filename:item.image_table.ru + '.jpeg'}) : null"
                                         @onDestroyImage="destroyImage('table','ru')"
                                         v-if="state.activeLang === 'ru'"
                     />
 
                     <UploadBannersInput label="Зображення для планшетів"
                                         @upload="uploadImageTableUa"
-                                        :image="item.image_table.ua ? '/storage/banners/table/' + item.image_table.ua + '.jpeg' : null"
+                                        :image="item.image_table.ua ? route('images.banners.mobile',{filename:item.image_table.ua + '.jpeg'}) : null"
                                         @onDestroyImage="destroyImage('table','ua')"
                                         v-if="state.activeLang === 'ua'"
                     />
@@ -160,14 +160,14 @@ function destroyImage(device, lang) {
             <div class="block">
                 <UploadBannersInput label="Зображення для компʼютерів"
                                     @upload="uploadImageDesktopRu"
-                                    :image="item.image_desktop.ru ? '/storage/banners/desktop/' + item.image_desktop.ru + '.jpeg' : null"
+                                    :image="item.image_desktop.ru ? route('images.banners.mobile',{filename:item.image_desktop.ru + '.jpeg'}) : null"
                                     @onDestroyImage="destroyImage('desktop','ru')"
                                     v-if="state.activeLang === 'ru'"
                 />
 
                 <UploadBannersInput label="Зображення для компʼютерів"
                                     @upload="uploadImageDesktopUa"
-                                    :image="item.image_desktop.ua ? '/storage/banners/desktop/' + item.image_desktop.ua + '.jpeg' : null"
+                                    :image="item.image_desktop.ua ? route('images.banners.mobile',{filename:item.image_desktop.ua + '.jpeg'}) : null"
                                     @onDestroyImage="destroyImage('desktop','ua')"
                                     v-if="state.activeLang === 'ua'"
                 />

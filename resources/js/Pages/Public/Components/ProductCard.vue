@@ -97,10 +97,6 @@ const addToCard = async (id) => {
             })
         });
 }
-
-const preview = (path) => {
-    return path ? '/storage/products/350/' + path : '/images/no-image.jpg';
-}
 </script>
 
 <template>
@@ -135,11 +131,11 @@ const preview = (path) => {
         </div>
         <Link class="w-full mx-auto" :href="route('product',product.id)">
             <picture v-if="product.preview">
-                <source :srcset="preview(product.preview.webp_src)"
+                <source :srcset="route('images.350',product.preview.webp_src)"
                         v-if="product.preview.webp_src"
                         type="image/webp">
 
-                <img :src="preview(product.preview.src)"
+                <img :src="route('images.350',product.preview.src)"
                      :alt="product.h1[lang]"
                      class="object-cover w-full rounded-t-lg h-56 md:h-72 "
                      loading="lazy"
