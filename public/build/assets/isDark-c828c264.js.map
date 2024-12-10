@@ -1,0 +1,1 @@
+{"version":3,"file":"isDark-c828c264.js","sources":["../../../resources/js/Includes/isDark.js"],"sourcesContent":["export default window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;\n"],"names":["isDark"],"mappings":"AAAA,MAAeA,EAAA,OAAO,YAAc,OAAO,WAAW,8BAA8B,EAAE"}
