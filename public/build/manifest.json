@@ -5716,7 +5716,7 @@
     "src": "resources/js/Pages/Admin/Options/Scripts/Index.vue"
   },
   "resources/js/Pages/Admin/Options/Sizes/Form.vue": {
-    "file": "assets/Form-0eb053fc.js",
+    "file": "assets/Form-2b8c0913.js",
     "imports": [
       "_Label-20131f4c.js",
       "_Input-39294dfa.js",
@@ -5777,7 +5777,7 @@
     "src": "resources/js/Pages/Admin/Options/Sizes/Table.vue"
   },
   "resources/js/Pages/Admin/Options/Translations/Form.vue": {
-    "file": "assets/Form-2b8c0913.js",
+    "file": "assets/Form-0eb053fc.js",
     "imports": [
       "_Label-20131f4c.js",
       "_Input-39294dfa.js",
