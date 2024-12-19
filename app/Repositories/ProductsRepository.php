@@ -647,7 +647,6 @@ class ProductsRepository extends CoreRepository
                 $q->where('slug', $slug);
             })
             ->orderBy('price', 'asc')
-            ->orderBy('discount_price', 'asc')
             ->first();
 
         $max = $this->model::select(['discount_price', 'price'])
@@ -655,12 +654,11 @@ class ProductsRepository extends CoreRepository
                 $q->where('slug', $slug);
             })
             ->orderBy('price', 'desc')
-            ->orderBy('discount_price', 'desc')
             ->first();
 
         return [
-            'min' => $min->discount_price ?: $min->price,
-            'max' => $max->discount_price ?: $max->price
+            'min' => $min->discount_price ?? $min->price,
+            'max' => $max->discount_price ?? $max->price
         ];
     }
 }
