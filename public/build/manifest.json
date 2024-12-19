@@ -5716,7 +5716,7 @@
     "src": "resources/js/Pages/Admin/Options/Scripts/Index.vue"
   },
   "resources/js/Pages/Admin/Options/Sizes/Form.vue": {
-    "file": "assets/Form-2b8c0913.js",
+    "file": "assets/Form-0eb053fc.js",
     "imports": [
       "_Label-20131f4c.js",
       "_Input-39294dfa.js",
@@ -5777,7 +5777,7 @@
     "src": "resources/js/Pages/Admin/Options/Sizes/Table.vue"
   },
   "resources/js/Pages/Admin/Options/Translations/Form.vue": {
-    "file": "assets/Form-0eb053fc.js",
+    "file": "assets/Form-2b8c0913.js",
     "imports": [
       "_Label-20131f4c.js",
       "_Input-39294dfa.js",
@@ -8003,12 +8003,12 @@
     "src": "resources/js/Pages/Public/app.js"
   },
   "resources/scss/app.scss": {
-    "file": "assets/app-89085df8.css",
+    "file": "assets/app-6257eea1.css",
     "isEntry": true,
     "src": "resources/scss/app.scss"
   },
   "resources/scss/public.scss": {
-    "file": "assets/public-11ae388d.css",
+    "file": "assets/public-6f6f7daf.css",
     "isEntry": true,
     "src": "resources/scss/public.scss"
   }
