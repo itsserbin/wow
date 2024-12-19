@@ -28,11 +28,15 @@ abstract class CoreRepository
 
     final public function dateFormatFromTimepicker(string $value, string $format = 'iso'): string|null
     {
+        if (!$value) {
+            return null;
+        }
         if ($format === 'iso') {
             return DateTime::createFromFormat("Y-m-d\TH:i:s.uO", $value)->format('Y-m-d');
         }
         if ($format === 'date') {
-            return DateTime::createFromFormat("m/d/Y", $value)->format('Y-m-d');
+            return DateTime::createFromFormat("d.m.Y", $value)->format('Y-m-d');
+//            return DateTime::createFromFormat("m/d/Y", $value)->format('Y-m-d');
         }
 
         return null;
