@@ -646,6 +646,7 @@ class ProductsRepository extends CoreRepository
             ->whereHas('categories', function ($q) use ($slug) {
                 $q->where('slug', $slug);
             })
+            ->orderBy('price', 'asc')
             ->orderBy('discount_price', 'asc')
             ->first();
 
@@ -653,6 +654,7 @@ class ProductsRepository extends CoreRepository
             ->whereHas('categories', function ($q) use ($slug) {
                 $q->where('slug', $slug);
             })
+            ->orderBy('price', 'desc')
             ->orderBy('discount_price', 'desc')
             ->first();
 
