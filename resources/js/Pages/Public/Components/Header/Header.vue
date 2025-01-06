@@ -25,18 +25,18 @@ const state = ref({
 
 <template>
     <div class="shadow-lg mt-2">
-        <div class="max-w-7xl mx-auto px-3 grid grid-cols-4 items-center">
-            <Logo/>
-            <div class="grid justify-end">
-                <CartIcon/>
-            </div>
-            <Langs :lang="lang"/>
-            <div class="grid justify-end">
+        <div class="max-w-7xl mx-auto px-3 grid grid-cols-3 items-center mb-2">
+            <div class="grid justify-start">
                 <Burger :options="options"
                         :lang="lang"
                         :pages="pages"
                 />
             </div>
+            <Logo class="mx-auto"/>
+            <div class="grid justify-end">
+                <CartIcon/>
+            </div>
+<!--            <Langs :lang="lang"/>-->
         </div>
         <HeaderCategories :categories="categories" :lang="lang"/>
     </div>
