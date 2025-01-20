@@ -34,7 +34,7 @@ const settings = {
 </script>
 
 <template>
-    <div class="bg-main text-text">
+    <div class="bg-[#000000] text-white">
         <Swiper class="font-subheading max-w-7xl mx-auto header-categories" v-bind="settings"
                 :modules="modules">
             <SwiperSlide v-for="category in $page.props.categories" class="text-center py-2">
